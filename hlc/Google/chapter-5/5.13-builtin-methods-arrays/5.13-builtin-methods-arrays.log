@@ -4,10 +4,13 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-5 -timescale=1ns/1ns -d ast -d db -nobuiltin 5.13-builtin-methods-arrays.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-5/5.13-builtin-methods-arrays
+COMMAND: -wd ../../../../tests/Google/chapter-5 -timescale=1ns/1ns -d ast -d db 5.13-builtin-methods-arrays.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-5/5.13-builtin-methods-arrays
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/5.13-builtin-methods-arrays.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/5.13-builtin-methods-arrays.sv".
+[INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
 AST_DEBUG_BEGIN
 Count: 77
 LIB: work
@@ -92,7 +95,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/5.13-builtin-methods-arrays.sv:6:1: Compile module "top".
 [WRN:CP5851] $Source01/5.13-builtin-methods-arrays.sv:10:40: Failed to bind "size".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/5.13-builtin-methods-arrays.sv:10:40: Null Actual: id:36, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN7705] $Source01/5.13-builtin-methods-arrays.sv:10:34: Null Actual: id:62, type:MethodFuncCall, name:size, relation:vpiHighConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -197,6 +200,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:10:5 end:10:47:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:10:5 end:10:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   NamedArgument start:10:15 end:10:32:
                     vpiParent: SysTaskCall name:$display
@@ -212,22 +216,17 @@ Design name:unnamed:
                         vpiActual: StringTypespec
                   NamedArgument start:10:34 end:10:46:
                     vpiParent: SysTaskCall name:$display
-                    vpiHighConn RefObj name:array.size() start:10:34 end:10:46:
+                    vpiHighConn MethodFuncCall name:size start:10:34 end:10:46:
                       vpiParent: NamedArgument
-                      vpiName: array.size()
-                      vpiFullName: top.array.size()
-                      vpiPathElem (2 items):
-                        RefObj name:array start:10:34 end:10:39:
-                          vpiParent: RefObj name:array.size()
-                          vpiName: array
-                          vpiFullName: top.array
-                          vpiActual: Variable name:array
-                        MethodFuncCall name:size start:10:40 end:10:46:
-                          vpiParent: RefObj name:array.size()
-                          vpiName Identifier name:size start:10:40 end:10:44:
+                      vpiName Identifier name:size start:10:40 end:10:44:
+                      vpiPrefix RefObj name:array start:10:34 end:10:39:
+                        vpiParent: MethodFuncCall name:size
+                        vpiName: array
+                        vpiFullName: top.array
+                        vpiActual: Variable name:array
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:6:8 end:6:11:
@@ -237,6 +236,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
+      vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -289,12 +298,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-5/5.13-builtin-methods-arrays/desi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             4       4       1         1
+Constant                            18      18       1         1
 LongIntTypespec                      0       1       1         0
 Operation                            1       0       0         1
-RefTypespec                          6       6       1         1
+RefTypespec                        653     653       1         1
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                            1324    1324       0         0
 ----------------------------------------------------------------
-                                    39      39       3         3
+                                  1996    1996       3         3
 ===================== END REDUCTION RESULT =====================

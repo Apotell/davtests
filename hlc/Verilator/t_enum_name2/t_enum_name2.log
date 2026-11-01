@@ -186,7 +186,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_enum_name2.v:7:17: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_enum_name2.v:26:31: Failed to bind "name".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_name2.v:26:31: Null Actual: id:81, type:SubroutineCall, name:name, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_name2.v:26:28: Null Actual: id:81, type:SubroutineCall, name:name, relation:vpiHighConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -447,20 +447,15 @@ Design name:unnamed:
                         vpiActual: StringTypespec
                   NamedArgument start:26:28 end:26:35:
                     vpiParent: SysTaskCall name:$write
-                    vpiHighConn RefObj name:IR.name start:26:28 end:26:35:
+                    vpiHighConn SubroutineCall name:name start:26:28 end:26:35:
                       vpiParent: NamedArgument
-                      vpiName: IR.name
-                      vpiFullName: our.IR.name
-                      vpiPathElem (2 items):
-                        RefObj name:IR start:26:28 end:26:30:
-                          vpiParent: RefObj name:IR.name
-                          vpiName: IR
-                          vpiFullName: our.IR
-                          vpiActual: Variable name:IR
-                        SubroutineCall name:name start:26:31 end:26:35:
-                          vpiParent: RefObj name:IR.name
-                          vpiName Identifier name:name start:26:31 end:26:35:
-                          vpiIsProperty: true
+                      vpiName Identifier name:name start:26:31 end:26:35:
+                      vpiIsProperty: true
+                      vpiPrefix RefObj name:IR start:26:28 end:26:30:
+                        vpiParent: SubroutineCall name:name
+                        vpiName: IR
+                        vpiFullName: our.IR
+                        vpiActual: Variable name:IR
                   NamedArgument start:26:37 end:26:46:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn SysFuncCall name:$realtime start:26:37 end:26:46:
@@ -564,7 +559,7 @@ Constant                            10       9       1         2
 Operation                            1       0       0         1
 RefTypespec                         15      14       1         2
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    90      87       2         5
+                                    89      86       2         5
 ===================== END REDUCTION RESULT =====================

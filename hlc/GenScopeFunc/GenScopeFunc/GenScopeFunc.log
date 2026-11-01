@@ -169,28 +169,22 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: foo
             vpiFullName: mod.foo
-          vpiRhs RefObj name:cscope.local_function(counter) start:11:16 end:11:46:
+          vpiRhs MethodFuncCall name:local_function start:11:16 end:11:46:
             vpiParent: ContAssign
-            vpiName: cscope.local_function(counter)
-            vpiFullName: mod.cscope.local_function(counter)
-            vpiPathElem (2 items):
-              RefObj name:cscope start:11:16 end:11:22:
-                vpiParent: RefObj name:cscope.local_function(counter)
-                vpiName: cscope
-                vpiFullName: mod.cscope
-                vpiActual: GenBlock name:cscope
-              FuncCall name:local_function start:11:23 end:11:46:
-                vpiParent: RefObj name:cscope.local_function(counter)
-                vpiName Identifier name:local_function start:11:23 end:11:37:
-                vpiTaskFunc: Function name:local_function
-                vpiArgument (1 items):
-                  NamedArgument start:11:38 end:11:45:
-                    vpiParent: FuncCall name:local_function
-                    vpiHighConn RefObj name:counter start:11:38 end:11:45:
-                      vpiParent: NamedArgument
-                      vpiName: counter
-                      vpiFullName: mod.cscope.local_function(counter).counter
-            vpiActual: FuncCall name:local_function
+            vpiName Identifier name:local_function start:11:23 end:11:37:
+            vpiTaskFunc: Function name:local_function
+            vpiArgument (1 items):
+              NamedArgument start:11:38 end:11:45:
+                vpiParent: MethodFuncCall name:local_function
+                vpiHighConn RefObj name:counter start:11:38 end:11:45:
+                  vpiParent: NamedArgument
+                  vpiName: counter
+                  vpiFullName: mod.counter
+            vpiPrefix RefObj name:cscope start:11:16 end:11:22:
+              vpiParent: MethodFuncCall name:local_function
+              vpiName: cscope
+              vpiFullName: mod.cscope
+              vpiActual: GenBlock name:cscope
       vpiGenStmt (1 items):
         GenRegion start:3:3 end:9:14:
           vpiParent: Module name:mod
@@ -216,7 +210,7 @@ Design name:unnamed:
                     vpiParent: GenBlock name:cscope
                     vpiName Identifier name:local_function start:5:32 end:5:46:
                     vpiFullName: mod.cscope.local_function
-                    vpiVariable (1 items):
+                    vpiVariable (2 items):
                       Variable name:x start:5:54 end:5:55:
                         vpiParent: Function name:local_function
                         vpiName: x
@@ -226,6 +220,17 @@ Design name:unnamed:
                         vpiTypespec RefTypespec:
                           vpiParent: Variable name:x
                           vpiFullName: mod.cscope.local_function.x
+                          vpiActual: LogicTypespec
+                      Variable name:local_function start:5:32 end:5:46:
+                        vpiParent: Function name:local_function
+                        vpiName: local_function
+                        vpiFullName: mod.cscope.local_function.local_function
+                        vpiAutomatic: true
+                        vpiRandType: (1)
+                        vpiVisibility: public (1)
+                        vpiTypespec RefTypespec start:5:26 end:5:31:
+                          vpiParent: Variable name:local_function
+                          vpiFullName: mod.cscope.local_function.local_function
                           vpiActual: LogicTypespec
                     vpiTypespec (1 items):
                       LogicTypespec:
@@ -250,7 +255,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: local_function
                         vpiFullName: mod.cscope.local_function.local_function
-                        vpiActual: Function name:local_function
+                        vpiActual: Variable name:local_function
                       vpiRhs Operation start:6:26 end:6:31:
                         vpiParent: Assignment
                         vpiOpType: add (24)
@@ -376,7 +381,7 @@ COMMAND: ${HLC_DIR}/regression/GenScopeFunc/GenScopeFunc/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                    50      50       0         0
 ===================== END REDUCTION RESULT =====================

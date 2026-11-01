@@ -500,7 +500,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_case_write1.v:27:13: Failed to bind "big_case".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/t_case_write1.v:21:4: Unsupported typespec "t_case_write1_tasks".
-[ERR:LN7705] $Source01/t_case_write1.v:27:13: Null Actual: id:91, type:SubroutineCall, name:big_case, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_case_write1.v:27:7: Null Actual: id:91, type:SubroutineCall, name:big_case, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -735,60 +735,55 @@ Design name:unnamed:
                         vpiName: crc
                         vpiFullName: t.crc
                         vpiActual: Variable name:crc
-                RefObj name:tasks.big_case(fd, crc[31:0]) start:27:7 end:27:36:
+                SubroutineCall name:big_case start:27:7 end:27:36:
                   vpiParent: Begin
-                  vpiName: tasks.big_case(fd, crc[31:0])
-                  vpiFullName: t.tasks.big_case(fd, crc[31:0])
-                  vpiPathElem (2 items):
-                    RefObj name:tasks start:27:7 end:27:12:
-                      vpiParent: RefObj name:tasks.big_case(fd, crc[31:0])
-                      vpiName: tasks
-                      vpiFullName: t.tasks
-                      vpiActual: RefInstance name:tasks
-                    SubroutineCall name:big_case start:27:13 end:27:36:
-                      vpiParent: RefObj name:tasks.big_case(fd, crc[31:0])
-                      vpiName Identifier name:big_case start:27:13 end:27:21:
-                      vpiArgument (2 items):
-                        NamedArgument start:27:22 end:27:24:
-                          vpiParent: SubroutineCall name:big_case
-                          vpiHighConn RefObj name:fd start:27:22 end:27:24:
-                            vpiParent: NamedArgument
-                            vpiName: fd
-                            vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.fd
-                            vpiActual: Variable name:fd
-                        NamedArgument start:27:26 end:27:35:
-                          vpiParent: SubroutineCall name:big_case
-                          vpiHighConn PartSelect name:crc[31:0] start:27:26 end:27:35:
-                            vpiParent: NamedArgument
-                            vpiName: crc[31:0]
-                            vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.crc[31:0]
-                            vpiPrefix RefObj name:crc start:27:26 end:27:29:
-                              vpiParent: PartSelect name:crc[31:0]
-                              vpiName: crc
-                              vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.crc[31:0].crc
-                              vpiActual: Variable name:crc
-                            vpiRange Range start:27:30 end:27:34:
-                              vpiParent: PartSelect name:crc[31:0]
-                              vpiLeftRange Constant start:27:30 end:27:32:
-                                vpiParent: Range
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "31"
-                                vpiValue: 31
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.crc[31:0]
-                                  vpiActual: IntTypespec
-                              vpiRightRange Constant start:27:33 end:27:34:
-                                vpiParent: Range
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "0"
-                                vpiValue: 0
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t.tasks.big_case(fd, crc[31:0]).big_case.crc[31:0]
-                                  vpiActual: IntTypespec
+                  vpiName Identifier name:big_case start:27:13 end:27:21:
+                  vpiArgument (2 items):
+                    NamedArgument start:27:22 end:27:24:
+                      vpiParent: SubroutineCall name:big_case
+                      vpiHighConn RefObj name:fd start:27:22 end:27:24:
+                        vpiParent: NamedArgument
+                        vpiName: fd
+                        vpiFullName: t.fd
+                        vpiActual: Variable name:fd
+                    NamedArgument start:27:26 end:27:35:
+                      vpiParent: SubroutineCall name:big_case
+                      vpiHighConn PartSelect name:crc[31:0] start:27:26 end:27:35:
+                        vpiParent: NamedArgument
+                        vpiName: crc[31:0]
+                        vpiFullName: t.crc[31:0]
+                        vpiPrefix RefObj name:crc start:27:26 end:27:29:
+                          vpiParent: PartSelect name:crc[31:0]
+                          vpiName: crc
+                          vpiFullName: t.crc[31:0].crc
+                          vpiActual: Variable name:crc
+                        vpiRange Range start:27:30 end:27:34:
+                          vpiParent: PartSelect name:crc[31:0]
+                          vpiLeftRange Constant start:27:30 end:27:32:
+                            vpiParent: Range
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "31"
+                            vpiValue: 31
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.crc[31:0]
+                              vpiActual: IntTypespec
+                          vpiRightRange Constant start:27:33 end:27:34:
+                            vpiParent: Range
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.crc[31:0]
+                              vpiActual: IntTypespec
+                  vpiPrefix RefObj name:tasks start:27:7 end:27:12:
+                    vpiParent: SubroutineCall name:big_case
+                    vpiName: tasks
+                    vpiFullName: t.tasks
+                    vpiActual: RefInstance name:tasks
                 SysTaskCall name:$fwrite start:28:7 end:28:24:
                   vpiParent: Begin
                   vpiName Identifier name:$fwrite start:28:7 end:28:14:
@@ -1254,7 +1249,7 @@ Constant                            24      21       2         5
 Operation                           10       8       0         2
 RefTypespec                         31      26       0         5
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   181     171       2        12
+                                   180     170       2        12
 ===================== END REDUCTION RESULT =====================

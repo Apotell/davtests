@@ -99,6 +99,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_tie_bad.v:6:1: Compile module "t".
 [WRN:CP5851] $Source01/t_func_tie_bad.v:16:14: Failed to bind "bit".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:CP5927] $Source01/t_func_tie_bad.v:10:15: Illegal left-hand side of assignment: b.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -129,7 +130,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:func start:13:27 end:13:31:
           vpiFullName: t.func
-          vpiVariable (2 items):
+          vpiVariable (3 items):
             Variable name:a start:15:17 end:15:18:
               vpiParent: Function name:func
               vpiName: a
@@ -150,6 +151,17 @@ Design name:unnamed:
                 vpiParent: Variable name:b
                 vpiName: bit
                 vpiFullName: t.func.b.bit
+            Variable name:func start:13:27 end:13:31:
+              vpiParent: Function name:func
+              vpiName: func
+              vpiFullName: t.func.func
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:13:23 end:13:26:
+                vpiParent: Variable name:func
+                vpiFullName: t.func.func
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (2 items):
@@ -200,13 +212,13 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin
             vpiStmt (1 items):
-              MethodFuncCall name:func start:10:7 end:10:20:
+              FuncCall name:func start:10:7 end:10:20:
                 vpiParent: Begin
                 vpiName Identifier name:func start:10:7 end:10:11:
                 vpiTaskFunc: Function name:func
                 vpiArgument (2 items):
                   NamedArgument start:10:12 end:10:13:
-                    vpiParent: MethodFuncCall name:func
+                    vpiParent: FuncCall name:func
                     vpiHighConn Constant start:10:12 end:10:13:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -218,7 +230,7 @@ Design name:unnamed:
                         vpiFullName: t
                         vpiActual: IntTypespec
                   NamedArgument start:10:15 end:10:19:
-                    vpiParent: MethodFuncCall name:func
+                    vpiParent: FuncCall name:func
                     vpiHighConn Constant start:10:15 end:10:19:
                       vpiParent: NamedArgument
                       vpiConstType: binary (3)
@@ -245,7 +257,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -290,7 +302,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_tie_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

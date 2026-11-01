@@ -843,7 +843,7 @@ Design name:unnamed:
           vpiParent: Module name:lvl1_0
           vpiName Identifier name:f_foo start:24:14 end:24:19:
           vpiFullName: lvl1_0.f_foo
-          vpiVariable (1 items):
+          vpiVariable (2 items):
             Variable name:bar start:25:8 end:25:11:
               vpiParent: Function name:f_foo
               vpiName: bar
@@ -853,6 +853,16 @@ Design name:unnamed:
               vpiTypespec RefTypespec:
                 vpiParent: Variable name:bar
                 vpiFullName: lvl1_0.f_foo.bar
+                vpiActual: LogicTypespec
+            Variable name:f_foo start:24:14 end:24:19:
+              vpiParent: Function name:f_foo
+              vpiName: f_foo
+              vpiFullName: lvl1_0.f_foo.f_foo
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:24:14 end:24:14:
+                vpiParent: Variable name:f_foo
+                vpiFullName: lvl1_0.f_foo.f_foo
                 vpiActual: LogicTypespec
           vpiTypespec (2 items):
             LogicTypespec start:24:14 end:24:14:
@@ -883,7 +893,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: f_foo
                   vpiFullName: lvl1_0.f_foo.f_foo
-                  vpiActual: Function name:f_foo
+                  vpiActual: Variable name:f_foo
                 vpiRhs RefObj name:bar start:27:10 end:27:13:
                   vpiParent: Assignment
                   vpiName: bar
@@ -905,13 +915,13 @@ Design name:unnamed:
               vpiName: r
               vpiFullName: lvl1_0.r
               vpiActual: Variable name:r
-            vpiRhs MethodFuncCall name:f_foo start:30:17 end:30:25:
+            vpiRhs FuncCall name:f_foo start:30:17 end:30:25:
               vpiParent: Assignment
               vpiName Identifier name:f_foo start:30:17 end:30:22:
               vpiTaskFunc: Function name:f_foo
               vpiArgument (1 items):
                 NamedArgument start:30:23 end:30:24:
-                  vpiParent: MethodFuncCall name:f_foo
+                  vpiParent: FuncCall name:f_foo
                   vpiHighConn RefObj name:r start:30:23 end:30:24:
                     vpiParent: NamedArgument
                     vpiName: r
@@ -1011,11 +1021,11 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$random start:40:6 end:40:13:
                   vpiIsProperty: true
-              RefObj name:t_bar start:41:2 end:41:7:
+              TaskCall name:t_bar start:41:2 end:41:7:
                 vpiParent: Begin name:my_init
-                vpiName: t_bar
-                vpiFullName: top0.my_init.t_bar
-                vpiActual: Task name:t_bar
+                vpiName Identifier name:t_bar start:41:2 end:41:7:
+                vpiIsProperty: true
+                vpiTaskFunc: Task name:t_bar
       vpiSysTaskCall (1 items):
         SysFuncCall name:$random:
       vpiRefInstance (1 items):
@@ -1339,7 +1349,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/vpi/scopes/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             187     187       0         0
+Others                             190     190       0         0
 ----------------------------------------------------------------
-                                   187     187       0         0
+                                   190     190       0         0
 ===================== END REDUCTION RESULT =====================

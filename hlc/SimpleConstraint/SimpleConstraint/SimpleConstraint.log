@@ -948,7 +948,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:frame_t
               vpiName Identifier name:getType start:23:21 end:23:28:
               vpiFullName: constaint_mode_ex::frame_t::getType
-              vpiVariable (1 items):
+              vpiVariable (2 items):
                 Variable name:ltype start:23:38 end:23:43:
                   vpiParent: Function name:getType
                   vpiName: ltype
@@ -960,6 +960,17 @@ Design name:unnamed:
                     vpiName: pkt_type
                     vpiFullName: constaint_mode_ex::frame_t::getType::ltype::pkt_type
                     vpiActual: TypedefTypespec name:pkt_type
+                Variable name:getType start:23:21 end:23:28:
+                  vpiParent: Function name:getType
+                  vpiName: getType
+                  vpiFullName: constaint_mode_ex::frame_t::getType::getType
+                  vpiAutomatic: true
+                  vpiRandType: (1)
+                  vpiVisibility: public (1)
+                  vpiTypespec RefTypespec start:23:14 end:23:20:
+                    vpiParent: Variable name:getType
+                    vpiFullName: constaint_mode_ex::frame_t::getType::getType
+                    vpiActual: StringTypespec
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
@@ -1001,7 +1012,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: getType
                             vpiFullName: constaint_mode_ex::frame_t::getType::getType
-                            vpiActual: Function name:getType
+                            vpiActual: Variable name:getType
                           vpiRhs Constant start:26:32 end:26:41:
                             vpiParent: Assignment
                             vpiConstType: string (6)
@@ -1027,7 +1038,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: getType
                             vpiFullName: constaint_mode_ex::frame_t::getType::getType
-                            vpiActual: Function name:getType
+                            vpiActual: Variable name:getType
                           vpiRhs Constant start:27:32 end:27:43:
                             vpiParent: Assignment
                             vpiConstType: string (6)
@@ -1053,7 +1064,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: getType
                             vpiFullName: constaint_mode_ex::frame_t::getType::getType
-                            vpiActual: Function name:getType
+                            vpiActual: Variable name:getType
                           vpiRhs Constant start:28:32 end:28:43:
                             vpiParent: Assignment
                             vpiConstType: string (6)
@@ -1074,7 +1085,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: getType
                             vpiFullName: constaint_mode_ex::frame_t::getType::getType
-                            vpiActual: Function name:getType
+                            vpiActual: Variable name:getType
                           vpiRhs Constant start:29:32 end:29:41:
                             vpiParent: Assignment
                             vpiConstType: string (6)
@@ -1187,21 +1198,15 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiOpType: greater than (18)
                       vpiOperand (2 items):
-                        RefObj name:payload.size() start:39:13 end:39:27:
+                        MethodFuncCall name:size start:39:13 end:39:27:
                           vpiParent: Operation
-                          vpiName: payload.size()
-                          vpiFullName: constaint_mode_ex::frame_t::print::payload.size()
-                          vpiPathElem (2 items):
-                            RefObj name:payload start:39:13 end:39:20:
-                              vpiParent: RefObj name:payload.size()
-                              vpiName: payload
-                              vpiFullName: constaint_mode_ex::frame_t::print::payload
-                              vpiActual: Variable name:payload
-                            MethodFuncCall name:size start:39:21 end:39:27:
-                              vpiParent: RefObj name:payload.size()
-                              vpiName Identifier name:size start:39:21 end:39:25:
-                              vpiTaskFunc: Function name:size
-                          vpiActual: MethodFuncCall name:size
+                          vpiName Identifier name:size start:39:21 end:39:25:
+                          vpiTaskFunc: Function name:size
+                          vpiPrefix RefObj name:payload start:39:13 end:39:20:
+                            vpiParent: MethodFuncCall name:size
+                            vpiName: payload
+                            vpiFullName: constaint_mode_ex::frame_t::print::payload
+                            vpiActual: Variable name:payload
                         Constant start:39:30 end:39:31:
                           vpiParent: Operation
                           vpiConstType: int (7)
@@ -1347,21 +1352,15 @@ Design name:unnamed:
                   vpiParent: Constraint name:common
                   vpiOpType: equal (14)
                   vpiOperand (2 items):
-                    RefObj name:payload.size() start:10:7 end:10:21:
+                    MethodFuncCall name:size start:10:7 end:10:21:
                       vpiParent: Operation
-                      vpiName: payload.size()
-                      vpiFullName: constaint_mode_ex::frame_t::common::payload.size()
-                      vpiPathElem (2 items):
-                        RefObj name:payload start:10:7 end:10:14:
-                          vpiParent: RefObj name:payload.size()
-                          vpiName: payload
-                          vpiFullName: constaint_mode_ex::frame_t::common::payload
-                          vpiActual: Variable name:payload
-                        MethodFuncCall name:size start:10:15 end:10:21:
-                          vpiParent: RefObj name:payload.size()
-                          vpiName Identifier name:size start:10:15 end:10:19:
-                          vpiTaskFunc: Function name:size
-                      vpiActual: MethodFuncCall name:size
+                      vpiName Identifier name:size start:10:15 end:10:19:
+                      vpiTaskFunc: Function name:size
+                      vpiPrefix RefObj name:payload start:10:7 end:10:14:
+                        vpiParent: MethodFuncCall name:size
+                        vpiName: payload
+                        vpiFullName: constaint_mode_ex::frame_t::common::payload
+                        vpiActual: Variable name:payload
                     RefObj name:len start:10:25 end:10:28:
                       vpiParent: Operation
                       vpiName: len
@@ -1534,65 +1533,63 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: constaint_mode_ex
                         vpiActual: StringTypespec
-              RefObj name:frame.multicast.constraint_mode(0) start:55:6 end:55:40:
+              MethodFuncCall name:constraint_mode start:55:6 end:55:40:
                 vpiParent: Begin
-                vpiName: frame.multicast.constraint_mode(0)
-                vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode(0)
-                vpiPathElem (3 items):
-                  RefObj name:frame start:55:6 end:55:11:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(0)
-                    vpiName: frame
-                    vpiFullName: constaint_mode_ex.frame
-                    vpiActual: Variable name:frame
-                  RefObj name:multicast start:55:12 end:55:21:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(0)
-                    vpiName: multicast
-                    vpiFullName: constaint_mode_ex.multicast
-                    vpiActual: Constraint name:multicast
-                  MethodFuncCall name:constraint_mode start:55:22 end:55:40:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(0)
-                    vpiName Identifier name:constraint_mode start:55:22 end:55:37:
-                    vpiTaskFunc: Function name:constraint_mode
-                    vpiArgument (1 items):
-                      NamedArgument start:55:38 end:55:39:
-                        vpiParent: MethodFuncCall name:constraint_mode
-                        vpiHighConn Constant start:55:38 end:55:39:
-                          vpiParent: NamedArgument
-                          vpiConstType: int (7)
-                          vpiSize: 32
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode(0)
-                            vpiActual: IntTypespec
-                vpiActual: MethodFuncCall name:constraint_mode
+                vpiName Identifier name:constraint_mode start:55:22 end:55:37:
+                vpiTaskFunc: Function name:constraint_mode
+                vpiArgument (1 items):
+                  NamedArgument start:55:38 end:55:39:
+                    vpiParent: MethodFuncCall name:constraint_mode
+                    vpiHighConn Constant start:55:38 end:55:39:
+                      vpiParent: NamedArgument
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: constaint_mode_ex
+                        vpiActual: IntTypespec
+                vpiPrefix RefObj name:frame.multicast start:55:6 end:55:21:
+                  vpiParent: MethodFuncCall name:constraint_mode
+                  vpiName: frame.multicast
+                  vpiFullName: constaint_mode_ex.frame.multicast
+                  vpiPathElem (2 items):
+                    RefObj name:frame start:55:6 end:55:11:
+                      vpiParent: RefObj name:frame.multicast
+                      vpiName: frame
+                      vpiFullName: constaint_mode_ex.frame
+                      vpiActual: Variable name:frame
+                    RefObj name:multicast start:55:12 end:55:21:
+                      vpiParent: RefObj name:frame.multicast
+                      vpiName: multicast
+                      vpiFullName: constaint_mode_ex.multicast
+                      vpiActual: Constraint name:multicast
               IfElse start:56:6 end:64:9:
                 vpiParent: Begin
                 vpiCondition Operation start:56:10 end:56:48:
                   vpiParent: IfElse
                   vpiOpType: equal (14)
                   vpiOperand (2 items):
-                    RefObj name:frame.multicast.constraint_mode() start:56:10 end:56:43:
+                    MethodFuncCall name:constraint_mode start:56:10 end:56:43:
                       vpiParent: Operation
-                      vpiName: frame.multicast.constraint_mode()
-                      vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode()
-                      vpiPathElem (3 items):
-                        RefObj name:frame start:56:10 end:56:15:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName: frame
-                          vpiFullName: constaint_mode_ex.frame
-                          vpiActual: Variable name:frame
-                        RefObj name:multicast start:56:16 end:56:25:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName: multicast
-                          vpiFullName: constaint_mode_ex.multicast
-                          vpiActual: Constraint name:multicast
-                        MethodFuncCall name:constraint_mode start:56:26 end:56:43:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName Identifier name:constraint_mode start:56:26 end:56:41:
-                          vpiTaskFunc: Function name:constraint_mode
-                      vpiActual: MethodFuncCall name:constraint_mode
+                      vpiName Identifier name:constraint_mode start:56:26 end:56:41:
+                      vpiTaskFunc: Function name:constraint_mode
+                      vpiPrefix RefObj name:frame.multicast start:56:10 end:56:25:
+                        vpiParent: MethodFuncCall name:constraint_mode
+                        vpiName: frame.multicast
+                        vpiFullName: constaint_mode_ex.frame.multicast
+                        vpiPathElem (2 items):
+                          RefObj name:frame start:56:10 end:56:15:
+                            vpiParent: RefObj name:frame.multicast
+                            vpiName: frame
+                            vpiFullName: constaint_mode_ex.frame
+                            vpiActual: Variable name:frame
+                          RefObj name:multicast start:56:16 end:56:25:
+                            vpiParent: RefObj name:frame.multicast
+                            vpiName: multicast
+                            vpiFullName: constaint_mode_ex.multicast
+                            vpiActual: Constraint name:multicast
                     Constant start:56:47 end:56:48:
                       vpiParent: Operation
                       vpiConstType: int (7)
@@ -1613,21 +1610,15 @@ Design name:unnamed:
                         vpiParent: IfElse
                         vpiOpType: equal (14)
                         vpiOperand (2 items):
-                          RefObj name:frame.randomize() start:57:12 end:57:29:
+                          MethodFuncCall name:randomize start:57:12 end:57:29:
                             vpiParent: Operation
-                            vpiName: frame.randomize()
-                            vpiFullName: constaint_mode_ex.frame.randomize()
-                            vpiPathElem (2 items):
-                              RefObj name:frame start:57:12 end:57:17:
-                                vpiParent: RefObj name:frame.randomize()
-                                vpiName: frame
-                                vpiFullName: constaint_mode_ex.frame
-                                vpiActual: Variable name:frame
-                              MethodFuncCall name:randomize start:57:18 end:57:29:
-                                vpiParent: RefObj name:frame.randomize()
-                                vpiName Identifier name:randomize start:57:18 end:57:27:
-                                vpiTaskFunc: Function name:randomize
-                            vpiActual: MethodFuncCall name:randomize
+                            vpiName Identifier name:randomize start:57:18 end:57:27:
+                            vpiTaskFunc: Function name:randomize
+                            vpiPrefix RefObj name:frame start:57:12 end:57:17:
+                              vpiParent: MethodFuncCall name:randomize
+                              vpiName: frame
+                              vpiFullName: constaint_mode_ex.frame
+                              vpiActual: Variable name:frame
                           Constant start:57:33 end:57:34:
                             vpiParent: Operation
                             vpiConstType: int (7)
@@ -1642,21 +1633,15 @@ Design name:unnamed:
                         vpiParent: IfElse
                         vpiFullName: constaint_mode_ex
                         vpiStmt (1 items):
-                          RefObj name:frame.print() start:58:10 end:58:23:
+                          MethodTaskCall name:print start:58:10 end:58:23:
                             vpiParent: Begin
-                            vpiName: frame.print()
-                            vpiFullName: constaint_mode_ex.frame.print()
-                            vpiPathElem (2 items):
-                              RefObj name:frame start:58:10 end:58:15:
-                                vpiParent: RefObj name:frame.print()
-                                vpiName: frame
-                                vpiFullName: constaint_mode_ex.frame
-                                vpiActual: Variable name:frame
-                              MethodTaskCall name:print start:58:16 end:58:23:
-                                vpiParent: RefObj name:frame.print()
-                                vpiName Identifier name:print start:58:16 end:58:21:
-                                vpiTaskFunc: Task name:print
-                            vpiActual: MethodTaskCall name:print
+                            vpiName Identifier name:print start:58:16 end:58:21:
+                            vpiTaskFunc: Task name:print
+                            vpiPrefix RefObj name:frame start:58:10 end:58:15:
+                              vpiParent: MethodTaskCall name:print
+                              vpiName: frame
+                              vpiFullName: constaint_mode_ex.frame
+                              vpiActual: Variable name:frame
                       vpiElseStmt Begin start:59:17 end:61:11:
                         vpiParent: IfElse
                         vpiFullName: constaint_mode_ex
@@ -1735,26 +1720,25 @@ Design name:unnamed:
                         vpiActual: StringTypespec
                   NamedArgument start:68:10 end:68:43:
                     vpiParent: SysTaskCall name:$write
-                    vpiHighConn RefObj name:frame.multicast.constraint_mode() start:68:10 end:68:43:
+                    vpiHighConn MethodFuncCall name:constraint_mode start:68:10 end:68:43:
                       vpiParent: NamedArgument
-                      vpiName: frame.multicast.constraint_mode()
-                      vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode()
-                      vpiPathElem (3 items):
-                        RefObj name:frame start:68:10 end:68:15:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName: frame
-                          vpiFullName: constaint_mode_ex.frame
-                          vpiActual: Variable name:frame
-                        RefObj name:multicast start:68:16 end:68:25:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName: multicast
-                          vpiFullName: constaint_mode_ex.multicast
-                          vpiActual: Constraint name:multicast
-                        MethodFuncCall name:constraint_mode start:68:26 end:68:43:
-                          vpiParent: RefObj name:frame.multicast.constraint_mode()
-                          vpiName Identifier name:constraint_mode start:68:26 end:68:41:
-                          vpiTaskFunc: Function name:constraint_mode
-                      vpiActual: MethodFuncCall name:constraint_mode
+                      vpiName Identifier name:constraint_mode start:68:26 end:68:41:
+                      vpiTaskFunc: Function name:constraint_mode
+                      vpiPrefix RefObj name:frame.multicast start:68:10 end:68:25:
+                        vpiParent: MethodFuncCall name:constraint_mode
+                        vpiName: frame.multicast
+                        vpiFullName: constaint_mode_ex.frame.multicast
+                        vpiPathElem (2 items):
+                          RefObj name:frame start:68:10 end:68:15:
+                            vpiParent: RefObj name:frame.multicast
+                            vpiName: frame
+                            vpiFullName: constaint_mode_ex.frame
+                            vpiActual: Variable name:frame
+                          RefObj name:multicast start:68:16 end:68:25:
+                            vpiParent: RefObj name:frame.multicast
+                            vpiName: multicast
+                            vpiFullName: constaint_mode_ex.multicast
+                            vpiActual: Constraint name:multicast
               SysTaskCall name:$write start:69:6 end:69:49:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:69:6 end:69:12:
@@ -1772,93 +1756,85 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: constaint_mode_ex
                         vpiActual: StringTypespec
-              RefObj name:frame.unicast.constraint_mode(0) start:71:6 end:71:38:
+              MethodFuncCall name:constraint_mode start:71:6 end:71:38:
                 vpiParent: Begin
-                vpiName: frame.unicast.constraint_mode(0)
-                vpiFullName: constaint_mode_ex.frame.unicast.constraint_mode(0)
-                vpiPathElem (3 items):
-                  RefObj name:frame start:71:6 end:71:11:
-                    vpiParent: RefObj name:frame.unicast.constraint_mode(0)
-                    vpiName: frame
-                    vpiFullName: constaint_mode_ex.frame
-                    vpiActual: Variable name:frame
-                  RefObj name:unicast start:71:12 end:71:19:
-                    vpiParent: RefObj name:frame.unicast.constraint_mode(0)
-                    vpiName: unicast
-                    vpiFullName: constaint_mode_ex.unicast
-                    vpiActual: Constraint name:unicast
-                  MethodFuncCall name:constraint_mode start:71:20 end:71:38:
-                    vpiParent: RefObj name:frame.unicast.constraint_mode(0)
-                    vpiName Identifier name:constraint_mode start:71:20 end:71:35:
-                    vpiTaskFunc: Function name:constraint_mode
-                    vpiArgument (1 items):
-                      NamedArgument start:71:36 end:71:37:
-                        vpiParent: MethodFuncCall name:constraint_mode
-                        vpiHighConn Constant start:71:36 end:71:37:
-                          vpiParent: NamedArgument
-                          vpiConstType: int (7)
-                          vpiSize: 32
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: constaint_mode_ex.frame.unicast.constraint_mode(0)
-                            vpiActual: IntTypespec
-                vpiActual: MethodFuncCall name:constraint_mode
-              RefObj name:frame.multicast.constraint_mode(1) start:72:6 end:72:40:
+                vpiName Identifier name:constraint_mode start:71:20 end:71:35:
+                vpiTaskFunc: Function name:constraint_mode
+                vpiArgument (1 items):
+                  NamedArgument start:71:36 end:71:37:
+                    vpiParent: MethodFuncCall name:constraint_mode
+                    vpiHighConn Constant start:71:36 end:71:37:
+                      vpiParent: NamedArgument
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: constaint_mode_ex
+                        vpiActual: IntTypespec
+                vpiPrefix RefObj name:frame.unicast start:71:6 end:71:19:
+                  vpiParent: MethodFuncCall name:constraint_mode
+                  vpiName: frame.unicast
+                  vpiFullName: constaint_mode_ex.frame.unicast
+                  vpiPathElem (2 items):
+                    RefObj name:frame start:71:6 end:71:11:
+                      vpiParent: RefObj name:frame.unicast
+                      vpiName: frame
+                      vpiFullName: constaint_mode_ex.frame
+                      vpiActual: Variable name:frame
+                    RefObj name:unicast start:71:12 end:71:19:
+                      vpiParent: RefObj name:frame.unicast
+                      vpiName: unicast
+                      vpiFullName: constaint_mode_ex.unicast
+                      vpiActual: Constraint name:unicast
+              MethodFuncCall name:constraint_mode start:72:6 end:72:40:
                 vpiParent: Begin
-                vpiName: frame.multicast.constraint_mode(1)
-                vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode(1)
-                vpiPathElem (3 items):
-                  RefObj name:frame start:72:6 end:72:11:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(1)
-                    vpiName: frame
-                    vpiFullName: constaint_mode_ex.frame
-                    vpiActual: Variable name:frame
-                  RefObj name:multicast start:72:12 end:72:21:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(1)
-                    vpiName: multicast
-                    vpiFullName: constaint_mode_ex.multicast
-                    vpiActual: Constraint name:multicast
-                  MethodFuncCall name:constraint_mode start:72:22 end:72:40:
-                    vpiParent: RefObj name:frame.multicast.constraint_mode(1)
-                    vpiName Identifier name:constraint_mode start:72:22 end:72:37:
-                    vpiTaskFunc: Function name:constraint_mode
-                    vpiArgument (1 items):
-                      NamedArgument start:72:38 end:72:39:
-                        vpiParent: MethodFuncCall name:constraint_mode
-                        vpiHighConn Constant start:72:38 end:72:39:
-                          vpiParent: NamedArgument
-                          vpiConstType: int (7)
-                          vpiSize: 32
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: constaint_mode_ex.frame.multicast.constraint_mode(1)
-                            vpiActual: IntTypespec
-                vpiActual: MethodFuncCall name:constraint_mode
+                vpiName Identifier name:constraint_mode start:72:22 end:72:37:
+                vpiTaskFunc: Function name:constraint_mode
+                vpiArgument (1 items):
+                  NamedArgument start:72:38 end:72:39:
+                    vpiParent: MethodFuncCall name:constraint_mode
+                    vpiHighConn Constant start:72:38 end:72:39:
+                      vpiParent: NamedArgument
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: constaint_mode_ex
+                        vpiActual: IntTypespec
+                vpiPrefix RefObj name:frame.multicast start:72:6 end:72:21:
+                  vpiParent: MethodFuncCall name:constraint_mode
+                  vpiName: frame.multicast
+                  vpiFullName: constaint_mode_ex.frame.multicast
+                  vpiPathElem (2 items):
+                    RefObj name:frame start:72:6 end:72:11:
+                      vpiParent: RefObj name:frame.multicast
+                      vpiName: frame
+                      vpiFullName: constaint_mode_ex.frame
+                      vpiActual: Variable name:frame
+                    RefObj name:multicast start:72:12 end:72:21:
+                      vpiParent: RefObj name:frame.multicast
+                      vpiName: multicast
+                      vpiFullName: constaint_mode_ex.multicast
+                      vpiActual: Constraint name:multicast
               IfElse start:73:6 end:77:9:
                 vpiParent: Begin
                 vpiCondition Operation start:73:10 end:73:32:
                   vpiParent: IfElse
                   vpiOpType: equal (14)
                   vpiOperand (2 items):
-                    RefObj name:frame.randomize() start:73:10 end:73:27:
+                    MethodFuncCall name:randomize start:73:10 end:73:27:
                       vpiParent: Operation
-                      vpiName: frame.randomize()
-                      vpiFullName: constaint_mode_ex.frame.randomize()
-                      vpiPathElem (2 items):
-                        RefObj name:frame start:73:10 end:73:15:
-                          vpiParent: RefObj name:frame.randomize()
-                          vpiName: frame
-                          vpiFullName: constaint_mode_ex.frame
-                          vpiActual: Variable name:frame
-                        MethodFuncCall name:randomize start:73:16 end:73:27:
-                          vpiParent: RefObj name:frame.randomize()
-                          vpiName Identifier name:randomize start:73:16 end:73:25:
-                          vpiTaskFunc: Function name:randomize
-                      vpiActual: MethodFuncCall name:randomize
+                      vpiName Identifier name:randomize start:73:16 end:73:25:
+                      vpiTaskFunc: Function name:randomize
+                      vpiPrefix RefObj name:frame start:73:10 end:73:15:
+                        vpiParent: MethodFuncCall name:randomize
+                        vpiName: frame
+                        vpiFullName: constaint_mode_ex.frame
+                        vpiActual: Variable name:frame
                     Constant start:73:31 end:73:32:
                       vpiParent: Operation
                       vpiConstType: int (7)
@@ -1873,21 +1849,15 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiFullName: constaint_mode_ex
                   vpiStmt (1 items):
-                    RefObj name:frame.print() start:74:8 end:74:21:
+                    MethodTaskCall name:print start:74:8 end:74:21:
                       vpiParent: Begin
-                      vpiName: frame.print()
-                      vpiFullName: constaint_mode_ex.frame.print()
-                      vpiPathElem (2 items):
-                        RefObj name:frame start:74:8 end:74:13:
-                          vpiParent: RefObj name:frame.print()
-                          vpiName: frame
-                          vpiFullName: constaint_mode_ex.frame
-                          vpiActual: Variable name:frame
-                        MethodTaskCall name:print start:74:14 end:74:21:
-                          vpiParent: RefObj name:frame.print()
-                          vpiName Identifier name:print start:74:14 end:74:19:
-                          vpiTaskFunc: Task name:print
-                      vpiActual: MethodTaskCall name:print
+                      vpiName Identifier name:print start:74:14 end:74:19:
+                      vpiTaskFunc: Task name:print
+                      vpiPrefix RefObj name:frame start:74:8 end:74:13:
+                        vpiParent: MethodTaskCall name:print
+                        vpiName: frame
+                        vpiFullName: constaint_mode_ex.frame
+                        vpiActual: Variable name:frame
                 vpiElseStmt Begin start:75:15 end:77:9:
                   vpiParent: IfElse
                   vpiFullName: constaint_mode_ex
@@ -2039,10 +2009,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            47      48       1         0
 Operation                           12      11       0         1
-RefObj                              53      52       0         1
-RefTypespec                        488     489       1         0
+RefObj                              47      46       0         1
+RefTypespec                        692     693       1         0
 ----------------------------------------------------------------
-Others                            1248    1248       0         0
+Others                            1452    1452       0         0
 ----------------------------------------------------------------
-                                  1848    1848       2         2
+                                  2250    2250       2         2
 ===================== END REDUCTION RESULT =====================

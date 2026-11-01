@@ -290,8 +290,8 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN7705] $Source01/top.v:44:16: Null Actual: id:160, type:SubroutineCall, name:addq, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top.v:46:21: Null Actual: id:171, type:SubroutineCall, name:len1, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:44:5: Null Actual: id:166, type:SubroutineCall, name:addq, relation:vpiStmt.
+[ERR:LN7705] $Source01/top.v Null Actual: id:177, type:SubroutineCall, name:len1, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -377,7 +377,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:foo start:15:12 end:15:15:
               vpiFullName: p1::c1::foo
-              vpiVariable (1 items):
+              vpiVariable (2 items):
                 Variable name:name start:15:23 end:15:27:
                   vpiParent: Function name:foo
                   vpiName: name
@@ -388,6 +388,17 @@ Design name:unnamed:
                     vpiParent: Variable name:name
                     vpiFullName: p1::c1::foo::name
                     vpiActual: StringTypespec
+                Variable name:foo start:15:12 end:15:15:
+                  vpiParent: Function name:foo
+                  vpiName: foo
+                  vpiFullName: p1::c1::foo::foo
+                  vpiAutomatic: true
+                  vpiRandType: (1)
+                  vpiVisibility: public (1)
+                  vpiTypespec RefTypespec start:15:12 end:15:12:
+                    vpiParent: Variable name:foo
+                    vpiFullName: p1::c1::foo::foo
+                    vpiActual: LogicTypespec
               vpiTypespec (1 items):
                 LogicTypespec start:15:12 end:15:12:
                   vpiParent: Function name:foo
@@ -658,153 +669,135 @@ Design name:unnamed:
                 vpiParent: Function name:new
                 vpiFullName: p2::c2::new
                 vpiStmt (6 items):
-                  RefObj name:super.new(name) start:41:5 end:41:14:
+                  MethodFuncCall name:new start:41:5 end:41:19:
                     vpiParent: Begin
-                    vpiName: super.new(name)
-                    vpiFullName: p2::c2::new::super.new(name)
-                    vpiPathElem (2 items):
-                      RefObj name:super start:41:5 end:41:10:
-                        vpiParent: RefObj name:super.new(name)
-                        vpiName: super
-                        vpiFullName: p2::c2::new::super
-                        vpiActual: ClassDefn name:c1
-                      MethodFuncCall name:new start:41:11 end:41:19:
-                        vpiParent: RefObj name:super.new(name)
-                        vpiName Identifier name:new:
-                        vpiTaskFuncDecl: FunctionDecl name:new
-                        vpiArgument (1 items):
-                          NamedArgument start:41:15 end:41:19:
-                            vpiParent: MethodFuncCall name:new
-                            vpiHighConn RefObj name:name start:41:15 end:41:19:
-                              vpiParent: NamedArgument
-                              vpiName: name
-                              vpiFullName: p2::c2::new::super.new(name)::name
-                              vpiActual: Variable name:name
-                  RefObj name:super.foo(name) start:42:5 end:42:20:
+                    vpiName Identifier name:new:
+                    vpiTaskFuncDecl: FunctionDecl name:new
+                    vpiArgument (1 items):
+                      NamedArgument start:41:15 end:41:19:
+                        vpiParent: MethodFuncCall name:new
+                        vpiHighConn RefObj name:name start:41:15 end:41:19:
+                          vpiParent: NamedArgument
+                          vpiName: name
+                          vpiFullName: p2::c2::new::name
+                          vpiActual: Variable name:name
+                    vpiPrefix RefObj name:super start:41:5 end:41:10:
+                      vpiParent: MethodFuncCall name:new
+                      vpiName: super
+                      vpiFullName: p2::c2::new::super
+                      vpiActual: ClassDefn name:c1
+                  MethodFuncCall name:foo start:42:5 end:42:20:
                     vpiParent: Begin
-                    vpiName: super.foo(name)
-                    vpiFullName: p2::c2::new::super.foo(name)
-                    vpiPathElem (2 items):
-                      RefObj name:super start:42:5 end:42:10:
-                        vpiParent: RefObj name:super.foo(name)
-                        vpiName: super
-                        vpiFullName: p2::c2::new::super
-                        vpiActual: ClassDefn name:c1
-                      MethodFuncCall name:foo start:42:11 end:42:20:
-                        vpiParent: RefObj name:super.foo(name)
-                        vpiName Identifier name:foo start:42:11 end:42:14:
-                        vpiTaskFunc: Function name:foo
-                        vpiArgument (1 items):
-                          NamedArgument start:42:15 end:42:19:
-                            vpiParent: MethodFuncCall name:foo
-                            vpiHighConn RefObj name:name start:42:15 end:42:19:
-                              vpiParent: NamedArgument
-                              vpiName: name
-                              vpiFullName: p2::c2::new::super.foo(name)::name
-                              vpiActual: Variable name:name
-                    vpiActual: MethodFuncCall name:foo
-                  RefObj name:this.id_actions.add(id, action) start:43:5 end:43:36:
+                    vpiName Identifier name:foo start:42:11 end:42:14:
+                    vpiTaskFunc: Function name:foo
+                    vpiArgument (1 items):
+                      NamedArgument start:42:15 end:42:19:
+                        vpiParent: MethodFuncCall name:foo
+                        vpiHighConn RefObj name:name start:42:15 end:42:19:
+                          vpiParent: NamedArgument
+                          vpiName: name
+                          vpiFullName: p2::c2::new::name
+                          vpiActual: Variable name:name
+                    vpiPrefix RefObj name:super start:42:5 end:42:10:
+                      vpiParent: MethodFuncCall name:foo
+                      vpiName: super
+                      vpiFullName: p2::c2::new::super
+                      vpiActual: ClassDefn name:c1
+                  MethodFuncCall name:add start:43:5 end:43:36:
                     vpiParent: Begin
-                    vpiName: this.id_actions.add(id, action)
-                    vpiFullName: p2::c2::new::this.id_actions.add(id, action)
-                    vpiPathElem (3 items):
-                      RefObj name:this start:43:5 end:43:9:
-                        vpiParent: RefObj name:this.id_actions.add(id, action)
-                        vpiName: this
-                        vpiFullName: p2::c2::new::this
-                        vpiActual: ClassDefn name:c2
-                      RefObj name:id_actions start:43:10 end:43:20:
-                        vpiParent: RefObj name:this.id_actions.add(id, action)
-                        vpiName: id_actions
-                        vpiFullName: p2::c2::new::id_actions
-                        vpiActual: Variable name:id_actions
-                      MethodFuncCall name:add start:43:21 end:43:36:
-                        vpiParent: RefObj name:this.id_actions.add(id, action)
-                        vpiName Identifier name:add start:43:21 end:43:24:
-                        vpiTaskFunc: Function name:add
-                        vpiArgument (2 items):
-                          NamedArgument start:43:25 end:43:27:
-                            vpiParent: MethodFuncCall name:add
-                            vpiHighConn RefObj name:id start:43:25 end:43:27:
-                              vpiParent: NamedArgument
-                              vpiName: id
-                              vpiFullName: p2::c2::new::this.id_actions.add(id, action)::id
-                          NamedArgument start:43:29 end:43:35:
-                            vpiParent: MethodFuncCall name:add
-                            vpiHighConn RefObj name:action start:43:29 end:43:35:
-                              vpiParent: NamedArgument
-                              vpiName: action
-                              vpiFullName: p2::c2::new::this.id_actions.add(id, action)::action
-                    vpiActual: MethodFuncCall name:add
-                  RefObj name:id_actions.addq(id, action) start:44:5 end:44:32:
+                    vpiName Identifier name:add start:43:21 end:43:24:
+                    vpiTaskFunc: Function name:add
+                    vpiArgument (2 items):
+                      NamedArgument start:43:25 end:43:27:
+                        vpiParent: MethodFuncCall name:add
+                        vpiHighConn RefObj name:id start:43:25 end:43:27:
+                          vpiParent: NamedArgument
+                          vpiName: id
+                          vpiFullName: p2::c2::new::id
+                      NamedArgument start:43:29 end:43:35:
+                        vpiParent: MethodFuncCall name:add
+                        vpiHighConn RefObj name:action start:43:29 end:43:35:
+                          vpiParent: NamedArgument
+                          vpiName: action
+                          vpiFullName: p2::c2::new::action
+                    vpiPrefix RefObj name:this.id_actions start:43:5 end:43:20:
+                      vpiParent: MethodFuncCall name:add
+                      vpiName: this.id_actions
+                      vpiFullName: p2::c2::new::this.id_actions
+                      vpiPathElem (2 items):
+                        RefObj name:this start:43:5 end:43:9:
+                          vpiParent: RefObj name:this.id_actions
+                          vpiName: this
+                          vpiFullName: p2::c2::new::this
+                          vpiActual: ClassDefn name:c2
+                        RefObj name:id_actions start:43:10 end:43:20:
+                          vpiParent: RefObj name:this.id_actions
+                          vpiName: id_actions
+                          vpiFullName: p2::c2::new::id_actions
+                          vpiActual: Variable name:id_actions
+                  SubroutineCall name:addq start:44:5 end:44:32:
                     vpiParent: Begin
-                    vpiName: id_actions.addq(id, action)
-                    vpiFullName: p2::c2::new::id_actions.addq(id, action)
-                    vpiPathElem (2 items):
-                      RefObj name:id_actions start:44:5 end:44:15:
-                        vpiParent: RefObj name:id_actions.addq(id, action)
-                        vpiName: id_actions
-                        vpiFullName: p2::c2::new::id_actions
-                        vpiActual: Variable name:id_actions
-                      SubroutineCall name:addq start:44:16 end:44:32:
-                        vpiParent: RefObj name:id_actions.addq(id, action)
-                        vpiName Identifier name:addq start:44:16 end:44:20:
-                        vpiArgument (2 items):
-                          NamedArgument start:44:21 end:44:23:
-                            vpiParent: SubroutineCall name:addq
-                            vpiHighConn RefObj name:id start:44:21 end:44:23:
-                              vpiParent: NamedArgument
-                              vpiName: id
-                              vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::id
-                          NamedArgument start:44:25 end:44:31:
-                            vpiParent: SubroutineCall name:addq
-                            vpiHighConn RefObj name:action start:44:25 end:44:31:
-                              vpiParent: NamedArgument
-                              vpiName: action
-                              vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::action
-                  RefObj name:super.toto.len() start:45:5 end:45:21:
+                    vpiName Identifier name:addq start:44:16 end:44:20:
+                    vpiArgument (2 items):
+                      NamedArgument start:44:21 end:44:23:
+                        vpiParent: SubroutineCall name:addq
+                        vpiHighConn RefObj name:id start:44:21 end:44:23:
+                          vpiParent: NamedArgument
+                          vpiName: id
+                          vpiFullName: p2::c2::new::id
+                      NamedArgument start:44:25 end:44:31:
+                        vpiParent: SubroutineCall name:addq
+                        vpiHighConn RefObj name:action start:44:25 end:44:31:
+                          vpiParent: NamedArgument
+                          vpiName: action
+                          vpiFullName: p2::c2::new::action
+                    vpiPrefix RefObj name:id_actions start:44:5 end:44:15:
+                      vpiParent: SubroutineCall name:addq
+                      vpiName: id_actions
+                      vpiFullName: p2::c2::new::id_actions
+                      vpiActual: Variable name:id_actions
+                  MethodFuncCall name:len start:45:5 end:45:21:
                     vpiParent: Begin
-                    vpiName: super.toto.len()
-                    vpiFullName: p2::c2::new::super.toto.len()
-                    vpiPathElem (3 items):
-                      RefObj name:super start:45:5 end:45:10:
-                        vpiParent: RefObj name:super.toto.len()
-                        vpiName: super
-                        vpiFullName: p2::c2::new::super
-                        vpiActual: ClassDefn name:c1
-                      RefObj name:toto start:45:11 end:45:15:
-                        vpiParent: RefObj name:super.toto.len()
-                        vpiName: toto
-                        vpiFullName: p2::c2::new::toto
-                        vpiActual: Variable name:toto
-                      MethodFuncCall name:len start:45:16 end:45:21:
-                        vpiParent: RefObj name:super.toto.len()
-                        vpiName Identifier name:len start:45:16 end:45:19:
-                        vpiTaskFunc: Function name:len
-                    vpiActual: MethodFuncCall name:len
-                  RefObj name:this.super.toto.len1() start:46:5 end:46:27:
+                    vpiName Identifier name:len start:45:16 end:45:19:
+                    vpiTaskFunc: Function name:len
+                    vpiPrefix RefObj name:super.toto start:45:5 end:45:15:
+                      vpiParent: MethodFuncCall name:len
+                      vpiName: super.toto
+                      vpiFullName: p2::c2::new::super.toto
+                      vpiPathElem (2 items):
+                        RefObj name:super start:45:5 end:45:10:
+                          vpiParent: RefObj name:super.toto
+                          vpiName: super
+                          vpiFullName: p2::c2::new::super
+                          vpiActual: ClassDefn name:c1
+                        RefObj name:toto start:45:11 end:45:15:
+                          vpiParent: RefObj name:super.toto
+                          vpiName: toto
+                          vpiFullName: p2::c2::new::toto
+                          vpiActual: Variable name:toto
+                  SubroutineCall name:len1:
                     vpiParent: Begin
-                    vpiName: this.super.toto.len1()
-                    vpiFullName: p2::c2::new::this.super.toto.len1()
-                    vpiPathElem (4 items):
-                      RefObj name:this:
-                        vpiParent: RefObj name:this.super.toto.len1()
-                        vpiName: this
-                        vpiFullName: p2::c2::new::this
-                        vpiActual: ClassDefn name:c2
-                      RefObj name:super:
-                        vpiParent: RefObj name:this.super.toto.len1()
-                        vpiName: super
-                        vpiFullName: p2::c2::new::super
-                        vpiActual: ClassDefn name:c1
-                      RefObj name:toto start:46:16 end:46:20:
-                        vpiParent: RefObj name:this.super.toto.len1()
-                        vpiName: toto
-                        vpiFullName: p2::c2::new::toto
-                        vpiActual: Variable name:toto
-                      SubroutineCall name:len1 start:46:21 end:46:27:
-                        vpiParent: RefObj name:this.super.toto.len1()
-                        vpiName Identifier name:len1 start:46:21 end:46:25:
+                    vpiName Identifier name:len1 start:46:21 end:46:25:
+                    vpiPrefix RefObj name:this.super.toto:
+                      vpiParent: SubroutineCall name:len1
+                      vpiName: this.super.toto
+                      vpiFullName: p2::c2::new::this.super.toto
+                      vpiPathElem (3 items):
+                        RefObj name:this:
+                          vpiParent: RefObj name:this.super.toto
+                          vpiName: this
+                          vpiFullName: p2::c2::new::this
+                          vpiActual: ClassDefn name:c2
+                        RefObj name:super:
+                          vpiParent: RefObj name:this.super.toto
+                          vpiName: super
+                          vpiFullName: p2::c2::new::super
+                          vpiActual: ClassDefn name:c1
+                        RefObj name:toto start:46:16 end:46:20:
+                          vpiParent: RefObj name:this.super.toto
+                          vpiName: toto
+                          vpiFullName: p2::c2::new::toto
+                          vpiActual: Variable name:toto
               vpiReturn RefTypespec name:c2:
                 vpiParent: Function name:new
                 vpiName: c2
@@ -829,6 +822,18 @@ Design name:unnamed:
           vpiParent: ClassDefn name:uvm_pool
           vpiName Identifier name:add start:3:12 end:3:15:
           vpiFullName: uvm_pool::add
+          vpiVariable (1 items):
+            Variable name:add start:3:12 end:3:15:
+              vpiParent: Function name:add
+              vpiName: add
+              vpiFullName: uvm_pool::add::add
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:3:12 end:3:12:
+                vpiParent: Variable name:add
+                vpiFullName: uvm_pool::add::add
+                vpiActual: LogicTypespec
           vpiTypespec (1 items):
             LogicTypespec start:3:12 end:3:12:
               vpiParent: Function name:add
@@ -913,7 +918,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass2/SimpleClass2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1696    1696       0         0
+Others                            2103    2103       0         0
 ----------------------------------------------------------------
-                                  1696    1696       0         0
+                                  2103    2103       0         0
 ===================== END REDUCTION RESULT =====================

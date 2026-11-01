@@ -360,18 +360,18 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:39:10: Failed to bind "this".
 [WRN:CP5851] $Source01/dut.sv:39:15: Failed to bind "kill_update_thread".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "toto".
+[ERR:LN7705] $Source01/dut.sv:9:13: Null Actual: id:69, type:SubroutineCall, name:create, relation:vpiRhs.
+[ERR:LN7705] $Source01/dut.sv:9:25: Null Actual: id:66, type:SubroutineCall, name:get_name, relation:vpiHighConn.
 [ERR:CP5909] $Source01/dut.sv:9:13: Illegal use of this: clone.
-[ERR:LN7705] $Source01/dut.sv:9:18: Null Actual: id:66, type:SubroutineCall, name:create, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:9:25: Null Actual: id:63, type:SubroutineCall, name:get_name, relation:vpiHighConn.
-[ERR:LN7705] $Source01/dut.sv:11:11: Null Actual: id:73, type:SubroutineCall, name:copy, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:11:11: Null Actual: id:76, type:SubroutineCall, name:copy, relation:vpiPathElem.
 [ERR:CP5909] $Source01/dut.sv:11:16: Illegal use of this: clone.
+[ERR:LN7705] $Source01/dut.sv:27:8: Null Actual: id:124, type:SubroutineCall, name:get_lsb_pos_in_register, relation:vpiCondition.
 [ERR:CP5909] $Source01/dut.sv:27:8: Illegal use of this: add_field.
-[ERR:LN7705] $Source01/dut.sv:27:27: Null Actual: id:117, type:SubroutineCall, name:get_lsb_pos_in_register, relation:vpiPathElem.
 [ERR:CP5909] $Source01/dut.sv:33:11: Illegal use of this: is_recording_enabled.
 [ERR:CP5909] $Source01/dut.sv:38:11: Illegal use of this: start_update_thread.
-[ERR:LN7705] $Source01/dut.sv:38:32: Null Actual: id:148, type:MethodFuncCall, name:exists, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:38:32: Null Actual: id:158, type:MethodFuncCall, name:exists, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:39:10: Null Actual: id:165, type:SubroutineCall, name:kill_update_thread, relation:vpiStmt.
 [ERR:CP5909] $Source01/dut.sv:39:10: Illegal use of this: start_update_thread.
-[ERR:LN7705] $Source01/dut.sv:39:15: Null Actual: id:155, type:SubroutineCall, name:kill_update_thread, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -400,7 +400,7 @@ Design name:unnamed:
           vpiParent: Package name:toto
           vpiName Identifier name:uvm_string_to_action start:3:27 end:3:47:
           vpiFullName: toto::uvm_string_to_action
-          vpiVariable (3 items):
+          vpiVariable (4 items):
             Variable name:action_str start:3:56 end:3:66:
               vpiParent: Function name:uvm_string_to_action
               vpiName: action_str
@@ -433,6 +433,17 @@ Design name:unnamed:
                 vpiName: string [$:]
                 vpiFullName: toto::uvm_string_to_action::actions::string [$:]
                 vpiActual: ArrayTypespec
+            Variable name:uvm_string_to_action start:3:27 end:3:47:
+              vpiParent: Function name:uvm_string_to_action
+              vpiName: uvm_string_to_action
+              vpiFullName: toto::uvm_string_to_action::uvm_string_to_action
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:3:23 end:3:26:
+                vpiParent: Variable name:uvm_string_to_action
+                vpiFullName: toto::uvm_string_to_action::uvm_string_to_action
+                vpiActual: BitTypespec
           vpiTypespec (2 items):
             BitTypespec:
               vpiParent: Function name:uvm_string_to_action
@@ -482,6 +493,18 @@ Design name:unnamed:
           vpiParent: Package name:toto
           vpiName Identifier name:clone start:7:37 end:7:42:
           vpiFullName: toto::clone
+          vpiVariable (1 items):
+            Variable name:clone start:7:37 end:7:42:
+              vpiParent: Function name:clone
+              vpiName: clone
+              vpiFullName: toto::clone::clone
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec name:uvm_object start:7:14 end:7:24:
+                vpiParent: Variable name:clone
+                vpiName: uvm_object
+                vpiFullName: toto::clone::clone::uvm_object
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiPrefix RefObj name:uvm_object start:7:25 end:7:35:
@@ -500,24 +523,19 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: tmp
                   vpiFullName: toto::clone::tmp
-                vpiRhs RefObj name:this.create(get_name()) start:9:13 end:9:36:
+                vpiRhs SubroutineCall name:create start:9:13 end:9:36:
                   vpiParent: Assignment
-                  vpiName: this.create(get_name())
-                  vpiFullName: toto::clone::this.create(get_name())
-                  vpiPathElem (2 items):
-                    RefObj name:this start:9:13 end:9:17:
-                      vpiParent: RefObj name:this.create(get_name())
-                      vpiName: this
-                      vpiFullName: toto::clone::this
-                    SubroutineCall name:create start:9:18 end:9:36:
-                      vpiParent: RefObj name:this.create(get_name())
-                      vpiName Identifier name:create start:9:18 end:9:24:
-                      vpiArgument (1 items):
-                        NamedArgument start:9:25 end:9:35:
-                          vpiParent: SubroutineCall name:create
-                          vpiHighConn SubroutineCall name:get_name start:9:25 end:9:35:
-                            vpiParent: NamedArgument
-                            vpiName Identifier name:get_name start:9:25 end:9:33:
+                  vpiName Identifier name:create start:9:18 end:9:24:
+                  vpiArgument (1 items):
+                    NamedArgument start:9:25 end:9:35:
+                      vpiParent: SubroutineCall name:create
+                      vpiHighConn SubroutineCall name:get_name start:9:25 end:9:35:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:get_name start:9:25 end:9:33:
+                  vpiPrefix RefObj name:this start:9:13 end:9:17:
+                    vpiParent: SubroutineCall name:create
+                    vpiName: this
+                    vpiFullName: toto::clone::this
               RefObj name:tmp.copy(this) start:11:7 end:11:21:
                 vpiParent: Begin
                 vpiName: tmp.copy(this)
@@ -536,7 +554,7 @@ Design name:unnamed:
                         vpiHighConn RefObj name:this start:11:16 end:11:20:
                           vpiParent: NamedArgument
                           vpiName: this
-                          vpiFullName: toto::clone::tmp.copy(this)::copy::this
+                          vpiFullName: toto::clone::tmp.copy(this)::this
           vpiReturn RefTypespec name:uvm_object start:7:14 end:7:24:
             vpiParent: Function name:clone
             vpiName: uvm_object
@@ -545,6 +563,17 @@ Design name:unnamed:
           vpiParent: Package name:toto
           vpiName Identifier name:m_initialize start:16:20 end:16:32:
           vpiFullName: toto::m_initialize
+          vpiVariable (1 items):
+            Variable name:m_initialize start:16:20 end:16:32:
+              vpiParent: Function name:m_initialize
+              vpiName: m_initialize
+              vpiFullName: toto::m_initialize::m_initialize
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec name:this_type start:16:10 end:16:19:
+                vpiParent: Variable name:m_initialize
+                vpiName: this_type
+                vpiFullName: toto::m_initialize::m_initialize::this_type
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:m_initialize
@@ -646,44 +675,44 @@ Design name:unnamed:
                 vpiFullName: toto::add_field::field::uvm_reg_field
           vpiStmt IfStmt start:27:4 end:28:7:
             vpiParent: Function name:add_field
-            vpiCondition RefObj name:this.fields[idx - 1].get_lsb_pos_in_register() start:27:8 end:27:52:
+            vpiCondition SubroutineCall name:get_lsb_pos_in_register start:27:8 end:27:52:
               vpiParent: IfStmt
-              vpiName: this.fields[idx - 1].get_lsb_pos_in_register()
-              vpiFullName: toto::add_field::this.fields[idx - 1].get_lsb_pos_in_register()
-              vpiPathElem (3 items):
-                RefObj name:this start:27:8 end:27:12:
-                  vpiParent: RefObj name:this.fields[idx - 1].get_lsb_pos_in_register()
-                  vpiName: this
-                  vpiFullName: toto::add_field::this
-                BitSelect name:fields[idx - 1] start:27:13 end:27:25:
-                  vpiParent: RefObj name:this.fields[idx - 1].get_lsb_pos_in_register()
-                  vpiName: fields[idx - 1]
-                  vpiFullName: toto::add_field::this.fields[idx - 1].get_lsb_pos_in_register()::fields[idx - 1]
-                  vpiPrefix RefObj name:fields start:27:13 end:27:19:
-                    vpiParent: BitSelect name:fields[idx - 1]
-                    vpiName: fields
-                    vpiFullName: toto::add_field::this.fields[idx - 1].get_lsb_pos_in_register()::fields
-                  vpiIndex Operation start:27:20 end:27:25:
-                    vpiParent: BitSelect name:fields[idx - 1]
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      RefObj name:idx start:27:20 end:27:23:
-                        vpiParent: Operation
-                        vpiName: idx
-                        vpiFullName: toto::add_field::this.fields[idx - 1].get_lsb_pos_in_register()::fields[idx - 1]::idx
-                      Constant start:27:24 end:27:25:
-                        vpiParent: Operation
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: toto::add_field::this.fields[idx - 1].get_lsb_pos_in_register()::fields[idx - 1]
-                          vpiActual: IntTypespec
-                SubroutineCall name:get_lsb_pos_in_register start:27:27 end:27:52:
-                  vpiParent: RefObj name:this.fields[idx - 1].get_lsb_pos_in_register()
-                  vpiName Identifier name:get_lsb_pos_in_register start:27:27 end:27:50:
+              vpiName Identifier name:get_lsb_pos_in_register start:27:27 end:27:50:
+              vpiPrefix RefObj name:this.fields[idx - 1] start:27:8 end:27:25:
+                vpiParent: SubroutineCall name:get_lsb_pos_in_register
+                vpiName: this.fields[idx - 1]
+                vpiFullName: toto::add_field::this.fields[idx - 1]
+                vpiPathElem (2 items):
+                  RefObj name:this start:27:8 end:27:12:
+                    vpiParent: RefObj name:this.fields[idx - 1]
+                    vpiName: this
+                    vpiFullName: toto::add_field::this
+                  BitSelect name:fields[idx - 1] start:27:13 end:27:25:
+                    vpiParent: RefObj name:this.fields[idx - 1]
+                    vpiName: fields[idx - 1]
+                    vpiFullName: toto::add_field::this.fields[idx - 1]::fields[idx - 1]
+                    vpiPrefix RefObj name:fields start:27:13 end:27:19:
+                      vpiParent: BitSelect name:fields[idx - 1]
+                      vpiName: fields
+                      vpiFullName: toto::add_field::this.fields[idx - 1]::fields
+                    vpiIndex Operation start:27:20 end:27:25:
+                      vpiParent: BitSelect name:fields[idx - 1]
+                      vpiOpType: subtract (11)
+                      vpiOperand (2 items):
+                        RefObj name:idx start:27:20 end:27:23:
+                          vpiParent: Operation
+                          vpiName: idx
+                          vpiFullName: toto::add_field::this.fields[idx - 1]::fields[idx - 1]::idx
+                        Constant start:27:24 end:27:25:
+                          vpiParent: Operation
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: toto::add_field::this.fields[idx - 1]::fields[idx - 1]
+                            vpiActual: IntTypespec
             vpiStmt Begin start:27:54 end:28:7:
               vpiParent: IfStmt
               vpiFullName: toto::add_field
@@ -695,6 +724,18 @@ Design name:unnamed:
           vpiParent: Package name:toto
           vpiName Identifier name:is_recording_enabled start:32:31 end:32:51:
           vpiFullName: toto::is_recording_enabled
+          vpiVariable (1 items):
+            Variable name:is_recording_enabled start:32:31 end:32:51:
+              vpiParent: Function name:is_recording_enabled
+              vpiName: is_recording_enabled
+              vpiFullName: toto::is_recording_enabled::is_recording_enabled
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:32:10 end:32:13:
+                vpiParent: Variable name:is_recording_enabled
+                vpiFullName: toto::is_recording_enabled::is_recording_enabled
+                vpiActual: BitTypespec
           vpiTypespec (1 items):
             BitTypespec:
               vpiParent: Function name:is_recording_enabled
@@ -803,26 +844,21 @@ Design name:unnamed:
               vpiParent: IfStmt
               vpiFullName: toto::start_update_thread
               vpiStmt (1 items):
-                RefObj name:this.kill_update_thread(element) start:39:10 end:39:42:
+                SubroutineCall name:kill_update_thread start:39:10 end:39:42:
                   vpiParent: Begin
-                  vpiName: this.kill_update_thread(element)
-                  vpiFullName: toto::start_update_thread::this.kill_update_thread(element)
-                  vpiPathElem (2 items):
-                    RefObj name:this start:39:10 end:39:14:
-                      vpiParent: RefObj name:this.kill_update_thread(element)
-                      vpiName: this
-                      vpiFullName: toto::start_update_thread::this
-                    SubroutineCall name:kill_update_thread start:39:15 end:39:42:
-                      vpiParent: RefObj name:this.kill_update_thread(element)
-                      vpiName Identifier name:kill_update_thread start:39:15 end:39:33:
-                      vpiArgument (1 items):
-                        NamedArgument start:39:34 end:39:41:
-                          vpiParent: SubroutineCall name:kill_update_thread
-                          vpiHighConn RefObj name:element start:39:34 end:39:41:
-                            vpiParent: NamedArgument
-                            vpiName: element
-                            vpiFullName: toto::start_update_thread::this.kill_update_thread(element)::kill_update_thread::element
-                            vpiActual: Variable name:element
+                  vpiName Identifier name:kill_update_thread start:39:15 end:39:33:
+                  vpiArgument (1 items):
+                    NamedArgument start:39:34 end:39:41:
+                      vpiParent: SubroutineCall name:kill_update_thread
+                      vpiHighConn RefObj name:element start:39:34 end:39:41:
+                        vpiParent: NamedArgument
+                        vpiName: element
+                        vpiFullName: toto::start_update_thread::element
+                        vpiActual: Variable name:element
+                  vpiPrefix RefObj name:this start:39:10 end:39:14:
+                    vpiParent: SubroutineCall name:kill_update_thread
+                    vpiName: this
+                    vpiFullName: toto::start_update_thread::this
           vpiReturn RefTypespec start:36:10 end:36:14:
             vpiParent: Function name:start_update_thread
             vpiFullName: toto::start_update_thread
@@ -895,7 +931,7 @@ COMMAND: ${HLC_DIR}/regression/UnitThisNew/UnitThisNew/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1678    1678       0         0
+Others                            2090    2090       0         0
 ----------------------------------------------------------------
-                                  1678    1678       0         0
+                                  2090    2090       0         0
 ===================== END REDUCTION RESULT =====================

@@ -368,11 +368,11 @@ Design name:unnamed:
                                 vpiName: process
                                 vpiFullName: process_tb.test.process
                                 vpiActual: ClassDefn name:process
-                              MethodFuncCall name:self start:23:24 end:23:30:
+                              FuncCall name:self start:23:24 end:23:30:
                                 vpiParent: RefObj name:process::self()
                                 vpiName Identifier name:self start:23:24 end:23:28:
                                 vpiTaskFunc: Function name:self
-                            vpiActual: MethodFuncCall name:self
+                            vpiActual: FuncCall name:self
                         SysTaskCall name:$display start:24:6 end:24:31:
                           vpiParent: Begin
                           vpiName Identifier name:$display start:24:6 end:24:14:
@@ -442,35 +442,29 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiConstType: null (12)
                         vpiDecompile: null
-              RefObj name:job[1].await() start:31:3 end:31:17:
+              MethodTaskCall name:await start:31:3 end:31:17:
                 vpiParent: Begin
-                vpiName: job[1].await()
-                vpiFullName: process_tb.test.job[1].await()
-                vpiPathElem (2 items):
-                  BitSelect name:job[1] start:31:3 end:31:8:
-                    vpiParent: RefObj name:job[1].await()
-                    vpiName: job[1]
-                    vpiFullName: process_tb.test.job[1].await().job[1]
-                    vpiPrefix RefObj name:job start:31:3 end:31:6:
-                      vpiParent: BitSelect name:job[1]
-                      vpiName: job
-                      vpiFullName: process_tb.test.job[1].await().job
-                      vpiActual: Variable name:job
-                    vpiIndex Constant start:31:7 end:31:8:
-                      vpiParent: BitSelect name:job[1]
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: process_tb.test.job[1].await().job[1]
-                        vpiActual: IntTypespec
-                  MethodTaskCall name:await start:31:10 end:31:17:
-                    vpiParent: RefObj name:job[1].await()
-                    vpiName Identifier name:await start:31:10 end:31:15:
-                    vpiTaskFunc: Task name:await
-                vpiActual: MethodTaskCall name:await
+                vpiName Identifier name:await start:31:10 end:31:15:
+                vpiTaskFunc: Task name:await
+                vpiPrefix BitSelect name:job[1] start:31:3 end:31:8:
+                  vpiParent: MethodTaskCall name:await
+                  vpiName: job[1]
+                  vpiFullName: process_tb.test.job[1]
+                  vpiPrefix RefObj name:job start:31:3 end:31:6:
+                    vpiParent: BitSelect name:job[1]
+                    vpiName: job
+                    vpiFullName: process_tb.test.job
+                    vpiActual: Variable name:job
+                  vpiIndex Constant start:31:7 end:31:8:
+                    vpiParent: BitSelect name:job[1]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: process_tb.test.job[1]
+                      vpiActual: IntTypespec
       vpiPort (1 items):
         Port start:15:19 end:15:21:
           vpiParent: Module name:process_tb
@@ -483,13 +477,13 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: process_tb
             vpiStmt (1 items):
-              MethodTaskCall name:test start:35:3 end:35:10:
+              TaskCall name:test start:35:3 end:35:10:
                 vpiParent: Begin
                 vpiName Identifier name:test start:35:3 end:35:7:
                 vpiTaskFunc: Task name:test
                 vpiArgument (1 items):
                   NamedArgument start:35:8 end:35:9:
-                    vpiParent: MethodTaskCall name:test
+                    vpiParent: TaskCall name:test
                     vpiHighConn Constant start:35:8 end:35:9:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -575,7 +569,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_await/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1627    1627       0         0
+Others                            2032    2032       0         0
 ----------------------------------------------------------------
-                                  1627    1627       0         0
+                                  2032    2032       0         0
 ===================== END REDUCTION RESULT =====================

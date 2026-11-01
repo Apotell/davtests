@@ -279,10 +279,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:21:7: Failed to bind "notask".
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:22:7: Failed to bind "a_var".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_var_notfound_bad.v:19:11: Null Actual: id:53, type:SubroutineCall, name:nofunc, relation:vpiRhs.
-[ERR:LN7705] $Source01/t_var_notfound_bad.v:20:15: Null Actual: id:59, type:SubroutineCall, name:nofuncs, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_var_notfound_bad.v:21:7: Null Actual: id:62, type:SubroutineCall, name:notask, relation:vpiStmt.
-[ERR:LN7705] $Source01/t_var_notfound_bad.v:22:7: Null Actual: id:64, type:SubroutineCall, name:a_var, relation:vpiStmt.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:19:11: Null Actual: id:56, type:SubroutineCall, name:nofunc, relation:vpiRhs.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:20:11: Null Actual: id:62, type:SubroutineCall, name:nofuncs, relation:vpiRhs.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:21:7: Null Actual: id:65, type:SubroutineCall, name:notask, relation:vpiStmt.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:22:7: Null Actual: id:67, type:SubroutineCall, name:a_var, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -348,6 +348,17 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:notfunc start:14:17 end:14:24:
           vpiFullName: t.notfunc
+          vpiVariable (1 items):
+            Variable name:notfunc start:14:17 end:14:24:
+              vpiParent: Function name:notfunc
+              vpiName: notfunc
+              vpiFullName: t.notfunc.notfunc
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:14:13 end:14:16:
+                vpiParent: Variable name:notfunc
+                vpiFullName: t.notfunc.notfunc
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiStmt ReturnStmt start:14:28 end:14:37:
             vpiParent: Function name:notfunc
@@ -448,19 +459,14 @@ Design name:unnamed:
                   vpiName: i
                   vpiFullName: t.i
                   vpiActual: Variable name:i
-                vpiRhs RefObj name:sub.nofuncs() start:20:11 end:20:24:
+                vpiRhs SubroutineCall name:nofuncs start:20:11 end:20:24:
                   vpiParent: Assignment
-                  vpiName: sub.nofuncs()
-                  vpiFullName: t.sub.nofuncs()
-                  vpiPathElem (2 items):
-                    RefObj name:sub start:20:11 end:20:14:
-                      vpiParent: RefObj name:sub.nofuncs()
-                      vpiName: sub
-                      vpiFullName: t.sub
-                      vpiActual: RefInstance name:sub
-                    SubroutineCall name:nofuncs start:20:15 end:20:24:
-                      vpiParent: RefObj name:sub.nofuncs()
-                      vpiName Identifier name:nofuncs start:20:15 end:20:22:
+                  vpiName Identifier name:nofuncs start:20:15 end:20:22:
+                  vpiPrefix RefObj name:sub start:20:11 end:20:14:
+                    vpiParent: SubroutineCall name:nofuncs
+                    vpiName: sub
+                    vpiFullName: t.sub
+                    vpiActual: RefInstance name:sub
               SubroutineCall name:notask start:21:7 end:21:15:
                 vpiParent: Begin
                 vpiName Identifier name:notask start:21:7 end:21:13:
@@ -509,6 +515,17 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName Identifier name:notfuncs start:29:17 end:29:25:
           vpiFullName: sub.notfuncs
+          vpiVariable (1 items):
+            Variable name:notfuncs start:29:17 end:29:25:
+              vpiParent: Function name:notfuncs
+              vpiName: notfuncs
+              vpiFullName: sub.notfuncs.notfuncs
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:29:13 end:29:16:
+                vpiParent: Variable name:notfuncs
+                vpiFullName: sub.notfuncs.notfuncs
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiStmt ReturnStmt start:29:29 end:29:38:
             vpiParent: Function name:notfuncs
@@ -637,7 +654,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_notfound_bad/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              83      83       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    83      83       0         0
 ===================== END REDUCTION RESULT =====================

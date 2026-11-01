@@ -498,7 +498,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/6.16--string_method_receivers.sv:35:1: Compile module "top".
 [WRN:CP5851] $Source01/6.16--string_method_receivers.sv:65:14: Failed to bind "len".
 [WRN:PA5506] $Source01/6.16--string_method_receivers.sv:35:1: No timescale set for "top".
-[ERR:LN7705] $Source01/6.16--string_method_receivers.sv:65:14: Null Actual: id:211, type:MethodFuncCall, name:len, relation:vpiPathElem.
+[ERR:LN7705] $Source01/6.16--string_method_receivers.sv:65:9: Null Actual: id:220, type:MethodFuncCall, name:len, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -548,26 +548,32 @@ Design name:unnamed:
           vpiParent: ClassDefn name:holder
           vpiName Identifier name:via_own_prop start:21:16 end:21:28:
           vpiFullName: holder::via_own_prop
+          vpiVariable (1 items):
+            Variable name:via_own_prop start:21:16 end:21:28:
+              vpiParent: Function name:via_own_prop
+              vpiName: via_own_prop
+              vpiFullName: holder::via_own_prop::via_own_prop
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:21:12 end:21:15:
+                vpiParent: Variable name:via_own_prop
+                vpiFullName: holder::via_own_prop::via_own_prop
+                vpiActual: IntTypespec
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiStmt ReturnStmt start:22:5 end:22:23:
             vpiParent: Function name:via_own_prop
-            vpiCondition RefObj name:prop.len() start:22:12 end:22:22:
+            vpiCondition MethodFuncCall name:len start:22:12 end:22:22:
               vpiParent: ReturnStmt
-              vpiName: prop.len()
-              vpiFullName: holder::via_own_prop::prop.len()
-              vpiPathElem (2 items):
-                RefObj name:prop start:22:12 end:22:16:
-                  vpiParent: RefObj name:prop.len()
-                  vpiName: prop
-                  vpiFullName: holder::via_own_prop::prop
-                  vpiActual: Variable name:prop
-                MethodFuncCall name:len start:22:17 end:22:22:
-                  vpiParent: RefObj name:prop.len()
-                  vpiName Identifier name:len start:22:17 end:22:20:
-                  vpiTaskFunc: Function name:len
-              vpiActual: MethodFuncCall name:len
+              vpiName Identifier name:len start:22:17 end:22:20:
+              vpiTaskFunc: Function name:len
+              vpiPrefix RefObj name:prop start:22:12 end:22:16:
+                vpiParent: MethodFuncCall name:len
+                vpiName: prop
+                vpiFullName: holder::via_own_prop::prop
+                vpiActual: Variable name:prop
           vpiReturn RefTypespec start:21:12 end:21:15:
             vpiParent: Function name:via_own_prop
             vpiFullName: holder::via_own_prop
@@ -612,6 +618,18 @@ Design name:unnamed:
           vpiParent: ClassDefn name:shadow
           vpiName Identifier name:len start:30:16 end:30:19:
           vpiFullName: shadow::len
+          vpiVariable (1 items):
+            Variable name:len start:30:16 end:30:19:
+              vpiParent: Function name:len
+              vpiName: len
+              vpiFullName: shadow::len::len
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:30:12 end:30:15:
+                vpiParent: Variable name:len
+                vpiFullName: shadow::len::len
+                vpiActual: IntTypespec
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -790,7 +808,7 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName Identifier name:via_subroutine start:47:16 end:47:30:
           vpiFullName: top.via_subroutine
-          vpiVariable (2 items):
+          vpiVariable (3 items):
             Variable name:formal start:47:38 end:47:44:
               vpiParent: Function name:via_subroutine
               vpiName: formal
@@ -821,6 +839,16 @@ Design name:unnamed:
                 vpiParent: Variable name:local_str
                 vpiFullName: top.via_subroutine.local_str
                 vpiActual: StringTypespec
+            Variable name:via_subroutine start:47:16 end:47:30:
+              vpiParent: Function name:via_subroutine
+              vpiName: via_subroutine
+              vpiFullName: top.via_subroutine.via_subroutine
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:47:12 end:47:15:
+                vpiParent: Variable name:via_subroutine
+                vpiFullName: top.via_subroutine.via_subroutine
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:formal start:47:38 end:47:44:
@@ -844,38 +872,26 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.via_subroutine.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:formal.len() start:49:9 end:49:21:
+                vpiRhs MethodFuncCall name:len start:49:9 end:49:21:
                   vpiParent: Assignment
-                  vpiName: formal.len()
-                  vpiFullName: top.via_subroutine.formal.len()
-                  vpiPathElem (2 items):
-                    RefObj name:formal start:49:9 end:49:15:
-                      vpiParent: RefObj name:formal.len()
-                      vpiName: formal
-                      vpiFullName: top.via_subroutine.formal
-                      vpiActual: Variable name:formal
-                    MethodFuncCall name:len start:49:16 end:49:21:
-                      vpiParent: RefObj name:formal.len()
-                      vpiName Identifier name:len start:49:16 end:49:19:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:49:16 end:49:19:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:formal start:49:9 end:49:15:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: formal
+                    vpiFullName: top.via_subroutine.formal
+                    vpiActual: Variable name:formal
               ReturnStmt start:50:5 end:50:28:
                 vpiParent: Begin
-                vpiCondition RefObj name:local_str.len() start:50:12 end:50:27:
+                vpiCondition MethodFuncCall name:len start:50:12 end:50:27:
                   vpiParent: ReturnStmt
-                  vpiName: local_str.len()
-                  vpiFullName: top.via_subroutine.local_str.len()
-                  vpiPathElem (2 items):
-                    RefObj name:local_str start:50:12 end:50:21:
-                      vpiParent: RefObj name:local_str.len()
-                      vpiName: local_str
-                      vpiFullName: top.via_subroutine.local_str
-                      vpiActual: Variable name:local_str
-                    MethodFuncCall name:len start:50:22 end:50:27:
-                      vpiParent: RefObj name:local_str.len()
-                      vpiName Identifier name:len start:50:22 end:50:25:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:50:22 end:50:25:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:local_str start:50:12 end:50:21:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: local_str
+                    vpiFullName: top.via_subroutine.local_str
+                    vpiActual: Variable name:local_str
           vpiReturn RefTypespec start:47:12 end:47:15:
             vpiParent: Function name:via_subroutine
             vpiFullName: top.via_subroutine
@@ -901,21 +917,15 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:via_typedef.len() start:57:9 end:57:26:
+                vpiRhs MethodFuncCall name:len start:57:9 end:57:26:
                   vpiParent: Assignment
-                  vpiName: via_typedef.len()
-                  vpiFullName: top.via_typedef.len()
-                  vpiPathElem (2 items):
-                    RefObj name:via_typedef start:57:9 end:57:20:
-                      vpiParent: RefObj name:via_typedef.len()
-                      vpiName: via_typedef
-                      vpiFullName: top.via_typedef
-                      vpiActual: Variable name:via_typedef
-                    MethodFuncCall name:len start:57:21 end:57:26:
-                      vpiParent: RefObj name:via_typedef.len()
-                      vpiName Identifier name:len start:57:21 end:57:24:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:57:21 end:57:24:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:via_typedef start:57:9 end:57:20:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: via_typedef
+                    vpiFullName: top.via_typedef
+                    vpiActual: Variable name:via_typedef
               Assignment start:58:5 end:58:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -925,26 +935,25 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:rec.name.len() start:58:9 end:58:23:
+                vpiRhs MethodFuncCall name:len start:58:9 end:58:23:
                   vpiParent: Assignment
-                  vpiName: rec.name.len()
-                  vpiFullName: top.rec.name.len()
-                  vpiPathElem (3 items):
-                    RefObj name:rec start:58:9 end:58:12:
-                      vpiParent: RefObj name:rec.name.len()
-                      vpiName: rec
-                      vpiFullName: top.rec
-                      vpiActual: Variable name:rec
-                    RefObj name:name start:58:13 end:58:17:
-                      vpiParent: RefObj name:rec.name.len()
-                      vpiName: name
-                      vpiFullName: top.name
-                      vpiActual: TypespecMember name:name
-                    MethodFuncCall name:len start:58:18 end:58:23:
-                      vpiParent: RefObj name:rec.name.len()
-                      vpiName Identifier name:len start:58:18 end:58:21:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:58:18 end:58:21:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:rec.name start:58:9 end:58:17:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: rec.name
+                    vpiFullName: top.rec.name
+                    vpiPathElem (2 items):
+                      RefObj name:rec start:58:9 end:58:12:
+                        vpiParent: RefObj name:rec.name
+                        vpiName: rec
+                        vpiFullName: top.rec
+                        vpiActual: Variable name:rec
+                      RefObj name:name start:58:13 end:58:17:
+                        vpiParent: RefObj name:rec.name
+                        vpiName: name
+                        vpiFullName: top.name
+                        vpiActual: TypespecMember name:name
               Assignment start:59:5 end:59:21:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -954,26 +963,25 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:h.prop.len() start:59:9 end:59:21:
+                vpiRhs MethodFuncCall name:len start:59:9 end:59:21:
                   vpiParent: Assignment
-                  vpiName: h.prop.len()
-                  vpiFullName: top.h.prop.len()
-                  vpiPathElem (3 items):
-                    RefObj name:h start:59:9 end:59:10:
-                      vpiParent: RefObj name:h.prop.len()
-                      vpiName: h
-                      vpiFullName: top.h
-                      vpiActual: Variable name:h
-                    RefObj name:prop start:59:11 end:59:15:
-                      vpiParent: RefObj name:h.prop.len()
-                      vpiName: prop
-                      vpiFullName: top.prop
-                      vpiActual: Variable name:prop
-                    MethodFuncCall name:len start:59:16 end:59:21:
-                      vpiParent: RefObj name:h.prop.len()
-                      vpiName Identifier name:len start:59:16 end:59:19:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:59:16 end:59:19:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:h.prop start:59:9 end:59:15:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: h.prop
+                    vpiFullName: top.h.prop
+                    vpiPathElem (2 items):
+                      RefObj name:h start:59:9 end:59:10:
+                        vpiParent: RefObj name:h.prop
+                        vpiName: h
+                        vpiFullName: top.h
+                        vpiActual: Variable name:h
+                      RefObj name:prop start:59:11 end:59:15:
+                        vpiParent: RefObj name:h.prop
+                        vpiName: prop
+                        vpiFullName: top.prop
+                        vpiActual: Variable name:prop
               Assignment start:60:5 end:60:25:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -983,21 +991,15 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:h.via_own_prop() start:60:9 end:60:25:
+                vpiRhs MethodFuncCall name:via_own_prop start:60:9 end:60:25:
                   vpiParent: Assignment
-                  vpiName: h.via_own_prop()
-                  vpiFullName: top.h.via_own_prop()
-                  vpiPathElem (2 items):
-                    RefObj name:h start:60:9 end:60:10:
-                      vpiParent: RefObj name:h.via_own_prop()
-                      vpiName: h
-                      vpiFullName: top.h
-                      vpiActual: Variable name:h
-                    MethodFuncCall name:via_own_prop start:60:11 end:60:25:
-                      vpiParent: RefObj name:h.via_own_prop()
-                      vpiName Identifier name:via_own_prop start:60:11 end:60:23:
-                      vpiTaskFunc: Function name:via_own_prop
-                  vpiActual: MethodFuncCall name:via_own_prop
+                  vpiName Identifier name:via_own_prop start:60:11 end:60:23:
+                  vpiTaskFunc: Function name:via_own_prop
+                  vpiPrefix RefObj name:h start:60:9 end:60:10:
+                    vpiParent: MethodFuncCall name:via_own_prop
+                    vpiName: h
+                    vpiFullName: top.h
+                    vpiActual: Variable name:h
               Assignment start:61:5 end:61:33:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1007,13 +1009,13 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs MethodFuncCall name:via_subroutine start:61:9 end:61:33:
+                vpiRhs FuncCall name:via_subroutine start:61:9 end:61:33:
                   vpiParent: Assignment
                   vpiName Identifier name:via_subroutine start:61:9 end:61:23:
                   vpiTaskFunc: Function name:via_subroutine
                   vpiArgument (1 items):
                     NamedArgument start:61:24 end:61:32:
-                      vpiParent: MethodFuncCall name:via_subroutine
+                      vpiParent: FuncCall name:via_subroutine
                       vpiHighConn Constant start:61:24 end:61:32:
                         vpiParent: NamedArgument
                         vpiConstType: string (6)
@@ -1033,50 +1035,44 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:plain.substr(1, 2).len() start:62:9 end:62:33:
+                vpiRhs MethodFuncCall name:len start:62:9 end:62:33:
                   vpiParent: Assignment
-                  vpiName: plain.substr(1, 2).len()
-                  vpiFullName: top.plain.substr(1, 2).len()
-                  vpiPathElem (3 items):
-                    RefObj name:plain start:62:9 end:62:14:
-                      vpiParent: RefObj name:plain.substr(1, 2).len()
+                  vpiName Identifier name:len start:62:28 end:62:31:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix MethodFuncCall name:substr start:62:9 end:62:33:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName Identifier name:substr start:62:15 end:62:21:
+                    vpiTaskFunc: Function name:substr
+                    vpiArgument (2 items):
+                      NamedArgument start:62:22 end:62:23:
+                        vpiParent: MethodFuncCall name:substr
+                        vpiHighConn Constant start:62:22 end:62:23:
+                          vpiParent: NamedArgument
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top
+                            vpiActual: IntTypespec
+                      NamedArgument start:62:25 end:62:26:
+                        vpiParent: MethodFuncCall name:substr
+                        vpiHighConn Constant start:62:25 end:62:26:
+                          vpiParent: NamedArgument
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "2"
+                          vpiValue: 2
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top
+                            vpiActual: IntTypespec
+                    vpiPrefix RefObj name:plain start:62:9 end:62:14:
+                      vpiParent: MethodFuncCall name:substr
                       vpiName: plain
                       vpiFullName: top.plain
                       vpiActual: Variable name:plain
-                    MethodFuncCall name:substr start:62:15 end:62:33:
-                      vpiParent: RefObj name:plain.substr(1, 2).len()
-                      vpiName Identifier name:substr start:62:15 end:62:21:
-                      vpiTaskFunc: Function name:substr
-                      vpiArgument (2 items):
-                        NamedArgument start:62:22 end:62:23:
-                          vpiParent: MethodFuncCall name:substr
-                          vpiHighConn Constant start:62:22 end:62:23:
-                            vpiParent: NamedArgument
-                            vpiConstType: int (7)
-                            vpiSize: 32
-                            vpiDecompile: "1"
-                            vpiValue: 1
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top.plain.substr(1, 2).len()
-                              vpiActual: IntTypespec
-                        NamedArgument start:62:25 end:62:26:
-                          vpiParent: MethodFuncCall name:substr
-                          vpiHighConn Constant start:62:25 end:62:26:
-                            vpiParent: NamedArgument
-                            vpiConstType: int (7)
-                            vpiSize: 32
-                            vpiDecompile: "2"
-                            vpiValue: 2
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top.plain.substr(1, 2).len()
-                              vpiActual: IntTypespec
-                    MethodFuncCall name:len start:62:28 end:62:33:
-                      vpiParent: RefObj name:plain.substr(1, 2).len()
-                      vpiName Identifier name:len start:62:28 end:62:31:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
               Assignment start:64:5 end:64:17:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1086,21 +1082,15 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:sh.len() start:64:9 end:64:17:
+                vpiRhs MethodFuncCall name:len start:64:9 end:64:17:
                   vpiParent: Assignment
-                  vpiName: sh.len()
-                  vpiFullName: top.sh.len()
-                  vpiPathElem (2 items):
-                    RefObj name:sh start:64:9 end:64:11:
-                      vpiParent: RefObj name:sh.len()
-                      vpiName: sh
-                      vpiFullName: top.sh
-                      vpiActual: Variable name:sh
-                    MethodFuncCall name:len start:64:12 end:64:17:
-                      vpiParent: RefObj name:sh.len()
-                      vpiName Identifier name:len start:64:12 end:64:15:
-                      vpiTaskFunc: Function name:len
-                  vpiActual: MethodFuncCall name:len
+                  vpiName Identifier name:len start:64:12 end:64:15:
+                  vpiTaskFunc: Function name:len
+                  vpiPrefix RefObj name:sh start:64:9 end:64:11:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: sh
+                    vpiFullName: top.sh
+                    vpiActual: Variable name:sh
               Assignment start:65:5 end:65:19:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1110,33 +1100,28 @@ Design name:unnamed:
                   vpiName: n
                   vpiFullName: top.n
                   vpiActual: Variable name:n
-                vpiRhs RefObj name:q[1].len() start:65:9 end:65:19:
+                vpiRhs MethodFuncCall name:len start:65:9 end:65:19:
                   vpiParent: Assignment
-                  vpiName: q[1].len()
-                  vpiFullName: top.q[1].len()
-                  vpiPathElem (2 items):
-                    BitSelect name:q[1] start:65:9 end:65:12:
-                      vpiParent: RefObj name:q[1].len()
-                      vpiName: q[1]
-                      vpiFullName: top.q[1].len().q[1]
-                      vpiPrefix RefObj name:q start:65:9 end:65:10:
-                        vpiParent: BitSelect name:q[1]
-                        vpiName: q
-                        vpiFullName: top.q[1].len().q
-                        vpiActual: Variable name:q
-                      vpiIndex Constant start:65:11 end:65:12:
-                        vpiParent: BitSelect name:q[1]
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top.q[1].len().q[1]
-                          vpiActual: IntTypespec
-                    MethodFuncCall name:len start:65:14 end:65:19:
-                      vpiParent: RefObj name:q[1].len()
-                      vpiName Identifier name:len start:65:14 end:65:17:
+                  vpiName Identifier name:len start:65:14 end:65:17:
+                  vpiPrefix BitSelect name:q[1] start:65:9 end:65:12:
+                    vpiParent: MethodFuncCall name:len
+                    vpiName: q[1]
+                    vpiFullName: top.q[1]
+                    vpiPrefix RefObj name:q start:65:9 end:65:10:
+                      vpiParent: BitSelect name:q[1]
+                      vpiName: q
+                      vpiFullName: top.q
+                      vpiActual: Variable name:q
+                    vpiIndex Constant start:65:11 end:65:12:
+                      vpiParent: BitSelect name:q[1]
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top.q[1]
+                        vpiActual: IntTypespec
   vpiTypespec (11 items):
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -1232,7 +1217,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receiv
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1719    1719       0         0
+Others                            2123    2123       0         0
 ----------------------------------------------------------------
-                                  1719    1719       0         0
+                                  2123    2123       0         0
 ===================== END REDUCTION RESULT =====================

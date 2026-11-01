@@ -249,8 +249,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:37:5: Failed to bind "do_print".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pack".
 [ERR:LN7705] $Source01/dut.sv:11:72: Null Actual: id:27, type:SubroutineCall, name:init, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:28:14: Null Actual: id:64, type:SubroutineCall, name:istop, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:29:13: Null Actual: id:74, type:SubroutineCall, name:print_object, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:28:6: Null Actual: id:64, type:SubroutineCall, name:istop, relation:vpiCondition.
+[ERR:LN7705] $Source01/dut.sv:29:5: Null Actual: id:74, type:SubroutineCall, name:print_object, relation:vpiStmt.
 [ERR:LN7705] $Source01/dut.sv:29:26: Null Actual: id:67, type:SubroutineCall, name:get_name, relation:vpiHighConn.
 [ERR:LN7705] $Source01/dut.sv:35:5: Null Actual: id:90, type:SubroutineCall, name:m_field_automation, relation:vpiStmt.
 [ERR:LN7705] $Source01/dut.sv:37:5: Null Actual: id:94, type:SubroutineCall, name:do_print, relation:vpiStmt.
@@ -461,49 +461,39 @@ Design name:unnamed:
                         vpiFullName: pack::ovm_object::print::ovm_default_printer
                   IfElse start:28:3 end:38:6:
                     vpiParent: Begin
-                    vpiCondition RefObj name:printer.istop() start:28:6 end:28:21:
+                    vpiCondition SubroutineCall name:istop start:28:6 end:28:21:
                       vpiParent: IfElse
-                      vpiName: printer.istop()
-                      vpiFullName: pack::ovm_object::print::printer.istop()
-                      vpiPathElem (2 items):
-                        RefObj name:printer start:28:6 end:28:13:
-                          vpiParent: RefObj name:printer.istop()
-                          vpiName: printer
-                          vpiFullName: pack::ovm_object::print::printer
-                          vpiActual: Variable name:printer
-                        SubroutineCall name:istop start:28:14 end:28:21:
-                          vpiParent: RefObj name:printer.istop()
-                          vpiName Identifier name:istop start:28:14 end:28:19:
+                      vpiName Identifier name:istop start:28:14 end:28:19:
+                      vpiPrefix RefObj name:printer start:28:6 end:28:13:
+                        vpiParent: SubroutineCall name:istop
+                        vpiName: printer
+                        vpiFullName: pack::ovm_object::print::printer
+                        vpiActual: Variable name:printer
                     vpiStmt Begin start:28:23 end:30:6:
                       vpiParent: IfElse
                       vpiFullName: pack::ovm_object::print
                       vpiStmt (1 items):
-                        RefObj name:printer.print_object(get_name(), this) start:29:5 end:29:43:
+                        SubroutineCall name:print_object start:29:5 end:29:43:
                           vpiParent: Begin
-                          vpiName: printer.print_object(get_name(), this)
-                          vpiFullName: pack::ovm_object::print::printer.print_object(get_name(), this)
-                          vpiPathElem (2 items):
-                            RefObj name:printer start:29:5 end:29:12:
-                              vpiParent: RefObj name:printer.print_object(get_name(), this)
-                              vpiName: printer
-                              vpiFullName: pack::ovm_object::print::printer
-                              vpiActual: Variable name:printer
-                            SubroutineCall name:print_object start:29:13 end:29:43:
-                              vpiParent: RefObj name:printer.print_object(get_name(), this)
-                              vpiName Identifier name:print_object start:29:13 end:29:25:
-                              vpiArgument (2 items):
-                                NamedArgument start:29:26 end:29:36:
-                                  vpiParent: SubroutineCall name:print_object
-                                  vpiHighConn SubroutineCall name:get_name start:29:26 end:29:36:
-                                    vpiParent: NamedArgument
-                                    vpiName Identifier name:get_name start:29:26 end:29:34:
-                                NamedArgument start:29:38 end:29:42:
-                                  vpiParent: SubroutineCall name:print_object
-                                  vpiHighConn RefObj name:this start:29:38 end:29:42:
-                                    vpiParent: NamedArgument
-                                    vpiName: this
-                                    vpiFullName: pack::ovm_object::print::printer.print_object(get_name(), this)::print_object::this
-                                    vpiActual: ClassDefn name:ovm_object
+                          vpiName Identifier name:print_object start:29:13 end:29:25:
+                          vpiArgument (2 items):
+                            NamedArgument start:29:26 end:29:36:
+                              vpiParent: SubroutineCall name:print_object
+                              vpiHighConn SubroutineCall name:get_name start:29:26 end:29:36:
+                                vpiParent: NamedArgument
+                                vpiName Identifier name:get_name start:29:26 end:29:34:
+                            NamedArgument start:29:38 end:29:42:
+                              vpiParent: SubroutineCall name:print_object
+                              vpiHighConn RefObj name:this start:29:38 end:29:42:
+                                vpiParent: NamedArgument
+                                vpiName: this
+                                vpiFullName: pack::ovm_object::print::this
+                                vpiActual: ClassDefn name:ovm_object
+                          vpiPrefix RefObj name:printer start:29:5 end:29:12:
+                            vpiParent: SubroutineCall name:print_object
+                            vpiName: printer
+                            vpiFullName: pack::ovm_object::print::printer
+                            vpiActual: Variable name:printer
                     vpiElseStmt Begin start:31:8 end:38:6:
                       vpiParent: IfElse
                       vpiFullName: pack::ovm_object::print
@@ -548,7 +538,7 @@ Design name:unnamed:
                               vpiHighConn RefObj name:OVM_PRINT start:35:30 end:35:39:
                                 vpiParent: NamedArgument
                                 vpiName: OVM_PRINT
-                                vpiFullName: pack::ovm_object::print::m_field_automation::OVM_PRINT
+                                vpiFullName: pack::ovm_object::print::OVM_PRINT
                             NamedArgument start:35:41 end:35:43:
                               vpiParent: SubroutineCall name:m_field_automation
                               vpiHighConn Constant start:35:41 end:35:43:
@@ -558,7 +548,7 @@ Design name:unnamed:
                                 vpiValue: ""
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: pack::ovm_object::print::m_field_automation
+                                  vpiFullName: pack::ovm_object::print
                                   vpiActual: StringTypespec
                         SubroutineCall name:do_print start:37:5 end:37:22:
                           vpiParent: Begin
@@ -569,7 +559,7 @@ Design name:unnamed:
                               vpiHighConn RefObj name:printer start:37:14 end:37:21:
                                 vpiParent: NamedArgument
                                 vpiName: printer
-                                vpiFullName: pack::ovm_object::print::do_print::printer
+                                vpiFullName: pack::ovm_object::print::printer
                                 vpiActual: Variable name:printer
               vpiReturn RefTypespec start:23:10 end:23:14:
                 vpiParent: Function name:print
@@ -658,7 +648,7 @@ COMMAND: ${HLC_DIR}/regression/PackageVar/PackageVar/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              96      96       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                    96      96       0         0
+                                    94      94       0         0
 ===================== END REDUCTION RESULT =====================

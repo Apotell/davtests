@@ -265,9 +265,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/9.7--process_cls_kill.sv:35:12: Failed to bind "kill".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:LN7705] $Source01/9.7--process_cls_kill.sv:23:24: Null Actual: id:37, type:MethodFuncCall, name:self, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:31:10: Null Actual: id:65, type:MethodTaskCall, name:await, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:34:14: Null Actual: id:73, type:SubroutineCall, name:status, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:35:12: Null Actual: id:83, type:MethodFuncCall, name:kill, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:31:3: Null Actual: id:65, type:MethodTaskCall, name:await, relation:vpiStmt.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:34:7: Null Actual: id:73, type:SubroutineCall, name:status, relation:vpiOperand.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:35:5: Null Actual: id:83, type:MethodFuncCall, name:kill, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -497,33 +497,28 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiConstType: null (12)
                         vpiDecompile: null
-              RefObj name:job[1].await() start:31:3 end:31:17:
+              MethodTaskCall name:await start:31:3 end:31:17:
                 vpiParent: Begin
-                vpiName: job[1].await()
-                vpiFullName: process_tb.test.job[1].await()
-                vpiPathElem (2 items):
-                  BitSelect name:job[1] start:31:3 end:31:8:
-                    vpiParent: RefObj name:job[1].await()
-                    vpiName: job[1]
-                    vpiFullName: process_tb.test.job[1].await().job[1]
-                    vpiPrefix RefObj name:job start:31:3 end:31:6:
-                      vpiParent: BitSelect name:job[1]
-                      vpiName: job
-                      vpiFullName: process_tb.test.job[1].await().job
-                      vpiActual: Variable name:job
-                    vpiIndex Constant start:31:7 end:31:8:
-                      vpiParent: BitSelect name:job[1]
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: process_tb.test.job[1].await().job[1]
-                        vpiActual: IntTypespec
-                  MethodTaskCall name:await start:31:10 end:31:17:
-                    vpiParent: RefObj name:job[1].await()
-                    vpiName Identifier name:await start:31:10 end:31:15:
+                vpiName Identifier name:await start:31:10 end:31:15:
+                vpiPrefix BitSelect name:job[1] start:31:3 end:31:8:
+                  vpiParent: MethodTaskCall name:await
+                  vpiName: job[1]
+                  vpiFullName: process_tb.test.job[1]
+                  vpiPrefix RefObj name:job start:31:3 end:31:6:
+                    vpiParent: BitSelect name:job[1]
+                    vpiName: job
+                    vpiFullName: process_tb.test.job
+                    vpiActual: Variable name:job
+                  vpiIndex Constant start:31:7 end:31:8:
+                    vpiParent: BitSelect name:job[1]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: process_tb.test.job[1]
+                      vpiActual: IntTypespec
               ForeachStmt start:33:3 end:35:19:
                 vpiParent: Begin
                 vpiFullName: process_tb.test
@@ -549,29 +544,24 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiOpType: not equal (15)
                     vpiOperand (2 items):
-                      RefObj name:job[i].status start:34:7 end:34:20:
+                      SubroutineCall name:status start:34:7 end:34:20:
                         vpiParent: Operation
-                        vpiName: job[i].status
-                        vpiFullName: process_tb.test.job[i].status
-                        vpiPathElem (2 items):
-                          BitSelect name:job[i] start:34:7 end:34:12:
-                            vpiParent: RefObj name:job[i].status
-                            vpiName: job[i]
-                            vpiFullName: process_tb.test.job[i].status.job[i]
-                            vpiPrefix RefObj name:job start:34:7 end:34:10:
-                              vpiParent: BitSelect name:job[i]
-                              vpiName: job
-                              vpiFullName: process_tb.test.job[i].status.job
-                              vpiActual: Variable name:job
-                            vpiIndex RefObj name:i start:34:11 end:34:12:
-                              vpiParent: BitSelect name:job[i]
-                              vpiName: i
-                              vpiFullName: process_tb.test.job[i].status.i
-                              vpiActual: Variable name:i
-                          SubroutineCall name:status start:34:14 end:34:20:
-                            vpiParent: RefObj name:job[i].status
-                            vpiName Identifier name:status start:34:14 end:34:20:
-                            vpiIsProperty: true
+                        vpiName Identifier name:status start:34:14 end:34:20:
+                        vpiIsProperty: true
+                        vpiPrefix BitSelect name:job[i] start:34:7 end:34:12:
+                          vpiParent: SubroutineCall name:status
+                          vpiName: job[i]
+                          vpiFullName: process_tb.test.job[i]
+                          vpiPrefix RefObj name:job start:34:7 end:34:10:
+                            vpiParent: BitSelect name:job[i]
+                            vpiName: job
+                            vpiFullName: process_tb.test.job
+                            vpiActual: Variable name:job
+                          vpiIndex RefObj name:i start:34:11 end:34:12:
+                            vpiParent: BitSelect name:job[i]
+                            vpiName: i
+                            vpiFullName: process_tb.test.i
+                            vpiActual: Variable name:i
                       RefObj name:process.FINISHED start:34:24 end:34:41:
                         vpiParent: Operation
                         vpiName: process.FINISHED
@@ -585,28 +575,23 @@ Design name:unnamed:
                             vpiParent: RefObj name:process.FINISHED
                             vpiName: FINISHED
                             vpiFullName: process_tb.test.FINISHED
-                  vpiStmt RefObj name:job[i].kill() start:35:5 end:35:18:
+                  vpiStmt MethodFuncCall name:kill start:35:5 end:35:18:
                     vpiParent: IfStmt
-                    vpiName: job[i].kill()
-                    vpiFullName: process_tb.test.job[i].kill()
-                    vpiPathElem (2 items):
-                      BitSelect name:job[i] start:35:5 end:35:10:
-                        vpiParent: RefObj name:job[i].kill()
-                        vpiName: job[i]
-                        vpiFullName: process_tb.test.job[i].kill().job[i]
-                        vpiPrefix RefObj name:job start:35:5 end:35:8:
-                          vpiParent: BitSelect name:job[i]
-                          vpiName: job
-                          vpiFullName: process_tb.test.job[i].kill().job
-                          vpiActual: Variable name:job
-                        vpiIndex RefObj name:i start:35:9 end:35:10:
-                          vpiParent: BitSelect name:job[i]
-                          vpiName: i
-                          vpiFullName: process_tb.test.job[i].kill().i
-                          vpiActual: Variable name:i
-                      MethodFuncCall name:kill start:35:12 end:35:18:
-                        vpiParent: RefObj name:job[i].kill()
-                        vpiName Identifier name:kill start:35:12 end:35:16:
+                    vpiName Identifier name:kill start:35:12 end:35:16:
+                    vpiPrefix BitSelect name:job[i] start:35:5 end:35:10:
+                      vpiParent: MethodFuncCall name:kill
+                      vpiName: job[i]
+                      vpiFullName: process_tb.test.job[i]
+                      vpiPrefix RefObj name:job start:35:5 end:35:8:
+                        vpiParent: BitSelect name:job[i]
+                        vpiName: job
+                        vpiFullName: process_tb.test.job
+                        vpiActual: Variable name:job
+                      vpiIndex RefObj name:i start:35:9 end:35:10:
+                        vpiParent: BitSelect name:job[i]
+                        vpiName: i
+                        vpiFullName: process_tb.test.i
+                        vpiActual: Variable name:i
       vpiPort (1 items):
         Port start:15:19 end:15:21:
           vpiParent: Module name:process_tb
@@ -619,13 +604,13 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: process_tb
             vpiStmt (1 items):
-              MethodTaskCall name:test start:39:3 end:39:10:
+              TaskCall name:test start:39:3 end:39:10:
                 vpiParent: Begin
                 vpiName Identifier name:test start:39:3 end:39:7:
                 vpiTaskFunc: Task name:test
                 vpiArgument (1 items):
                   NamedArgument start:39:8 end:39:9:
-                    vpiParent: MethodTaskCall name:test
+                    vpiParent: TaskCall name:test
                     vpiHighConn Constant start:39:8 end:39:9:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -701,7 +686,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_kill/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

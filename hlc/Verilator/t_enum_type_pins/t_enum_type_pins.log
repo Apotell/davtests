@@ -665,11 +665,11 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_enum_type_pins.v:95:14: Failed to bind "last".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:99:12: Failed to bind "next".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_type_pins.v:78:31: Null Actual: id:372, type:SubroutineCall, name:num, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:86:13: Null Actual: id:389, type:SubroutineCall, name:first, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:89:20: Null Actual: id:399, type:SubroutineCall, name:prev, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:95:14: Null Actual: id:405, type:SubroutineCall, name:last, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:99:12: Null Actual: id:414, type:SubroutineCall, name:next, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:78:29: Null Actual: id:372, type:SubroutineCall, name:num, relation:vpiIndex.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:86:11: Null Actual: id:389, type:SubroutineCall, name:first, relation:vpiRhs.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:89:18: Null Actual: id:399, type:SubroutineCall, name:prev, relation:vpiRhs.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:95:12: Null Actual: id:405, type:SubroutineCall, name:last, relation:vpiOperand.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:99:10: Null Actual: id:414, type:SubroutineCall, name:next, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -875,20 +875,15 @@ Design name:unnamed:
               vpiParent: BitSelect name:new[e.num]
               vpiName: new
               vpiFullName: test.myarray1.new
-            vpiIndex RefObj name:e.num start:78:29 end:78:34:
+            vpiIndex SubroutineCall name:num start:78:29 end:78:34:
               vpiParent: BitSelect name:new[e.num]
-              vpiName: e.num
-              vpiFullName: test.myarray1.e.num
-              vpiPathElem (2 items):
-                RefObj name:e start:78:29 end:78:30:
-                  vpiParent: RefObj name:e.num
-                  vpiName: e
-                  vpiFullName: test.myarray1.e
-                  vpiActual: Variable name:e
-                SubroutineCall name:num start:78:31 end:78:34:
-                  vpiParent: RefObj name:e.num
-                  vpiName Identifier name:num start:78:31 end:78:34:
-                  vpiIsProperty: true
+              vpiName Identifier name:num start:78:31 end:78:34:
+              vpiIsProperty: true
+              vpiPrefix RefObj name:e start:78:29 end:78:30:
+                vpiParent: SubroutineCall name:num
+                vpiName: e
+                vpiFullName: test.myarray1.new[e.num].e
+                vpiActual: Variable name:e
           vpiTypespec RefTypespec name:int [] start:78:4 end:78:7:
             vpiParent: Variable name:myarray1
             vpiName: int []
@@ -972,20 +967,15 @@ Design name:unnamed:
                     vpiName: e
                     vpiFullName: test.e
                     vpiActual: Variable name:e
-                  vpiRhs RefObj name:e.first start:86:11 end:86:18:
+                  vpiRhs SubroutineCall name:first start:86:11 end:86:18:
                     vpiParent: Assignment
-                    vpiName: e.first
-                    vpiFullName: test.e.first
-                    vpiPathElem (2 items):
-                      RefObj name:e start:86:11 end:86:12:
-                        vpiParent: RefObj name:e.first
-                        vpiName: e
-                        vpiFullName: test.e
-                        vpiActual: Variable name:e
-                      SubroutineCall name:first start:86:13 end:86:18:
-                        vpiParent: RefObj name:e.first
-                        vpiName Identifier name:first start:86:13 end:86:18:
-                        vpiIsProperty: true
+                    vpiName Identifier name:first start:86:13 end:86:18:
+                    vpiIsProperty: true
+                    vpiPrefix RefObj name:e start:86:11 end:86:12:
+                      vpiParent: SubroutineCall name:first
+                      vpiName: e
+                      vpiFullName: test.e
+                      vpiActual: Variable name:e
                 ForeverStmt start:88:7 end:101:10:
                   vpiParent: Begin
                   vpiStmt Begin start:88:15 end:101:10:
@@ -1009,20 +999,15 @@ Design name:unnamed:
                             vpiName: e
                             vpiFullName: test.e
                             vpiActual: Variable name:e
-                        vpiRhs RefObj name:e.prev start:89:18 end:89:24:
+                        vpiRhs SubroutineCall name:prev start:89:18 end:89:24:
                           vpiParent: Assignment
-                          vpiName: e.prev
-                          vpiFullName: test.e.prev
-                          vpiPathElem (2 items):
-                            RefObj name:e start:89:18 end:89:19:
-                              vpiParent: RefObj name:e.prev
-                              vpiName: e
-                              vpiFullName: test.e
-                              vpiActual: Variable name:e
-                            SubroutineCall name:prev start:89:20 end:89:24:
-                              vpiParent: RefObj name:e.prev
-                              vpiName Identifier name:prev start:89:20 end:89:24:
-                              vpiIsProperty: true
+                          vpiName Identifier name:prev start:89:20 end:89:24:
+                          vpiIsProperty: true
+                          vpiPrefix RefObj name:e start:89:18 end:89:19:
+                            vpiParent: SubroutineCall name:prev
+                            vpiName: e
+                            vpiFullName: test.e
+                            vpiActual: Variable name:e
                       IfElse start:95:3 end:100:6:
                         vpiParent: Begin
                         vpiCondition Operation start:95:7 end:95:18:
@@ -1034,20 +1019,15 @@ Design name:unnamed:
                               vpiName: e
                               vpiFullName: test.e
                               vpiActual: Variable name:e
-                            RefObj name:e.last start:95:12 end:95:18:
+                            SubroutineCall name:last start:95:12 end:95:18:
                               vpiParent: Operation
-                              vpiName: e.last
-                              vpiFullName: test.e.last
-                              vpiPathElem (2 items):
-                                RefObj name:e start:95:12 end:95:13:
-                                  vpiParent: RefObj name:e.last
-                                  vpiName: e
-                                  vpiFullName: test.e
-                                  vpiActual: Variable name:e
-                                SubroutineCall name:last start:95:14 end:95:18:
-                                  vpiParent: RefObj name:e.last
-                                  vpiName Identifier name:last start:95:14 end:95:18:
-                                  vpiIsProperty: true
+                              vpiName Identifier name:last start:95:14 end:95:18:
+                              vpiIsProperty: true
+                              vpiPrefix RefObj name:e start:95:12 end:95:13:
+                                vpiParent: SubroutineCall name:last
+                                vpiName: e
+                                vpiFullName: test.e
+                                vpiActual: Variable name:e
                         vpiStmt Begin start:95:20 end:97:6:
                           vpiParent: IfElse
                           vpiFullName: test
@@ -1067,20 +1047,15 @@ Design name:unnamed:
                                 vpiName: e
                                 vpiFullName: test.e
                                 vpiActual: Variable name:e
-                              vpiRhs RefObj name:e.next start:99:10 end:99:16:
+                              vpiRhs SubroutineCall name:next start:99:10 end:99:16:
                                 vpiParent: Assignment
-                                vpiName: e.next
-                                vpiFullName: test.e.next
-                                vpiPathElem (2 items):
-                                  RefObj name:e start:99:10 end:99:11:
-                                    vpiParent: RefObj name:e.next
-                                    vpiName: e
-                                    vpiFullName: test.e
-                                    vpiActual: Variable name:e
-                                  SubroutineCall name:next start:99:12 end:99:16:
-                                    vpiParent: RefObj name:e.next
-                                    vpiName Identifier name:next start:99:12 end:99:16:
-                                    vpiIsProperty: true
+                                vpiName Identifier name:next start:99:12 end:99:16:
+                                vpiIsProperty: true
+                                vpiPrefix RefObj name:e start:99:10 end:99:11:
+                                  vpiParent: SubroutineCall name:next
+                                  vpiName: e
+                                  vpiFullName: test.e
+                                  vpiActual: Variable name:e
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     IntTypespec:
@@ -1626,7 +1601,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_type_pins/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             411     411       0         0
+Others                             406     406       0         0
 ----------------------------------------------------------------
-                                   411     411       0         0
+                                   406     406       0         0
 ===================== END REDUCTION RESULT =====================

@@ -419,6 +419,7 @@ n<$Source01/t_func_bad.v> u<404> t<Top_level_rule> c<1> l<6:1> el<41:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_bad.v:6:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:CP5927] $Source01/t_func_bad.v:11:18: Illegal left-hand side of assignment: illegal_output.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -449,7 +450,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:add start:18:19 end:18:22:
           vpiFullName: t.add
-          vpiVariable (2 items):
+          vpiVariable (3 items):
             Variable name:from1 start:19:19 end:19:24:
               vpiParent: Function name:add
               vpiName: from1
@@ -469,6 +470,16 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:20:13 end:20:18:
                 vpiParent: Variable name:from2
                 vpiFullName: t.add.from2
+                vpiActual: LogicTypespec
+            Variable name:add start:18:19 end:18:22:
+              vpiParent: Function name:add
+              vpiName: add
+              vpiFullName: t.add.add
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:18:13 end:18:18:
+                vpiParent: Variable name:add
+                vpiFullName: t.add.add
                 vpiActual: LogicTypespec
           vpiTypespec (3 items):
             LogicTypespec start:18:13 end:18:18:
@@ -579,7 +590,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: add
                   vpiFullName: t.add.add
-                  vpiActual: Function name:add
+                  vpiActual: Variable name:add
                 vpiRhs Operation start:22:16 end:22:29:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -634,7 +645,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:hasout start:31:13 end:31:19:
           vpiFullName: t.hasout
-          vpiVariable (1 items):
+          vpiVariable (2 items):
             Variable name:illegal_output start:32:20 end:32:34:
               vpiParent: Function name:hasout
               vpiName: illegal_output
@@ -644,6 +655,16 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:32:14 end:32:19:
                 vpiParent: Variable name:illegal_output
                 vpiFullName: t.hasout.illegal_output
+                vpiActual: LogicTypespec
+            Variable name:hasout start:31:13 end:31:19:
+              vpiParent: Function name:hasout
+              vpiName: hasout
+              vpiFullName: t.hasout.hasout
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:31:13 end:31:13:
+                vpiParent: Variable name:hasout
+                vpiFullName: t.hasout.hasout
                 vpiActual: LogicTypespec
           vpiTypespec (2 items):
             LogicTypespec start:31:13 end:31:13:
@@ -693,7 +714,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: hasout
               vpiFullName: t.hasout.hasout
-              vpiActual: Function name:hasout
+              vpiActual: Variable name:hasout
             vpiRhs Constant start:33:16 end:33:17:
               vpiParent: Assignment
               vpiConstType: int (7)
@@ -712,7 +733,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:f start:36:17 end:36:18:
           vpiFullName: t.f
-          vpiVariable (2 items):
+          vpiVariable (3 items):
             Variable name:j start:36:24 end:36:25:
               vpiParent: Function name:f
               vpiName: j
@@ -732,6 +753,16 @@ Design name:unnamed:
               vpiTypespec RefTypespec start:36:31 end:36:34:
                 vpiParent: Variable name:dup
                 vpiFullName: t.f.dup
+                vpiActual: IntTypespec
+            Variable name:f start:36:17 end:36:18:
+              vpiParent: Function name:f
+              vpiName: f
+              vpiFullName: t.f.f
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:36:13 end:36:16:
+                vpiParent: Variable name:f
+                vpiFullName: t.f.f
                 vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiIODecl (2 items):
@@ -818,13 +849,13 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: not equal (15)
                   vpiOperand (2 items):
-                    MethodFuncCall name:add start:8:11 end:8:20:
+                    FuncCall name:add start:8:11 end:8:20:
                       vpiParent: Operation
                       vpiName Identifier name:add start:8:11 end:8:14:
                       vpiTaskFunc: Function name:add
                       vpiArgument (1 items):
                         NamedArgument start:8:15 end:8:19:
-                          vpiParent: MethodFuncCall name:add
+                          vpiParent: FuncCall name:add
                           vpiHighConn Constant start:8:15 end:8:19:
                             vpiParent: NamedArgument
                             vpiConstType: decimal (1)
@@ -855,13 +886,13 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: not equal (15)
                   vpiOperand (2 items):
-                    MethodFuncCall name:add start:9:11 end:9:32:
+                    FuncCall name:add start:9:11 end:9:32:
                       vpiParent: Operation
                       vpiName Identifier name:add start:9:11 end:9:14:
                       vpiTaskFunc: Function name:add
                       vpiArgument (3 items):
                         NamedArgument start:9:15 end:9:19:
-                          vpiParent: MethodFuncCall name:add
+                          vpiParent: FuncCall name:add
                           vpiHighConn Constant start:9:15 end:9:19:
                             vpiParent: NamedArgument
                             vpiConstType: decimal (1)
@@ -873,7 +904,7 @@ Design name:unnamed:
                               vpiFullName: t
                               vpiActual: IntTypespec
                         NamedArgument start:9:21 end:9:25:
-                          vpiParent: MethodFuncCall name:add
+                          vpiParent: FuncCall name:add
                           vpiHighConn Constant start:9:21 end:9:25:
                             vpiParent: NamedArgument
                             vpiConstType: decimal (1)
@@ -885,7 +916,7 @@ Design name:unnamed:
                               vpiFullName: t
                               vpiActual: IntTypespec
                         NamedArgument start:9:27 end:9:31:
-                          vpiParent: MethodFuncCall name:add
+                          vpiParent: FuncCall name:add
                           vpiHighConn Constant start:9:27 end:9:31:
                             vpiParent: NamedArgument
                             vpiConstType: decimal (1)
@@ -910,24 +941,24 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:9:39 end:9:44:
                   vpiIsProperty: true
-              RefObj name:x start:10:7 end:10:8:
+              TaskCall name:x start:10:7 end:10:8:
                 vpiParent: Begin
-                vpiName: x
-                vpiFullName: t.x
-                vpiActual: Task name:x
+                vpiName Identifier name:x start:10:7 end:10:8:
+                vpiIsProperty: true
+                vpiTaskFunc: Task name:x
               IfStmt start:11:7 end:11:36:
                 vpiParent: Begin
                 vpiCondition Operation start:11:11 end:11:28:
                   vpiParent: IfStmt
                   vpiOpType: not equal (15)
                   vpiOperand (2 items):
-                    MethodFuncCall name:hasout start:11:11 end:11:23:
+                    FuncCall name:hasout start:11:11 end:11:23:
                       vpiParent: Operation
                       vpiName Identifier name:hasout start:11:11 end:11:17:
                       vpiTaskFunc: Function name:hasout
                       vpiArgument (1 items):
                         NamedArgument start:11:18 end:11:22:
-                          vpiParent: MethodFuncCall name:hasout
+                          vpiParent: FuncCall name:hasout
                           vpiHighConn Constant start:11:18 end:11:22:
                             vpiParent: NamedArgument
                             vpiConstType: decimal (1)
@@ -952,13 +983,13 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:11:30 end:11:35:
                   vpiIsProperty: true
-              MethodFuncCall name:f start:13:7 end:13:28:
+              FuncCall name:f start:13:7 end:13:28:
                 vpiParent: Begin
                 vpiName Identifier name:f start:13:7 end:13:8:
                 vpiTaskFunc: Function name:f
                 vpiArgument (2 items):
                   NamedArgument start:13:9 end:13:14:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiLowConn RefObj name:j start:13:10 end:13:11:
                       vpiParent: NamedArgument
                       vpiName: j
@@ -975,7 +1006,7 @@ Design name:unnamed:
                         vpiFullName: t
                         vpiActual: IntTypespec
                   NamedArgument start:13:16 end:13:27:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiLowConn RefObj name:no_such start:13:17 end:13:24:
                       vpiParent: NamedArgument
                       vpiName: no_such
@@ -990,13 +1021,13 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: t
                         vpiActual: IntTypespec
-              MethodFuncCall name:f start:14:7 end:14:26:
+              FuncCall name:f start:14:7 end:14:26:
                 vpiParent: Begin
                 vpiName Identifier name:f start:14:7 end:14:8:
                 vpiTaskFunc: Function name:f
                 vpiArgument (2 items):
                   NamedArgument start:14:9 end:14:16:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiLowConn RefObj name:dup start:14:10 end:14:13:
                       vpiParent: NamedArgument
                       vpiName: dup
@@ -1013,7 +1044,7 @@ Design name:unnamed:
                         vpiFullName: t
                         vpiActual: IntTypespec
                   NamedArgument start:14:18 end:14:25:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiLowConn RefObj name:dup start:14:19 end:14:22:
                       vpiParent: NamedArgument
                       vpiName: dup
@@ -1029,13 +1060,13 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: t
                         vpiActual: IntTypespec
-              MethodFuncCall name:f start:15:7 end:15:15:
+              FuncCall name:f start:15:7 end:15:15:
                 vpiParent: Begin
                 vpiName Identifier name:f start:15:7 end:15:8:
                 vpiTaskFunc: Function name:f
                 vpiArgument (3 items):
                   NamedArgument start:15:9 end:15:10:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiHighConn Constant start:15:9 end:15:10:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -1047,7 +1078,7 @@ Design name:unnamed:
                         vpiFullName: t
                         vpiActual: IntTypespec
                   NamedArgument start:15:11 end:15:12:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiHighConn Constant start:15:11 end:15:12:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -1059,7 +1090,7 @@ Design name:unnamed:
                         vpiFullName: t
                         vpiActual: IntTypespec
                   NamedArgument start:15:13 end:15:14:
-                    vpiParent: MethodFuncCall name:f
+                    vpiParent: FuncCall name:f
                     vpiHighConn Constant start:15:13 end:15:14:
                       vpiParent: NamedArgument
                       vpiConstType: int (7)
@@ -1090,7 +1121,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -1134,8 +1165,14 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_bad/design.hldb ${HLC_DIR}/regre
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                            27      26       1         2
+FuncCall                             6       5       0         1
+Identifier                          16      15       0         1
+NamedArgument                       12      11       0         1
+Operation                            6       5       0         1
+RefTypespec                         45      44       1         2
 ----------------------------------------------------------------
-Others                             166     166       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   166     166       0         0
+                                   173     167       2         8
 ===================== END REDUCTION RESULT =====================
