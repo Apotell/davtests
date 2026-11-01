@@ -38,6 +38,7 @@ Per event code (exactly one bucket, in priority order):
 """
 
 import argparse
+import fnmatch
 import json
 import multiprocessing
 import os
@@ -54,6 +55,10 @@ _workspace_dirpath = _this_dirpath.parent
 _main_severities = ('FTL', 'SNT', 'ERR', 'WRN')
 _note_severities = ('NTE',)
 _counted_severities = _main_severities + _note_severities
+
+# Event categories left out of the report entirely: their codes are not counted, and their
+# events and cpp checks are dropped, the same way as the codes in ignored_events.txt.
+_excluded_categories = ('Elab', 'Pyth')
 
 _severity_tags = {
   'Fatal': 'FTL', 'Syntax': 'SNT', 'Error': 'ERR', 'Warning': 'WRN', 'Info': 'INF', 'Note': 'NTE'
@@ -125,6 +130,72 @@ def _load_ignore_list(filepath: Path) -> set[str]:
     if name:
       names.add(name)
   return names
+
+
+def _load_blacklist(filepath: Path) -> tuple[list[str], list[str]]:
+  """Testcases and source files to leave out of the report: (test id patterns, file patterns).
+  One entry per line, '#' starts a comment; 'file:<pattern>' names a source file, anything else
+  a test id. See event_blacklist.txt."""
+  test_patterns, file_patterns = [], []
+  if not filepath.is_file():
+    return test_patterns, file_patterns
+  for line in filepath.read_text(encoding='utf-8').splitlines():
+    entry = line.split('#', 1)[0].strip()
+    if not entry:
+      continue
+    if entry.startswith('file:'):
+      pattern = entry[len('file:'):].strip().replace('\\', '/')
+      if pattern:
+        file_patterns.append(pattern)
+    else:
+      test_patterns.append(entry.replace('\\', '/').strip('/'))
+  return test_patterns, file_patterns
+
+
+def _file_matches(path: str, pattern: str) -> bool:
+  """Whether a log path ($SourceNN/dir/file.sv) matches a blacklist file pattern: a pattern
+  without '/' matches the file name, one with '/' matches the end of the path."""
+  norm = re.sub(r'^\$\w+/', '', path.replace('\\', '/'))
+  if '/' not in pattern:
+    return fnmatch.fnmatchcase(norm.rsplit('/', 1)[-1], pattern)
+  return fnmatch.fnmatchcase(norm, pattern) or fnmatch.fnmatchcase(norm, '*/' + pattern)
+
+
+def _drop_blacklisted_files(file_patterns, reports_by_test, assertions_by_test):
+  """Drops the log events located in a blacklisted file, and the findEvent() checks whose
+  matched events were all dropped (a check names no file, so it is judged by what it matches).
+  Returns pattern -> {'tests': set, 'events': n, 'checks': n}."""
+  hits = {p: {'tests': set(), 'events': 0, 'checks': 0} for p in file_patterns}
+  if not file_patterns:
+    return hits
+
+  def pattern_of(report):
+    if not report.path:
+      return None
+    return next((p for p in file_patterns if _file_matches(report.path, p)), None)
+
+  for test_id, reports in list(reports_by_test.items()):
+    dropped = {}
+    for r in reports:
+      p = pattern_of(r)
+      if p is not None:
+        dropped[id(r)] = p
+        hits[p]['tests'].add(test_id)
+        hits[p]['events'] += 1
+    if not dropped:
+      continue
+    reports_by_test[test_id] = [r for r in reports if id(r) not in dropped]
+
+    kept = []
+    for a in assertions_by_test.get(test_id, []):
+      matched = [r for r in reports if _matches(a, r)]
+      if matched and all(id(r) in dropped for r in matched):
+        hits[dropped[id(matched[0])]]['checks'] += 1
+      else:
+        kept.append(a)
+    if test_id in assertions_by_test:
+      assertions_by_test[test_id] = kept
+  return hits
 
 
 def _make_symbol_regex(text: str, symbol: str | None):
@@ -1093,7 +1164,8 @@ def _code_label(stats_entry, name):
   return f'{code.number:04d}', code.category
 
 
-def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs, summary_rows):
+def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs, summary_rows,
+                blacklist_rows=()):
   from openpyxl import Workbook
   from openpyxl.styles import Font, PatternFill
   from openpyxl.utils import get_column_letter
@@ -1234,7 +1306,11 @@ def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_te
     rows.append(['Missing log', test_id, '', '', '', 'No <name>.log for this test'])
   sheet('Problems', ['Kind', 'Test', 'Code', 'Location', 'Cpp', 'Detail'], rows, [18, 55, 40, 50, 55, 90])
 
-  order = ['Summary', 'By test', 'By code', 'Problems']
+  # Blacklist entries (scripts/event_blacklist.txt) and what each one left out.
+  sheet('Blacklist', ['Kind', 'Entry', 'Tests', 'Events dropped', 'Checks dropped'],
+        list(blacklist_rows), [8, 60, 90, 14, 14])
+
+  order = ['Summary', 'By test', 'By code', 'Problems', 'Blacklist']
   wb._sheets.sort(key=lambda ws: order.index(ws.title) if ws.title in order else len(order))
   wb.save(filepath)
 
@@ -1383,7 +1459,10 @@ def _pct(n, d):
 
 
 def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs,
-                   build_info=None, coverage_by_test=None, ignored_codes=()):
+                   build_info=None, coverage_by_test=None, ignored_codes=(), blacklist_rows=()):
+  blacklisted_test_count = sum(len([t for t in row[2].split(', ') if t != '(no match)'])
+                               for row in blacklist_rows if row[0] == 'Test')
+  blacklisted_file_count = sum(1 for row in blacklist_rows if row[0] == 'File')
   buckets = defaultdict(int)
   for name, s in stats.items():
     if s['code'] is not None:
@@ -1413,6 +1492,11 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     ('Logs', str(log_dirpath)),
     ('Severities (main)', ', '.join(_shown_severities(codes)) + '  (NTE counted separately, INF excluded)'),
     ('Ignored codes', ', '.join(ignored_codes) or '-'),
+    ('Excluded categories', ', '.join(_excluded_categories)),
+    ('Blacklisted tests (not counted below)', blacklisted_test_count),
+    ('Blacklisted files', f'{blacklisted_file_count} '
+                          f'({sum(row[3] for row in blacklist_rows if row[0] == "File")} events, '
+                          f'{sum(row[4] for row in blacklist_rows if row[0] == "File")} checks dropped)'),
     ('Event codes (events.json)', len(codes)),
     ('  Checked', buckets['Checked']),
     ('  Not checked (reported, no test checks it)', buckets['Not checked']),
@@ -1477,8 +1561,10 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   lines += [
     f'Only events from each test\'s own source files are counted ({", ".join(_shown_severities(codes))}). Library files '
     '(UVM/OVM), INF/NTE messages'
-    + (f' and ignored codes ({", ".join(f"`{c}`" for c in sorted(ignored_codes))})' if ignored_codes else '')
-    + ' are left out.', '',
+    + (f', ignored codes ({", ".join(f"`{c}`" for c in sorted(ignored_codes))})' if ignored_codes else '')
+    + f' and the {", ".join(_excluded_categories)} categories are left out.'
+    + (f' Blacklisted testcases ({blacklisted_test_count}) and files ({blacklisted_file_count}) '
+       '(`scripts/event_blacklist.txt`) are left out too.' if blacklist_rows else ''), '',
     '### Event codes', '',
     f'| | Codes | % of {len(codes)} |',
     '|---|---:|---:|',
@@ -1531,6 +1617,17 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| **Total** | **{num(len(tests))}** |',
     '',
   ]
+  if blacklist_rows:
+    lines += [
+      f'<details><summary><b>Blacklist ({len(blacklist_rows)} entries)</b></summary>', '',
+      'From `scripts/event_blacklist.txt`. A blacklisted test is not counted at all; a blacklisted file\'s events, '
+      'and the cpp checks on them, are not counted.', '',
+      '| Kind | Entry | Tests | Events dropped | Checks dropped |',
+      '|---|---|---|---:|---:|',
+    ]
+    for kind, entry, test_ids, events, checks in blacklist_rows:
+      lines.append(f'| {kind} | `{_md_escape(entry)}` | {_md_escape(test_ids, 200)} | {events} | {checks} |')
+    lines += ['', '</details>', '']
   if coverages:
     lines += [
       '### HLDB coverage', '',
@@ -1576,6 +1673,9 @@ def _main():
   parser.add_argument('--filter', default=None, help='Regex on test id to restrict the run.')
   parser.add_argument('--external-pattern', dest='external_pattern', default=_default_external_pattern,
                       help='Regex on a source path marking third-party library files.')
+  parser.add_argument('--blacklist-file', dest='blacklist_file', default=str(_this_dirpath / 'event_blacklist.txt'),
+                      help='Testcases and source files to leave out (see event_blacklist.txt). Pass an empty string '
+                           'to blacklist nothing.')
   parser.add_argument('--ignore-file', dest='ignore_file', default=str(_this_dirpath / 'ignored_events.txt'),
                       help='File listing event codes to leave out of the report, one name per line. '
                            'Pass an empty string to ignore nothing.')
@@ -1612,12 +1712,29 @@ def _main():
   ignored = _load_ignore_list(Path(args.ignore_file)) if args.ignore_file else set()
   for name in sorted(ignored - all_code_names):
     print(f'Warning: ignored code {name} is not in events.json', flush=True)
+  ignored_listed = sorted(ignored & all_code_names)
+  excluded = {name for name, code in codes.items() if code.category in _excluded_categories}
+  ignored = ignored | excluded
   codes = {name: code for name, code in codes.items() if name not in ignored}
   shown_severities = _shown_severities(codes)
-  print(f'Codes: {len(codes)} ({len(ignored & all_code_names)} ignored)', flush=True)
+  print(f'Codes: {len(codes)} ({len(ignored_listed)} ignored, {len(excluded)} in excluded categories '
+        f'{", ".join(_excluded_categories)})', flush=True)
 
   tests = _scan_tests(test_dirpath, filter_re)
   print(f'Tests: {len(tests)}', flush=True)
+
+  # Blacklisted testcases are left out before anything is read for them; blacklisted files are
+  # applied once the logs and checks are in (_drop_blacklisted_files).
+  test_patterns, file_patterns = (_load_blacklist(Path(args.blacklist_file)) if args.blacklist_file else ([], []))
+  blacklisted_tests = {p: sorted(t for t in tests if fnmatch.fnmatchcase(t, p)) for p in test_patterns}
+  for test_ids in blacklisted_tests.values():
+    for test_id in test_ids:
+      tests.pop(test_id, None)
+  for p, test_ids in blacklisted_tests.items():
+    if not test_ids:
+      print(f'Warning: blacklisted test {p} matches no test', flush=True)
+  print(f'Blacklisted tests: {sum(len(v) for v in blacklisted_tests.values())}, '
+        f'file entries: {len(file_patterns)}', flush=True)
 
   links = _link_cpp(test_dirpath, tests)
   print(f'Cpp files: {len(links)}', flush=True)
@@ -1659,6 +1776,10 @@ def _main():
             polarity=item['polarity'], skipped=item['skipped'], source=item['source'],
             group=item['group'], conditional=item['conditional']))
   _regroup(assertions_by_test)
+  blacklisted_files = _drop_blacklisted_files(file_patterns, reports_by_test, assertions_by_test)
+  for p, hit in blacklisted_files.items():
+    if not hit['events']:
+      print(f'Warning: blacklisted file {p} matches no event', flush=True)
   print(f'Assertions: {sum(len(v) for v in assertions_by_test.values())}, unparsed: {len(unparsed)}', flush=True)
 
   _join(tests, reports_by_test, assertions_by_test)
@@ -1666,13 +1787,18 @@ def _main():
   all_assertions = [a for as_ in assertions_by_test.values() for a in as_]
   stats = _code_buckets(codes, all_reports, all_assertions)
 
+  # One row per blacklist entry: kind, entry, tests matched, events dropped, checks dropped.
+  blacklist_rows = [['Test', p, ', '.join(test_ids) or '(no match)', '', ''] for p, test_ids in blacklisted_tests.items()]
+  blacklist_rows += [['File', f'file:{p}', ', '.join(sorted(hit['tests'])) or '(no match)', hit['events'], hit['checks']]
+                     for p, hit in blacklisted_files.items()]
+
   build_info = _build_info(hlc_repo)
   summary_rows, summary_md = _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test,
                                             assertions_by_test, unparsed, missing_logs, build_info,
-                                            coverage_by_test, sorted(ignored & all_code_names))
+                                            coverage_by_test, ignored_listed, blacklist_rows)
   (output_dirpath / 'summary.md').write_text(summary_md + '\n', encoding='utf-8')
   _write_xlsx(output_dirpath / 'report.xlsx', codes, tests, stats, reports_by_test, assertions_by_test,
-              unparsed, missing_logs, summary_rows)
+              unparsed, missing_logs, summary_rows, blacklist_rows)
 
   step_summary = os.environ.get('GITHUB_STEP_SUMMARY')
   if step_summary:
