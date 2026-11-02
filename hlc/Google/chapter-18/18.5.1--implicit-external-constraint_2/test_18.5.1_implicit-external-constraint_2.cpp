@@ -118,7 +118,7 @@ TEST_F(ImplicitExternalConstraint2Test, OutOfClassConstraintExistsAtDesignLevel)
   const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", a->getConstraints());
   ASSERT_NE(c, nullptr) << "'constraint a::c { b == 5; }' should register a Constraint at class level";
 
-  const hldb::ClassDefn *const owner = hldb::getReferenced<hldb::ClassDefn>(c->getPrefix());
+  const hldb::ClassDefn *const owner = hldb::getReferenced<hldb::ClassDefn>(c->getNameQualifier());
   EXPECT_EQ(owner, a);
 }
 
