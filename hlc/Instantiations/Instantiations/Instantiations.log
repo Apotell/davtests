@@ -1891,44 +1891,13 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:passthru start:105:3 end:105:11:
-          vpiParent: Module name:top
-          vpiName Identifier name:passthru start:105:3 end:105:11:
-          vpiDefName: passthru
-          vpiModule: Module name:passthru
-        ModuleTypespec name:adder start:108:3 end:108:8:
-          vpiParent: Module name:top
-          vpiName Identifier name:adder start:108:3 end:108:8:
-          vpiDefName: adder
-          vpiParamAssign (1 items):
-            ParamAssign start:108:11 end:108:16:
-              vpiParent: ModuleTypespec name:adder
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:W start:108:12 end:108:13:
-                vpiParent: ParamAssign
-                vpiName: W
-                vpiFullName: top.adder.W
-                vpiActual: Parameter name:W
-              vpiRhs Constant start:108:14 end:108:15:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "8"
-                vpiValue: 8
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.adder
-                  vpiActual: IntTypespec
-          vpiModule: Module name:adder #(.W(8))
+        ModuleTypespec name:passthru:
+        ModuleTypespec name:adder:
         ProgramTypespec name:my_prog start:111:3 end:111:10:
           vpiParent: Module name:top
           vpiName Identifier name:my_prog start:111:3 end:111:10:
           vpiDefName: my_prog
-        CheckerTypespec name:my_checker start:114:3 end:114:13:
-          vpiParent: Module name:top
-          vpiName: my_checker
-          vpiCheckerDecl: CheckerDecl name:my_checker
+        CheckerTypespec name:my_checker:
         UdpDefnTypespec name:my_udp start:120:3 end:120:9:
           vpiParent: Module name:top
           vpiName: my_udp
@@ -2306,6 +2275,11 @@ Design name:unnamed:
                       vpiName: a
                       vpiFullName: top.u_chk.a
                       vpiActual: Variable name:a
+                    RefObj name:b start:116:26 end:116:27:
+                      vpiParent: Operation
+                      vpiName: b
+                      vpiFullName: top.u_chk.b
+                      vpiActual: Variable name:b
                     Constant start:116:24 end:116:25:
                       vpiParent: Operation
                       vpiConstType: int (7)
@@ -2316,11 +2290,6 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: top.u_chk
                         vpiActual: IntTypespec
-                    RefObj name:b start:116:26 end:116:27:
-                      vpiParent: Operation
-                      vpiName: b
-                      vpiFullName: top.u_chk.b
-                      vpiActual: Variable name:b
         RefInstance name:u_bb start:124:13 end:124:17:
           vpiParent: Module name:top
           vpiName: u_bb
@@ -2469,11 +2438,7 @@ Design name:unnamed:
                 vpiTypespec (2 items):
                   BitTypespec:
                     vpiParent: GenBlock name:gen_lane
-                  ModuleTypespec name:passthru start:148:7 end:148:15:
-                    vpiParent: GenBlock name:gen_lane
-                    vpiName Identifier name:passthru start:148:7 end:148:15:
-                    vpiDefName: passthru
-                    vpiModule: Module name:passthru
+                  ModuleTypespec name:passthru:
                 vpiStmt (2 items):
                   RefInstance name:u_if start:147:17 end:147:21:
                     vpiParent: GenBlock name:gen_lane
@@ -2542,7 +2507,7 @@ Design name:unnamed:
                           vpiName: out_data
                           vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.out_data
                           vpiActual: Port name:out_data
-  vpiTypespec (11 items):
+  vpiTypespec (13 items):
     InterfaceTypespec name:simple_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:simple_if start:22:11 end:22:20:
@@ -2592,6 +2557,35 @@ Design name:unnamed:
       vpiName Identifier name:gen_top start:143:8 end:143:15:
       vpiDefName: gen_top
       vpiModule: Module name:gen_top #(.N(2))
+    CheckerTypespec name:my_checker start:114:3 end:114:13:
+      vpiParent: Design name:unnamed
+      vpiName: my_checker
+      vpiCheckerDecl: CheckerDecl name:my_checker
+    ModuleTypespec name:adder start:108:3 end:108:8:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:adder start:108:3 end:108:8:
+      vpiDefName: adder
+      vpiParamAssign (1 items):
+        ParamAssign start:108:11 end:108:16:
+          vpiParent: ModuleTypespec name:adder
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:W start:108:12 end:108:13:
+            vpiParent: ParamAssign
+            vpiName: W
+            vpiFullName: adder.W
+            vpiActual: Parameter name:W
+          vpiRhs Constant start:108:14 end:108:15:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: adder
+              vpiActual: IntTypespec
+      vpiModule: Module name:adder #(.W(8))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2693,7 +2687,7 @@ Operation                           12       8       0         4
 RefObj                              81      77       0         4
 RefTypespec                         60      60       4         4
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             224     224       0         0
 ----------------------------------------------------------------
-                                   402     394       8        16
+                                   398     390       8        16
 ===================== END REDUCTION RESULT =====================

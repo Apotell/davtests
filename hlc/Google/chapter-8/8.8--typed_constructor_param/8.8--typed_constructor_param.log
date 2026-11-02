@@ -257,7 +257,7 @@ Design name:unnamed:
             vpiName: super_cls
             vpiFullName: class_tb.super_obj.super_cls
             vpiActual: ClassTypespec name:super_cls
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         ClassTypespec name:super_cls start:16:8 end:16:17:
           vpiParent: Module name:class_tb
           vpiName Identifier name:super_cls:
@@ -267,6 +267,31 @@ Design name:unnamed:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls:
           vpiDefName: test_cls
+          vpiClassDefn: ClassDefn name:test_cls #(.t(12))
+        ClassTypespec name:test_cls #(.t(12)) start:34:22 end:34:39:
+          vpiParent: Module name:class_tb
+          vpiName Identifier name:test_cls #(.t(12)):
+          vpiDefName: test_cls
+          vpiParamAssign (1 items):
+            ParamAssign start:34:32 end:34:38:
+              vpiParent: ClassTypespec name:test_cls #(.t(12))
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:t start:34:33 end:34:34:
+                vpiParent: ParamAssign
+                vpiName: t
+                vpiFullName: class_tb.test_cls #(.t(12)).t
+                vpiActual: Parameter name:t
+              vpiRhs Constant start:34:35 end:34:37:
+                vpiParent: ParamAssign
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "23"
+                vpiValue: 23
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: class_tb.test_cls #(.t(12))
+                  vpiActual: IntTypespec
           vpiClassDefn: ClassDefn name:test_cls #(.t(12))
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
@@ -309,10 +334,6 @@ Design name:unnamed:
                 vpiActual: IntTypespec
           vpiTypespec (1 items):
             ClassTypespec name:super_cls:
-              vpiParent: ClassDefn name:super_cls
-              vpiName Identifier name:super_cls:
-              vpiDefName: super_cls
-              vpiClassDefn: ClassDefn name:super_cls
           vpiDefName: super_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -425,16 +446,8 @@ Design name:unnamed:
                   vpiFullName: class_tb::test_cls #(.t(12))
                   vpiActual: IntTypespec
           vpiTypespec (2 items):
-            ClassTypespec name:super_cls start:23:39 end:23:48:
-              vpiParent: ClassDefn name:test_cls #(.t(12))
-              vpiName Identifier name:super_cls start:23:39 end:23:48:
-              vpiDefName: super_cls
-              vpiClassDefn: ClassDefn name:super_cls
+            ClassTypespec name:super_cls:
             ClassTypespec name:test_cls:
-              vpiParent: ClassDefn name:test_cls #(.t(12))
-              vpiName Identifier name:test_cls:
-              vpiDefName: test_cls
-              vpiClassDefn: ClassDefn name:test_cls #(.t(12))
           vpiDefName: test_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -564,6 +577,8 @@ Design name:unnamed:
           vpiStmt Begin start:33:10 end:37:5:
             vpiParent: Initial
             vpiFullName: class_tb
+            vpiTypespec (1 items):
+              ClassTypespec name:test_cls #(.t(12)):
             vpiStmt (2 items):
               Assignment start:34:10 end:34:54:
                 vpiParent: Begin
@@ -574,59 +589,33 @@ Design name:unnamed:
                   vpiName: super_obj
                   vpiFullName: class_tb.super_obj
                   vpiActual: Variable name:super_obj
-                vpiRhs RefObj name:test_cls #(.t(12)) #(.t(23))::new(.def(41)) start:34:22 end:34:54:
+                vpiRhs FuncCall name:new start:34:22 end:34:54:
                   vpiParent: Assignment
-                  vpiName: test_cls #(.t(12)) #(.t(23))::new(.def(41))
-                  vpiFullName: class_tb.test_cls #(.t(12)) #(.t(23))::new(.def(41))
-                  vpiPathElem (2 items):
-                    RefObj name:test_cls start:34:22 end:34:39:
-                      vpiParent: RefObj name:test_cls #(.t(12)) #(.t(23))::new(.def(41))
-                      vpiName: test_cls
-                      vpiFullName: class_tb.test_cls
-                      vpiParamAssign (1 items):
-                        ParamAssign start:34:32 end:34:38:
-                          vpiParent: RefObj name:test_cls
-                          vpiConnByName: true
-                          vpiOverridden: true
-                          vpiLhs RefObj name:t start:34:33 end:34:34:
-                            vpiParent: ParamAssign
-                            vpiName: t
-                            vpiFullName: class_tb.test_cls.t
-                            vpiActual: Parameter name:t
-                          vpiRhs Constant start:34:35 end:34:37:
-                            vpiParent: ParamAssign
-                            vpiConstType: int (7)
-                            vpiSize: 32
-                            vpiDecompile: "23"
-                            vpiValue: 23
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: class_tb.test_cls
-                              vpiActual: IntTypespec
-                      vpiActual: ClassDefn name:test_cls #(.t(12))
-                    FuncCall name:new start:34:22 end:34:54:
-                      vpiParent: RefObj name:test_cls #(.t(12)) #(.t(23))::new(.def(41))
-                      vpiName Identifier name:new:
-                      vpiTaskFunc: Function name:new
-                      vpiArgument (1 items):
-                        NamedArgument start:34:45 end:34:53:
-                          vpiParent: FuncCall name:new
-                          vpiLowConn RefObj name:def start:34:46 end:34:49:
-                            vpiParent: NamedArgument
-                            vpiName: def
-                            vpiFullName: class_tb.test_cls #(.t(12)) #(.t(23))::new(.def(41)).def
-                            vpiActual: IODecl name:def
-                          vpiHighConn Constant start:34:50 end:34:52:
-                            vpiParent: NamedArgument
-                            vpiConstType: int (7)
-                            vpiSize: 32
-                            vpiDecompile: "41"
-                            vpiValue: 41
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: class_tb.test_cls #(.t(12)) #(.t(23))::new(.def(41))
-                              vpiActual: IntTypespec
-                  vpiActual: FuncCall name:new
+                  vpiName Identifier name:new:
+                  vpiTaskFunc: Function name:new
+                  vpiArgument (1 items):
+                    NamedArgument start:34:45 end:34:53:
+                      vpiParent: FuncCall name:new
+                      vpiLowConn RefObj name:def start:34:46 end:34:49:
+                        vpiParent: NamedArgument
+                        vpiName: def
+                        vpiFullName: class_tb.def
+                        vpiActual: IODecl name:def
+                      vpiHighConn Constant start:34:50 end:34:52:
+                        vpiParent: NamedArgument
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "41"
+                        vpiValue: 41
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: class_tb
+                          vpiActual: IntTypespec
+                  vpiNameQualifier RefTypespec name:test_cls start:34:22 end:34:39:
+                    vpiParent: FuncCall name:new
+                    vpiName: test_cls
+                    vpiFullName: class_tb.test_cls
+                    vpiActual: ClassTypespec name:test_cls #(.t(12))
               SysTaskCall name:$display start:36:3 end:36:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:36:3 end:36:11:
@@ -712,7 +701,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.8--typed_constructor_param/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   100     100       0         0
+                                    95      95       0         0
 ===================== END REDUCTION RESULT =====================

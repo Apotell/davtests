@@ -922,7 +922,7 @@ n<$Scratch/builtin.sv> u<4445> t<Top_level_rule> c<1> l<1:1> el<492:1>
     n<// -- "\$display " lexes as one ESCAPED_IDENTIFIER and is stored as "$display".> u<894> t<LINE_COMMENT> p<4444> s<895> l<124:1> el<124:80>
     n<//> u<895> t<LINE_COMMENT> p<4444> s<896> l<125:1> el<125:3>
     n<// Arguments are deliberately omitted. Most of these are variadic, which SV cannot> u<896> t<LINE_COMMENT> p<4444> s<897> l<126:1> el<126:83>
-    n<// express, and only the name is bound (see ObjectBinder::findBuiltinSystemTaskFunc).> u<897> t<LINE_COMMENT> p<4444> s<898> l<127:1> el<127:86>
+    n<// express, and only the name is bound (see ObjectBinder::bindSysTaskCall/bindSysFuncCall).> u<897> t<LINE_COMMENT> p<4444> s<898> l<127:1> el<127:92>
     n<// An empty list asserts nothing about arity; a fabricated one would.> u<898> t<LINE_COMMENT> p<4444> s<899> l<128:1> el<128:70>
     n<//> u<899> t<LINE_COMMENT> p<4444> s<900> l<129:1> el<129:3>
     n<// A function's return type is the one the standard states for it. Six functions> u<900> t<LINE_COMMENT> p<4444> s<901> l<130:1> el<130:81>
@@ -7448,10 +7448,6 @@ Design name:unnamed:
       vpiFullName: mailbox
       vpiTypespec (1 items):
         ClassTypespec name:mailbox:
-          vpiParent: ClassDefn name:mailbox
-          vpiName Identifier name:mailbox:
-          vpiDefName: mailbox
-          vpiClassDefn: ClassDefn name:mailbox
       vpiDefName: mailbox
       vpiAutomatic: true
       vpiClassType: mailbox class (1)
@@ -7816,11 +7812,7 @@ Design name:unnamed:
                 vpiFullName: process::self::self::process
                 vpiActual: ClassTypespec name:process
           vpiTypespec (1 items):
-            ClassTypespec name:process start:18:19 end:18:26:
-              vpiParent: Function name:self
-              vpiName Identifier name:process start:18:19 end:18:26:
-              vpiDefName: process
-              vpiClassDefn: ClassDefn name:process
+            ClassTypespec name:process:
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -7985,10 +7977,6 @@ Design name:unnamed:
       vpiFullName: semaphore
       vpiTypespec (1 items):
         ClassTypespec name:semaphore:
-          vpiParent: ClassDefn name:semaphore
-          vpiName Identifier name:semaphore:
-          vpiDefName: semaphore
-          vpiClassDefn: ClassDefn name:semaphore
       vpiDefName: semaphore
       vpiAutomatic: true
       vpiClassType: semaphore class (2)
@@ -8229,11 +8217,7 @@ Design name:unnamed:
                 vpiFullName: EnumTypespec::first::first::EnumTypespec
                 vpiActual: ClassTypespec name:EnumTypespec
           vpiTypespec (1 items):
-            ClassTypespec name:EnumTypespec start:50:12 end:50:24:
-              vpiParent: Function name:first
-              vpiName Identifier name:EnumTypespec start:50:12 end:50:24:
-              vpiDefName: EnumTypespec
-              vpiClassDefn: ClassDefn name:EnumTypespec
+            ClassTypespec name:EnumTypespec:
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -8260,11 +8244,7 @@ Design name:unnamed:
                 vpiFullName: EnumTypespec::last::last::EnumTypespec
                 vpiActual: ClassTypespec name:EnumTypespec
           vpiTypespec (1 items):
-            ClassTypespec name:EnumTypespec start:51:12 end:51:24:
-              vpiParent: Function name:last
-              vpiName Identifier name:EnumTypespec start:51:12 end:51:24:
-              vpiDefName: EnumTypespec
-              vpiClassDefn: ClassDefn name:EnumTypespec
+            ClassTypespec name:EnumTypespec:
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -8301,11 +8281,7 @@ Design name:unnamed:
                 vpiFullName: EnumTypespec::next::next::EnumTypespec
                 vpiActual: ClassTypespec name:EnumTypespec
           vpiTypespec (1 items):
-            ClassTypespec name:EnumTypespec start:52:12 end:52:24:
-              vpiParent: Function name:next
-              vpiName Identifier name:EnumTypespec start:52:12 end:52:24:
-              vpiDefName: EnumTypespec
-              vpiClassDefn: ClassDefn name:EnumTypespec
+            ClassTypespec name:EnumTypespec:
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -8361,11 +8337,7 @@ Design name:unnamed:
                 vpiFullName: EnumTypespec::prev::prev::EnumTypespec
                 vpiActual: ClassTypespec name:EnumTypespec
           vpiTypespec (1 items):
-            ClassTypespec name:EnumTypespec start:53:12 end:53:24:
-              vpiParent: Function name:prev
-              vpiName Identifier name:EnumTypespec start:53:12 end:53:24:
-              vpiDefName: EnumTypespec
-              vpiClassDefn: ClassDefn name:EnumTypespec
+            ClassTypespec name:EnumTypespec:
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -9552,25 +9524,7 @@ Design name:unnamed:
                 vpiFullName: Array #(.T(int))::find::find::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:348:12 end:348:22:
-              vpiParent: Function name:find
-              vpiName Identifier name:Queue #(T) start:348:12 end:348:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:348:20 end:348:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:348:20 end:348:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -9618,24 +9572,7 @@ Design name:unnamed:
                 vpiFullName: Array #(.T(int))::find_index::find_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:349:12 end:349:24:
-              vpiParent: Function name:find_index
-              vpiName Identifier name:Queue #(int) start:349:12 end:349:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:349:20 end:349:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::find_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:349:20 end:349:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Array #(.T(int))::find_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -9902,25 +9839,7 @@ Design name:unnamed:
                 vpiFullName: Array #(.T(int))::unique::unique::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:356:12 end:356:22:
-              vpiParent: Function name:unique
-              vpiName Identifier name:Queue #(T) start:356:12 end:356:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:356:20 end:356:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:356:20 end:356:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -9947,24 +9866,7 @@ Design name:unnamed:
                 vpiFullName: Array #(.T(int))::unique_index::unique_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:357:12 end:357:24:
-              vpiParent: Function name:unique_index
-              vpiName Identifier name:Queue #(int) start:357:12 end:357:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:357:20 end:357:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::unique_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:357:20 end:357:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Array #(.T(int))::unique_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10160,25 +10062,7 @@ Design name:unnamed:
                 vpiFullName: Array #(.T(int))::map::map::Array #(T)
                 vpiActual: ClassTypespec name:Array #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Array #(T) start:373:12 end:373:22:
-              vpiParent: Function name:map
-              vpiName Identifier name:Array #(T) start:373:12 end:373:17:
-              vpiDefName: Array
-              vpiParamAssign (1 items):
-                ParamAssign start:373:20 end:373:21:
-                  vpiParent: ClassTypespec name:Array #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:345:20 end:345:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::map::Array #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:373:20 end:373:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Array #(.T(int))::map::Array #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Array #(.T(int))
+            ClassTypespec name:Array #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10278,25 +10162,7 @@ Design name:unnamed:
                 vpiFullName: Dynamic #(.T(int))::find::find::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:385:12 end:385:22:
-              vpiParent: Function name:find
-              vpiName Identifier name:Queue #(T) start:385:12 end:385:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:385:20 end:385:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:385:20 end:385:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10344,24 +10210,7 @@ Design name:unnamed:
                 vpiFullName: Dynamic #(.T(int))::find_index::find_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:386:12 end:386:24:
-              vpiParent: Function name:find_index
-              vpiName Identifier name:Queue #(int) start:386:12 end:386:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:386:20 end:386:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::find_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:386:20 end:386:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Dynamic #(.T(int))::find_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10628,25 +10477,7 @@ Design name:unnamed:
                 vpiFullName: Dynamic #(.T(int))::unique::unique::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:393:12 end:393:22:
-              vpiParent: Function name:unique
-              vpiName Identifier name:Queue #(T) start:393:12 end:393:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:393:20 end:393:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:393:20 end:393:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10673,24 +10504,7 @@ Design name:unnamed:
                 vpiFullName: Dynamic #(.T(int))::unique_index::unique_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:394:12 end:394:24:
-              vpiParent: Function name:unique_index
-              vpiName Identifier name:Queue #(int) start:394:12 end:394:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:394:20 end:394:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::unique_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:394:20 end:394:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Dynamic #(.T(int))::unique_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10886,25 +10700,7 @@ Design name:unnamed:
                 vpiFullName: Dynamic #(.T(int))::map::map::Dynamic #(T)
                 vpiActual: ClassTypespec name:Dynamic #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Dynamic #(T) start:410:12 end:410:24:
-              vpiParent: Function name:map
-              vpiName Identifier name:Dynamic #(T) start:410:12 end:410:19:
-              vpiDefName: Dynamic
-              vpiParamAssign (1 items):
-                ParamAssign start:410:22 end:410:23:
-                  vpiParent: ClassTypespec name:Dynamic #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:378:22 end:378:23:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::map::Dynamic #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:410:22 end:410:23:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Dynamic #(.T(int))::map::Dynamic #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Dynamic #(.T(int))
+            ClassTypespec name:Dynamic #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -10993,25 +10789,7 @@ Design name:unnamed:
                 vpiFullName: Queue #(.T(int))::find::find::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:421:12 end:421:22:
-              vpiParent: Function name:find
-              vpiName Identifier name:Queue #(T) start:421:12 end:421:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:421:20 end:421:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:421:20 end:421:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::find::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11059,24 +10837,7 @@ Design name:unnamed:
                 vpiFullName: Queue #(.T(int))::find_index::find_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:422:12 end:422:24:
-              vpiParent: Function name:find_index
-              vpiName Identifier name:Queue #(int) start:422:12 end:422:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:422:20 end:422:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::find_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:422:20 end:422:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Queue #(.T(int))::find_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11343,25 +11104,7 @@ Design name:unnamed:
                 vpiFullName: Queue #(.T(int))::unique::unique::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:429:12 end:429:22:
-              vpiParent: Function name:unique
-              vpiName Identifier name:Queue #(T) start:429:12 end:429:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:429:20 end:429:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:429:20 end:429:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::unique::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11388,24 +11131,7 @@ Design name:unnamed:
                 vpiFullName: Queue #(.T(int))::unique_index::unique_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:430:12 end:430:24:
-              vpiParent: Function name:unique_index
-              vpiName Identifier name:Queue #(int) start:430:12 end:430:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:430:20 end:430:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::unique_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:430:20 end:430:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Queue #(.T(int))::unique_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11601,25 +11327,7 @@ Design name:unnamed:
                 vpiFullName: Queue #(.T(int))::map::map::Queue #(T)
                 vpiActual: ClassTypespec name:Queue #(T)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(T) start:446:12 end:446:22:
-              vpiParent: Function name:map
-              vpiName Identifier name:Queue #(T) start:446:12 end:446:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:446:20 end:446:21:
-                  vpiParent: ClassTypespec name:Queue #(T)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::map::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:T start:446:20 end:446:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Queue #(.T(int))::map::Queue #(T)::T
-                    vpiActual: TypeParameter name:T
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(T):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11899,25 +11607,7 @@ Design name:unnamed:
                 vpiFullName: Map #(.K(int), .V(int))::find::find::Queue #(V)
                 vpiActual: ClassTypespec name:Queue #(V)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(V) start:461:12 end:461:22:
-              vpiParent: Function name:find
-              vpiName Identifier name:Queue #(V) start:461:12 end:461:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:461:20 end:461:21:
-                  vpiParent: ClassTypespec name:Queue #(V)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Map #(.K(int), .V(int))::find::Queue #(V)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:V start:461:20 end:461:21:
-                    vpiParent: ParamAssign
-                    vpiName: V
-                    vpiFullName: Map #(.K(int), .V(int))::find::Queue #(V)::V
-                    vpiActual: TypeParameter name:V
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(V):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -11965,24 +11655,7 @@ Design name:unnamed:
                 vpiFullName: Map #(.K(int), .V(int))::find_index::find_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:462:12 end:462:24:
-              vpiParent: Function name:find_index
-              vpiName Identifier name:Queue #(int) start:462:12 end:462:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:462:20 end:462:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Map #(.K(int), .V(int))::find_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:462:20 end:462:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Map #(.K(int), .V(int))::find_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -12249,25 +11922,7 @@ Design name:unnamed:
                 vpiFullName: Map #(.K(int), .V(int))::unique::unique::Queue #(V)
                 vpiActual: ClassTypespec name:Queue #(V)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(V) start:469:12 end:469:22:
-              vpiParent: Function name:unique
-              vpiName Identifier name:Queue #(V) start:469:12 end:469:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:469:20 end:469:21:
-                  vpiParent: ClassTypespec name:Queue #(V)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Map #(.K(int), .V(int))::unique::Queue #(V)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec name:V start:469:20 end:469:21:
-                    vpiParent: ParamAssign
-                    vpiName: V
-                    vpiFullName: Map #(.K(int), .V(int))::unique::Queue #(V)::V
-                    vpiActual: TypeParameter name:V
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(V):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -12294,24 +11949,7 @@ Design name:unnamed:
                 vpiFullName: Map #(.K(int), .V(int))::unique_index::unique_index::Queue #(int)
                 vpiActual: ClassTypespec name:Queue #(int)
           vpiTypespec (1 items):
-            ClassTypespec name:Queue #(int) start:470:12 end:470:24:
-              vpiParent: Function name:unique_index
-              vpiName Identifier name:Queue #(int) start:470:12 end:470:17:
-              vpiDefName: Queue
-              vpiParamAssign (1 items):
-                ParamAssign start:470:20 end:470:23:
-                  vpiParent: ClassTypespec name:Queue #(int)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:T start:415:20 end:415:21:
-                    vpiParent: ParamAssign
-                    vpiName: T
-                    vpiFullName: Map #(.K(int), .V(int))::unique_index::Queue #(int)::T
-                    vpiActual: TypeParameter name:T
-                  vpiRhs RefTypespec start:470:20 end:470:23:
-                    vpiParent: ParamAssign
-                    vpiFullName: Map #(.K(int), .V(int))::unique_index::Queue #(int)
-                    vpiActual: IntTypespec
-              vpiClassDefn: ClassDefn name:Queue #(.T(int))
+            ClassTypespec name:Queue #(int):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -12463,38 +12101,7 @@ Design name:unnamed:
                 vpiFullName: Map #(.K(int), .V(int))::map::map::Map #(K, V)
                 vpiActual: ClassTypespec name:Map #(K, V)
           vpiTypespec (1 items):
-            ClassTypespec name:Map #(K, V) start:480:12 end:480:23:
-              vpiParent: Function name:map
-              vpiName Identifier name:Map #(K, V) start:480:12 end:480:15:
-              vpiDefName: Map
-              vpiParamAssign (2 items):
-                ParamAssign start:480:18 end:480:19:
-                  vpiParent: ClassTypespec name:Map #(K, V)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:K start:458:18 end:458:19:
-                    vpiParent: ParamAssign
-                    vpiName: K
-                    vpiFullName: Map #(.K(int), .V(int))::map::Map #(K, V)::K
-                    vpiActual: TypeParameter name:K
-                  vpiRhs RefTypespec name:K start:480:18 end:480:19:
-                    vpiParent: ParamAssign
-                    vpiName: K
-                    vpiFullName: Map #(.K(int), .V(int))::map::Map #(K, V)::K
-                    vpiActual: TypeParameter name:K
-                ParamAssign start:480:21 end:480:22:
-                  vpiParent: ClassTypespec name:Map #(K, V)
-                  vpiOverridden: true
-                  vpiLhs RefTypespec name:V start:458:32 end:458:33:
-                    vpiParent: ParamAssign
-                    vpiName: V
-                    vpiFullName: Map #(.K(int), .V(int))::map::Map #(K, V)::V
-                    vpiActual: TypeParameter name:V
-                  vpiRhs RefTypespec name:V start:480:21 end:480:22:
-                    vpiParent: ParamAssign
-                    vpiName: V
-                    vpiFullName: Map #(.K(int), .V(int))::map::Map #(K, V)::V
-                    vpiActual: TypeParameter name:V
-              vpiClassDefn: ClassDefn name:Map #(.K(int), .V(int))
+            ClassTypespec name:Map #(K, V):
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -14928,7 +14535,7 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: builtin_system_tf_known_gap
                     vpiActual: StringTypespec
-  vpiTypespec (22 items):
+  vpiTypespec (28 items):
     ModuleTypespec name:builtin_system_tf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:builtin_system_tf start:27:8 end:27:25:
@@ -15019,6 +14626,132 @@ Design name:unnamed:
       vpiName Identifier name:Map:
       vpiDefName: Map
       vpiClassDefn: ClassDefn name:Map #(.K(int), .V(int))
+    ClassTypespec name:Array #(T) start:373:12 end:373:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Array #(T) start:373:12 end:373:17:
+      vpiDefName: Array
+      vpiParamAssign (1 items):
+        ParamAssign start:373:20 end:373:21:
+          vpiParent: ClassTypespec name:Array #(T)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:T start:345:20 end:345:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Array #(T).T
+            vpiActual: TypeParameter name:T
+          vpiRhs RefTypespec name:T start:373:20 end:373:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Array #(T).T
+            vpiActual: TypeParameter name:T
+      vpiClassDefn: ClassDefn name:Array #(.T(int))
+    ClassTypespec name:Dynamic #(T) start:410:12 end:410:24:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Dynamic #(T) start:410:12 end:410:19:
+      vpiDefName: Dynamic
+      vpiParamAssign (1 items):
+        ParamAssign start:410:22 end:410:23:
+          vpiParent: ClassTypespec name:Dynamic #(T)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:T start:378:22 end:378:23:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Dynamic #(T).T
+            vpiActual: TypeParameter name:T
+          vpiRhs RefTypespec name:T start:410:22 end:410:23:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Dynamic #(T).T
+            vpiActual: TypeParameter name:T
+      vpiClassDefn: ClassDefn name:Dynamic #(.T(int))
+    ClassTypespec name:Map #(K, V) start:480:12 end:480:23:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Map #(K, V) start:480:12 end:480:15:
+      vpiDefName: Map
+      vpiParamAssign (2 items):
+        ParamAssign start:480:18 end:480:19:
+          vpiParent: ClassTypespec name:Map #(K, V)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:K start:458:18 end:458:19:
+            vpiParent: ParamAssign
+            vpiName: K
+            vpiFullName: Map #(K, V).K
+            vpiActual: TypeParameter name:K
+          vpiRhs RefTypespec name:K start:480:18 end:480:19:
+            vpiParent: ParamAssign
+            vpiName: K
+            vpiFullName: Map #(K, V).K
+            vpiActual: TypeParameter name:K
+        ParamAssign start:480:21 end:480:22:
+          vpiParent: ClassTypespec name:Map #(K, V)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:V start:458:32 end:458:33:
+            vpiParent: ParamAssign
+            vpiName: V
+            vpiFullName: Map #(K, V).V
+            vpiActual: TypeParameter name:V
+          vpiRhs RefTypespec name:V start:480:21 end:480:22:
+            vpiParent: ParamAssign
+            vpiName: V
+            vpiFullName: Map #(K, V).V
+            vpiActual: TypeParameter name:V
+      vpiClassDefn: ClassDefn name:Map #(.K(int), .V(int))
+    ClassTypespec name:Queue #(T) start:348:12 end:348:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Queue #(T) start:348:12 end:348:17:
+      vpiDefName: Queue
+      vpiParamAssign (1 items):
+        ParamAssign start:348:20 end:348:21:
+          vpiParent: ClassTypespec name:Queue #(T)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:T start:415:20 end:415:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Queue #(T).T
+            vpiActual: TypeParameter name:T
+          vpiRhs RefTypespec name:T start:348:20 end:348:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Queue #(T).T
+            vpiActual: TypeParameter name:T
+      vpiClassDefn: ClassDefn name:Queue #(.T(int))
+    ClassTypespec name:Queue #(V) start:461:12 end:461:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Queue #(V) start:461:12 end:461:17:
+      vpiDefName: Queue
+      vpiParamAssign (1 items):
+        ParamAssign start:461:20 end:461:21:
+          vpiParent: ClassTypespec name:Queue #(V)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:T start:415:20 end:415:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Queue #(V).T
+            vpiActual: TypeParameter name:T
+          vpiRhs RefTypespec name:V start:461:20 end:461:21:
+            vpiParent: ParamAssign
+            vpiName: V
+            vpiFullName: Queue #(V).V
+            vpiActual: TypeParameter name:V
+      vpiClassDefn: ClassDefn name:Queue #(.T(int))
+    ClassTypespec name:Queue #(int) start:349:12 end:349:24:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Queue #(int) start:349:12 end:349:17:
+      vpiDefName: Queue
+      vpiParamAssign (1 items):
+        ParamAssign start:349:20 end:349:23:
+          vpiParent: ClassTypespec name:Queue #(int)
+          vpiOverridden: true
+          vpiLhs RefTypespec name:T start:415:20 end:415:21:
+            vpiParent: ParamAssign
+            vpiName: T
+            vpiFullName: Queue #(int).T
+            vpiActual: TypeParameter name:T
+          vpiRhs RefTypespec start:349:20 end:349:23:
+            vpiParent: ParamAssign
+            vpiFullName: Queue #(int)
+            vpiActual: IntTypespec
+      vpiClassDefn: ClassDefn name:Queue #(.T(int))
   vpiTaskFunc (205 items):
     Task name:$assertcontrol start:138:1 end:138:39:
       vpiParent: Design name:unnamed
@@ -17774,7 +17507,7 @@ COMMAND: ${HLC_DIR}/regression/BuiltinSystemTF/BuiltinSystemTF/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2608    2608       0         0
+Others                            2524    2524       0         0
 ----------------------------------------------------------------
-                                  2608    2608       0         0
+                                  2524    2524       0         0
 ===================== END REDUCTION RESULT =====================
