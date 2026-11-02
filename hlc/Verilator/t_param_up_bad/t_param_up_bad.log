@@ -260,11 +260,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:parent #(.PARAM(0))
           vpiScalar: true
-        ModuleTypespec name:child start:25:4 end:25:9:
-          vpiParent: Module name:parent #(.PARAM(0))
-          vpiName Identifier name:child start:25:4 end:25:9:
-          vpiDefName: child
-          vpiModule: Module name:child
+        ModuleTypespec name:child:
       vpiDefName: parent
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_up_bad.v"
@@ -296,30 +292,7 @@ Design name:unnamed:
       vpiName Identifier name:t start:28:8 end:28:9:
       vpiFullName: t
       vpiTypespec (1 items):
-        ModuleTypespec name:parent start:30:4 end:30:10:
-          vpiParent: Module name:t
-          vpiName Identifier name:parent start:30:4 end:30:10:
-          vpiDefName: parent
-          vpiParamAssign (1 items):
-            ParamAssign start:30:14 end:30:15:
-              vpiParent: ModuleTypespec name:parent
-              vpiOverridden: true
-              vpiLhs RefObj name:PARAM start:20:15 end:20:20:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.parent.PARAM
-                vpiActual: Parameter name:PARAM
-              vpiRhs Constant start:30:14 end:30:15:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.parent
-                  vpiActual: IntTypespec
-          vpiModule: Module name:parent #(.PARAM(0))
+        ModuleTypespec name:parent:
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_up_bad.v"
@@ -346,7 +319,7 @@ Design name:unnamed:
             vpiName: parent
             vpiFullName: t.p.parent
             vpiActual: ModuleTypespec name:parent
-  vpiTypespec (6 items):
+  vpiTypespec (7 items):
     StructTypespec start:8:9 end:10:2:
       vpiParent: Design name:unnamed
       vpiStruct: Struct
@@ -373,6 +346,30 @@ Design name:unnamed:
       vpiName Identifier name:t start:28:8 end:28:9:
       vpiDefName: t
       vpiModule: Module name:t
+    ModuleTypespec name:parent start:30:4 end:30:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:parent start:30:4 end:30:10:
+      vpiDefName: parent
+      vpiParamAssign (1 items):
+        ParamAssign start:30:14 end:30:15:
+          vpiParent: ModuleTypespec name:parent
+          vpiOverridden: true
+          vpiLhs RefObj name:PARAM start:20:15 end:20:20:
+            vpiParent: ParamAssign
+            vpiName: PARAM
+            vpiFullName: parent.PARAM
+            vpiActual: Parameter name:PARAM
+          vpiRhs Constant start:30:14 end:30:15:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: parent
+              vpiActual: IntTypespec
+      vpiModule: Module name:parent #(.PARAM(0))
   vpiStruct (1 items):
     Struct start:8:9 end:10:2:
       vpiParent: Design name:unnamed
@@ -445,7 +442,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_up_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

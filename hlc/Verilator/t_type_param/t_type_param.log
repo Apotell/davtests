@@ -1450,60 +1450,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:foo_wrapper #(.bar_bits(9))
           vpiScalar: true
-        ModuleTypespec name:foo start:19:4 end:19:7:
-          vpiParent: Module name:foo_wrapper #(.bar_bits(9))
-          vpiName Identifier name:foo start:19:4 end:19:7:
-          vpiDefName: foo
-          vpiParamAssign (1 items):
-            ParamAssign start:19:10 end:19:36:
-              vpiParent: ModuleTypespec name:foo
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:bar start:19:11 end:19:14:
-                vpiParent: ParamAssign
-                vpiName: bar
-                vpiFullName: foo_wrapper #(.bar_bits(9)).foo.bar
-                vpiActual: Parameter name:bar
-              vpiRhs PartSelect name:logic[bar_bits-1:0] start:19:16 end:19:35:
-                vpiParent: ParamAssign
-                vpiName: logic[bar_bits-1:0]
-                vpiFullName: foo_wrapper #(.bar_bits(9)).foo.logic[bar_bits-1:0]
-                vpiPrefix RefObj name:logic start:19:16 end:19:21:
-                  vpiParent: PartSelect name:logic[bar_bits-1:0]
-                  vpiName: logic
-                  vpiFullName: foo_wrapper #(.bar_bits(9)).foo.logic[bar_bits-1:0].logic
-                vpiRange Range start:19:22 end:19:34:
-                  vpiParent: PartSelect name:logic[bar_bits-1:0]
-                  vpiLeftRange Operation start:19:22 end:19:32:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      RefObj name:bar_bits start:19:22 end:19:30:
-                        vpiParent: Operation
-                        vpiName: bar_bits
-                        vpiFullName: foo_wrapper #(.bar_bits(9)).foo.logic[bar_bits-1:0].bar_bits
-                        vpiActual: Parameter name:bar_bits
-                      Constant start:19:31 end:19:32:
-                        vpiParent: Operation
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: foo_wrapper #(.bar_bits(9)).foo.logic[bar_bits-1:0]
-                          vpiActual: IntTypespec
-                  vpiRightRange Constant start:19:33 end:19:34:
-                    vpiParent: Range
-                    vpiConstType: int (7)
-                    vpiSize: 32
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: foo_wrapper #(.bar_bits(9)).foo.logic[bar_bits-1:0]
-                      vpiActual: IntTypespec
-          vpiModule: Module name:foo #(.bar(logic))
+        ModuleTypespec name:foo:
       vpiDefName: foo_wrapper
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_type_param.v"
@@ -1697,66 +1644,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-        ModuleTypespec name:foo start:27:4 end:27:7:
-          vpiParent: Module name:t
-          vpiName Identifier name:foo start:27:4 end:27:7:
-          vpiDefName: foo
-          vpiParamAssign (1 items):
-            ParamAssign start:27:10 end:27:45:
-              vpiParent: ModuleTypespec name:foo
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:bar start:27:11 end:27:14:
-                vpiParent: ParamAssign
-                vpiName: bar
-                vpiFullName: t.foo.bar
-                vpiActual: Parameter name:bar
-              vpiRhs PartSelect name:logic[$bits(qux1)-1:0] start:27:16 end:27:44:
-                vpiParent: ParamAssign
-                vpiName: logic[$bits(qux1)-1:0]
-                vpiFullName: t.foo.logic[$bits(qux1)-1:0]
-                vpiPrefix RefObj name:logic start:27:16 end:27:21:
-                  vpiParent: PartSelect name:logic[$bits(qux1)-1:0]
-                  vpiName: logic
-                  vpiFullName: t.foo.logic[$bits(qux1)-1:0].logic
-                vpiRange Range start:27:24 end:27:43:
-                  vpiParent: PartSelect name:logic[$bits(qux1)-1:0]
-                  vpiLeftRange Operation start:27:24 end:27:39:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      SysFuncCall name:$bits start:27:24 end:27:35:
-                        vpiParent: Operation
-                        vpiName Identifier name:$bits start:27:24 end:27:29:
-                        vpiArgument (1 items):
-                          NamedArgument start:27:30 end:27:34:
-                            vpiParent: SysFuncCall name:$bits
-                            vpiHighConn RefObj name:qux1 start:27:30 end:27:34:
-                              vpiParent: NamedArgument
-                              vpiName: qux1
-                              vpiFullName: t.foo.logic[$bits(qux1)-1:0].qux1
-                              vpiActual: Variable name:qux1
-                      Constant start:27:38 end:27:39:
-                        vpiParent: Operation
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.foo.logic[$bits(qux1)-1:0]
-                          vpiActual: IntTypespec
-                  vpiRightRange Constant start:27:42 end:27:43:
-                    vpiParent: Range
-                    vpiConstType: int (7)
-                    vpiSize: 32
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.foo.logic[$bits(qux1)-1:0]
-                      vpiActual: IntTypespec
-          vpiModule: Module name:foo #(.bar(logic))
+        ModuleTypespec name:foo:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1787,66 +1675,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-        ModuleTypespec name:foo start:33:4 end:33:7:
-          vpiParent: Module name:t
-          vpiName Identifier name:foo start:33:4 end:33:7:
-          vpiDefName: foo
-          vpiParamAssign (1 items):
-            ParamAssign start:33:10 end:33:45:
-              vpiParent: ModuleTypespec name:foo
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:bar start:33:11 end:33:14:
-                vpiParent: ParamAssign
-                vpiName: bar
-                vpiFullName: t.foo.bar
-                vpiActual: Parameter name:bar
-              vpiRhs PartSelect name:logic[$bits(qux2)-1:0] start:33:16 end:33:44:
-                vpiParent: ParamAssign
-                vpiName: logic[$bits(qux2)-1:0]
-                vpiFullName: t.foo.logic[$bits(qux2)-1:0]
-                vpiPrefix RefObj name:logic start:33:16 end:33:21:
-                  vpiParent: PartSelect name:logic[$bits(qux2)-1:0]
-                  vpiName: logic
-                  vpiFullName: t.foo.logic[$bits(qux2)-1:0].logic
-                vpiRange Range start:33:24 end:33:43:
-                  vpiParent: PartSelect name:logic[$bits(qux2)-1:0]
-                  vpiLeftRange Operation start:33:24 end:33:39:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      SysFuncCall name:$bits start:33:24 end:33:35:
-                        vpiParent: Operation
-                        vpiName Identifier name:$bits start:33:24 end:33:29:
-                        vpiArgument (1 items):
-                          NamedArgument start:33:30 end:33:34:
-                            vpiParent: SysFuncCall name:$bits
-                            vpiHighConn RefObj name:qux2 start:33:30 end:33:34:
-                              vpiParent: NamedArgument
-                              vpiName: qux2
-                              vpiFullName: t.foo.logic[$bits(qux2)-1:0].qux2
-                              vpiActual: Variable name:qux2
-                      Constant start:33:38 end:33:39:
-                        vpiParent: Operation
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.foo.logic[$bits(qux2)-1:0]
-                          vpiActual: IntTypespec
-                  vpiRightRange Constant start:33:42 end:33:43:
-                    vpiParent: Range
-                    vpiConstType: int (7)
-                    vpiSize: 32
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.foo.logic[$bits(qux2)-1:0]
-                      vpiActual: IntTypespec
-          vpiModule: Module name:foo #(.bar(logic))
+        ModuleTypespec name:foo:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1877,89 +1706,11 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-        ModuleTypespec name:foo start:39:4 end:39:7:
-          vpiParent: Module name:t
-          vpiName Identifier name:foo start:39:4 end:39:7:
-          vpiDefName: foo
-          vpiParamAssign (1 items):
-            ParamAssign start:39:10 end:39:45:
-              vpiParent: ModuleTypespec name:foo
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:bar start:39:11 end:39:14:
-                vpiParent: ParamAssign
-                vpiName: bar
-                vpiFullName: t.foo.bar
-                vpiActual: Parameter name:bar
-              vpiRhs PartSelect name:logic[$bits(qux3)-1:0] start:39:16 end:39:44:
-                vpiParent: ParamAssign
-                vpiName: logic[$bits(qux3)-1:0]
-                vpiFullName: t.foo.logic[$bits(qux3)-1:0]
-                vpiPrefix RefObj name:logic start:39:16 end:39:21:
-                  vpiParent: PartSelect name:logic[$bits(qux3)-1:0]
-                  vpiName: logic
-                  vpiFullName: t.foo.logic[$bits(qux3)-1:0].logic
-                vpiRange Range start:39:24 end:39:43:
-                  vpiParent: PartSelect name:logic[$bits(qux3)-1:0]
-                  vpiLeftRange Operation start:39:24 end:39:39:
-                    vpiParent: Range
-                    vpiOpType: subtract (11)
-                    vpiOperand (2 items):
-                      SysFuncCall name:$bits start:39:24 end:39:35:
-                        vpiParent: Operation
-                        vpiName Identifier name:$bits start:39:24 end:39:29:
-                        vpiArgument (1 items):
-                          NamedArgument start:39:30 end:39:34:
-                            vpiParent: SysFuncCall name:$bits
-                            vpiHighConn RefObj name:qux3 start:39:30 end:39:34:
-                              vpiParent: NamedArgument
-                              vpiName: qux3
-                              vpiFullName: t.foo.logic[$bits(qux3)-1:0].qux3
-                              vpiActual: Variable name:qux3
-                      Constant start:39:38 end:39:39:
-                        vpiParent: Operation
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.foo.logic[$bits(qux3)-1:0]
-                          vpiActual: IntTypespec
-                  vpiRightRange Constant start:39:42 end:39:43:
-                    vpiParent: Range
-                    vpiConstType: int (7)
-                    vpiSize: 32
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.foo.logic[$bits(qux3)-1:0]
-                      vpiActual: IntTypespec
-          vpiModule: Module name:foo #(.bar(logic))
+        ModuleTypespec name:foo:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:foo_wrapper start:45:4 end:45:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:foo_wrapper start:45:4 end:45:15:
-          vpiDefName: foo_wrapper
-          vpiParamAssign (1 items):
-            ParamAssign start:45:18 end:45:38:
-              vpiParent: ModuleTypespec name:foo_wrapper
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:bar_bits start:45:19 end:45:27:
-                vpiParent: ParamAssign
-                vpiName: bar_bits
-                vpiFullName: t.foo_wrapper.bar_bits
-                vpiActual: Parameter name:bar_bits
-              vpiRhs RefObj name:bar_bits start:45:29 end:45:37:
-                vpiParent: ParamAssign
-                vpiName: bar_bits
-                vpiFullName: t.foo_wrapper.bar_bits
-                vpiActual: Parameter name:bar_bits
-          vpiModule: Module name:foo_wrapper #(.bar_bits(9))
+        ModuleTypespec name:foo_wrapper:
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_type_param.v"
@@ -2799,60 +2550,7 @@ Design name:unnamed:
                 vpiName Identifier name:gen_m start:93:41 end:93:46:
                 vpiFullName: t.gen_m
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo start:102:13 end:102:16:
-                    vpiParent: GenBlock name:gen_m
-                    vpiName Identifier name:foo start:102:13 end:102:16:
-                    vpiDefName: foo
-                    vpiParamAssign (1 items):
-                      ParamAssign start:102:19 end:102:38:
-                        vpiParent: ModuleTypespec name:foo
-                        vpiConnByName: true
-                        vpiOverridden: true
-                        vpiLhs RefObj name:bar start:102:20 end:102:23:
-                          vpiParent: ParamAssign
-                          vpiName: bar
-                          vpiFullName: t.gen_m.foo.bar
-                          vpiActual: Parameter name:bar
-                        vpiRhs PartSelect name:logic[m-1:0] start:102:25 end:102:37:
-                          vpiParent: ParamAssign
-                          vpiName: logic[m-1:0]
-                          vpiFullName: t.gen_m.foo.logic[m-1:0]
-                          vpiPrefix RefObj name:logic start:102:25 end:102:30:
-                            vpiParent: PartSelect name:logic[m-1:0]
-                            vpiName: logic
-                            vpiFullName: t.gen_m.foo.logic[m-1:0].logic
-                          vpiRange Range start:102:31 end:102:36:
-                            vpiParent: PartSelect name:logic[m-1:0]
-                            vpiLeftRange Operation start:102:31 end:102:34:
-                              vpiParent: Range
-                              vpiOpType: subtract (11)
-                              vpiOperand (2 items):
-                                RefObj name:m start:102:31 end:102:32:
-                                  vpiParent: Operation
-                                  vpiName: m
-                                  vpiFullName: t.gen_m.foo.logic[m-1:0].m
-                                  vpiActual: Variable name:m
-                                Constant start:102:33 end:102:34:
-                                  vpiParent: Operation
-                                  vpiConstType: int (7)
-                                  vpiSize: 32
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t.gen_m.foo.logic[m-1:0]
-                                    vpiActual: IntTypespec
-                            vpiRightRange Constant start:102:35 end:102:36:
-                              vpiParent: Range
-                              vpiConstType: int (7)
-                              vpiSize: 32
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t.gen_m.foo.logic[m-1:0]
-                                vpiActual: IntTypespec
-                    vpiModule: Module name:foo #(.bar(logic))
+                  ModuleTypespec name:foo:
                 vpiStmt (2 items):
                   Initial start:94:13 end:100:16:
                     vpiParent: GenBlock name:gen_m
@@ -2952,7 +2650,7 @@ Design name:unnamed:
                           vpiName: bar_size
                           vpiFullName: t.gen_m.foo_inst.bar_size
                           vpiActual: Port name:bar_size
-  vpiTypespec (5 items):
+  vpiTypespec (11 items):
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:6:8 end:6:11:
@@ -2973,6 +2671,314 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:foo start:27:4 end:27:7:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo start:27:4 end:27:7:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:27:10 end:27:45:
+          vpiParent: ModuleTypespec name:foo
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar start:27:11 end:27:14:
+            vpiParent: ParamAssign
+            vpiName: bar
+            vpiFullName: foo.bar
+            vpiActual: Parameter name:bar
+          vpiRhs PartSelect name:logic[$bits(qux1)-1:0] start:27:16 end:27:44:
+            vpiParent: ParamAssign
+            vpiName: logic[$bits(qux1)-1:0]
+            vpiFullName: foo.logic[$bits(qux1)-1:0]
+            vpiPrefix RefObj name:logic start:27:16 end:27:21:
+              vpiParent: PartSelect name:logic[$bits(qux1)-1:0]
+              vpiName: logic
+              vpiFullName: foo.logic[$bits(qux1)-1:0].logic
+            vpiRange Range start:27:24 end:27:43:
+              vpiParent: PartSelect name:logic[$bits(qux1)-1:0]
+              vpiLeftRange Operation start:27:24 end:27:39:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  SysFuncCall name:$bits start:27:24 end:27:35:
+                    vpiParent: Operation
+                    vpiName Identifier name:$bits start:27:24 end:27:29:
+                    vpiArgument (1 items):
+                      NamedArgument start:27:30 end:27:34:
+                        vpiParent: SysFuncCall name:$bits
+                        vpiHighConn RefObj name:qux1 start:27:30 end:27:34:
+                          vpiParent: NamedArgument
+                          vpiName: qux1
+                          vpiFullName: foo.logic[$bits(qux1)-1:0].qux1
+                          vpiActual: Variable name:qux1
+                  Constant start:27:38 end:27:39:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo.logic[$bits(qux1)-1:0]
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:27:42 end:27:43:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.logic[$bits(qux1)-1:0]
+                  vpiActual: IntTypespec
+      vpiModule: Module name:foo #(.bar(logic))
+    ModuleTypespec name:foo start:33:4 end:33:7:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo start:33:4 end:33:7:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:33:10 end:33:45:
+          vpiParent: ModuleTypespec name:foo
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar start:33:11 end:33:14:
+            vpiParent: ParamAssign
+            vpiName: bar
+            vpiFullName: foo.bar
+            vpiActual: Parameter name:bar
+          vpiRhs PartSelect name:logic[$bits(qux2)-1:0] start:33:16 end:33:44:
+            vpiParent: ParamAssign
+            vpiName: logic[$bits(qux2)-1:0]
+            vpiFullName: foo.logic[$bits(qux2)-1:0]
+            vpiPrefix RefObj name:logic start:33:16 end:33:21:
+              vpiParent: PartSelect name:logic[$bits(qux2)-1:0]
+              vpiName: logic
+              vpiFullName: foo.logic[$bits(qux2)-1:0].logic
+            vpiRange Range start:33:24 end:33:43:
+              vpiParent: PartSelect name:logic[$bits(qux2)-1:0]
+              vpiLeftRange Operation start:33:24 end:33:39:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  SysFuncCall name:$bits start:33:24 end:33:35:
+                    vpiParent: Operation
+                    vpiName Identifier name:$bits start:33:24 end:33:29:
+                    vpiArgument (1 items):
+                      NamedArgument start:33:30 end:33:34:
+                        vpiParent: SysFuncCall name:$bits
+                        vpiHighConn RefObj name:qux2 start:33:30 end:33:34:
+                          vpiParent: NamedArgument
+                          vpiName: qux2
+                          vpiFullName: foo.logic[$bits(qux2)-1:0].qux2
+                          vpiActual: Variable name:qux2
+                  Constant start:33:38 end:33:39:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo.logic[$bits(qux2)-1:0]
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:33:42 end:33:43:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.logic[$bits(qux2)-1:0]
+                  vpiActual: IntTypespec
+      vpiModule: Module name:foo #(.bar(logic))
+    ModuleTypespec name:foo start:39:4 end:39:7:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo start:39:4 end:39:7:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:39:10 end:39:45:
+          vpiParent: ModuleTypespec name:foo
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar start:39:11 end:39:14:
+            vpiParent: ParamAssign
+            vpiName: bar
+            vpiFullName: foo.bar
+            vpiActual: Parameter name:bar
+          vpiRhs PartSelect name:logic[$bits(qux3)-1:0] start:39:16 end:39:44:
+            vpiParent: ParamAssign
+            vpiName: logic[$bits(qux3)-1:0]
+            vpiFullName: foo.logic[$bits(qux3)-1:0]
+            vpiPrefix RefObj name:logic start:39:16 end:39:21:
+              vpiParent: PartSelect name:logic[$bits(qux3)-1:0]
+              vpiName: logic
+              vpiFullName: foo.logic[$bits(qux3)-1:0].logic
+            vpiRange Range start:39:24 end:39:43:
+              vpiParent: PartSelect name:logic[$bits(qux3)-1:0]
+              vpiLeftRange Operation start:39:24 end:39:39:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  SysFuncCall name:$bits start:39:24 end:39:35:
+                    vpiParent: Operation
+                    vpiName Identifier name:$bits start:39:24 end:39:29:
+                    vpiArgument (1 items):
+                      NamedArgument start:39:30 end:39:34:
+                        vpiParent: SysFuncCall name:$bits
+                        vpiHighConn RefObj name:qux3 start:39:30 end:39:34:
+                          vpiParent: NamedArgument
+                          vpiName: qux3
+                          vpiFullName: foo.logic[$bits(qux3)-1:0].qux3
+                          vpiActual: Variable name:qux3
+                  Constant start:39:38 end:39:39:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo.logic[$bits(qux3)-1:0]
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:39:42 end:39:43:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.logic[$bits(qux3)-1:0]
+                  vpiActual: IntTypespec
+      vpiModule: Module name:foo #(.bar(logic))
+    ModuleTypespec name:foo start:19:4 end:19:7:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo start:19:4 end:19:7:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:19:10 end:19:36:
+          vpiParent: ModuleTypespec name:foo
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar start:19:11 end:19:14:
+            vpiParent: ParamAssign
+            vpiName: bar
+            vpiFullName: foo.bar
+            vpiActual: Parameter name:bar
+          vpiRhs PartSelect name:logic[bar_bits-1:0] start:19:16 end:19:35:
+            vpiParent: ParamAssign
+            vpiName: logic[bar_bits-1:0]
+            vpiFullName: foo.logic[bar_bits-1:0]
+            vpiPrefix RefObj name:logic start:19:16 end:19:21:
+              vpiParent: PartSelect name:logic[bar_bits-1:0]
+              vpiName: logic
+              vpiFullName: foo.logic[bar_bits-1:0].logic
+            vpiRange Range start:19:22 end:19:34:
+              vpiParent: PartSelect name:logic[bar_bits-1:0]
+              vpiLeftRange Operation start:19:22 end:19:32:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:bar_bits start:19:22 end:19:30:
+                    vpiParent: Operation
+                    vpiName: bar_bits
+                    vpiFullName: foo.logic[bar_bits-1:0].bar_bits
+                    vpiActual: Parameter name:bar_bits
+                  Constant start:19:31 end:19:32:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo.logic[bar_bits-1:0]
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:19:33 end:19:34:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.logic[bar_bits-1:0]
+                  vpiActual: IntTypespec
+      vpiModule: Module name:foo #(.bar(logic))
+    ModuleTypespec name:foo start:102:13 end:102:16:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo start:102:13 end:102:16:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:102:19 end:102:38:
+          vpiParent: ModuleTypespec name:foo
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar start:102:20 end:102:23:
+            vpiParent: ParamAssign
+            vpiName: bar
+            vpiFullName: foo.bar
+            vpiActual: Parameter name:bar
+          vpiRhs PartSelect name:logic[m-1:0] start:102:25 end:102:37:
+            vpiParent: ParamAssign
+            vpiName: logic[m-1:0]
+            vpiFullName: foo.logic[m-1:0]
+            vpiPrefix RefObj name:logic start:102:25 end:102:30:
+              vpiParent: PartSelect name:logic[m-1:0]
+              vpiName: logic
+              vpiFullName: foo.logic[m-1:0].logic
+            vpiRange Range start:102:31 end:102:36:
+              vpiParent: PartSelect name:logic[m-1:0]
+              vpiLeftRange Operation start:102:31 end:102:34:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:m start:102:31 end:102:32:
+                    vpiParent: Operation
+                    vpiName: m
+                    vpiFullName: foo.logic[m-1:0].m
+                    vpiActual: Variable name:m
+                  Constant start:102:33 end:102:34:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo.logic[m-1:0]
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:102:35 end:102:36:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.logic[m-1:0]
+                  vpiActual: IntTypespec
+      vpiModule: Module name:foo #(.bar(logic))
+    ModuleTypespec name:foo_wrapper start:45:4 end:45:15:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo_wrapper start:45:4 end:45:15:
+      vpiDefName: foo_wrapper
+      vpiParamAssign (1 items):
+        ParamAssign start:45:18 end:45:38:
+          vpiParent: ModuleTypespec name:foo_wrapper
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:bar_bits start:45:19 end:45:27:
+            vpiParent: ParamAssign
+            vpiName: bar_bits
+            vpiFullName: foo_wrapper.bar_bits
+            vpiActual: Parameter name:bar_bits
+          vpiRhs RefObj name:bar_bits start:45:29 end:45:37:
+            vpiParent: ParamAssign
+            vpiName: bar_bits
+            vpiFullName: foo_wrapper.bar_bits
+            vpiActual: Parameter name:bar_bits
+      vpiModule: Module name:foo_wrapper #(.bar_bits(9))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

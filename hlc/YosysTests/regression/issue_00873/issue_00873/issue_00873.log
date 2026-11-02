@@ -1990,56 +1990,8 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:template start:17:5 end:17:13:
-          vpiParent: Module name:top
-          vpiName Identifier name:template start:17:5 end:17:13:
-          vpiDefName: template
-          vpiParamAssign (1 items):
-            ParamAssign start:17:16 end:17:27:
-              vpiParent: ModuleTypespec name:template
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:neg_clk start:17:17 end:17:24:
-                vpiParent: ParamAssign
-                vpiName: neg_clk
-                vpiFullName: top.template.neg_clk
-                vpiActual: Parameter name:neg_clk
-              vpiRhs Constant start:17:25 end:17:26:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.template
-                  vpiActual: IntTypespec
-          vpiModule: Module name:template
-        ModuleTypespec name:template start:18:5 end:18:13:
-          vpiParent: Module name:top
-          vpiName Identifier name:template start:18:5 end:18:13:
-          vpiDefName: template
-          vpiParamAssign (1 items):
-            ParamAssign start:18:16 end:18:27:
-              vpiParent: ModuleTypespec name:template
-              vpiConnByName: true
-              vpiOverridden: true
-              vpiLhs RefObj name:neg_clk start:18:17 end:18:24:
-                vpiParent: ParamAssign
-                vpiName: neg_clk
-                vpiFullName: top.template.neg_clk
-                vpiActual: Parameter name:neg_clk
-              vpiRhs Constant start:18:25 end:18:26:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "0"
-                vpiValue: 0
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.template
-                  vpiActual: IntTypespec
-          vpiModule: Module name:template
+        ModuleTypespec name:template:
+        ModuleTypespec name:template:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00873/top.v"
@@ -2247,7 +2199,7 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: top.pos_clk.q[1]
                     vpiActual: IntTypespec
-  vpiTypespec (10 items):
+  vpiTypespec (11 items):
     ModuleTypespec name:assert_dff:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assert_dff start:1:8 end:1:18:
@@ -2290,6 +2242,31 @@ Design name:unnamed:
       vpiName Identifier name:top start:16:8 end:16:11:
       vpiDefName: top
       vpiModule: Module name:top
+    ModuleTypespec name:template start:17:5 end:17:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:template start:17:5 end:17:13:
+      vpiDefName: template
+      vpiParamAssign (1 items):
+        ParamAssign start:17:16 end:17:27:
+          vpiParent: ModuleTypespec name:template
+          vpiConnByName: true
+          vpiOverridden: true
+          vpiLhs RefObj name:neg_clk start:17:17 end:17:24:
+            vpiParent: ParamAssign
+            vpiName: neg_clk
+            vpiFullName: template.neg_clk
+            vpiActual: Parameter name:neg_clk
+          vpiRhs Constant start:17:25 end:17:26:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: template
+              vpiActual: IntTypespec
+      vpiModule: Module name:template
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2313,14 +2290,14 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00873/issue_00873/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.23,
             'error_count': 0,
             'file_count': 2,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 812},
-                      '$Output/lib/work/issue_00873/top.v': {'post_len': 0,
+                      '$Output/lib/work/issue_00873/top.v': {'post_len': 9,
                                                              'pre_len': 358}},
-            'post_len': 0,
+            'post_len': 9,
             'pre_len': 1170,
             'test_name': 'YosysTests/regression/issue_00873/issue_00873'}}
 
@@ -2328,13 +2305,13 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00873/issue_0
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
 | $Output/lib/work/common.v          |      812 |         0 |
-| $Output/lib/work/issue_00873/top.v |      358 |         0 |
+| $Output/lib/work/issue_00873/top.v |      358 |         9 |
 +====================================+==========+===========+
-|                                    |     1170 |         0 |
+|                                    |     1170 |         9 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.23
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2345,7 +2322,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00873/issue_00873/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             355     355       0         0
+Others                             349     349       0         0
 ----------------------------------------------------------------
-                                   355     355       0         0
+                                   349     349       0         0
 ===================== END REDUCTION RESULT =====================

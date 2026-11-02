@@ -217,7 +217,7 @@ Design name:unnamed:
             vpiParent: Typedef name:GlueType
             vpiFullName: mypkg::GlueType
             vpiActual: IntTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         TypedefTypespec name:GlueType start:16:3 end:16:24:
           vpiParent: Package name:mypkg
           vpiName Identifier name:GlueType start:16:15 end:16:23:
@@ -226,6 +226,34 @@ Design name:unnamed:
           vpiParent: Package name:mypkg
           vpiName Identifier name:ModuleType:
           vpiDefName: ModuleType
+          vpiClassDefn: ClassDefn name:ModuleType #(.A())
+        ClassTypespec name:ModuleType #(N + M) start:32:43 end:32:53:
+          vpiParent: Package name:mypkg
+          vpiName Identifier name:ModuleType #(N + M) start:32:43 end:32:53:
+          vpiDefName: ModuleType
+          vpiParamAssign (1 items):
+            ParamAssign start:32:55 end:32:58:
+              vpiParent: ClassTypespec name:ModuleType #(N + M)
+              vpiOverridden: true
+              vpiLhs RefObj name:A start:17:32 end:17:33:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: mypkg::ModuleType #(N + M)::A
+                vpiActual: Parameter name:A
+              vpiRhs Operation start:32:55 end:32:58:
+                vpiParent: ParamAssign
+                vpiOpType: add (24)
+                vpiOperand (2 items):
+                  RefObj name:N start:32:55 end:32:56:
+                    vpiParent: Operation
+                    vpiName: N
+                    vpiFullName: mypkg::ModuleType #(N + M)::N
+                    vpiActual: Parameter name:N
+                  RefObj name:M start:32:57 end:32:58:
+                    vpiParent: Operation
+                    vpiName: M
+                    vpiFullName: mypkg::ModuleType #(N + M)::M
+                    vpiActual: Parameter name:M
           vpiClassDefn: ClassDefn name:ModuleType #(.A())
       vpiDefName: mypkg
       vpiDefNetType: wire (1)
@@ -442,34 +470,7 @@ Design name:unnamed:
         TypeParameter name:GT:
         TypeParameter name:GT2:
         TypeParameter name:HT1:
-        ClassTypespec name:ModuleType #(N + M) start:32:43 end:32:53:
-          vpiParent: ClassDefn name:param_types_as_class_item
-          vpiName Identifier name:ModuleType #(N + M) start:32:43 end:32:53:
-          vpiDefName: ModuleType
-          vpiParamAssign (1 items):
-            ParamAssign start:32:55 end:32:58:
-              vpiParent: ClassTypespec name:ModuleType #(N + M)
-              vpiOverridden: true
-              vpiLhs RefObj name:A start:17:32 end:17:33:
-                vpiParent: ParamAssign
-                vpiName: A
-                vpiFullName: param_types_as_class_item::ModuleType #(N + M)::A
-                vpiActual: Parameter name:A
-              vpiRhs Operation start:32:55 end:32:58:
-                vpiParent: ParamAssign
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  RefObj name:N start:32:55 end:32:56:
-                    vpiParent: Operation
-                    vpiName: N
-                    vpiFullName: param_types_as_class_item::ModuleType #(N + M)::N
-                    vpiActual: Parameter name:N
-                  RefObj name:M start:32:57 end:32:58:
-                    vpiParent: Operation
-                    vpiName: M
-                    vpiFullName: param_types_as_class_item::ModuleType #(N + M)::M
-                    vpiActual: Parameter name:M
-          vpiClassDefn: ClassDefn name:ModuleType #(.A())
+        ClassTypespec name:ModuleType #(N + M):
         TypeParameter name:HT2:
       vpiDefName: param_types_as_class_item
       vpiAutomatic: true
