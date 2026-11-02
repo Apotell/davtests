@@ -196,7 +196,7 @@ TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
   ASSERT_NE(busif, nullptr);
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs());
   ASSERT_NE(fn, nullptr);
-  const hldb::RefObj *const prefix = fn->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const prefix = fn->getNameQualifier<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr) << "'BusIf.capture' should keep its interface_scope as vpiPrefix";
   EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
   EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
@@ -221,7 +221,7 @@ TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
   ASSERT_NE(busif, nullptr);
   const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs());
   ASSERT_NE(t, nullptr);
-  const hldb::RefObj *const prefix = t->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const prefix = t->getNameQualifier<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr) << "'BusIf.drive' should keep its interface_scope as vpiPrefix";
   EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
   EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
