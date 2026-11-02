@@ -41,10 +41,14 @@
 //   - lc_ctrl_state_pkg holds the explicit import prim_util_pkg::get_5
 //     (26.3)
 //   - top's only port is the output variable o (23.2.2.3)
-//   - the continuous assignment targets o; its RHS is the package-scoped
-//     name whose prefix binds to the package lc_ctrl_state_pkg and whose
-//     last element is a call of get_5 (26.3)
+//   - the continuous assignment targets o; its RHS is a call of get_5
+//     named through the package scope lc_ctrl_state_pkg (26.3)
 //   - no fatal or syntax diagnostic
+//
+// Model convention: HLDB holds a package-qualified call 'pkg::f()' as the
+// FuncCall f whose vpiNameQualifier is the name of the package (a RefObj
+// bound to the Package), not as a path whose last element is the call; the
+// test reads the qualifier there.
 //
 // What is NOT checked, and why:
 //   - Whether 'lc_ctrl_state_pkg::get_5' is legal and which function the call
@@ -140,17 +144,14 @@ TEST_F(PkgImportFuncTest, RhsCallsGet5ThroughLcCtrlStatePkg) {
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Variable>("o", m->getVariables()));
-  const hldb::RefObj *const rhs = ca->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr) << "26.3: a package-scoped name";
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const pkg = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
-  ASSERT_NE(pkg, nullptr);
-  EXPECT_EQ(pkg->getActual(), getPkg("lc_ctrl_state_pkg")) << "26.3: the scope is the package";
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "13.4: a function call";
   EXPECT_EQ(call->getName(), "get_5");
   EXPECT_TRUE((call->getArguments() == nullptr) || call->getArguments()->empty()) << "get_5() has no argument";
+  const hldb::RefObj *const pkg = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(pkg, nullptr) << "26.3: the call is named through a package scope";
+  EXPECT_EQ(pkg->getName(), "lc_ctrl_state_pkg");
+  EXPECT_EQ(pkg->getActual(), getPkg("lc_ctrl_state_pkg")) << "26.3: the scope is the package";
 }
 
 TEST_F(PkgImportFuncTest, NoFatalOrSyntaxDiagnostics) {
