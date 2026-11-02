@@ -102,10 +102,9 @@
 //       no Variables (no identifier in it is declared as one) and no ports.
 //   assign data_state_sbox = prim_cipher_pkg::sbox4_64bit(...);
 //     - exactly 1 ContAssign; LHS bound to the implicit Net
-//     - RHS is a FuncCall bound by object identity to the package's
-//       sbox4_64bit (26.3), whose vpiNameQualifier (HLDB-only; 37.42 has no
-//       relation for it) is a RefObj bound to prim_cipher_pkg, with
-//       exactly 2 arguments: RefObj
+//     - RHS is a package-scoped RefObj path: a prefix bound to
+//       prim_cipher_pkg, then a FuncCall bound by object identity to the
+//       package's sbox4_64bit (26.3), with exactly 2 arguments: RefObj
 //       'data_state_xor', which is declared nowhere and so binds to
 //       nothing, and the scoped reference to PRESENT_SBOX4 (again a path
 //       whose last element is bound to that Parameter)
@@ -153,10 +152,10 @@
 //     "PRESENT_SBOX4" versus "prim_cipher_pkg::PRESENT_SBOX4") is a tool
 //     convention; either is accepted, and bindings are checked by object
 //     identity.
-//   - HLC represents a package-scoped reference as a RefObj path (the
-//     package, then the named item or select) rather than a bare RefObj or
-//     PartSelect. That shape is a model convention; the tests follow it and
-//     assert both the package and the item binding.
+//   - HLC represents a package-scoped name as a RefObj path (the package,
+//     then the named item, call or select) rather than a bare FuncCall,
+//     RefObj or PartSelect. That shape is a model convention; the tests
+//     follow it and assert both the package and the item binding.
 //   - Whether the implicit net records a typespec, and which, is a tool
 //     convention; the net's kind, net type and scalar-ness are asserted.
 
@@ -827,16 +826,11 @@ TEST_F(PackageFuncCallTest, TopHasOneContAssignDrivingImplicitNet) {
 TEST_F(PackageFuncCallTest, ContAssignRhsCallsPackageFunction) {
   const hldb::ContAssign *const ca = getContAssign();
   ASSERT_NE(ca, nullptr);
-  // 37.42: a call named through a package is a func call bound to the function; the package is not an object
-  // the call is applied to, so it is not the vpiPrefix but the HLDB-only vpiNameQualifier.
-  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
-  ASSERT_NE(call, nullptr) << "'prim_cipher_pkg::sbox4_64bit(...)' should be a FuncCall";
-  EXPECT_EQ(call->getName(), std::string_view("sbox4_64bit"));
-  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
-  ASSERT_NE(qualifier, nullptr) << "the package should be the call's vpiNameQualifier";
-  EXPECT_EQ(qualifier->getName(), std::string_view("prim_cipher_pkg"));
-  ASSERT_NE(getPkg(), nullptr);
-  EXPECT_EQ(qualifier->getActual<hldb::Package>(), getPkg()) << "26.3: the qualifier names package prim_cipher_pkg";
+  const hldb::Any *item = nullptr;
+  ExpectPackagePath(ca->getRhs(), "prim_cipher_pkg::sbox4_64bit(...)", &item);
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(item);
+  ASSERT_NE(call, nullptr) << "the last path element should be the FuncCall 'sbox4_64bit(...)'";
+  EXPECT_TRUE(isScopedName(call->getName(), "sbox4_64bit")) << "unexpected call name '" << call->getName() << "'";
   ASSERT_NE(getSbox(), nullptr);
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getSbox())
       << "26.3: the scoped call must bind to sbox4_64bit declared in prim_cipher_pkg";
@@ -845,7 +839,6 @@ TEST_F(PackageFuncCallTest, ContAssignRhsCallsPackageFunction) {
 
   ExpectUnboundRef(call->getArguments()->at(0)->getHighConn(), "data_state_xor");
 
-  const hldb::Any *item = nullptr;
   ExpectPackagePath(call->getArguments()->at(1)->getHighConn(), "prim_cipher_pkg::PRESENT_SBOX4", &item);
   const hldb::RefObj *const sboxArg = any_cast<hldb::RefObj>(item);
   ASSERT_NE(sboxArg, nullptr) << "the last path element should be a reference to PRESENT_SBOX4";
