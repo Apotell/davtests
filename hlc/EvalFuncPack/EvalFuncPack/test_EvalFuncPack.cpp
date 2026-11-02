@@ -103,6 +103,8 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <string_view>
+
 namespace hlc {
 
 class EvalFuncPackTest : public Test {
@@ -194,12 +196,15 @@ TEST_F(EvalFuncPackTest, VbitsBodyCallsClog2ViaPackageScopeOperator) {
   ASSERT_NE(trueVal, nullptr);
   EXPECT_EQ(trueVal->getDecompile(), "1");
 
-  const hldb::RefObj *const falseVal = any_cast<hldb::RefObj>(cond->getOperands()->at(2));
-  ASSERT_NE(falseVal, nullptr);
-
-  const hldb::FuncCall *const call = falseVal->getActual<hldb::FuncCall>();
+  // 37.42: a func call bound to the function; the package is its HLDB-only vpiNameQualifier (not a vpiPrefix,
+  // which is only for an object a method is applied to).
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(cond->getOperands()->at(2));
   ASSERT_NE(call, nullptr) << "false-expression 'prim_util_pkg::_clog2(value)' should be a FuncCall";
-  EXPECT_EQ(call->getName(), "_clog2");
+  EXPECT_EQ(call->getName(), std::string_view("_clog2"));
+  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(qualifier, nullptr) << "the package should be the call's vpiNameQualifier";
+  EXPECT_EQ(qualifier->getName(), std::string_view("prim_util_pkg"));
+  EXPECT_EQ(qualifier->getActual<hldb::Package>(), pkg);
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), clog2)
       << "package-scope-qualified call 'prim_util_pkg::_clog2(value)' should resolve back to the '_clog2' "
          "declaration in 'prim_util_pkg'";
@@ -236,11 +241,13 @@ TEST_F(EvalFuncPackTest, InfoPageWCallsVbitsViaPackageScopeOperator) {
   const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("InfoPageW", flashPkg->getParamAssigns());
   ASSERT_NE(pa, nullptr) << "ParamAssign for 'InfoPageW' not found";
 
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::FuncCall *const call = rhs->getActual<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'InfoPageW = prim_util_pkg::vbits(InfosPerBank)' RHS should be a FuncCall";
-  EXPECT_EQ(call->getName(), "vbits");
+  EXPECT_EQ(call->getName(), std::string_view("vbits"));
+  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(qualifier, nullptr) << "the package should be the call's vpiNameQualifier";
+  EXPECT_EQ(qualifier->getName(), std::string_view("prim_util_pkg"));
+  EXPECT_EQ(qualifier->getActual<hldb::Package>(), primPkg);
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), vbits)
       << "package-scope-qualified call 'prim_util_pkg::vbits(...)' should resolve back to 'vbits' in "
          "'prim_util_pkg'";

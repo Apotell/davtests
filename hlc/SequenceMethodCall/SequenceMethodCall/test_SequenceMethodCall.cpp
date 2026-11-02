@@ -35,7 +35,7 @@
 // sequence s1 -- rather than through its exact container shape.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -80,25 +80,19 @@ class SequenceMethodCallTest : public Test {
     return (*op->getOperands())[index];
   }
 
-  // Checks that 'subject' denotes the method 'method' of the sequence declared as 's1':
-  // a reference whose actual is the MethodFuncCall of that name, reached through a
-  // SequenceInst bound to s1.
+  // Checks that 'subject' denotes the method 'method' of the sequence declared as 's1': a
+  // MethodFuncCall of that name whose receiver -- its vpiPrefix, IEEE 1800-2023 Sec 37.42
+  // detail 2 -- is a reference bound to s1.
   void expectMethodOfS1(const hldb::Any *subject, std::string_view method) const {
-    const hldb::RefObj *ref = any_cast<hldb::RefObj>(subject);
-    ASSERT_NE(ref, nullptr) << "the repeated subject must reference '" << method << "'";
-    const hldb::MethodFuncCall *call = ref->getActual<hldb::MethodFuncCall>();
-    ASSERT_NE(call, nullptr) << "'" << method << "' must resolve to a method call";
+    const hldb::MethodFuncCall *call = any_cast<hldb::MethodFuncCall>(subject);
+    ASSERT_NE(call, nullptr) << "the repeated subject must be the method call '" << method << "'";
     EXPECT_EQ(call->getName(), method);
+    EXPECT_TRUE(call->getIsProperty()) << "'s1." << method << "' is written without parentheses";
 
-    const hldb::SequenceInst *receiver = nullptr;
-    if (ref->getPathElems() != nullptr) {
-      for (const hldb::Any *elem : *ref->getPathElems()) {
-        if ((receiver = any_cast<hldb::SequenceInst>(elem)) != nullptr) break;
-      }
-    }
-    ASSERT_NE(receiver, nullptr) << "the method receiver must be the sequence instance 's1'";
-    EXPECT_EQ(receiver->getName(), "s1");
-    EXPECT_EQ(receiver->getSequenceDecl(), findSeq("s1")) << "the receiver must be bound to sequence s1";
+    const hldb::RefObj *receiver = call->getPrefix<hldb::RefObj>();
+    ASSERT_NE(receiver, nullptr) << "the method receiver must be the call's vpiPrefix (Sec 37.42)";
+    EXPECT_EQ(receiver->getName(), std::string_view("s1"));
+    EXPECT_EQ(receiver->getActual<hldb::SequenceDecl>(), findSeq("s1")) << "the receiver must be bound to sequence s1";
   }
 };
 
@@ -106,11 +100,11 @@ TEST_F(SequenceMethodCallTest, ModuleExists) { ASSERT_NE(getModule(), nullptr); 
 
 // Nothing in these sequences may be dropped from the model.
 TEST_F(SequenceMethodCallTest, NoOrphanNodes) {
-  EXPECT_EQ(findError(ErrorDefinition::LINT_GOT_ORPHAN_NODES), nullptr);
+  EXPECT_EQ(findEvent(hlc::EventType::LintGotOrphanNodes), nullptr);
 }
 
 TEST_F(SequenceMethodCallTest, NoWeakNodes) {
-  EXPECT_EQ(findError(ErrorDefinition::LINT_WEAK_REF_NODES), nullptr);
+  EXPECT_EQ(findEvent(hlc::EventType::LintWeakRefNodes), nullptr);
 }
 
 // ----------------------------------------------------------------------------

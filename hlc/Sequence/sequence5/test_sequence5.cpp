@@ -340,7 +340,7 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_NameIsF) {
   ASSERT_NE(op->getMatchItems(), nullptr);
   ASSERT_GE(op->getMatchItems()->size(), 2u);
 
-  const hldb::FuncCall *const fc = any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[1]);
+  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>((*op->getMatchItems())[1]);
   ASSERT_NE(fc, nullptr);
   EXPECT_EQ(fc->getName(), std::string_view("f")) << "ss.16.9.4: subroutine call match item must name function 'f'";
 }
@@ -359,7 +359,7 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_ResolvesToFunction) {
   ASSERT_NE(op->getMatchItems(), nullptr);
   ASSERT_GE(op->getMatchItems()->size(), 2u);
 
-  const hldb::FuncCall *const fc = any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[1]);
+  const hldb::FuncCall *const fc = any_cast<hldb::FuncCall>((*op->getMatchItems())[1]);
   ASSERT_NE(fc, nullptr);
   EXPECT_NE(fc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.9.4: FuncCall for 'f()' in the match item must resolve to "

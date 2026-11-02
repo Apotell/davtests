@@ -74,10 +74,10 @@
 //   assign o = prim_util_pkg::_clog2(15); (10.3, 26.3)
 //     - exactly 1 ContAssign; LHS RefObj 'o' bound to the Variable 'o'
 //       (a variable may be driven by a single continuous assignment, 6.5)
-//     - RHS is a package-scoped RefObj path with exactly 2 elements: a
-//       RefObj 'prim_util_pkg' bound to the Package, then a FuncCall bound,
-//       by object identity, to the package's Function _clog2, with exactly
-//       1 argument, Constant "15"
+//     - RHS is a FuncCall bound, by object identity, to the package's
+//       Function _clog2, with exactly 1 argument, Constant "15"; its
+//       vpiNameQualifier (HLDB-only) is a RefObj 'prim_util_pkg' bound to the
+//       Package (37.42 has no relation for it; vpiPrefix is only for an object)
 //   Diagnostics
 //     - the file is legal: zero fatal, syntax and error diagnostics, and no
 //       CompFailedToBind for '_clog2'
@@ -93,9 +93,6 @@
 //   - The exact spelling HLC gives the call's name ("_clog2" versus the
 //     scoped "prim_util_pkg::_clog2") is a tool convention; either is
 //     accepted, and the binding itself is checked by object identity.
-//   - HLC represents a package-scoped name as a RefObj path (the package,
-//     then the named item) rather than a bare FuncCall. That shape is a
-//     model convention; the test follows it and asserts both bindings.
 //   - This fixture has nothing that must reduce or elaborate, so no check
 //     is gated on Design::getElaborated().
 
@@ -465,18 +462,16 @@ TEST_F(PackageBindTest, TopHasOneContAssignDrivingO) {
 TEST_F(PackageBindTest, ContAssignRhsCallsPackageFunctionWithFifteen) {
   const hldb::ContAssign *const ca = getContAssign();
   ASSERT_NE(ca, nullptr);
-  const hldb::RefObj *const path = ca->getRhs<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'prim_util_pkg::_clog2(15)' should be a package-scoped RefObj path";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u) << "the package, then the call";
-  const hldb::RefObj *const scope = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(scope, nullptr);
-  EXPECT_EQ(scope->getName(), "prim_util_pkg");
+  // 37.42: a call named through a package is a func call bound to the function; the package is not an object
+  // the call is applied to, so it is not the vpiPrefix but the HLDB-only vpiNameQualifier.
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "'prim_util_pkg::_clog2(15)' should be a FuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("_clog2"));
+  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(qualifier, nullptr) << "the package should be the call's vpiNameQualifier";
+  EXPECT_EQ(qualifier->getName(), std::string_view("prim_util_pkg"));
   ASSERT_NE(getPkg(), nullptr);
-  EXPECT_EQ(scope->getActual<hldb::Package>(), getPkg()) << "26.3: the scope prefix names package prim_util_pkg";
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "the last path element should be the FuncCall '_clog2(15)'";
-  EXPECT_TRUE(call->getName() == "_clog2") << "unexpected call name '" << call->getName() << "'";
+  EXPECT_EQ(qualifier->getActual<hldb::Package>(), getPkg()) << "26.3: the qualifier names package prim_util_pkg";
   ASSERT_NE(getClog2(), nullptr);
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getClog2())
       << "26.3: the scoped call must bind to _clog2 declared in prim_util_pkg";
