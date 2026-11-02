@@ -204,17 +204,19 @@ TEST_F(EvalFuncTest, Log2Ratio3CallsLog2_2) {
 TEST_F(EvalFuncTest, Log2Ratio4CallsPackageScopedVbits) {
   const hldb::ParamAssign *const pa = findParamAssign(getTop(), "log2RATIO4");
   ASSERT_NE(pa, nullptr);
-  // 37.42: a func call bound to the function; the package is its HLDB-only vpiNameQualifier (not a vpiPrefix,
-  // which is only for an object a method is applied to).
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
-  ASSERT_NE(call, nullptr) << "'prim_util_pkg::vbits(RATIO)' should be a FuncCall";
-  EXPECT_EQ(call->getName(), std::string_view("vbits"));
-  const hldb::RefObj *const pkgRO = call->getNameQualifier<hldb::RefObj>();
-  ASSERT_NE(pkgRO, nullptr) << "the package should be the call's vpiNameQualifier";
+  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
+  const hldb::RefObj *const pkgRO = any_cast<hldb::RefObj>(rhs->getPathElems()->front());
+  ASSERT_NE(pkgRO, nullptr);
   EXPECT_EQ(pkgRO->getName(), std::string_view("prim_util_pkg"));
   const hldb::Package *const pkg = pkgRO->getActual<hldb::Package>();
   ASSERT_NE(pkg, nullptr);
   EXPECT_EQ(pkg->getName(), std::string_view("prim_util_pkg"));
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
+  ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getName(), std::string_view("vbits"));
   const hldb::Function *const func = call->getTaskFunc<hldb::Function>();
   ASSERT_NE(func, nullptr);
   EXPECT_EQ(func->getName(), std::string_view("vbits"));

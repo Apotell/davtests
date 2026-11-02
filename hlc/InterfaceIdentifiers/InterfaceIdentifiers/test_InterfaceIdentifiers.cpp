@@ -187,20 +187,19 @@ TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
 // are written at compilation-unit level, where there are no ports, so "BusIf"
 // can only name the interface definition; the standard gives this form no
 // meaning. HLC moves such a body into the named interface (as Sec 8.24 does for
-// "ClassName::method") and keeps the scope as the TaskFunc's vpiNameQualifier (an
-// HLDB-only relation), a RefObj bound to the interface. The tests below check that
-// extension.
+// "ClassName::method") and keeps the scope as the TaskFunc's vpiPrefix, a RefObj
+// bound to the interface. The tests below check that extension.
 // ----
 
-TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionNameQualifierIsBusIf) {
+TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
   const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs());
   ASSERT_NE(fn, nullptr);
-  const hldb::RefObj *const qualifier = fn->getNameQualifier<hldb::RefObj>();
-  ASSERT_NE(qualifier, nullptr) << "'BusIf.capture' should keep its interface_scope as vpiNameQualifier";
-  EXPECT_EQ(qualifier->getName(), std::string_view("BusIf"));
-  EXPECT_EQ(qualifier->getActual(), busif) << "the name qualifier should be bound to interface BusIf";
+  const hldb::RefObj *const prefix = fn->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'BusIf.capture' should keep its interface_scope as vpiPrefix";
+  EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
+  EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionBelongToInterface) {
@@ -217,15 +216,15 @@ TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskBelongToInterface) {
       << "Out-of-block task 'BusIf.drive' not found";
 }
 
-TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskNameQualifierIsBusIf) {
+TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
   const hldb::Interface *const busif = hldb::findByDefName<hldb::Interface>("BusIf", m_design->getAllInterfaces());
   ASSERT_NE(busif, nullptr);
   const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs());
   ASSERT_NE(t, nullptr);
-  const hldb::RefObj *const qualifier = t->getNameQualifier<hldb::RefObj>();
-  ASSERT_NE(qualifier, nullptr) << "'BusIf.drive' should keep its interface_scope as vpiNameQualifier";
-  EXPECT_EQ(qualifier->getName(), std::string_view("BusIf"));
-  EXPECT_EQ(qualifier->getActual(), busif) << "the name qualifier should be bound to interface BusIf";
+  const hldb::RefObj *const prefix = t->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'BusIf.drive' should keep its interface_scope as vpiPrefix";
+  EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
+  EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskBelongToInterface) {
