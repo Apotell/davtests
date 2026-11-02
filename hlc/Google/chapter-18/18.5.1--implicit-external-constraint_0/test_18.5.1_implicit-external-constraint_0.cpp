@@ -42,7 +42,7 @@
 //   - The out-of-class-defined constraint is NOT added to the owning
 //     class's own ClassDefn::getConstraints() (confirmed null here) --
 //     it is added to the design-level Design::getConstraints() instead,
-//     with its getPrefix() resolving (via hldb::getReferenced<ClassDefn>())
+//     with its getNameQualifier() resolving (via hldb::getReferenced<ClassDefn>())
 //     back to the owning class "a" -- same shape as the "explicit" form.
 //   - Sec 18.5.4 ("Distribution"): the constraint_expression item is
 //     modeled as an hldb::Distribution node (matching the grammar's
@@ -102,7 +102,7 @@ TEST_F(ImplicitExternalConstraint0Test, OutOfClassConstraintIsRegisteredAtDesign
   ASSERT_NE(c, nullptr) << "'constraint a::c { ... }' should register a Constraint at class level";
 
   const hldb::ClassDefn *const owner = hldb::getReferenced<hldb::ClassDefn>(c->getNameQualifier());
-  ASSERT_NE(owner, nullptr) << "the constraint's prefix should resolve back to its owning class";
+  ASSERT_NE(owner, nullptr) << "the constraint's name qualifier (vpiNameQualifier) should resolve back to its owning class";
   EXPECT_EQ(owner, a);
 }
 

@@ -289,7 +289,8 @@ TEST_F(Sequence22Test, MySeq_Op_Operand0_X_ResolvesToFormalDecl) {
       << "ss.16.8: 'x' in body of my_seq must resolve to SeqFormalDecl 'x'";
 }
 
-TEST_F(Sequence22Test, MySeq_Op_Operand1_IsConstantDelayOne) {
+TEST_F(Sequence22Test, MySeq_Op_Operand2_IsConstantDelayOne) {
+  // sec. 37.54 detail 3: the delay follows both sequences, so it is operands[2].
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "my_seq");
@@ -297,13 +298,14 @@ TEST_F(Sequence22Test, MySeq_Op_Operand1_IsConstantDelayOne) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Constant *const c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
-  ASSERT_NE(c, nullptr) << "operands[1] of '##1' delay must be a Constant";
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const c = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
+  ASSERT_NE(c, nullptr) << "operands[2] of '##1' delay must be a Constant";
   EXPECT_EQ(std::string(c->getDecompile()), "1") << "ss.16.7: '##1' cycle delay constant must decompile to \"1\"";
 }
 
-TEST_F(Sequence22Test, MySeq_Op_Operand1_ConstType_IsInt) {
+TEST_F(Sequence22Test, MySeq_Op_Operand2_ConstType_IsInt) {
+  // sec. 37.54 detail 3: the delay follows both sequences, so it is operands[2].
   // '##1' produces vpiIntConst (7), not vpiIntConst (7).
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
@@ -312,13 +314,14 @@ TEST_F(Sequence22Test, MySeq_Op_Operand1_ConstType_IsInt) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Constant *const c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const c = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiIntConst) << "ss.16.7: '##1' delay constant must be vpiIntConst (7)";
 }
 
-TEST_F(Sequence22Test, MySeq_Op_Operand2_IsRefObjY) {
+TEST_F(Sequence22Test, MySeq_Op_Operand1_IsRefObjY) {
+  // sec. 37.54 detail 3: the rhs sequence comes right after the lhs, so it is operands[1].
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "my_seq");
@@ -326,13 +329,14 @@ TEST_F(Sequence22Test, MySeq_Op_Operand2_IsRefObjY) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
+  ASSERT_GE(op->getOperands()->size(), 2u);
+  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "y") << "ss.16.8: right operand of 'x ##1 y' must reference formal param 'y'";
 }
 
-TEST_F(Sequence22Test, MySeq_Op_Operand2_Y_ResolvesToFormalDecl) {
+TEST_F(Sequence22Test, MySeq_Op_Operand1_Y_ResolvesToFormalDecl) {
+  // sec. 37.54 detail 3: the rhs sequence comes right after the lhs, so it is operands[1].
   // ss.16.8: 'y' in the body must resolve to SeqFormalDecl y.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
@@ -341,8 +345,8 @@ TEST_F(Sequence22Test, MySeq_Op_Operand2_Y_ResolvesToFormalDecl) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
+  ASSERT_GE(op->getOperands()->size(), 2u);
+  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::SeqFormalDecl>(), nullptr)
       << "ss.16.8: 'y' in body of my_seq must resolve to SeqFormalDecl 'y'";

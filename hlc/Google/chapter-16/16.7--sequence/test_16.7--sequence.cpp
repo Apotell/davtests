@@ -84,9 +84,9 @@
 //         }
 //         sequenceExpr: Operation {
 //           opType: vpiCycleDelayOp (71)            // '##1'
-//           operands[0]: RefObj("a")
-//           operands[1]: Constant("1")              // delay amount
-//           operands[2]: RefObj("b")
+//           operands[0]: RefObj("a")                // lhs sequence
+//           operands[1]: RefObj("b")                // rhs sequence
+//           operands[2]: Constant("1")              // delay amount (sec. 37.54 detail 3)
 //         }
 //       }
 //     }
@@ -345,21 +345,21 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_IsCycleDelayOp) {
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_HasThreeOperands) {
-  // '##1' with a delay amount produces 3 operands:
-  // [0] left seq, [1] delay amount (Constant 1), [2] right seq.
+  // sec. 37.54 detail 3: '##1' with a delay amount produces 3 operands:
+  // [0] lhs seq, [1] rhs seq, [2] delay amount (Constant 1).
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u) << "'a ##1 b' must have 3 operands: left seq, delay amount, right seq";
+  EXPECT_EQ(op->getOperands()->size(), 3u) << "'a ##1 b' must have 3 operands: lhs seq, rhs seq, delay amount";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsConstant) {
-  // operands[1] is the cycle delay amount -- integer literal 1 -> Constant.
+  // operands[2] is the cycle delay amount -- integer literal 1 -> Constant.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[2]), nullptr)
       << "'##1' delay amount must be a Constant node";
 }
 
@@ -368,14 +368,14 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_DelayAmount_IsOne) {
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getDecompile()), "1") << "'##1' cycle delay amount must be the constant 1";
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
-  // operands[0] is the left sequence expression: signal 'a'.
+  // operands[0] is the lhs sequence expression: signal 'a'.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -386,12 +386,12 @@ TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_LeftSignal_IsRefObjA) {
 }
 
 TEST_F(NamedSequenceTest, SeqDecl_ClockedSeq_SeqExpr_RightSignal_IsRefObjB) {
-  // operands[2] is the right sequence expression: signal 'b'.
+  // operands[1] is the rhs sequence expression: signal 'b'.
   const auto *op = getSeqExprOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
+  ASSERT_GE(op->getOperands()->size(), 2u);
+  const auto *ref = any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
   ASSERT_NE(ref, nullptr) << "'a ##1 b' right operand must be a RefObj";
   EXPECT_EQ(ref->getName(), "b") << "'a ##1 b' right operand must reference signal 'b'";
 }

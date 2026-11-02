@@ -43,6 +43,7 @@
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/design.h>
+#include <hldb/func_call.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -59,11 +60,20 @@ class ProcessRandstateTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  const hldb::RefObj *findPath(std::string_view name) const {
+  // A call through a class scope, "<class>::<method>(...)", is not applied to an object: it is a
+  // FuncCall named after the bare method (37.42), with the class as its HLDB-only vpiNameQualifier.
+  // Found by method name plus qualifier name.
+  const hldb::FuncCall *findScopedCall(std::string_view text) const {
+    const std::string_view head = text.substr(0, text.find('('));
+    const size_t sep = head.rfind("::");
+    if (sep == std::string_view::npos) return nullptr;
+    const std::string_view scope = head.substr(0, sep);
+    const std::string_view method = head.substr(sep + 2);
     for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
-      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(any);
-      if ((ro == nullptr) || (ro->getName() != name)) continue;
-      if ((ro->getPathElems() != nullptr) && !ro->getPathElems()->empty()) return ro;
+      const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(any);
+      if ((call == nullptr) || (call->getName() != method)) continue;
+      const hldb::Any *const qualifier = call->getNameQualifier();
+      if ((qualifier != nullptr) && (qualifier->getName() == scope)) return call;
     }
     return nullptr;
   }
@@ -87,21 +97,18 @@ class ProcessRandstateTest : public Test {
   }
 
   // The class a resolved call's method is declared in. A method call on an object is
-  // looked up as a call with a receiver; a call through a class scope ("process::self()")
-  // is not applied to an object, so it stays the trailing element of its RefObj path.
-  // Sentinels are returned rather than asserted so a failure reports which stage broke
-  // instead of just "not equal".
+  // looked up as a call with a receiver (vpiPrefix); a call through a class scope
+  // ("process::self()") is not applied to an object, so it is looked up by its
+  // vpiNameQualifier. Sentinels are returned rather than asserted so a failure reports which
+  // stage broke instead of just "not equal".
   std::string_view ownerOfCall(std::string_view name) const {
     const hldb::TFCall *call = nullptr;
     if (name.find("::") == std::string_view::npos) {
       call = findMethodCall(name);
-      if (call == nullptr) return "<no call>";
     } else {
-      const hldb::RefObj *const ro = findPath(name);
-      if (ro == nullptr) return "<no path>";
-      call = any_cast<hldb::TFCall>(ro->getPathElems()->back());
-      if (call == nullptr) return "<trailing element is not a call>";
+      call = findScopedCall(name);
     }
+    if (call == nullptr) return "<no call>";
     if (call->getTaskFunc() == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(call->getTaskFunc()->getParent());

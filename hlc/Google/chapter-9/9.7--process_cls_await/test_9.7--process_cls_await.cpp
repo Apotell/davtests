@@ -516,24 +516,21 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentLhsIsJobOfK) {
 TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsProcessSelfMethodCall) {
   const hldb::Assignment *const assign = getSelfAssignment();
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr) << "'process::self()' should be a RefObj";
-  EXPECT_EQ(rhs->getName(), "process::self()");
-
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u) << "'process' scope prefix, then the 'self' call";
-
-  const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
-  ASSERT_NE(prefix, nullptr) << "the 'process' scope-resolution prefix should be a RefObj";
-  const hldb::ClassDefn *const process = prefix->getActual<hldb::ClassDefn>();
-  ASSERT_NE(process, nullptr) << "'process' should resolve to ClassDefn";
-  EXPECT_EQ(process->getName(), "process");
-
   // 9.7: 'self' is a static method of 'process', called through the class scope (no receiver object), so it is a
-  // FuncCall, not a MethodFuncCall.
-  const hldb::FuncCall *const self = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
-  ASSERT_NE(self, nullptr) << "'self()' should be a FuncCall";
-  EXPECT_EQ(self->getName(), "self");
+  // FuncCall, not a MethodFuncCall (37.42); the class is its HLDB-only vpiNameQualifier, not a vpiPrefix.
+  const hldb::FuncCall *const self = assign->getRhs<hldb::FuncCall>();
+  ASSERT_NE(self, nullptr) << "'process::self()' should be a FuncCall";
+  EXPECT_EQ(self->getName(), std::string_view("self"));
+
+  // A class named in a qualifier is a type (class_scope ::= class_type ::, A.9.3): a RefTypespec.
+  const hldb::RefTypespec *const qualifier = self->getNameQualifier<hldb::RefTypespec>();
+  ASSERT_NE(qualifier, nullptr) << "the 'process' qualifier should be a RefTypespec";
+  EXPECT_EQ(qualifier->getName(), std::string_view("process"));
+  const hldb::ClassTypespec *const ct = qualifier->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const process = ct->getClassDefn();
+  ASSERT_NE(process, nullptr) << "'process' should resolve to ClassDefn";
+  EXPECT_EQ(process->getName(), std::string_view("process"));
   const hldb::Function *const selfMethod = self->getTaskFunc<hldb::Function>();
   ASSERT_NE(selfMethod, nullptr) << "'process::self()' should resolve to a real Function (it returns a handle)";
   EXPECT_EQ(selfMethod->getName(), "self");

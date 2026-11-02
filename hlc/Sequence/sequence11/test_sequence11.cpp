@@ -255,19 +255,19 @@ TEST_F(Sequence11Test, Seq11_Within_Operand0_IsBinaryCycleDelay) {
   EXPECT_EQ(cd->getOpType(), vpiCycleDelayOp) << "ss.16.9.2: 'a ##1 b' must have opType vpiCycleDelayOp (71)";
 }
 
-// ss.16.9.2: 'a ##1 b' with a fixed delay N has three operands: start-expr,
-// Constant delay, end-expr.
+// ss.37.54 detail 3: 'a ##1 b' (vpiCycleDelayOp) with a fixed delay has three
+// operands: lhs sequence, rhs sequence, left range (no right range).
 TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_HasThreeOperands) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getLeftCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  EXPECT_EQ(cd->getOperands()->size(), 3u) << "ss.16.9.2: 'a ##1 b' must produce 3 operands: "
-                                              "start-expr, delay-constant, end-expr";
+  EXPECT_EQ(cd->getOperands()->size(), 3u) << "ss.37.54: 'a ##1 b' must produce 3 operands: "
+                                              "lhs sequence, rhs sequence, delay constant";
 }
 
-// ss.16.9.2: operand[0] of 'a ##1 b' is the start expression 'a'.
+// ss.37.54 detail 3: operand[0] of 'a ##1 b' is the lhs sequence 'a'.
 // It must be a RefObj named "a".
 TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand0_IsRefToA) {
   const hldb::Module *m = getTb(m_design);
@@ -297,9 +297,9 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand0_ResolvesToNet) {
                                                      "Variable name:'a' at compile time";
 }
 
-// ss.16.9.2: operand[1] of 'a ##1 b' is the fixed delay amount.  For a fixed
-// ##N delay it must be a Constant node (not a Range, which is used for ##[m:n]).
-TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_IsConstant) {
+// ss.37.54 detail 3: operand[1] of 'a ##1 b' is the rhs sequence 'b'.
+// It must be a RefObj named "b".
+TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand1_IsRefToB) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getLeftCycleDelayOp(m);
@@ -307,9 +307,39 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_IsConstant) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
-  EXPECT_NE(c, nullptr) << "ss.16.9.2: fixed delay operand of 'a ##1 b' must be a Constant, "
-                           "not a Range (which is used for ##[m:n])";
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
+  ASSERT_NE(op1, nullptr) << "operand[1] of 'a ##1 b' must be a RefObj";
+  EXPECT_EQ(op1->getName(), "b") << "ss.16.9.2: end of 'a ##1 b' must reference signal 'b'";
+}
+
+// ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at compile time.
+TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand1_ResolvesToNet) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Operation *cd = getLeftCycleDelayOp(m);
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getOperands(), nullptr);
+  ASSERT_GE(cd->getOperands()->size(), 2u);
+
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
+  ASSERT_NE(op1, nullptr);
+  EXPECT_NE(op1->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'b' in 'a ##1 b' must resolve to "
+                                                     "Variable name:'b' at compile time";
+}
+
+// ss.37.54 detail 3: operand[2] of 'a ##1 b' is the fixed delay amount (left
+// range). For a fixed ##N delay it is a single Constant; a range ##[m:n] gives
+// its two bounds as two operands instead.
+TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_IsConstant) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Operation *cd = getLeftCycleDelayOp(m);
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getOperands(), nullptr);
+  ASSERT_GE(cd->getOperands()->size(), 3u);
+
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[2]);
+  EXPECT_NE(c, nullptr) << "ss.37.54: fixed delay operand of 'a ##1 b' must be a Constant";
 }
 
 // ss.16.9.2: the fixed delay constant for '##1' must have value "1".
@@ -319,41 +349,11 @@ TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Delay_ValueIsOne) {
   const hldb::Operation *cd = getLeftCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 2u);
+  ASSERT_GE(cd->getOperands()->size(), 3u);
 
-  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[2]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "1") << "ss.16.9.2: delay constant for '##1' must have value \"1\"";
-}
-
-// ss.16.9.2: operand[2] of 'a ##1 b' is the end expression 'b'.
-// It must be a RefObj named "b".
-TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand2_IsRefToB) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *cd = getLeftCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr);
-  ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 3u);
-
-  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*cd->getOperands())[2]);
-  ASSERT_NE(op2, nullptr) << "operand[2] of 'a ##1 b' must be a RefObj";
-  EXPECT_EQ(op2->getName(), "b") << "ss.16.9.2: end of 'a ##1 b' must reference signal 'b'";
-}
-
-// ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at compile time.
-TEST_F(Sequence11Test, Seq11_BinaryCycleDelay_Operand2_ResolvesToNet) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *cd = getLeftCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr);
-  ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 3u);
-
-  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*cd->getOperands())[2]);
-  ASSERT_NE(op2, nullptr);
-  EXPECT_NE(op2->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'b' in 'a ##1 b' must resolve to "
-                                                     "Variable name:'b' at compile time";
 }
 
 // ===========================================================================
@@ -370,19 +370,21 @@ TEST_F(Sequence11Test, Seq11_Within_Operand1_IsUnaryCycleDelay) {
   EXPECT_EQ(cd->getOpType(), vpiUnaryCycleDelayOp) << "ss.16.9.2: '##3 c' must have opType vpiUnaryCycleDelayOp (70)";
 }
 
-// ss.16.9.2: '##3 c' has two operands: the delay constant and the endpoint.
+// ss.37.54 detail 3: '##3 c' (vpiUnaryCycleDelayOp) has two operands: the
+// sequence, then the left range. A fixed delay has no right range.
 TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_HasTwoOperands) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getRightCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  EXPECT_EQ(cd->getOperands()->size(), 2u) << "ss.16.9.2: '##3 c' must produce 2 operands: delay constant and "
-                                              "endpoint expression";
+  EXPECT_EQ(cd->getOperands()->size(), 2u) << "ss.37.54: '##3 c' must produce 2 operands: sequence and "
+                                              "delay constant";
 }
 
-// ss.16.9.2: operand[0] of '##3 c' is the delay amount -- a Constant.
-TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_IsConstant) {
+// ss.37.54 detail 3: operand[0] of '##3 c' is the sequence 'c'.
+// It must be a RefObj named "c".
+TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand0_IsRefToC) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *cd = getRightCycleDelayOp(m);
@@ -390,8 +392,37 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_IsConstant) {
   ASSERT_NE(cd->getOperands(), nullptr);
   ASSERT_GE(cd->getOperands()->size(), 1u);
 
-  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[0]);
-  EXPECT_NE(c, nullptr) << "ss.16.9.2: operand[0] of '##3 c' must be a Constant";
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*cd->getOperands())[0]);
+  ASSERT_NE(op0, nullptr) << "operand[0] of '##3 c' must be a RefObj";
+  EXPECT_EQ(op0->getName(), "c") << "ss.16.9.2: endpoint of '##3 c' must reference signal 'c'";
+}
+
+// ss.16.9.2: RefObj for 'c' must resolve to Variable name:'c' at compile time.
+TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand0_ResolvesToNet) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Operation *cd = getRightCycleDelayOp(m);
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getOperands(), nullptr);
+  ASSERT_GE(cd->getOperands()->size(), 1u);
+
+  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*cd->getOperands())[0]);
+  ASSERT_NE(op0, nullptr);
+  EXPECT_NE(op0->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'c' in '##3 c' must resolve to "
+                                                     "Variable name:'c' at compile time";
+}
+
+// ss.37.54 detail 3: operand[1] of '##3 c' is the delay amount -- a Constant.
+TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_IsConstant) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Operation *cd = getRightCycleDelayOp(m);
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getOperands(), nullptr);
+  ASSERT_GE(cd->getOperands()->size(), 2u);
+
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
+  EXPECT_NE(c, nullptr) << "ss.37.54: operand[1] of '##3 c' must be a Constant";
 }
 
 // ss.16.9.2: the delay constant for '##3' must have value "3".
@@ -401,41 +432,11 @@ TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Delay_ValueIsThree) {
   const hldb::Operation *cd = getRightCycleDelayOp(m);
   ASSERT_NE(cd, nullptr);
   ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 1u);
+  ASSERT_GE(cd->getOperands()->size(), 2u);
 
-  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[0]);
+  const hldb::Constant *c = any_cast<hldb::Constant>((*cd->getOperands())[1]);
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "3") << "ss.16.9.2: delay constant for '##3' must have value \"3\"";
-}
-
-// ss.16.9.2: operand[1] of '##3 c' is the endpoint expression 'c'.
-// It must be a RefObj named "c".
-TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand1_IsRefToC) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *cd = getRightCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr);
-  ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 2u);
-
-  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
-  ASSERT_NE(op1, nullptr) << "operand[1] of '##3 c' must be a RefObj";
-  EXPECT_EQ(op1->getName(), "c") << "ss.16.9.2: endpoint of '##3 c' must reference signal 'c'";
-}
-
-// ss.16.9.2: RefObj for 'c' must resolve to Variable name:'c' at compile time.
-TEST_F(Sequence11Test, Seq11_UnaryCycleDelay_Operand1_ResolvesToNet) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *cd = getRightCycleDelayOp(m);
-  ASSERT_NE(cd, nullptr);
-  ASSERT_NE(cd->getOperands(), nullptr);
-  ASSERT_GE(cd->getOperands()->size(), 2u);
-
-  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*cd->getOperands())[1]);
-  ASSERT_NE(op1, nullptr);
-  EXPECT_NE(op1->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'c' in '##3 c' must resolve to "
-                                                     "Variable name:'c' at compile time";
 }
 
 // ===========================================================================

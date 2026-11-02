@@ -68,9 +68,10 @@
 //   - the initial process' Begin block has exactly 2 statements: the
 //     "super_obj = test_cls::new" assignment and a $display
 //   - "super_obj = test_cls::new": blocking Assignment, lhs RefObj
-//     "super_obj" resolved to the Variable, rhs a RefObj path [class scope
-//     "test_cls", FuncCall "new"] -- a class scope is not a receiver object,
-//     so the call is a FuncCall, not a MethodFuncCall -- taking no
+//     "super_obj" resolved to the Variable, rhs a FuncCall "new" whose
+//     HLDB-only vpiNameQualifier is the class "test_cls" (a RefTypespec) -- a
+//     class scope is not a receiver object, so the call is a FuncCall, not a
+//     MethodFuncCall, and has no vpiPrefix -- taking no
 //     arguments, with its scope and constructor-call now correctly resolving
 //     (see the FIXED COMPILER BUG note below)
 //   - "$display(super_obj.s)": RefObj resolving "s" to super_cls's own
@@ -429,12 +430,9 @@ TEST_F(ClassTypedConstructorTest, AssignmentIsBlockingWithLhsSuperObj) {
 TEST_F(ClassTypedConstructorTest, AssignmentRhsIsNewMethodFuncCallWithNoArguments) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
-  // 'test_cls::' is a class scope, not an object receiver: the call stays in the path as a FuncCall.
-  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
+  // 'test_cls::' is a class scope, not an object receiver: a FuncCall (37.42), with the class as its HLDB-only
+  // vpiNameQualifier rather than a vpiPrefix.
+  const hldb::FuncCall *const newCall = assign->getRhs<hldb::FuncCall>();
   ASSERT_NE(newCall, nullptr) << "'test_cls::new' (class scope, no receiver object) should resolve to a FuncCall";
   EXPECT_EQ(newCall->getName(), std::string_view("new"));
   EXPECT_EQ(newCall->getArguments(), nullptr) << "bare 'new' (no parens) takes no arguments";
@@ -444,27 +442,22 @@ TEST_F(ClassTypedConstructorTest, AssignmentRhsIsNewMethodFuncCallWithNoArgument
 TEST_F(ClassTypedConstructorTest, AssignmentRhsScopeResolvesToTestClsClassDefn) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(rhs->getPathElems()->front());
-  ASSERT_NE(ro, nullptr);
-  EXPECT_EQ(ro->getName(), "test_cls");
-  EXPECT_EQ(ro->getActual(), getTestClsDefn());
-  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
+  const hldb::FuncCall *const newCall = assign->getRhs<hldb::FuncCall>();
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getName(), std::string_view("new"));
+  // A class named in a qualifier is a type (class_scope ::= class_type ::, A.9.3): a RefTypespec.
+  const hldb::RefTypespec *const rt = newCall->getNameQualifier<hldb::RefTypespec>();
+  ASSERT_NE(rt, nullptr) << "the class should be the call's vpiNameQualifier, a RefTypespec";
+  EXPECT_EQ(rt->getName(), std::string_view("test_cls"));
+  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr);
+  EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
 }
 
 TEST_F(ClassTypedConstructorTest, AssignmentRhsNewCallResolvesToTestConstructor) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
-  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
+  const hldb::FuncCall *const newCall = assign->getRhs<hldb::FuncCall>();
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
       << "8.8: 'test_cls::new' must resolve back to test_cls's constructor";

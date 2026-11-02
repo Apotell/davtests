@@ -56,10 +56,10 @@
 //       1 (37.14 detail 9). Following 23.2.2.3, i is an input so it is a
 //       net, and o is an output with the explicit data type logic so it is a
 //       variable; each is its port's low connection
-//     - exactly 1 ContAssign: LHS bound to the variable o; RHS a
-//       package-scoped RefObj path whose prefix is bound to test_package and
-//       whose last element is a call of test_true bound to the package's
-//       Function, with exactly 1 argument, RefObj 'i' bound to the net i
+//     - exactly 1 ContAssign: LHS bound to the variable o; RHS a FuncCall
+//       test_true bound to the package's Function, whose vpiNameQualifier
+//       (HLDB-only; 37.42 has no relation for it) is a RefObj bound to
+//       test_package, with exactly 1 argument, RefObj 'i' bound to the net i
 //   Elaboration (23.3.1)
 //     - top appears in no instantiation, so on an elaborated design it is
 //       the only top-level instance, named "top"
@@ -92,9 +92,6 @@
 //     it an error but names no specific diagnostic and no symbol to key it
 //     on, so the error count is checked.
 //   - The value o carries only exists while simulation runs.
-//   - HLC represents a package-scoped name as a RefObj path (the package,
-//     then the call). That shape is a model convention; the test follows it
-//     and asserts both the package and the call binding.
 //   - How a RefTypespec refers to lc_tx_t: it may resolve to the
 //     TypedefTypespec or to the EnumTypespec it aliases. Both are that type
 //     (6.18), so either is accepted.
@@ -118,6 +115,7 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/function.h>
+#include <hldb/func_call.h>
 #include <hldb/io_decl.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -322,17 +320,15 @@ TEST_F(PackEnumValTest, ContAssignCallsScopedTestTrueWithI) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "o");
   EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Variable>("o", top->getVariables()));
-  const hldb::RefObj *const path = ca->getRhs<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'test_package::test_true(i)' should be a package-scoped RefObj path";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u) << "the package, then the call";
-  const hldb::RefObj *const scope = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(scope, nullptr);
-  EXPECT_EQ(scope->getName(), "test_package");
-  EXPECT_EQ(scope->getActual<hldb::Package>(), getPkg()) << "26.3: the scope prefix names test_package";
-  const hldb::TFCall *const call = any_cast<hldb::TFCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "the last path element is the call 'test_true(i)'";
-  EXPECT_EQ(call->getName(), "test_true");
+  // 37.42: a func call bound to the function; the package is not an object the call is applied to, so it is
+  // not the vpiPrefix but the HLDB-only vpiNameQualifier.
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "'test_package::test_true(i)' should be a FuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("test_true"));
+  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(qualifier, nullptr) << "the package should be the call's vpiNameQualifier";
+  EXPECT_EQ(qualifier->getName(), std::string_view("test_package"));
+  EXPECT_EQ(qualifier->getActual<hldb::Package>(), getPkg()) << "26.3: the qualifier names test_package";
   ASSERT_NE(getTestTrue(), nullptr);
   EXPECT_EQ(call->getTaskFunc(), getTestTrue()) << "26.3: the call binds to the package's test_true";
   ASSERT_NE(call->getArguments(), nullptr);
