@@ -116,6 +116,7 @@
 //     the AST/db built here
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -478,6 +479,14 @@ TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
   const hldb::RefObj *const retVal = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retVal, nullptr);
   EXPECT_EQ(retVal->getName(), "incr_d");
+}
+
+// IEEE 1800-2023 13.4.1: "The function definition shall implicitly declare a variable, internal to the
+// function, with the same name as the function ... It shall also be illegal to declare another object with
+// the same name as the function inside the function scope." 'integer incr_d;' (47:12) does that.
+TEST_F(DoublePresTest, RedeclaringFunctionNameInsideFunctionIsReported) {
+  ASSERT_NE(findEvent(EventType::CompMultiplyDefinedVariable, "incr_d", 46, 10), nullptr)
+      << "13.4.1: 'integer incr_d;' redeclares the implicit return variable of function incr_d";
 }
 
 // ===========================================================================
