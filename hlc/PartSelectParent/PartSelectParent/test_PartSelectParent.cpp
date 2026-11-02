@@ -56,7 +56,7 @@
 //   - Which error identifier is used, and its wording: tool conventions.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -177,20 +177,20 @@ TEST_F(PartSelectParentTest, ContAssignTargetsConcatOfO1To0) {
 }
 
 TEST_F(PartSelectParentTest, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (mixed
 // procedural and continuous writes unreported) in the file header.
 TEST_F(PartSelectParentTest, MixedWritesOfOAreAnError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "6.5: it shall be an error to have a mixture of procedural and continuous "
-                                 "assignments writing to any term in the expansion of the longest static prefix "
-                                 "of a variable";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_errors, 1) << "6.5: it shall be an error to have a mixture of procedural and continuous "
+                                  "assignments writing to any term in the expansion of the longest static prefix "
+                                  "of a variable";
 }
 
 }  // namespace hlc
