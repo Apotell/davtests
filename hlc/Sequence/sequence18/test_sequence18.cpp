@@ -29,18 +29,18 @@
 // ss.16.9.1 rule: 'a[+]' is syntactic sugar for 'a[*1:$]' -- consecutive
 // repetition with lower bound 1 and upper bound '$' (unbounded). The compiler
 // must desugar 'a[+]' to 'a[*1:$]' and store it as vpiConsecutiveRepeatOp
-// (77) with a Range operand whose left bound is 1 and right bound is '$'
-// (vpiUnboundedConst=11). This is distinct from a fixed count like 'a[*3]'
-// which uses a Constant operand, and from 'a[*]' (zero-or-more) which
-// desugars to 'a[*0:$]'.
+// (77). Per ss.37.54 detail 3 its operands are the repeated sequence, the left
+// repeat bound 1, then the right repeat bound '$' (vpiUnboundedConst=11) -- the
+// two bounds are separate operands, not a Range node. This is distinct from a
+// fixed count like 'a[*3]' (one bound operand), and from 'a[*]' (zero-or-more)
+// which desugars to 'a[*0:$]'.
 //
 // Expected HLDB tree for seq_plus body (a[+]):
 //   SequenceDecl("seq_plus")
 //     -> getExpr<Operation>() with getOpType() == vpiConsecutiveRepeatOp (77)
 //          operands[0]: RefObj("a")   -- the repeated boolean expression
-//          operands[1]: Range         -- bounds after desugaring [+] -> [*1:$]
-//                         leftExpr  Constant("1") vpiIntConst(7)
-//                         rightExpr Constant("$") vpiUnboundedConst(11)
+//          operands[1]: Constant("1") vpiIntConst(7)        -- left bound
+//          operands[2]: Constant("$") vpiUnboundedConst(11) -- right bound
 //
 // Compile-stage: 'seq_plus' in assert property(@(posedge clk) seq_plus)
 // resolves correctly to its SequenceDecl and the compile produces zero
@@ -95,11 +95,12 @@ class Sequence18Test : public Test {
     return sd->getExpr<hldb::Operation>();
   }
 
-  static const hldb::Range *getRepeatRange(const hldb::Module *mod) {
+  // ss.37.54 detail 3: operands[1] is the left repeat bound, operands[2] the right one.
+  static const hldb::Constant *getRepeatBound(const hldb::Module *mod, size_t index) {
     const hldb::Operation *op = getConsecRepeatOp(mod);
-    if (!op || !op->getOperands() || op->getOperands()->size() < 2)
+    if (!op || !op->getOperands() || op->getOperands()->size() <= index)
       return nullptr;
-    return any_cast<const hldb::Range *>((*op->getOperands())[1]);
+    return any_cast<const hldb::Constant *>((*op->getOperands())[index]);
   }
 };
 
@@ -210,15 +211,15 @@ TEST_F(Sequence18Test, SeqDecl_seq_plus_ExprIsNotRepeatOp) {
          "non-consecutive '[=]' (vpiRepeatOp=76)";
 }
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Op_HasTwoOperands) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_Op_HasThreeOperands) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getConsecRepeatOp(tb);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "consecutive repeat must have 2 operands: "
-         "the repeated expression and the bounds";
+  EXPECT_EQ(op->getOperands()->size(), 3u)
+      << "ss.37.54: consecutive repeat must have 3 operands: "
+         "the repeated expression, the left bound and the right bound";
 }
 
 // ----
@@ -265,101 +266,49 @@ TEST_F(Sequence18Test, SeqDecl_seq_plus_Op_Operand0_ResolvesToNet) {
 }
 
 // ----
-// operands[1] -- the bounds Range: [1:$] after desugaring a[+] -> a[*1:$]
+// operands[1] -- left repeat bound: Constant("1") after desugaring a[+] -> a[*1:$]
 // ----
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Op_Operand1_IsRange) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_LowerBound_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  EXPECT_NE(getRepeatRange(tb), nullptr)
-      << "ss.16.9.1: 'a[+]' desugars to 'a[*1:$]'; bounds must be a Range "
-         "node, not a Constant";
+  EXPECT_NE(getRepeatBound(tb, 1), nullptr)
+      << "ss.37.54: lower bound of 'a[*1:$]' must be a Constant operand (operands[1])";
 }
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Op_Operand1_IsNotConstant) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_LowerBound_ValueIsOne) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  const hldb::Operation *const op = getConsecRepeatOp(tb);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
-      << "ss.16.9.1: 'a[+]' has two bounds; operand must be a Range, "
-         "not a Constant (Constant is only used for single-count like 'a[->3]')";
-}
-
-// ----
-// Range lower bound -- Constant("1")
-// ----
-
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_HasLeftExpr) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getLeftExpr(), nullptr)
-      << "Range must have a left (lower bound) expression";
-}
-
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_LowerBound_IsConstant) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getLeftExpr<hldb::Constant>(), nullptr)
-      << "lower bound of 'a[*1:$]' must be a Constant node";
-}
-
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_LowerBound_ValueIsOne) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const lo = range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const lo = getRepeatBound(tb, 1);
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(std::string(lo->getDecompile()), "1")
       << "ss.16.9.1: 'a[+]' lower bound must be 1 (one or more)";
 }
 
 // ----
-// Range upper bound -- Constant("$") unbounded
+// operands[2] -- right repeat bound: Constant("$") unbounded
 // ----
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_HasRightExpr) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_UpperBound_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getRightExpr(), nullptr)
-      << "Range must have a right (upper bound) expression";
+  EXPECT_NE(getRepeatBound(tb, 2), nullptr)
+      << "ss.37.54: upper bound of 'a[*1:$]' must be a Constant operand (operands[2])";
 }
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_UpperBound_IsConstant) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_UpperBound_IsUnbounded) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getRightExpr<hldb::Constant>(), nullptr)
-      << "upper bound of 'a[*1:$]' must be a Constant node";
-}
-
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_UpperBound_IsUnbounded) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const hi = range->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const hi = getRepeatBound(tb, 2);
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getConstType(), vpiUnboundedConst)
       << "ss.16.9.1: 'a[+]' upper bound must be '$' (vpiUnboundedConst=11)";
 }
 
-TEST_F(Sequence18Test, SeqDecl_seq_plus_Range_UpperBound_DecompilesAsDollar) {
+TEST_F(Sequence18Test, SeqDecl_seq_plus_UpperBound_DecompilesAsDollar) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
-  const hldb::Range *const range = getRepeatRange(tb);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const hi = range->getRightExpr<hldb::Constant>();
+  const hldb::Constant *const hi = getRepeatBound(tb, 2);
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(std::string(hi->getDecompile()), "$")
       << "ss.16.9.1: 'a[+]' upper bound must decompile to \"$\"";

@@ -26,9 +26,10 @@
 // ss.16.9.1 rules:
 //   'expr[*m:n]' denotes consecutive repetition of expr between m and n
 //   times. The HLDB must represent this as an Operation with opType
-//   vpiConsecutiveRepeatOp (77), two operands: the base expression and a
-//   Range node whose left bound is m and right bound is n. Both bounds are
-//   finite unsigned integer constants (vpiIntConst=7).
+//   vpiConsecutiveRepeatOp (77). Per ss.37.54 detail 3 its operands are the
+//   base expression, the left repeat bound m, then the right repeat bound n
+//   (given because it differs from m) -- three operands, no Range node. Both
+//   bounds are finite integer constants (vpiIntConst=7).
 //
 // Compile-stage: 'seq_range' in 'assert property(...)' resolves correctly
 // to SequenceDecl seq_range.
@@ -160,7 +161,7 @@ TEST_F(Sequence23Test, SeqRange_ExprIsConsecutiveRepeatOp) {
       << "ss.16.9.1: 'a[*2:4]' must use vpiConsecutiveRepeatOp (77)";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_HasTwoOperands) {
+TEST_F(Sequence23Test, SeqRange_Op_HasThreeOperands) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -168,8 +169,8 @@ TEST_F(Sequence23Test, SeqRange_Op_HasTwoOperands) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 2u)
-      << "ss.16.9.1: 'a[*2:4]' must have 2 operands: [RefObj(a), Range(2,4)]";
+  EXPECT_EQ(op->getOperands()->size(), 3u)
+      << "ss.37.54: 'a[*2:4]' must have 3 operands: [RefObj(a), Const(2), Const(4)]";
 }
 
 TEST_F(Sequence23Test, SeqRange_Op_Operand0_IsRefObjA) {
@@ -206,7 +207,7 @@ TEST_F(Sequence23Test, SeqRange_Op_Operand0_ResolvesToNetA) {
       << "ss.16.9.1: 'a' in 'a[*2:4]' must resolve to Variable 'a'";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Operand1_IsRange) {
+TEST_F(Sequence23Test, SeqRange_Op_LowerBound_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -215,13 +216,11 @@ TEST_F(Sequence23Test, SeqRange_Op_Operand1_IsRange) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  EXPECT_NE(range, nullptr)
-      << "ss.16.9.1: operands[1] of 'a[*2:4]' must be a Range(2,4)";
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[1]), nullptr)
+      << "ss.37.54: operands[1] (left repeat bound) of 'a[*2:4]' must be a Constant";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_IsConstant) {
+TEST_F(Sequence23Test, SeqRange_Op_LowerBound_ValueIsTwo) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -230,32 +229,13 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_IsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getLeftExpr<hldb::Constant>(), nullptr)
-      << "ss.16.9.1: lower bound of Range must be a Constant";
-}
-
-TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ValueIsTwo) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
-  ASSERT_NE(seq, nullptr);
-  const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const lb = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(lb, nullptr);
   EXPECT_EQ(std::string(lb->getDecompile()), "2")
       << "ss.16.9.1: lower bound of 'a[*2:4]' must decompile to \"2\"";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ConstType_IsInt) {
+TEST_F(Sequence23Test, SeqRange_Op_LowerBound_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -264,16 +244,13 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ConstType_IsInt) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
+  const hldb::Constant *const lb = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(lb, nullptr);
   EXPECT_EQ(lb->getConstType(), vpiIntConst)
       << "ss.16.9.1: repetition lower bound must be vpiIntConst";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_IsConstant) {
+TEST_F(Sequence23Test, SeqRange_Op_UpperBound_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -281,15 +258,12 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_IsConstant) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getRightExpr<hldb::Constant>(), nullptr)
-      << "ss.16.9.1: upper bound of Range must be a Constant";
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[2]), nullptr)
+      << "ss.37.54: operands[2] (right repeat bound) of 'a[*2:4]' must be a Constant";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ValueIsFour) {
+TEST_F(Sequence23Test, SeqRange_Op_UpperBound_ValueIsFour) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -297,17 +271,14 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ValueIsFour) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const ub = range->getRightExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const ub = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(ub, nullptr);
   EXPECT_EQ(std::string(ub->getDecompile()), "4")
       << "ss.16.9.1: upper bound of 'a[*2:4]' must decompile to \"4\"";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ConstType_IsInt) {
+TEST_F(Sequence23Test, SeqRange_Op_UpperBound_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -315,11 +286,8 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ConstType_IsInt) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const ub = range->getRightExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const ub = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(ub, nullptr);
   EXPECT_EQ(ub->getConstType(), vpiIntConst)
       << "ss.16.9.1: repetition upper bound must be vpiIntConst";
