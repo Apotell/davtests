@@ -98,8 +98,8 @@ class BuiltinClassMethodsTest : public Test {
     const hldb::TaskFunc *const tf = call->getTaskFunc();
     if (tf == nullptr) return "<unresolved>";
 
-    const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
-    return (owner == nullptr) ? "<no owner>" : owner->getName();
+    const hldb::ClassDefn *const owner = tf->getParent<hldb::ClassDefn>();
+    return (owner == nullptr) ? "<no owner>" : owner->getDefName();
   }
 };
 
