@@ -61,8 +61,9 @@ _re_errors_log_line = re.compile(r'^(?P<test_id>\S+): (?P<diag>\[(?:FTL|SNT|ERR|
 
 
 def _is_filtered(test_id: str, filters) -> bool:
-  """regression.py's --filters match: a plain name equals the test id or its last component
-  (case-insensitive), anything else is a regex searched in either. No filters keep every test."""
+  """regression.py's --filters syntax, anchored: a filter must match the whole test id or its last
+  component (case-insensitive), so class_test_2 does not also keep class_test_20..29. No filters
+  keep every test."""
   if not filters:
     return True
   name = test_id.rsplit('/', 1)[-1]
@@ -70,7 +71,7 @@ def _is_filtered(test_id: str, filters) -> bool:
     if isinstance(f, str):
       if f.lower() in (test_id.lower(), name.lower()):
         return True
-    elif f.search(test_id) or f.search(name):
+    elif f.fullmatch(test_id) or f.fullmatch(name):
       return True
   return False
 
@@ -204,7 +205,8 @@ def _main():
                            'Regression_*_PR_<n>.tar.gz of a PR run\'s artifact, or the '
                            'Regression_*_<shard>.tar.gz of every shard of a full hlc run. Several are merged.')
   parser.add_argument('--filters', nargs='+', default=[], type=str,
-                      help='Check only the tests matching these (regression.py --filters syntax, @file allowed).')
+                      help='Check only the tests whose whole id matches one of these (regression.py '
+                           '--filters syntax, @file allowed).')
   parser.add_argument('--events-json', dest='events_json', nargs='+',
                       default=[str(_workspace_dirpath / 'build' / 'share' / library / 'events.json')
                                for library in ('hldb', 'hlc')],
