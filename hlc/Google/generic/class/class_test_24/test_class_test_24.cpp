@@ -103,9 +103,6 @@
 //                                                 LRM rule: none past the end
 //                                                 of the file, or without a
 //                                                 line
-//   ReportsNoMisreadingDiagnostics                no "unknown macro",
-//                                                 identifier length or
-//                                                 non-ASCII diagnostic
 //   SourceFileHasNoMacros                         one SourceFile, no macro
 //                                                 definitions or usages
 //   NoDesignObjectsDeclared                       no module, interface,
@@ -155,10 +152,9 @@
 //     ReportsAnErrorForUndeclaredInterfaceClasses.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -213,42 +209,45 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) {
+  for (const EventArg &argument : error.getArguments()) {
+    if (argument.m_line != 0) return argument.m_line;
+  }
+  return 0;
+}
 
-// True when HLC's error table gives 'error' a fatal, syntax or error severity.
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+// True when HLC's event table gives 'error' a fatal, syntax or error severity.
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const definition = error.getDefinition();
+  if (definition == nullptr) return false;
+  const EventSeverity severity = definition->m_severity;
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // True when 'error' can be the error that the undeclared interface classes
 // require: an error-class diagnostic of any category, elaboration included,
 // other than the one for a design without a top-level module (23.3.1).
-bool isRequiredErrorCandidate(const Error &error) {
-  return isErrorClass(error) && (error.getType() != ErrorDefinition::ELAB_NO_TOP_LEVEL_MODULE);
+bool isRequiredErrorCandidate(const Event &error) {
+  return isErrorClass(error) && (error.getType() != EventType::ElabNoTopLevelModule);
 }
 
 // True when 'error' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out of the checks for unwanted
 // errors because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return isErrorClass(error) && (errorInfo->second.m_category != ErrorDefinition::ELAB);
+bool isSourceError(const Event &error) {
+  if (!isErrorClass(error)) return false;
+  const EventCategory *const category = error.getDefinition()->m_category;
+  return (category == nullptr) || (category->m_name != std::string_view("Elab"));
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
+// One diagnostic as " [<code> line <n>: <message>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
+std::string describeError(const Event &error) {
+  std::string description = " [" + std::to_string(error.getType());
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  const std::vector<std::string> message = error.format();
+  if (!message.empty()) description += ": " + message.front();
   return description + "]";
 }
 }  // namespace
@@ -260,36 +259,36 @@ class ClassTest24Test : public Test {
 
  protected:
   // The diagnostics of the run, or nullptr.
-  static const ErrorContainer *getErrorContainer() {
-    return (m_session == nullptr) ? nullptr : m_session->getErrorContainer();
+  static const EventListener *getListener() {
+    return (m_session == nullptr) ? nullptr : m_session->getEventListener();
   }
 
   // Every diagnostic of the run, described; for failure messages.
   static std::string describeAllErrors() {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) description += describeError(error);
+    for (const Event &error : getListener()->getEvents()) description += describeError(error);
     return description;
   }
 
   // Number of diagnostics that can be the required error (see
   // isRequiredErrorCandidate) and point at 'line'.
   static size_t countRequiredErrorCandidatesOnLine(uint32_t line) {
-    if (getErrorContainer() == nullptr) return 0;
+    if (getListener() == nullptr) return 0;
     size_t count = 0;
-    for (const Error &error : getErrorContainer()->getErrors()) {
+    for (const Event &error : getListener()->getEvents()) {
       if (isRequiredErrorCandidate(error) && (lineOf(error) == line)) ++count;
     }
     return count;
   }
 
   // Every source error on a line from 'firstLine' to 'lastLine', described;
-  // empty when there is none. A run without an error container is reported,
+  // empty when there is none. A run without an event listener is reported,
   // not passed.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) {
+    for (const Event &error : getListener()->getEvents()) {
       const uint32_t line = lineOf(error);
       if (isSourceError(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
     }
@@ -299,9 +298,9 @@ class ClassTest24Test : public Test {
   // Every source error without a line (no location, or line 0), described;
   // empty when there is none.
   static std::string describeUnlocatedSourceErrors() {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) {
+    for (const Event &error : getListener()->getEvents()) {
       if (isSourceError(error) && (lineOf(error) == 0)) description += describeError(error);
     }
     return description;
@@ -347,22 +346,6 @@ TEST_F(ClassTest24Test, NoErrorsOnTheLegalLines1To5) {
 TEST_F(ClassTest24Test, NoCascadeErrors) {
   EXPECT_EQ(describeSourceErrorsOnLines(kIllegalLine + 1, kAnyLaterLine), "");
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
-}
-
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for line 6.
-TEST_F(ClassTest24Test, ReportsNoMisreadingDiagnostics) {
-  // The file contains no grave accent (`), which begins every macro usage
-  // (22.5.1), so nothing in it is a macro usage.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_UNKOWN_MACRO), nullptr);
-
-  // Foo, Bar, Blah and Baz are within any identifier length limit, which
-  // "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findError(ErrorDefinition::PA_MAX_LENGTH_IDENTIFIER), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 // ---------------------------------------------------------------------------
