@@ -48,6 +48,7 @@ from pathlib import Path
 
 import event_coverage as ec
 from event_coverage import _cpp_names, _location
+from utils import build_filters
 
 _this_dirpath = Path(__file__).parent.resolve()
 _workspace_dirpath = _this_dirpath.parent
@@ -59,7 +60,22 @@ _problem_statuses = ('Broken', 'Pending', 'Satisfied (skipped)')
 _re_errors_log_line = re.compile(r'^(?P<test_id>\S+): (?P<diag>\[(?:FTL|SNT|ERR|WRN):.*)$')
 
 
-def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path) -> list[str]:
+def _is_filtered(test_id: str, filters) -> bool:
+  """regression.py's --filters match: a plain name equals the test id or its last component
+  (case-insensitive), anything else is a regex searched in either. No filters keep every test."""
+  if not filters:
+    return True
+  name = test_id.rsplit('/', 1)[-1]
+  for f in filters:
+    if isinstance(f, str):
+      if f.lower() in (test_id.lower(), name.lower()):
+        return True
+    elif f.search(test_id) or f.search(name):
+      return True
+  return False
+
+
+def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path, filters) -> list[str]:
   """Splits a full run's Summary artifact (errors.log + regression.csv, see summarize.py) into
   <out>/<test_id>/<name>.log. regression.csv names every test the run ran; errors.log holds
   only the FTL/SNT/ERR/WRN lines, without their continuation lines."""
@@ -67,7 +83,7 @@ def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path) -> list[str]
   with open(summary_dirpath / 'regression.csv', encoding='utf-8') as strm:
     for line in strm:
       cells = [cell.strip() for cell in line.split('|')]
-      if (len(cells) > 2) and cells[2] and (cells[2] != 'TESTNAME'):
+      if (len(cells) > 2) and cells[2] and (cells[2] != 'TESTNAME') and _is_filtered(cells[2], filters):
         test_ids.append(cells[2])
 
   lines_by_test = defaultdict(list)
@@ -76,7 +92,7 @@ def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path) -> list[str]
       if line.startswith('='):
         break   # The per-test and per-category counts follow the first separator.
       m = _re_errors_log_line.match(line.rstrip('\r\n'))
-      if m:
+      if m and _is_filtered(m.group('test_id'), filters):
         lines_by_test[m.group('test_id')].append(m.group('diag') + '\n')
 
   for test_id in set(test_ids) | set(lines_by_test):
@@ -86,19 +102,19 @@ def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path) -> list[str]
   return sorted(set(test_ids) | set(lines_by_test), key=str.lower)
 
 
-def _collect_logs(source: Path, out_dirpath: Path) -> list[str]:
+def _collect_logs(source: Path, out_dirpath: Path, filters) -> list[str]:
   """Extracts the logs of a regression run into <out>/<test_id>/<name>.log and returns the test
   ids. source is regression.py's output directory (one <test_id>.tar.gz per test), the PR
   artifact's tarball of that directory (<top>/<test_id>.tar.gz), or a full run's Summary
-  artifact directory (errors.log + regression.csv)."""
+  artifact directory (errors.log + regression.csv). Only the tests filters keep are extracted."""
   if source.is_dir() and (source / 'errors.log').is_file() and (source / 'regression.csv').is_file():
-    return _collect_summary_logs(source, out_dirpath)
+    return _collect_summary_logs(source, out_dirpath, filters)
 
   test_ids = []
   if source.is_dir():
     for filepath in sorted(source.rglob('*.tar.gz')):
       test_id = filepath.relative_to(source).as_posix()[:-len('.tar.gz')]
-      if ec._extract_test_tarball(filepath.read_bytes(), test_id, out_dirpath):
+      if _is_filtered(test_id, filters) and ec._extract_test_tarball(filepath.read_bytes(), test_id, out_dirpath):
         test_ids.append(test_id)
   else:
     with tarfile.open(source, mode='r|gz') as archive_strm:
@@ -106,7 +122,7 @@ def _collect_logs(source: Path, out_dirpath: Path) -> list[str]:
         if not member.isfile() or not member.name.endswith('.tar.gz'):
           continue
         parts = member.name[:-len('.tar.gz')].split('/', 1)
-        if len(parts) != 2:
+        if (len(parts) != 2) or not _is_filtered(parts[1], filters):
           continue
         if ec._extract_test_tarball(archive_strm.extractfile(member).read(), parts[1], out_dirpath):
           test_ids.append(parts[1])
@@ -183,8 +199,12 @@ def _write_csv(filepath, tests, reports_by_test, assertions_by_test, unparsed):
 
 def _main():
   parser = argparse.ArgumentParser(description='Match every event a PR\'s regression run logged against its test_*.cpp checks.')
-  parser.add_argument('regression', help='regression.py output directory (<test_id>.tar.gz per test), or the '
-                                         'Regression_*_PR_<n>.tar.gz of a PR run\'s artifact.')
+  parser.add_argument('regression', nargs='+',
+                      help='regression.py output directory (<test_id>.tar.gz per test), the '
+                           'Regression_*_PR_<n>.tar.gz of a PR run\'s artifact, or the '
+                           'Regression_*_<shard>.tar.gz of every shard of a full hlc run. Several are merged.')
+  parser.add_argument('--filters', nargs='+', default=[], type=str,
+                      help='Check only the tests matching these (regression.py --filters syntax, @file allowed).')
   parser.add_argument('--events-json', dest='events_json', nargs='+',
                       default=[str(_workspace_dirpath / 'build' / 'share' / library / 'events.json')
                                for library in ('hldb', 'hlc')],
@@ -208,7 +228,10 @@ def _main():
   log_dirpath = output_dirpath / 'event_check_logs'
   log_dirpath.mkdir(parents=True, exist_ok=True)
 
-  run_test_ids = _collect_logs(Path(args.regression).resolve(), log_dirpath)
+  filters = build_filters(args.filters)
+  run_test_ids = sorted({test_id for source in args.regression
+                         for test_id in _collect_logs(Path(source).resolve(), log_dirpath, filters)},
+                        key=str.lower)
   print(f'Tests in the regression run: {len(run_test_ids)}', flush=True)
 
   codes = ec._load_code_table([Path(filepath).resolve() for filepath in args.events_json])
