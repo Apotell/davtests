@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -50,6 +51,14 @@ TEST_F(AaFirstTest, default) {
   EXPECT_EQ(hldb::findByName<hldb::Variable>("a", module->getVariables()), nullptr)
       << "'a' is an input port -- it must not also appear in vpiVariables";
 }
+
+// "bottom b (a);" names a module that is never defined, so the ordered connection has no
+// formal port to bind to and its port side stays unnamed (LintInvalidName, no location).
+TEST_F(AaFirstTest, ConnectionToUndefinedModuleHasUnnamedPort) {
+  EXPECT_NE(findEvent(EventType::LintInvalidName), nullptr)
+      << "the ordered connection of 'b' to the undefined module 'bottom' has no port";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
