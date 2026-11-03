@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_enum_name3.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_name3
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db -sverilog t_enum_name3.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_name3
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_enum_name3.v".
 [INF:PA5502] Parsing source file "$Source01/t_enum_name3.v".
@@ -35,7 +35,7 @@ n<$Source01/t_enum_name3.v> u<121> t<Top_level_rule> c<1> l<7:1> el<24:1>
                     n<> u<19> t<Type_declaration> p<20> c<17> l<9:4> el<9:37>
                       n<> u<17> t<Data_type> p<19> c<12> s<18> l<9:12> el<9:28>
                         n<> u<12> t<Enum_base_type> p<17> c<11> s<14> l<9:17> el<9:22>
-                          n<logic> u<11> t<SIMPLE_IDENTIFIER> p<12> l<9:17> el<9:22>
+                          n<> u<11> t<LOGIC> p<12> l<9:17> el<9:22>
                         n<> u<14> t<Enum_name_declaration> p<17> c<13> s<16> l<9:24> el<9:25>
                           n<n> u<13> t<SIMPLE_IDENTIFIER> p<14> l<9:24> el<9:25>
                         n<> u<16> t<Enum_name_declaration> p<17> c<15> l<9:26> el<9:27>
@@ -135,10 +135,9 @@ n<$Source01/t_enum_name3.v> u<121> t<Top_level_rule> c<1> l<7:1> el<24:1>
         n<> u<117> t<ENDMODULE> p<118> l<23:1> el<23:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum_name3.v:7:1: Compile module "our".
-[WRN:CP5851] $Source01/t_enum_name3.v:9:17: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_enum_name3.v:18:30: Failed to bind "name".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_name3.v:18:25: Null Actual: id:44, type:SubroutineCall, name:name, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_enum_name3.v:18:25: Null Actual: id:45, type:SubroutineCall, name:name, relation:vpiHighConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -159,6 +158,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: logic
             vpiFullName: our.logic
+            vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:n start:9:24 end:9:25:
               vpiParent: Enum
@@ -216,7 +216,10 @@ Design name:unnamed:
             vpiName: T_PS_Reg
             vpiFullName: our.PS.T_PS_Reg
             vpiActual: TypedefTypespec name:T_PS_Reg
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Module name:our
+          vpiScalar: true
         EnumTypespec start:9:12 end:9:28:
           vpiParent: Module name:our
           vpiEnum: Enum
@@ -331,7 +334,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -375,7 +378,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_name3/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

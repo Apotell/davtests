@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_bitsel_enum.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_bitsel_enum
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db -sverilog t_bitsel_enum.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_bitsel_enum
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_bitsel_enum.v".
 [INF:PA5502] Parsing source file "$Source01/t_bitsel_enum.v".
@@ -73,7 +73,7 @@ n<$Source01/t_bitsel_enum.v> u<158> t<Top_level_rule> c<1> l<6:1> el<28:1>
                     n<> u<71> t<Variable_declaration> p<72> c<67> l<14:4> el<16:33>
                       n<> u<67> t<Data_type> p<71> c<60> s<70> l<14:4> el<16:25>
                         n<> u<60> t<Enum_base_type> p<67> c<49> s<66> l<14:11> el<14:22>
-                          n<logic> u<49> t<SIMPLE_IDENTIFIER> p<60> s<59> l<14:11> el<14:16>
+                          n<> u<49> t<LOGIC> p<60> s<59> l<14:11> el<14:16>
                           n<> u<59> t<Packed_dimension> p<60> c<58> l<14:17> el<14:22>
                             n<> u<58> t<Constant_range> p<59> c<53> l<14:18> el<14:21>
                               n<> u<53> t<Constant_expression> p<58> c<52> s<57> l<14:18> el<14:19>
@@ -174,9 +174,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_bitsel_enum.v:6:1: Compile module "t_bitsel_enum".
 [NTE:CP5810] $Source01/t_bitsel_enum.v:8:11: Implicit port type (wire) for "out0".
 [NTE:CP5810] $Source01/t_bitsel_enum.v:9:11: Implicit port type (wire) for "out1".
-[WRN:CP5851] $Source01/t_bitsel_enum.v:14:11: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7722] $Source01/t_bitsel_enum.v:20:18: Select name does not match pretty-printed expression: id:69, type:BitSelect, name:ENUM_VAL[0], relation:vpiRhs.
+[ERR:LN7722] $Source01/t_bitsel_enum.v:20:18: Select name does not match pretty-printed expression: id:68, type:BitSelect, name:ENUM_VAL[0], relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -197,7 +196,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: logic [6:0]
             vpiFullName: t_bitsel_enum.logic [6:0]
-            vpiActual: ArrayTypespec
+            vpiActual: LogicTypespec
           vpiEnumConst (1 items):
             EnumConst name:ENUM_VAL start:15:24 end:15:40:
               vpiParent: Enum
@@ -211,7 +210,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t_bitsel_enum.ENUM_VAL
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
       vpiVariable (1 items):
         Variable name:MyEnum start:16:26 end:16:32:
           vpiParent: Module name:t_bitsel_enum
@@ -281,36 +280,32 @@ Design name:unnamed:
                   vpiFullName: t_bitsel_enum
                   vpiActual: IntTypespec
           vpiVector: true
-        ArrayTypespec:
+        LogicTypespec:
           vpiParent: Module name:t_bitsel_enum
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:14:17 end:14:22:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:14:18 end:14:19:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "6"
-              vpiValue: 6
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t_bitsel_enum
-                vpiActual: IntTypespec
-            vpiRightRange Constant start:14:20 end:14:21:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t_bitsel_enum
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:logic start:14:11 end:14:22:
-            vpiParent: ArrayTypespec
-            vpiName: logic
-            vpiFullName: t_bitsel_enum.logic
+          vpiRange (1 items):
+            Range start:14:17 end:14:22:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:14:18 end:14:19:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "6"
+                vpiValue: 6
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t_bitsel_enum
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:14:20 end:14:21:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t_bitsel_enum
+                  vpiActual: IntTypespec
+          vpiVector: true
         EnumTypespec start:14:4 end:16:25:
           vpiParent: Module name:t_bitsel_enum
           vpiEnum: Enum
@@ -485,7 +480,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -529,7 +524,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_bitsel_enum/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

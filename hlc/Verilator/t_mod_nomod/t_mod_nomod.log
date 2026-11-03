@@ -4,33 +4,34 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_mod_nomod.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_mod_nomod
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_mod_nomod.v -sverilog -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_mod_nomod
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_mod_nomod.v".
 [INF:PA5502] Parsing source file "$Source01/t_mod_nomod.v".
 AST_DEBUG_BEGIN
-Count: 18
+Count: 20
 LIB: work
 FILE<0>:$Source01/t_mod_nomod.v
-n<$Source01/t_mod_nomod.v> u<17> t<Top_level_rule> c<1> l<8:1> el<11:1>
-  n<> u<1> t<Null_rule> p<17> s<2> l<8:1> el<8:1>
-  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<17> s<3> l<1:1> el<1:47>
-  n<//> u<3> t<LINE_COMMENT> p<17> s<4> l<2:1> el<2:3>
-  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<17> s<5> l<3:1> el<3:65>
-  n<// without warranty, 2019 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<17> s<6> l<4:1> el<4:44>
-  n<//bug 1381> u<6> t<LINE_COMMENT> p<17> s<15> l<6:1> el<6:11>
-  n<> u<15> t<Source_text> p<17> c<14> s<16> l<8:1> el<8:16>
-    n<> u<14> t<Description> p<15> c<13> l<8:1> el<8:16>
-      n<> u<13> t<Package_item> p<14> c<12> l<8:1> el<8:16>
-        n<> u<12> t<Package_or_generate_item_declaration> p<13> c<11> l<8:1> el<8:16>
-          n<> u<11> t<Net_declaration> p<12> c<7> l<8:1> el<8:16>
-            n<logic> u<7> t<SIMPLE_IDENTIFIER> p<11> s<10> l<8:1> el<8:6>
-            n<> u<10> t<Net_decl_assignment_list> p<11> c<9> l<8:7> el<8:15>
-              n<> u<9> t<Net_decl_assignment> p<10> c<8> l<8:7> el<8:15>
-                n<root_var> u<8> t<SIMPLE_IDENTIFIER> p<9> l<8:7> el<8:15>
-  n<// No module statements....> u<16> t<LINE_COMMENT> p<17> l<10:1> el<10:28>
+n<$Source01/t_mod_nomod.v> u<19> t<Top_level_rule> c<1> l<8:1> el<11:1>
+  n<> u<1> t<Null_rule> p<19> s<2> l<8:1> el<8:1>
+  n<// DESCRIPTION: Verilator: Verilog Test module> u<2> t<LINE_COMMENT> p<19> s<3> l<1:1> el<1:47>
+  n<//> u<3> t<LINE_COMMENT> p<19> s<4> l<2:1> el<2:3>
+  n<// This file ONLY is placed into the Public Domain, for any use,> u<4> t<LINE_COMMENT> p<19> s<5> l<3:1> el<3:65>
+  n<// without warranty, 2019 by Wilson Snyder.> u<5> t<LINE_COMMENT> p<19> s<6> l<4:1> el<4:44>
+  n<//bug 1381> u<6> t<LINE_COMMENT> p<19> s<17> l<6:1> el<6:11>
+  n<> u<17> t<Source_text> p<19> c<16> s<18> l<8:1> el<8:16>
+    n<> u<16> t<Description> p<17> c<15> l<8:1> el<8:16>
+      n<> u<15> t<Package_item> p<16> c<14> l<8:1> el<8:16>
+        n<> u<14> t<Package_or_generate_item_declaration> p<15> c<13> l<8:1> el<8:16>
+          n<> u<13> t<Data_declaration> p<14> c<12> l<8:1> el<8:16>
+            n<> u<12> t<Variable_declaration> p<13> c<8> l<8:1> el<8:16>
+              n<> u<8> t<Data_type> p<12> c<7> s<11> l<8:1> el<8:6>
+                n<> u<7> t<LOGIC> p<8> l<8:1> el<8:6>
+              n<> u<11> t<Variable_decl_assignment_list> p<12> c<10> l<8:7> el<8:15>
+                n<> u<10> t<Variable_decl_assignment> p<11> c<9> l<8:7> el<8:15>
+                  n<root_var> u<9> t<SIMPLE_IDENTIFIER> p<10> l<8:7> el<8:15>
+  n<// No module statements....> u<18> t<LINE_COMMENT> p<19> l<10:1> el<10:28>
 AST_DEBUG_END
-[WRN:CP5851] $Source01/t_mod_nomod.v:8:1: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -40,6 +41,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_mod_nomod.v
       vpiPreprocFile: "$Output/lib/work/t_mod_nomod.v"
+  vpiTypespec (1 items):
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+      vpiScalar: true
   vpiVariable (1 items):
     Variable name:root_var start:8:7 end:8:15:
       vpiParent: Design name:unnamed
@@ -47,10 +52,10 @@ Design name:unnamed:
       vpiFullName: root_var
       vpiRandType: (1)
       vpiVisibility: public (1)
-      vpiTypespec RefTypespec name:logic start:8:1 end:8:6:
+      vpiTypespec RefTypespec start:8:1 end:8:6:
         vpiParent: Variable name:root_var
-        vpiName: logic
-        vpiFullName: root_var.logic
+        vpiFullName: root_var
+        vpiActual: LogicTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -59,7 +64,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -103,7 +108,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_nomod/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                               6       6       0         0
+Others                               7       7       0         0
 ----------------------------------------------------------------
-                                     6       6       0         0
+                                     7       7       0         0
 ===================== END REDUCTION RESULT =====================

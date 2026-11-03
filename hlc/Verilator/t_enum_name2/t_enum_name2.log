@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_enum_name2.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_name2
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db -sverilog t_enum_name2.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_name2
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_enum_name2.v".
 [INF:PA5502] Parsing source file "$Source01/t_enum_name2.v".
@@ -29,7 +29,7 @@ n<$Source01/t_enum_name2.v> u<167> t<Top_level_rule> c<1> l<6:1> el<32:1>
               n<> u<52> t<Type_declaration> p<53> c<50> l<7:4> el<12:22>
                 n<> u<50> t<Data_type> p<52> c<25> s<51> l<7:12> el<12:12>
                   n<> u<25> t<Enum_base_type> p<50> c<8> s<31> l<7:17> el<7:30>
-                    n<logic> u<8> t<SIMPLE_IDENTIFIER> p<25> s<24> l<7:17> el<7:22>
+                    n<> u<8> t<LOGIC> p<25> s<24> l<7:17> el<7:22>
                     n<> u<24> t<Packed_dimension> p<25> c<23> l<7:23> el<7:30>
                       n<> u<23> t<Constant_range> p<24> c<18> l<7:24> el<7:29>
                         n<> u<18> t<Constant_expression> p<23> c<12> s<22> l<7:24> el<7:27>
@@ -183,10 +183,9 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/t_enum_name2.v:6:1: Compile package "our_pkg".
 [INF:CP5804] $Source01/t_enum_name2.v:15:1: Compile module "t".
 [INF:CP5804] $Source01/t_enum_name2.v:19:1: Compile module "our".
-[WRN:CP5851] $Source01/t_enum_name2.v:7:17: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_enum_name2.v:26:31: Failed to bind "name".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_name2.v:26:28: Null Actual: id:81, type:SubroutineCall, name:name, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_enum_name2.v:26:28: Null Actual: id:80, type:SubroutineCall, name:name, relation:vpiHighConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -207,7 +206,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: logic [8-1:0]
             vpiFullName: our_pkg::logic [8-1:0]
-            vpiActual: ArrayTypespec
+            vpiActual: LogicTypespec
           vpiEnumConst (4 items):
             EnumConst name:ADC_IN2IN start:8:11 end:8:28:
               vpiParent: Enum
@@ -221,7 +220,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: our_pkg::ADC_IN2IN
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
             EnumConst name:ADC_IMMED start:9:11 end:9:28:
               vpiParent: Enum
               vpiName Identifier name:ADC_IMMED start:9:11 end:9:20:
@@ -234,7 +233,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: our_pkg::ADC_IMMED
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
             EnumConst name:ADC_INDIR start:10:11 end:10:28:
               vpiParent: Enum
               vpiName Identifier name:ADC_INDIR start:10:11 end:10:20:
@@ -247,7 +246,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: our_pkg::ADC_INDIR
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
             EnumConst name:ADC_INIDX start:11:11 end:11:28:
               vpiParent: Enum
               vpiName Identifier name:ADC_INIDX start:11:11 end:11:20:
@@ -260,7 +259,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: our_pkg::ADC_INIDX
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
       vpiTypedef (1 items):
         Typedef name:T_Opcode start:7:4 end:12:22:
           vpiParent: Package name:our_pkg
@@ -270,50 +269,46 @@ Design name:unnamed:
             vpiFullName: our_pkg::T_Opcode
             vpiActual: EnumTypespec
       vpiTypespec (3 items):
-        ArrayTypespec:
+        LogicTypespec:
           vpiParent: Package name:our_pkg
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:7:23 end:7:30:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Operation start:7:24 end:7:27:
-              vpiParent: Range
-              vpiOpType: subtract (11)
-              vpiOperand (2 items):
-                Constant start:7:24 end:7:25:
-                  vpiParent: Operation
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "8"
-                  vpiValue: 8
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: our_pkg
-                    vpiActual: IntTypespec
-                Constant start:7:26 end:7:27:
-                  vpiParent: Operation
-                  vpiConstType: int (7)
-                  vpiSize: 32
-                  vpiDecompile: "1"
-                  vpiValue: 1
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: our_pkg
-                    vpiActual: IntTypespec
-            vpiRightRange Constant start:7:28 end:7:29:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: our_pkg
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:logic start:7:17 end:7:30:
-            vpiParent: ArrayTypespec
-            vpiName: logic
-            vpiFullName: our_pkg::logic
+          vpiRange (1 items):
+            Range start:7:23 end:7:30:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:7:24 end:7:27:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  Constant start:7:24 end:7:25:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "8"
+                    vpiValue: 8
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: our_pkg
+                      vpiActual: IntTypespec
+                  Constant start:7:26 end:7:27:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: our_pkg
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:7:28 end:7:29:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: our_pkg
+                  vpiActual: IntTypespec
+          vpiVector: true
         EnumTypespec start:7:12 end:12:12:
           vpiParent: Package name:our_pkg
           vpiEnum: Enum
@@ -508,7 +503,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -553,9 +548,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10       9       1         2
 Operation                            1       0       0         1
-RefTypespec                         15      14       1         2
+RefTypespec                         14      13       1         2
 ----------------------------------------------------------------
 Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    87      84       2         5
+                                    86      83       2         5
 ===================== END REDUCTION RESULT =====================

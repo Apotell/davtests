@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_package_enum.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_package_enum
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db -sverilog t_package_enum.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_package_enum
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_package_enum.v".
 [INF:PA5502] Parsing source file "$Source01/t_package_enum.v".
@@ -29,7 +29,7 @@ n<$Source01/t_package_enum.v> u<311> t<Top_level_rule> c<1> l<6:1> el<37:1>
               n<> u<34> t<Type_declaration> p<35> c<32> l<7:4> el<11:11>
                 n<> u<32> t<Data_type> p<34> c<19> s<33> l<7:12> el<11:6>
                   n<> u<19> t<Enum_base_type> p<32> c<8> s<25> l<7:17> el<7:26>
-                    n<bit> u<8> t<SIMPLE_IDENTIFIER> p<19> s<18> l<7:17> el<7:20>
+                    n<> u<8> t<BIT> p<19> s<18> l<7:17> el<7:20>
                     n<> u<18> t<Packed_dimension> p<19> c<17> l<7:21> el<7:26>
                       n<> u<17> t<Constant_range> p<18> c<12> l<7:22> el<7:25>
                         n<> u<12> t<Constant_expression> p<17> c<11> s<16> l<7:22> el<7:23>
@@ -103,7 +103,7 @@ n<$Source01/t_package_enum.v> u<311> t<Top_level_rule> c<1> l<6:1> el<37:1>
                     n<> u<97> t<Variable_declaration> p<98> c<93> l<18:4> el<18:37>
                       n<> u<93> t<Data_type> p<97> c<90> s<96> l<18:4> el<18:34>
                         n<> u<90> t<Enum_base_type> p<93> c<79> s<92> l<18:15> el<18:24>
-                          n<bit> u<79> t<SIMPLE_IDENTIFIER> p<90> s<89> l<18:15> el<18:18>
+                          n<> u<79> t<BIT> p<90> s<89> l<18:15> el<18:18>
                           n<> u<89> t<Packed_dimension> p<90> c<88> l<18:19> el<18:24>
                             n<> u<88> t<Constant_range> p<89> c<83> l<18:20> el<18:23>
                               n<> u<83> t<Constant_expression> p<88> c<82> s<87> l<18:20> el<18:21>
@@ -324,8 +324,6 @@ n<$Source01/t_package_enum.v> u<311> t<Top_level_rule> c<1> l<6:1> el<37:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/t_package_enum.v:6:1: Compile package "pkg".
 [INF:CP5804] $Source01/t_package_enum.v:14:1: Compile module "t".
-[WRN:CP5851] $Source01/t_package_enum.v:7:17: Failed to bind "bit".
-[WRN:CP5851] $Source01/t_package_enum.v:18:15: Failed to bind "bit".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -347,7 +345,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: bit [1:0]
             vpiFullName: pkg::bit [1:0]
-            vpiActual: ArrayTypespec
+            vpiActual: BitTypespec
           vpiEnumConst (2 items):
             EnumConst name:E__NOT start:9:5 end:9:21:
               vpiParent: Enum
@@ -361,7 +359,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: pkg::E__NOT
-                  vpiActual: ArrayTypespec
+                  vpiActual: BitTypespec
             EnumConst name:E__VAL start:10:5 end:10:21:
               vpiParent: Enum
               vpiName Identifier name:E__VAL start:10:5 end:10:11:
@@ -374,7 +372,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: pkg::E__VAL
-                  vpiActual: ArrayTypespec
+                  vpiActual: BitTypespec
       vpiTypedef (1 items):
         Typedef name:E_t start:7:4 end:11:11:
           vpiParent: Package name:pkg
@@ -384,36 +382,32 @@ Design name:unnamed:
             vpiFullName: pkg::E_t
             vpiActual: EnumTypespec
       vpiTypespec (3 items):
-        ArrayTypespec:
+        BitTypespec:
           vpiParent: Package name:pkg
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:7:21 end:7:26:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:7:22 end:7:23:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "1"
-              vpiValue: 1
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: pkg
-                vpiActual: IntTypespec
-            vpiRightRange Constant start:7:24 end:7:25:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: pkg
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:bit start:7:17 end:7:26:
-            vpiParent: ArrayTypespec
-            vpiName: bit
-            vpiFullName: pkg::bit
+          vpiRange (1 items):
+            Range start:7:21 end:7:26:
+              vpiParent: BitTypespec
+              vpiLeftRange Constant start:7:22 end:7:23:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: pkg
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:7:24 end:7:25:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: pkg
+                  vpiActual: IntTypespec
+          vpiVector: true
         EnumTypespec start:7:12 end:11:6:
           vpiParent: Package name:pkg
           vpiEnum: Enum
@@ -444,7 +438,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: bit [1:0]
             vpiFullName: t.bit [1:0]
-            vpiActual: ArrayTypespec
+            vpiActual: BitTypespec
           vpiEnumConst (1 items):
             EnumConst name:LOCAL start:18:27 end:18:32:
               vpiParent: Enum
@@ -510,36 +504,32 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ArrayTypespec:
+        BitTypespec:
           vpiParent: Module name:t
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:18:19 end:18:24:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:18:20 end:18:21:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "1"
-              vpiValue: 1
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
-            vpiRightRange Constant start:18:22 end:18:23:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:bit start:18:15 end:18:24:
-            vpiParent: ArrayTypespec
-            vpiName: bit
-            vpiFullName: t.bit
+          vpiRange (1 items):
+            Range start:18:19 end:18:24:
+              vpiParent: BitTypespec
+              vpiLeftRange Constant start:18:20 end:18:21:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:18:22 end:18:23:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+          vpiVector: true
         EnumTypespec start:18:4 end:18:34:
           vpiParent: Module name:t
           vpiEnum: Enum
@@ -813,7 +803,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -857,7 +847,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package_enum/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             118     118       0         0
 ----------------------------------------------------------------
-                                   120     120       0         0
+                                   118     118       0         0
 ===================== END REDUCTION RESULT =====================

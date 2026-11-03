@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db t_enum_public.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_public
+COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d ast -d db -sverilog t_enum_public.v -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Verilator/t_enum_public
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_enum_public.v".
 [INF:PA5502] Parsing source file "$Source01/t_enum_public.v".
@@ -29,7 +29,7 @@ n<$Source01/t_enum_public.v> u<155> t<Top_level_rule> c<1> l<6:1> el<33:1>
               n<> u<35> t<Type_declaration> p<36> c<32> l<7:4> el<9:50>
                 n<> u<32> t<Data_type> p<35> c<19> s<33> l<7:12> el<9:23>
                   n<> u<19> t<Enum_base_type> p<32> c<8> s<25> l<7:17> el<7:28>
-                    n<logic> u<8> t<SIMPLE_IDENTIFIER> p<19> s<18> l<7:17> el<7:22>
+                    n<> u<8> t<LOGIC> p<19> s<18> l<7:17> el<7:22>
                     n<> u<18> t<Packed_dimension> p<19> c<17> l<7:23> el<7:28>
                       n<> u<17> t<Constant_range> p<18> c<12> l<7:24> el<7:27>
                         n<> u<12> t<Constant_expression> p<17> c<11> s<16> l<7:24> el<7:25>
@@ -65,7 +65,7 @@ n<$Source01/t_enum_public.v> u<155> t<Top_level_rule> c<1> l<6:1> el<33:1>
               n<> u<71> t<Type_declaration> p<72> c<68> l<13:4> el<15:52>
                 n<> u<68> t<Data_type> p<71> c<55> s<69> l<13:12> el<15:24>
                   n<> u<55> t<Enum_base_type> p<68> c<44> s<61> l<13:17> el<13:29>
-                    n<logic> u<44> t<SIMPLE_IDENTIFIER> p<55> s<54> l<13:17> el<13:22>
+                    n<> u<44> t<LOGIC> p<55> s<54> l<13:17> el<13:22>
                     n<> u<54> t<Packed_dimension> p<55> c<53> l<13:23> el<13:29>
                       n<> u<53> t<Constant_range> p<54> c<48> l<13:24> el<13:28>
                         n<> u<48> t<Constant_expression> p<53> c<47> s<52> l<13:24> el<13:26>
@@ -171,8 +171,6 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/t_enum_public.v:6:1: Compile package "p3".
 [INF:CP5802] $Source01/t_enum_public.v:12:1: Compile package "p62".
 [INF:CP5804] $Source01/t_enum_public.v:18:1: Compile module "t".
-[WRN:CP5851] $Source01/t_enum_public.v:7:17: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_enum_public.v:13:17: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -194,7 +192,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: logic [2:0]
             vpiFullName: p3::logic [2:0]
-            vpiActual: ArrayTypespec
+            vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:ZERO start:8:11 end:8:22:
               vpiParent: Enum
@@ -208,7 +206,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: p3::ZERO
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
             EnumConst name:ONE start:9:11 end:9:21:
               vpiParent: Enum
               vpiName Identifier name:ONE start:9:11 end:9:14:
@@ -221,7 +219,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: p3::ONE
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
       vpiTypedef (1 items):
         Typedef name:e3_t start:7:4 end:9:50:
           vpiParent: Package name:p3
@@ -231,36 +229,32 @@ Design name:unnamed:
             vpiFullName: p3::e3_t
             vpiActual: EnumTypespec
       vpiTypespec (3 items):
-        ArrayTypespec:
+        LogicTypespec:
           vpiParent: Package name:p3
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:7:23 end:7:28:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:7:24 end:7:25:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "2"
-              vpiValue: 2
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: p3
-                vpiActual: IntTypespec
-            vpiRightRange Constant start:7:26 end:7:27:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: p3
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:logic start:7:17 end:7:28:
-            vpiParent: ArrayTypespec
-            vpiName: logic
-            vpiFullName: p3::logic
+          vpiRange (1 items):
+            Range start:7:23 end:7:28:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:7:24 end:7:25:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "2"
+                vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: p3
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:7:26 end:7:27:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: p3
+                  vpiActual: IntTypespec
+          vpiVector: true
         EnumTypespec start:7:12 end:9:23:
           vpiParent: Package name:p3
           vpiEnum: Enum
@@ -290,7 +284,7 @@ Design name:unnamed:
             vpiParent: Enum
             vpiName: logic [62:0]
             vpiFullName: p62::logic [62:0]
-            vpiActual: ArrayTypespec
+            vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:ZERO start:14:11 end:14:20:
               vpiParent: Enum
@@ -304,7 +298,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: p62::ZERO
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
             EnumConst name:ALLONE start:15:11 end:15:22:
               vpiParent: Enum
               vpiName Identifier name:ALLONE start:15:11 end:15:17:
@@ -317,7 +311,7 @@ Design name:unnamed:
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: p62::ALLONE
-                  vpiActual: ArrayTypespec
+                  vpiActual: LogicTypespec
       vpiTypedef (1 items):
         Typedef name:e62_t start:13:4 end:15:52:
           vpiParent: Package name:p62
@@ -327,36 +321,32 @@ Design name:unnamed:
             vpiFullName: p62::e62_t
             vpiActual: EnumTypespec
       vpiTypespec (4 items):
-        ArrayTypespec:
+        LogicTypespec:
           vpiParent: Package name:p62
-          vpiArrayType: static (1)
-          vpiPacked: true
-          vpiRange Range start:13:23 end:13:29:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:13:24 end:13:26:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "62"
-              vpiValue: 62
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: p62
-                vpiActual: IntTypespec
-            vpiRightRange Constant start:13:27 end:13:28:
-              vpiParent: Range
-              vpiConstType: int (7)
-              vpiSize: 32
-              vpiDecompile: "0"
-              vpiValue: 0
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: p62
-                vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:logic start:13:17 end:13:29:
-            vpiParent: ArrayTypespec
-            vpiName: logic
-            vpiFullName: p62::logic
+          vpiRange (1 items):
+            Range start:13:23 end:13:29:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:13:24 end:13:26:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "62"
+                vpiValue: 62
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: p62
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:13:27 end:13:28:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: p62
+                  vpiActual: IntTypespec
+          vpiVector: true
         BitTypespec:
           vpiParent: Package name:p62
         EnumTypespec start:13:12 end:15:24:
@@ -500,7 +490,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -544,7 +534,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_public/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              90      90       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    90      90       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================
