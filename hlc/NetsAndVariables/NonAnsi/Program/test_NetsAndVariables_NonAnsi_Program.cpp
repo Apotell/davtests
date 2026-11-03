@@ -34,6 +34,7 @@
 //     process (prog_var = a ^ b; y = prog_var;)
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -150,6 +151,13 @@ TEST_F(NonAnsiProgramTest, OneContAssignDrivesProgNet) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "prog_net");
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr);
+}
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(NonAnsiProgramTest, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "nets_and_variables_program", 17, 9), nullptr)
+      << "program nets_and_variables_program (Program.sv:17)";
 }
 
 }  // namespace hlc

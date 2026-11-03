@@ -26,6 +26,7 @@
 //     contain always procedures -- IEEE 1800 clause 24.3)
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -100,6 +101,13 @@ TEST_F(AnsiProgramTest, ProgramHasOneProcess) {
   ASSERT_EQ(prog->getProcesses()->size(), 1u);
   EXPECT_NE(any_cast<hldb::Initial>(prog->getProcesses()->at(0)), nullptr)
       << "'initial' should be modeled as an Initial process";
+}
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(AnsiProgramTest, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "nets_and_variables_program", 17, 9), nullptr)
+      << "program nets_and_variables_program (Program.sv:17)";
 }
 
 }  // namespace hlc

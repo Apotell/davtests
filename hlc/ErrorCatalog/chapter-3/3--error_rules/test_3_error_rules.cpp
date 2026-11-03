@@ -240,6 +240,13 @@ TEST_F(Chapter3ErrorRulesTest, Row13_StepCannotSetTheTimeUnit) {
       << "'step' cannot set the time unit or precision (IEEE 1800-2023 3.14.3)";
 }
 
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(Chapter3ErrorRulesTest, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "r2_prog", 102, 9), nullptr)
+      << "program r2_prog (3--error_rules.sv:102)";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

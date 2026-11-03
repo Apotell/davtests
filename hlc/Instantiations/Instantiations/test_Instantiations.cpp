@@ -19,6 +19,7 @@
 // correctly classify each instantiation and produce the right HLDB objects.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -239,6 +240,13 @@ TEST_F(Instantiations, GenerateBlockInstantiations) {
   }
   EXPECT_TRUE(found_if) << "No InterfaceTypespec RefInstance in generate body";
   EXPECT_TRUE(found_mod) << "No ModuleTypespec RefInstance in generate body";
+}
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(Instantiations, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "my_prog", 65, 9), nullptr)
+      << "program my_prog (dut.sv:65)";
 }
 
 }  // namespace hlc
