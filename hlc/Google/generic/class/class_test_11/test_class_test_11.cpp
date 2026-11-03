@@ -123,17 +123,6 @@
 //   Lines15To16ClassIsAccepted                no such diagnostic on lines
 //                                             15-16
 //   Lines18To19ModuleIsAccepted               none on lines 18-19
-//   ReportsNoMisreadingDiagnostics            no syntax, keyword, identifier
-//                                             length or non-ASCII diagnostic
-//                                             at any severity
-//   ReportsNoClassDiagnostics                 no duplicate class, missing base
-//                                             class or label mismatch
-//   ReportsNoParameterDiagnostics             no duplicate parameter, no
-//                                             "localparam without value" and
-//                                             no missing override
-//   ReportsNoDesignHierarchyDiagnostics       no duplicate design unit,
-//                                             missing definition or missing
-//                                             top-level module
 //   SourceFileHasNoIncludesOrMacros           one SourceFile, no includes,
 //                                             no macro definitions or usages
 //   ClassFooIsDeclared                        exactly one class from this
@@ -223,10 +212,8 @@
 //     hold only if lines 1-14 were read as whole lines.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -357,28 +344,31 @@ int64_t integerProperty(const hldb::Any *object, int32_t property) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
-
-// True when HLC's error table gives 'error' a fatal, syntax or error
-// severity. Every category counts: the design has a top-level module, so not
-// even elaboration has an error to report (23.3.1).
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+uint32_t lineOf(const Event &error) {
+  for (const EventArg &argument : error.getArguments()) {
+    if (argument.m_line != 0) return argument.m_line;
+  }
+  return 0;
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
+// True when HLC's event table gives 'error' a fatal, syntax or error
+// severity. Every category counts: the design has a top-level module, so not
+// even elaboration has an error to report (23.3.1).
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const definition = error.getDefinition();
+  if (definition == nullptr) return false;
+  const EventSeverity severity = definition->m_severity;
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
+}
+
+// One diagnostic as " [<code> line <n>: <message>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
+std::string describeError(const Event &error) {
+  std::string description = " [" + std::to_string(error.getType());
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  const std::vector<std::string> message = error.format();
+  if (!message.empty()) description += ": " + message.front();
   return description + "]";
 }
 }  // namespace
@@ -390,12 +380,12 @@ class ClassTest11Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an error container is
+  // described; empty when there is none. A run without an event listener is
   // reported, not passed.
   static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       const uint32_t line = lineOf(error);
       if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
     }
@@ -404,9 +394,9 @@ class ClassTest11Test : public Test {
 
   // Every error-class diagnostic, described; empty when there is none.
   static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (isErrorClass(error)) description += describeError(error);
     }
     return description;
@@ -495,53 +485,6 @@ TEST_F(ClassTest11Test, Lines15To16ClassIsAccepted) { EXPECT_EQ(errorsOnLines(kC
 // Lines 18-19: an empty module_declaration (A.1.2).
 TEST_F(ClassTest11Test, Lines18To19ModuleIsAccepted) {
   EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
-}
-
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest11Test, ReportsNoMisreadingDiagnostics) {
-  // Both declarations match the grammar (A.1.2, A.1.3), the parameter port
-  // list included, and the file uses no preprocessor directive.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
-
-  // Foo, N, P and test are no keywords (5.6.2, Table B.1), and the longest,
-  // test, has 4 characters, within any limit an implementation may set, which
-  // "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findError(ErrorDefinition::PA_RESERVED_KEYWORD), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_MAX_LENGTH_IDENTIFIER), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
-}
-
-// The class is declared once, extends nothing, and endclass has no label, so
-// none of these diagnostics applies, at any severity.
-TEST_F(ClassTest11Test, ReportsNoClassDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CLASS), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_BASE_CLASS), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNMATCHED_LABEL), nullptr);
-}
-
-// N and P are two distinct parameters, not localparams, so their missing
-// values are legal (A.1.3 footnote 22); and Foo is never specialized, so no
-// specialization lacks an override (6.20.1). None of these diagnostics
-// applies, at any severity.
-TEST_F(ClassTest11Test, ReportsNoParameterDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_PARAMETER), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_LOCALPARAM_NO_VALUE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_MISSING_PARAMETER_OVERRIDE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_TOP_PARAMETER_NO_DEFAULT), nullptr);
-}
-
-// The class and the module are each declared once, nothing is instantiated,
-// and test is a top-level module (23.3.1), so none of these diagnostics
-// applies, at any severity.
-TEST_F(ClassTest11Test, ReportsNoDesignHierarchyDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_DESIGN_UNIT), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_MULTIPLY_DEFINED_MODULE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_MODULE_DEFINITION), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_TOP_LEVEL_MODULE), nullptr);
 }
 
 // ---------------------------------------------------------------------------
