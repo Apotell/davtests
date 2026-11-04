@@ -116,9 +116,24 @@
 // test takes that string to be the literal as written, an LRM interpretation
 // rather than a quoted rule.
 // A module instance (37.10) has vpiName, vpiDefName, vpiDefFile and
-// vpiDefLineNo. HLDB answers vpi_get() and vpi_iterate() through
-// getVpiPropertyValue() and getByVpiType(), so the test asks those questions
-// directly with the LRM's vpiXXX codes. Packages, compilation-unit classes and
+// vpiDefLineNo. HLDB keeps each of these as a typed member of the object, so
+// the test reads them through HLDB's typed getters: getClassDefns() on the
+// package; getName(), getVirtual(), getParameters(), getExtends(),
+// getDerivedClasses() and the member getters on a class defn;
+// getClassTypespecs() and getArguments() on the extends object;
+// getClassDefn() and getParamAssigns() on the class typespec; getLhs() and
+// getRhs() on a param assign; getLocalParam(), getTypespec() and getRanges()
+// on a parameter; getDecompile() and getSize() on a literal; and getDefName(),
+// getDefFile() and getDefLineNo() on the instance. HLDB has no getter for the
+// vpiExpr of a value parameter: it keeps the default expr as the getRhs() of
+// the param assign whose getLhs() refers to the parameter, in the
+// getParamAssigns() of the declaring scope (the class defn, or the Design for
+// the compilation unit), so the test reads it from there. HLDB has no
+// typed getter for a parameter's vpiSize or vpiSigned, so the test reads them
+// from where the LRM puts them: the int typespec of a typed parameter (the
+// type fixes 32 bits, Table 6-8, and getSigned() gives the sign), and the
+// default literal of an untyped one, which takes "the type and range of the
+// final value assigned" (6.20.2). Packages, compilation-unit classes and
 // compilation-unit local parameters are read from the Design's lists.
 //
 // Every expected value comes from the source text and the LRM, so a red test
@@ -191,9 +206,9 @@
 //     and its values are values "at the end of elaboration" (37.28 detail 1).
 //     Nearest assertions: the three FooOverrides... tests (the lexical
 //     overrides).
-//   - Parameter values as returned by vpi_get_value(). This suite reads
-//     defaults through vpiExpr instead. Nearest assertions: the parameter
-//     tests (vpiDecompile of each default expr).
+//   - Parameter values as returned by vpi_get_value(). This suite reads the
+//     default exprs instead. Nearest assertions: the parameter tests
+//     (vpiDecompile of each default expr).
 //   - The sign of x, y and z. 6.20.2 gives them the type of their value but
 //     also calls such a parameter "a logic vector"; only the width is asserted.
 //     Nearest assertions: LocalparamXIs3, LocalparamYIs4 and LocalparamZIs5.
@@ -203,9 +218,10 @@
 //   - The order of vpiParameter and vpiParamAssign iterations. The LRM does
 //     not fix it, so items are looked up by name. Nearest assertions:
 //     ClassBarHasThreeParameters and the three FooOverrides... tests.
-//   - The Design's parameter assignment list. How HLDB records the
-//     assignments of the local parameters is a tool convention. Nearest
-//     assertions: LocalparamXIs3, LocalparamYIs4 and LocalparamZIs5.
+//   - The rest of the Design's parameter assignment list. The test takes only
+//     the default exprs of x, y and z from it; what else HLDB records there is
+//     a tool convention. Nearest assertions: LocalparamXIs3, LocalparamYIs4
+//     and LocalparamZIs5.
 //   - The implicit constructors. "the iteration over vpiMethods shall not
 //     include built-in methods for which there is no explicit declaration"
 //     (37.31 detail 1). Nearest assertions: ClassBarHasNoMembers and
@@ -220,15 +236,15 @@
 //   - The location of the instance itself (vpiFile, vpiLineNo). A top-level
 //     instance has no instantiation statement. Nearest assertion:
 //     TestIsTheOnlyTopLevelInstance (vpiDefFile and vpiDefLineNo).
-//   - The object HLDB returns for a typespec relation: a parameter's typespec
+//   - The object HLDB returns for a typespec relation, a parameter's typespec
 //     (37.28) and the class typespec of Foo's extends object (37.31 detail
-//     6).
-//     The LRM draws these as direct relations to a typespec; HLDB may instead
-//     return an object of its own type that refers to the typespec. That
-//     indirection is an HLDB model convention the LRM does not define, so its
-//     type is not asserted; the test follows it through vpiActual to the
-//     typespec it refers to. Nearest assertion: ClassFooExtendsPackageBar
-//     (vpiClassTypespec on that typespec).
+//     6), and for the vpiLhs of a param assign (37.28 detail 4).
+//     The LRM draws these as direct relations to the typespec or parameter;
+//     HLDB may instead return an object of its own type that refers to it.
+//     That indirection is an HLDB model convention the LRM does not define, so
+//     its type is not asserted; the test follows it through getActual() to the
+//     object it refers to. Nearest assertions: ClassFooExtendsPackageBar (a
+//     class typespec) and the three FooOverrides... tests (Bar's parameter).
 //   - Warnings and informational diagnostics. The LRM neither requires nor
 //     forbids them. Nearest assertions: CompilesWithoutErrors and the five
 //     ReportsNo... tests.
@@ -245,37 +261,35 @@
 
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
+#include <hldb/class_typespec.h>
 #include <hldb/config_decl.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/extends.h>
+#include <hldb/int_typespec.h>
 #include <hldb/interface.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
 #include <hldb/param_assign.h>
+#include <hldb/parameter.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/preproc_macro_instance.h>
 #include <hldb/program.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/source_file.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include <tuple>
-#include <variant>
 #include <vector>
 
 namespace hlc {
 namespace {
 constexpr std::string_view kSourceFileName = "class_test_19.sv";
-
-// vpiVariables, the VPI relation from a scope to its variables (100 in IEEE
-// 1800-2023 Annex K, vpi_user.h). HLDB's vpi_user.h names the same relation
-// vpiVariable.
-constexpr int32_t kVpiVariables = vpiVariable;
 
 // The lines of the declarations.
 constexpr uint32_t kPackageFirstLine = 15;
@@ -285,9 +299,6 @@ constexpr uint32_t kLocalparamLine = 18;
 constexpr uint32_t kFooLine = 20;
 constexpr uint32_t kModuleFirstLine = 22;
 constexpr uint32_t kModuleLastLine = 23;
-
-// The width of int, a "2-state data type, 32-bit signed integer" (Table 6-8).
-constexpr int64_t kIntBits = 32;
 
 // The least width of a parameter whose unsized value gives it "an MSB equal to
 // an implementation-dependent value of at least 31" (6.20.2).
@@ -329,71 +340,49 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The objects 'object' has in the one-to-many VPI relation 'relation', as
-// vpi_iterate() would return them (37.3), or nullptr when there are none.
-const std::vector<const hldb::Any *> *relationObjects(const hldb::Any *object, int32_t relation) {
-  return std::get<2>(object->getByVpiType(relation));
-}
-
-// The object 'object' has in the one-to-one VPI relation 'relation', as
-// vpi_handle() would return it (37.3), or nullptr.
-const hldb::Any *relationObject(const hldb::Any *object, int32_t relation) {
-  return std::get<1>(object->getByVpiType(relation));
-}
-
-// The typespec 'object' has in the VPI relation 'relation', or nullptr. HLDB
-// may return an object of its own type that refers to the typespec through
-// vpiActual; that reference is followed. A typespec itself has no vpiActual
-// relation, so a direct typespec is returned as is.
-const hldb::Any *typespecOf(const hldb::Any *object, int32_t relation) {
-  const hldb::Any *const typespec = relationObject(object, relation);
-  if (typespec == nullptr) return nullptr;
-  const hldb::Any *const referenced = relationObject(typespec, vpiActual);
-  return (referenced != nullptr) ? referenced : typespec;
-}
-
-// Number of objects 'object' has in the VPI relation 'relation'; 0 when the
-// relation is empty.
-size_t relationSize(const hldb::Any *object, int32_t relation) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) return objects->size();
-  return (relationObject(object, relation) != nullptr) ? 1 : 0;
-}
-
-// The object named 'name' in the VPI relation 'relation' of 'object', or
-// nullptr.
-const hldb::Any *findInRelation(const hldb::Any *object, int32_t relation, std::string_view name) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) {
-    for (const hldb::Any *candidate : *objects) {
+// The object named 'name' in 'collection', or nullptr.
+template <typename T>
+const T *findByName(const std::vector<T *> *collection, std::string_view name) {
+  if (collection != nullptr) {
+    for (const T *candidate : *collection) {
       if ((candidate != nullptr) && (candidate->getName() == name)) return candidate;
     }
   }
   return nullptr;
 }
 
-// The string VPI property 'property' of 'object', as vpi_get_str() would
-// return it, or a marker when the property holds no string.
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
+// The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
+// relation through a ref typespec, which is followed with getActual().
+const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
+  return (refTypespec == nullptr) ? nullptr : refTypespec->getActual();
 }
 
-// The integer VPI property 'property' of 'object', as vpi_get() would return
-// it, or vpiUndefined when the property holds no integer.
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
+// The base class typespec of 'extendsObject' (37.31 detail 6), or nullptr.
+const hldb::Typespec *baseTypespecOf(const hldb::Extends *extendsObject) {
+  const hldb::RefTypespecCollection *const typespecs = extendsObject->getClassTypespecs();
+  return ((typespecs == nullptr) || typespecs->empty()) ? nullptr : actualOf(typespecs->front());
 }
 
 // The parameter an expression names: the expression itself when it is the
-// parameter's handle, otherwise the vpiActual of the reference.
-const hldb::Any *boundParameter(const hldb::Any *expression) {
-  if (expression == nullptr) return nullptr;
-  if (expression->getVpiType() == static_cast<uint32_t>(vpiParameter)) return expression;
-  return relationObject(expression, vpiActual);
+// parameter, otherwise the parameter the reference is bound to.
+const hldb::Parameter *boundParameter(const hldb::Any *expression) {
+  if (const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(expression)) return parameter;
+  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(expression);
+  return (reference == nullptr) ? nullptr : any_cast<hldb::Parameter>(reference->getActual());
+}
+
+// The default value of 'parameter' (37.28 detail 3), or nullptr. HLDB keeps it
+// as the getRhs() of the param assign, among 'paramAssigns' of the scope that
+// declares the parameter, whose getLhs() refers to the parameter.
+const hldb::Any *defaultValueOf(const hldb::ParamAssignCollection *paramAssigns, const hldb::Parameter *parameter) {
+  if (paramAssigns != nullptr) {
+    for (const hldb::ParamAssign *paramAssign : *paramAssigns) {
+      if ((paramAssign != nullptr) && (boundParameter(paramAssign->getLhs()) == parameter)) {
+        return paramAssign->getRhs();
+      }
+    }
+  }
+  return nullptr;
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
@@ -474,9 +463,9 @@ class ClassTest19Test : public Test {
   }
 
   // The class Bar of the package Package, or nullptr.
-  static const hldb::Any *findBar() {
+  static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findInRelation(package, vpiClassDefn, "Bar");
+    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
   }
 
   // The compilation-unit class Foo declared in the file under test, or
@@ -498,43 +487,46 @@ class ClassTest19Test : public Test {
 
   // The class typespec Foo's extends object leads to: the base class as written
   // in the source, a lexical construct (37.31 detail 6, 37.32 detail 1).
-  static const hldb::Any *findFooBaseTypespec() {
+  static const hldb::ClassTypespec *findFooBaseTypespec() {
     const hldb::ClassDefn *const foo = findFoo();
-    if (foo == nullptr) return nullptr;
-    const hldb::Any *const extendsObject = relationObject(foo, vpiExtends);
-    return (extendsObject == nullptr) ? nullptr : typespecOf(extendsObject, vpiClassTypespec);
+    const hldb::Extends *const extendsObject = (foo == nullptr) ? nullptr : foo->getExtends();
+    return (extendsObject == nullptr) ? nullptr : any_cast<hldb::ClassTypespec>(baseTypespecOf(extendsObject));
   }
 
   // Checks the parameter 'name' of Bar, declared on line 16 as
   // "int <name>=<defaultText>" in the parameter port list.
   static void expectBarParameter(std::string_view name, std::string_view defaultText) {
-    const hldb::Any *const bar = findBar();
+    const hldb::ClassDefn *const bar = findBar();
     ASSERT_NE(bar, nullptr) << "no class Bar in Package";
-    const hldb::Any *const parameter = findInRelation(bar, vpiParameter, name);
-    ASSERT_NE(parameter, nullptr) << "no parameter " << name << " in Bar";
+    const hldb::Any *const object = findByName(bar->getParameters(), name);
+    ASSERT_NE(object, nullptr) << "no parameter " << name << " in Bar";
 
     // A value parameter of the port list, so not a local parameter (6.20.1,
     // 37.31 detail 7).
-    EXPECT_EQ(parameter->getVpiType(), static_cast<uint32_t>(vpiParameter));
-    EXPECT_EQ(stringProperty(parameter, vpiName), std::string(name));
-    EXPECT_EQ(integerProperty(parameter, vpiLocalParam), 0);
+    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
+    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
+    ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
+    EXPECT_EQ(parameter->getName(), name);
+    EXPECT_FALSE(parameter->getLocalParam());
 
     // Of the type specified, int (6.20.2): a 32-bit signed integer (Table 6-8).
-    const hldb::Any *const typespec = typespecOf(parameter, vpiTypespec);
+    const hldb::Typespec *const typespec = actualOf(parameter->getTypespec());
     ASSERT_NE(typespec, nullptr) << "parameter " << name << " has no typespec";
-    EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiIntTypespec));
-    EXPECT_EQ(integerProperty(parameter, vpiSigned), 1);
-    EXPECT_EQ(integerProperty(parameter, vpiSize), kIntBits);
+    EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
+    const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(typespec);
+    ASSERT_NE(intTypespec, nullptr) << "parameter " << name << " is not an int";
+    EXPECT_TRUE(intTypespec->getSigned());
 
     // The default expr (37.28 detail 3) is a lone literal, so this test takes
     // its vpiDecompile to be the literal as written: an interpretation of
     // 37.59 detail 2, which asks only for "a functionally equivalent
     // expression". There is no range (37.28 detail 5).
-    const hldb::Any *const defaultExpr = relationObject(parameter, vpiExpr);
+    const hldb::Any *const defaultExpr = defaultValueOf(bar->getParamAssigns(), parameter);
     ASSERT_NE(defaultExpr, nullptr) << "parameter " << name << " has no default expr";
-    EXPECT_EQ(stringProperty(defaultExpr, vpiDecompile), std::string(defaultText));
-    EXPECT_EQ(relationSize(parameter, vpiLeftRange), 0u);
-    EXPECT_EQ(relationSize(parameter, vpiRightRange), 0u);
+    const hldb::Constant *const literal = any_cast<hldb::Constant>(defaultExpr);
+    ASSERT_NE(literal, nullptr) << "the default expr of " << name << " is not a literal";
+    EXPECT_EQ(literal->getDecompile(), defaultText);
+    EXPECT_EQ(sizeOf(parameter->getRanges()), 0u);
 
     EXPECT_TRUE(endsWith(parameter->getFile(), kSourceFileName)) << parameter->getFile();
     EXPECT_EQ(parameter->getStartLine(), kBarLine);
@@ -543,24 +535,27 @@ class ClassTest19Test : public Test {
   // Checks the compilation-unit local parameter 'name' of line 18, declared
   // as "<name>=<defaultText>" with neither type nor range.
   static void expectUnitLocalparam(std::string_view name, std::string_view defaultText) {
-    const hldb::Any *const parameter = findUnitParameter(name);
-    ASSERT_NE(parameter, nullptr) << "no local parameter " << name;
+    const hldb::Any *const object = findUnitParameter(name);
+    ASSERT_NE(object, nullptr) << "no local parameter " << name;
 
-    EXPECT_EQ(parameter->getVpiType(), static_cast<uint32_t>(vpiParameter));
-    EXPECT_EQ(stringProperty(parameter, vpiName), std::string(name));
-    EXPECT_EQ(integerProperty(parameter, vpiLocalParam), 1);
+    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
+    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
+    ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
+    EXPECT_EQ(parameter->getName(), name);
+    EXPECT_TRUE(parameter->getLocalParam());
 
     // The default expr (37.28 detail 3) is a lone literal, so this test takes
     // its vpiDecompile to be the literal as written: an interpretation of
     // 37.59 detail 2, which asks only for "a functionally equivalent
-    // expression". The unsized value gives at least 32 bits, and there is no
-    // explicit range (6.20.2, 37.28 detail 5).
-    const hldb::Any *const defaultExpr = relationObject(parameter, vpiExpr);
+    // expression". The parameter takes the range of that unsized value, at
+    // least 32 bits, and there is no explicit range (6.20.2, 37.28 detail 5).
+    const hldb::Any *const defaultExpr = defaultValueOf(m_design->getParamAssigns(), parameter);
     ASSERT_NE(defaultExpr, nullptr) << "local parameter " << name << " has no default expr";
-    EXPECT_EQ(stringProperty(defaultExpr, vpiDecompile), std::string(defaultText));
-    EXPECT_GE(integerProperty(parameter, vpiSize), kUnsizedParameterMinBits);
-    EXPECT_EQ(relationSize(parameter, vpiLeftRange), 0u);
-    EXPECT_EQ(relationSize(parameter, vpiRightRange), 0u);
+    const hldb::Constant *const literal = any_cast<hldb::Constant>(defaultExpr);
+    ASSERT_NE(literal, nullptr) << "the default expr of " << name << " is not a literal";
+    EXPECT_EQ(literal->getDecompile(), defaultText);
+    EXPECT_GE(literal->getSize(), kUnsizedParameterMinBits);
+    EXPECT_EQ(sizeOf(parameter->getRanges()), 0u);
 
     EXPECT_TRUE(endsWith(parameter->getFile(), kSourceFileName)) << parameter->getFile();
     EXPECT_EQ(parameter->getStartLine(), kLocalparamLine);
@@ -571,31 +566,31 @@ class ClassTest19Test : public Test {
   // compilation-unit local parameter of line 18 (37.32 detail 3, 37.28 detail
   // 4, 23.10.2.1).
   static void expectOverride(std::string_view overridden, std::string_view local) {
-    const hldb::Any *const typespec = findFooBaseTypespec();
+    const hldb::ClassTypespec *const typespec = findFooBaseTypespec();
     ASSERT_NE(typespec, nullptr) << "Foo has no base class typespec";
 
-    const hldb::Any *paramAssign = nullptr;
-    if (const std::vector<const hldb::Any *> *const paramAssigns = relationObjects(typespec, vpiParamAssign)) {
-      for (const hldb::Any *candidate : *paramAssigns) {
-        const hldb::Any *const lhs = (candidate == nullptr) ? nullptr : relationObject(candidate, vpiLhs);
+    const hldb::ParamAssign *paramAssign = nullptr;
+    if (const hldb::ParamAssignCollection *const paramAssigns = typespec->getParamAssigns()) {
+      for (const hldb::ParamAssign *candidate : *paramAssigns) {
+        const hldb::Any *const lhs = (candidate == nullptr) ? nullptr : candidate->getLhs();
         if ((lhs != nullptr) && (lhs->getName() == overridden)) paramAssign = candidate;
       }
     }
     ASSERT_NE(paramAssign, nullptr) << "no override of " << overridden;
 
     // vpiLhs is Bar's parameter as declared on line 16.
-    const hldb::Any *const lhs = relationObject(paramAssign, vpiLhs);
-    EXPECT_EQ(lhs->getVpiType(), static_cast<uint32_t>(vpiParameter));
+    const hldb::Parameter *const lhs = boundParameter(paramAssign->getLhs());
+    ASSERT_NE(lhs, nullptr) << "the override of " << overridden << " names no parameter";
     EXPECT_EQ(lhs->getStartLine(), kBarLine);
 
     // vpiRhs is the name as written, bound to the local parameter of line 18,
     // not to Bar's parameter of the same letter in the other case (5.6).
-    const hldb::Any *const rhs = relationObject(paramAssign, vpiRhs);
+    const hldb::Any *const rhs = paramAssign->getRhs();
     ASSERT_NE(rhs, nullptr) << "the override of " << overridden << " has no vpiRhs";
-    const hldb::Any *const target = boundParameter(rhs);
+    const hldb::Parameter *const target = boundParameter(rhs);
     ASSERT_NE(target, nullptr) << "the override of " << overridden << " is not bound";
     EXPECT_EQ(target->getName(), local);
-    EXPECT_EQ(integerProperty(target, vpiLocalParam), 1);
+    EXPECT_TRUE(target->getLocalParam());
     EXPECT_TRUE(endsWith(target->getFile(), kSourceFileName)) << target->getFile();
     EXPECT_EQ(target->getStartLine(), kLocalparamLine);
   }
@@ -603,16 +598,16 @@ class ClassTest19Test : public Test {
   // Checks that 'classDefn' has no member and nothing else 37.31 lets a class
   // defn hold besides parameters (8.2; 37.31 detail 1 leaves out the implicit
   // constructor).
-  static void expectNoMembers(const hldb::Any *classDefn) {
+  static void expectNoMembers(const hldb::ClassDefn *classDefn) {
     ASSERT_NE(classDefn, nullptr);
 
-    EXPECT_EQ(relationSize(classDefn, kVpiVariables), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiMethods), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiConstraint), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiTypedef), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiNamedEvent), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiNamedEventArray), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiInternalScope), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getVariables()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getMethods()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getConstraints()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getTypedefs()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getNamedEvents()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getNamedEventArrays()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getInternalScopes()), 0u);
   }
 };
 
@@ -671,8 +666,8 @@ TEST_F(ClassTest19Test, PackagePackageIsDeclared) {
 
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
-  EXPECT_EQ(package->getVpiType(), static_cast<uint32_t>(vpiPackage));
-  EXPECT_EQ(stringProperty(package, vpiName), "Package");
+  EXPECT_EQ(package->getAnyType(), hldb::AnyType::Package);
+  EXPECT_EQ(package->getName(), "Package");
   EXPECT_EQ(package->getStartLine(), kPackageFirstLine);
   EXPECT_EQ(package->getEndLine(), kPackageLastLine);
 }
@@ -683,11 +678,11 @@ TEST_F(ClassTest19Test, PackageHoldsClassBar) {
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
 
-  EXPECT_EQ(relationSize(package, vpiClassDefn), 1u);
-  const hldb::Any *const bar = findBar();
+  EXPECT_EQ(sizeOf(package->getClassDefns()), 1u);
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
-  EXPECT_EQ(bar->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
-  EXPECT_EQ(stringProperty(bar, vpiName), "Bar");
+  EXPECT_EQ(bar->getAnyType(), hldb::AnyType::ClassDefn);
+  EXPECT_EQ(bar->getName(), "Bar");
 }
 
 // ---------------------------------------------------------------------------
@@ -696,7 +691,7 @@ TEST_F(ClassTest19Test, PackageHoldsClassBar) {
 
 // The whole declaration of Bar, endclass included, is on line 16.
 TEST_F(ClassTest19Test, ClassBarIsOnLine16) {
-  const hldb::Any *const bar = findBar();
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
 
   EXPECT_TRUE(endsWith(bar->getFile(), kSourceFileName)) << bar->getFile();
@@ -707,9 +702,9 @@ TEST_F(ClassTest19Test, ClassBarIsOnLine16) {
 // Bar declares X, Y and Z in its parameter port list and none in its empty
 // body (37.31 detail 7).
 TEST_F(ClassTest19Test, ClassBarHasThreeParameters) {
-  const hldb::Any *const bar = findBar();
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
-  EXPECT_EQ(relationSize(bar, vpiParameter), 3u);
+  EXPECT_EQ(sizeOf(bar->getParameters()), 3u);
 }
 
 // "int X=0" (6.20.1, 6.20.2).
@@ -723,21 +718,21 @@ TEST_F(ClassTest19Test, BarParameterZIsIntWithDefault2) { expectBarParameter("Z"
 
 // Bar's header has no virtual and no extends (37.31 detail 6).
 TEST_F(ClassTest19Test, ClassBarIsNotVirtualAndExtendsNothing) {
-  const hldb::Any *const bar = findBar();
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
 
-  EXPECT_EQ(integerProperty(bar, vpiVirtual), 0);
-  EXPECT_EQ(relationSize(bar, vpiExtends), 0u);
+  EXPECT_FALSE(bar->getVirtual());
+  EXPECT_EQ(bar->getExtends(), nullptr);
 }
 
 // "The vpiDerivedClasses iterator shall return all the class defns derived
 // from the given class defn" (37.31 detail 5): Foo, and only Foo.
 TEST_F(ClassTest19Test, ClassBarIsTheBaseOfFoo) {
-  const hldb::Any *const bar = findBar();
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
 
-  EXPECT_EQ(relationSize(bar, vpiDerivedClasses), 1u);
-  EXPECT_NE(findInRelation(bar, vpiDerivedClasses, "Foo"), nullptr);
+  EXPECT_EQ(sizeOf(bar->getDerivedClasses()), 1u);
+  EXPECT_NE(findByName(bar->getDerivedClasses(), "Foo"), nullptr);
 }
 
 // Bar has no class_item, so it has no member (8.2).
@@ -776,8 +771,8 @@ TEST_F(ClassTest19Test, LocalparamZIs5) { expectUnitLocalparam("z", "5"); }
 TEST_F(ClassTest19Test, ClassFooIsDeclared) {
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
-  EXPECT_EQ(foo->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
-  EXPECT_EQ(stringProperty(foo, vpiName), "Foo");
+  EXPECT_EQ(foo->getAnyType(), hldb::AnyType::ClassDefn);
+  EXPECT_EQ(foo->getName(), "Foo");
 }
 
 // The whole declaration of Foo, endclass included, is on line 20.
@@ -794,7 +789,7 @@ TEST_F(ClassTest19Test, ClassFooIsOnLine20) {
 TEST_F(ClassTest19Test, ClassFooHasNoParameters) {
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
-  EXPECT_EQ(relationSize(foo, vpiParameter), 0u);
+  EXPECT_EQ(sizeOf(foo->getParameters()), 0u);
 }
 
 // Foo's header has no virtual, and no class derives from Foo (37.31 detail 5).
@@ -802,8 +797,8 @@ TEST_F(ClassTest19Test, ClassFooIsNotVirtualAndHasNoDerivedClass) {
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
 
-  EXPECT_EQ(integerProperty(foo, vpiVirtual), 0);
-  EXPECT_EQ(relationSize(foo, vpiDerivedClasses), 0u);
+  EXPECT_FALSE(foo->getVirtual());
+  EXPECT_EQ(sizeOf(foo->getDerivedClasses()), 0u);
 }
 
 // Foo derives from Package::Bar, so it has an extends object (37.31 detail 6).
@@ -811,48 +806,31 @@ TEST_F(ClassTest19Test, ClassFooIsNotVirtualAndHasNoDerivedClass) {
 // constructor argument, and its class typespec is of the class defn Bar that
 // the package holds.
 TEST_F(ClassTest19Test, ClassFooExtendsPackageBar) {
-  // BUG-5: Avoid using getVpiXXX API when writing tests. For e.g. instead of
-  // relationOf(object, vpiExtends) call use object->getExtends().
-  GTEST_SKIP() << "BUG-5: rewrite with the HLDB API (object->getExtends()) instead of the VPI API";
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
-  EXPECT_EQ(relationSize(foo, vpiExtends), 1u);
-  const hldb::Any *const extendsObject = relationObject(foo, vpiExtends);
+  const hldb::Extends *const extendsObject = foo->getExtends();
   ASSERT_NE(extendsObject, nullptr);
-  EXPECT_EQ(relationSize(extendsObject, vpiArgument), 0u);
+  EXPECT_EQ(sizeOf(extendsObject->getArguments()), 0u);
 
-  const hldb::Any *const typespec = typespecOf(extendsObject, vpiClassTypespec);
+  const hldb::Typespec *const typespec = baseTypespecOf(extendsObject);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiClassTypespec));
-  const hldb::Any *const base = relationObject(typespec, vpiClassDefn);
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::ClassTypespec);
+  const hldb::ClassTypespec *const classTypespec = any_cast<hldb::ClassTypespec>(typespec);
+  ASSERT_NE(classTypespec, nullptr);
+  const hldb::ClassDefn *const base = classTypespec->getClassDefn();
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "Bar");
   EXPECT_EQ(base->getStartLine(), kBarLine);
 }
 
 // "Package::Bar #(x,y,z)": by ordered list, x overrides X (23.10.2.1).
-TEST_F(ClassTest19Test, FooOverridesXWithLocalparamX) {
-  // BUG-5: Avoid using getVpiXXX API when writing tests. For e.g. instead of
-  // relationOf(object, vpiExtends) call use object->getExtends().
-  GTEST_SKIP() << "BUG-5: rewrite with the HLDB API (object->getExtends()) instead of the VPI API";
-  expectOverride("X", "x");
-}
+TEST_F(ClassTest19Test, FooOverridesXWithLocalparamX) { expectOverride("X", "x"); }
 
 // "Package::Bar #(x,y,z)": by ordered list, y overrides Y (23.10.2.1).
-TEST_F(ClassTest19Test, FooOverridesYWithLocalparamY) {
-  // BUG-5: Avoid using getVpiXXX API when writing tests. For e.g. instead of
-  // relationOf(object, vpiExtends) call use object->getExtends().
-  GTEST_SKIP() << "BUG-5: rewrite with the HLDB API (object->getExtends()) instead of the VPI API";
-  expectOverride("Y", "y");
-}
+TEST_F(ClassTest19Test, FooOverridesYWithLocalparamY) { expectOverride("Y", "y"); }
 
 // "Package::Bar #(x,y,z)": by ordered list, z overrides Z (23.10.2.1).
-TEST_F(ClassTest19Test, FooOverridesZWithLocalparamZ) {
-  // BUG-5: Avoid using getVpiXXX API when writing tests. For e.g. instead of
-  // relationOf(object, vpiExtends) call use object->getExtends().
-  GTEST_SKIP() << "BUG-5: rewrite with the HLDB API (object->getExtends()) instead of the VPI API";
-  expectOverride("Z", "z");
-}
+TEST_F(ClassTest19Test, FooOverridesZWithLocalparamZ) { expectOverride("Z", "z"); }
 
 // Foo has no class_item, so it has no member (8.2).
 TEST_F(ClassTest19Test, ClassFooHasNoMembers) { expectNoMembers(findFoo()); }
@@ -887,11 +865,11 @@ TEST_F(ClassTest19Test, ModuleTestIsEmpty) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
 
-  EXPECT_EQ(relationSize(module, kVpiVariables), 0u);
-  EXPECT_EQ(relationSize(module, vpiNet), 0u);
-  EXPECT_EQ(relationSize(module, vpiParameter), 0u);
-  EXPECT_EQ(relationSize(module, vpiTypedef), 0u);
-  EXPECT_EQ(relationSize(module, vpiClassDefn), 0u);
+  EXPECT_EQ(sizeOf(module->getVariables()), 0u);
+  EXPECT_EQ(sizeOf(module->getNets()), 0u);
+  EXPECT_EQ(sizeOf(module->getParameters()), 0u);
+  EXPECT_EQ(sizeOf(module->getTypedefs()), 0u);
+  EXPECT_EQ(sizeOf(module->getClassDefns()), 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -928,11 +906,10 @@ TEST_F(ClassTest19Test, TestIsTheOnlyTopLevelInstance) {
     ASSERT_NE(instance, nullptr);
 
     EXPECT_EQ(instance->getName(), "test");
-    EXPECT_EQ(stringProperty(instance, vpiDefName), "test");
-    EXPECT_TRUE(endsWith(stringProperty(instance, vpiDefFile), kSourceFileName))
-        << stringProperty(instance, vpiDefFile);
-    EXPECT_EQ(integerProperty(instance, vpiDefLineNo), static_cast<int64_t>(kModuleFirstLine));
-    EXPECT_EQ(relationSize(instance, vpiClassDefn), 0u);
+    EXPECT_EQ(instance->getDefName(), "test");
+    EXPECT_TRUE(endsWith(instance->getDefFile(), kSourceFileName)) << instance->getDefFile();
+    EXPECT_EQ(instance->getDefLineNo(), static_cast<int32_t>(kModuleFirstLine));
+    EXPECT_EQ(sizeOf(instance->getClassDefns()), 0u);
   }
 }
 }  // namespace hlc

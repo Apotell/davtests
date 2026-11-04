@@ -79,11 +79,15 @@
 // vpiDerivedClasses, vpiParameter, vpiVariables, vpiMethods, vpiConstraint,
 // vpiTypedef, vpiNamedEvent, vpiNamedEventArray and vpiInternalScope; the
 // object model for an instance (37.10) gives a module instance vpiName,
-// vpiDefName, vpiDefFile, vpiDefLineNo and a class defn relation. HLDB
-// answers vpi_get() and vpi_iterate() through getVpiPropertyValue() and
-// getByVpiType() on each object, so the test asks those questions directly,
-// with the LRM's own vpiXXX codes. The location checks use getFile() and
-// getStartLine(), HLDB's vpiFile and vpiLineNo, and getEndLine().
+// vpiDefName, vpiDefFile, vpiDefLineNo and a class defn relation. HLDB keeps
+// each of these as a typed member of the object, so the test reads them
+// through HLDB's typed getters: getName(), getVirtual(), getExtends(),
+// getDerivedClasses(), getParameters(), getVariables(), getMethods(),
+// getConstraints(), getTypedefs(), getNamedEvents(),
+// getNamedEventArrays() and getInternalScopes() on the class defn, and
+// getDefName(), getDefFile(), getDefLineNo(), getNets() and getClassDefns()
+// on the module. The location checks use getFile() and getStartLine(),
+// HLDB's vpiFile and vpiLineNo, and getEndLine().
 //
 // Every expected value comes from the source text and the LRM, so a red test
 // means HLC deviates from the LRM.
@@ -175,27 +179,18 @@
 #include <hldb/preproc_macro_instance.h>
 #include <hldb/program.h>
 #include <hldb/source_file.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include <tuple>
-#include <variant>
 #include <vector>
 
 namespace hlc {
 namespace {
 constexpr std::string_view kSourceFileName = "class_test_1.sv";
-
-// vpiVariables, the VPI relation from a scope to its variables (100 in IEEE
-// 1800-2023 Annex K, vpi_user.h). HLDB's vpi_user.h names the same relation
-// vpiVariable.
-constexpr int32_t kVpiVariables = vpiVariable;
 
 // The line of the class declaration, and the first and last line of the
 // module declaration.
@@ -235,34 +230,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
     }
   }
   return nullptr;
-}
-
-// Number of objects 'object' has in the VPI relation 'relation', as
-// vpi_iterate() or vpi_handle() would return them (37.3); 0 when the relation
-// is empty.
-size_t relationSize(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  if (objects != nullptr) return objects->size();
-  return (std::get<1>(result) != nullptr) ? 1 : 0;
-}
-
-// The string VPI property 'property' of 'object', as vpi_get_str() would
-// return it, or a marker when the property holds no string.
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-// The integer VPI property 'property' of 'object', as vpi_get() would return
-// it, or vpiUndefined when the property holds no integer.
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
@@ -392,9 +359,8 @@ TEST_F(ClassTest1Test, ClassFooIsDeclared) {
 
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
-  EXPECT_EQ(classDefn->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
+  EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
   EXPECT_EQ(classDefn->getName(), "Foo");
-  EXPECT_EQ(stringProperty(classDefn, vpiName), "Foo");
 }
 
 // The whole declaration, endclass included, is on line 15.
@@ -415,10 +381,10 @@ TEST_F(ClassTest1Test, ClassIsNotVirtualAndExtendsNothing) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(integerProperty(classDefn, vpiVirtual), 0);
-  EXPECT_EQ(relationSize(classDefn, vpiExtends), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiDerivedClasses), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiParameter), 0u);
+  EXPECT_FALSE(classDefn->getVirtual());
+  EXPECT_EQ(classDefn->getExtends(), nullptr);
+  EXPECT_EQ(sizeOf(classDefn->getDerivedClasses()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getParameters()), 0u);
 }
 
 // The class has no class_item, so it has no members (8.2) and nothing else
@@ -429,13 +395,13 @@ TEST_F(ClassTest1Test, ClassHasNoMembers) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(relationSize(classDefn, kVpiVariables), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiMethods), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiConstraint), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiTypedef), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiNamedEvent), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiNamedEventArray), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiInternalScope), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getVariables()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getMethods()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getConstraints()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getTypedefs()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getNamedEvents()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getNamedEventArrays()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getInternalScopes()), 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -468,11 +434,11 @@ TEST_F(ClassTest1Test, ModuleTestIsEmpty) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
 
-  EXPECT_EQ(relationSize(module, kVpiVariables), 0u);
-  EXPECT_EQ(relationSize(module, vpiNet), 0u);
-  EXPECT_EQ(relationSize(module, vpiParameter), 0u);
-  EXPECT_EQ(relationSize(module, vpiTypedef), 0u);
-  EXPECT_EQ(relationSize(module, vpiClassDefn), 0u);
+  EXPECT_EQ(sizeOf(module->getVariables()), 0u);
+  EXPECT_EQ(sizeOf(module->getNets()), 0u);
+  EXPECT_EQ(sizeOf(module->getParameters()), 0u);
+  EXPECT_EQ(sizeOf(module->getTypedefs()), 0u);
+  EXPECT_EQ(sizeOf(module->getClassDefns()), 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -513,11 +479,10 @@ TEST_F(ClassTest1Test, TestIsTheOnlyTopLevelInstance) {
     ASSERT_NE(instance, nullptr);
 
     EXPECT_EQ(instance->getName(), "test");
-    EXPECT_EQ(stringProperty(instance, vpiDefName), "test");
-    EXPECT_TRUE(endsWith(stringProperty(instance, vpiDefFile), kSourceFileName))
-        << stringProperty(instance, vpiDefFile);
-    EXPECT_EQ(integerProperty(instance, vpiDefLineNo), static_cast<int64_t>(kModuleFirstLine));
-    EXPECT_EQ(relationSize(instance, vpiClassDefn), 0u);
+    EXPECT_EQ(instance->getDefName(), "test");
+    EXPECT_TRUE(endsWith(instance->getDefFile(), kSourceFileName)) << instance->getDefFile();
+    EXPECT_EQ(instance->getDefLineNo(), static_cast<int32_t>(kModuleFirstLine));
+    EXPECT_EQ(sizeOf(instance->getClassDefns()), 0u);
   }
 }
 }  // namespace hlc
