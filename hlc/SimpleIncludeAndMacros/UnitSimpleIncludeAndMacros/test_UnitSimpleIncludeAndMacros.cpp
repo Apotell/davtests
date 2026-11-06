@@ -55,6 +55,10 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxError
       << "`MACRO1 has 3 formal arguments and is called with 4";
   EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "macro_with_args", 45, 0), nullptr)
       << "`macro_with_args has 2 formal arguments and is called with 3";
+  // IEEE 1800-2023 22.1/22.5.1: a grave accent starts either a compiler directive or the usage of
+  // a defined text macro. top_3.v:16 `defaut_nettype (misspelled `default_nettype) is neither.
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "defaut_nettype", 16, 0), nullptr)
+      << "`defaut_nettype is not a directive and no such macro is defined";
   EXPECT_NE(findEvent(EventType::PpRecursiveMacroDefinition, 47, 0), nullptr)
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
