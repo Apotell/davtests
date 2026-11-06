@@ -2198,19 +2198,7 @@ Design name:unnamed:
                   vpiFullName: TOP
                   vpiActual: IntTypespec
           vpiVector: true
-        ProgramTypespec name:TESTBENCH start:22:3 end:22:12:
-          vpiParent: Module name:TOP
-          vpiName Identifier name:TESTBENCH start:22:3 end:22:12:
-          vpiDefName: TESTBENCH
-          vpiParamAssign (1 items):
-            ParamAssign start:22:15 end:22:20:
-              vpiParent: ProgramTypespec name:TESTBENCH
-              vpiOverridden: true
-              vpiRhs RefObj name:width start:22:15 end:22:20:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: TOP.TESTBENCH.width
-                vpiActual: Parameter name:width
+        ProgramTypespec name:TESTBENCH:
       vpiDefName: TOP
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/tb.v"
@@ -2360,6 +2348,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: observe
                 vpiFullName: TOP.tb.observe
+                vpiActual: Port name:observe
               vpiHighConn RefObj name:conntb.con_o start:22:34 end:22:46:
                 vpiParent: NamedArgument
                 vpiName: conntb.con_o
@@ -2383,6 +2372,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: drive
                 vpiFullName: TOP.tb.drive
+                vpiActual: Port name:drive
               vpiHighConn RefObj name:conntb.con_i start:22:55 end:22:67:
                 vpiParent: NamedArgument
                 vpiName: conntb.con_i
@@ -2399,7 +2389,7 @@ Design name:unnamed:
                     vpiFullName: TOP.tb.con_i
                     vpiActual: Net name:con_i
                 vpiActual: Net name:con_i
-  vpiTypespec (10 items):
+  vpiTypespec (11 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:2:8 end:2:11:
@@ -2475,6 +2465,25 @@ Design name:unnamed:
             vpiFullName: middle.width
             vpiActual: Parameter name:width
       vpiModule: Module name:middle #(.width(1))
+    ProgramTypespec name:TESTBENCH start:22:3 end:22:12:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:TESTBENCH start:22:3 end:22:12:
+      vpiDefName: TESTBENCH
+      vpiParamAssign (1 items):
+        ParamAssign start:22:15 end:22:20:
+          vpiParent: ProgramTypespec name:TESTBENCH
+          vpiOverridden: true
+          vpiLhs RefObj name:width start:1:31 end:1:36:
+            vpiParent: ParamAssign
+            vpiName: width
+            vpiFullName: TESTBENCH.width
+            vpiActual: Parameter name:width
+          vpiRhs RefObj name:width start:22:15 end:22:20:
+            vpiParent: ParamAssign
+            vpiName: width
+            vpiFullName: TESTBENCH.width
+            vpiActual: Parameter name:width
+      vpiProgram: Program name:TESTBENCH #(.width(1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2530,10 +2539,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      40      10        10
 Operation                           12       2       0        10
-RefObj                              84      74       0        10
+RefObj                              85      75       0        10
 RefTypespec                         72      72      10        10
 ----------------------------------------------------------------
 Others                             160     160       0         0
 ----------------------------------------------------------------
-                                   368     348      20        40
+                                   369     349      20        40
 ===================== END REDUCTION RESULT =====================

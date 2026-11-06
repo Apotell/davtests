@@ -2519,8 +2519,6 @@ AST_DEBUG_END
 [INF:CP5808] $Source01/dut.sv:287:9: Compile checker "C17_DisableIffDist".
 [INF:CP5804] $Source01/dut.sv:309:1: Compile module "top".
 [INF:CP5808] $Source01/dut.sv:389:9: Compile checker "my_checker_global2".
-[ERR:LN7713] $Source01/dut.sv:1:1: Found 5 orphan node(s).
-[ERR:LN7714] Found 13 weak node(s).
 [WRN:CP5851] $Source01/dut.sv:65:9: Failed to bind "a".
 [WRN:CP5851] $Source01/dut.sv:65:15: Failed to bind "b".
 [WRN:CP5851] $Source01/dut.sv:70:19: Failed to bind "clk".
@@ -2533,6 +2531,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:98:34: Failed to bind "clk".
 [WRN:CP5851] $Source01/dut.sv:98:39: Failed to bind "a".
 [WRN:CP5851] $Source01/dut.sv:98:45: Failed to bind "b".
+[WRN:CP5851] $Source01/dut.sv:102:19: Failed to bind "clk".
 [WRN:CP5851] $Source01/dut.sv:120:35: Failed to bind "data".
 [WRN:CP5851] $Source01/dut.sv:122:32: Failed to bind "clk".
 [WRN:CP5851] $Source01/dut.sv:122:49: Failed to bind "data".
@@ -4118,6 +4117,14 @@ Design name:unnamed:
         Cover start:101:17 end:103:31:
           vpiParent: CheckerDecl name:C5_RestrictCoverSeq
           vpiLabel Identifier name:cover_seq start:101:5 end:101:14:
+          vpiClockingEvent Operation start:102:11 end:102:22:
+            vpiParent: Cover
+            vpiOpType: posedge (39)
+            vpiOperand (1 items):
+              RefObj name:clk start:102:19 end:102:22:
+                vpiParent: Operation
+                vpiName: clk
+                vpiFullName: C5_RestrictCoverSeq.clk
           vpiStmt SysTaskCall name:$display start:103:7 end:103:30:
             vpiParent: Cover
             vpiName Identifier name:$display start:103:7 end:103:15:
@@ -4134,6 +4141,12 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: C5_RestrictCoverSeq
                     vpiActual: StringTypespec
+          vpiProperty PropertySpec start:102:24 end:102:34:
+            vpiParent: Cover
+            vpiPropertyExpr SequenceInst name:s_a_then_b start:102:24 end:102:34:
+              vpiParent: PropertySpec
+              vpiName: s_a_then_b
+              vpiSequenceDecl: SequenceDecl name:s_a_then_b
           vpiIsCoverSequence: true
       vpiTypespec (2 items):
         LogicTypespec:
@@ -5458,6 +5471,20 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:C15_AttributedItem
           vpiName Identifier name:s_x start:270:14 end:270:17:
           vpiFullName: C15_AttributedItem.s_x
+          vpiAttribute (1 items):
+            Attribute name:checker_attr start:269:8 end:269:28:
+              vpiParent: SequenceDecl name:s_x
+              vpiName: checker_attr
+              vpiValue Constant start:269:23 end:269:28:
+                vpiParent: Attribute name:checker_attr
+                vpiConstType: string (6)
+                vpiSize: 24
+                vpiDecompile: "\"val\""
+                vpiValue: val
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: C15_AttributedItem.s_x.checker_attr
+                  vpiActual: StringTypespec
           vpiExpr Operation start:271:9 end:271:16:
             vpiParent: SequenceDecl name:s_x
             vpiOpType: binary cycle delay (71)
@@ -5507,6 +5534,33 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: C15_AttributedItem.b
+          vpiAttribute (2 items):
+            Attribute name:synthesis start:266:8 end:266:17:
+              vpiParent: Assert
+              vpiName: synthesis
+              vpiValue Constant start:266:8 end:266:17:
+                vpiParent: Attribute name:synthesis
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: C15_AttributedItem.synthesis
+                  vpiActual: IntTypespec
+            Attribute name:keep start:266:19 end:266:23:
+              vpiParent: Assert
+              vpiName: keep
+              vpiValue Constant start:266:19 end:266:23:
+                vpiParent: Attribute name:keep
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: C15_AttributedItem.keep
+                  vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:C15_AttributedItem
@@ -5815,8 +5869,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 52
+[  ERROR] : 0
+[WARNING] : 53
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -5831,25 +5885,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/mounts.json
 
 
-{'result': {'coverage': 92.66,
+{'result': {'coverage': 93.63,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 349,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 303,
                                                   'pre_len': 4758}},
-            'post_len': 349,
+            'post_len': 303,
             'pre_len': 4758,
             'test_name': 'CheckerDecl/CheckerDecl'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |     4758 |       349 |
+| $Output/lib/work/dut.sv |     4758 |       303 |
 +=========================+==========+===========+
-|                         |     4758 |       349 |
+|                         |     4758 |       303 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.66
+[COVERAGE] : 93.63
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5859,12 +5913,12 @@ COMMAND: ${HLC_DIR}/regression/CheckerDecl/CheckerDecl/design.hldb ${HLC_DIR}/re
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            75      75       2         2
+Constant                            78      78       2         2
 LongIntTypespec                      0       1       1         0
-Operation                           38      36       0         2
-RefTypespec                        165     165       2         2
+Operation                           39      37       0         2
+RefTypespec                        168     168       2         2
 ----------------------------------------------------------------
-Others                             517     517       0         0
+Others                             523     523       0         0
 ----------------------------------------------------------------
-                                   795     794       5         6
+                                   808     807       5         6
 ===================== END REDUCTION RESULT =====================

@@ -951,7 +951,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:102:11: Failed to bind "reset".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
-[ERR:LN7701] Invalid name: id:390, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2144,10 +2143,7 @@ Design name:unnamed:
           vpiScalar: true
         ModuleTypespec name:memory_ctrl:
         ModuleTypespec name:memory_model:
-        ProgramTypespec name:test start:122:1 end:122:5:
-          vpiParent: Module name:interface_modports
-          vpiName Identifier name:test start:122:1 end:122:5:
-          vpiDefName: test
+        ProgramTypespec name:test:
       vpiDefName: interface_modports
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -2266,9 +2262,11 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:122:15 end:122:19:
               vpiParent: RefInstance name:U_test
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:tif:
                 vpiParent: NamedArgument
-                vpiFullName: interface_modports.U_test
+                vpiName: tif
+                vpiFullName: interface_modports.U_test.tif
+                vpiActual: Port name:tif
               vpiHighConn RefObj name:miff start:122:15 end:122:19:
                 vpiParent: NamedArgument
                 vpiName: miff
@@ -2327,7 +2325,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 28
 [   NOTE] : 2
 ********************************************************************************
@@ -2376,7 +2374,7 @@ Operation                            7       6       0         1
 RefObj                              63      62       0         1
 RefTypespec                        679     680       1         0
 ----------------------------------------------------------------
-Others                            1418    1418       0         0
+Others                            1416    1416       0         0
 ----------------------------------------------------------------
-                                  2205    2205       2         2
+                                  2203    2203       2         2
 ===================== END REDUCTION RESULT =====================
