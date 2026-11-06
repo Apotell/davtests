@@ -19,6 +19,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -229,6 +230,22 @@ TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' must still compile despite the end-label error";
   EXPECT_EQ(top->getEndLabel(), "toto") << "the (mismatched) end label text must still be recorded verbatim";
+}
+
+// ----
+// 3. Repeated continuous assignments to output port "a"
+//
+// IEEE 1800-2023 23.2.2.3: for an output port "If the data type is declared with the explicit
+// data_type syntax, the port kind shall default to variable", so "output logic a" is a variable.
+// IEEE 1800-2023 6.5: "it shall be an error to have multiple continuous assignments ... writing
+// to any term in the expansion of the longest static prefix of a variable". dut.sv assigns "a"
+// at lines 9, 15, 20 and 26; each report lands on the earlier assignment of a pair.
+// ----
+TEST_F(PreprocUhdmCovTest, RepeatedContinuousAssignmentsToVariablePortAreReported) {
+  for (const uint32_t line : {9u, 15u, 20u}) {
+    ASSERT_NE(findEvent(EventType::MultipleContAssign, "a", line, 11), nullptr)
+        << "IEEE 1800-2023 6.5: output variable 'a' is continuously assigned again after line " << line;
+  }
 }
 
 }  // namespace hlc
