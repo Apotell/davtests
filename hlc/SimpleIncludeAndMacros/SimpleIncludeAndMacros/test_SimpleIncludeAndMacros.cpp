@@ -67,6 +67,13 @@ TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
       << "illegal macro argument counts must be reported as errors";
   EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, 40, 0), nullptr)
       << "too many actual arguments for a macro must be reported as an error";
+  // IEEE 1800-2023 22.5.1: "It shall be an error to specify more actual arguments than the number
+  // of formal arguments." top_3.v:35 `MACRO1 ( 1 , , 3 , 4 ) passes 4 to 3 formals; top_3.v:45
+  // `macro_with_args( out, in, toomany) passes 3 to 2.
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "MACRO1", 35, 0), nullptr)
+      << "`MACRO1 has 3 formal arguments and is called with 4";
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "macro_with_args", 45, 0), nullptr)
+      << "`macro_with_args has 2 formal arguments and is called with 3";
   EXPECT_NE(findEvent(EventType::PpRecursiveMacroDefinition, 47, 0), nullptr)
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
