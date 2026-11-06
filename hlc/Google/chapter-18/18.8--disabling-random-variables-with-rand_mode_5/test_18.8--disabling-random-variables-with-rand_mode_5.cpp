@@ -1164,7 +1164,6 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, CompilationReportsAtLeastOneEr
 // Expected to fail -- see KNOWN FAILURE (errors reported on legal lines) in the
 // file header.
 TEST_F(DisablingRandomVariablesWithRandMode5Test, EveryErrorInThisFileIsOnTheRandModeDeclaration) {
-  GTEST_SKIP() << "HLC Gap: UVM reports a number of errors still.";
   for (const Event &error : m_session->getEventListener()->getEvents()) {
     if (!isErrorSeverity(error.getType())) {
       continue;

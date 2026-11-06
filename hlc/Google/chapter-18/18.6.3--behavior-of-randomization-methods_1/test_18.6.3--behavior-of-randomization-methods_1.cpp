@@ -1142,8 +1142,6 @@ TEST_F(BehaviorOfRandomizationMethods1Test, InitialCallsRunTestFromUvmPkg) {
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(BehaviorOfRandomizationMethods1Test, NoErrorIsReportedInThisFile) {
-  GTEST_SKIP() << "HLC counts a forward declaration (a typedef) and the actual typedef "
-                  "itself as two entries a reports an error that. Fix pending!";
   size_t count = 0;
   for (const Event &error : m_session->getEventListener()->getEvents()) {
     const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());

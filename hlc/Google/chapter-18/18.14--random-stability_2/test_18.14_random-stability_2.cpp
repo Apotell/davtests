@@ -282,9 +282,6 @@ TEST_F(RandomStability2Test, EnvExtendsUvmEnvAndDeclaresMembers) {
 
 // Check: "for (int i = 0; i < 10; i++)".
 TEST_F(RandomStability2Test, ForLoopRunsTenTimesWithLocalI) {
-  GTEST_SKIP() << "HLC reports vpiLocalVarDecls == 0 for 'for (int i = 0; i < 10; i++)'. "
-                  "IEEE 1800-2023 Sec 37.74: vpiLocalVarDecls is TRUE when the loop variable is declared in the "
-                  "for header (the for statement is then its scope). Fix pending.";
   const hldb::Task *const runPhase = getRunPhase();
   ASSERT_NE(runPhase, nullptr) << "env::run_phase not found";
   const std::vector<const hldb::ForStmt *> loops = collectStmts<hldb::ForStmt>(runPhase->getStmt());
