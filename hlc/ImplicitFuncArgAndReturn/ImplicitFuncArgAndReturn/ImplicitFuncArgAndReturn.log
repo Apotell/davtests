@@ -157,23 +157,15 @@ Design name:unnamed:
             vpiParent: Parameter name:M_SECURE
             vpiFullName: sub.M_SECURE
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:4:18 end:4:30:
-          vpiParent: Module name:sub
-          vpiLhs RefObj name:M_SECURE start:4:18 end:4:26:
-            vpiParent: ParamAssign
-            vpiName: M_SECURE
-            vpiFullName: sub.M_SECURE
-            vpiActual: Parameter name:M_SECURE
-          vpiRhs Constant start:4:29 end:4:30:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:4:29 end:4:30:
+            vpiParent: Parameter name:M_SECURE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub.M_SECURE
               vpiActual: IntTypespec
       vpiDefName: sub
       vpiDefNetType: wire (1)
@@ -205,23 +197,15 @@ Design name:unnamed:
             vpiParent: Parameter name:M00_SECURE
             vpiFullName: ScratchPad.M00_SECURE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:12:14 end:12:31:
-          vpiParent: Module name:ScratchPad
-          vpiLhs RefObj name:M00_SECURE start:12:14 end:12:24:
-            vpiParent: ParamAssign
-            vpiName: M00_SECURE
-            vpiFullName: ScratchPad.M00_SECURE
-            vpiActual: Parameter name:M00_SECURE
-          vpiRhs Constant start:12:27 end:12:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:12:27 end:12:31:
+            vpiParent: Parameter name:M00_SECURE
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ScratchPad
+              vpiFullName: ScratchPad.M00_SECURE
               vpiActual: BitTypespec
       vpiTypespec (3 items):
         BitTypespec:
@@ -229,7 +213,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:ScratchPad
           vpiScalar: true
-        ModuleTypespec name:sub:
+        ModuleTypespec name:sub #(.M_SECURE({w_1(M00_SECURE)})):
       vpiDefName: ScratchPad
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -316,7 +300,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m1
             vpiName: sub
             vpiFullName: ScratchPad.m1.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.M_SECURE({w_1(M00_SECURE)}))
   vpiTypespec (4 items):
     ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
@@ -331,19 +315,18 @@ Design name:unnamed:
       vpiName Identifier name:ScratchPad start:9:8 end:9:18:
       vpiDefName: ScratchPad
       vpiModule: Module name:ScratchPad
-    ModuleTypespec name:sub start:21:4 end:21:7:
+    ModuleTypespec name:sub #(.M_SECURE({w_1(M00_SECURE)})) start:21:4 end:21:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:21:4 end:21:7:
+      vpiName Identifier name:sub #(.M_SECURE({w_1(M00_SECURE)})) start:21:4 end:21:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:21:11 end:21:41:
-          vpiParent: ModuleTypespec name:sub
+          vpiParent: ModuleTypespec name:sub #(.M_SECURE({w_1(M00_SECURE)}))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:M_SECURE start:21:12 end:21:20:
             vpiParent: ParamAssign
             vpiName: M_SECURE
-            vpiFullName: sub.M_SECURE
+            vpiFullName: sub #(.M_SECURE({w_1(M00_SECURE)})).M_SECURE
             vpiActual: Parameter name:M_SECURE
           vpiRhs Operation start:21:21 end:21:40:
             vpiParent: ParamAssign
@@ -359,7 +342,7 @@ Design name:unnamed:
                     vpiHighConn RefObj name:M00_SECURE start:21:27 end:21:37:
                       vpiParent: NamedArgument
                       vpiName: M00_SECURE
-                      vpiFullName: sub.M00_SECURE
+                      vpiFullName: sub #(.M_SECURE({w_1(M00_SECURE)})).M00_SECURE
                       vpiActual: Parameter name:M00_SECURE
       vpiModule: Module name:sub
   vpiLibrary (1 items):
@@ -414,7 +397,7 @@ COMMAND: ${HLC_DIR}/regression/ImplicitFuncArgAndReturn/ImplicitFuncArgAndReturn
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

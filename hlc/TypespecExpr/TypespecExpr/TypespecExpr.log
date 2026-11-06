@@ -229,23 +229,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PARAM
             vpiFullName: "Mod1 #(.PARAM('0)).PARAM"
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:1:38 end:1:48:
-          vpiParent: "Module name:Mod1 #(.PARAM('0))"
-          vpiLhs RefObj name:PARAM start:1:38 end:1:43:
-            vpiParent: ParamAssign
-            vpiName: PARAM
-            vpiFullName: "Mod1 #(.PARAM('0)).PARAM"
-            vpiActual: Parameter name:PARAM
-          vpiRhs Constant start:1:46 end:1:48:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:1:46 end:1:48:
+            vpiParent: Parameter name:PARAM
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "Mod1 #(.PARAM('0))"
+              vpiFullName: "Mod1 #(.PARAM('0)).PARAM"
               vpiActual: BitTypespec
       vpiTypespec (3 items):
         BitTypespec:
@@ -389,16 +381,8 @@ Design name:unnamed:
             vpiName: Struct
             vpiFullName: Mod2.STRUCT.Struct
             vpiActual: TypedefTypespec name:Struct
-      vpiParamAssign (1 items):
-        ParamAssign start:7:21 end:7:40:
-          vpiParent: Module name:Mod2
-          vpiLhs RefObj name:STRUCT start:7:21 end:7:27:
-            vpiParent: ParamAssign
-            vpiName: STRUCT
-            vpiFullName: Mod2.STRUCT
-            vpiActual: Parameter name:STRUCT
-          vpiRhs Operation start:7:30 end:7:40:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:7:30 end:7:40:
+            vpiParent: Parameter name:STRUCT
             vpiOpType: assign pattern (87)
             vpiOperand (1 items):
               TaggedPattern start:7:33 end:7:38:
@@ -406,7 +390,7 @@ Design name:unnamed:
                 vpiTag RefObj name:x start:7:33 end:7:34:
                   vpiParent: TaggedPattern
                   vpiName: x
-                  vpiFullName: Mod2.x
+                  vpiFullName: Mod2.STRUCT.x
                   vpiActual: Variable name:x
                 vpiPattern Constant start:7:36 end:7:38:
                   vpiParent: TaggedPattern
@@ -416,7 +400,7 @@ Design name:unnamed:
                   vpiValue: "0"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: Mod2
+                    vpiFullName: Mod2.STRUCT
                     vpiActual: BitTypespec
       vpiTypespec (6 items):
         LogicTypespec:
@@ -481,7 +465,7 @@ Design name:unnamed:
                   vpiFullName: Mod2
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:Mod1:
+        ModuleTypespec name:Mod1 #(.PARAM(STRUCT)):
       vpiDefName: Mod2
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -502,7 +486,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod1
             vpiName: Mod1
             vpiFullName: Mod2.mod1.Mod1
-            vpiActual: ModuleTypespec name:Mod1
+            vpiActual: ModuleTypespec name:Mod1 #(.PARAM(STRUCT))
           vpiArgument (1 items):
             NamedArgument start:9:32 end:9:37:
               vpiParent: RefInstance name:mod1
@@ -531,24 +515,23 @@ Design name:unnamed:
       vpiName Identifier name:Mod2 start:5:8 end:5:12:
       vpiDefName: Mod2
       vpiModule: Module name:Mod2
-    ModuleTypespec name:Mod1 start:9:4 end:9:8:
+    ModuleTypespec name:Mod1 #(.PARAM(STRUCT)) start:9:4 end:9:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Mod1 start:9:4 end:9:8:
+      vpiName Identifier name:Mod1 #(.PARAM(STRUCT)) start:9:4 end:9:8:
       vpiDefName: Mod1
       vpiParamAssign (1 items):
         ParamAssign start:9:11 end:9:25:
-          vpiParent: ModuleTypespec name:Mod1
+          vpiParent: ModuleTypespec name:Mod1 #(.PARAM(STRUCT))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:PARAM start:9:12 end:9:17:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: Mod1.PARAM
+            vpiFullName: Mod1 #(.PARAM(STRUCT)).PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs RefObj name:STRUCT start:9:18 end:9:24:
             vpiParent: ParamAssign
             vpiName: STRUCT
-            vpiFullName: Mod1.STRUCT
+            vpiFullName: Mod1 #(.PARAM(STRUCT)).STRUCT
             vpiActual: Parameter name:STRUCT
       vpiModule: "Module name:Mod1 #(.PARAM('0))"
   vpiLibrary (1 items):
@@ -603,7 +586,7 @@ COMMAND: ${HLC_DIR}/regression/TypespecExpr/TypespecExpr/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              81      81       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    81      81       0         0
 ===================== END REDUCTION RESULT =====================

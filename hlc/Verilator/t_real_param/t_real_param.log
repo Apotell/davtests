@@ -306,23 +306,15 @@ Design name:unnamed:
             vpiParent: Parameter name:bar
             vpiFullName: foo #(.bar(2.0)).bar
             vpiActual: RealTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:21 end:7:30:
-          vpiParent: Module name:foo #(.bar(2.0))
-          vpiLhs RefObj name:bar start:7:21 end:7:24:
-            vpiParent: ParamAssign
-            vpiName: bar
-            vpiFullName: foo #(.bar(2.0)).bar
-            vpiActual: Parameter name:bar
-          vpiRhs Constant start:7:27 end:7:30:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:27 end:7:30:
+            vpiParent: Parameter name:bar
             vpiConstType: real (2)
             vpiSize: 64
             vpiDecompile: "2.0"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo #(.bar(2.0))
+              vpiFullName: foo #(.bar(2.0)).bar
               vpiActual: RealTypespec
       vpiDefName: foo
       vpiDefNetType: wire (1)
@@ -542,22 +534,14 @@ Design name:unnamed:
                             vpiParent: Parameter name:lparam
                             vpiFullName: t.gen_m.gen_r.lparam
                             vpiActual: RealTypespec
-                      vpiParamAssign (1 items):
-                        ParamAssign start:16:29 end:16:51:
-                          vpiParent: GenBlock name:gen_r
-                          vpiLhs RefObj name:lparam start:16:29 end:16:35:
-                            vpiParent: ParamAssign
-                            vpiName: lparam
-                            vpiFullName: t.gen_m.gen_r.lparam
-                            vpiActual: Parameter name:lparam
-                          vpiRhs Operation start:16:38 end:16:51:
-                            vpiParent: ParamAssign
+                          vpiExpr Operation start:16:38 end:16:51:
+                            vpiParent: Parameter name:lparam
                             vpiOpType: add (24)
                             vpiOperand (2 items):
                               RefObj name:m start:16:38 end:16:39:
                                 vpiParent: Operation
                                 vpiName: m
-                                vpiFullName: t.gen_m.gen_r.m
+                                vpiFullName: t.gen_m.gen_r.lparam.m
                                 vpiActual: Variable name:m
                               Operation start:16:43 end:16:50:
                                 vpiParent: Operation
@@ -566,7 +550,7 @@ Design name:unnamed:
                                   RefObj name:r start:16:43 end:16:44:
                                     vpiParent: Operation
                                     vpiName: r
-                                    vpiFullName: t.gen_m.gen_r.r
+                                    vpiFullName: t.gen_m.gen_r.lparam.r
                                     vpiActual: Variable name:r
                                   Constant start:16:47 end:16:50:
                                     vpiParent: Operation
@@ -576,10 +560,10 @@ Design name:unnamed:
                                     vpiValue: 0.5
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: t.gen_m.gen_r
+                                      vpiFullName: t.gen_m.gen_r.lparam
                                       vpiActual: RealTypespec
                       vpiTypespec (1 items):
-                        ModuleTypespec name:foo:
+                        ModuleTypespec name:foo #(.bar(lparam)):
                       vpiStmt (2 items):
                         Initial start:17:13 end:23:16:
                           vpiParent: GenBlock name:gen_r
@@ -669,7 +653,7 @@ Design name:unnamed:
                             vpiParent: RefInstance name:foo_inst
                             vpiName: foo
                             vpiFullName: t.gen_m.gen_r.foo_inst.foo
-                            vpiActual: ModuleTypespec name:foo
+                            vpiActual: ModuleTypespec name:foo #(.bar(lparam))
   vpiTypespec (6 items):
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
@@ -688,24 +672,23 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:foo start:25:13 end:25:16:
+    ModuleTypespec name:foo #(.bar(lparam)) start:25:13 end:25:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:25:13 end:25:16:
+      vpiName Identifier name:foo #(.bar(lparam)) start:25:13 end:25:16:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:25:19 end:25:32:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(lparam))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:bar start:25:20 end:25:23:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(lparam)).bar
             vpiActual: Parameter name:bar
           vpiRhs RefObj name:lparam start:25:25 end:25:31:
             vpiParent: ParamAssign
             vpiName: lparam
-            vpiFullName: foo.lparam
+            vpiFullName: foo #(.bar(lparam)).lparam
             vpiActual: Parameter name:lparam
       vpiModule: Module name:foo #(.bar(2.0))
   vpiLibrary (1 items):
@@ -760,7 +743,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_real_param/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                   100     100       0         0
 ===================== END REDUCTION RESULT =====================

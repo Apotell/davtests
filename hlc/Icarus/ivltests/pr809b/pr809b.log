@@ -554,8 +554,8 @@ Design name:unnamed:
                   vpiFullName: main
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:target:
-        ModuleTypespec name:target:
+        ModuleTypespec name:target #(.WA(2), .WB(2)):
+        ModuleTypespec name:target #(.WA(3), .WB(3)):
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/pr809b.v"
@@ -946,7 +946,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u1
             vpiName: target
             vpiFullName: main.u1.target
-            vpiActual: ModuleTypespec name:target
+            vpiActual: ModuleTypespec name:target #(.WA(2), .WB(2))
           vpiArgument (2 items):
             NamedArgument start:7:33 end:7:35:
               vpiParent: RefInstance name:u1
@@ -979,7 +979,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u2
             vpiName: target
             vpiFullName: main.u2.target
-            vpiActual: ModuleTypespec name:target
+            vpiActual: ModuleTypespec name:target #(.WA(3), .WB(3))
           vpiArgument (2 items):
             NamedArgument start:8:33 end:8:35:
               vpiParent: RefInstance name:u2
@@ -1018,6 +1018,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WA
             vpiFullName: target #(.WA(4), .WB(4)).WA
             vpiActual: LogicTypespec
+          vpiExpr Constant start:30:21 end:30:22:
+            vpiParent: Parameter name:WA
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: target #(.WA(4), .WB(4)).WA
+              vpiActual: IntTypespec
         Parameter name:WB start:30:34 end:30:36:
           vpiParent: Module name:target #(.WA(4), .WB(4))
           vpiName: WB
@@ -1026,40 +1036,15 @@ Design name:unnamed:
             vpiParent: Parameter name:WB
             vpiFullName: target #(.WA(4), .WB(4)).WB
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:30:16 end:30:22:
-          vpiParent: Module name:target #(.WA(4), .WB(4))
-          vpiLhs RefObj name:WA start:30:16 end:30:18:
-            vpiParent: ParamAssign
-            vpiName: WA
-            vpiFullName: target #(.WA(4), .WB(4)).WA
-            vpiActual: Parameter name:WA
-          vpiRhs Constant start:30:21 end:30:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:30:39 end:30:40:
+            vpiParent: Parameter name:WB
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: target #(.WA(4), .WB(4))
-              vpiActual: IntTypespec
-        ParamAssign start:30:34 end:30:40:
-          vpiParent: Module name:target #(.WA(4), .WB(4))
-          vpiLhs RefObj name:WB start:30:34 end:30:36:
-            vpiParent: ParamAssign
-            vpiName: WB
-            vpiFullName: target #(.WA(4), .WB(4)).WB
-            vpiActual: Parameter name:WB
-          vpiRhs Constant start:30:39 end:30:40:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "4"
-            vpiValue: 4
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: target #(.WA(4), .WB(4))
+              vpiFullName: target #(.WA(4), .WB(4)).WB
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1229,19 +1214,18 @@ Design name:unnamed:
       vpiName Identifier name:target start:29:8 end:29:14:
       vpiDefName: target
       vpiModule: Module name:target #(.WA(4), .WB(4))
-    ModuleTypespec name:target start:7:4 end:7:10:
+    ModuleTypespec name:target #(.WA(2), .WB(2)) start:7:4 end:7:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:target start:7:4 end:7:10:
+      vpiName Identifier name:target #(.WA(2), .WB(2)) start:7:4 end:7:10:
       vpiDefName: target
       vpiParamAssign (2 items):
         ParamAssign start:7:13 end:7:19:
-          vpiParent: ModuleTypespec name:target
+          vpiParent: ModuleTypespec name:target #(.WA(2), .WB(2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WA start:7:14 end:7:16:
             vpiParent: ParamAssign
             vpiName: WA
-            vpiFullName: target.WA
+            vpiFullName: target #(.WA(2), .WB(2)).WA
             vpiActual: Parameter name:WA
           vpiRhs Constant start:7:17 end:7:18:
             vpiParent: ParamAssign
@@ -1251,16 +1235,15 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: target
+              vpiFullName: target #(.WA(2), .WB(2))
               vpiActual: IntTypespec
         ParamAssign start:7:21 end:7:27:
-          vpiParent: ModuleTypespec name:target
+          vpiParent: ModuleTypespec name:target #(.WA(2), .WB(2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WB start:7:22 end:7:24:
             vpiParent: ParamAssign
             vpiName: WB
-            vpiFullName: target.WB
+            vpiFullName: target #(.WA(2), .WB(2)).WB
             vpiActual: Parameter name:WB
           vpiRhs Constant start:7:25 end:7:26:
             vpiParent: ParamAssign
@@ -1270,22 +1253,21 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: target
+              vpiFullName: target #(.WA(2), .WB(2))
               vpiActual: IntTypespec
       vpiModule: Module name:target #(.WA(4), .WB(4))
-    ModuleTypespec name:target start:8:4 end:8:10:
+    ModuleTypespec name:target #(.WA(3), .WB(3)) start:8:4 end:8:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:target start:8:4 end:8:10:
+      vpiName Identifier name:target #(.WA(3), .WB(3)) start:8:4 end:8:10:
       vpiDefName: target
       vpiParamAssign (2 items):
         ParamAssign start:8:13 end:8:19:
-          vpiParent: ModuleTypespec name:target
+          vpiParent: ModuleTypespec name:target #(.WA(3), .WB(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WA start:8:14 end:8:16:
             vpiParent: ParamAssign
             vpiName: WA
-            vpiFullName: target.WA
+            vpiFullName: target #(.WA(3), .WB(3)).WA
             vpiActual: Parameter name:WA
           vpiRhs Constant start:8:17 end:8:18:
             vpiParent: ParamAssign
@@ -1295,16 +1277,15 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: target
+              vpiFullName: target #(.WA(3), .WB(3))
               vpiActual: IntTypespec
         ParamAssign start:8:21 end:8:27:
-          vpiParent: ModuleTypespec name:target
+          vpiParent: ModuleTypespec name:target #(.WA(3), .WB(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WB start:8:22 end:8:24:
             vpiParent: ParamAssign
             vpiName: WB
-            vpiFullName: target.WB
+            vpiFullName: target #(.WA(3), .WB(3)).WB
             vpiActual: Parameter name:WB
           vpiRhs Constant start:8:25 end:8:26:
             vpiParent: ParamAssign
@@ -1314,7 +1295,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: target
+              vpiFullName: target #(.WA(3), .WB(3))
               vpiActual: IntTypespec
       vpiModule: Module name:target #(.WA(4), .WB(4))
   vpiLibrary (1 items):
@@ -1370,10 +1351,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       2         2
 Operation                            4       2       0         2
-RefObj                              46      44       0         2
+RefObj                              44      42       0         2
 RefTypespec                         33      33       2         2
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                   203     199       4         8
+                                   199     195       4         8
 ===================== END REDUCTION RESULT =====================

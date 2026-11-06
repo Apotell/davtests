@@ -703,23 +703,15 @@ Design name:unnamed:
             vpiParent: Parameter name:MODE
             vpiFullName: ifc.MODE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:68:14 end:68:22:
-          vpiParent: Interface name:ifc
-          vpiLhs RefObj name:MODE start:68:14 end:68:18:
-            vpiParent: ParamAssign
-            vpiName: MODE
-            vpiFullName: ifc.MODE
-            vpiActual: Parameter name:MODE
-          vpiRhs Constant start:68:21 end:68:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:68:21 end:68:22:
+            vpiParent: Parameter name:MODE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ifc
+              vpiFullName: ifc.MODE
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -921,7 +913,6 @@ Design name:unnamed:
           vpiParamAssign (2 items):
             ParamAssign start:23:10 end:23:11:
               vpiParent: UnsupportedTypespec
-              vpiOverridden: true
               vpiRhs Constant start:23:10 end:23:11:
                 vpiParent: ParamAssign
                 vpiConstType: int (7)
@@ -934,7 +925,6 @@ Design name:unnamed:
                   vpiActual: IntTypespec
             ParamAssign start:23:10 end:23:11:
               vpiParent: UnsupportedTypespec
-              vpiOverridden: true
               vpiRhs Constant start:23:10 end:23:11:
                 vpiParent: ParamAssign
                 vpiConstType: int (7)
@@ -950,7 +940,6 @@ Design name:unnamed:
           vpiParamAssign (2 items):
             ParamAssign start:24:10 end:24:11:
               vpiParent: UnsupportedTypespec
-              vpiOverridden: true
               vpiRhs Constant start:24:10 end:24:11:
                 vpiParent: ParamAssign
                 vpiConstType: int (7)
@@ -963,7 +952,6 @@ Design name:unnamed:
                   vpiActual: IntTypespec
             ParamAssign start:24:10 end:24:11:
               vpiParent: UnsupportedTypespec
-              vpiOverridden: true
               vpiRhs Constant start:24:10 end:24:11:
                 vpiParent: ParamAssign
                 vpiConstType: int (7)
@@ -974,8 +962,8 @@ Design name:unnamed:
                   vpiParent: Constant
                   vpiFullName: t
                   vpiActual: IntTypespec
-        ModuleTypespec name:sub:
-        ModuleTypespec name:sub:
+        ModuleTypespec name:sub #(.MODE(1)):
+        ModuleTypespec name:sub #(.MODE(2)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_gen.v"
@@ -1283,7 +1271,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:ca
             vpiName: sub
             vpiFullName: t.ca.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.MODE(1))
           vpiArgument (2 items):
             NamedArgument start:26:17 end:26:29:
               vpiParent: RefInstance name:ca
@@ -1323,7 +1311,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:cb
             vpiName: sub
             vpiFullName: t.cb.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.MODE(2))
           vpiArgument (2 items):
             NamedArgument start:28:17 end:28:29:
               vpiParent: RefInstance name:cb
@@ -1369,23 +1357,15 @@ Design name:unnamed:
             vpiParent: Parameter name:MODE
             vpiFullName: sub #(.MODE(0)).MODE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:47:15 end:47:23:
-          vpiParent: Module name:sub #(.MODE(0))
-          vpiLhs RefObj name:MODE start:47:15 end:47:19:
-            vpiParent: ParamAssign
-            vpiName: MODE
-            vpiFullName: sub #(.MODE(0)).MODE
-            vpiActual: Parameter name:MODE
-          vpiRhs Constant start:47:22 end:47:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:47:22 end:47:23:
+            vpiParent: Parameter name:MODE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub #(.MODE(0))
+              vpiFullName: sub #(.MODE(0)).MODE
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1589,18 +1569,17 @@ Design name:unnamed:
       vpiName Identifier name:ifc start:67:11 end:67:14:
       vpiDefName: ifc
       vpiInterface: Interface name:ifc
-    ModuleTypespec name:sub start:26:4 end:26:7:
+    ModuleTypespec name:sub #(.MODE(1)) start:26:4 end:26:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:26:4 end:26:7:
+      vpiName Identifier name:sub #(.MODE(1)) start:26:4 end:26:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:26:10 end:26:11:
-          vpiParent: ModuleTypespec name:sub
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:sub #(.MODE(1))
           vpiLhs RefObj name:MODE start:47:15 end:47:19:
             vpiParent: ParamAssign
             vpiName: MODE
-            vpiFullName: sub.MODE
+            vpiFullName: sub #(.MODE(1)).MODE
             vpiActual: Parameter name:MODE
           vpiRhs Constant start:26:10 end:26:11:
             vpiParent: ParamAssign
@@ -1610,21 +1589,20 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub #(.MODE(1))
               vpiActual: IntTypespec
       vpiModule: Module name:sub #(.MODE(0))
-    ModuleTypespec name:sub start:28:4 end:28:7:
+    ModuleTypespec name:sub #(.MODE(2)) start:28:4 end:28:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:28:4 end:28:7:
+      vpiName Identifier name:sub #(.MODE(2)) start:28:4 end:28:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:28:10 end:28:11:
-          vpiParent: ModuleTypespec name:sub
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:sub #(.MODE(2))
           vpiLhs RefObj name:MODE start:47:15 end:47:19:
             vpiParent: ParamAssign
             vpiName: MODE
-            vpiFullName: sub.MODE
+            vpiFullName: sub #(.MODE(2)).MODE
             vpiActual: Parameter name:MODE
           vpiRhs Constant start:28:10 end:28:11:
             vpiParent: ParamAssign
@@ -1634,7 +1612,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub #(.MODE(2))
               vpiActual: IntTypespec
       vpiModule: Module name:sub #(.MODE(0))
   vpiLibrary (1 items):
@@ -1690,10 +1668,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            22      22       6         6
 Operation                           11       5       0         6
-RefObj                              43      37       0         6
+RefObj                              41      35       0         6
 RefTypespec                         41      41       6         6
 ----------------------------------------------------------------
-Others                             117     117       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   234     222      12        24
+                                   230     218      12        24
 ===================== END REDUCTION RESULT =====================

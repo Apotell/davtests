@@ -646,8 +646,8 @@ Design name:unnamed:
                   vpiFullName: pm_test1
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:inc:
-        ModuleTypespec name:inc:
+        ModuleTypespec name:inc #(.step(3)):
+        ModuleTypespec name:inc #(.width(4), .step(7)):
       vpiDefName: pm_test1
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/simple/paramods.v"
@@ -769,7 +769,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:inc_a
             vpiName: inc
             vpiFullName: pm_test1.inc_a.inc
-            vpiActual: ModuleTypespec name:inc
+            vpiActual: ModuleTypespec name:inc #(.step(3))
           vpiArgument (2 items):
             NamedArgument start:7:24 end:7:30:
               vpiParent: RefInstance name:inc_a
@@ -804,7 +804,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:inc_b
             vpiName: inc
             vpiFullName: pm_test1.inc_b.inc
-            vpiActual: ModuleTypespec name:inc
+            vpiActual: ModuleTypespec name:inc #(.width(4), .step(7))
           vpiArgument (2 items):
             NamedArgument start:8:35 end:8:36:
               vpiParent: RefInstance name:inc_b
@@ -887,8 +887,8 @@ Design name:unnamed:
                   vpiFullName: pm_test2
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:inc:
-        ModuleTypespec name:inc:
+        ModuleTypespec name:inc #(.width(5)):
+        ModuleTypespec name:inc #(.width(4), .step(7)):
       vpiDefName: pm_test2
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/simple/paramods.v"
@@ -1010,7 +1010,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:inc_a
             vpiName: inc
             vpiFullName: pm_test2.inc_a.inc
-            vpiActual: ModuleTypespec name:inc
+            vpiActual: ModuleTypespec name:inc #(.width(5))
           vpiArgument (2 items):
             NamedArgument start:19:17 end:19:23:
               vpiParent: RefInstance name:inc_a
@@ -1045,7 +1045,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:inc_b
             vpiName: inc
             vpiFullName: pm_test2.inc_b.inc
-            vpiActual: ModuleTypespec name:inc
+            vpiActual: ModuleTypespec name:inc #(.width(4), .step(7))
           vpiArgument (2 items):
             NamedArgument start:20:20 end:20:21:
               vpiParent: RefInstance name:inc_b
@@ -1409,6 +1409,16 @@ Design name:unnamed:
             vpiParent: Parameter name:width
             vpiFullName: inc.width
             vpiActual: LogicTypespec
+          vpiExpr Constant start:44:19 end:44:20:
+            vpiParent: Parameter name:width
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: inc.width
+              vpiActual: IntTypespec
         Parameter name:step start:45:11 end:45:15:
           vpiParent: Module name:inc
           vpiName: step
@@ -1417,40 +1427,15 @@ Design name:unnamed:
             vpiParent: Parameter name:step
             vpiFullName: inc.step
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:44:11 end:44:20:
-          vpiParent: Module name:inc
-          vpiLhs RefObj name:width start:44:11 end:44:16:
-            vpiParent: ParamAssign
-            vpiName: width
-            vpiFullName: inc.width
-            vpiActual: Parameter name:width
-          vpiRhs Constant start:44:19 end:44:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "8"
-            vpiValue: 8
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: inc
-              vpiActual: IntTypespec
-        ParamAssign start:45:11 end:45:19:
-          vpiParent: Module name:inc
-          vpiLhs RefObj name:step start:45:11 end:45:15:
-            vpiParent: ParamAssign
-            vpiName: step
-            vpiFullName: inc.step
-            vpiActual: Parameter name:step
-          vpiRhs Constant start:45:18 end:45:19:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:45:18 end:45:19:
+            vpiParent: Parameter name:step
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: inc
+              vpiFullName: inc.step
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1637,19 +1622,18 @@ Design name:unnamed:
       vpiName Identifier name:inc start:42:8 end:42:11:
       vpiDefName: inc
       vpiModule: Module name:inc
-    ModuleTypespec name:inc start:8:1 end:8:4:
+    ModuleTypespec name:inc #(.width(4), .step(7)) start:8:1 end:8:4:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:inc start:8:1 end:8:4:
+      vpiName Identifier name:inc #(.width(4), .step(7)) start:8:1 end:8:4:
       vpiDefName: inc
       vpiParamAssign (2 items):
         ParamAssign start:8:7 end:8:16:
-          vpiParent: ModuleTypespec name:inc
+          vpiParent: ModuleTypespec name:inc #(.width(4), .step(7))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:width start:8:8 end:8:13:
             vpiParent: ParamAssign
             vpiName: width
-            vpiFullName: inc.width
+            vpiFullName: inc #(.width(4), .step(7)).width
             vpiActual: Parameter name:width
           vpiRhs Constant start:8:14 end:8:15:
             vpiParent: ParamAssign
@@ -1659,16 +1643,15 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: inc
+              vpiFullName: inc #(.width(4), .step(7))
               vpiActual: IntTypespec
         ParamAssign start:8:18 end:8:26:
-          vpiParent: ModuleTypespec name:inc
+          vpiParent: ModuleTypespec name:inc #(.width(4), .step(7))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:step start:8:19 end:8:23:
             vpiParent: ParamAssign
             vpiName: step
-            vpiFullName: inc.step
+            vpiFullName: inc #(.width(4), .step(7)).step
             vpiActual: Parameter name:step
           vpiRhs Constant start:8:24 end:8:25:
             vpiParent: ParamAssign
@@ -1678,21 +1661,20 @@ Design name:unnamed:
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: inc
+              vpiFullName: inc #(.width(4), .step(7))
               vpiActual: IntTypespec
       vpiModule: Module name:inc
-    ModuleTypespec name:inc start:19:1 end:19:4:
+    ModuleTypespec name:inc #(.width(5)) start:19:1 end:19:4:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:inc start:19:1 end:19:4:
+      vpiName Identifier name:inc #(.width(5)) start:19:1 end:19:4:
       vpiDefName: inc
       vpiParamAssign (1 items):
         ParamAssign start:19:7 end:19:8:
-          vpiParent: ModuleTypespec name:inc
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:inc #(.width(5))
           vpiLhs RefObj name:width start:44:11 end:44:16:
             vpiParent: ParamAssign
             vpiName: width
-            vpiFullName: inc.width
+            vpiFullName: inc #(.width(5)).width
             vpiActual: Parameter name:width
           vpiRhs Constant start:19:7 end:19:8:
             vpiParent: ParamAssign
@@ -1702,22 +1684,21 @@ Design name:unnamed:
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: inc
+              vpiFullName: inc #(.width(5))
               vpiActual: IntTypespec
       vpiModule: Module name:inc
-    ModuleTypespec name:inc start:7:1 end:7:4:
+    ModuleTypespec name:inc #(.step(3)) start:7:1 end:7:4:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:inc start:7:1 end:7:4:
+      vpiName Identifier name:inc #(.step(3)) start:7:1 end:7:4:
       vpiDefName: inc
       vpiParamAssign (1 items):
         ParamAssign start:7:7 end:7:15:
-          vpiParent: ModuleTypespec name:inc
+          vpiParent: ModuleTypespec name:inc #(.step(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:step start:7:8 end:7:12:
             vpiParent: ParamAssign
             vpiName: step
-            vpiFullName: inc.step
+            vpiFullName: inc #(.step(3)).step
             vpiActual: Parameter name:step
           vpiRhs Constant start:7:13 end:7:14:
             vpiParent: ParamAssign
@@ -1727,7 +1708,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: inc
+              vpiFullName: inc #(.step(3))
               vpiActual: IntTypespec
       vpiModule: Module name:inc
   vpiLibrary (1 items):
@@ -1783,10 +1764,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            25      25       2         2
 Operation                            3       1       0         2
-RefObj                              62      60       0         2
+RefObj                              60      58       0         2
 RefTypespec                         61      61       2         2
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                   253     249       4         8
+                                   249     245       4         8
 ===================== END REDUCTION RESULT =====================

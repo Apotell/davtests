@@ -3838,9 +3838,9 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: mux64
             vpiFullName: mux4096_1bit.mux64
-            vpiActual: ModuleTypespec name:mux64
-        ModuleTypespec name:mux64:
-        ModuleTypespec name:mux64:
+            vpiActual: ModuleTypespec name:mux64 #(.MUX_SIZE(64))
+        ModuleTypespec name:mux64 #(.MUX_SIZE(64)):
+        ModuleTypespec name:mux64 #(.MUX_SIZE(8)):
       vpiDefName: mux4096_1bit
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_bench_mux4k.v"
@@ -4358,7 +4358,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mux2
             vpiName: mux64
             vpiFullName: mux4096_1bit.mux2.mux64
-            vpiActual: ModuleTypespec name:mux64
+            vpiActual: ModuleTypespec name:mux64 #(.MUX_SIZE(8))
           vpiArgument (5 items):
             NamedArgument start:130:7 end:130:12:
               vpiParent: RefInstance name:mux2
@@ -4438,23 +4438,15 @@ Design name:unnamed:
             vpiParent: Parameter name:MUX_SIZE
             vpiFullName: mux64 #(.MUX_SIZE(64)).MUX_SIZE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:139:15 end:139:26:
-          vpiParent: Module name:mux64 #(.MUX_SIZE(64))
-          vpiLhs RefObj name:MUX_SIZE start:139:15 end:139:23:
-            vpiParent: ParamAssign
-            vpiName: MUX_SIZE
-            vpiFullName: mux64 #(.MUX_SIZE(64)).MUX_SIZE
-            vpiActual: Parameter name:MUX_SIZE
-          vpiRhs Constant start:139:24 end:139:26:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:139:24 end:139:26:
+            vpiParent: Parameter name:MUX_SIZE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "64"
             vpiValue: 64
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mux64 #(.MUX_SIZE(64))
+              vpiFullName: mux64 #(.MUX_SIZE(64)).MUX_SIZE
               vpiActual: IntTypespec
       vpiTypespec (11 items):
         LogicTypespec:
@@ -5695,19 +5687,18 @@ Design name:unnamed:
       vpiName Identifier name:drv start:170:8 end:170:11:
       vpiDefName: drv
       vpiModule: Module name:drv
-    ModuleTypespec name:mux64 start:120:4 end:120:9:
+    ModuleTypespec name:mux64 #(.MUX_SIZE(64)) start:120:4 end:120:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mux64 start:120:4 end:120:9:
+      vpiName Identifier name:mux64 #(.MUX_SIZE(64)) start:120:4 end:120:9:
       vpiDefName: mux64
       vpiParamAssign (1 items):
         ParamAssign start:120:12 end:120:33:
-          vpiParent: ModuleTypespec name:mux64
+          vpiParent: ModuleTypespec name:mux64 #(.MUX_SIZE(64))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:MUX_SIZE start:120:13 end:120:21:
             vpiParent: ParamAssign
             vpiName: MUX_SIZE
-            vpiFullName: mux64.MUX_SIZE
+            vpiFullName: mux64 #(.MUX_SIZE(64)).MUX_SIZE
             vpiActual: Parameter name:MUX_SIZE
           vpiRhs Constant start:16:19 end:16:21:
             vpiParent: ParamAssign
@@ -5717,22 +5708,21 @@ Design name:unnamed:
             vpiValue: 64
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mux64
+              vpiFullName: mux64 #(.MUX_SIZE(64))
               vpiActual: IntTypespec
       vpiModule: Module name:mux64 #(.MUX_SIZE(64))
-    ModuleTypespec name:mux64 start:129:4 end:129:9:
+    ModuleTypespec name:mux64 #(.MUX_SIZE(8)) start:129:4 end:129:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mux64 start:129:4 end:129:9:
+      vpiName Identifier name:mux64 #(.MUX_SIZE(8)) start:129:4 end:129:9:
       vpiDefName: mux64
       vpiParamAssign (1 items):
         ParamAssign start:129:12 end:129:33:
-          vpiParent: ModuleTypespec name:mux64
+          vpiParent: ModuleTypespec name:mux64 #(.MUX_SIZE(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:MUX_SIZE start:129:13 end:129:21:
             vpiParent: ParamAssign
             vpiName: MUX_SIZE
-            vpiFullName: mux64.MUX_SIZE
+            vpiFullName: mux64 #(.MUX_SIZE(8)).MUX_SIZE
             vpiActual: Parameter name:MUX_SIZE
           vpiRhs Constant start:12:19 end:12:20:
             vpiParent: ParamAssign
@@ -5742,7 +5732,7 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mux64
+              vpiFullName: mux64 #(.MUX_SIZE(8))
               vpiActual: IntTypespec
       vpiModule: Module name:mux64 #(.MUX_SIZE(64))
   vpiLibrary (1 items):
@@ -5798,10 +5788,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           148     123      24        49
 Operation                           79      47       0        32
-RefObj                             122     116       0         6
+RefObj                             121     115       0         6
 RefTypespec                        209     183      23        49
 ----------------------------------------------------------------
-Others                             350     350       0         0
+Others                             349     349       0         0
 ----------------------------------------------------------------
-                                   908     819      47       136
+                                   906     817      47       136
 ===================== END REDUCTION RESULT =====================

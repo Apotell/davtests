@@ -2925,8 +2925,8 @@ Design name:unnamed:
             vpiFullName: t
             vpiActual: LogicTypespec
         ModuleTypespec name:ma:
-        ModuleTypespec name:global_mod:
-        ModuleTypespec name:global_mod:
+        "ModuleTypespec name:global_mod #(.INITVAL(32'hf00d))":
+        "ModuleTypespec name:global_mod #(.INITVAL(32'hf22d))":
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
@@ -4405,7 +4405,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:global_cell
             vpiName: global_mod
             vpiFullName: t.global_cell.global_mod
-            vpiActual: ModuleTypespec name:global_mod
+            vpiActual: "ModuleTypespec name:global_mod #(.INITVAL(32'hf00d))"
         RefInstance name:global_cell2 start:25:27 end:25:39:
           vpiParent: Module name:t
           vpiName: global_cell2
@@ -4413,7 +4413,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:global_cell2
             vpiName: global_mod
             vpiFullName: t.global_cell2.global_mod
-            vpiActual: ModuleTypespec name:global_mod
+            vpiActual: "ModuleTypespec name:global_mod #(.INITVAL(32'hf22d))"
     Module name:global_mod file:$Source01/t_var_dotted.v start:93:1 end:98:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:global_mod start:93:8 end:93:18:
@@ -4438,23 +4438,15 @@ Design name:unnamed:
             vpiParent: Parameter name:INITVAL
             vpiFullName: global_mod.INITVAL
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:95:14 end:95:25:
-          vpiParent: Module name:global_mod
-          vpiLhs RefObj name:INITVAL start:95:14 end:95:21:
-            vpiParent: ParamAssign
-            vpiName: INITVAL
-            vpiFullName: global_mod.INITVAL
-            vpiActual: Parameter name:INITVAL
-          vpiRhs Constant start:95:24 end:95:25:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:95:24 end:95:25:
+            vpiParent: Parameter name:INITVAL
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: global_mod
+              vpiFullName: global_mod.INITVAL
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -4668,8 +4660,8 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: ma
             vpiActual: LogicTypespec
-        ModuleTypespec name:mb:
-        ModuleTypespec name:mb:
+        ModuleTypespec name:mb #(.P2(0)):
+        ModuleTypespec name:mb #(.P2(1)):
       vpiDefName: ma
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_var_dotted.v"
@@ -4791,7 +4783,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mb0
             vpiName: mb
             vpiFullName: ma.mb0.mb
-            vpiActual: ModuleTypespec name:mb
+            vpiActual: ModuleTypespec name:mb #(.P2(0))
           vpiArgument (2 items):
             NamedArgument start:110:17 end:110:32:
               vpiParent: RefInstance name:mb0
@@ -4826,7 +4818,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mb1
             vpiName: mb
             vpiFullName: ma.mb1.mb
-            vpiActual: ModuleTypespec name:mb
+            vpiActual: ModuleTypespec name:mb #(.P2(1))
           vpiArgument (2 items):
             NamedArgument start:111:17 end:111:32:
               vpiParent: RefInstance name:mb1
@@ -4867,23 +4859,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P2
             vpiFullName: mb.P2
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:119:14 end:119:20:
-          vpiParent: Module name:mb
-          vpiLhs RefObj name:P2 start:119:14 end:119:16:
-            vpiParent: ParamAssign
-            vpiName: P2
-            vpiFullName: mb.P2
-            vpiActual: Parameter name:P2
-          vpiRhs Constant start:119:19 end:119:20:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:119:19 end:119:20:
+            vpiParent: Parameter name:P2
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mb
+              vpiFullName: mb.P2
               vpiActual: IntTypespec
       vpiTypespec (6 items):
         LogicTypespec:
@@ -4941,9 +4925,9 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:mb
           vpiScalar: true
-        ModuleTypespec name:mc:
-        ModuleTypespec name:mc:
-        ModuleTypespec name:global_mod:
+        ModuleTypespec name:mc #(.P2(P2), .P3(0)):
+        ModuleTypespec name:mc #(.P2(P2), .P3(1)):
+        "ModuleTypespec name:global_mod #(.INITVAL(32'hf33d))":
       vpiDefName: mb
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_var_dotted.v"
@@ -5539,7 +5523,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mc0
             vpiName: mc
             vpiFullName: mb.mc0.mc
-            vpiActual: ModuleTypespec name:mc
+            vpiActual: ModuleTypespec name:mc #(.P2(P2), .P3(0))
           vpiArgument (1 items):
             NamedArgument start:120:20 end:120:31:
               vpiParent: RefInstance name:mc0
@@ -5561,7 +5545,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mc1
             vpiName: mc
             vpiFullName: mb.mc1.mc
-            vpiActual: ModuleTypespec name:mc
+            vpiActual: ModuleTypespec name:mc #(.P2(P2), .P3(1))
           vpiArgument (1 items):
             NamedArgument start:121:20 end:121:31:
               vpiParent: RefInstance name:mc1
@@ -5583,7 +5567,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:global_cell2
             vpiName: global_mod
             vpiFullName: mb.global_cell2.global_mod
-            vpiActual: ModuleTypespec name:global_mod
+            vpiActual: "ModuleTypespec name:global_mod #(.INITVAL(32'hf33d))"
     Module name:mc file:$Source01/t_var_dotted.v start:144:1 end:173:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mc start:144:8 end:144:10:
@@ -5608,6 +5592,16 @@ Design name:unnamed:
             vpiParent: Parameter name:P2
             vpiFullName: mc.P2
             vpiActual: LogicTypespec
+          vpiExpr Constant start:146:19 end:146:20:
+            vpiParent: Parameter name:P2
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: mc.P2
+              vpiActual: IntTypespec
         Parameter name:P3 start:147:14 end:147:16:
           vpiParent: Module name:mc
           vpiName: P3
@@ -5616,40 +5610,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P3
             vpiFullName: mc.P3
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:146:14 end:146:20:
-          vpiParent: Module name:mc
-          vpiLhs RefObj name:P2 start:146:14 end:146:16:
-            vpiParent: ParamAssign
-            vpiName: P2
-            vpiFullName: mc.P2
-            vpiActual: Parameter name:P2
-          vpiRhs Constant start:146:19 end:146:20:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:147:19 end:147:20:
+            vpiParent: Parameter name:P3
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mc
-              vpiActual: IntTypespec
-        ParamAssign start:147:14 end:147:20:
-          vpiParent: Module name:mc
-          vpiLhs RefObj name:P3 start:147:14 end:147:16:
-            vpiParent: ParamAssign
-            vpiName: P3
-            vpiFullName: mc.P3
-            vpiActual: Parameter name:P3
-          vpiRhs Constant start:147:19 end:147:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: mc
+              vpiFullName: mc.P3
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -6656,18 +6625,17 @@ Design name:unnamed:
       vpiName Identifier name:mc start:144:8 end:144:10:
       vpiDefName: mc
       vpiModule: Module name:mc
-    ModuleTypespec name:global_mod start:24:4 end:24:14:
+    "ModuleTypespec name:global_mod #(.INITVAL(32'hf00d)) start:24:4 end:24:14":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:global_mod start:24:4 end:24:14:
+      "vpiName Identifier name:global_mod #(.INITVAL(32'hf00d)) start:24:4 end:24:14":
       vpiDefName: global_mod
       vpiParamAssign (1 items):
         ParamAssign start:24:17 end:24:25:
-          vpiParent: ModuleTypespec name:global_mod
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:global_mod #(.INITVAL(32'hf00d))"
           vpiLhs RefObj name:INITVAL start:95:14 end:95:21:
             vpiParent: ParamAssign
             vpiName: INITVAL
-            vpiFullName: global_mod.INITVAL
+            vpiFullName: "global_mod #(.INITVAL(32'hf00d)).INITVAL"
             vpiActual: Parameter name:INITVAL
           vpiRhs Constant start:24:17 end:24:25:
             vpiParent: ParamAssign
@@ -6677,21 +6645,20 @@ Design name:unnamed:
             vpiValue: f00d
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: global_mod
+              vpiFullName: "global_mod #(.INITVAL(32'hf00d))"
               vpiActual: IntTypespec
       vpiModule: Module name:global_mod
-    ModuleTypespec name:global_mod start:25:4 end:25:14:
+    "ModuleTypespec name:global_mod #(.INITVAL(32'hf22d)) start:25:4 end:25:14":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:global_mod start:25:4 end:25:14:
+      "vpiName Identifier name:global_mod #(.INITVAL(32'hf22d)) start:25:4 end:25:14":
       vpiDefName: global_mod
       vpiParamAssign (1 items):
         ParamAssign start:25:17 end:25:25:
-          vpiParent: ModuleTypespec name:global_mod
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:global_mod #(.INITVAL(32'hf22d))"
           vpiLhs RefObj name:INITVAL start:95:14 end:95:21:
             vpiParent: ParamAssign
             vpiName: INITVAL
-            vpiFullName: global_mod.INITVAL
+            vpiFullName: "global_mod #(.INITVAL(32'hf22d)).INITVAL"
             vpiActual: Parameter name:INITVAL
           vpiRhs Constant start:25:17 end:25:25:
             vpiParent: ParamAssign
@@ -6701,21 +6668,20 @@ Design name:unnamed:
             vpiValue: f22d
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: global_mod
+              vpiFullName: "global_mod #(.INITVAL(32'hf22d))"
               vpiActual: IntTypespec
       vpiModule: Module name:global_mod
-    ModuleTypespec name:global_mod start:122:4 end:122:14:
+    "ModuleTypespec name:global_mod #(.INITVAL(32'hf33d)) start:122:4 end:122:14":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:global_mod start:122:4 end:122:14:
+      "vpiName Identifier name:global_mod #(.INITVAL(32'hf33d)) start:122:4 end:122:14":
       vpiDefName: global_mod
       vpiParamAssign (1 items):
         ParamAssign start:122:17 end:122:25:
-          vpiParent: ModuleTypespec name:global_mod
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:global_mod #(.INITVAL(32'hf33d))"
           vpiLhs RefObj name:INITVAL start:95:14 end:95:21:
             vpiParent: ParamAssign
             vpiName: INITVAL
-            vpiFullName: global_mod.INITVAL
+            vpiFullName: "global_mod #(.INITVAL(32'hf33d)).INITVAL"
             vpiActual: Parameter name:INITVAL
           vpiRhs Constant start:122:17 end:122:25:
             vpiParent: ParamAssign
@@ -6725,21 +6691,20 @@ Design name:unnamed:
             vpiValue: f33d
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: global_mod
+              vpiFullName: "global_mod #(.INITVAL(32'hf33d))"
               vpiActual: IntTypespec
       vpiModule: Module name:global_mod
-    ModuleTypespec name:mb start:110:4 end:110:6:
+    ModuleTypespec name:mb #(.P2(0)) start:110:4 end:110:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mb start:110:4 end:110:6:
+      vpiName Identifier name:mb #(.P2(0)) start:110:4 end:110:6:
       vpiDefName: mb
       vpiParamAssign (1 items):
         ParamAssign start:110:9 end:110:10:
-          vpiParent: ModuleTypespec name:mb
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mb #(.P2(0))
           vpiLhs RefObj name:P2 start:119:14 end:119:16:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mb.P2
+            vpiFullName: mb #(.P2(0)).P2
             vpiActual: Parameter name:P2
           vpiRhs Constant start:110:9 end:110:10:
             vpiParent: ParamAssign
@@ -6749,21 +6714,20 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mb
+              vpiFullName: mb #(.P2(0))
               vpiActual: IntTypespec
       vpiModule: Module name:mb
-    ModuleTypespec name:mb start:111:4 end:111:6:
+    ModuleTypespec name:mb #(.P2(1)) start:111:4 end:111:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mb start:111:4 end:111:6:
+      vpiName Identifier name:mb #(.P2(1)) start:111:4 end:111:6:
       vpiDefName: mb
       vpiParamAssign (1 items):
         ParamAssign start:111:9 end:111:10:
-          vpiParent: ModuleTypespec name:mb
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mb #(.P2(1))
           vpiLhs RefObj name:P2 start:119:14 end:119:16:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mb.P2
+            vpiFullName: mb #(.P2(1)).P2
             vpiActual: Parameter name:P2
           vpiRhs Constant start:111:9 end:111:10:
             vpiParent: ParamAssign
@@ -6773,34 +6737,32 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mb
+              vpiFullName: mb #(.P2(1))
               vpiActual: IntTypespec
       vpiModule: Module name:mb
-    ModuleTypespec name:mc start:120:4 end:120:6:
+    ModuleTypespec name:mc #(.P2(P2), .P3(0)) start:120:4 end:120:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mc start:120:4 end:120:6:
+      vpiName Identifier name:mc #(.P2(P2), .P3(0)) start:120:4 end:120:6:
       vpiDefName: mc
       vpiParamAssign (2 items):
         ParamAssign start:120:9 end:120:11:
-          vpiParent: ModuleTypespec name:mc
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mc #(.P2(P2), .P3(0))
           vpiLhs RefObj name:P2 start:146:14 end:146:16:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mc.P2
+            vpiFullName: mc #(.P2(P2), .P3(0)).P2
             vpiActual: Parameter name:P2
           vpiRhs RefObj name:P2 start:120:9 end:120:11:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mc.P2
+            vpiFullName: mc #(.P2(P2), .P3(0)).P2
             vpiActual: Parameter name:P2
         ParamAssign start:120:12 end:120:13:
-          vpiParent: ModuleTypespec name:mc
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mc #(.P2(P2), .P3(0))
           vpiLhs RefObj name:P3 start:147:14 end:147:16:
             vpiParent: ParamAssign
             vpiName: P3
-            vpiFullName: mc.P3
+            vpiFullName: mc #(.P2(P2), .P3(0)).P3
             vpiActual: Parameter name:P3
           vpiRhs Constant start:120:12 end:120:13:
             vpiParent: ParamAssign
@@ -6810,34 +6772,32 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mc
+              vpiFullName: mc #(.P2(P2), .P3(0))
               vpiActual: IntTypespec
       vpiModule: Module name:mc
-    ModuleTypespec name:mc start:121:4 end:121:6:
+    ModuleTypespec name:mc #(.P2(P2), .P3(1)) start:121:4 end:121:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mc start:121:4 end:121:6:
+      vpiName Identifier name:mc #(.P2(P2), .P3(1)) start:121:4 end:121:6:
       vpiDefName: mc
       vpiParamAssign (2 items):
         ParamAssign start:121:9 end:121:11:
-          vpiParent: ModuleTypespec name:mc
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mc #(.P2(P2), .P3(1))
           vpiLhs RefObj name:P2 start:146:14 end:146:16:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mc.P2
+            vpiFullName: mc #(.P2(P2), .P3(1)).P2
             vpiActual: Parameter name:P2
           vpiRhs RefObj name:P2 start:121:9 end:121:11:
             vpiParent: ParamAssign
             vpiName: P2
-            vpiFullName: mc.P2
+            vpiFullName: mc #(.P2(P2), .P3(1)).P2
             vpiActual: Parameter name:P2
         ParamAssign start:121:12 end:121:13:
-          vpiParent: ModuleTypespec name:mc
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mc #(.P2(P2), .P3(1))
           vpiLhs RefObj name:P3 start:147:14 end:147:16:
             vpiParent: ParamAssign
             vpiName: P3
-            vpiFullName: mc.P3
+            vpiFullName: mc #(.P2(P2), .P3(1)).P3
             vpiActual: Parameter name:P3
           vpiRhs Constant start:121:12 end:121:13:
             vpiParent: ParamAssign
@@ -6847,7 +6807,7 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mc
+              vpiFullName: mc #(.P2(P2), .P3(1))
               vpiActual: IntTypespec
       vpiModule: Module name:mc
   vpiLibrary (1 items):
@@ -6903,10 +6863,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           129     129       9         9
 Operation                           64      55       0         9
-RefObj                             263     254       0         9
+RefObj                             259     250       0         9
 RefTypespec                        169     169       9         9
 ----------------------------------------------------------------
-Others                             361     361       0         0
+Others                             357     357       0         0
 ----------------------------------------------------------------
-                                   986     968      18        36
+                                   978     960      18        36
 ===================== END REDUCTION RESULT =====================

@@ -313,16 +313,8 @@ Design name:unnamed:
             vpiName: int [4]
             vpiFullName: t.c.int [4]
             vpiActual: ArrayTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:19 end:7:39:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:c start:7:19 end:7:20:
-            vpiParent: ParamAssign
-            vpiName: c
-            vpiFullName: t.c
-            vpiActual: Parameter name:c
-          vpiRhs Operation start:7:26 end:7:39:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:7:26 end:7:39:
+            vpiParent: Parameter name:c
             vpiOpType: assign pattern (87)
             vpiOperand (4 items):
               Constant start:7:28 end:7:29:
@@ -333,7 +325,7 @@ Design name:unnamed:
                 vpiValue: 5
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t
+                  vpiFullName: t.c
                   vpiActual: IntTypespec
               Constant start:7:31 end:7:32:
                 vpiParent: Operation
@@ -343,7 +335,7 @@ Design name:unnamed:
                 vpiValue: 6
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t
+                  vpiFullName: t.c
                   vpiActual: IntTypespec
               Constant start:7:34 end:7:35:
                 vpiParent: Operation
@@ -353,7 +345,7 @@ Design name:unnamed:
                 vpiValue: 7
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t
+                  vpiFullName: t.c
                   vpiActual: IntTypespec
               Constant start:7:37 end:7:38:
                 vpiParent: Operation
@@ -363,7 +355,7 @@ Design name:unnamed:
                 vpiValue: 8
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: t
+                  vpiFullName: t.c
                   vpiActual: IntTypespec
       vpiTypespec (2 items):
         ArrayTypespec:
@@ -389,7 +381,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: t
             vpiActual: IntTypespec
-        ModuleTypespec name:a:
+        ModuleTypespec name:a #(.p(c)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_array2.v"
@@ -410,7 +402,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:i_a
             vpiName: a
             vpiFullName: t.i_a.a
-            vpiActual: ModuleTypespec name:a
+            vpiActual: ModuleTypespec name:a #(.p(c))
     "Module name:a #(.p('{1, 2, 3, 4})) file:$Source01/t_param_array2.v start:11:1 end:21:10":
       vpiParent: Design name:unnamed
       "vpiName Identifier name:a #(.p('{1, 2, 3, 4})) start:11:8 end:11:9":
@@ -425,16 +417,8 @@ Design name:unnamed:
             vpiName: int [4]
             vpiFullName: "a #(.p('{1, 2, 3, 4})).p.int [4]"
             vpiActual: ArrayTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:12:20 end:12:40:
-          vpiParent: "Module name:a #(.p('{1, 2, 3, 4}))"
-          vpiLhs RefObj name:p start:12:20 end:12:21:
-            vpiParent: ParamAssign
-            vpiName: p
-            vpiFullName: "a #(.p('{1, 2, 3, 4})).p"
-            vpiActual: Parameter name:p
-          vpiRhs Operation start:12:27 end:12:40:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:12:27 end:12:40:
+            vpiParent: Parameter name:p
             vpiOpType: assign pattern (87)
             vpiOperand (4 items):
               Constant start:12:29 end:12:30:
@@ -445,7 +429,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "a #(.p('{1, 2, 3, 4}))"
+                  vpiFullName: "a #(.p('{1, 2, 3, 4})).p"
                   vpiActual: IntTypespec
               Constant start:12:32 end:12:33:
                 vpiParent: Operation
@@ -455,7 +439,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "a #(.p('{1, 2, 3, 4}))"
+                  vpiFullName: "a #(.p('{1, 2, 3, 4})).p"
                   vpiActual: IntTypespec
               Constant start:12:35 end:12:36:
                 vpiParent: Operation
@@ -465,7 +449,7 @@ Design name:unnamed:
                 vpiValue: 3
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "a #(.p('{1, 2, 3, 4}))"
+                  vpiFullName: "a #(.p('{1, 2, 3, 4})).p"
                   vpiActual: IntTypespec
               Constant start:12:38 end:12:39:
                 vpiParent: Operation
@@ -475,7 +459,7 @@ Design name:unnamed:
                 vpiValue: 4
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "a #(.p('{1, 2, 3, 4}))"
+                  vpiFullName: "a #(.p('{1, 2, 3, 4})).p"
                   vpiActual: IntTypespec
       vpiTypespec (1 items):
         ArrayTypespec:
@@ -719,24 +703,23 @@ Design name:unnamed:
       vpiModule: "Module name:a #(.p('{1, 2, 3, 4}))"
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:a start:8:4 end:8:5:
+    ModuleTypespec name:a #(.p(c)) start:8:4 end:8:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:a start:8:4 end:8:5:
+      vpiName Identifier name:a #(.p(c)) start:8:4 end:8:5:
       vpiDefName: a
       vpiParamAssign (1 items):
         ParamAssign start:8:8 end:8:13:
-          vpiParent: ModuleTypespec name:a
+          vpiParent: ModuleTypespec name:a #(.p(c))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:p start:8:9 end:8:10:
             vpiParent: ParamAssign
             vpiName: p
-            vpiFullName: a.p
+            vpiFullName: a #(.p(c)).p
             vpiActual: Parameter name:p
           vpiRhs RefObj name:c start:8:11 end:8:12:
             vpiParent: ParamAssign
             vpiName: c
-            vpiFullName: a.c
+            vpiFullName: a #(.p(c)).c
             vpiActual: Parameter name:c
       vpiModule: "Module name:a #(.p('{1, 2, 3, 4}))"
   vpiLibrary (1 items):
@@ -795,7 +778,7 @@ LongIntTypespec                      0       1       1         0
 Operation                            8       6       0         2
 RefTypespec                         24      24       2         2
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                   110     109       5         6
+                                   106     105       5         6
 ===================== END REDUCTION RESULT =====================

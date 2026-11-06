@@ -346,6 +346,16 @@ Design name:unnamed:
             vpiParent: Parameter name:size
             vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).size"
             vpiActual: LogicTypespec
+          vpiExpr Constant start:10:22 end:10:23:
+            vpiParent: Parameter name:size
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).size"
+              vpiActual: IntTypespec
         Parameter name:p start:11:15 end:11:16:
           vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
           vpiName: p
@@ -354,33 +364,8 @@ Design name:unnamed:
             vpiParent: Parameter name:p
             vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:10:15 end:10:23:
-          vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
-          vpiLhs RefObj name:size start:10:15 end:10:19:
-            vpiParent: ParamAssign
-            vpiName: size
-            vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).size"
-            vpiActual: Parameter name:size
-          vpiRhs Constant start:10:22 end:10:23:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "4"
-            vpiValue: 4
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
-              vpiActual: IntTypespec
-        ParamAssign start:11:15 end:11:55:
-          vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
-          vpiLhs RefObj name:p start:11:15 end:11:16:
-            vpiParent: ParamAssign
-            vpiName: p
-            vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
-            vpiActual: Parameter name:p
-          vpiRhs FuncCall name:sum start:11:19 end:11:55:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:sum start:11:19 end:11:55:
+            vpiParent: Parameter name:p
             vpiName Identifier name:sum start:11:19 end:11:22:
             vpiTaskFunc: Function name:sum
             vpiArgument (2 items):
@@ -398,7 +383,7 @@ Design name:unnamed:
                       vpiValue: "1"
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
+                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
                         vpiActual: IntTypespec
                     Constant start:11:30 end:11:35:
                       vpiParent: Operation
@@ -408,7 +393,7 @@ Design name:unnamed:
                       vpiValue: "2"
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
+                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
                         vpiActual: IntTypespec
                     Constant start:11:36 end:11:41:
                       vpiParent: Operation
@@ -418,7 +403,7 @@ Design name:unnamed:
                       vpiValue: "3"
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
+                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
                         vpiActual: IntTypespec
                     Constant start:11:42 end:11:47:
                       vpiParent: Operation
@@ -428,14 +413,14 @@ Design name:unnamed:
                       vpiValue: "4"
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
+                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p"
                         vpiActual: IntTypespec
               NamedArgument start:11:50 end:11:54:
                 vpiParent: FuncCall name:sum
                 vpiHighConn RefObj name:size start:11:50 end:11:54:
                   vpiParent: NamedArgument
                   vpiName: size
-                  vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).size"
+                  vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).p.size"
                   vpiActual: Parameter name:size
       vpiTypespec (4 items):
         LogicTypespec:
@@ -918,7 +903,7 @@ Constant                            16      12       1         5
 Operation                            7       5       0         2
 RefTypespec                         32      27       0         5
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                   127     116       1        12
+                                   123     112       1        12
 ===================== END REDUCTION RESULT =====================

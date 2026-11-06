@@ -152,6 +152,16 @@ Design name:unnamed:
             vpiParent: Parameter name:BASE
             vpiFullName: base_pkg::BASE
             vpiActual: LogicTypespec
+          vpiExpr Constant start:2:34 end:2:39:
+            vpiParent: Parameter name:BASE
+            vpiConstType: binary (3)
+            vpiSize: 2
+            vpiDecompile: "2'b00"
+            vpiValue: "00"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: base_pkg::BASE
+              vpiActual: LogicTypespec
         Parameter name:USAGE start:3:25 end:3:30:
           vpiParent: Package name:base_pkg
           vpiName: USAGE
@@ -161,39 +171,14 @@ Design name:unnamed:
             vpiParent: Parameter name:USAGE
             vpiFullName: base_pkg::USAGE
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:2:25 end:2:39:
-          vpiParent: Package name:base_pkg
-          vpiLhs RefObj name:BASE start:2:25 end:2:29:
-            vpiParent: ParamAssign
-            vpiName: BASE
-            vpiFullName: base_pkg::BASE
-            vpiActual: Parameter name:BASE
-          vpiRhs Constant start:2:34 end:2:39:
-            vpiParent: ParamAssign
-            vpiConstType: binary (3)
-            vpiSize: 2
-            vpiDecompile: "2'b00"
-            vpiValue: "00"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: base_pkg
-              vpiActual: LogicTypespec
-        ParamAssign start:3:25 end:3:46:
-          vpiParent: Package name:base_pkg
-          vpiLhs RefObj name:USAGE start:3:25 end:3:30:
-            vpiParent: ParamAssign
-            vpiName: USAGE
-            vpiFullName: base_pkg::USAGE
-            vpiActual: Parameter name:USAGE
-          vpiRhs Operation start:3:34 end:3:46:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:3:34 end:3:46:
+            vpiParent: Parameter name:USAGE
             vpiOpType: bitwise or (29)
             vpiOperand (2 items):
               RefObj name:BASE start:3:34 end:3:38:
                 vpiParent: Operation
                 vpiName: BASE
-                vpiFullName: base_pkg::BASE
+                vpiFullName: base_pkg::USAGE::BASE
                 vpiActual: Parameter name:BASE
               Constant start:3:41 end:3:46:
                 vpiParent: Operation
@@ -203,7 +188,7 @@ Design name:unnamed:
                 vpiValue: "01"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: base_pkg
+                  vpiFullName: base_pkg::USAGE
                   vpiActual: LogicTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -282,28 +267,20 @@ Design name:unnamed:
             vpiParent: Parameter name:FROM_USAGE
             vpiFullName: error_pkg::FROM_USAGE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:25 end:7:53:
-          vpiParent: Package name:error_pkg
-          vpiLhs RefObj name:FROM_USAGE start:7:25 end:7:35:
-            vpiParent: ParamAssign
-            vpiName: FROM_USAGE
-            vpiFullName: error_pkg::FROM_USAGE
-            vpiActual: Parameter name:FROM_USAGE
-          vpiRhs RefObj name:base_pkg::USAGE start:7:38:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:base_pkg::USAGE start:7:38:
+            vpiParent: Parameter name:FROM_USAGE
             vpiName: base_pkg::USAGE
-            vpiFullName: error_pkg::base_pkg::USAGE
+            vpiFullName: error_pkg::FROM_USAGE::base_pkg::USAGE
             vpiPathElem (2 items):
               RefObj name:base_pkg start:7:38 end:7:46:
                 vpiParent: RefObj name:base_pkg::USAGE
                 vpiName: base_pkg
-                vpiFullName: error_pkg::base_pkg
+                vpiFullName: error_pkg::FROM_USAGE::base_pkg
                 vpiActual: Package name:base_pkg
               RefObj name:USAGE start:7:48 end:7:53:
                 vpiParent: RefObj name:base_pkg::USAGE
                 vpiName: USAGE
-                vpiFullName: error_pkg::USAGE
+                vpiFullName: error_pkg::FROM_USAGE::USAGE
                 vpiActual: Parameter name:USAGE
             vpiActual: Parameter name:USAGE
       vpiTypespec (1 items):
@@ -445,10 +422,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9       9       1         1
 Operation                            1       0       0         1
-RefObj                              10       9       0         1
+RefObj                               7       6       0         1
 RefTypespec                         12      12       1         1
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    62      60       2         4
+                                    56      54       2         4
 ===================== END REDUCTION RESULT =====================

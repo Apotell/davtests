@@ -470,7 +470,7 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:submod:
+        "ModuleTypespec name:submod #(.c(-3'sd1), .d(-3'sd1))":
       vpiAttribute (1 items):
         Attribute name:top start:2:4 end:2:7:
           vpiParent: Module name:top
@@ -656,7 +656,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo
             vpiName: submod
             vpiFullName: top.foo.submod
-            vpiActual: ModuleTypespec name:submod
+            vpiActual: "ModuleTypespec name:submod #(.c(-3'sd1), .d(-3'sd1))"
           vpiArgument (6 items):
             NamedArgument start:12:31 end:12:32:
               vpiParent: RefInstance name:foo
@@ -743,6 +743,16 @@ Design name:unnamed:
             vpiParent: Parameter name:c
             vpiFullName: submod.c
             vpiActual: LogicTypespec
+          vpiExpr Constant start:18:15 end:18:16:
+            vpiParent: Parameter name:c
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: submod.c
+              vpiActual: IntTypespec
         Parameter name:d start:19:17 end:19:18:
           vpiParent: Module name:submod
           vpiName: d
@@ -751,40 +761,15 @@ Design name:unnamed:
             vpiParent: Parameter name:d
             vpiFullName: submod.d
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:18:11 end:18:16:
-          vpiParent: Module name:submod
-          vpiLhs RefObj name:c start:18:11 end:18:12:
-            vpiParent: ParamAssign
-            vpiName: c
-            vpiFullName: submod.c
-            vpiActual: Parameter name:c
-          vpiRhs Constant start:18:15 end:18:16:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:19:21 end:19:22:
+            vpiParent: Parameter name:d
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: submod
-              vpiActual: IntTypespec
-        ParamAssign start:19:17 end:19:22:
-          vpiParent: Module name:submod
-          vpiLhs RefObj name:d start:19:17 end:19:18:
-            vpiParent: ParamAssign
-            vpiName: d
-            vpiFullName: submod.d
-            vpiActual: Parameter name:d
-          vpiRhs Constant start:19:21 end:19:22:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: submod
+              vpiFullName: submod.d
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -1118,18 +1103,17 @@ Design name:unnamed:
       vpiName Identifier name:submod start:17:8 end:17:14:
       vpiDefName: submod
       vpiModule: Module name:submod
-    ModuleTypespec name:submod start:12:1 end:12:7:
+    "ModuleTypespec name:submod #(.c(-3'sd1), .d(-3'sd1)) start:12:1 end:12:7":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:submod start:12:1 end:12:7:
+      "vpiName Identifier name:submod #(.c(-3'sd1), .d(-3'sd1)) start:12:1 end:12:7":
       vpiDefName: submod
       vpiParamAssign (2 items):
         ParamAssign start:12:10 end:12:16:
-          vpiParent: ModuleTypespec name:submod
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:submod #(.c(-3'sd1), .d(-3'sd1))"
           vpiLhs RefObj name:c start:18:11 end:18:12:
             vpiParent: ParamAssign
             vpiName: c
-            vpiFullName: submod.c
+            vpiFullName: "submod #(.c(-3'sd1), .d(-3'sd1)).c"
             vpiActual: Parameter name:c
           vpiRhs Operation start:12:10 end:12:16:
             vpiParent: ParamAssign
@@ -1143,15 +1127,14 @@ Design name:unnamed:
                 vpiValue: "1"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: submod
+                  vpiFullName: "submod #(.c(-3'sd1), .d(-3'sd1))"
                   vpiActual: IntTypespec
         ParamAssign start:12:18 end:12:24:
-          vpiParent: ModuleTypespec name:submod
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:submod #(.c(-3'sd1), .d(-3'sd1))"
           vpiLhs RefObj name:d start:19:17 end:19:18:
             vpiParent: ParamAssign
             vpiName: d
-            vpiFullName: submod.d
+            vpiFullName: "submod #(.c(-3'sd1), .d(-3'sd1)).d"
             vpiActual: Parameter name:d
           vpiRhs Operation start:12:18 end:12:24:
             vpiParent: ParamAssign
@@ -1165,7 +1148,7 @@ Design name:unnamed:
                 vpiValue: "1"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: submod
+                  vpiFullName: "submod #(.c(-3'sd1), .d(-3'sd1))"
                   vpiActual: IntTypespec
       vpiModule: Module name:submod
   vpiLibrary (1 items):
@@ -1223,7 +1206,7 @@ Constant                            18      18       2         2
 Operation                            2       0       0         2
 RefTypespec                         45      45       2         2
 ----------------------------------------------------------------
-Others                             110     110       0         0
+Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   175     173       4         6
+                                   171     169       4         6
 ===================== END REDUCTION RESULT =====================

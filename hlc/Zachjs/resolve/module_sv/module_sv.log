@@ -171,7 +171,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/resolve/module.sv:3:26: Failed to bind "width_calc".
 [WRN:CP5851] $Source01/resolve/module.sv:8:10: Failed to bind "display".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/resolve/module.sv:3:26: Null Actual: id:19, type:SubroutineCall, name:width_calc, relation:vpiRhs.
+[ERR:LN7705] $Source01/resolve/module.sv:3:26: Null Actual: id:19, type:SubroutineCall, name:width_calc, relation:vpiExpr.
 [ERR:DL2516] $Source01/resolve/module.sv:8:10: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
 ====== HLDB =======
 Design name:unnamed:
@@ -196,16 +196,8 @@ Design name:unnamed:
             vpiParent: Parameter name:width
             vpiFullName: top #(.width(width_calc(2))).width
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:18 end:3:39:
-          vpiParent: Module name:top #(.width(width_calc(2)))
-          vpiLhs RefObj name:width start:3:18 end:3:23:
-            vpiParent: ParamAssign
-            vpiName: width
-            vpiFullName: top #(.width(width_calc(2))).width
-            vpiActual: Parameter name:width
-          vpiRhs SubroutineCall name:width_calc start:3:26 end:3:39:
-            vpiParent: ParamAssign
+          vpiExpr SubroutineCall name:width_calc start:3:26 end:3:39:
+            vpiParent: Parameter name:width
             vpiName Identifier name:width_calc start:3:26 end:3:36:
             vpiArgument (1 items):
               NamedArgument start:3:37 end:3:38:
@@ -218,7 +210,7 @@ Design name:unnamed:
                   vpiValue: 2
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: top #(.width(width_calc(2)))
+                    vpiFullName: top #(.width(width_calc(2))).width
                     vpiActual: IntTypespec
       vpiTypespec (5 items):
         ImportTypespec name:pkg start:2:12 end:2:18:
@@ -490,7 +482,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/resolve/module_sv/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

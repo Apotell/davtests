@@ -1616,23 +1616,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: top.W
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:12 end:2:18:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:W start:2:12 end:2:13:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: top.W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:2:16 end:2:18:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:16 end:2:18:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.W
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1673,7 +1665,7 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:empty:
+        ModuleTypespec name:empty #(.W(W)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_01259/top.v"
@@ -1711,7 +1703,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:empty_inst
             vpiName: empty
             vpiFullName: top.empty_inst.empty
-            vpiActual: ModuleTypespec name:empty
+            vpiActual: ModuleTypespec name:empty #(.W(W))
           vpiArgument (1 items):
             NamedArgument start:4:28 end:4:33:
               vpiParent: RefInstance name:empty_inst
@@ -1739,23 +1731,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: empty #(.W(0)).W
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:25 end:7:30:
-          vpiParent: Module name:empty #(.W(0))
-          vpiLhs RefObj name:W start:7:25 end:7:26:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: empty #(.W(0)).W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:7:29 end:7:30:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:29 end:7:30:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: empty #(.W(0))
+              vpiFullName: empty #(.W(0)).W
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1877,24 +1861,23 @@ Design name:unnamed:
       vpiName Identifier name:empty start:7:8 end:7:13:
       vpiDefName: empty
       vpiModule: Module name:empty #(.W(0))
-    ModuleTypespec name:empty start:4:2 end:4:7:
+    ModuleTypespec name:empty #(.W(W)) start:4:2 end:4:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:empty start:4:2 end:4:7:
+      vpiName Identifier name:empty #(.W(W)) start:4:2 end:4:7:
       vpiDefName: empty
       vpiParamAssign (1 items):
         ParamAssign start:4:10 end:4:15:
-          vpiParent: ModuleTypespec name:empty
+          vpiParent: ModuleTypespec name:empty #(.W(W))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:W start:4:11 end:4:12:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: empty.W
+            vpiFullName: empty #(.W(W)).W
             vpiActual: Parameter name:W
           vpiRhs RefObj name:W start:4:13 end:4:14:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: empty.W
+            vpiFullName: empty #(.W(W)).W
             vpiActual: Parameter name:W
       vpiModule: Module name:empty #(.W(0))
   vpiLibrary (1 items):
@@ -1953,10 +1936,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       2         2
 Operation                           11       9       0         2
-RefObj                              46      44       0         2
+RefObj                              44      42       0         2
 RefTypespec                         51      51       2         2
 ----------------------------------------------------------------
-Others                             165     165       0         0
+Others                             163     163       0         0
 ----------------------------------------------------------------
-                                   294     290       4         8
+                                   290     286       4         8
 ===================== END REDUCTION RESULT =====================

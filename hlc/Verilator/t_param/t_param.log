@@ -941,31 +941,23 @@ Design name:unnamed:
             vpiParent: Parameter name:PAR
             vpiFullName: t.PAR
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:10:14 end:10:21:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:PAR start:10:14 end:10:17:
-            vpiParent: ParamAssign
-            vpiName: PAR
-            vpiFullName: t.PAR
-            vpiActual: Parameter name:PAR
-          vpiRhs Constant start:10:20 end:10:21:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:10:20 end:10:21:
+            vpiParent: Parameter name:PAR
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "3"
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: t
+              vpiFullName: t.PAR
               vpiActual: IntTypespec
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:m1:
-        ModuleTypespec name:m3:
-        ModuleTypespec name:mnooverride:
+        ModuleTypespec name:m1 #(.PAR1(PAR)):
+        ModuleTypespec name:m3 #(.PAR(PAR)):
+        ModuleTypespec name:mnooverride #(.PAR(10)):
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -1325,7 +1317,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m1
             vpiName: m1
             vpiFullName: t.m1.m1
-            vpiActual: ModuleTypespec name:m1
+            vpiActual: ModuleTypespec name:m1 #(.PAR1(PAR))
         RefInstance name:m3 start:13:14 end:13:16:
           vpiParent: Module name:t
           vpiName: m3
@@ -1333,7 +1325,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m3
             vpiName: m3
             vpiFullName: t.m3.m3
-            vpiActual: ModuleTypespec name:m3
+            vpiActual: ModuleTypespec name:m3 #(.PAR(PAR))
         RefInstance name:mno start:14:22 end:14:25:
           vpiParent: Module name:t
           vpiName: mno
@@ -1341,7 +1333,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mno
             vpiName: mnooverride
             vpiFullName: t.mno.mnooverride
-            vpiActual: ModuleTypespec name:mnooverride
+            vpiActual: ModuleTypespec name:mnooverride #(.PAR(10))
     Module name:m1 file:$Source01/t_param.v start:38:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m1 start:38:8 end:38:10:
@@ -1356,42 +1348,8 @@ Design name:unnamed:
             vpiParent: Parameter name:PAR1MINUS1
             vpiFullName: m1.PAR1MINUS1
             vpiActual: LogicTypespec
-        Parameter name:PAR1DUP start:40:15 end:40:22:
-          vpiParent: Module name:m1
-          vpiName: PAR1DUP
-          vpiFullName: m1.PAR1DUP
-          vpiLocalParam: true
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:PAR1DUP
-            vpiFullName: m1.PAR1DUP
-            vpiActual: LogicTypespec
-        Parameter name:PAR1 start:41:14 end:41:18:
-          vpiParent: Module name:m1
-          vpiName: PAR1
-          vpiFullName: m1.PAR1
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:PAR1
-            vpiFullName: m1.PAR1
-            vpiActual: LogicTypespec
-        Parameter name:PACKED_PARAM start:45:26 end:45:38:
-          vpiParent: Module name:m1
-          vpiName: PACKED_PARAM
-          vpiFullName: m1.PACKED_PARAM
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:45:15 end:45:25:
-            vpiParent: Parameter name:PACKED_PARAM
-            vpiFullName: m1.PACKED_PARAM
-            vpiActual: LogicTypespec
-      vpiParamAssign (4 items):
-        ParamAssign start:39:15 end:39:39:
-          vpiParent: Module name:m1
-          vpiLhs RefObj name:PAR1MINUS1 start:39:15 end:39:25:
-            vpiParent: ParamAssign
-            vpiName: PAR1MINUS1
-            vpiFullName: m1.PAR1MINUS1
-            vpiActual: Parameter name:PAR1MINUS1
-          vpiRhs Operation start:39:28 end:39:39:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:39:28 end:39:39:
+            vpiParent: Parameter name:PAR1MINUS1
             vpiOpType: subtract (11)
             vpiOperand (2 items):
               Operation start:39:28 end:39:37:
@@ -1401,7 +1359,7 @@ Design name:unnamed:
                   RefObj name:PAR1DUP start:39:28 end:39:35:
                     vpiParent: Operation
                     vpiName: PAR1DUP
-                    vpiFullName: m1.PAR1DUP
+                    vpiFullName: m1.PAR1MINUS1.PAR1DUP
                     vpiActual: Parameter name:PAR1DUP
                   Constant start:39:36 end:39:37:
                     vpiParent: Operation
@@ -1411,7 +1369,7 @@ Design name:unnamed:
                     vpiValue: 2
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: m1
+                      vpiFullName: m1.PAR1MINUS1
                       vpiActual: IntTypespec
               Constant start:39:38 end:39:39:
                 vpiParent: Operation
@@ -1421,23 +1379,25 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: m1
+                  vpiFullName: m1.PAR1MINUS1
                   vpiActual: IntTypespec
-        ParamAssign start:40:15 end:40:31:
+        Parameter name:PAR1DUP start:40:15 end:40:22:
           vpiParent: Module name:m1
-          vpiLhs RefObj name:PAR1DUP start:40:15 end:40:22:
-            vpiParent: ParamAssign
-            vpiName: PAR1DUP
+          vpiName: PAR1DUP
+          vpiFullName: m1.PAR1DUP
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:PAR1DUP
             vpiFullName: m1.PAR1DUP
-            vpiActual: Parameter name:PAR1DUP
-          vpiRhs Operation start:40:25 end:40:31:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:40:25 end:40:31:
+            vpiParent: Parameter name:PAR1DUP
             vpiOpType: add (24)
             vpiOperand (2 items):
               RefObj name:PAR1 start:40:25 end:40:29:
                 vpiParent: Operation
                 vpiName: PAR1
-                vpiFullName: m1.PAR1
+                vpiFullName: m1.PAR1DUP.PAR1
                 vpiActual: Parameter name:PAR1
               Constant start:40:30 end:40:31:
                 vpiParent: Operation
@@ -1447,34 +1407,37 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: m1
+                  vpiFullName: m1.PAR1DUP
                   vpiActual: IntTypespec
-        ParamAssign start:41:14 end:41:22:
+        Parameter name:PAR1 start:41:14 end:41:18:
           vpiParent: Module name:m1
-          vpiLhs RefObj name:PAR1 start:41:14 end:41:18:
-            vpiParent: ParamAssign
-            vpiName: PAR1
+          vpiName: PAR1
+          vpiFullName: m1.PAR1
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:PAR1
             vpiFullName: m1.PAR1
-            vpiActual: Parameter name:PAR1
-          vpiRhs Constant start:41:21 end:41:22:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:41:21 end:41:22:
+            vpiParent: Parameter name:PAR1
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: m1
+              vpiFullName: m1.PAR1
               vpiActual: IntTypespec
-        ParamAssign start:45:26 end:45:55:
+        Parameter name:PACKED_PARAM start:45:26 end:45:38:
           vpiParent: Module name:m1
-          vpiLhs RefObj name:PACKED_PARAM start:45:26 end:45:38:
-            vpiParent: ParamAssign
-            vpiName: PACKED_PARAM
+          vpiName: PACKED_PARAM
+          vpiFullName: m1.PACKED_PARAM
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:45:15 end:45:25:
+            vpiParent: Parameter name:PACKED_PARAM
             vpiFullName: m1.PACKED_PARAM
-            vpiActual: Parameter name:PACKED_PARAM
-          vpiRhs Operation start:45:41 end:45:55:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:45:41 end:45:55:
+            vpiParent: Parameter name:PACKED_PARAM
             vpiOpType: concatenation (33)
             vpiOperand (2 items):
               Constant start:45:43 end:45:47:
@@ -1485,7 +1448,7 @@ Design name:unnamed:
                 vpiValue: "3"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: m1
+                  vpiFullName: m1.PACKED_PARAM
                   vpiActual: IntTypespec
               Constant start:45:49 end:45:53:
                 vpiParent: Operation
@@ -1495,13 +1458,13 @@ Design name:unnamed:
                 vpiValue: "6"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: m1
+                  vpiFullName: m1.PACKED_PARAM
                   vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:m1
           vpiScalar: true
-        ModuleTypespec name:m2:
+        ModuleTypespec name:m2 #(.PAR2(PAR1MINUS1)):
         LogicTypespec:
           vpiParent: Module name:m1
           vpiRange (2 items):
@@ -1600,7 +1563,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m2
             vpiName: m2
             vpiFullName: m1.m2.m2
-            vpiActual: ModuleTypespec name:m2
+            vpiActual: ModuleTypespec name:m2 #(.PAR2(PAR1MINUS1))
     Module name:m2 #(.PAR2(10)) file:$Source01/t_param.v start:50:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m2 #(.PAR2(10)) start:50:8 end:50:10:
@@ -1614,23 +1577,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PAR2
             vpiFullName: m2 #(.PAR2(10)).PAR2
             vpiActual: IntegerTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:50:35 end:50:44:
-          vpiParent: Module name:m2 #(.PAR2(10))
-          vpiLhs RefObj name:PAR2 start:50:35 end:50:39:
-            vpiParent: ParamAssign
-            vpiName: PAR2
-            vpiFullName: m2 #(.PAR2(10)).PAR2
-            vpiActual: Parameter name:PAR2
-          vpiRhs Constant start:50:42 end:50:44:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:50:42 end:50:44:
+            vpiParent: Parameter name:PAR2
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: m2 #(.PAR2(10))
+              vpiFullName: m2 #(.PAR2(10)).PAR2
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         IntegerTypespec:
@@ -1720,6 +1675,16 @@ Design name:unnamed:
             vpiParent: Parameter name:LOC
             vpiFullName: m3.LOC
             vpiActual: LogicTypespec
+          vpiExpr Constant start:58:21 end:58:23:
+            vpiParent: Parameter name:LOC
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "13"
+            vpiValue: 13
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: m3.LOC
+              vpiActual: IntTypespec
         Parameter name:PAR start:59:14 end:59:17:
           vpiParent: Module name:m3
           vpiName: PAR
@@ -1728,40 +1693,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PAR
             vpiFullName: m3.PAR
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:58:15 end:58:23:
-          vpiParent: Module name:m3
-          vpiLhs RefObj name:LOC start:58:15 end:58:18:
-            vpiParent: ParamAssign
-            vpiName: LOC
-            vpiFullName: m3.LOC
-            vpiActual: Parameter name:LOC
-          vpiRhs Constant start:58:21 end:58:23:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "13"
-            vpiValue: 13
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: m3
-              vpiActual: IntTypespec
-        ParamAssign start:59:14 end:59:22:
-          vpiParent: Module name:m3
-          vpiLhs RefObj name:PAR start:59:14 end:59:17:
-            vpiParent: ParamAssign
-            vpiName: PAR
-            vpiFullName: m3.PAR
-            vpiActual: Parameter name:PAR
-          vpiRhs Constant start:59:20 end:59:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:59:20 end:59:22:
+            vpiParent: Parameter name:PAR
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: m3
+              vpiFullName: m3.PAR
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -1884,6 +1824,16 @@ Design name:unnamed:
             vpiParent: Parameter name:LOC
             vpiFullName: mnooverride.LOC
             vpiActual: LogicTypespec
+          vpiExpr Constant start:68:21 end:68:23:
+            vpiParent: Parameter name:LOC
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "13"
+            vpiValue: 13
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: mnooverride.LOC
+              vpiActual: IntTypespec
         Parameter name:PAR start:69:14 end:69:17:
           vpiParent: Module name:mnooverride
           vpiName: PAR
@@ -1892,40 +1842,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PAR
             vpiFullName: mnooverride.PAR
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:68:15 end:68:23:
-          vpiParent: Module name:mnooverride
-          vpiLhs RefObj name:LOC start:68:15 end:68:18:
-            vpiParent: ParamAssign
-            vpiName: LOC
-            vpiFullName: mnooverride.LOC
-            vpiActual: Parameter name:LOC
-          vpiRhs Constant start:68:21 end:68:23:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "13"
-            vpiValue: 13
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: mnooverride
-              vpiActual: IntTypespec
-        ParamAssign start:69:14 end:69:22:
-          vpiParent: Module name:mnooverride
-          vpiLhs RefObj name:PAR start:69:14 end:69:17:
-            vpiParent: ParamAssign
-            vpiName: PAR
-            vpiFullName: mnooverride.PAR
-            vpiActual: Parameter name:PAR
-          vpiRhs Constant start:69:20 end:69:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:69:20 end:69:22:
+            vpiParent: Parameter name:PAR
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mnooverride
+              vpiFullName: mnooverride.PAR
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -2067,76 +1992,72 @@ Design name:unnamed:
       vpiName Identifier name:mnooverride start:67:8 end:67:19:
       vpiDefName: mnooverride
       vpiModule: Module name:mnooverride
-    ModuleTypespec name:m1 start:12:4 end:12:6:
+    ModuleTypespec name:m1 #(.PAR1(PAR)) start:12:4 end:12:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:m1 start:12:4 end:12:6:
+      vpiName Identifier name:m1 #(.PAR1(PAR)) start:12:4 end:12:6:
       vpiDefName: m1
       vpiParamAssign (1 items):
         ParamAssign start:12:9 end:12:12:
-          vpiParent: ModuleTypespec name:m1
-          vpiOverridden: true
-          vpiLhs RefObj name:PAR1MINUS1 start:39:15 end:39:25:
+          vpiParent: ModuleTypespec name:m1 #(.PAR1(PAR))
+          vpiLhs RefObj name:PAR1 start:41:14 end:41:18:
             vpiParent: ParamAssign
-            vpiName: PAR1MINUS1
-            vpiFullName: m1.PAR1MINUS1
-            vpiActual: Parameter name:PAR1MINUS1
+            vpiName: PAR1
+            vpiFullName: m1 #(.PAR1(PAR)).PAR1
+            vpiActual: Parameter name:PAR1
           vpiRhs RefObj name:PAR start:12:9 end:12:12:
             vpiParent: ParamAssign
             vpiName: PAR
-            vpiFullName: m1.PAR
+            vpiFullName: m1 #(.PAR1(PAR)).PAR
             vpiActual: Parameter name:PAR
       vpiModule: Module name:m1
-    ModuleTypespec name:m2 start:42:4 end:42:6:
+    ModuleTypespec name:m2 #(.PAR2(PAR1MINUS1)) start:42:4 end:42:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:m2 start:42:4 end:42:6:
+      vpiName Identifier name:m2 #(.PAR2(PAR1MINUS1)) start:42:4 end:42:6:
       vpiDefName: m2
       vpiParamAssign (1 items):
         ParamAssign start:42:9 end:42:19:
-          vpiParent: ModuleTypespec name:m2
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:m2 #(.PAR2(PAR1MINUS1))
           vpiLhs RefObj name:PAR2 start:50:35 end:50:39:
             vpiParent: ParamAssign
             vpiName: PAR2
-            vpiFullName: m2.PAR2
+            vpiFullName: m2 #(.PAR2(PAR1MINUS1)).PAR2
             vpiActual: Parameter name:PAR2
           vpiRhs RefObj name:PAR1MINUS1 start:42:9 end:42:19:
             vpiParent: ParamAssign
             vpiName: PAR1MINUS1
-            vpiFullName: m2.PAR1MINUS1
+            vpiFullName: m2 #(.PAR2(PAR1MINUS1)).PAR1MINUS1
             vpiActual: Parameter name:PAR1MINUS1
       vpiModule: Module name:m2 #(.PAR2(10))
-    ModuleTypespec name:m3 start:13:4 end:13:6:
+    ModuleTypespec name:m3 #(.PAR(PAR)) start:13:4 end:13:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:m3 start:13:4 end:13:6:
+      vpiName Identifier name:m3 #(.PAR(PAR)) start:13:4 end:13:6:
       vpiDefName: m3
       vpiParamAssign (1 items):
         ParamAssign start:13:9 end:13:12:
-          vpiParent: ModuleTypespec name:m3
-          vpiOverridden: true
-          vpiLhs RefObj name:LOC start:58:15 end:58:18:
+          vpiParent: ModuleTypespec name:m3 #(.PAR(PAR))
+          vpiLhs RefObj name:PAR start:59:14 end:59:17:
             vpiParent: ParamAssign
-            vpiName: LOC
-            vpiFullName: m3.LOC
-            vpiActual: Parameter name:LOC
+            vpiName: PAR
+            vpiFullName: m3 #(.PAR(PAR)).PAR
+            vpiActual: Parameter name:PAR
           vpiRhs RefObj name:PAR start:13:9 end:13:12:
             vpiParent: ParamAssign
             vpiName: PAR
-            vpiFullName: m3.PAR
+            vpiFullName: m3 #(.PAR(PAR)).PAR
             vpiActual: Parameter name:PAR
       vpiModule: Module name:m3
-    ModuleTypespec name:mnooverride start:14:4 end:14:15:
+    ModuleTypespec name:mnooverride #(.PAR(10)) start:14:4 end:14:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mnooverride start:14:4 end:14:15:
+      vpiName Identifier name:mnooverride #(.PAR(10)) start:14:4 end:14:15:
       vpiDefName: mnooverride
       vpiParamAssign (1 items):
         ParamAssign start:14:18 end:14:20:
-          vpiParent: ModuleTypespec name:mnooverride
-          vpiOverridden: true
-          vpiLhs RefObj name:LOC start:68:15 end:68:18:
+          vpiParent: ModuleTypespec name:mnooverride #(.PAR(10))
+          vpiLhs RefObj name:PAR start:69:14 end:69:17:
             vpiParent: ParamAssign
-            vpiName: LOC
-            vpiFullName: mnooverride.LOC
-            vpiActual: Parameter name:LOC
+            vpiName: PAR
+            vpiFullName: mnooverride #(.PAR(10)).PAR
+            vpiActual: Parameter name:PAR
           vpiRhs Constant start:14:18 end:14:20:
             vpiParent: ParamAssign
             vpiConstType: int (7)
@@ -2145,7 +2066,7 @@ Design name:unnamed:
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mnooverride
+              vpiFullName: mnooverride #(.PAR(10))
               vpiActual: IntTypespec
       vpiModule: Module name:mnooverride
   vpiLibrary (1 items):
@@ -2201,10 +2122,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            39      37      11        13
 Operation                           17       5       0        12
-RefObj                              50      40       0        10
+RefObj                              40      30       0        10
 RefTypespec                         57      49       5        13
 ----------------------------------------------------------------
-Others                             146     146       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   309     277      16        48
+                                   289     257      16        48
 ===================== END REDUCTION RESULT =====================

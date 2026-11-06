@@ -1557,23 +1557,15 @@ Design name:unnamed:
             vpiParent: Parameter name:OUTPUT
             vpiFullName: Example.OUTPUT
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:15 end:2:29:
-          vpiParent: Module name:Example
-          vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
-            vpiParent: ParamAssign
-            vpiName: OUTPUT
-            vpiFullName: Example.OUTPUT
-            vpiActual: Parameter name:OUTPUT
-          vpiRhs Constant start:2:24 end:2:29:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:24 end:2:29:
+            vpiParent: Parameter name:OUTPUT
             vpiConstType: string (6)
             vpiSize: 24
             vpiDecompile: "\"FOO\""
             vpiValue: FOO
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Example
+              vpiFullName: Example.OUTPUT
               vpiActual: StringTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -2483,6 +2475,16 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: top.W
             vpiActual: LogicTypespec
+          vpiExpr Constant start:60:19 end:60:21:
+            vpiParent: Parameter name:W
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.W
+              vpiActual: IntTypespec
         Parameter name:X start:61:15 end:61:16:
           vpiParent: Module name:top
           vpiName: X
@@ -2491,6 +2493,16 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: top.X
             vpiActual: LogicTypespec
+          vpiExpr Constant start:61:19 end:61:20:
+            vpiParent: Parameter name:X
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.X
+              vpiActual: IntTypespec
         Parameter name:Y start:62:23 end:62:24:
           vpiParent: Module name:top
           vpiName: Y
@@ -2500,59 +2512,8 @@ Design name:unnamed:
             vpiParent: Parameter name:Y
             vpiFullName: top.Y
             vpiActual: LogicTypespec
-        Parameter name:Z start:63:23 end:63:24:
-          vpiParent: Module name:top
-          vpiName: Z
-          vpiFullName: top.Z
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:63:16 end:63:22:
-            vpiParent: Parameter name:Z
-            vpiFullName: top.Z
-            vpiActual: LogicTypespec
-      vpiParamAssign (4 items):
-        ParamAssign start:60:15 end:60:21:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:W start:60:15 end:60:16:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: top.W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:60:19 end:60:21:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "10"
-            vpiValue: 10
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:61:15 end:61:20:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:X start:61:15 end:61:16:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: top.X
-            vpiActual: Parameter name:X
-          vpiRhs Constant start:61:19 end:61:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:62:23 end:62:40:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:Y start:62:23 end:62:24:
-            vpiParent: ParamAssign
-            vpiName: Y
-            vpiFullName: top.Y
-            vpiActual: Parameter name:Y
-          vpiRhs SysFuncCall name:$floor start:62:27 end:62:40:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$floor start:62:27 end:62:40:
+            vpiParent: Parameter name:Y
             vpiName Identifier name:$floor start:62:27 end:62:33:
             vpiArgument (1 items):
               NamedArgument start:62:34 end:62:39:
@@ -2564,22 +2525,24 @@ Design name:unnamed:
                     RefObj name:W start:62:34 end:62:35:
                       vpiParent: Operation
                       vpiName: W
-                      vpiFullName: top.W
+                      vpiFullName: top.Y.W
                       vpiActual: Parameter name:W
                     RefObj name:X start:62:38 end:62:39:
                       vpiParent: Operation
                       vpiName: X
-                      vpiFullName: top.X
+                      vpiFullName: top.Y.X
                       vpiActual: Parameter name:X
-        ParamAssign start:63:23 end:63:48:
+        Parameter name:Z start:63:23 end:63:24:
           vpiParent: Module name:top
-          vpiLhs RefObj name:Z start:63:23 end:63:24:
-            vpiParent: ParamAssign
-            vpiName: Z
+          vpiName: Z
+          vpiFullName: top.Z
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:63:16 end:63:22:
+            vpiParent: Parameter name:Z
             vpiFullName: top.Z
-            vpiActual: Parameter name:Z
-          vpiRhs FuncCall name:negate start:63:27 end:63:48:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr FuncCall name:negate start:63:27 end:63:48:
+            vpiParent: Parameter name:Z
             vpiName Identifier name:negate start:63:27 end:63:33:
             vpiTaskFunc: Function name:negate
             vpiArgument (1 items):
@@ -2598,12 +2561,12 @@ Design name:unnamed:
                           RefObj name:W start:63:41 end:63:42:
                             vpiParent: Operation
                             vpiName: W
-                            vpiFullName: top.W
+                            vpiFullName: top.Z.W
                             vpiActual: Parameter name:W
                           RefObj name:X start:63:45 end:63:46:
                             vpiParent: Operation
                             vpiName: X
-                            vpiFullName: top.X
+                            vpiFullName: top.Z.X
                             vpiActual: Parameter name:X
       vpiTypespec (9 items):
         LogicTypespec:
@@ -2662,9 +2625,9 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiScalar: true
         ModuleTypespec name:Example:
-        ModuleTypespec name:Example:
-        ModuleTypespec name:Example:
-        ModuleTypespec name:Example:
+        "ModuleTypespec name:Example #(.OUTPUT(\"FOO\"))":
+        "ModuleTypespec name:Example #(.OUTPUT(\"BAR\"))":
+        "ModuleTypespec name:Example #(.OUTPUT(\"BAZ\"))":
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -3627,7 +3590,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:e2
             vpiName: Example
             vpiFullName: top.e2.Example
-            vpiActual: ModuleTypespec name:Example
+            vpiActual: "ModuleTypespec name:Example #(.OUTPUT(\"FOO\"))"
           vpiArgument (4 items):
             NamedArgument start:45:25 end:45:27:
               vpiParent: RefInstance name:e2
@@ -3684,7 +3647,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:e3
             vpiName: Example
             vpiFullName: top.e3.Example
-            vpiActual: ModuleTypespec name:Example
+            vpiActual: "ModuleTypespec name:Example #(.OUTPUT(\"BAR\"))"
           vpiArgument (4 items):
             NamedArgument start:46:25 end:46:27:
               vpiParent: RefInstance name:e3
@@ -3741,7 +3704,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:e4
             vpiName: Example
             vpiFullName: top.e4.Example
-            vpiActual: ModuleTypespec name:Example
+            vpiActual: "ModuleTypespec name:Example #(.OUTPUT(\"BAZ\"))"
           vpiArgument (4 items):
             NamedArgument start:47:25 end:47:27:
               vpiParent: RefInstance name:e4
@@ -3807,18 +3770,17 @@ Design name:unnamed:
       vpiName Identifier name:top start:39:8 end:39:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:Example start:46:5 end:46:12:
+    "ModuleTypespec name:Example #(.OUTPUT(\"BAR\")) start:46:5 end:46:12":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Example start:46:5 end:46:12:
+      "vpiName Identifier name:Example #(.OUTPUT(\"BAR\")) start:46:5 end:46:12":
       vpiDefName: Example
       vpiParamAssign (1 items):
         ParamAssign start:46:15 end:46:20:
-          vpiParent: ModuleTypespec name:Example
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:Example #(.OUTPUT(\"BAR\"))"
           vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
             vpiParent: ParamAssign
             vpiName: OUTPUT
-            vpiFullName: Example.OUTPUT
+            vpiFullName: Example #(.OUTPUT("BAR")).OUTPUT
             vpiActual: Parameter name:OUTPUT
           vpiRhs Constant start:46:15 end:46:20:
             vpiParent: ParamAssign
@@ -3828,21 +3790,20 @@ Design name:unnamed:
             vpiValue: BAR
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Example
+              vpiFullName: Example #(.OUTPUT("BAR"))
               vpiActual: StringTypespec
       vpiModule: Module name:Example
-    ModuleTypespec name:Example start:47:5 end:47:12:
+    "ModuleTypespec name:Example #(.OUTPUT(\"BAZ\")) start:47:5 end:47:12":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Example start:47:5 end:47:12:
+      "vpiName Identifier name:Example #(.OUTPUT(\"BAZ\")) start:47:5 end:47:12":
       vpiDefName: Example
       vpiParamAssign (1 items):
         ParamAssign start:47:15 end:47:20:
-          vpiParent: ModuleTypespec name:Example
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:Example #(.OUTPUT(\"BAZ\"))"
           vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
             vpiParent: ParamAssign
             vpiName: OUTPUT
-            vpiFullName: Example.OUTPUT
+            vpiFullName: Example #(.OUTPUT("BAZ")).OUTPUT
             vpiActual: Parameter name:OUTPUT
           vpiRhs Constant start:47:15 end:47:20:
             vpiParent: ParamAssign
@@ -3852,21 +3813,20 @@ Design name:unnamed:
             vpiValue: BAZ
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Example
+              vpiFullName: Example #(.OUTPUT("BAZ"))
               vpiActual: StringTypespec
       vpiModule: Module name:Example
-    ModuleTypespec name:Example start:45:5 end:45:12:
+    "ModuleTypespec name:Example #(.OUTPUT(\"FOO\")) start:45:5 end:45:12":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Example start:45:5 end:45:12:
+      "vpiName Identifier name:Example #(.OUTPUT(\"FOO\")) start:45:5 end:45:12":
       vpiDefName: Example
       vpiParamAssign (1 items):
         ParamAssign start:45:15 end:45:20:
-          vpiParent: ModuleTypespec name:Example
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:Example #(.OUTPUT(\"FOO\"))"
           vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
             vpiParent: ParamAssign
             vpiName: OUTPUT
-            vpiFullName: Example.OUTPUT
+            vpiFullName: Example #(.OUTPUT("FOO")).OUTPUT
             vpiActual: Parameter name:OUTPUT
           vpiRhs Constant start:45:15 end:45:20:
             vpiParent: ParamAssign
@@ -3876,7 +3836,7 @@ Design name:unnamed:
             vpiValue: FOO
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Example
+              vpiFullName: Example #(.OUTPUT("FOO"))
               vpiActual: StringTypespec
       vpiModule: Module name:Example
   vpiLibrary (1 items):
@@ -3934,11 +3894,11 @@ Constant                            66      65       5         6
 Identifier                          26      24       0         2
 NamedArgument                       33      31       0         2
 Operation                           36      29       0         7
-RefObj                             115     110       0         5
+RefObj                             110     105       0         5
 RefTypespec                        110     107       3         6
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   569     547       8        30
+                                   559     537       8        30
 ===================== END REDUCTION RESULT =====================

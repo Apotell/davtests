@@ -227,23 +227,15 @@ Design name:unnamed:
             vpiParent: Parameter name:bht_row_width_p
             vpiFullName: test.bht_row_width_p
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:12:14 end:12:34:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:bht_row_width_p start:12:14 end:12:29:
-            vpiParent: ParamAssign
-            vpiName: bht_row_width_p
-            vpiFullName: test.bht_row_width_p
-            vpiActual: Parameter name:bht_row_width_p
-          vpiRhs Constant start:12:32 end:12:34:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:12:32 end:12:34:
+            vpiParent: Parameter name:bht_row_width_p
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test
+              vpiFullName: test.bht_row_width_p
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -278,7 +270,7 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: test
             vpiTypespec (1 items):
-              ModuleTypespec name:test:
+              ModuleTypespec name:test #(.bht_row_width_p(bht_row_width_p - 2)):
             vpiImplicitDecl: true
             vpiStmt (1 items):
               RefInstance name:u start:14:50 end:14:51:
@@ -288,7 +280,7 @@ Design name:unnamed:
                   vpiParent: RefInstance name:u
                   vpiName: test
                   vpiFullName: test.u.test
-                  vpiActual: ModuleTypespec name:test
+                  vpiActual: ModuleTypespec name:test #(.bht_row_width_p(bht_row_width_p - 2))
   vpiTypespec (5 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -308,19 +300,18 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:test start:14:6 end:14:10:
+    ModuleTypespec name:test #(.bht_row_width_p(bht_row_width_p - 2)) start:14:6 end:14:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:14:6 end:14:10:
+      vpiName Identifier name:test #(.bht_row_width_p(bht_row_width_p - 2)) start:14:6 end:14:10:
       vpiDefName: test
       vpiParamAssign (1 items):
         ParamAssign start:14:13 end:14:48:
-          vpiParent: ModuleTypespec name:test
+          vpiParent: ModuleTypespec name:test #(.bht_row_width_p(bht_row_width_p - 2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:bht_row_width_p start:14:14 end:14:29:
             vpiParent: ParamAssign
             vpiName: bht_row_width_p
-            vpiFullName: test.bht_row_width_p
+            vpiFullName: test #(.bht_row_width_p(bht_row_width_p - 2)).bht_row_width_p
             vpiActual: Parameter name:bht_row_width_p
           vpiRhs Operation start:14:30 end:14:47:
             vpiParent: ParamAssign
@@ -329,7 +320,7 @@ Design name:unnamed:
               RefObj name:bht_row_width_p start:14:30 end:14:45:
                 vpiParent: Operation
                 vpiName: bht_row_width_p
-                vpiFullName: test.bht_row_width_p
+                vpiFullName: test #(.bht_row_width_p(bht_row_width_p - 2)).bht_row_width_p
                 vpiActual: Parameter name:bht_row_width_p
               Constant start:14:46 end:14:47:
                 vpiParent: Operation
@@ -339,7 +330,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test #(.bht_row_width_p(bht_row_width_p - 2))
                   vpiActual: IntTypespec
       vpiModule: Module name:test
   vpiLibrary (1 items):
@@ -395,10 +386,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       2       1         1
 Operation                            1       0       0         1
-RefObj                               7       6       0         1
+RefObj                               6       5       0         1
 RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    49      47       2         4
+                                    47      45       2         4
 ===================== END REDUCTION RESULT =====================

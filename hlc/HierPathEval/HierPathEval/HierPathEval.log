@@ -477,23 +477,15 @@ Design name:unnamed:
             vpiName: pad_type_e
             vpiFullName: prim_generic_pad_attr.PadTypeInGeneric.pad_type_e
             vpiActual: TypedefTypespec name:pad_type_e
-      vpiParamAssign (1 items):
-        ParamAssign start:21:25 end:21:45:
-          vpiParent: Module name:prim_generic_pad_attr
-          vpiLhs RefObj name:PadTypeInGeneric start:21:25 end:21:41:
-            vpiParent: ParamAssign
-            vpiName: PadTypeInGeneric
-            vpiFullName: prim_generic_pad_attr.PadTypeInGeneric
-            vpiActual: Parameter name:PadTypeInGeneric
-          vpiRhs Constant start:21:44 end:21:45:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:21:44 end:21:45:
+            vpiParent: Parameter name:PadTypeInGeneric
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_generic_pad_attr
+              vpiFullName: prim_generic_pad_attr.PadTypeInGeneric
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:20:11 end:20:34:
@@ -582,23 +574,15 @@ Design name:unnamed:
             vpiName: pad_type_e
             vpiFullName: prim_pad_attr.PadType.pad_type_e
             vpiActual: TypedefTypespec name:pad_type_e
-      vpiParamAssign (1 items):
-        ParamAssign start:35:25 end:35:36:
-          vpiParent: Module name:prim_pad_attr
-          vpiLhs RefObj name:PadType start:35:25 end:35:32:
-            vpiParent: ParamAssign
-            vpiName: PadType
-            vpiFullName: prim_pad_attr.PadType
-            vpiActual: Parameter name:PadType
-          vpiRhs Constant start:35:35 end:35:36:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:35:35 end:35:36:
+            vpiParent: Parameter name:PadType
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_pad_attr
+              vpiFullName: prim_pad_attr.PadType
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         ImportTypespec name:prim_pad_wrapper_pkg start:34:11 end:34:34:
@@ -649,7 +633,7 @@ Design name:unnamed:
             vpiName Identifier name:gen_outer_if start:37:19 end:37:31:
             vpiFullName: prim_pad_attr.gen_outer_if
             vpiTypespec (1 items):
-              ModuleTypespec name:prim_generic_pad_attr:
+              ModuleTypespec name:prim_generic_pad_attr #(.PadTypeInGeneric(PadType)):
             vpiStmt (1 items):
               RefInstance name:u_impl_generic start:40:10 end:40:24:
                 vpiParent: GenBlock name:gen_outer_if
@@ -658,7 +642,7 @@ Design name:unnamed:
                   vpiParent: RefInstance name:u_impl_generic
                   vpiName: prim_generic_pad_attr
                   vpiFullName: prim_pad_attr.gen_outer_if.u_impl_generic.prim_generic_pad_attr
-                  vpiActual: ModuleTypespec name:prim_generic_pad_attr
+                  vpiActual: ModuleTypespec name:prim_generic_pad_attr #(.PadTypeInGeneric(PadType))
     Module name:top file:$Source01/dut.sv start:46:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:46:8 end:46:11:
@@ -673,23 +657,15 @@ Design name:unnamed:
             vpiName: target_cfg_t
             vpiFullName: top.TargetCfg.target_cfg_t
             vpiActual: TypedefTypespec name:target_cfg_t
-      vpiParamAssign (1 items):
-        ParamAssign start:48:27 end:48:40:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:TargetCfg start:48:27 end:48:36:
-            vpiParent: ParamAssign
-            vpiName: TargetCfg
-            vpiFullName: top.TargetCfg
-            vpiActual: Parameter name:TargetCfg
-          vpiRhs Constant start:48:39 end:48:40:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:48:39 end:48:40:
+            vpiParent: Parameter name:TargetCfg
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.TargetCfg
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         ImportTypespec name:pinmux_pkg start:47:11 end:47:24:
@@ -705,7 +681,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: top.pinmux_pkg
               vpiActual: StringTypespec
-        ModuleTypespec name:prim_pad_attr:
+        ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -731,7 +707,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_prim_pad_attr
             vpiName: prim_pad_attr
             vpiFullName: top.u_prim_pad_attr.prim_pad_attr
-            vpiActual: ModuleTypespec name:prim_pad_attr
+            vpiActual: ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type))
   vpiTypespec (9 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -760,54 +736,52 @@ Design name:unnamed:
       vpiName Identifier name:top start:46:8 end:46:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:prim_generic_pad_attr start:38:8 end:38:29:
+    ModuleTypespec name:prim_generic_pad_attr #(.PadTypeInGeneric(PadType)) start:38:8 end:38:29:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_generic_pad_attr start:38:8 end:38:29:
+      vpiName Identifier name:prim_generic_pad_attr #(.PadTypeInGeneric(PadType)) start:38:8 end:38:29:
       vpiDefName: prim_generic_pad_attr
       vpiParamAssign (1 items):
         ParamAssign start:39:11 end:39:37:
-          vpiParent: ModuleTypespec name:prim_generic_pad_attr
+          vpiParent: ModuleTypespec name:prim_generic_pad_attr #(.PadTypeInGeneric(PadType))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:PadTypeInGeneric start:39:12 end:39:28:
             vpiParent: ParamAssign
             vpiName: PadTypeInGeneric
-            vpiFullName: prim_generic_pad_attr.PadTypeInGeneric
+            vpiFullName: prim_generic_pad_attr #(.PadTypeInGeneric(PadType)).PadTypeInGeneric
             vpiActual: Parameter name:PadTypeInGeneric
           vpiRhs RefObj name:PadType start:39:29 end:39:36:
             vpiParent: ParamAssign
             vpiName: PadType
-            vpiFullName: prim_generic_pad_attr.PadType
+            vpiFullName: prim_generic_pad_attr #(.PadTypeInGeneric(PadType)).PadType
             vpiActual: Parameter name:PadType
       vpiModule: Module name:prim_generic_pad_attr
-    ModuleTypespec name:prim_pad_attr start:50:4 end:50:17:
+    ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)) start:50:4 end:50:17:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_pad_attr start:50:4 end:50:17:
+      vpiName Identifier name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)) start:50:4 end:50:17:
       vpiDefName: prim_pad_attr
       vpiParamAssign (1 items):
         ParamAssign start:51:7 end:51:39:
-          vpiParent: ModuleTypespec name:prim_pad_attr
+          vpiParent: ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:PadType start:51:8 end:51:15:
             vpiParent: ParamAssign
             vpiName: PadType
-            vpiFullName: prim_pad_attr.PadType
+            vpiFullName: prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)).PadType
             vpiActual: Parameter name:PadType
           vpiRhs RefObj name:TargetCfg.dio_pad_type start:51:16 end:51:38:
             vpiParent: ParamAssign
             vpiName: TargetCfg.dio_pad_type
-            vpiFullName: prim_pad_attr.TargetCfg.dio_pad_type
+            vpiFullName: prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)).TargetCfg.dio_pad_type
             vpiPathElem (2 items):
               RefObj name:TargetCfg start:51:16 end:51:25:
                 vpiParent: RefObj name:TargetCfg.dio_pad_type
                 vpiName: TargetCfg
-                vpiFullName: prim_pad_attr.TargetCfg
+                vpiFullName: prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)).TargetCfg
                 vpiActual: Parameter name:TargetCfg
               RefObj name:dio_pad_type start:51:26 end:51:38:
                 vpiParent: RefObj name:TargetCfg.dio_pad_type
                 vpiName: dio_pad_type
-                vpiFullName: prim_pad_attr.dio_pad_type
+                vpiFullName: prim_pad_attr #(.PadType(TargetCfg.dio_pad_type)).dio_pad_type
                 vpiActual: TypespecMember name:dio_pad_type
             vpiActual: TypespecMember name:dio_pad_type
       vpiModule: Module name:prim_pad_attr
@@ -864,10 +838,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       1         1
 Operation                            1       0       0         1
-RefObj                              16      15       0         1
+RefObj                              13      12       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                   131     129       2         4
+                                   125     123       2         4
 ===================== END REDUCTION RESULT =====================

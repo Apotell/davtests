@@ -185,23 +185,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: bottom.P
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:13 end:2:18:
-          vpiParent: Module name:bottom
-          vpiLhs RefObj name:P start:2:13 end:2:14:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: bottom.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:2:17 end:2:18:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:17 end:2:18:
+            vpiParent: Parameter name:P
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bottom
+              vpiFullName: bottom.P
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -309,8 +301,8 @@ Design name:unnamed:
       vpiName Identifier name:top start:9:8 end:9:11:
       vpiFullName: top
       vpiTypespec (2 items):
-        ModuleTypespec name:bottom:
-        ModuleTypespec name:bottom:
+        ModuleTypespec name:bottom #(.P(5)):
+        ModuleTypespec name:bottom #(.P(8)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -336,7 +328,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u1
             vpiName: bottom
             vpiFullName: top.u1.bottom
-            vpiActual: ModuleTypespec name:bottom
+            vpiActual: ModuleTypespec name:bottom #(.P(5))
         RefInstance name:u2 start:11:19 end:11:21:
           vpiParent: Module name:top
           vpiName: u2
@@ -344,7 +336,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u2
             vpiName: bottom
             vpiFullName: top.u2.bottom
-            vpiActual: ModuleTypespec name:bottom
+            vpiActual: ModuleTypespec name:bottom #(.P(8))
   vpiTypespec (5 items):
     ModuleTypespec name:bottom:
       vpiParent: Design name:unnamed
@@ -359,19 +351,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:9:8 end:9:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:bottom start:10:3 end:10:9:
+    ModuleTypespec name:bottom #(.P(5)) start:10:3 end:10:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bottom start:10:3 end:10:9:
+      vpiName Identifier name:bottom #(.P(5)) start:10:3 end:10:9:
       vpiDefName: bottom
       vpiParamAssign (1 items):
         ParamAssign start:10:12 end:10:17:
-          vpiParent: ModuleTypespec name:bottom
+          vpiParent: ModuleTypespec name:bottom #(.P(5))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:P start:10:13 end:10:14:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: bottom.P
+            vpiFullName: bottom #(.P(5)).P
             vpiActual: Parameter name:P
           vpiRhs Constant start:10:15 end:10:16:
             vpiParent: ParamAssign
@@ -381,22 +372,21 @@ Design name:unnamed:
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bottom
+              vpiFullName: bottom #(.P(5))
               vpiActual: IntTypespec
       vpiModule: Module name:bottom
-    ModuleTypespec name:bottom start:11:3 end:11:9:
+    ModuleTypespec name:bottom #(.P(8)) start:11:3 end:11:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bottom start:11:3 end:11:9:
+      vpiName Identifier name:bottom #(.P(8)) start:11:3 end:11:9:
       vpiDefName: bottom
       vpiParamAssign (1 items):
         ParamAssign start:11:12 end:11:17:
-          vpiParent: ModuleTypespec name:bottom
+          vpiParent: ModuleTypespec name:bottom #(.P(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:P start:11:13 end:11:14:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: bottom.P
+            vpiFullName: bottom #(.P(8)).P
             vpiActual: Parameter name:P
           vpiRhs Constant start:11:15 end:11:16:
             vpiParent: ParamAssign
@@ -406,7 +396,7 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bottom
+              vpiFullName: bottom #(.P(8))
               vpiActual: IntTypespec
       vpiModule: Module name:bottom
   vpiLibrary (1 items):
@@ -461,7 +451,7 @@ COMMAND: ${HLC_DIR}/regression/UnsizedConstInst/UnsizedConstInst/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    61      61       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

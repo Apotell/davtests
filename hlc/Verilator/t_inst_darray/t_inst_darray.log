@@ -657,7 +657,11 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/t_inst_darray.v:35:4: Unsupported typespec "".
 [ERR:DL2510] $Source01/t_inst_darray.v:62:4: Unsupported typespec "".
+[ERR:DL2520] $Source01/t_inst_darray.v:62:15: Cannot override a local parameter "M",
+             $Source01/t_inst_darray.v:59:16: declared here.
 [ERR:DL2510] $Source01/t_inst_darray.v:63:4: Unsupported typespec "".
+[ERR:DL2520] $Source01/t_inst_darray.v:63:15: Cannot override a local parameter "M",
+             $Source01/t_inst_darray.v:59:16: declared here.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -713,23 +717,15 @@ Design name:unnamed:
             vpiParent: Parameter name:M
             vpiFullName: the_intf #(.M(5)).M
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:9:32 end:9:37:
-          vpiParent: Interface name:the_intf #(.M(5))
-          vpiLhs RefObj name:M start:9:32 end:9:33:
-            vpiParent: ParamAssign
-            vpiName: M
-            vpiFullName: the_intf #(.M(5)).M
-            vpiActual: Parameter name:M
-          vpiRhs Constant start:9:36 end:9:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:9:36 end:9:37:
+            vpiParent: Parameter name:M
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "5"
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: the_intf #(.M(5))
+              vpiFullName: the_intf #(.M(5)).M
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -835,6 +831,16 @@ Design name:unnamed:
             vpiParent: Parameter name:IMPL
             vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).IMPL
             vpiActual: LogicTypespec
+          vpiExpr Constant start:27:26 end:27:27:
+            vpiParent: Parameter name:IMPL
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).IMPL
+              vpiActual: IntTypespec
         Parameter name:M start:28:19 end:28:20:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
           vpiName: M
@@ -843,6 +849,16 @@ Design name:unnamed:
             vpiParent: Parameter name:M
             vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).M
             vpiActual: LogicTypespec
+          vpiExpr Constant start:28:26 end:28:27:
+            vpiParent: Parameter name:M
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "5"
+            vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).M
+              vpiActual: IntTypespec
         Parameter name:N start:29:19 end:29:20:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
           vpiName: N
@@ -851,57 +867,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).N
             vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:27:19 end:27:27:
-          vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
-          vpiLhs RefObj name:IMPL start:27:19 end:27:23:
-            vpiParent: ParamAssign
-            vpiName: IMPL
-            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).IMPL
-            vpiActual: Parameter name:IMPL
-          vpiRhs Constant start:27:26 end:27:27:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1))
-              vpiActual: IntTypespec
-        ParamAssign start:28:19 end:28:27:
-          vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
-          vpiLhs RefObj name:M start:28:19 end:28:20:
-            vpiParent: ParamAssign
-            vpiName: M
-            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).M
-            vpiActual: Parameter name:M
-          vpiRhs Constant start:28:26 end:28:27:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "5"
-            vpiValue: 5
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1))
-              vpiActual: IntTypespec
-        ParamAssign start:29:19 end:29:27:
-          vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
-          vpiLhs RefObj name:N start:29:19 end:29:20:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:29:26 end:29:27:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:29:26 end:29:27:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1))
+              vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).N
               vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -999,7 +973,6 @@ Design name:unnamed:
             ParamAssign start:35:15 end:35:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:35:16 end:35:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1013,7 +986,6 @@ Design name:unnamed:
             ParamAssign start:35:15 end:35:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:35:16 end:35:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1024,7 +996,7 @@ Design name:unnamed:
                 vpiName: M
                 vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).M
                 vpiActual: Parameter name:M
-        ModuleTypespec name:DeepThought:
+        ModuleTypespec name:DeepThought #(.N(N)):
       vpiDefName: Contemplator
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_darray.v"
@@ -1094,7 +1066,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:ultimateAnswerer
             vpiName: DeepThought
             vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).ultimateAnswerer.DeepThought
-            vpiActual: ModuleTypespec name:DeepThought
+            vpiActual: ModuleTypespec name:DeepThought #(.N(N))
           vpiArgument (2 items):
             NamedArgument start:40:7 end:40:20:
               vpiParent: RefInstance name:ultimateAnswerer
@@ -1134,23 +1106,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: DeepThought #(.N(1)).N
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:45:18 end:45:23:
-          vpiParent: Module name:DeepThought #(.N(1))
-          vpiLhs RefObj name:N start:45:18 end:45:19:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: DeepThought #(.N(1)).N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:45:22 end:45:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:45:22 end:45:23:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: DeepThought #(.N(1))
+              vpiFullName: DeepThought #(.N(1)).N
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1310,6 +1274,16 @@ Design name:unnamed:
             vpiParent: Parameter name:M
             vpiFullName: t.M
             vpiActual: LogicTypespec
+          vpiExpr Constant start:59:20 end:59:21:
+            vpiParent: Parameter name:M
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "5"
+            vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.M
+              vpiActual: IntTypespec
         Parameter name:N start:60:16 end:60:17:
           vpiParent: Module name:t
           vpiName: N
@@ -1319,40 +1293,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:59:16 end:59:21:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:M start:59:16 end:59:17:
-            vpiParent: ParamAssign
-            vpiName: M
-            vpiFullName: t.M
-            vpiActual: Parameter name:M
-          vpiRhs Constant start:59:20 end:59:21:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "5"
-            vpiValue: 5
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
-        ParamAssign start:60:16 end:60:21:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:N start:60:16 end:60:17:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: t.N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:60:20 end:60:21:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:60:20 end:60:21:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: t
+              vpiFullName: t.N
               vpiActual: IntTypespec
       vpiTypespec (7 items):
         LogicTypespec:
@@ -1402,7 +1351,6 @@ Design name:unnamed:
             ParamAssign start:62:15 end:62:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:62:16 end:62:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1416,7 +1364,6 @@ Design name:unnamed:
             ParamAssign start:62:15 end:62:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:62:16 end:62:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1471,7 +1418,6 @@ Design name:unnamed:
             ParamAssign start:63:15 end:63:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:63:16 end:63:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1485,7 +1431,6 @@ Design name:unnamed:
             ParamAssign start:63:15 end:63:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:M start:63:16 end:63:17:
                 vpiParent: ParamAssign
                 vpiName: M
@@ -1496,8 +1441,8 @@ Design name:unnamed:
                 vpiName: M
                 vpiFullName: t.M
                 vpiActual: Parameter name:M
-        ModuleTypespec name:Contemplator:
-        ModuleTypespec name:Contemplator:
+        ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N)):
+        ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_darray.v"
@@ -1590,7 +1535,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:contemplatorOfTheZerothKind
             vpiName: Contemplator
             vpiFullName: t.contemplatorOfTheZerothKind.Contemplator
-            vpiActual: ModuleTypespec name:Contemplator
+            vpiActual: ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N))
           vpiArgument (2 items):
             NamedArgument start:70:11 end:70:25:
               vpiParent: RefInstance name:contemplatorOfTheZerothKind
@@ -1625,7 +1570,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:contemplatorOfTheFirstKind
             vpiName: Contemplator
             vpiFullName: t.contemplatorOfTheFirstKind.Contemplator
-            vpiActual: ModuleTypespec name:Contemplator
+            vpiActual: ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N))
           vpiArgument (2 items):
             NamedArgument start:78:10 end:78:24:
               vpiParent: RefInstance name:contemplatorOfTheFirstKind
@@ -1735,19 +1680,18 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:Contemplator start:65:4 end:65:16:
+    ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N)) start:65:4 end:65:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Contemplator start:65:4 end:65:16:
+      vpiName Identifier name:Contemplator #(.IMPL(0), .M(M), .N(N)) start:65:4 end:65:16:
       vpiDefName: Contemplator
       vpiParamAssign (3 items):
         ParamAssign start:66:5 end:66:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:IMPL start:66:6 end:66:10:
             vpiParent: ParamAssign
             vpiName: IMPL
-            vpiFullName: Contemplator.IMPL
+            vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N)).IMPL
             vpiActual: Parameter name:IMPL
           vpiRhs Constant start:66:13 end:66:14:
             vpiParent: ParamAssign
@@ -1757,50 +1701,47 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Contemplator
+              vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N))
               vpiActual: IntTypespec
         ParamAssign start:67:5 end:67:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:M start:67:6 end:67:7:
             vpiParent: ParamAssign
             vpiName: M
-            vpiFullName: Contemplator.M
+            vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N)).M
             vpiActual: Parameter name:M
           vpiRhs RefObj name:M start:67:13 end:67:14:
             vpiParent: ParamAssign
             vpiName: M
-            vpiFullName: Contemplator.M
+            vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N)).M
             vpiActual: Parameter name:M
         ParamAssign start:68:5 end:68:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(0), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:N start:68:6 end:68:7:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: Contemplator.N
+            vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N)).N
             vpiActual: Parameter name:N
           vpiRhs RefObj name:N start:68:13 end:68:14:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: Contemplator.N
+            vpiFullName: Contemplator #(.IMPL(0), .M(M), .N(N)).N
             vpiActual: Parameter name:N
       vpiModule: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
-    ModuleTypespec name:Contemplator start:73:4 end:73:16:
+    ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N)) start:73:4 end:73:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Contemplator start:73:4 end:73:16:
+      vpiName Identifier name:Contemplator #(.IMPL(1), .M(M), .N(N)) start:73:4 end:73:16:
       vpiDefName: Contemplator
       vpiParamAssign (3 items):
         ParamAssign start:74:5 end:74:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:IMPL start:74:6 end:74:10:
             vpiParent: ParamAssign
             vpiName: IMPL
-            vpiFullName: Contemplator.IMPL
+            vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N)).IMPL
             vpiActual: Parameter name:IMPL
           vpiRhs Constant start:74:13 end:74:14:
             vpiParent: ParamAssign
@@ -1810,55 +1751,52 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Contemplator
+              vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N))
               vpiActual: IntTypespec
         ParamAssign start:75:5 end:75:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:M start:75:6 end:75:7:
             vpiParent: ParamAssign
             vpiName: M
-            vpiFullName: Contemplator.M
+            vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N)).M
             vpiActual: Parameter name:M
           vpiRhs RefObj name:M start:75:13 end:75:14:
             vpiParent: ParamAssign
             vpiName: M
-            vpiFullName: Contemplator.M
+            vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N)).M
             vpiActual: Parameter name:M
         ParamAssign start:76:5 end:76:19:
-          vpiParent: ModuleTypespec name:Contemplator
+          vpiParent: ModuleTypespec name:Contemplator #(.IMPL(1), .M(M), .N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:N start:76:6 end:76:7:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: Contemplator.N
+            vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N)).N
             vpiActual: Parameter name:N
           vpiRhs RefObj name:N start:76:13 end:76:14:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: Contemplator.N
+            vpiFullName: Contemplator #(.IMPL(1), .M(M), .N(N)).N
             vpiActual: Parameter name:N
       vpiModule: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
-    ModuleTypespec name:DeepThought start:37:4 end:37:15:
+    ModuleTypespec name:DeepThought #(.N(N)) start:37:4 end:37:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:DeepThought start:37:4 end:37:15:
+      vpiName Identifier name:DeepThought #(.N(N)) start:37:4 end:37:15:
       vpiDefName: DeepThought
       vpiParamAssign (1 items):
         ParamAssign start:38:4 end:38:17:
-          vpiParent: ModuleTypespec name:DeepThought
+          vpiParent: ModuleTypespec name:DeepThought #(.N(N))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:N start:38:5 end:38:6:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: DeepThought.N
+            vpiFullName: DeepThought #(.N(N)).N
             vpiActual: Parameter name:N
           vpiRhs RefObj name:N start:38:12 end:38:13:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: DeepThought.N
+            vpiFullName: DeepThought #(.N(N)).N
             vpiActual: Parameter name:N
       vpiModule: Module name:DeepThought #(.N(1))
   vpiTypedef (2 items):
@@ -1883,7 +1821,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 5
 [WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
@@ -1929,10 +1867,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            28      28       7         7
 Operation                            7       0       0         7
-RefObj                              62      55       0         7
+RefObj                              55      48       0         7
 RefTypespec                         63      63       7         7
 ----------------------------------------------------------------
-Others                             127     127       0         0
+Others                             120     120       0         0
 ----------------------------------------------------------------
-                                   287     273      14        28
+                                   273     259      14        28
 ===================== END REDUCTION RESULT =====================

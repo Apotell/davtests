@@ -173,23 +173,15 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: aes_pkg::X
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:31 end:2:43:
-          vpiParent: Package name:aes_pkg
-          vpiLhs RefObj name:X start:2:31 end:2:32:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: aes_pkg::X
-            vpiActual: Parameter name:X
-          vpiRhs Constant start:2:35 end:2:43:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:35 end:2:43:
+            vpiParent: Parameter name:X
             vpiConstType: hexadecimal (5)
             vpiSize: 32
             vpiDecompile: "32'habcd"
             vpiValue: abcd
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: aes_pkg
+              vpiFullName: aes_pkg::X
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -264,6 +256,11 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: aes_cipher_core #(.P(X), .Z(0)).P
             vpiActual: LogicTypespec
+          vpiExpr RefObj name:X start:7:38 end:7:39:
+            vpiParent: Parameter name:P
+            vpiName: X
+            vpiFullName: aes_cipher_core #(.P(X), .Z(0)).P.X
+            vpiActual: Parameter name:X
         Parameter name:Z start:8:23 end:8:24:
           vpiParent: Module name:aes_cipher_core #(.P(X), .Z(0))
           vpiName: Z
@@ -272,35 +269,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Z
             vpiFullName: aes_cipher_core #(.P(X), .Z(0)).Z
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:7:34 end:7:39:
-          vpiParent: Module name:aes_cipher_core #(.P(X), .Z(0))
-          vpiLhs RefObj name:P start:7:34 end:7:35:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: aes_cipher_core #(.P(X), .Z(0)).P
-            vpiActual: Parameter name:P
-          vpiRhs RefObj name:X start:7:38 end:7:39:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: aes_cipher_core #(.P(X), .Z(0)).X
-            vpiActual: Parameter name:X
-        ParamAssign start:8:23 end:8:28:
-          vpiParent: Module name:aes_cipher_core #(.P(X), .Z(0))
-          vpiLhs RefObj name:Z start:8:23 end:8:24:
-            vpiParent: ParamAssign
-            vpiName: Z
-            vpiFullName: aes_cipher_core #(.P(X), .Z(0)).Z
-            vpiActual: Parameter name:Z
-          vpiRhs Constant start:8:27 end:8:28:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:8:27 end:8:28:
+            vpiParent: Parameter name:Z
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: aes_cipher_core #(.P(X), .Z(0))
+              vpiFullName: aes_cipher_core #(.P(X), .Z(0)).Z
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         ImportTypespec name:aes_pkg start:5:31 end:5:41:
@@ -384,7 +361,7 @@ Design name:unnamed:
       vpiName Identifier name:top start:12:8 end:12:11:
       vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:aes_cipher_core:
+        ModuleTypespec name:aes_cipher_core #(.Z(1)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -405,7 +382,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_aes_cipher_core
             vpiName: aes_cipher_core
             vpiFullName: top.u_aes_cipher_core.aes_cipher_core
-            vpiActual: ModuleTypespec name:aes_cipher_core
+            vpiActual: ModuleTypespec name:aes_cipher_core #(.Z(1))
   vpiTypespec (6 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -424,19 +401,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:12:8 end:12:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:aes_cipher_core start:13:4 end:13:19:
+    ModuleTypespec name:aes_cipher_core #(.Z(1)) start:13:4 end:13:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:aes_cipher_core start:13:4 end:13:19:
+      vpiName Identifier name:aes_cipher_core #(.Z(1)) start:13:4 end:13:19:
       vpiDefName: aes_cipher_core
       vpiParamAssign (1 items):
         ParamAssign start:13:22 end:13:27:
-          vpiParent: ModuleTypespec name:aes_cipher_core
+          vpiParent: ModuleTypespec name:aes_cipher_core #(.Z(1))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Z start:13:23 end:13:24:
             vpiParent: ParamAssign
             vpiName: Z
-            vpiFullName: aes_cipher_core.Z
+            vpiFullName: aes_cipher_core #(.Z(1)).Z
             vpiActual: Parameter name:Z
           vpiRhs Constant start:13:25 end:13:26:
             vpiParent: ParamAssign
@@ -446,7 +422,7 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: aes_cipher_core
+              vpiFullName: aes_cipher_core #(.Z(1))
               vpiActual: IntTypespec
       vpiModule: Module name:aes_cipher_core #(.P(X), .Z(0))
   vpiLibrary (1 items):
@@ -501,7 +477,7 @@ COMMAND: ${HLC_DIR}/regression/ParamFromPackage/ParamFromPackage/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

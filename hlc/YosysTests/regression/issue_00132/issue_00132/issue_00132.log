@@ -2027,23 +2027,15 @@ Design name:unnamed:
             vpiParent: Parameter name:increment
             vpiFullName: submod.increment
             vpiActual: IntegerTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:21 end:2:34:
-          vpiParent: Module name:submod
-          vpiLhs RefObj name:increment start:2:21 end:2:30:
-            vpiParent: ParamAssign
-            vpiName: increment
-            vpiFullName: submod.increment
-            vpiActual: Parameter name:increment
-          vpiRhs Constant start:2:33 end:2:34:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:33 end:2:34:
+            vpiParent: Parameter name:increment
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: submod
+              vpiFullName: submod.increment
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -2251,23 +2243,15 @@ Design name:unnamed:
             vpiParent: Parameter name:incr
             vpiFullName: top.incr
             vpiActual: IntegerTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:21 end:13:29:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:incr start:13:21 end:13:25:
-            vpiParent: ParamAssign
-            vpiName: incr
-            vpiFullName: top.incr
-            vpiActual: Parameter name:incr
-          vpiRhs Constant start:13:28 end:13:29:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:13:28 end:13:29:
+            vpiParent: Parameter name:incr
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.incr
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -2325,7 +2309,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Module name:top
           vpiSigned: true
-        ModuleTypespec name:submod:
+        ModuleTypespec name:submod #(.increment(incr)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00132/top.v"
@@ -2397,7 +2381,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:submod_instance
             vpiName: submod
             vpiFullName: top.submod_instance.submod
-            vpiActual: ModuleTypespec name:submod
+            vpiActual: ModuleTypespec name:submod #(.increment(incr))
           vpiArgument (2 items):
             NamedArgument start:14:35 end:14:36:
               vpiParent: RefInstance name:submod_instance
@@ -2932,23 +2916,22 @@ Design name:unnamed:
       vpiName Identifier name:testbench start:1:8 end:1:17:
       vpiDefName: testbench
       vpiModule: Module name:testbench
-    ModuleTypespec name:submod start:14:3 end:14:9:
+    ModuleTypespec name:submod #(.increment(incr)) start:14:3 end:14:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:submod start:14:3 end:14:9:
+      vpiName Identifier name:submod #(.increment(incr)) start:14:3 end:14:9:
       vpiDefName: submod
       vpiParamAssign (1 items):
         ParamAssign start:14:12 end:14:16:
-          vpiParent: ModuleTypespec name:submod
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:submod #(.increment(incr))
           vpiLhs RefObj name:increment start:2:21 end:2:30:
             vpiParent: ParamAssign
             vpiName: increment
-            vpiFullName: submod.increment
+            vpiFullName: submod #(.increment(incr)).increment
             vpiActual: Parameter name:increment
           vpiRhs RefObj name:incr start:14:12 end:14:16:
             vpiParent: ParamAssign
             vpiName: incr
-            vpiFullName: submod.incr
+            vpiFullName: submod #(.increment(incr)).incr
             vpiActual: Parameter name:incr
       vpiModule: Module name:submod
   vpiLibrary (1 items):
@@ -3010,10 +2993,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            44      44       2         2
 Operation                           15      13       0         2
-RefObj                              73      71       0         2
+RefObj                              71      69       0         2
 RefTypespec                         84      84       2         2
 ----------------------------------------------------------------
-Others                             226     226       0         0
+Others                             224     224       0         0
 ----------------------------------------------------------------
-                                   442     438       4         8
+                                   438     434       4         8
 ===================== END REDUCTION RESULT =====================

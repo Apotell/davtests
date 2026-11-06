@@ -192,23 +192,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: bar.P
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:13 end:2:18:
-          vpiParent: Module name:bar
-          vpiLhs RefObj name:P start:2:13 end:2:14:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: bar.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:2:17 end:2:18:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:17 end:2:18:
+            vpiParent: Parameter name:P
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bar
+              vpiFullName: bar.P
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -239,6 +231,16 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: baz.P
             vpiActual: LogicTypespec
+          vpiExpr Constant start:6:17 end:6:18:
+            vpiParent: Parameter name:P
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: baz.P
+              vpiActual: IntTypespec
         Parameter name:Q start:7:13 end:7:14:
           vpiParent: Module name:baz
           vpiName: Q
@@ -247,40 +249,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Q
             vpiFullName: baz.Q
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:6:13 end:6:18:
-          vpiParent: Module name:baz
-          vpiLhs RefObj name:P start:6:13 end:6:14:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: baz.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:6:17 end:6:18:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: baz
-              vpiActual: IntTypespec
-        ParamAssign start:7:13 end:7:18:
-          vpiParent: Module name:baz
-          vpiLhs RefObj name:Q start:7:13 end:7:14:
-            vpiParent: ParamAssign
-            vpiName: Q
-            vpiFullName: baz.Q
-            vpiActual: Parameter name:Q
-          vpiRhs Constant start:7:17 end:7:18:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:17 end:7:18:
+            vpiParent: Parameter name:Q
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: baz
+              vpiFullName: baz.Q
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -304,9 +281,9 @@ Design name:unnamed:
       vpiFullName: foo
       vpiTypespec (4 items):
         ModuleTypespec name:bar:
-        ModuleTypespec name:bar:
+        ModuleTypespec name:bar #(.P(456)):
         ModuleTypespec name:baz:
-        ModuleTypespec name:baz:
+        ModuleTypespec name:baz #(.P(888), .Q(999)):
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/z1.v"
@@ -366,7 +343,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:bar2
             vpiName: bar
             vpiFullName: foo.bar2.bar
-            vpiActual: ModuleTypespec name:bar
+            vpiActual: ModuleTypespec name:bar #(.P(456))
         RefInstance name:baz1 start:13:7 end:13:11:
           vpiParent: Module name:foo
           vpiName: baz1
@@ -382,7 +359,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:baz2
             vpiName: baz
             vpiFullName: foo.baz2.baz
-            vpiActual: ModuleTypespec name:baz
+            vpiActual: ModuleTypespec name:baz #(.P(888), .Q(999))
   vpiTypespec (7 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
@@ -404,18 +381,17 @@ Design name:unnamed:
       vpiModule: Module name:foo
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:bar start:12:3 end:12:6:
+    ModuleTypespec name:bar #(.P(456)) start:12:3 end:12:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bar start:12:3 end:12:6:
+      vpiName Identifier name:bar #(.P(456)) start:12:3 end:12:6:
       vpiDefName: bar
       vpiParamAssign (1 items):
         ParamAssign start:12:9 end:12:12:
-          vpiParent: ModuleTypespec name:bar
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:bar #(.P(456))
           vpiLhs RefObj name:P start:2:13 end:2:14:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: bar.P
+            vpiFullName: bar #(.P(456)).P
             vpiActual: Parameter name:P
           vpiRhs Constant start:12:9 end:12:12:
             vpiParent: ParamAssign
@@ -425,21 +401,20 @@ Design name:unnamed:
             vpiValue: 456
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bar
+              vpiFullName: bar #(.P(456))
               vpiActual: IntTypespec
       vpiModule: Module name:bar
-    ModuleTypespec name:baz start:14:3 end:14:6:
+    ModuleTypespec name:baz #(.P(888), .Q(999)) start:14:3 end:14:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:baz start:14:3 end:14:6:
+      vpiName Identifier name:baz #(.P(888), .Q(999)) start:14:3 end:14:6:
       vpiDefName: baz
       vpiParamAssign (2 items):
         ParamAssign start:14:9 end:14:12:
-          vpiParent: ModuleTypespec name:baz
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:baz #(.P(888), .Q(999))
           vpiLhs RefObj name:P start:6:13 end:6:14:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: baz.P
+            vpiFullName: baz #(.P(888), .Q(999)).P
             vpiActual: Parameter name:P
           vpiRhs Constant start:14:9 end:14:12:
             vpiParent: ParamAssign
@@ -449,15 +424,14 @@ Design name:unnamed:
             vpiValue: 888
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: baz
+              vpiFullName: baz #(.P(888), .Q(999))
               vpiActual: IntTypespec
         ParamAssign start:14:13 end:14:16:
-          vpiParent: ModuleTypespec name:baz
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:baz #(.P(888), .Q(999))
           vpiLhs RefObj name:Q start:7:13 end:7:14:
             vpiParent: ParamAssign
             vpiName: Q
-            vpiFullName: baz.Q
+            vpiFullName: baz #(.P(888), .Q(999)).Q
             vpiActual: Parameter name:Q
           vpiRhs Constant start:14:13 end:14:16:
             vpiParent: ParamAssign
@@ -467,7 +441,7 @@ Design name:unnamed:
             vpiValue: 999
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: baz
+              vpiFullName: baz #(.P(888), .Q(999))
               vpiActual: IntTypespec
       vpiModule: Module name:baz
   vpiLibrary (1 items):
@@ -521,7 +495,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/z1/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

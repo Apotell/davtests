@@ -419,23 +419,15 @@ Design name:unnamed:
             vpiParent: Parameter name:WID
             vpiFullName: t.WID
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:24:25 end:24:33:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:WID start:24:25 end:24:28:
-            vpiParent: ParamAssign
-            vpiName: WID
-            vpiFullName: t.WID
-            vpiActual: Parameter name:WID
-          vpiRhs Constant start:24:31 end:24:33:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:24:31 end:24:33:
+            vpiParent: Parameter name:WID
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "16"
             vpiValue: 16
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: t
+              vpiFullName: t.WID
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -493,7 +485,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:test:
+        ModuleTypespec name:test #(.WIDTH(WID)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_module.v"
@@ -551,7 +543,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:i_test_33
             vpiName: test
             vpiFullName: t.i_test_33.test
-            vpiActual: ModuleTypespec name:test
+            vpiActual: ModuleTypespec name:test #(.WIDTH(WID))
           vpiArgument (2 items):
             NamedArgument start:28:25 end:28:35:
               vpiParent: RefInstance name:i_test_33
@@ -592,6 +584,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: test.WIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:40:23 end:40:25:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test.WIDTH
+              vpiActual: IntTypespec
         Parameter name:MSB start:41:15 end:41:18:
           vpiParent: Module name:test
           vpiName: MSB
@@ -601,39 +603,14 @@ Design name:unnamed:
             vpiParent: Parameter name:MSB
             vpiFullName: test.MSB
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:40:15 end:40:25:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:WIDTH start:40:15 end:40:20:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: test.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:40:23 end:40:25:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "10"
-            vpiValue: 10
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test
-              vpiActual: IntTypespec
-        ParamAssign start:41:15 end:41:32:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:MSB start:41:15 end:41:18:
-            vpiParent: ParamAssign
-            vpiName: MSB
-            vpiFullName: test.MSB
-            vpiActual: Parameter name:MSB
-          vpiRhs Operation start:41:23 end:41:32:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:41:23 end:41:32:
+            vpiParent: Parameter name:MSB
             vpiOpType: subtract (11)
             vpiOperand (2 items):
               RefObj name:WIDTH start:41:23 end:41:28:
                 vpiParent: Operation
                 vpiName: WIDTH
-                vpiFullName: test.WIDTH
+                vpiFullName: test.MSB.WIDTH
                 vpiActual: Parameter name:WIDTH
               Constant start:41:31 end:41:32:
                 vpiParent: Operation
@@ -643,7 +620,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test
+                  vpiFullName: test.MSB
                   vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -940,23 +917,22 @@ Design name:unnamed:
       vpiModule: Module name:test
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:test start:28:3 end:28:7:
+    ModuleTypespec name:test #(.WIDTH(WID)) start:28:3 end:28:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:28:3 end:28:7:
+      vpiName Identifier name:test #(.WIDTH(WID)) start:28:3 end:28:7:
       vpiDefName: test
       vpiParamAssign (1 items):
         ParamAssign start:28:10 end:28:13:
-          vpiParent: ModuleTypespec name:test
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:test #(.WIDTH(WID))
           vpiLhs RefObj name:WIDTH start:40:15 end:40:20:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: test.WIDTH
+            vpiFullName: test #(.WIDTH(WID)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs RefObj name:WID start:28:10 end:28:13:
             vpiParent: ParamAssign
             vpiName: WID
-            vpiFullName: test.WID
+            vpiFullName: test #(.WIDTH(WID)).WID
             vpiActual: Parameter name:WID
       vpiModule: Module name:test
   vpiLibrary (1 items):
@@ -1014,11 +990,11 @@ Constant                            14      14       4         4
 Identifier                          11       9       0         2
 NamedArgument                        5       3       0         2
 Operation                            6       2       0         4
-RefObj                              23      19       0         4
+RefObj                              20      16       0         4
 RefTypespec                         26      26       4         4
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                   135     121       8        22
+                                   129     115       8        22
 ===================== END REDUCTION RESULT =====================

@@ -203,14 +203,6 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: dut #(.Width()).Width
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:18 end:3:23:
-          vpiParent: Module name:dut #(.Width())
-          vpiLhs RefObj name:Width start:3:18 end:3:23:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: dut #(.Width()).Width
-            vpiActual: Parameter name:Width
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.Width())
@@ -298,6 +290,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: top.Width
             vpiActual: IntTypespec
+          vpiExpr Constant start:10:26 end:10:28:
+            vpiParent: Parameter name:Width
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.Width
+              vpiActual: IntTypespec
         Parameter name:EccWidth start:11:18 end:11:26:
           vpiParent: Module name:top
           vpiName: EccWidth
@@ -306,6 +308,16 @@ Design name:unnamed:
             vpiParent: Parameter name:EccWidth
             vpiFullName: top.EccWidth
             vpiActual: IntTypespec
+          vpiExpr Constant start:11:29 end:11:30:
+            vpiParent: Parameter name:EccWidth
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.EccWidth
+              vpiActual: IntTypespec
         Parameter name:BBB start:12:15 end:12:18:
           vpiParent: Module name:top
           vpiName: BBB
@@ -314,50 +326,8 @@ Design name:unnamed:
             vpiParent: Parameter name:BBB
             vpiFullName: top.BBB
             vpiActual: IntTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:10:18 end:10:28:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:Width start:10:18 end:10:23:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: top.Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:10:26 end:10:28:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "16"
-            vpiValue: 16
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:11:18 end:11:30:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:EccWidth start:11:18 end:11:26:
-            vpiParent: ParamAssign
-            vpiName: EccWidth
-            vpiFullName: top.EccWidth
-            vpiActual: Parameter name:EccWidth
-          vpiRhs Constant start:11:29 end:11:30:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:12:15 end:12:43:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:BBB start:12:15 end:12:18:
-            vpiParent: ParamAssign
-            vpiName: BBB
-            vpiFullName: top.BBB
-            vpiActual: Parameter name:BBB
-          vpiRhs Operation start:12:21 end:12:43:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:12:21 end:12:43:
+            vpiParent: Parameter name:BBB
             vpiOpType: multi-concatenation (34)
             vpiOperand (2 items):
               Operation start:12:22 end:12:36:
@@ -367,12 +337,12 @@ Design name:unnamed:
                   RefObj name:Width start:12:22 end:12:27:
                     vpiParent: Operation
                     vpiName: Width
-                    vpiFullName: top.Width
+                    vpiFullName: top.BBB.Width
                     vpiActual: Parameter name:Width
                   RefObj name:EccWidth start:12:28 end:12:36:
                     vpiParent: Operation
                     vpiName: EccWidth
-                    vpiFullName: top.EccWidth
+                    vpiFullName: top.BBB.EccWidth
                     vpiActual: Parameter name:EccWidth
               Operation start:12:36 end:12:42:
                 vpiParent: Operation
@@ -386,12 +356,12 @@ Design name:unnamed:
                     vpiValue: "1"
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: top
+                      vpiFullName: top.BBB
                       vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:top
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.Width(Width + EccWidth)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -412,7 +382,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_dut
             vpiName: dut
             vpiFullName: top.u_dut.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.Width(Width + EccWidth))
           vpiArgument (1 items):
             NamedArgument start:16:7 end:16:41:
               vpiParent: RefInstance name:u_dut
@@ -468,19 +438,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:9:8 end:9:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:dut start:13:4 end:13:7:
+    ModuleTypespec name:dut #(.Width(Width + EccWidth)) start:13:4 end:13:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:13:4 end:13:7:
+      vpiName Identifier name:dut #(.Width(Width + EccWidth)) start:13:4 end:13:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:14:7 end:14:31:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.Width(Width + EccWidth))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:14:8 end:14:13:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width(Width + EccWidth)).Width
             vpiActual: Parameter name:Width
           vpiRhs Operation start:14:14 end:14:30:
             vpiParent: ParamAssign
@@ -489,12 +458,12 @@ Design name:unnamed:
               RefObj name:Width start:14:14 end:14:19:
                 vpiParent: Operation
                 vpiName: Width
-                vpiFullName: dut.Width
+                vpiFullName: dut #(.Width(Width + EccWidth)).Width
                 vpiActual: Parameter name:Width
               RefObj name:EccWidth start:14:22 end:14:30:
                 vpiParent: Operation
                 vpiName: EccWidth
-                vpiFullName: dut.EccWidth
+                vpiFullName: dut #(.Width(Width + EccWidth)).EccWidth
                 vpiActual: Parameter name:EccWidth
       vpiModule: Module name:dut #(.Width())
   vpiLibrary (1 items):
@@ -550,10 +519,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       7       3         2
 Operation                            8       1       0         7
-RefObj                              16      10       0         6
+RefObj                              12       6       0         6
 RefTypespec                         13      12       1         2
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    74      61       4        17
+                                    66      53       4        17
 ===================== END REDUCTION RESULT =====================

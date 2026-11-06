@@ -782,7 +782,7 @@ Design name:unnamed:
       vpiName Identifier name:small_top start:7:8 end:7:17:
       vpiFullName: small_top
       vpiTypespec (1 items):
-        ModuleTypespec name:small_test:
+        ModuleTypespec name:small_test #(.SIZE(1e1), .dummy(2)):
       vpiDefName: small_top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -808,7 +808,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u1
             vpiName: small_test
             vpiFullName: small_top.u1.small_test
-            vpiActual: ModuleTypespec name:small_test
+            vpiActual: ModuleTypespec name:small_test #(.SIZE(1e1), .dummy(2))
     Module name:small_test file:$Source01/top.v start:11:1 end:60:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:small_test start:11:8 end:11:18:
@@ -847,6 +847,16 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE
             vpiFullName: small_test.SIZE
             vpiActual: LogicTypespec
+          vpiExpr Constant start:14:34 end:14:37:
+            vpiParent: Parameter name:SIZE
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "1e1"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: small_test.SIZE
+              vpiActual: RealTypespec
         Parameter name:dummy start:15:14 end:15:19:
           vpiParent: Module name:small_test
           vpiName: dummy
@@ -855,6 +865,16 @@ Design name:unnamed:
             vpiParent: Parameter name:dummy
             vpiFullName: small_test.dummy
             vpiActual: LogicTypespec
+          vpiExpr Constant start:15:22 end:15:23:
+            vpiParent: Parameter name:dummy
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "5"
+            vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: small_test.dummy
+              vpiActual: IntTypespec
         Parameter name:p1 start:16:11 end:16:13:
           vpiParent: Module name:small_test
           vpiName: p1
@@ -863,57 +883,15 @@ Design name:unnamed:
             vpiParent: Parameter name:p1
             vpiFullName: small_test.p1
             vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:14:27 end:14:37:
-          vpiParent: Module name:small_test
-          vpiLhs RefObj name:SIZE start:14:27 end:14:31:
-            vpiParent: ParamAssign
-            vpiName: SIZE
-            vpiFullName: small_test.SIZE
-            vpiActual: Parameter name:SIZE
-          vpiRhs Constant start:14:34 end:14:37:
-            vpiParent: ParamAssign
-            vpiConstType: real (2)
-            vpiSize: 64
-            vpiDecompile: "1e1"
-            vpiValue: 10
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: small_test
-              vpiActual: RealTypespec
-        ParamAssign start:15:14 end:15:23:
-          vpiParent: Module name:small_test
-          vpiLhs RefObj name:dummy start:15:14 end:15:19:
-            vpiParent: ParamAssign
-            vpiName: dummy
-            vpiFullName: small_test.dummy
-            vpiActual: Parameter name:dummy
-          vpiRhs Constant start:15:22 end:15:23:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "5"
-            vpiValue: 5
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: small_test
-              vpiActual: IntTypespec
-        ParamAssign start:16:11 end:16:23:
-          vpiParent: Module name:small_test
-          vpiLhs RefObj name:p1 start:16:11 end:16:13:
-            vpiParent: ParamAssign
-            vpiName: p1
-            vpiFullName: small_test.p1
-            vpiActual: Parameter name:p1
-          vpiRhs Constant start:16:16 end:16:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:16:16 end:16:23:
+            vpiParent: Parameter name:p1
             vpiConstType: binary (3)
             vpiSize: 13
             vpiDecompile: "13'b100"
             vpiValue: "100"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: small_test
+              vpiFullName: small_test.p1
               vpiActual: LogicTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1334,23 +1312,15 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE1
             vpiFullName: def.SIZE1
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:11 end:3:20:
-          vpiParent: Module name:def
-          vpiLhs RefObj name:SIZE1 start:3:11 end:3:16:
-            vpiParent: ParamAssign
-            vpiName: SIZE1
-            vpiFullName: def.SIZE1
-            vpiActual: Parameter name:SIZE1
-          vpiRhs Constant start:3:19 end:3:20:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:19 end:3:20:
+            vpiParent: Parameter name:SIZE1
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: def
+              vpiFullName: def.SIZE1
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -1455,23 +1425,15 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE
             vpiFullName: secret_number.SIZE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:12 end:3:20:
-          vpiParent: Module name:secret_number
-          vpiLhs RefObj name:SIZE start:3:12 end:3:16:
-            vpiParent: ParamAssign
-            vpiName: SIZE
-            vpiFullName: secret_number.SIZE
-            vpiActual: Parameter name:SIZE
-          vpiRhs Constant start:3:19 end:3:20:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:19 end:3:20:
+            vpiParent: Parameter name:SIZE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: secret_number
+              vpiFullName: secret_number.SIZE
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -1889,18 +1851,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:small_test start:8:4 end:8:14:
+    ModuleTypespec name:small_test #(.SIZE(1e1), .dummy(2)) start:8:4 end:8:14:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:small_test start:8:4 end:8:14:
+      vpiName Identifier name:small_test #(.SIZE(1e1), .dummy(2)) start:8:4 end:8:14:
       vpiDefName: small_test
       vpiParamAssign (2 items):
         ParamAssign start:8:17 end:8:20:
-          vpiParent: ModuleTypespec name:small_test
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:small_test #(.SIZE(1e1), .dummy(2))
           vpiLhs RefObj name:SIZE start:14:27 end:14:31:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: small_test.SIZE
+            vpiFullName: small_test #(.SIZE(1e1), .dummy(2)).SIZE
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:8:17 end:8:20:
             vpiParent: ParamAssign
@@ -1910,15 +1871,14 @@ Design name:unnamed:
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: small_test
+              vpiFullName: small_test #(.SIZE(1e1), .dummy(2))
               vpiActual: RealTypespec
         ParamAssign start:8:21 end:8:22:
-          vpiParent: ModuleTypespec name:small_test
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:small_test #(.SIZE(1e1), .dummy(2))
           vpiLhs RefObj name:dummy start:15:14 end:15:19:
             vpiParent: ParamAssign
             vpiName: dummy
-            vpiFullName: small_test.dummy
+            vpiFullName: small_test #(.SIZE(1e1), .dummy(2)).dummy
             vpiActual: Parameter name:dummy
           vpiRhs Constant start:8:21 end:8:22:
             vpiParent: ParamAssign
@@ -1928,7 +1888,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: small_test
+              vpiFullName: small_test #(.SIZE(1e1), .dummy(2))
               vpiActual: IntTypespec
       vpiModule: Module name:small_test
   vpiLibrary (1 items):
@@ -1988,7 +1948,7 @@ COMMAND: ${HLC_DIR}/regression/UnitDefParam/UnitDefParam/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2155    2155       0         0
+Others                            2133    2133       0         0
 ----------------------------------------------------------------
-                                  2155    2155       0         0
+                                  2133    2133       0         0
 ===================== END REDUCTION RESULT =====================

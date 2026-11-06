@@ -166,23 +166,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: dut.P
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:20 end:2:25:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:P start:2:20 end:2:21:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: dut.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:2:24 end:2:25:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:24 end:2:25:
+            vpiParent: Parameter name:P
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut.P
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -254,29 +246,21 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: top.X
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:20 end:7:25:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:X start:7:20 end:7:21:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: top.X
-            vpiActual: Parameter name:X
-          vpiRhs Constant start:7:24 end:7:25:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:24 end:7:25:
+            vpiParent: Parameter name:X
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.X
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
           vpiScalar: true
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.P(~X)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -312,7 +296,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_dut
             vpiName: dut
             vpiFullName: top.u_dut.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.P(~X))
           vpiArgument (1 items):
             NamedArgument start:11:7 end:11:12:
               vpiParent: RefInstance name:u_dut
@@ -341,19 +325,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:6:8 end:6:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:dut start:8:4 end:8:7:
+    ModuleTypespec name:dut #(.P(~X)) start:8:4 end:8:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:8:4 end:8:7:
+      vpiName Identifier name:dut #(.P(~X)) start:8:4 end:8:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:9:7 end:9:13:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.P(~X))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:P start:9:8 end:9:9:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: dut.P
+            vpiFullName: dut #(.P(~X)).P
             vpiActual: Parameter name:P
           vpiRhs Operation start:9:10 end:9:12:
             vpiParent: ParamAssign
@@ -362,7 +345,7 @@ Design name:unnamed:
               RefObj name:X start:9:11 end:9:12:
                 vpiParent: Operation
                 vpiName: X
-                vpiFullName: dut.X
+                vpiFullName: dut #(.P(~X)).X
                 vpiActual: Parameter name:X
       vpiModule: Module name:dut
   vpiLibrary (1 items):
@@ -418,10 +401,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       3       1         0
 Operation                            1       0       0         1
-RefObj                              12      11       0         1
+RefObj                              10       9       0         1
 RefTypespec                          9      10       1         0
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    53      53       2         2
+                                    49      49       2         2
 ===================== END REDUCTION RESULT =====================

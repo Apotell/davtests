@@ -336,8 +336,8 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:updown:
-        ModuleTypespec name:updown:
+        ModuleTypespec name:updown #(.UP(0)):
+        ModuleTypespec name:updown #(.UP(1)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_tri_gen.v"
@@ -500,7 +500,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:updown0
             vpiName: updown
             vpiFullName: t.updown0.updown
-            vpiActual: ModuleTypespec name:updown
+            vpiActual: ModuleTypespec name:updown #(.UP(0))
           vpiArgument (1 items):
             NamedArgument start:15:25 end:15:31:
               vpiParent: RefInstance name:updown0
@@ -522,7 +522,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:updown1
             vpiName: updown
             vpiFullName: t.updown1.updown
-            vpiActual: ModuleTypespec name:updown
+            vpiActual: ModuleTypespec name:updown #(.UP(1))
           vpiArgument (1 items):
             NamedArgument start:16:25 end:16:31:
               vpiParent: RefInstance name:updown1
@@ -550,23 +550,15 @@ Design name:unnamed:
             vpiParent: Parameter name:UP
             vpiFullName: updown #(.UP(0)).UP
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:27:27 end:27:31:
-          vpiParent: Module name:updown #(.UP(0))
-          vpiLhs RefObj name:UP start:27:27 end:27:29:
-            vpiParent: ParamAssign
-            vpiName: UP
-            vpiFullName: updown #(.UP(0)).UP
-            vpiActual: Parameter name:UP
-          vpiRhs Constant start:27:30 end:27:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:27:30 end:27:31:
+            vpiParent: Parameter name:UP
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: updown #(.UP(0))
+              vpiFullName: updown #(.UP(0)).UP
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -787,18 +779,17 @@ Design name:unnamed:
       vpiName Identifier name:t_down start:42:8 end:42:14:
       vpiDefName: t_down
       vpiModule: Module name:t_down
-    ModuleTypespec name:updown start:15:4 end:15:10:
+    ModuleTypespec name:updown #(.UP(0)) start:15:4 end:15:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:updown start:15:4 end:15:10:
+      vpiName Identifier name:updown #(.UP(0)) start:15:4 end:15:10:
       vpiDefName: updown
       vpiParamAssign (1 items):
         ParamAssign start:15:13 end:15:14:
-          vpiParent: ModuleTypespec name:updown
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:updown #(.UP(0))
           vpiLhs RefObj name:UP start:27:27 end:27:29:
             vpiParent: ParamAssign
             vpiName: UP
-            vpiFullName: updown.UP
+            vpiFullName: updown #(.UP(0)).UP
             vpiActual: Parameter name:UP
           vpiRhs Constant start:15:13 end:15:14:
             vpiParent: ParamAssign
@@ -808,21 +799,20 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: updown
+              vpiFullName: updown #(.UP(0))
               vpiActual: IntTypespec
       vpiModule: Module name:updown #(.UP(0))
-    ModuleTypespec name:updown start:16:4 end:16:10:
+    ModuleTypespec name:updown #(.UP(1)) start:16:4 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:updown start:16:4 end:16:10:
+      vpiName Identifier name:updown #(.UP(1)) start:16:4 end:16:10:
       vpiDefName: updown
       vpiParamAssign (1 items):
         ParamAssign start:16:13 end:16:14:
-          vpiParent: ModuleTypespec name:updown
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:updown #(.UP(1))
           vpiLhs RefObj name:UP start:27:27 end:27:29:
             vpiParent: ParamAssign
             vpiName: UP
-            vpiFullName: updown.UP
+            vpiFullName: updown #(.UP(1)).UP
             vpiActual: Parameter name:UP
           vpiRhs Constant start:16:13 end:16:14:
             vpiParent: ParamAssign
@@ -832,7 +822,7 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: updown
+              vpiFullName: updown #(.UP(1))
               vpiActual: IntTypespec
       vpiModule: Module name:updown #(.UP(0))
   vpiLibrary (1 items):
@@ -887,7 +877,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_tri_gen/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             121     121       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   121     121       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

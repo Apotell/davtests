@@ -212,23 +212,15 @@ Design name:unnamed:
             vpiParent: Parameter name:AsyncOn
             vpiFullName: "alert_sender #(.AsyncOn(1'b0)).AsyncOn"
             vpiActual: BitTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:17 end:3:31:
-          vpiParent: "Module name:alert_sender #(.AsyncOn(1'b0))"
-          vpiLhs RefObj name:AsyncOn start:3:17 end:3:24:
-            vpiParent: ParamAssign
-            vpiName: AsyncOn
-            vpiFullName: "alert_sender #(.AsyncOn(1'b0)).AsyncOn"
-            vpiActual: Parameter name:AsyncOn
-          vpiRhs Constant start:3:27 end:3:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:27 end:3:31:
+            vpiParent: Parameter name:AsyncOn
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "alert_sender #(.AsyncOn(1'b0))"
+              vpiFullName: "alert_sender #(.AsyncOn(1'b0)).AsyncOn"
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -266,6 +258,16 @@ Design name:unnamed:
             vpiParent: Parameter name:NumAlerts
             vpiFullName: dut.NumAlerts
             vpiActual: IntTypespec
+          vpiExpr Constant start:7:45 end:7:46:
+            vpiParent: Parameter name:NumAlerts
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dut.NumAlerts
+              vpiActual: IntTypespec
         Parameter name:AlertAsyncOn start:8:33 end:8:45:
           vpiParent: Module name:dut
           vpiName: AlertAsyncOn
@@ -274,47 +276,14 @@ Design name:unnamed:
             vpiParent: Parameter name:AlertAsyncOn
             vpiFullName: dut.AlertAsyncOn
             vpiActual: LogicTypespec
-        Parameter name:res start:9:11 end:9:14:
-          vpiParent: Module name:dut
-          vpiName: res
-          vpiFullName: dut.res
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:res
-            vpiFullName: dut.res
-            vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:7:33 end:7:46:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:NumAlerts start:7:33 end:7:42:
-            vpiParent: ParamAssign
-            vpiName: NumAlerts
-            vpiFullName: dut.NumAlerts
-            vpiActual: Parameter name:NumAlerts
-          vpiRhs Constant start:7:45 end:7:46:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: dut
-              vpiActual: IntTypespec
-        ParamAssign start:8:33 end:8:65:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:AlertAsyncOn start:8:33 end:8:45:
-            vpiParent: ParamAssign
-            vpiName: AlertAsyncOn
-            vpiFullName: dut.AlertAsyncOn
-            vpiActual: Parameter name:AlertAsyncOn
-          vpiRhs Operation start:8:48 end:8:65:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:8:48 end:8:65:
+            vpiParent: Parameter name:AlertAsyncOn
             vpiOpType: multi-concatenation (34)
             vpiOperand (2 items):
               RefObj name:NumAlerts start:8:49 end:8:58:
                 vpiParent: Operation
                 vpiName: NumAlerts
-                vpiFullName: dut.NumAlerts
+                vpiFullName: dut.AlertAsyncOn.NumAlerts
                 vpiActual: Parameter name:NumAlerts
               Operation start:8:58 end:8:64:
                 vpiParent: Operation
@@ -328,23 +297,24 @@ Design name:unnamed:
                     vpiValue: "1"
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: dut
+                      vpiFullName: dut.AlertAsyncOn
                       vpiActual: BitTypespec
-        ParamAssign start:9:11 end:9:33:
+        Parameter name:res start:9:11 end:9:14:
           vpiParent: Module name:dut
-          vpiLhs RefObj name:res start:9:11 end:9:14:
-            vpiParent: ParamAssign
-            vpiName: res
+          vpiName: res
+          vpiFullName: dut.res
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:res
             vpiFullName: dut.res
-            vpiActual: Parameter name:res
-          vpiRhs BitSelect name:AlertAsyncOn[0] start:9:18 end:9:33:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr BitSelect name:AlertAsyncOn[0] start:9:18 end:9:33:
+            vpiParent: Parameter name:res
             vpiName: AlertAsyncOn[0]
-            vpiFullName: dut.AlertAsyncOn[0]
+            vpiFullName: dut.res.AlertAsyncOn[0]
             vpiPrefix RefObj name:AlertAsyncOn start:9:18 end:9:30:
               vpiParent: BitSelect name:AlertAsyncOn[0]
               vpiName: AlertAsyncOn
-              vpiFullName: dut.AlertAsyncOn
+              vpiFullName: dut.res.AlertAsyncOn
               vpiActual: Parameter name:AlertAsyncOn
             vpiIndex Constant start:9:31 end:9:32:
               vpiParent: BitSelect name:AlertAsyncOn[0]
@@ -354,7 +324,7 @@ Design name:unnamed:
               vpiValue: 0
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: dut.AlertAsyncOn[0]
+                vpiFullName: dut.res.AlertAsyncOn[0]
                 vpiActual: IntTypespec
       vpiTypespec (3 items):
         BitTypespec:
@@ -469,7 +439,7 @@ Design name:unnamed:
             vpiName Identifier name:gen_alert_tx start:10:47 end:10:59:
             vpiFullName: dut.gen_alert_tx
             vpiTypespec (1 items):
-              ModuleTypespec name:alert_sender:
+              ModuleTypespec name:alert_sender #(.AsyncOn(AlertAsyncOn[i])):
             vpiStmt (1 items):
               RefInstance name:i_alert_sender start:13:5 end:13:19:
                 vpiParent: GenBlock name:gen_alert_tx
@@ -478,7 +448,7 @@ Design name:unnamed:
                   vpiParent: RefInstance name:i_alert_sender
                   vpiName: alert_sender
                   vpiFullName: dut.gen_alert_tx.i_alert_sender.alert_sender
-                  vpiActual: ModuleTypespec name:alert_sender
+                  vpiActual: ModuleTypespec name:alert_sender #(.AsyncOn(AlertAsyncOn[i]))
   vpiTypespec (4 items):
     ModuleTypespec name:alert_sender:
       vpiParent: Design name:unnamed
@@ -493,33 +463,32 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:alert_sender start:11:3 end:11:15:
+    ModuleTypespec name:alert_sender #(.AsyncOn(AlertAsyncOn[i])) start:11:3 end:11:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:alert_sender start:11:3 end:11:15:
+      vpiName Identifier name:alert_sender #(.AsyncOn(AlertAsyncOn[i])) start:11:3 end:11:15:
       vpiDefName: alert_sender
       vpiParamAssign (1 items):
         ParamAssign start:12:5 end:12:30:
-          vpiParent: ModuleTypespec name:alert_sender
+          vpiParent: ModuleTypespec name:alert_sender #(.AsyncOn(AlertAsyncOn[i]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:AsyncOn start:12:6 end:12:13:
             vpiParent: ParamAssign
             vpiName: AsyncOn
-            vpiFullName: alert_sender.AsyncOn
+            vpiFullName: alert_sender #(.AsyncOn(AlertAsyncOn[i])).AsyncOn
             vpiActual: Parameter name:AsyncOn
           vpiRhs BitSelect name:AlertAsyncOn[i] start:12:14 end:12:29:
             vpiParent: ParamAssign
             vpiName: AlertAsyncOn[i]
-            vpiFullName: alert_sender.AlertAsyncOn[i]
+            vpiFullName: alert_sender #(.AsyncOn(AlertAsyncOn[i])).AlertAsyncOn[i]
             vpiPrefix RefObj name:AlertAsyncOn start:12:14 end:12:26:
               vpiParent: BitSelect name:AlertAsyncOn[i]
               vpiName: AlertAsyncOn
-              vpiFullName: alert_sender.AlertAsyncOn
+              vpiFullName: alert_sender #(.AsyncOn(AlertAsyncOn[i])).AlertAsyncOn
               vpiActual: Parameter name:AlertAsyncOn
             vpiIndex RefObj name:i start:12:27 end:12:28:
               vpiParent: BitSelect name:AlertAsyncOn[i]
               vpiName: i
-              vpiFullName: alert_sender.i
+              vpiFullName: alert_sender #(.AsyncOn(AlertAsyncOn[i])).i
               vpiActual: Variable name:i
       vpiModule: "Module name:alert_sender #(.AsyncOn(1'b0))"
   vpiLibrary (1 items):
@@ -575,10 +544,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       2         2
 Operation                            5       2       0         3
-RefObj                              15      13       0         2
+RefObj                              11       9       0         2
 RefTypespec                         12      11       1         2
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    79      73       3         9
+                                    71      65       3         9
 ===================== END REDUCTION RESULT =====================

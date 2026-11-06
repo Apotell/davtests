@@ -172,23 +172,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ResetValue
             vpiFullName: "ibex_csr #(.ResetValue('0)).ResetValue"
             vpiActual: BitTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:25 end:2:40:
-          vpiParent: "Module name:ibex_csr #(.ResetValue('0))"
-          vpiLhs RefObj name:ResetValue start:2:25 end:2:35:
-            vpiParent: ParamAssign
-            vpiName: ResetValue
-            vpiFullName: "ibex_csr #(.ResetValue('0)).ResetValue"
-            vpiActual: Parameter name:ResetValue
-          vpiRhs Constant start:2:38 end:2:40:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:38 end:2:40:
+            vpiParent: Parameter name:ResetValue
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "ibex_csr #(.ResetValue('0))"
+              vpiFullName: "ibex_csr #(.ResetValue('0)).ResetValue"
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -278,16 +270,8 @@ Design name:unnamed:
             vpiName: status_t
             vpiFullName: top.MSTATUS_RST_VAL.status_t
             vpiActual: TypedefTypespec name:status_t
-      vpiParamAssign (1 items):
-        ParamAssign start:14:23 end:15:53:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:MSTATUS_RST_VAL start:14:23 end:14:38:
-            vpiParent: ParamAssign
-            vpiName: MSTATUS_RST_VAL
-            vpiFullName: top.MSTATUS_RST_VAL
-            vpiActual: Parameter name:MSTATUS_RST_VAL
-          vpiRhs Operation start:14:41 end:15:53:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:14:41 end:15:53:
+            vpiParent: Parameter name:MSTATUS_RST_VAL
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               TaggedPattern start:14:43 end:14:54:
@@ -295,7 +279,7 @@ Design name:unnamed:
                 vpiTag RefObj name:mpie start:14:43 end:14:47:
                   vpiParent: TaggedPattern
                   vpiName: mpie
-                  vpiFullName: top.mpie
+                  vpiFullName: top.MSTATUS_RST_VAL.mpie
                   vpiActual: TypespecMember name:mpie
                 vpiPattern Constant start:14:50 end:14:54:
                   vpiParent: TaggedPattern
@@ -305,14 +289,14 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: top
+                    vpiFullName: top.MSTATUS_RST_VAL
                     vpiActual: BitTypespec
               TaggedPattern start:15:43 end:15:52:
                 vpiParent: Operation
                 vpiTag RefObj name:mie start:15:43 end:15:46:
                   vpiParent: TaggedPattern
                   vpiName: mie
-                  vpiFullName: top.mie
+                  vpiFullName: top.MSTATUS_RST_VAL.mie
                   vpiActual: TypespecMember name:mie
                 vpiPattern Constant start:15:48 end:15:52:
                   vpiParent: TaggedPattern
@@ -322,7 +306,7 @@ Design name:unnamed:
                   vpiValue: "0"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: top
+                    vpiFullName: top.MSTATUS_RST_VAL
                     vpiActual: BitTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -338,7 +322,7 @@ Design name:unnamed:
           vpiTypedef: Typedef name:status_t
         BitTypespec:
           vpiParent: Module name:top
-        ModuleTypespec name:ibex_csr:
+        ModuleTypespec name:ibex_csr #(.ResetValue({MSTATUS_RST_VAL})):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -364,7 +348,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_mstatus_csr
             vpiName: ibex_csr
             vpiFullName: top.u_mstatus_csr.ibex_csr
-            vpiActual: ModuleTypespec name:ibex_csr
+            vpiActual: ModuleTypespec name:ibex_csr #(.ResetValue({MSTATUS_RST_VAL}))
   vpiTypespec (10 items):
     ModuleTypespec name:ibex_csr:
       vpiParent: Design name:unnamed
@@ -391,19 +375,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:ibex_csr start:16:3 end:16:11:
+    ModuleTypespec name:ibex_csr #(.ResetValue({MSTATUS_RST_VAL})) start:16:3 end:16:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ibex_csr start:16:3 end:16:11:
+      vpiName Identifier name:ibex_csr #(.ResetValue({MSTATUS_RST_VAL})) start:16:3 end:16:11:
       vpiDefName: ibex_csr
       vpiParamAssign (1 items):
         ParamAssign start:17:5 end:17:36:
-          vpiParent: ModuleTypespec name:ibex_csr
+          vpiParent: ModuleTypespec name:ibex_csr #(.ResetValue({MSTATUS_RST_VAL}))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:ResetValue start:17:6 end:17:16:
             vpiParent: ParamAssign
             vpiName: ResetValue
-            vpiFullName: ibex_csr.ResetValue
+            vpiFullName: ibex_csr #(.ResetValue({MSTATUS_RST_VAL})).ResetValue
             vpiActual: Parameter name:ResetValue
           vpiRhs Operation start:17:18 end:17:35:
             vpiParent: ParamAssign
@@ -412,7 +395,7 @@ Design name:unnamed:
               RefObj name:MSTATUS_RST_VAL start:17:19 end:17:34:
                 vpiParent: Operation
                 vpiName: MSTATUS_RST_VAL
-                vpiFullName: ibex_csr.MSTATUS_RST_VAL
+                vpiFullName: ibex_csr #(.ResetValue({MSTATUS_RST_VAL})).MSTATUS_RST_VAL
                 vpiActual: Parameter name:MSTATUS_RST_VAL
       vpiModule: "Module name:ibex_csr #(.ResetValue('0))"
   vpiLibrary (1 items):
@@ -467,7 +450,7 @@ COMMAND: ${HLC_DIR}/regression/ParamConcat/ParamConcat/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1937    1937       0         0
+Others                            1921    1921       0         0
 ----------------------------------------------------------------
-                                  1937    1937       0         0
+                                  1921    1921       0         0
 ===================== END REDUCTION RESULT =====================

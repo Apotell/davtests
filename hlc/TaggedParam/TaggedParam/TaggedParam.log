@@ -231,28 +231,20 @@ Design name:unnamed:
                 vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).Features.fpnew_pkg::fpu_features_t.fpu_features_t
                 vpiActual: TypedefTypespec name:fpu_features_t
             vpiActual: TypedefTypespec name:fpu_features_t
-      vpiParamAssign (1 items):
-        ParamAssign start:12:45 end:12:84:
-          vpiParent: Module name:fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt))
-          vpiLhs RefObj name:Features start:12:45 end:12:53:
-            vpiParent: ParamAssign
-            vpiName: Features
-            vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).Features
-            vpiActual: Parameter name:Features
-          vpiRhs RefObj name:fpnew_pkg::RV64D_Xsflt start:12:62:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:fpnew_pkg::RV64D_Xsflt start:12:62:
+            vpiParent: Parameter name:Features
             vpiName: fpnew_pkg::RV64D_Xsflt
-            vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).fpnew_pkg::RV64D_Xsflt
+            vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).Features.fpnew_pkg::RV64D_Xsflt
             vpiPathElem (2 items):
               RefObj name:fpnew_pkg start:12:62 end:12:71:
                 vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
                 vpiName: fpnew_pkg
-                vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).fpnew_pkg
+                vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).Features.fpnew_pkg
                 vpiActual: Package name:fpnew_pkg
               RefObj name:RV64D_Xsflt start:12:73 end:12:84:
                 vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
                 vpiName: RV64D_Xsflt
-                vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).RV64D_Xsflt
+                vpiFullName: fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt)).Features.RV64D_Xsflt
       vpiDefName: fpnew_top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -296,16 +288,8 @@ Design name:unnamed:
                 vpiFullName: fpu_wrap.FPU_FEATURES.fpnew_pkg::fpu_features_t.fpu_features_t
                 vpiActual: TypedefTypespec name:fpu_features_t
             vpiActual: TypedefTypespec name:fpu_features_t
-      vpiParamAssign (1 items):
-        ParamAssign start:18:38 end:21:6:
-          vpiParent: Module name:fpu_wrap
-          vpiLhs RefObj name:FPU_FEATURES start:18:38 end:18:50:
-            vpiParent: ParamAssign
-            vpiName: FPU_FEATURES
-            vpiFullName: fpu_wrap.FPU_FEATURES
-            vpiActual: Parameter name:FPU_FEATURES
-          vpiRhs Operation start:18:53 end:21:6:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:18:53 end:21:6:
+            vpiParent: Parameter name:FPU_FEATURES
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               TaggedPattern start:19:7 end:19:24:
@@ -313,7 +297,7 @@ Design name:unnamed:
                 vpiTag RefObj name:Width start:19:7 end:19:12:
                   vpiParent: TaggedPattern
                   vpiName: Width
-                  vpiFullName: fpu_wrap.Width
+                  vpiFullName: fpu_wrap.FPU_FEATURES.Width
                   vpiActual: TypespecMember name:Width
                 vpiPattern Constant start:19:22 end:19:24:
                   vpiParent: TaggedPattern
@@ -323,14 +307,14 @@ Design name:unnamed:
                   vpiValue: 64
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpu_wrap
+                    vpiFullName: fpu_wrap.FPU_FEATURES
                     vpiActual: IntTypespec
               TaggedPattern start:20:7 end:20:26:
                 vpiParent: Operation
                 vpiTag RefObj name:EnableNanBox start:20:7 end:20:19:
                   vpiParent: TaggedPattern
                   vpiName: EnableNanBox
-                  vpiFullName: fpu_wrap.EnableNanBox
+                  vpiFullName: fpu_wrap.FPU_FEATURES.EnableNanBox
                   vpiActual: TypespecMember name:EnableNanBox
                 vpiPattern Constant start:20:22 end:20:26:
                   vpiParent: TaggedPattern
@@ -340,12 +324,12 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpu_wrap
+                    vpiFullName: fpu_wrap.FPU_FEATURES
                     vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:fpu_wrap
-        ModuleTypespec name:fpnew_top:
+        ModuleTypespec name:fpnew_top #(.Features(FPU_FEATURES)):
       vpiDefName: fpu_wrap
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -371,7 +355,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:i_fpnew_bulk
             vpiName: fpnew_top
             vpiFullName: fpu_wrap.i_fpnew_bulk.fpnew_top
-            vpiActual: ModuleTypespec name:fpnew_top
+            vpiActual: ModuleTypespec name:fpnew_top #(.Features(FPU_FEATURES))
   vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -388,24 +372,23 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ModuleTypespec name:fpnew_top start:23:8 end:23:17:
+    ModuleTypespec name:fpnew_top #(.Features(FPU_FEATURES)) start:23:8 end:23:17:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:fpnew_top start:23:8 end:23:17:
+      vpiName Identifier name:fpnew_top #(.Features(FPU_FEATURES)) start:23:8 end:23:17:
       vpiDefName: fpnew_top
       vpiParamAssign (1 items):
         ParamAssign start:24:7 end:24:52:
-          vpiParent: ModuleTypespec name:fpnew_top
+          vpiParent: ModuleTypespec name:fpnew_top #(.Features(FPU_FEATURES))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Features start:24:8 end:24:16:
             vpiParent: ParamAssign
             vpiName: Features
-            vpiFullName: fpnew_top.Features
+            vpiFullName: fpnew_top #(.Features(FPU_FEATURES)).Features
             vpiActual: Parameter name:Features
           vpiRhs RefObj name:FPU_FEATURES start:24:25 end:24:37:
             vpiParent: ParamAssign
             vpiName: FPU_FEATURES
-            vpiFullName: fpnew_top.FPU_FEATURES
+            vpiFullName: fpnew_top #(.Features(FPU_FEATURES)).FPU_FEATURES
             vpiActual: Parameter name:FPU_FEATURES
       vpiModule: Module name:fpnew_top #(.Features(fpnew_pkg::RV64D_Xsflt))
   vpiLibrary (1 items):
@@ -460,7 +443,7 @@ COMMAND: ${HLC_DIR}/regression/TaggedParam/TaggedParam/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    65      65       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

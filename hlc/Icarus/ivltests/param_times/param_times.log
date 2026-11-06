@@ -229,23 +229,15 @@ Design name:unnamed:
             vpiParent: Parameter name:blah
             vpiFullName: foo.blah
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:28:14 end:28:22:
-          vpiParent: Module name:foo
-          vpiLhs RefObj name:blah start:28:14 end:28:18:
-            vpiParent: ParamAssign
-            vpiName: blah
-            vpiFullName: foo.blah
-            vpiActual: Parameter name:blah
-          vpiRhs Constant start:28:21 end:28:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:28:21 end:28:22:
+            vpiParent: Parameter name:blah
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo
+              vpiFullName: foo.blah
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -398,7 +390,7 @@ Design name:unnamed:
       vpiName Identifier name:bar start:44:8 end:44:11:
       vpiFullName: bar
       vpiTypespec (1 items):
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.blah(1 * 2 + 2)):
       vpiDefName: bar
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/param_times.v"
@@ -419,7 +411,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:yak
             vpiName: foo
             vpiFullName: bar.yak.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.blah(1 * 2 + 2))
           vpiArgument (2 items):
             NamedArgument start:46:30 end:46:30:
               vpiParent: RefInstance name:yak
@@ -451,18 +443,17 @@ Design name:unnamed:
       vpiName Identifier name:bar start:44:8 end:44:11:
       vpiDefName: bar
       vpiModule: Module name:bar
-    ModuleTypespec name:foo start:46:2 end:46:5:
+    ModuleTypespec name:foo #(.blah(1 * 2 + 2)) start:46:2 end:46:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:46:2 end:46:5:
+      vpiName Identifier name:foo #(.blah(1 * 2 + 2)) start:46:2 end:46:5:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:46:8 end:46:23:
-          vpiParent: ModuleTypespec name:foo
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:foo #(.blah(1 * 2 + 2))
           vpiLhs RefObj name:blah start:28:14 end:28:18:
             vpiParent: ParamAssign
             vpiName: blah
-            vpiFullName: foo.blah
+            vpiFullName: foo #(.blah(1 * 2 + 2)).blah
             vpiActual: Parameter name:blah
           vpiRhs Operation start:46:8 end:46:23:
             vpiParent: ParamAssign
@@ -480,7 +471,7 @@ Design name:unnamed:
                     vpiValue: 1
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: foo
+                      vpiFullName: foo #(.blah(1 * 2 + 2))
                       vpiActual: IntTypespec
                   Constant start:46:15 end:46:16:
                     vpiParent: Operation
@@ -490,7 +481,7 @@ Design name:unnamed:
                     vpiValue: 2
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: foo
+                      vpiFullName: foo #(.blah(1 * 2 + 2))
                       vpiActual: IntTypespec
               Constant start:25:13 end:25:14:
                 vpiParent: Operation
@@ -500,7 +491,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: foo
+                  vpiFullName: foo #(.blah(1 * 2 + 2))
                   vpiActual: IntTypespec
       vpiModule: Module name:foo
   vpiLibrary (1 items):
@@ -556,10 +547,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       5       2         4
 Operation                            3       0       0         3
-RefObj                              10       9       0         1
+RefObj                               9       8       0         1
 RefTypespec                         13      11       2         4
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    85      77       4        12
+                                    83      75       4        12
 ===================== END REDUCTION RESULT =====================

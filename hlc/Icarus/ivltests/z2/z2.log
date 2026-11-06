@@ -148,23 +148,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Q
             vpiFullName: baz.Q
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:13 end:2:19:
-          vpiParent: Module name:baz
-          vpiLhs RefObj name:Q start:2:13 end:2:14:
-            vpiParent: ParamAssign
-            vpiName: Q
-            vpiFullName: baz.Q
-            vpiActual: Parameter name:Q
-          vpiRhs Constant start:2:17 end:2:19:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:17 end:2:19:
+            vpiParent: Parameter name:Q
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: baz
+              vpiFullName: baz.Q
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -195,29 +187,21 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: bar.P
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:6:13 end:6:18:
-          vpiParent: Module name:bar
-          vpiLhs RefObj name:P start:6:13 end:6:14:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: bar.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:6:17 end:6:18:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:6:17 end:6:18:
+            vpiParent: Parameter name:P
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bar
+              vpiFullName: bar.P
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:bar
           vpiScalar: true
-        ModuleTypespec name:baz:
+        ModuleTypespec name:baz #(.Q(P + 1)):
       vpiDefName: bar
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/z2.v"
@@ -238,7 +222,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:baz1
             vpiName: baz
             vpiFullName: bar.baz1.baz
-            vpiActual: ModuleTypespec name:baz
+            vpiActual: ModuleTypespec name:baz #(.Q(P + 1))
     Module name:foo file:$Source01/z2.v start:10:1 end:14:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:10:8 end:10:11:
@@ -318,18 +302,17 @@ Design name:unnamed:
       vpiModule: Module name:foo
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:baz start:7:3 end:7:6:
+    ModuleTypespec name:baz #(.Q(P + 1)) start:7:3 end:7:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:baz start:7:3 end:7:6:
+      vpiName Identifier name:baz #(.Q(P + 1)) start:7:3 end:7:6:
       vpiDefName: baz
       vpiParamAssign (1 items):
         ParamAssign start:7:9 end:7:12:
-          vpiParent: ModuleTypespec name:baz
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:baz #(.Q(P + 1))
           vpiLhs RefObj name:Q start:2:13 end:2:14:
             vpiParent: ParamAssign
             vpiName: Q
-            vpiFullName: baz.Q
+            vpiFullName: baz #(.Q(P + 1)).Q
             vpiActual: Parameter name:Q
           vpiRhs Operation start:7:9 end:7:12:
             vpiParent: ParamAssign
@@ -338,7 +321,7 @@ Design name:unnamed:
               RefObj name:P start:7:9 end:7:10:
                 vpiParent: Operation
                 vpiName: P
-                vpiFullName: baz.P
+                vpiFullName: baz #(.Q(P + 1)).P
                 vpiActual: Parameter name:P
               Constant start:7:11 end:7:12:
                 vpiParent: Operation
@@ -348,7 +331,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: baz
+                  vpiFullName: baz #(.Q(P + 1))
                   vpiActual: IntTypespec
       vpiModule: Module name:baz
   vpiLibrary (1 items):
@@ -403,10 +386,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               7       6       0         1
+RefObj                               5       4       0         1
 RefTypespec                          9       9       1         1
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    55      53       2         4
+                                    51      49       2         4
 ===================== END REDUCTION RESULT =====================

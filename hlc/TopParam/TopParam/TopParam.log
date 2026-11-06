@@ -90,19 +90,11 @@ Design name:unnamed:
             vpiParent: Parameter name:param
             vpiFullName: top #(.param()).param
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:15 end:2:20:
-          vpiParent: Module name:top #(.param())
-          vpiLhs RefObj name:param start:2:15 end:2:20:
-            vpiParent: ParamAssign
-            vpiName: param
-            vpiFullName: top #(.param()).param
-            vpiActual: Parameter name:param
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top #(.param())
           vpiScalar: true
-        ModuleTypespec name:test:
+        ModuleTypespec name:test #(.param(param)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -123,7 +115,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:test_i
             vpiName: test
             vpiFullName: top #(.param()).test_i.test
-            vpiActual: ModuleTypespec name:test
+            vpiActual: ModuleTypespec name:test #(.param(param))
     Module name:test #(.param()) file:$Source01/dut.sv start:12:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test #(.param()) start:12:8 end:12:12:
@@ -137,14 +129,6 @@ Design name:unnamed:
             vpiParent: Parameter name:param
             vpiFullName: test #(.param()).param
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:15 end:13:20:
-          vpiParent: Module name:test #(.param())
-          vpiLhs RefObj name:param start:13:15 end:13:20:
-            vpiParent: ParamAssign
-            vpiName: param
-            vpiFullName: test #(.param()).param
-            vpiActual: Parameter name:param
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test #(.param())
@@ -177,24 +161,23 @@ Design name:unnamed:
       vpiName Identifier name:test start:12:8 end:12:12:
       vpiDefName: test
       vpiModule: Module name:test #(.param())
-    ModuleTypespec name:test start:5:5 end:5:9:
+    ModuleTypespec name:test #(.param(param)) start:5:5 end:5:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:5:5 end:5:9:
+      vpiName Identifier name:test #(.param(param)) start:5:5 end:5:9:
       vpiDefName: test
       vpiParamAssign (1 items):
         ParamAssign start:6:9 end:6:22:
-          vpiParent: ModuleTypespec name:test
+          vpiParent: ModuleTypespec name:test #(.param(param))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:param start:6:10 end:6:15:
             vpiParent: ParamAssign
             vpiName: param
-            vpiFullName: test.param
+            vpiFullName: test #(.param(param)).param
             vpiActual: Parameter name:param
           vpiRhs RefObj name:param start:6:16 end:6:21:
             vpiParent: ParamAssign
             vpiName: param
-            vpiFullName: test.param
+            vpiFullName: test #(.param(param)).param
             vpiActual: Parameter name:param
       vpiModule: Module name:test #(.param())
   vpiLibrary (1 items):
@@ -249,7 +232,7 @@ COMMAND: ${HLC_DIR}/regression/TopParam/TopParam/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

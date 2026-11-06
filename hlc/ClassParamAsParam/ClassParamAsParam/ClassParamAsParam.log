@@ -169,17 +169,9 @@ Design name:unnamed:
           vpiParent: ClassDefn name:object #(.T(int))
           vpiName: T
           vpiFullName: object #(.T(int))::T
-      vpiParamAssign (1 items):
-        ParamAssign start:1:28 end:1:33:
-          vpiParent: ClassDefn name:object #(.T(int))
-          vpiLhs RefTypespec name:T start:1:28 end:1:29:
-            vpiParent: ParamAssign
-            vpiName: T
+          vpiExpr RefTypespec start:1:30 end:1:33:
+            vpiParent: TypeParameter name:T
             vpiFullName: object #(.T(int))::T
-            vpiActual: TypeParameter name:T
-          vpiRhs RefTypespec start:1:30 end:1:33:
-            vpiParent: ParamAssign
-            vpiFullName: object #(.T(int))
             vpiActual: IntTypespec
       vpiTypespec (1 items):
         TypeParameter name:T:
@@ -202,17 +194,9 @@ Design name:unnamed:
           vpiParent: ClassDefn name:resource #(.T(int))
           vpiName: T
           vpiFullName: resource #(.T(int))::T
-      vpiParamAssign (1 items):
-        ParamAssign start:4:23 end:4:28:
-          vpiParent: ClassDefn name:resource #(.T(int))
-          vpiLhs RefTypespec name:T start:4:23 end:4:24:
-            vpiParent: ParamAssign
-            vpiName: T
+          vpiExpr RefTypespec start:4:25 end:4:28:
+            vpiParent: TypeParameter name:T
             vpiFullName: resource #(.T(int))::T
-            vpiActual: TypeParameter name:T
-          vpiRhs RefTypespec start:4:25 end:4:28:
-            vpiParent: ParamAssign
-            vpiFullName: resource #(.T(int))
             vpiActual: IntTypespec
       vpiTypespec (1 items):
         TypeParameter name:T:
@@ -237,7 +221,7 @@ Design name:unnamed:
             vpiParent: Typedef name:rsrc_t
             vpiName: resource #(T)
             vpiFullName: resource_db #(.T(int))::rsrc_t::resource #(T)
-            vpiActual: ClassTypespec name:resource #(T)
+            vpiActual: ClassTypespec name:resource #(.T(T))
       vpiVariable (1 items):
         Variable name:rsrc start:10:9 end:10:13:
           vpiParent: ClassDefn name:resource_db #(.T(int))
@@ -256,21 +240,13 @@ Design name:unnamed:
           vpiParent: ClassDefn name:resource_db #(.T(int))
           vpiName: T
           vpiFullName: resource_db #(.T(int))::T
-      vpiParamAssign (1 items):
-        ParamAssign start:7:26 end:7:31:
-          vpiParent: ClassDefn name:resource_db #(.T(int))
-          vpiLhs RefTypespec name:T start:7:26 end:7:27:
-            vpiParent: ParamAssign
-            vpiName: T
+          vpiExpr RefTypespec start:7:28 end:7:31:
+            vpiParent: TypeParameter name:T
             vpiFullName: resource_db #(.T(int))::T
-            vpiActual: TypeParameter name:T
-          vpiRhs RefTypespec start:7:28 end:7:31:
-            vpiParent: ParamAssign
-            vpiFullName: resource_db #(.T(int))
             vpiActual: IntTypespec
       vpiTypespec (3 items):
         TypeParameter name:T:
-        ClassTypespec name:resource #(T):
+        ClassTypespec name:resource #(.T(T)):
         TypedefTypespec name:rsrc_t start:9:2 end:9:31:
           vpiParent: ClassDefn name:resource_db #(.T(int))
           vpiName Identifier name:rsrc_t start:9:24 end:9:30:
@@ -296,21 +272,13 @@ Design name:unnamed:
           vpiParent: ClassDefn name:config_db #(.T(int))
           vpiName: T
           vpiFullName: config_db #(.T(int))::T
-      vpiParamAssign (1 items):
-        ParamAssign start:14:23 end:14:28:
-          vpiParent: ClassDefn name:config_db #(.T(int))
-          vpiLhs RefTypespec name:T start:14:23 end:14:24:
-            vpiParent: ParamAssign
-            vpiName: T
+          vpiExpr RefTypespec start:14:25 end:14:28:
+            vpiParent: TypeParameter name:T
             vpiFullName: config_db #(.T(int))::T
-            vpiActual: TypeParameter name:T
-          vpiRhs RefTypespec start:14:25 end:14:28:
-            vpiParent: ParamAssign
-            vpiFullName: config_db #(.T(int))
             vpiActual: IntTypespec
       vpiTypespec (2 items):
         TypeParameter name:T:
-        ClassTypespec name:resource_db #(T):
+        ClassTypespec name:resource_db #(.T(T)):
       vpiDefName: config_db
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -321,7 +289,7 @@ Design name:unnamed:
             vpiParent: Extends
             vpiName: resource_db #(T)
             vpiFullName: config_db #(.T(int))::resource_db #(T)
-            vpiActual: ClassTypespec name:resource_db #(T)
+            vpiActual: ClassTypespec name:resource_db #(.T(T))
       vpiLibrary RefObj name:work start:14:7 end:14:16:
         vpiParent: ClassDefn name:config_db #(.T(int))
         vpiName: work
@@ -348,10 +316,10 @@ Design name:unnamed:
             vpiParent: Variable name:misc2
             vpiName: config_db #(object #(longint))
             vpiFullName: top.misc2.config_db #(object #(longint))
-            vpiActual: ClassTypespec name:config_db #(object #(longint))
+            vpiActual: ClassTypespec name:config_db #(.T(object #(.T(longint))))
       vpiTypespec (2 items):
-        ClassTypespec name:object #(longint):
-        ClassTypespec name:config_db #(object #(longint)):
+        ClassTypespec name:object #(.T(longint)):
+        ClassTypespec name:config_db #(.T(object #(.T(longint)))):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -401,79 +369,75 @@ Design name:unnamed:
     LongIntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    ClassTypespec name:config_db #(object #(longint)) start:18:3 end:18:31:
+    ClassTypespec name:config_db #(.T(object #(.T(longint)))) start:18:3 end:18:31:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:config_db #(object #(longint)) start:18:3 end:18:12:
+      vpiName Identifier name:config_db #(.T(object #(.T(longint)))) start:18:3 end:18:12:
       vpiDefName: config_db
       vpiParamAssign (1 items):
         ParamAssign start:18:14 end:18:30:
-          vpiParent: ClassTypespec name:config_db #(object #(longint))
-          vpiOverridden: true
+          vpiParent: ClassTypespec name:config_db #(.T(object #(.T(longint))))
           vpiLhs RefTypespec name:T start:14:23 end:14:24:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: config_db #(object #(longint)).T
+            vpiFullName: config_db #(.T(object #(.T(longint)))).T
             vpiActual: TypeParameter name:T
           vpiRhs RefTypespec name:object #(longint) start:18:14 end:18:30:
             vpiParent: ParamAssign
             vpiName: object #(longint)
-            vpiFullName: config_db #(object #(longint)).object #(longint)
-            vpiActual: ClassTypespec name:object #(longint)
+            vpiFullName: config_db #(.T(object #(.T(longint)))).object #(longint)
+            vpiActual: ClassTypespec name:object #(.T(longint))
       vpiClassDefn: ClassDefn name:config_db #(.T(int))
-    ClassTypespec name:object #(longint) start:18:14 end:18:30:
+    ClassTypespec name:object #(.T(longint)) start:18:14 end:18:30:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:object #(longint) start:18:14 end:18:20:
+      vpiName Identifier name:object #(.T(longint)) start:18:14 end:18:20:
       vpiDefName: object
       vpiParamAssign (1 items):
         ParamAssign start:18:22 end:18:29:
-          vpiParent: ClassTypespec name:object #(longint)
-          vpiOverridden: true
+          vpiParent: ClassTypespec name:object #(.T(longint))
           vpiLhs RefTypespec name:T start:1:28 end:1:29:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: object #(longint).T
+            vpiFullName: object #(.T(longint)).T
             vpiActual: TypeParameter name:T
           vpiRhs RefTypespec start:18:22 end:18:29:
             vpiParent: ParamAssign
-            vpiFullName: object #(longint)
+            vpiFullName: object #(.T(longint))
             vpiActual: LongIntTypespec
       vpiClassDefn: ClassDefn name:object #(.T(int))
-    ClassTypespec name:resource #(T) start:9:10 end:9:23:
+    ClassTypespec name:resource #(.T(T)) start:9:10 end:9:23:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:resource #(T) start:9:10 end:9:18:
+      vpiName Identifier name:resource #(.T(T)) start:9:10 end:9:18:
       vpiDefName: resource
       vpiParamAssign (1 items):
         ParamAssign start:9:21 end:9:22:
-          vpiParent: ClassTypespec name:resource #(T)
-          vpiOverridden: true
+          vpiParent: ClassTypespec name:resource #(.T(T))
           vpiLhs RefTypespec name:T start:4:23 end:4:24:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: resource #(T).T
+            vpiFullName: resource #(.T(T)).T
             vpiActual: TypeParameter name:T
           vpiRhs RefTypespec name:T start:9:21 end:9:22:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: resource #(T).T
+            vpiFullName: resource #(.T(T)).T
             vpiActual: TypeParameter name:T
       vpiClassDefn: ClassDefn name:resource #(.T(int))
-    ClassTypespec name:resource_db #(T) start:14:38 end:14:53:
+    ClassTypespec name:resource_db #(.T(T)) start:14:38 end:14:53:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:resource_db #(T) start:14:38 end:14:49:
+      vpiName Identifier name:resource_db #(.T(T)) start:14:38 end:14:49:
       vpiDefName: resource_db
       vpiParamAssign (1 items):
         ParamAssign start:14:51 end:14:52:
-          vpiParent: ClassTypespec name:resource_db #(T)
-          vpiOverridden: true
+          vpiParent: ClassTypespec name:resource_db #(.T(T))
           vpiLhs RefTypespec name:T start:7:26 end:7:27:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: resource_db #(T).T
+            vpiFullName: resource_db #(.T(T)).T
             vpiActual: TypeParameter name:T
           vpiRhs RefTypespec name:T start:14:51 end:14:52:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: resource_db #(T).T
+            vpiFullName: resource_db #(.T(T)).T
             vpiActual: TypeParameter name:T
       vpiClassDefn: ClassDefn name:resource_db #(.T(int))
   vpiLibrary (1 items):
@@ -528,7 +492,7 @@ COMMAND: ${HLC_DIR}/regression/ClassParamAsParam/ClassParamAsParam/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    81      81       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

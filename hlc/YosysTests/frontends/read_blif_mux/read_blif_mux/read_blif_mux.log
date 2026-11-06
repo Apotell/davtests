@@ -3101,23 +3101,15 @@ Design name:unnamed:
             vpiParent: Parameter name:dw
             vpiFullName: mux4.dw
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:18:11 end:18:15:
-          vpiParent: Module name:mux4
-          vpiLhs RefObj name:dw start:18:11 end:18:13:
-            vpiParent: ParamAssign
-            vpiName: dw
-            vpiFullName: mux4.dw
-            vpiActual: Parameter name:dw
-          vpiRhs Constant start:18:14 end:18:15:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:18:14 end:18:15:
+            vpiParent: Parameter name:dw
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mux4
+              vpiFullName: mux4.dw
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -4156,7 +4148,7 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiScalar: true
         ModuleTypespec name:mux2:
-        ModuleTypespec name:mux4:
+        ModuleTypespec name:mux4 #(.dw(4)):
         ModuleTypespec name:mux8:
         ModuleTypespec name:mux16:
       vpiDefName: top
@@ -4433,7 +4425,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_mux4
             vpiName: mux4
             vpiFullName: top.u_mux4.mux4
-            vpiActual: ModuleTypespec name:mux4
+            vpiActual: ModuleTypespec name:mux4 #(.dw(4))
           vpiArgument (3 items):
             NamedArgument start:99:9 end:99:20:
               vpiParent: RefInstance name:u_mux4
@@ -5621,18 +5613,17 @@ Design name:unnamed:
       vpiName Identifier name:testbench start:1:8 end:1:17:
       vpiDefName: testbench
       vpiModule: Module name:testbench
-    ModuleTypespec name:mux4 start:98:1 end:98:5:
+    ModuleTypespec name:mux4 #(.dw(4)) start:98:1 end:98:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mux4 start:98:1 end:98:5:
+      vpiName Identifier name:mux4 #(.dw(4)) start:98:1 end:98:5:
       vpiDefName: mux4
       vpiParamAssign (1 items):
         ParamAssign start:98:8 end:98:9:
-          vpiParent: ModuleTypespec name:mux4
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:mux4 #(.dw(4))
           vpiLhs RefObj name:dw start:18:11 end:18:13:
             vpiParent: ParamAssign
             vpiName: dw
-            vpiFullName: mux4.dw
+            vpiFullName: mux4 #(.dw(4)).dw
             vpiActual: Parameter name:dw
           vpiRhs Constant start:98:8 end:98:9:
             vpiParent: ParamAssign
@@ -5642,7 +5633,7 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: mux4
+              vpiFullName: mux4 #(.dw(4))
               vpiActual: IntTypespec
       vpiModule: Module name:mux4
   vpiLibrary (1 items):
@@ -5704,10 +5695,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            97      97       2         2
 Operation                           17      15       0         2
-RefObj                             164     162       0         2
+RefObj                             163     161       0         2
 RefTypespec                        166     166       2         2
 ----------------------------------------------------------------
-Others                             352     352       0         0
+Others                             351     351       0         0
 ----------------------------------------------------------------
-                                   796     792       4         8
+                                   794     790       4         8
 ===================== END REDUCTION RESULT =====================

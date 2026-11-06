@@ -697,11 +697,11 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/sha3_pkg.sv:7:1: No timescale set for "sha3_pkg".
 [WRN:PA5506] $Source01/kmac_core.sv:1:1: No timescale set for "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))".
 [WRN:PA5506] $Source01/kmac.sv:1:1: No timescale set for "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))".
-[ERR:LN7722] $Source01/kmac_core.sv:26:46: Select name does not match pretty-printed expression: id:224, type:BitSelect, name:KeccakRate[L128], relation:vpiOperand.
-[ERR:LN7722] $Source01/kmac_core.sv:27:46: Select name does not match pretty-printed expression: id:236, type:BitSelect, name:KeccakRate[L224], relation:vpiOperand.
-[ERR:LN7722] $Source01/kmac_core.sv:28:46: Select name does not match pretty-printed expression: id:248, type:BitSelect, name:KeccakRate[L256], relation:vpiOperand.
-[ERR:LN7722] $Source01/kmac_core.sv:29:46: Select name does not match pretty-printed expression: id:260, type:BitSelect, name:KeccakRate[L384], relation:vpiOperand.
-[ERR:LN7722] $Source01/kmac_core.sv:30:46: Select name does not match pretty-printed expression: id:272, type:BitSelect, name:KeccakRate[L512], relation:vpiOperand.
+[ERR:LN7722] $Source01/kmac_core.sv:26:46: Select name "KeccakRate[L128]" does not match pretty-printed name KeccakRate[L128 = 3'b 000].
+[ERR:LN7722] $Source01/kmac_core.sv:27:46: Select name "KeccakRate[L224]" does not match pretty-printed name KeccakRate[L224 = 3'b 001].
+[ERR:LN7722] $Source01/kmac_core.sv:28:46: Select name "KeccakRate[L256]" does not match pretty-printed name KeccakRate[L256 = 3'b 010].
+[ERR:LN7722] $Source01/kmac_core.sv:29:46: Select name "KeccakRate[L384]" does not match pretty-printed name KeccakRate[L384 = 3'b 011].
+[ERR:LN7722] $Source01/kmac_core.sv:30:46: Select name "KeccakRate[L512]" does not match pretty-printed name KeccakRate[L512 = 3'b 100].
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -815,6 +815,16 @@ Design name:unnamed:
             vpiParent: Parameter name:MsgWidth
             vpiFullName: sha3_pkg::MsgWidth
             vpiActual: IntTypespec
+          vpiExpr Constant start:9:28 end:9:30:
+            vpiParent: Parameter name:MsgWidth
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "64"
+            vpiValue: 64
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sha3_pkg::MsgWidth
+              vpiActual: IntTypespec
         Parameter name:KeccakRate start:20:26 end:20:36:
           vpiParent: Package name:sha3_pkg
           vpiName: KeccakRate
@@ -825,51 +835,8 @@ Design name:unnamed:
             vpiName: int unsigned [5]
             vpiFullName: sha3_pkg::KeccakRate::int unsigned [5]
             vpiActual: ArrayTypespec
-        Parameter name:KeccakEntries start:28:26 end:28:39:
-          vpiParent: Package name:sha3_pkg
-          vpiName: KeccakEntries
-          vpiFullName: sha3_pkg::KeccakEntries
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:28:13 end:28:25:
-            vpiParent: Parameter name:KeccakEntries
-            vpiFullName: sha3_pkg::KeccakEntries
-            vpiActual: IntTypespec
-        Parameter name:KeccakCountW start:30:26 end:30:38:
-          vpiParent: Package name:sha3_pkg
-          vpiName: KeccakCountW
-          vpiFullName: sha3_pkg::KeccakCountW
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:30:13 end:30:25:
-            vpiParent: Parameter name:KeccakCountW
-            vpiFullName: sha3_pkg::KeccakCountW
-            vpiActual: IntTypespec
-      vpiParamAssign (4 items):
-        ParamAssign start:9:17 end:9:30:
-          vpiParent: Package name:sha3_pkg
-          vpiLhs RefObj name:MsgWidth start:9:17 end:9:25:
-            vpiParent: ParamAssign
-            vpiName: MsgWidth
-            vpiFullName: sha3_pkg::MsgWidth
-            vpiActual: Parameter name:MsgWidth
-          vpiRhs Constant start:9:28 end:9:30:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "64"
-            vpiValue: 64
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: sha3_pkg
-              vpiActual: IntTypespec
-        ParamAssign start:20:26 end:26:4:
-          vpiParent: Package name:sha3_pkg
-          vpiLhs RefObj name:KeccakRate start:20:26 end:20:36:
-            vpiParent: ParamAssign
-            vpiName: KeccakRate
-            vpiFullName: sha3_pkg::KeccakRate
-            vpiActual: Parameter name:KeccakRate
-          vpiRhs Operation start:20:43 end:26:4:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:20:43 end:26:4:
+            vpiParent: Parameter name:KeccakRate
             vpiOpType: assign pattern (87)
             vpiOperand (5 items):
               Operation start:21:5 end:21:18:
@@ -884,12 +851,12 @@ Design name:unnamed:
                     vpiValue: 1344
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: sha3_pkg
+                      vpiFullName: sha3_pkg::KeccakRate
                       vpiActual: IntTypespec
                   RefObj name:MsgWidth start:21:10 end:21:18:
                     vpiParent: Operation
                     vpiName: MsgWidth
-                    vpiFullName: sha3_pkg::MsgWidth
+                    vpiFullName: sha3_pkg::KeccakRate::MsgWidth
                     vpiActual: Parameter name:MsgWidth
               Operation start:22:5 end:22:18:
                 vpiParent: Operation
@@ -903,12 +870,12 @@ Design name:unnamed:
                     vpiValue: 1152
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: sha3_pkg
+                      vpiFullName: sha3_pkg::KeccakRate
                       vpiActual: IntTypespec
                   RefObj name:MsgWidth start:22:10 end:22:18:
                     vpiParent: Operation
                     vpiName: MsgWidth
-                    vpiFullName: sha3_pkg::MsgWidth
+                    vpiFullName: sha3_pkg::KeccakRate::MsgWidth
                     vpiActual: Parameter name:MsgWidth
               Operation start:23:5 end:23:18:
                 vpiParent: Operation
@@ -922,12 +889,12 @@ Design name:unnamed:
                     vpiValue: 1088
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: sha3_pkg
+                      vpiFullName: sha3_pkg::KeccakRate
                       vpiActual: IntTypespec
                   RefObj name:MsgWidth start:23:10 end:23:18:
                     vpiParent: Operation
                     vpiName: MsgWidth
-                    vpiFullName: sha3_pkg::MsgWidth
+                    vpiFullName: sha3_pkg::KeccakRate::MsgWidth
                     vpiActual: Parameter name:MsgWidth
               Operation start:24:6 end:24:18:
                 vpiParent: Operation
@@ -941,12 +908,12 @@ Design name:unnamed:
                     vpiValue: 832
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: sha3_pkg
+                      vpiFullName: sha3_pkg::KeccakRate
                       vpiActual: IntTypespec
                   RefObj name:MsgWidth start:24:10 end:24:18:
                     vpiParent: Operation
                     vpiName: MsgWidth
-                    vpiFullName: sha3_pkg::MsgWidth
+                    vpiFullName: sha3_pkg::KeccakRate::MsgWidth
                     vpiActual: Parameter name:MsgWidth
               Operation start:25:6 end:25:18:
                 vpiParent: Operation
@@ -960,22 +927,24 @@ Design name:unnamed:
                     vpiValue: 576
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: sha3_pkg
+                      vpiFullName: sha3_pkg::KeccakRate
                       vpiActual: IntTypespec
                   RefObj name:MsgWidth start:25:10 end:25:18:
                     vpiParent: Operation
                     vpiName: MsgWidth
-                    vpiFullName: sha3_pkg::MsgWidth
+                    vpiFullName: sha3_pkg::KeccakRate::MsgWidth
                     vpiActual: Parameter name:MsgWidth
-        ParamAssign start:28:26 end:28:55:
+        Parameter name:KeccakEntries start:28:26 end:28:39:
           vpiParent: Package name:sha3_pkg
-          vpiLhs RefObj name:KeccakEntries start:28:26 end:28:39:
-            vpiParent: ParamAssign
-            vpiName: KeccakEntries
+          vpiName: KeccakEntries
+          vpiFullName: sha3_pkg::KeccakEntries
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:28:13 end:28:25:
+            vpiParent: Parameter name:KeccakEntries
             vpiFullName: sha3_pkg::KeccakEntries
-            vpiActual: Parameter name:KeccakEntries
-          vpiRhs Operation start:28:42 end:28:55:
-            vpiParent: ParamAssign
+            vpiActual: IntTypespec
+          vpiExpr Operation start:28:42 end:28:55:
+            vpiParent: Parameter name:KeccakEntries
             vpiOpType: divide (12)
             vpiOperand (2 items):
               Constant start:28:42 end:28:46:
@@ -986,22 +955,24 @@ Design name:unnamed:
                 vpiValue: 1600
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: sha3_pkg
+                  vpiFullName: sha3_pkg::KeccakEntries
                   vpiActual: IntTypespec
               RefObj name:MsgWidth start:28:47 end:28:55:
                 vpiParent: Operation
                 vpiName: MsgWidth
-                vpiFullName: sha3_pkg::MsgWidth
+                vpiFullName: sha3_pkg::KeccakEntries::MsgWidth
                 vpiActual: Parameter name:MsgWidth
-        ParamAssign start:30:26 end:30:64:
+        Parameter name:KeccakCountW start:30:26 end:30:38:
           vpiParent: Package name:sha3_pkg
-          vpiLhs RefObj name:KeccakCountW start:30:26 end:30:38:
-            vpiParent: ParamAssign
-            vpiName: KeccakCountW
+          vpiName: KeccakCountW
+          vpiFullName: sha3_pkg::KeccakCountW
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:30:13 end:30:25:
+            vpiParent: Parameter name:KeccakCountW
             vpiFullName: sha3_pkg::KeccakCountW
-            vpiActual: Parameter name:KeccakCountW
-          vpiRhs SysFuncCall name:$clog2 start:30:41 end:30:64:
-            vpiParent: ParamAssign
+            vpiActual: IntTypespec
+          vpiExpr SysFuncCall name:$clog2 start:30:41 end:30:64:
+            vpiParent: Parameter name:KeccakCountW
             vpiName Identifier name:$clog2 start:30:41 end:30:47:
             vpiArgument (1 items):
               NamedArgument start:30:48 end:30:63:
@@ -1013,7 +984,7 @@ Design name:unnamed:
                     RefObj name:KeccakEntries start:30:48 end:30:61:
                       vpiParent: Operation
                       vpiName: KeccakEntries
-                      vpiFullName: sha3_pkg::KeccakEntries
+                      vpiFullName: sha3_pkg::KeccakCountW::KeccakEntries
                       vpiActual: Parameter name:KeccakEntries
                     Constant start:30:62 end:30:63:
                       vpiParent: Operation
@@ -1023,7 +994,7 @@ Design name:unnamed:
                       vpiValue: 1
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: sha3_pkg
+                        vpiFullName: sha3_pkg::KeccakCountW
                         vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -1119,6 +1090,16 @@ Design name:unnamed:
             vpiParent: Parameter name:EnMasking
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
             vpiActual: BitTypespec
+          vpiExpr Constant start:4:30 end:4:31:
+            vpiParent: Parameter name:EnMasking
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
+              vpiActual: IntTypespec
         Parameter name:Share start:5:18 end:5:23:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
           vpiName: Share
@@ -1128,39 +1109,14 @@ Design name:unnamed:
             vpiParent: Parameter name:Share
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
             vpiActual: IntTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:4:18 end:4:31:
-          vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiLhs RefObj name:EnMasking start:4:18 end:4:27:
-            vpiParent: ParamAssign
-            vpiName: EnMasking
-            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
-            vpiActual: Parameter name:EnMasking
-          vpiRhs Constant start:4:30 end:4:31:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-              vpiActual: IntTypespec
-        ParamAssign start:5:18 end:5:45:
-          vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiLhs RefObj name:Share start:5:18 end:5:23:
-            vpiParent: ParamAssign
-            vpiName: Share
-            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
-            vpiActual: Parameter name:Share
-          vpiRhs Operation start:5:26 end:5:45:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:5:26 end:5:45:
+            vpiParent: Parameter name:Share
             vpiOpType: condition (32)
             vpiOperand (3 items):
               RefObj name:EnMasking start:5:27 end:5:36:
                 vpiParent: Operation
                 vpiName: EnMasking
-                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
+                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share.EnMasking"
                 vpiActual: Parameter name:EnMasking
               Constant start:5:40 end:5:41:
                 vpiParent: Operation
@@ -1170,7 +1126,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
+                  vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
                   vpiActual: IntTypespec
               Constant start:5:44 end:5:45:
                 vpiParent: Operation
@@ -1180,7 +1136,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
+                  vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
                   vpiActual: IntTypespec
       vpiTypespec (10 items):
         BitTypespec:
@@ -1668,6 +1624,16 @@ Design name:unnamed:
             vpiParent: Parameter name:EnMasking
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
             vpiActual: BitTypespec
+          vpiExpr Constant start:4:30 end:4:31:
+            vpiParent: Parameter name:EnMasking
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
+              vpiActual: IntTypespec
         Parameter name:Share start:5:18 end:5:23:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
           vpiName: Share
@@ -1677,39 +1643,14 @@ Design name:unnamed:
             vpiParent: Parameter name:Share
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
             vpiActual: IntTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:4:18 end:4:31:
-          vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiLhs RefObj name:EnMasking start:4:18 end:4:27:
-            vpiParent: ParamAssign
-            vpiName: EnMasking
-            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
-            vpiActual: Parameter name:EnMasking
-          vpiRhs Constant start:4:30 end:4:31:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-              vpiActual: IntTypespec
-        ParamAssign start:5:18 end:5:45:
-          vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiLhs RefObj name:Share start:5:18 end:5:23:
-            vpiParent: ParamAssign
-            vpiName: Share
-            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
-            vpiActual: Parameter name:Share
-          vpiRhs Operation start:5:26 end:5:45:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:5:26 end:5:45:
+            vpiParent: Parameter name:Share
             vpiOpType: condition (32)
             vpiOperand (3 items):
               RefObj name:EnMasking start:5:27 end:5:36:
                 vpiParent: Operation
                 vpiName: EnMasking
-                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).EnMasking"
+                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share.EnMasking"
                 vpiActual: Parameter name:EnMasking
               Constant start:5:40 end:5:41:
                 vpiParent: Operation
@@ -1719,7 +1660,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
+                  vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
                   vpiActual: IntTypespec
               Constant start:5:44 end:5:45:
                 vpiParent: Operation
@@ -1729,7 +1670,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
+                  vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).Share"
                   vpiActual: IntTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -1923,11 +1864,11 @@ Identifier                          21      20       0         1
 LongIntTypespec                      0       1       1         0
 NamedArgument                        2       1       0         1
 Operation                           17       7       0        10
-RefObj                              59      45       0        14
+RefObj                              51      37       0        14
 RefTypespec                         57      52       7        12
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                   277     242      16        51
+                                   261     226      16        51
 ===================== END REDUCTION RESULT =====================

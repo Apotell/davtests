@@ -446,6 +446,16 @@ Design name:unnamed:
             vpiParent: Parameter name:S
             vpiFullName: Module.S
             vpiActual: LogicTypespec
+          vpiExpr Constant start:2:19 end:2:20:
+            vpiParent: Parameter name:S
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Module.S
+              vpiActual: IntTypespec
         Parameter name:T start:3:15 end:3:16:
           vpiParent: Module name:Module
           vpiName: T
@@ -454,40 +464,15 @@ Design name:unnamed:
             vpiParent: Parameter name:T
             vpiFullName: Module.T
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:2:15 end:2:20:
-          vpiParent: Module name:Module
-          vpiLhs RefObj name:S start:2:15 end:2:16:
-            vpiParent: ParamAssign
-            vpiName: S
-            vpiFullName: Module.S
-            vpiActual: Parameter name:S
-          vpiRhs Constant start:2:19 end:2:20:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:19 end:3:20:
+            vpiParent: Parameter name:T
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
-              vpiActual: IntTypespec
-        ParamAssign start:3:15 end:3:20:
-          vpiParent: Module name:Module
-          vpiLhs RefObj name:T start:3:15 end:3:16:
-            vpiParent: ParamAssign
-            vpiName: T
-            vpiFullName: Module.T
-            vpiActual: Parameter name:T
-          vpiRhs Constant start:3:19 end:3:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module.T
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -769,23 +754,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ONE
             vpiFullName: top.ONE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:17:15 end:17:22:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:ONE start:17:15 end:17:18:
-            vpiParent: ParamAssign
-            vpiName: ONE
-            vpiFullName: top.ONE
-            vpiActual: Parameter name:ONE
-          vpiRhs Constant start:17:21 end:17:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:17:21 end:17:22:
+            vpiParent: Parameter name:ONE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.ONE
               vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -835,9 +812,9 @@ Design name:unnamed:
                       vpiFullName: top
                       vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:Module:
-        ModuleTypespec name:Module:
-        ModuleTypespec name:Module:
+        ModuleTypespec name:Module #(.S(1), .T(8)):
+        ModuleTypespec name:Module #(.S(2), .T(7)):
+        ModuleTypespec name:Module #(.S(3), .T(3)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -872,7 +849,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m1
             vpiName: Module
             vpiFullName: top.m1.Module
-            vpiActual: ModuleTypespec name:Module
+            vpiActual: ModuleTypespec name:Module #(.S(1), .T(8))
         RefInstance name:m2 start:24:20 end:24:22:
           vpiParent: Module name:top
           vpiName: m2
@@ -880,7 +857,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m2
             vpiName: Module
             vpiFullName: top.m2.Module
-            vpiActual: ModuleTypespec name:Module
+            vpiActual: ModuleTypespec name:Module #(.S(2), .T(7))
         RefInstance name:m3 start:25:20 end:25:22:
           vpiParent: Module name:top
           vpiName: m3
@@ -888,7 +865,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:m3
             vpiName: Module
             vpiFullName: top.m3.Module
-            vpiActual: ModuleTypespec name:Module
+            vpiActual: ModuleTypespec name:Module #(.S(3), .T(3))
       vpiGenStmt (1 items):
         GenIf start:19:5 end:22:8:
           vpiParent: Module name:top
@@ -916,22 +893,14 @@ Design name:unnamed:
                   vpiParent: Parameter name:W
                   vpiFullName: top.blk.W
                   vpiActual: LogicTypespec
-            vpiParamAssign (1 items):
-              ParamAssign start:20:20 end:20:31:
-                vpiParent: GenBlock name:blk
-                vpiLhs RefObj name:W start:20:20 end:20:21:
-                  vpiParent: ParamAssign
-                  vpiName: W
-                  vpiFullName: top.blk.W
-                  vpiActual: Parameter name:W
-                vpiRhs Operation start:20:24 end:20:31:
-                  vpiParent: ParamAssign
+                vpiExpr Operation start:20:24 end:20:31:
+                  vpiParent: Parameter name:W
                   vpiOpType: multiply (25)
                   vpiOperand (2 items):
                     RefObj name:ONE start:20:24 end:20:27:
                       vpiParent: Operation
                       vpiName: ONE
-                      vpiFullName: top.blk.ONE
+                      vpiFullName: top.blk.W.ONE
                       vpiActual: Parameter name:ONE
                     Constant start:20:30 end:20:31:
                       vpiParent: Operation
@@ -941,7 +910,7 @@ Design name:unnamed:
                       vpiValue: 3
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: top.blk
+                        vpiFullName: top.blk.W
                         vpiActual: IntTypespec
             vpiTypespec (2 items):
               LogicTypespec:
@@ -1013,18 +982,17 @@ Design name:unnamed:
       vpiName Identifier name:top start:16:8 end:16:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:Module start:23:5 end:23:11:
+    ModuleTypespec name:Module #(.S(1), .T(8)) start:23:5 end:23:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Module start:23:5 end:23:11:
+      vpiName Identifier name:Module #(.S(1), .T(8)) start:23:5 end:23:11:
       vpiDefName: Module
       vpiParamAssign (2 items):
         ParamAssign start:23:14 end:23:15:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(1), .T(8))
           vpiLhs RefObj name:S start:2:15 end:2:16:
             vpiParent: ParamAssign
             vpiName: S
-            vpiFullName: Module.S
+            vpiFullName: Module #(.S(1), .T(8)).S
             vpiActual: Parameter name:S
           vpiRhs Constant start:23:14 end:23:15:
             vpiParent: ParamAssign
@@ -1034,15 +1002,14 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(1), .T(8))
               vpiActual: IntTypespec
         ParamAssign start:23:17 end:23:18:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(1), .T(8))
           vpiLhs RefObj name:T start:3:15 end:3:16:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: Module.T
+            vpiFullName: Module #(.S(1), .T(8)).T
             vpiActual: Parameter name:T
           vpiRhs Constant start:23:17 end:23:18:
             vpiParent: ParamAssign
@@ -1052,21 +1019,20 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(1), .T(8))
               vpiActual: IntTypespec
       vpiModule: Module name:Module
-    ModuleTypespec name:Module start:24:5 end:24:11:
+    ModuleTypespec name:Module #(.S(2), .T(7)) start:24:5 end:24:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Module start:24:5 end:24:11:
+      vpiName Identifier name:Module #(.S(2), .T(7)) start:24:5 end:24:11:
       vpiDefName: Module
       vpiParamAssign (2 items):
         ParamAssign start:24:14 end:24:15:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(2), .T(7))
           vpiLhs RefObj name:S start:2:15 end:2:16:
             vpiParent: ParamAssign
             vpiName: S
-            vpiFullName: Module.S
+            vpiFullName: Module #(.S(2), .T(7)).S
             vpiActual: Parameter name:S
           vpiRhs Constant start:24:14 end:24:15:
             vpiParent: ParamAssign
@@ -1076,15 +1042,14 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(2), .T(7))
               vpiActual: IntTypespec
         ParamAssign start:24:17 end:24:18:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(2), .T(7))
           vpiLhs RefObj name:T start:3:15 end:3:16:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: Module.T
+            vpiFullName: Module #(.S(2), .T(7)).T
             vpiActual: Parameter name:T
           vpiRhs Constant start:24:17 end:24:18:
             vpiParent: ParamAssign
@@ -1094,21 +1059,20 @@ Design name:unnamed:
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(2), .T(7))
               vpiActual: IntTypespec
       vpiModule: Module name:Module
-    ModuleTypespec name:Module start:25:5 end:25:11:
+    ModuleTypespec name:Module #(.S(3), .T(3)) start:25:5 end:25:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Module start:25:5 end:25:11:
+      vpiName Identifier name:Module #(.S(3), .T(3)) start:25:5 end:25:11:
       vpiDefName: Module
       vpiParamAssign (2 items):
         ParamAssign start:25:14 end:25:15:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(3), .T(3))
           vpiLhs RefObj name:S start:2:15 end:2:16:
             vpiParent: ParamAssign
             vpiName: S
-            vpiFullName: Module.S
+            vpiFullName: Module #(.S(3), .T(3)).S
             vpiActual: Parameter name:S
           vpiRhs Constant start:25:14 end:25:15:
             vpiParent: ParamAssign
@@ -1118,15 +1082,14 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(3), .T(3))
               vpiActual: IntTypespec
         ParamAssign start:25:17 end:25:18:
-          vpiParent: ModuleTypespec name:Module
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Module #(.S(3), .T(3))
           vpiLhs RefObj name:T start:3:15 end:3:16:
             vpiParent: ParamAssign
             vpiName: T
-            vpiFullName: Module.T
+            vpiFullName: Module #(.S(3), .T(3)).T
             vpiActual: Parameter name:T
           vpiRhs Constant start:25:17 end:25:18:
             vpiParent: ParamAssign
@@ -1136,7 +1099,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Module
+              vpiFullName: Module #(.S(3), .T(3))
               vpiActual: IntTypespec
       vpiModule: Module name:Module
   vpiLibrary (1 items):
@@ -1192,10 +1155,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       6         6
 Operation                            6       0       0         6
-RefObj                              35      29       0         6
+RefObj                              31      25       0         6
 RefTypespec                         32      32       6         6
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   170     158      12        24
+                                   162     150      12        24
 ===================== END REDUCTION RESULT =====================

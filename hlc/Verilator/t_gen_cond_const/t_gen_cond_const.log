@@ -365,7 +365,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:test_gen:
+        "ModuleTypespec name:test_gen #(.SIZE(2), .MASK(4'b1111))":
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -539,7 +539,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:i_test_gen
             vpiName: test_gen
             vpiFullName: t.i_test_gen.test_gen
-            vpiActual: ModuleTypespec name:test_gen
+            vpiActual: "ModuleTypespec name:test_gen #(.SIZE(2), .MASK(4'b1111))"
           vpiArgument (1 items):
             NamedArgument start:23:18 end:23:28:
               vpiParent: RefInstance name:i_test_gen
@@ -567,6 +567,16 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE
             vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
             vpiActual: LogicTypespec
+          vpiExpr Constant start:10:19 end:10:20:
+            vpiParent: Parameter name:SIZE
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
+              vpiActual: IntTypespec
         Parameter name:MASK start:50:6 end:50:10:
           vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiName: MASK
@@ -575,40 +585,15 @@ Design name:unnamed:
             vpiParent: Parameter name:MASK
             vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:49:6 end:49:22:
-          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
-          vpiLhs RefObj name:SIZE start:49:6 end:49:10:
-            vpiParent: ParamAssign
-            vpiName: SIZE
-            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
-            vpiActual: Parameter name:SIZE
-          vpiRhs Constant start:10:19 end:10:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "4"
-            vpiValue: 4
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
-              vpiActual: IntTypespec
-        ParamAssign start:50:6 end:50:25:
-          vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
-          vpiLhs RefObj name:MASK start:50:6 end:50:10:
-            vpiParent: ParamAssign
-            vpiName: MASK
-            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
-            vpiActual: Parameter name:MASK
-          vpiRhs Constant start:50:13 end:50:25:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:50:13 end:50:25:
+            vpiParent: Parameter name:MASK
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
+              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
               vpiActual: LogicTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -742,19 +727,18 @@ Design name:unnamed:
       vpiModule: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:test_gen start:20:4 end:20:12:
+    "ModuleTypespec name:test_gen #(.SIZE(2), .MASK(4'b1111)) start:20:4 end:20:12":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test_gen start:20:4 end:20:12:
+      "vpiName Identifier name:test_gen #(.SIZE(2), .MASK(4'b1111)) start:20:4 end:20:12":
       vpiDefName: test_gen
       vpiParamAssign (2 items):
         ParamAssign start:21:8 end:21:17:
-          vpiParent: ModuleTypespec name:test_gen
+          vpiParent: "ModuleTypespec name:test_gen #(.SIZE(2), .MASK(4'b1111))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:SIZE start:21:9 end:21:13:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: test_gen.SIZE
+            vpiFullName: "test_gen #(.SIZE(2), .MASK(4'b1111)).SIZE"
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:21:15 end:21:16:
             vpiParent: ParamAssign
@@ -764,16 +748,15 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_gen
+              vpiFullName: "test_gen #(.SIZE(2), .MASK(4'b1111))"
               vpiActual: IntTypespec
         ParamAssign start:22:8 end:22:23:
-          vpiParent: ModuleTypespec name:test_gen
+          vpiParent: "ModuleTypespec name:test_gen #(.SIZE(2), .MASK(4'b1111))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:MASK start:22:9 end:22:13:
             vpiParent: ParamAssign
             vpiName: MASK
-            vpiFullName: test_gen.MASK
+            vpiFullName: "test_gen #(.SIZE(2), .MASK(4'b1111)).MASK"
             vpiActual: Parameter name:MASK
           vpiRhs Constant start:22:15 end:22:22:
             vpiParent: ParamAssign
@@ -783,7 +766,7 @@ Design name:unnamed:
             vpiValue: "1111"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_gen
+              vpiFullName: "test_gen #(.SIZE(2), .MASK(4'b1111))"
               vpiActual: LogicTypespec
       vpiModule: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
   vpiLibrary (1 items):
@@ -839,10 +822,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       1         1
 Operation                            6       5       0         1
-RefObj                              18      17       0         1
+RefObj                              16      15       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                   117     115       2         4
+                                   113     111       2         4
 ===================== END REDUCTION RESULT =====================

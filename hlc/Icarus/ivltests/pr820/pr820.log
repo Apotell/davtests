@@ -1147,7 +1147,7 @@ Design name:unnamed:
         ModuleTypespec name:clk_reset_gen:
         BitTypespec:
           vpiParent: Module name:main
-        ModuleTypespec name:ram_rw:
+        ModuleTypespec name:ram_rw #(.WDATA(8), .WADDR(4)):
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/pr820.v"
@@ -1532,7 +1532,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:r
             vpiName: ram_rw
             vpiFullName: main.r.ram_rw
-            vpiActual: ModuleTypespec name:ram_rw
+            vpiActual: ModuleTypespec name:ram_rw #(.WDATA(8), .WADDR(4))
           vpiArgument (6 items):
             NamedArgument start:13:19 end:13:22:
               vpiParent: RefInstance name:r
@@ -1646,6 +1646,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WDATA
             vpiFullName: ram_rw.WDATA
             vpiActual: LogicTypespec
+          vpiExpr Constant start:35:21 end:35:22:
+            vpiParent: Parameter name:WDATA
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: ram_rw.WDATA
+              vpiActual: IntTypespec
         Parameter name:WADDR start:36:13 end:36:18:
           vpiParent: Module name:ram_rw
           vpiName: WADDR
@@ -1654,40 +1664,15 @@ Design name:unnamed:
             vpiParent: Parameter name:WADDR
             vpiFullName: ram_rw.WADDR
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:35:13 end:35:22:
-          vpiParent: Module name:ram_rw
-          vpiLhs RefObj name:WDATA start:35:13 end:35:18:
-            vpiParent: ParamAssign
-            vpiName: WDATA
-            vpiFullName: ram_rw.WDATA
-            vpiActual: Parameter name:WDATA
-          vpiRhs Constant start:35:21 end:35:22:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "8"
-            vpiValue: 8
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: ram_rw
-              vpiActual: IntTypespec
-        ParamAssign start:36:13 end:36:23:
-          vpiParent: Module name:ram_rw
-          vpiLhs RefObj name:WADDR start:36:13 end:36:18:
-            vpiParent: ParamAssign
-            vpiName: WADDR
-            vpiFullName: ram_rw.WADDR
-            vpiActual: Parameter name:WADDR
-          vpiRhs Constant start:36:21 end:36:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:36:21 end:36:23:
+            vpiParent: Parameter name:WADDR
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "11"
             vpiValue: 11
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ram_rw
+              vpiFullName: ram_rw.WADDR
               vpiActual: IntTypespec
       vpiTypespec (8 items):
         LogicTypespec:
@@ -2512,18 +2497,17 @@ Design name:unnamed:
       vpiName Identifier name:clk_reset_gen start:61:8 end:61:21:
       vpiDefName: clk_reset_gen
       vpiModule: Module name:clk_reset_gen
-    ModuleTypespec name:ram_rw start:13:3 end:13:9:
+    ModuleTypespec name:ram_rw #(.WDATA(8), .WADDR(4)) start:13:3 end:13:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ram_rw start:13:3 end:13:9:
+      vpiName Identifier name:ram_rw #(.WDATA(8), .WADDR(4)) start:13:3 end:13:9:
       vpiDefName: ram_rw
       vpiParamAssign (2 items):
         ParamAssign start:13:12 end:13:13:
-          vpiParent: ModuleTypespec name:ram_rw
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:ram_rw #(.WDATA(8), .WADDR(4))
           vpiLhs RefObj name:WDATA start:35:13 end:35:18:
             vpiParent: ParamAssign
             vpiName: WDATA
-            vpiFullName: ram_rw.WDATA
+            vpiFullName: ram_rw #(.WDATA(8), .WADDR(4)).WDATA
             vpiActual: Parameter name:WDATA
           vpiRhs Constant start:13:12 end:13:13:
             vpiParent: ParamAssign
@@ -2533,15 +2517,14 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ram_rw
+              vpiFullName: ram_rw #(.WDATA(8), .WADDR(4))
               vpiActual: IntTypespec
         ParamAssign start:13:14 end:13:15:
-          vpiParent: ModuleTypespec name:ram_rw
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:ram_rw #(.WDATA(8), .WADDR(4))
           vpiLhs RefObj name:WADDR start:36:13 end:36:18:
             vpiParent: ParamAssign
             vpiName: WADDR
-            vpiFullName: ram_rw.WADDR
+            vpiFullName: ram_rw #(.WDATA(8), .WADDR(4)).WADDR
             vpiActual: Parameter name:WADDR
           vpiRhs Constant start:13:14 end:13:15:
             vpiParent: ParamAssign
@@ -2551,7 +2534,7 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ram_rw
+              vpiFullName: ram_rw #(.WDATA(8), .WADDR(4))
               vpiActual: IntTypespec
       vpiModule: Module name:ram_rw
   vpiLibrary (1 items):
@@ -2607,10 +2590,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            49      48       7         8
 Operation                           16       7       0         9
-RefObj                              70      63       0         7
+RefObj                              68      61       0         7
 RefTypespec                         76      75       7         8
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             142     142       0         0
 ----------------------------------------------------------------
-                                   355     337      14        32
+                                   351     333      14        32
 ===================== END REDUCTION RESULT =====================

@@ -987,6 +987,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_typedef_param.v:97:11: Failed to bind "p_t".
 [WRN:CP5851] $Source01/t_typedef_param.v:98:12: Failed to bind "p_t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7701] $Source01/t_typedef_param.v:26:25: Invalid name: id:403, type:RefObj, name:, relation:vpiRhs.
+[ERR:LN7701] $Source01/t_typedef_param.v:34:22: Invalid name: id:404, type:RefObj, name:, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1084,17 +1086,9 @@ Design name:unnamed:
             vpiParent: Parameter name:three_t
             vpiName: type
             vpiFullName: t.three_t.type
-      vpiParamAssign (1 items):
-        ParamAssign start:21:20 end:21:39:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:three_t start:21:20 end:21:27:
-            vpiParent: ParamAssign
-            vpiName: three_t
+          vpiExpr RefTypespec start:21:30 end:21:39:
+            vpiParent: Parameter name:three_t
             vpiFullName: t.three_t
-            vpiActual: Parameter name:three_t
-          vpiRhs RefTypespec start:21:30 end:21:39:
-            vpiParent: ParamAssign
-            vpiFullName: t
             vpiActual: LogicTypespec
       vpiTypespec (12 items):
         LogicTypespec:
@@ -1233,7 +1227,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:TestNonAnsi:
+        ModuleTypespec name:TestNonAnsi #(.p_t()):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1260,7 +1254,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:TestAnsi:
+        ModuleTypespec name:TestAnsi #(.p_t()):
         BitTypespec:
           vpiParent: Module name:t
         LogicTypespec:
@@ -1965,7 +1959,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:test
             vpiName: TestNonAnsi
             vpiFullName: t.test.TestNonAnsi
-            vpiActual: ModuleTypespec name:TestNonAnsi
+            vpiActual: ModuleTypespec name:TestNonAnsi #(.p_t())
           vpiArgument (3 items):
             NamedArgument start:28:3 end:28:16:
               vpiParent: RefInstance name:test
@@ -2039,7 +2033,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:testa
             vpiName: TestAnsi
             vpiFullName: t.testa.TestAnsi
-            vpiActual: ModuleTypespec name:TestAnsi
+            vpiActual: ModuleTypespec name:TestAnsi #(.p_t())
           vpiArgument (3 items):
             NamedArgument start:36:4 end:36:17:
               vpiParent: RefInstance name:testa
@@ -2130,17 +2124,9 @@ Design name:unnamed:
             vpiParent: Parameter name:p_t
             vpiName: type
             vpiFullName: TestNonAnsi.p_t.type
-      vpiParamAssign (1 items):
-        ParamAssign start:82:19 end:82:33:
-          vpiParent: Module name:TestNonAnsi
-          vpiLhs RefObj name:p_t start:82:19 end:82:22:
-            vpiParent: ParamAssign
-            vpiName: p_t
+          vpiExpr RefTypespec start:82:25 end:82:33:
+            vpiParent: Parameter name:p_t
             vpiFullName: TestNonAnsi.p_t
-            vpiActual: Parameter name:p_t
-          vpiRhs RefTypespec start:82:25 end:82:33:
-            vpiParent: ParamAssign
-            vpiFullName: TestNonAnsi
             vpiActual: ShortIntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -2284,17 +2270,9 @@ Design name:unnamed:
             vpiParent: Parameter name:p_t
             vpiName: type
             vpiFullName: TestAnsi #(.p_t(shortint)).p_t.type
-      vpiParamAssign (1 items):
-        ParamAssign start:94:21 end:94:35:
-          vpiParent: Module name:TestAnsi #(.p_t(shortint))
-          vpiLhs RefObj name:p_t start:94:21 end:94:24:
-            vpiParent: ParamAssign
-            vpiName: p_t
+          vpiExpr RefTypespec start:94:27 end:94:35:
+            vpiParent: Parameter name:p_t
             vpiFullName: TestAnsi #(.p_t(shortint)).p_t
-            vpiActual: Parameter name:p_t
-          vpiRhs RefTypespec start:94:27 end:94:35:
-            vpiParent: ParamAssign
-            vpiFullName: TestAnsi #(.p_t(shortint))
             vpiActual: ShortIntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -2470,43 +2448,39 @@ Design name:unnamed:
       vpiName Identifier name:TestAnsi start:93:8 end:93:16:
       vpiDefName: TestAnsi
       vpiModule: Module name:TestAnsi #(.p_t(shortint))
-    ModuleTypespec name:TestAnsi start:34:4 end:34:12:
+    ModuleTypespec name:TestAnsi #(.p_t()) start:34:4 end:34:12:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:TestAnsi start:34:4 end:34:12:
+      vpiName Identifier name:TestAnsi #(.p_t()) start:34:4 end:34:12:
       vpiDefName: TestAnsi
       vpiParamAssign (1 items):
         ParamAssign start:34:16 end:34:32:
-          vpiParent: ModuleTypespec name:TestAnsi
+          vpiParent: ModuleTypespec name:TestAnsi #(.p_t())
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:p_t start:34:17 end:34:20:
             vpiParent: ParamAssign
             vpiName: p_t
-            vpiFullName: TestAnsi.p_t
+            vpiFullName: TestAnsi #(.p_t()).p_t
             vpiActual: Parameter name:p_t
-          vpiRhs RefTypespec start:34:22 end:34:31:
+          vpiRhs RefObj start:34:22 end:34:31:
             vpiParent: ParamAssign
-            vpiFullName: TestAnsi
-            vpiActual: LogicTypespec
+            vpiFullName: TestAnsi #(.p_t())
       vpiModule: Module name:TestAnsi #(.p_t(shortint))
-    ModuleTypespec name:TestNonAnsi start:26:4 end:26:15:
+    ModuleTypespec name:TestNonAnsi #(.p_t()) start:26:4 end:26:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:TestNonAnsi start:26:4 end:26:15:
+      vpiName Identifier name:TestNonAnsi #(.p_t()) start:26:4 end:26:15:
       vpiDefName: TestNonAnsi
       vpiParamAssign (1 items):
         ParamAssign start:26:19 end:26:35:
-          vpiParent: ModuleTypespec name:TestNonAnsi
+          vpiParent: ModuleTypespec name:TestNonAnsi #(.p_t())
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:p_t start:26:20 end:26:23:
             vpiParent: ParamAssign
             vpiName: p_t
-            vpiFullName: TestNonAnsi.p_t
+            vpiFullName: TestNonAnsi #(.p_t()).p_t
             vpiActual: Parameter name:p_t
-          vpiRhs RefTypespec start:26:25 end:26:34:
+          vpiRhs RefObj start:26:25 end:26:34:
             vpiParent: ParamAssign
-            vpiFullName: TestNonAnsi
-            vpiActual: LogicTypespec
+            vpiFullName: TestNonAnsi #(.p_t())
       vpiModule: Module name:TestNonAnsi
   vpiTypedef (1 items):
     Typedef name:threeansi_t start:6:1 end:6:31:
@@ -2523,7 +2497,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
@@ -2569,10 +2543,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            47      47       5         5
 Operation                           20      15       0         5
-RefObj                              62      57       0         5
-RefTypespec                         79      79       5         5
+RefObj                              61      56       0         5
+RefTypespec                         77      77       5         5
 ----------------------------------------------------------------
-Others                             154     154       0         0
+Others                             151     151       0         0
 ----------------------------------------------------------------
-                                   362     352      10        20
+                                   356     346      10        20
 ===================== END REDUCTION RESULT =====================

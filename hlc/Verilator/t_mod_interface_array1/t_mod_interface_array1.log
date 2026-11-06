@@ -725,23 +725,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PARAM
             vpiFullName: a_if #(.PARAM(0)).PARAM
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:8:28 end:8:37:
-          vpiParent: Interface name:a_if #(.PARAM(0))
-          vpiLhs RefObj name:PARAM start:8:28 end:8:33:
-            vpiParent: ParamAssign
-            vpiName: PARAM
-            vpiFullName: a_if #(.PARAM(0)).PARAM
-            vpiActual: Parameter name:PARAM
-          vpiRhs Constant start:8:36 end:8:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:8:36 end:8:37:
+            vpiParent: Parameter name:PARAM
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: a_if #(.PARAM(0))
+              vpiFullName: a_if #(.PARAM(0)).PARAM
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -1429,7 +1421,6 @@ Design name:unnamed:
             ParamAssign start:47:11 end:47:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:PARAM start:47:12 end:47:17:
                 vpiParent: ParamAssign
                 vpiName: PARAM
@@ -1447,7 +1438,6 @@ Design name:unnamed:
             ParamAssign start:47:11 end:47:20:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:PARAM start:47:12 end:47:17:
                 vpiParent: ParamAssign
                 vpiName: PARAM
@@ -1860,22 +1850,15 @@ Design name:unnamed:
         vpiParent: Parameter name:N
         vpiFullName: N
         vpiActual: LogicTypespec
-  vpiParamAssign (1 items):
-    ParamAssign start:6:11 end:6:16:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:N start:6:11 end:6:12:
-        vpiParent: ParamAssign
-        vpiName: N
-        vpiFullName: N
-        vpiActual: Parameter name:N
-      vpiRhs Constant start:6:15 end:6:16:
-        vpiParent: ParamAssign
+      vpiExpr Constant start:6:15 end:6:16:
+        vpiParent: Parameter name:N
         vpiConstType: int (7)
         vpiSize: 32
         vpiDecompile: "4"
         vpiValue: 4
         vpiTypespec RefTypespec:
           vpiParent: Constant
+          vpiFullName: N
           vpiActual: IntTypespec
   vpiLibrary (1 items):
     Library name:work:
@@ -1928,11 +1911,13 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_interface_array1/design.hldb ${HL
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            28      26       0         2
-Operation                           25      23       0         2
-RefTypespec                         50      48       0         2
+Constant                            28      25      10        13
+LongIntTypespec                      0       1       1         0
+Operation                           25       9       0        16
+RefObj                              58      48       0        10
+RefTypespec                         50      45       8        13
 ----------------------------------------------------------------
-Others                             170     170       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   273     267       0         6
+                                   269     236      19        52
 ===================== END REDUCTION RESULT =====================

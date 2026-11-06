@@ -971,12 +971,12 @@ Design name:unnamed:
         BitTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:mod_typ:
+        ModuleTypespec name:mod_typ #(.TYP(bit)):
         ByteTypespec:
           vpiParent: Module name:t
           vpiSigned: true
-        ModuleTypespec name:mod_typ:
-        ModuleTypespec name:mod_typ:
+        ModuleTypespec name:mod_typ #(.TYP(byte)):
+        ModuleTypespec name:mod_typ #(.TYP(int)):
         BitTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1003,7 +1003,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:mod_typ:
+        ModuleTypespec name:mod_typ #(.TYP(bit [23:0])):
         BitTypespec:
           vpiParent: Module name:t
           vpiRange (2 items):
@@ -1052,7 +1052,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:mod_typ:
+        ModuleTypespec name:mod_typ #(.TYP(bit [3:0][3:0])):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_type.v"
@@ -1363,7 +1363,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod_bit
             vpiName: mod_typ
             vpiFullName: t.mod_bit.mod_typ
-            vpiActual: ModuleTypespec name:mod_typ
+            vpiActual: ModuleTypespec name:mod_typ #(.TYP(bit))
           vpiArgument (3 items):
             NamedArgument start:45:47 end:45:50:
               vpiParent: RefInstance name:mod_bit
@@ -1448,7 +1448,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod_byte
             vpiName: mod_typ
             vpiFullName: t.mod_byte.mod_typ
-            vpiActual: ModuleTypespec name:mod_typ
+            vpiActual: ModuleTypespec name:mod_typ #(.TYP(byte))
           vpiArgument (3 items):
             NamedArgument start:46:47 end:46:50:
               vpiParent: RefInstance name:mod_byte
@@ -1533,7 +1533,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod_int
             vpiName: mod_typ
             vpiFullName: t.mod_int.mod_typ
-            vpiActual: ModuleTypespec name:mod_typ
+            vpiActual: ModuleTypespec name:mod_typ #(.TYP(int))
           vpiArgument (3 items):
             NamedArgument start:47:47 end:47:50:
               vpiParent: RefInstance name:mod_int
@@ -1618,7 +1618,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod_ar1d
             vpiName: mod_typ
             vpiFullName: t.mod_ar1d.mod_typ
-            vpiActual: ModuleTypespec name:mod_typ
+            vpiActual: ModuleTypespec name:mod_typ #(.TYP(bit [23:0]))
           vpiArgument (3 items):
             NamedArgument start:48:47 end:48:50:
               vpiParent: RefInstance name:mod_ar1d
@@ -1703,7 +1703,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mod_ar2d
             vpiName: mod_typ
             vpiFullName: t.mod_ar2d.mod_typ
-            vpiActual: ModuleTypespec name:mod_typ
+            vpiActual: ModuleTypespec name:mod_typ #(.TYP(bit [3:0][3:0]))
           vpiArgument (3 items):
             NamedArgument start:49:47 end:49:50:
               vpiParent: RefInstance name:mod_ar2d
@@ -1813,17 +1813,9 @@ Design name:unnamed:
           vpiParent: Module name:mod_typ #(.TYP(byte))
           vpiName: TYP
           vpiFullName: mod_typ #(.TYP(byte)).TYP
-      vpiParamAssign (1 items):
-        ParamAssign start:55:19 end:55:29:
-          vpiParent: Module name:mod_typ #(.TYP(byte))
-          vpiLhs RefTypespec name:TYP start:55:19 end:55:22:
-            vpiParent: ParamAssign
-            vpiName: TYP
+          vpiExpr RefTypespec start:55:25 end:55:29:
+            vpiParent: TypeParameter name:TYP
             vpiFullName: mod_typ #(.TYP(byte)).TYP
-            vpiActual: TypeParameter name:TYP
-          vpiRhs RefTypespec start:55:25 end:55:29:
-            vpiParent: ParamAssign
-            vpiFullName: mod_typ #(.TYP(byte))
             vpiActual: ByteTypespec
       vpiTypespec (3 items):
         ByteTypespec:
@@ -2004,99 +1996,94 @@ Design name:unnamed:
       vpiName Identifier name:mod_typ start:54:8 end:54:15:
       vpiDefName: mod_typ
       vpiModule: Module name:mod_typ #(.TYP(byte))
-    ModuleTypespec name:mod_typ start:48:4 end:48:11:
+    ModuleTypespec name:mod_typ #(.TYP(bit [23:0])) start:48:4 end:48:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mod_typ start:48:4 end:48:11:
+      vpiName Identifier name:mod_typ #(.TYP(bit [23:0])) start:48:4 end:48:11:
       vpiDefName: mod_typ
       vpiParamAssign (1 items):
         ParamAssign start:48:14 end:48:35:
-          vpiParent: ModuleTypespec name:mod_typ
+          vpiParent: ModuleTypespec name:mod_typ #(.TYP(bit [23:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TYP start:48:15 end:48:18:
             vpiParent: ParamAssign
             vpiName: TYP
-            vpiFullName: mod_typ.TYP
+            vpiFullName: mod_typ #(.TYP(bit [23:0])).TYP
             vpiActual: TypeParameter name:TYP
           vpiRhs RefTypespec start:48:20 end:48:30:
             vpiParent: ParamAssign
-            vpiFullName: mod_typ
+            vpiFullName: mod_typ #(.TYP(bit [23:0]))
             vpiActual: BitTypespec
       vpiModule: Module name:mod_typ #(.TYP(byte))
-    ModuleTypespec name:mod_typ start:49:4 end:49:11:
+    ModuleTypespec name:mod_typ #(.TYP(bit [3:0][3:0])) start:49:4 end:49:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mod_typ start:49:4 end:49:11:
+      vpiName Identifier name:mod_typ #(.TYP(bit [3:0][3:0])) start:49:4 end:49:11:
       vpiDefName: mod_typ
       vpiParamAssign (1 items):
         ParamAssign start:49:14 end:49:35:
-          vpiParent: ModuleTypespec name:mod_typ
+          vpiParent: ModuleTypespec name:mod_typ #(.TYP(bit [3:0][3:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TYP start:49:15 end:49:18:
             vpiParent: ParamAssign
             vpiName: TYP
-            vpiFullName: mod_typ.TYP
+            vpiFullName: mod_typ #(.TYP(bit [3:0][3:0])).TYP
             vpiActual: TypeParameter name:TYP
           vpiRhs RefTypespec start:49:20 end:49:34:
             vpiParent: ParamAssign
-            vpiFullName: mod_typ
+            vpiFullName: mod_typ #(.TYP(bit [3:0][3:0]))
             vpiActual: BitTypespec
       vpiModule: Module name:mod_typ #(.TYP(byte))
-    ModuleTypespec name:mod_typ start:45:4 end:45:11:
+    ModuleTypespec name:mod_typ #(.TYP(bit)) start:45:4 end:45:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mod_typ start:45:4 end:45:11:
+      vpiName Identifier name:mod_typ #(.TYP(bit)) start:45:4 end:45:11:
       vpiDefName: mod_typ
       vpiParamAssign (1 items):
         ParamAssign start:45:14 end:45:35:
-          vpiParent: ModuleTypespec name:mod_typ
+          vpiParent: ModuleTypespec name:mod_typ #(.TYP(bit))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TYP start:45:15 end:45:18:
             vpiParent: ParamAssign
             vpiName: TYP
-            vpiFullName: mod_typ.TYP
+            vpiFullName: mod_typ #(.TYP(bit)).TYP
             vpiActual: TypeParameter name:TYP
           vpiRhs RefTypespec start:45:20 end:45:23:
             vpiParent: ParamAssign
-            vpiFullName: mod_typ
+            vpiFullName: mod_typ #(.TYP(bit))
             vpiActual: BitTypespec
       vpiModule: Module name:mod_typ #(.TYP(byte))
-    ModuleTypespec name:mod_typ start:46:4 end:46:11:
+    ModuleTypespec name:mod_typ #(.TYP(byte)) start:46:4 end:46:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mod_typ start:46:4 end:46:11:
+      vpiName Identifier name:mod_typ #(.TYP(byte)) start:46:4 end:46:11:
       vpiDefName: mod_typ
       vpiParamAssign (1 items):
         ParamAssign start:46:14 end:46:35:
-          vpiParent: ModuleTypespec name:mod_typ
+          vpiParent: ModuleTypespec name:mod_typ #(.TYP(byte))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TYP start:46:15 end:46:18:
             vpiParent: ParamAssign
             vpiName: TYP
-            vpiFullName: mod_typ.TYP
+            vpiFullName: mod_typ #(.TYP(byte)).TYP
             vpiActual: TypeParameter name:TYP
           vpiRhs RefTypespec start:46:20 end:46:24:
             vpiParent: ParamAssign
-            vpiFullName: mod_typ
+            vpiFullName: mod_typ #(.TYP(byte))
             vpiActual: ByteTypespec
       vpiModule: Module name:mod_typ #(.TYP(byte))
-    ModuleTypespec name:mod_typ start:47:4 end:47:11:
+    ModuleTypespec name:mod_typ #(.TYP(int)) start:47:4 end:47:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mod_typ start:47:4 end:47:11:
+      vpiName Identifier name:mod_typ #(.TYP(int)) start:47:4 end:47:11:
       vpiDefName: mod_typ
       vpiParamAssign (1 items):
         ParamAssign start:47:14 end:47:35:
-          vpiParent: ModuleTypespec name:mod_typ
+          vpiParent: ModuleTypespec name:mod_typ #(.TYP(int))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TYP start:47:15 end:47:18:
             vpiParent: ParamAssign
             vpiName: TYP
-            vpiFullName: mod_typ.TYP
+            vpiFullName: mod_typ #(.TYP(int)).TYP
             vpiActual: TypeParameter name:TYP
           vpiRhs RefTypespec start:47:20 end:47:23:
             vpiParent: ParamAssign
-            vpiFullName: mod_typ
+            vpiFullName: mod_typ #(.TYP(int))
             vpiActual: IntTypespec
       vpiModule: Module name:mod_typ #(.TYP(byte))
   vpiLibrary (1 items):
@@ -2152,9 +2139,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            31      26       5        10
 Operation                           19      14       0         5
-RefTypespec                         67      62       5        10
+RefTypespec                         66      61       5        10
 ----------------------------------------------------------------
-Others                             183     183       0         0
+Others                             182     182       0         0
 ----------------------------------------------------------------
-                                   300     285      10        25
+                                   298     283      10        25
 ===================== END REDUCTION RESULT =====================

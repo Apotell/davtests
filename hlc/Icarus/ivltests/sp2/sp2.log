@@ -367,6 +367,16 @@ Design name:unnamed:
             vpiParent: Parameter name:fname
             vpiFullName: write_sp_vectors.fname
             vpiActual: LogicTypespec
+          vpiExpr Constant start:24:19 end:24:36:
+            vpiParent: Parameter name:fname
+            vpiConstType: string (6)
+            vpiSize: 120
+            vpiDecompile: "\"PhCount.unnamed\""
+            vpiValue: PhCount.unnamed
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: write_sp_vectors.fname
+              vpiActual: StringTypespec
         Parameter name:source_id start:25:11 end:25:20:
           vpiParent: Module name:write_sp_vectors
           vpiName: source_id
@@ -375,40 +385,15 @@ Design name:unnamed:
             vpiParent: Parameter name:source_id
             vpiFullName: write_sp_vectors.source_id
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:24:11 end:24:36:
-          vpiParent: Module name:write_sp_vectors
-          vpiLhs RefObj name:fname start:24:11 end:24:16:
-            vpiParent: ParamAssign
-            vpiName: fname
-            vpiFullName: write_sp_vectors.fname
-            vpiActual: Parameter name:fname
-          vpiRhs Constant start:24:19 end:24:36:
-            vpiParent: ParamAssign
-            vpiConstType: string (6)
-            vpiSize: 120
-            vpiDecompile: "\"PhCount.unnamed\""
-            vpiValue: PhCount.unnamed
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: write_sp_vectors
-              vpiActual: StringTypespec
-        ParamAssign start:25:11 end:25:55:
-          vpiParent: Module name:write_sp_vectors
-          vpiLhs RefObj name:source_id start:25:11 end:25:20:
-            vpiParent: ParamAssign
-            vpiName: source_id
-            vpiFullName: write_sp_vectors.source_id
-            vpiActual: Parameter name:source_id
-          vpiRhs Constant start:25:23 end:25:55:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:25:23 end:25:55:
+            vpiParent: Parameter name:source_id
             vpiConstType: string (6)
             vpiSize: 240
             vpiDecompile: "\"(unknown source module RCSID)$\""
             vpiValue: "(unknown source module RCSID)$"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: write_sp_vectors
+              vpiFullName: write_sp_vectors.source_id
               vpiActual: StringTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -698,23 +683,15 @@ Design name:unnamed:
             vpiParent: Parameter name:fname
             vpiFullName: main.fname
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:39:11 end:39:36:
-          vpiParent: Module name:main
-          vpiLhs RefObj name:fname start:39:11 end:39:16:
-            vpiParent: ParamAssign
-            vpiName: fname
-            vpiFullName: main.fname
-            vpiActual: Parameter name:fname
-          vpiRhs Constant start:39:19 end:39:36:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:39:19 end:39:36:
+            vpiParent: Parameter name:fname
             vpiConstType: string (6)
             vpiSize: 120
             vpiDecompile: "\"PhCount.unnamed\""
             vpiValue: PhCount.unnamed
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: main
+              vpiFullName: main.fname
               vpiActual: StringTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -723,7 +700,7 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: Module name:main
           vpiSigned: true
-        ModuleTypespec name:write_sp_vectors:
+        "ModuleTypespec name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\"))":
       vpiDefName: main
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/sp2.v"
@@ -770,7 +747,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:v0
             vpiName: write_sp_vectors
             vpiFullName: main.v0.write_sp_vectors
-            vpiActual: ModuleTypespec name:write_sp_vectors
+            vpiActual: "ModuleTypespec name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\"))"
           vpiArgument (4 items):
             NamedArgument start:44:38 end:44:41:
               vpiParent: RefInstance name:v0
@@ -835,18 +812,17 @@ Design name:unnamed:
       vpiName Identifier name:main start:38:8 end:38:12:
       vpiDefName: main
       vpiModule: Module name:main
-    ModuleTypespec name:write_sp_vectors start:44:1 end:44:17:
+    "ModuleTypespec name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\")) start:44:1 end:44:17":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:write_sp_vectors start:44:1 end:44:17:
+      "vpiName Identifier name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\")) start:44:1 end:44:17":
       vpiDefName: write_sp_vectors
       vpiParamAssign (2 items):
         ParamAssign start:44:20 end:44:25:
-          vpiParent: ModuleTypespec name:write_sp_vectors
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\"))"
           vpiLhs RefObj name:fname start:24:11 end:24:16:
             vpiParent: ParamAssign
             vpiName: fname
-            vpiFullName: write_sp_vectors.fname
+            vpiFullName: write_sp_vectors #(.fname("sp2"), .source_id("foo")).fname
             vpiActual: Parameter name:fname
           vpiRhs Constant start:44:20 end:44:25:
             vpiParent: ParamAssign
@@ -856,15 +832,14 @@ Design name:unnamed:
             vpiValue: sp2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: write_sp_vectors
+              vpiFullName: write_sp_vectors #(.fname("sp2"), .source_id("foo"))
               vpiActual: StringTypespec
         ParamAssign start:44:27 end:44:32:
-          vpiParent: ModuleTypespec name:write_sp_vectors
-          vpiOverridden: true
+          vpiParent: "ModuleTypespec name:write_sp_vectors #(.fname(\"sp2\"), .source_id(\"foo\"))"
           vpiLhs RefObj name:source_id start:25:11 end:25:20:
             vpiParent: ParamAssign
             vpiName: source_id
-            vpiFullName: write_sp_vectors.source_id
+            vpiFullName: write_sp_vectors #(.fname("sp2"), .source_id("foo")).source_id
             vpiActual: Parameter name:source_id
           vpiRhs Constant start:44:27 end:44:32:
             vpiParent: ParamAssign
@@ -874,7 +849,7 @@ Design name:unnamed:
             vpiValue: foo
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: write_sp_vectors
+              vpiFullName: write_sp_vectors #(.fname("sp2"), .source_id("foo"))
               vpiActual: StringTypespec
       vpiModule: Module name:write_sp_vectors
   vpiLibrary (1 items):
@@ -932,7 +907,7 @@ Constant                            11      10       1         2
 Operation                            2       1       0         1
 RefTypespec                         28      27       1         2
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              81      81       0         0
 ----------------------------------------------------------------
-                                   128     125       2         5
+                                   122     119       2         5
 ===================== END REDUCTION RESULT =====================

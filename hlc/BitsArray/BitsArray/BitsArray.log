@@ -246,23 +246,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: aes_reg_status #(.Width(1)).Width
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:18 end:3:27:
-          vpiParent: Module name:aes_reg_status #(.Width(1))
-          vpiLhs RefObj name:Width start:3:18 end:3:23:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: aes_reg_status #(.Width(1)).Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:3:26 end:3:27:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:26 end:3:27:
+            vpiParent: Parameter name:Width
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: aes_reg_status #(.Width(1))
+              vpiFullName: aes_reg_status #(.Width(1)).Width
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -427,7 +419,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: top
             vpiActual: LogicTypespec
-        ModuleTypespec name:aes_reg_status:
+        ModuleTypespec name:aes_reg_status #(.Width($bits(key_init_we))):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -450,7 +442,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_reg_status_key_init
             vpiName: aes_reg_status
             vpiFullName: top.u_reg_status_key_init.aes_reg_status
-            vpiActual: ModuleTypespec name:aes_reg_status
+            vpiActual: ModuleTypespec name:aes_reg_status #(.Width($bits(key_init_we)))
           vpiArgument (1 items):
             NamedArgument start:18:7 end:18:48:
               vpiParent: RefInstance name:u_reg_status_key_init
@@ -527,16 +519,8 @@ Design name:unnamed:
             vpiParent: Parameter name:a
             vpiFullName: toto.a
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:27:14 end:27:52:
-          vpiParent: Module name:toto
-          vpiLhs RefObj name:a start:27:14 end:27:15:
-            vpiParent: ParamAssign
-            vpiName: a
-            vpiFullName: toto.a
-            vpiActual: Parameter name:a
-          vpiRhs SysFuncCall name:$bits start:27:18 end:27:52:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$bits start:27:18 end:27:52:
+            vpiParent: Parameter name:a
             vpiName Identifier name:$bits start:27:18 end:27:23:
             vpiArgument (1 items):
               NamedArgument start:27:24 end:27:51:
@@ -544,11 +528,11 @@ Design name:unnamed:
                 vpiHighConn BitSelect name:fcoe_reserved_before_sof[0] start:27:24 end:27:51:
                   vpiParent: NamedArgument
                   vpiName: fcoe_reserved_before_sof[0]
-                  vpiFullName: toto.fcoe_reserved_before_sof[0]
+                  vpiFullName: toto.a.fcoe_reserved_before_sof[0]
                   vpiPrefix RefObj name:fcoe_reserved_before_sof start:27:24 end:27:48:
                     vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
                     vpiName: fcoe_reserved_before_sof
-                    vpiFullName: toto.fcoe_reserved_before_sof
+                    vpiFullName: toto.a.fcoe_reserved_before_sof
                     vpiActual: Variable name:fcoe_reserved_before_sof
                   vpiIndex Constant start:27:49 end:27:50:
                     vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
@@ -558,7 +542,7 @@ Design name:unnamed:
                     vpiValue: 0
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: toto.fcoe_reserved_before_sof[0]
+                      vpiFullName: toto.a.fcoe_reserved_before_sof[0]
                       vpiActual: IntTypespec
       vpiTypespec (3 items):
         BitTypespec:
@@ -614,19 +598,18 @@ Design name:unnamed:
       vpiName Identifier name:toto start:23:8 end:23:12:
       vpiDefName: toto
       vpiModule: Module name:toto
-    ModuleTypespec name:aes_reg_status start:15:4 end:15:18:
+    ModuleTypespec name:aes_reg_status #(.Width($bits(key_init_we))) start:15:4 end:15:18:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:aes_reg_status start:15:4 end:15:18:
+      vpiName Identifier name:aes_reg_status #(.Width($bits(key_init_we))) start:15:4 end:15:18:
       vpiDefName: aes_reg_status
       vpiParamAssign (1 items):
         ParamAssign start:16:7 end:16:36:
-          vpiParent: ModuleTypespec name:aes_reg_status
+          vpiParent: ModuleTypespec name:aes_reg_status #(.Width($bits(key_init_we)))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:16:8 end:16:13:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: aes_reg_status.Width
+            vpiFullName: aes_reg_status #(.Width($bits(key_init_we))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:16:16 end:16:34:
             vpiParent: ParamAssign
@@ -637,7 +620,7 @@ Design name:unnamed:
                 vpiHighConn RefObj name:key_init_we start:16:22 end:16:33:
                   vpiParent: NamedArgument
                   vpiName: key_init_we
-                  vpiFullName: aes_reg_status.key_init_we
+                  vpiFullName: aes_reg_status #(.Width($bits(key_init_we))).key_init_we
                   vpiActual: Variable name:key_init_we
       vpiModule: Module name:aes_reg_status #(.Width(1))
   vpiLibrary (1 items):
@@ -694,10 +677,10 @@ Name                            Before   After   Added   Removed
 Constant                             9       9       2         2
 LongIntTypespec                      0       1       1         0
 Operation                            3       1       0         2
-RefObj                              13      12       0         1
+RefObj                              11      10       0         1
 RefTypespec                         20      20       2         2
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    99      97       5         7
+                                    95      93       5         7
 ===================== END REDUCTION RESULT =====================

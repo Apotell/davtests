@@ -185,6 +185,16 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: submodule.X
             vpiActual: IntTypespec
+          vpiExpr Constant start:2:22 end:2:24:
+            vpiParent: Parameter name:X
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "20"
+            vpiValue: 20
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: submodule.X
+              vpiActual: IntTypespec
         Parameter name:Y start:4:24 end:4:25:
           vpiParent: Module name:submodule
           vpiName: Y
@@ -194,40 +204,15 @@ Design name:unnamed:
             vpiName: my_type_t
             vpiFullName: submodule.Y.my_type_t
             vpiActual: TypedefTypespec name:my_type_t
-      vpiParamAssign (2 items):
-        ParamAssign start:2:18 end:2:24:
-          vpiParent: Module name:submodule
-          vpiLhs RefObj name:X start:2:18 end:2:19:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: submodule.X
-            vpiActual: Parameter name:X
-          vpiRhs Constant start:2:22 end:2:24:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "20"
-            vpiValue: 20
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: submodule
-              vpiActual: IntTypespec
-        ParamAssign start:4:24 end:4:30:
-          vpiParent: Module name:submodule
-          vpiLhs RefObj name:Y start:4:24 end:4:25:
-            vpiParent: ParamAssign
-            vpiName: Y
-            vpiFullName: submodule.Y
-            vpiActual: Parameter name:Y
-          vpiRhs Constant start:4:28 end:4:30:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:4:28 end:4:30:
+            vpiParent: Parameter name:Y
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
             vpiValue: "1"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: submodule
+              vpiFullName: submodule.Y
               vpiActual: BitTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -316,7 +301,7 @@ Design name:unnamed:
       vpiFullName: top
       vpiTypespec (2 items):
         ModuleTypespec name:submodule:
-        ModuleTypespec name:submodule:
+        ModuleTypespec name:submodule #(.X(5)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -350,7 +335,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_sub_5
             vpiName: submodule
             vpiFullName: top.u_sub_5.submodule
-            vpiActual: ModuleTypespec name:submodule
+            vpiActual: ModuleTypespec name:submodule #(.X(5))
   vpiTypespec (4 items):
     ModuleTypespec name:submodule:
       vpiParent: Design name:unnamed
@@ -365,19 +350,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:8:8 end:8:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:submodule start:10:4 end:10:13:
+    ModuleTypespec name:submodule #(.X(5)) start:10:4 end:10:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:submodule start:10:4 end:10:13:
+      vpiName Identifier name:submodule #(.X(5)) start:10:4 end:10:13:
       vpiDefName: submodule
       vpiParamAssign (1 items):
         ParamAssign start:10:16 end:10:21:
-          vpiParent: ModuleTypespec name:submodule
+          vpiParent: ModuleTypespec name:submodule #(.X(5))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:X start:10:17 end:10:18:
             vpiParent: ParamAssign
             vpiName: X
-            vpiFullName: submodule.X
+            vpiFullName: submodule #(.X(5)).X
             vpiActual: Parameter name:X
           vpiRhs Constant start:10:19 end:10:20:
             vpiParent: ParamAssign
@@ -387,7 +371,7 @@ Design name:unnamed:
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: submodule
+              vpiFullName: submodule #(.X(5))
               vpiActual: IntTypespec
       vpiModule: Module name:submodule
   vpiLibrary (1 items):
@@ -443,10 +427,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       6       2         1
 Operation                            2       0       0         2
-RefObj                               8       6       0         2
+RefObj                               6       4       0         2
 RefTypespec                         11      10       1         2
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    58      54       3         7
+                                    54      50       3         7
 ===================== END REDUCTION RESULT =====================

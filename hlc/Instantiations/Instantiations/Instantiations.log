@@ -1145,23 +1145,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: bus_if #(.W(8)).W
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:27:42 end:27:47:
-          vpiParent: Interface name:bus_if #(.W(8))
-          vpiLhs RefObj name:W start:27:42 end:27:43:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: bus_if #(.W(8)).W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:27:46 end:27:47:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:27:46 end:27:47:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "8"
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bus_if #(.W(8))
+              vpiFullName: bus_if #(.W(8)).W
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1559,23 +1551,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: adder #(.W(8)).W
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:54:30 end:54:35:
-          vpiParent: Module name:adder #(.W(8))
-          vpiLhs RefObj name:W start:54:30 end:54:31:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: adder #(.W(8)).W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:54:34 end:54:35:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:54:34 end:54:35:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "8"
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: adder #(.W(8))
+              vpiFullName: adder #(.W(8)).W
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1891,7 +1875,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
           vpiVector: true
         ModuleTypespec name:passthru:
-        ModuleTypespec name:adder:
+        ModuleTypespec name:adder #(.W(8)):
         ProgramTypespec name:my_prog start:111:3 end:111:10:
           vpiParent: Module name:top
           vpiName Identifier name:my_prog start:111:3 end:111:10:
@@ -2154,7 +2138,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_add
             vpiName: adder
             vpiFullName: top.u_add.adder
-            vpiActual: ModuleTypespec name:adder
+            vpiActual: ModuleTypespec name:adder #(.W(8))
           vpiArgument (3 items):
             NamedArgument start:108:24 end:108:34:
               vpiParent: RefInstance name:u_add
@@ -2350,23 +2334,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: gen_top #(.N(2)).N
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:143:32 end:143:37:
-          vpiParent: Module name:gen_top #(.N(2))
-          vpiLhs RefObj name:N start:143:32 end:143:33:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: gen_top #(.N(2)).N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:143:36 end:143:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:143:36 end:143:37:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: gen_top #(.N(2))
+              vpiFullName: gen_top #(.N(2)).N
               vpiActual: IntTypespec
       vpiDefName: gen_top
       vpiDefNetType: wire (1)
@@ -2560,19 +2536,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: my_checker
       vpiCheckerDecl: CheckerDecl name:my_checker
-    ModuleTypespec name:adder start:108:3 end:108:8:
+    ModuleTypespec name:adder #(.W(8)) start:108:3 end:108:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:adder start:108:3 end:108:8:
+      vpiName Identifier name:adder #(.W(8)) start:108:3 end:108:8:
       vpiDefName: adder
       vpiParamAssign (1 items):
         ParamAssign start:108:11 end:108:16:
-          vpiParent: ModuleTypespec name:adder
+          vpiParent: ModuleTypespec name:adder #(.W(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:W start:108:12 end:108:13:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: adder.W
+            vpiFullName: adder #(.W(8)).W
             vpiActual: Parameter name:W
           vpiRhs Constant start:108:14 end:108:15:
             vpiParent: ParamAssign
@@ -2582,7 +2557,7 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: adder
+              vpiFullName: adder #(.W(8))
               vpiActual: IntTypespec
       vpiModule: Module name:adder #(.W(8))
   vpiLibrary (1 items):
@@ -2683,10 +2658,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       4         4
 Operation                           12       8       0         4
-RefObj                              81      77       0         4
+RefObj                              78      74       0         4
 RefTypespec                         60      60       4         4
 ----------------------------------------------------------------
-Others                             224     224       0         0
+Others                             221     221       0         0
 ----------------------------------------------------------------
-                                   398     390       8        16
+                                   392     384       8        16
 ===================== END REDUCTION RESULT =====================

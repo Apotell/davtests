@@ -372,23 +372,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: dut #(.Width(1)).Width
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:8:28 end:8:37:
-          vpiParent: Module name:dut #(.Width(1))
-          vpiLhs RefObj name:Width start:8:28 end:8:33:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: dut #(.Width(1)).Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:8:36 end:8:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:8:36 end:8:37:
+            vpiParent: Parameter name:Width
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut #(.Width(1))
+              vpiFullName: dut #(.Width(1)).Width
               vpiActual: IntTypespec
       vpiDefName: dut
       vpiDefNetType: wire (1)
@@ -421,16 +413,8 @@ Design name:unnamed:
             vpiParent: Parameter name:SyncWidth
             vpiFullName: top.SyncWidth
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:12:19 end:12:47:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:SyncWidth start:12:19 end:12:28:
-            vpiParent: ParamAssign
-            vpiName: SyncWidth
-            vpiFullName: top.SyncWidth
-            vpiActual: Parameter name:SyncWidth
-          vpiRhs SysFuncCall name:$bits start:12:31 end:12:47:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$bits start:12:31 end:12:47:
+            vpiParent: Parameter name:SyncWidth
             vpiName Identifier name:$bits start:12:31 end:12:36:
             vpiArgument (1 items):
               NamedArgument start:12:37 end:12:46:
@@ -442,29 +426,29 @@ Design name:unnamed:
                     RefObj name:in start:12:38 end:12:40:
                       vpiParent: Operation
                       vpiName: in
-                      vpiFullName: top.in
+                      vpiFullName: top.SyncWidth.in
                       vpiActual: Net name:in
                     RefObj name:in.x start:12:41 end:12:45:
                       vpiParent: Operation
                       vpiName: in.x
-                      vpiFullName: top.in.x
+                      vpiFullName: top.SyncWidth.in.x
                       vpiPathElem (2 items):
                         RefObj name:in start:12:41 end:12:43:
                           vpiParent: RefObj name:in.x
                           vpiName: in
-                          vpiFullName: top.in
+                          vpiFullName: top.SyncWidth.in
                           vpiActual: Net name:in
                         RefObj name:x start:12:44 end:12:45:
                           vpiParent: RefObj name:in.x
                           vpiName: x
-                          vpiFullName: top.x
+                          vpiFullName: top.SyncWidth.x
                           vpiActual: TypespecMember name:x
                       vpiActual: TypespecMember name:x
       vpiTypespec (4 items):
-        ModuleTypespec name:dut:
-        ModuleTypespec name:dut:
-        ModuleTypespec name:dut:
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.Width($bits({in.x}))):
+        ModuleTypespec name:dut #(.Width($bits({in}))):
+        ModuleTypespec name:dut #(.Width($bits(in))):
+        ModuleTypespec name:dut #(.Width($bits({in, in.x}))):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -541,7 +525,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dut1
             vpiName: dut
             vpiFullName: top.dut1.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.Width($bits({in.x})))
         RefInstance name:dut2 start:14:31 end:14:35:
           vpiParent: Module name:top
           vpiName: dut2
@@ -549,7 +533,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dut2
             vpiName: dut
             vpiFullName: top.dut2.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.Width($bits({in})))
         RefInstance name:dut3 start:15:29 end:15:33:
           vpiParent: Module name:top
           vpiName: dut3
@@ -557,7 +541,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dut3
             vpiName: dut
             vpiFullName: top.dut3.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.Width($bits(in)))
         RefInstance name:dut4 start:16:36 end:16:40:
           vpiParent: Module name:top
           vpiName: dut4
@@ -565,7 +549,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dut4
             vpiName: dut
             vpiFullName: top.dut4.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.Width($bits({in, in.x})))
   vpiTypespec (7 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -580,19 +564,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:11:8 end:11:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:dut start:15:4 end:15:7:
+    ModuleTypespec name:dut #(.Width($bits(in))) start:15:4 end:15:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:15:4 end:15:7:
+      vpiName Identifier name:dut #(.Width($bits(in))) start:15:4 end:15:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:15:10 end:15:27:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.Width($bits(in)))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:15:11 end:15:16:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width($bits(in))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:15:17 end:15:26:
             vpiParent: ParamAssign
@@ -603,22 +586,21 @@ Design name:unnamed:
                 vpiHighConn RefObj name:in start:15:23 end:15:25:
                   vpiParent: NamedArgument
                   vpiName: in
-                  vpiFullName: dut.in
+                  vpiFullName: dut #(.Width($bits(in))).in
                   vpiActual: Net name:in
       vpiModule: Module name:dut #(.Width(1))
-    ModuleTypespec name:dut start:16:4 end:16:7:
+    ModuleTypespec name:dut #(.Width($bits({in, in.x}))) start:16:4 end:16:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:16:4 end:16:7:
+      vpiName Identifier name:dut #(.Width($bits({in, in.x}))) start:16:4 end:16:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:16:10 end:16:34:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.Width($bits({in, in.x})))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:16:11 end:16:16:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width($bits({in, in.x}))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:16:17 end:16:33:
             vpiParent: ParamAssign
@@ -633,38 +615,37 @@ Design name:unnamed:
                     RefObj name:in start:16:24 end:16:26:
                       vpiParent: Operation
                       vpiName: in
-                      vpiFullName: dut.in
+                      vpiFullName: dut #(.Width($bits({in, in.x}))).in
                       vpiActual: Net name:in
                     RefObj name:in.x start:16:27 end:16:31:
                       vpiParent: Operation
                       vpiName: in.x
-                      vpiFullName: dut.in.x
+                      vpiFullName: dut #(.Width($bits({in, in.x}))).in.x
                       vpiPathElem (2 items):
                         RefObj name:in start:16:27 end:16:29:
                           vpiParent: RefObj name:in.x
                           vpiName: in
-                          vpiFullName: dut.in
+                          vpiFullName: dut #(.Width($bits({in, in.x}))).in
                           vpiActual: Net name:in
                         RefObj name:x start:16:30 end:16:31:
                           vpiParent: RefObj name:in.x
                           vpiName: x
-                          vpiFullName: dut.x
+                          vpiFullName: dut #(.Width($bits({in, in.x}))).x
                           vpiActual: TypespecMember name:x
                       vpiActual: TypespecMember name:x
       vpiModule: Module name:dut #(.Width(1))
-    ModuleTypespec name:dut start:13:4 end:13:7:
+    ModuleTypespec name:dut #(.Width($bits({in.x}))) start:13:4 end:13:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:13:4 end:13:7:
+      vpiName Identifier name:dut #(.Width($bits({in.x}))) start:13:4 end:13:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:13:10 end:13:31:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.Width($bits({in.x})))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:13:11 end:13:16:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width($bits({in.x}))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:13:17 end:13:30:
             vpiParent: ParamAssign
@@ -679,33 +660,32 @@ Design name:unnamed:
                     RefObj name:in.x start:13:24 end:13:28:
                       vpiParent: Operation
                       vpiName: in.x
-                      vpiFullName: dut.in.x
+                      vpiFullName: dut #(.Width($bits({in.x}))).in.x
                       vpiPathElem (2 items):
                         RefObj name:in start:13:24 end:13:26:
                           vpiParent: RefObj name:in.x
                           vpiName: in
-                          vpiFullName: dut.in
+                          vpiFullName: dut #(.Width($bits({in.x}))).in
                           vpiActual: Net name:in
                         RefObj name:x start:13:27 end:13:28:
                           vpiParent: RefObj name:in.x
                           vpiName: x
-                          vpiFullName: dut.x
+                          vpiFullName: dut #(.Width($bits({in.x}))).x
                           vpiActual: TypespecMember name:x
                       vpiActual: TypespecMember name:x
       vpiModule: Module name:dut #(.Width(1))
-    ModuleTypespec name:dut start:14:4 end:14:7:
+    ModuleTypespec name:dut #(.Width($bits({in}))) start:14:4 end:14:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:14:4 end:14:7:
+      vpiName Identifier name:dut #(.Width($bits({in}))) start:14:4 end:14:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:14:10 end:14:29:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.Width($bits({in})))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:14:11 end:14:16:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: dut.Width
+            vpiFullName: dut #(.Width($bits({in}))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:14:17 end:14:28:
             vpiParent: ParamAssign
@@ -720,7 +700,7 @@ Design name:unnamed:
                     RefObj name:in start:14:24 end:14:26:
                       vpiParent: Operation
                       vpiName: in
-                      vpiFullName: dut.in
+                      vpiFullName: dut #(.Width($bits({in}))).in
                       vpiActual: Net name:in
       vpiModule: Module name:dut #(.Width(1))
   vpiLibrary (1 items):
@@ -775,7 +755,7 @@ COMMAND: ${HLC_DIR}/regression/BitsHierPath/BitsHierPath/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             109     109       0         0
 ----------------------------------------------------------------
-                                   113     113       0         0
+                                   109     109       0         0
 ===================== END REDUCTION RESULT =====================

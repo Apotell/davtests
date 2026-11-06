@@ -191,6 +191,16 @@ Design name:unnamed:
             vpiParent: Parameter name:FOO
             vpiFullName: test.FOO
             vpiActual: LogicTypespec
+          vpiExpr Constant start:3:15 end:3:16:
+            vpiParent: Parameter name:FOO
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test.FOO
+              vpiActual: IntTypespec
         Parameter name:FOO_REPL start:4:11 end:4:19:
           vpiParent: Module name:test
           vpiName: FOO_REPL
@@ -199,47 +209,14 @@ Design name:unnamed:
             vpiParent: Parameter name:FOO_REPL
             vpiFullName: test.FOO_REPL
             vpiActual: LogicTypespec
-        Parameter name:DEBUG start:6:11 end:6:16:
-          vpiParent: Module name:test
-          vpiName: DEBUG
-          vpiFullName: test.DEBUG
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:DEBUG
-            vpiFullName: test.DEBUG
-            vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:3:11 end:3:16:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:FOO start:3:11 end:3:14:
-            vpiParent: ParamAssign
-            vpiName: FOO
-            vpiFullName: test.FOO
-            vpiActual: Parameter name:FOO
-          vpiRhs Constant start:3:15 end:3:16:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test
-              vpiActual: IntTypespec
-        ParamAssign start:4:11 end:4:32:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:FOO_REPL start:4:11 end:4:19:
-            vpiParent: ParamAssign
-            vpiName: FOO_REPL
-            vpiFullName: test.FOO_REPL
-            vpiActual: Parameter name:FOO_REPL
-          vpiRhs Operation start:4:20 end:4:32:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:4:20 end:4:32:
+            vpiParent: Parameter name:FOO_REPL
             vpiOpType: multi-concatenation (34)
             vpiOperand (2 items):
               RefObj name:FOO start:4:21 end:4:24:
                 vpiParent: Operation
                 vpiName: FOO
-                vpiFullName: test.FOO
+                vpiFullName: test.FOO_REPL.FOO
                 vpiActual: Parameter name:FOO
               Operation start:4:24 end:4:31:
                 vpiParent: Operation
@@ -253,23 +230,24 @@ Design name:unnamed:
                     vpiValue: "4"
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: test
+                      vpiFullName: test.FOO_REPL
                       vpiActual: IntTypespec
-        ParamAssign start:6:11 end:6:34:
+        Parameter name:DEBUG start:6:11 end:6:16:
           vpiParent: Module name:test
-          vpiLhs RefObj name:DEBUG start:6:11 end:6:16:
-            vpiParent: ParamAssign
-            vpiName: DEBUG
+          vpiName: DEBUG
+          vpiFullName: test.DEBUG
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:DEBUG
             vpiFullName: test.DEBUG
-            vpiActual: Parameter name:DEBUG
-          vpiRhs IndexedPartSelect name:FOO_REPL[0+:32] start:6:19 end:6:34:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr IndexedPartSelect name:FOO_REPL[0+:32] start:6:19 end:6:34:
+            vpiParent: Parameter name:DEBUG
             vpiName: FOO_REPL[0+:32]
-            vpiFullName: test.FOO_REPL[0+:32]
+            vpiFullName: test.DEBUG.FOO_REPL[0+:32]
             vpiPrefix RefObj name:FOO_REPL start:6:19 end:6:27:
               vpiParent: IndexedPartSelect name:FOO_REPL[0+:32]
               vpiName: FOO_REPL
-              vpiFullName: test.FOO_REPL
+              vpiFullName: test.DEBUG.FOO_REPL
               vpiActual: Parameter name:FOO_REPL
             vpiRange IndexedRange start:6:28 end:6:33:
               vpiParent: IndexedPartSelect name:FOO_REPL[0+:32]
@@ -282,7 +260,7 @@ Design name:unnamed:
                 vpiValue: 0
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test.FOO_REPL[0+:32]
+                  vpiFullName: test.DEBUG.FOO_REPL[0+:32]
                   vpiActual: IntTypespec
               vpiWidthExpr Constant start:6:31 end:6:33:
                 vpiParent: IndexedRange
@@ -292,7 +270,7 @@ Design name:unnamed:
                 vpiValue: 32
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test.FOO_REPL[0+:32]
+                  vpiFullName: test.DEBUG.FOO_REPL[0+:32]
                   vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -493,10 +471,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9       9       1         1
 Operation                            4       2       0         2
-RefObj                              11      10       0         1
+RefObj                               8       7       0         1
 RefTypespec                         12      11       0         1
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    67      63       1         5
+                                    61      57       1         5
 ===================== END REDUCTION RESULT =====================

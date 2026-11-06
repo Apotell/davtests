@@ -131,24 +131,8 @@ Design name:unnamed:
             vpiName: int [1:0]
             vpiFullName: top.x.int [1:0]
             vpiActual: ArrayTypespec
-        Parameter name:a start:3:14 end:3:15:
-          vpiParent: Module name:top
-          vpiName: a
-          vpiFullName: top.a
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:a
-            vpiFullName: top.a
-            vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:2:18 end:2:37:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:x start:2:18 end:2:19:
-            vpiParent: ParamAssign
-            vpiName: x
-            vpiFullName: top.x
-            vpiActual: Parameter name:x
-          vpiRhs Operation start:2:28 end:2:37:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:2:28 end:2:37:
+            vpiParent: Parameter name:x
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               Constant start:2:30 end:2:32:
@@ -159,7 +143,7 @@ Design name:unnamed:
                 vpiValue: 10
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top.x
                   vpiActual: IntTypespec
               Constant start:2:34 end:2:36:
                 vpiParent: Operation
@@ -169,23 +153,24 @@ Design name:unnamed:
                 vpiValue: 11
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top.x
                   vpiActual: IntTypespec
-        ParamAssign start:3:14 end:3:22:
+        Parameter name:a start:3:14 end:3:15:
           vpiParent: Module name:top
-          vpiLhs RefObj name:a start:3:14 end:3:15:
-            vpiParent: ParamAssign
-            vpiName: a
+          vpiName: a
+          vpiFullName: top.a
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:a
             vpiFullName: top.a
-            vpiActual: Parameter name:a
-          vpiRhs BitSelect name:x[0] start:3:18 end:3:22:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr BitSelect name:x[0] start:3:18 end:3:22:
+            vpiParent: Parameter name:a
             vpiName: x[0]
-            vpiFullName: top.x[0]
+            vpiFullName: top.a.x[0]
             vpiPrefix RefObj name:x start:3:18 end:3:19:
               vpiParent: BitSelect name:x[0]
               vpiName: x
-              vpiFullName: top.x
+              vpiFullName: top.a.x
               vpiActual: Parameter name:x
             vpiIndex Constant start:3:20 end:3:21:
               vpiParent: BitSelect name:x[0]
@@ -195,7 +180,7 @@ Design name:unnamed:
               vpiValue: 0
               vpiTypespec RefTypespec:
                 vpiParent: Constant
-                vpiFullName: top.x[0]
+                vpiFullName: top.a.x[0]
                 vpiActual: IntTypespec
       vpiTypespec (2 items):
         ArrayTypespec:
@@ -336,7 +321,7 @@ COMMAND: ${HLC_DIR}/regression/ReorderPatt/ReorderPatt/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

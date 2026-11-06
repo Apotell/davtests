@@ -351,7 +351,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:memory:
+        ModuleTypespec name:memory #(.words(72)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_mem_attr.v"
@@ -525,7 +525,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:i_memory
             vpiName: memory
             vpiFullName: t.i_memory.memory
-            vpiActual: ModuleTypespec name:memory
+            vpiActual: ModuleTypespec name:memory #(.words(72))
           vpiArgument (1 items):
             NamedArgument start:26:35 end:26:45:
               vpiParent: RefInstance name:i_memory
@@ -565,6 +565,16 @@ Design name:unnamed:
             vpiParent: Parameter name:words
             vpiFullName: memory.words
             vpiActual: LogicTypespec
+          vpiExpr Constant start:37:22 end:37:27:
+            vpiParent: Parameter name:words
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16384"
+            vpiValue: 16384
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: memory.words
+              vpiActual: IntTypespec
         Parameter name:bits start:37:29 end:37:33:
           vpiParent: Module name:memory
           vpiName: bits
@@ -573,40 +583,15 @@ Design name:unnamed:
             vpiParent: Parameter name:bits
             vpiFullName: memory.bits
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:37:14 end:37:27:
-          vpiParent: Module name:memory
-          vpiLhs RefObj name:words start:37:14 end:37:19:
-            vpiParent: ParamAssign
-            vpiName: words
-            vpiFullName: memory.words
-            vpiActual: Parameter name:words
-          vpiRhs Constant start:37:22 end:37:27:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "16384"
-            vpiValue: 16384
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: memory
-              vpiActual: IntTypespec
-        ParamAssign start:37:29 end:37:38:
-          vpiParent: Module name:memory
-          vpiLhs RefObj name:bits start:37:29 end:37:33:
-            vpiParent: ParamAssign
-            vpiName: bits
-            vpiFullName: memory.bits
-            vpiActual: Parameter name:bits
-          vpiRhs Constant start:37:36 end:37:38:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:37:36 end:37:38:
+            vpiParent: Parameter name:bits
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "72"
             vpiValue: 72
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: memory
+              vpiFullName: memory.bits
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -737,19 +722,18 @@ Design name:unnamed:
       vpiName Identifier name:memory start:34:8 end:34:14:
       vpiDefName: memory
       vpiModule: Module name:memory
-    ModuleTypespec name:memory start:26:4 end:26:10:
+    ModuleTypespec name:memory #(.words(72)) start:26:4 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:memory start:26:4 end:26:10:
+      vpiName Identifier name:memory #(.words(72)) start:26:4 end:26:10:
       vpiDefName: memory
       vpiParamAssign (1 items):
         ParamAssign start:26:13 end:26:23:
-          vpiParent: ModuleTypespec name:memory
+          vpiParent: ModuleTypespec name:memory #(.words(72))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:words start:26:14 end:26:19:
             vpiParent: ParamAssign
             vpiName: words
-            vpiFullName: memory.words
+            vpiFullName: memory #(.words(72)).words
             vpiActual: Parameter name:words
           vpiRhs Constant start:26:20 end:26:22:
             vpiParent: ParamAssign
@@ -759,7 +743,7 @@ Design name:unnamed:
             vpiValue: 72
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: memory
+              vpiFullName: memory #(.words(72))
               vpiActual: IntTypespec
       vpiModule: Module name:memory
   vpiLibrary (1 items):
@@ -815,10 +799,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            15      15       2         2
 Operation                            2       0       0         2
-RefObj                              19      17       0         2
+RefObj                              17      15       0         2
 RefTypespec                         26      26       2         2
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                   107     103       4         8
+                                   103      99       4         8
 ===================== END REDUCTION RESULT =====================

@@ -395,7 +395,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: t.tt_pkg
               vpiActual: StringTypespec
-        ModuleTypespec name:tt_buf:
+        ModuleTypespec name:tt_buf #(.T_t(test_t)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_type2.v"
@@ -471,7 +471,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_test
             vpiName: tt_buf
             vpiFullName: t.u_test.tt_buf
-            vpiActual: ModuleTypespec name:tt_buf
+            vpiActual: ModuleTypespec name:tt_buf #(.T_t(test_t))
           vpiArgument (2 items):
             NamedArgument start:27:7 end:27:12:
               vpiParent: RefInstance name:u_test
@@ -520,17 +520,9 @@ Design name:unnamed:
           vpiParent: Module name:tt_buf #(.T_t(logic [0:0]))
           vpiName: T_t
           vpiFullName: tt_buf #(.T_t(logic [0:0])).T_t
-      vpiParamAssign (1 items):
-        ParamAssign start:33:20 end:33:37:
-          vpiParent: Module name:tt_buf #(.T_t(logic [0:0]))
-          vpiLhs RefTypespec name:T_t start:33:20 end:33:23:
-            vpiParent: ParamAssign
-            vpiName: T_t
+          vpiExpr RefTypespec start:33:26 end:33:37:
+            vpiParent: TypeParameter name:T_t
             vpiFullName: tt_buf #(.T_t(logic [0:0])).T_t
-            vpiActual: TypeParameter name:T_t
-          vpiRhs RefTypespec start:33:26 end:33:37:
-            vpiParent: ParamAssign
-            vpiFullName: tt_buf #(.T_t(logic [0:0]))
             vpiActual: LogicTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -647,24 +639,23 @@ Design name:unnamed:
       vpiName Identifier name:tt_buf start:31:8 end:31:14:
       vpiDefName: tt_buf
       vpiModule: Module name:tt_buf #(.T_t(logic [0:0]))
-    ModuleTypespec name:tt_buf start:25:4 end:25:10:
+    ModuleTypespec name:tt_buf #(.T_t(test_t)) start:25:4 end:25:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:tt_buf start:25:4 end:25:10:
+      vpiName Identifier name:tt_buf #(.T_t(test_t)) start:25:4 end:25:10:
       vpiDefName: tt_buf
       vpiParamAssign (1 items):
         ParamAssign start:25:13 end:25:25:
-          vpiParent: ModuleTypespec name:tt_buf
+          vpiParent: ModuleTypespec name:tt_buf #(.T_t(test_t))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:T_t start:25:14 end:25:17:
             vpiParent: ParamAssign
             vpiName: T_t
-            vpiFullName: tt_buf.T_t
+            vpiFullName: tt_buf #(.T_t(test_t)).T_t
             vpiActual: TypeParameter name:T_t
           vpiRhs RefTypespec name:test_t start:25:18 end:25:24:
             vpiParent: ParamAssign
             vpiName: test_t
-            vpiFullName: tt_buf.test_t
+            vpiFullName: tt_buf #(.T_t(test_t)).test_t
             vpiActual: TypedefTypespec name:test_t
       vpiModule: Module name:tt_buf #(.T_t(logic [0:0]))
   vpiLibrary (1 items):
@@ -719,7 +710,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_type2/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                   100     100       0         0
 ===================== END REDUCTION RESULT =====================

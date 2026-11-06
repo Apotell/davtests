@@ -119,7 +119,7 @@ Design name:unnamed:
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:prim_flop:
+        ModuleTypespec name:prim_flop #(.Width(22)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -140,7 +140,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_prim_flop
             vpiName: prim_flop
             vpiFullName: top.u_prim_flop.prim_flop
-            vpiActual: ModuleTypespec name:prim_flop
+            vpiActual: ModuleTypespec name:prim_flop #(.Width(22))
     Module name:prim_flop file:$Source01/dut.sv start:7:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_flop start:7:8 end:7:17:
@@ -154,6 +154,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: prim_flop.Width
             vpiActual: IntTypespec
+          vpiExpr Constant start:8:26 end:8:27:
+            vpiParent: Parameter name:Width
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: prim_flop.Width
+              vpiActual: IntTypespec
         Parameter name:ResetValue start:9:32 end:9:42:
           vpiParent: Module name:prim_flop
           vpiName: ResetValue
@@ -162,35 +172,10 @@ Design name:unnamed:
             vpiParent: Parameter name:ResetValue
             vpiFullName: prim_flop.ResetValue
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:8:18 end:8:27:
-          vpiParent: Module name:prim_flop
-          vpiLhs RefObj name:Width start:8:18 end:8:23:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:Width start:9:45 end:9:50:
+            vpiParent: Parameter name:ResetValue
             vpiName: Width
-            vpiFullName: prim_flop.Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:8:26 end:8:27:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: prim_flop
-              vpiActual: IntTypespec
-        ParamAssign start:9:32 end:9:50:
-          vpiParent: Module name:prim_flop
-          vpiLhs RefObj name:ResetValue start:9:32 end:9:42:
-            vpiParent: ParamAssign
-            vpiName: ResetValue
-            vpiFullName: prim_flop.ResetValue
-            vpiActual: Parameter name:ResetValue
-          vpiRhs RefObj name:Width start:9:45 end:9:50:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: prim_flop.Width
+            vpiFullName: prim_flop.ResetValue.Width
             vpiActual: Parameter name:Width
       vpiTypespec (1 items):
         LogicTypespec:
@@ -254,19 +239,18 @@ Design name:unnamed:
       vpiName Identifier name:prim_flop start:7:8 end:7:17:
       vpiDefName: prim_flop
       vpiModule: Module name:prim_flop
-    ModuleTypespec name:prim_flop start:2:4 end:2:13:
+    ModuleTypespec name:prim_flop #(.Width(22)) start:2:4 end:2:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_flop start:2:4 end:2:13:
+      vpiName Identifier name:prim_flop #(.Width(22)) start:2:4 end:2:13:
       vpiDefName: prim_flop
       vpiParamAssign (1 items):
         ParamAssign start:3:7 end:3:17:
-          vpiParent: ModuleTypespec name:prim_flop
+          vpiParent: ModuleTypespec name:prim_flop #(.Width(22))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:3:8 end:3:13:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: prim_flop.Width
+            vpiFullName: prim_flop #(.Width(22)).Width
             vpiActual: Parameter name:Width
           vpiRhs Constant start:3:14 end:3:16:
             vpiParent: ParamAssign
@@ -276,7 +260,7 @@ Design name:unnamed:
             vpiValue: 22
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_flop
+              vpiFullName: prim_flop #(.Width(22))
               vpiActual: IntTypespec
       vpiModule: Module name:prim_flop
   vpiLibrary (1 items):
@@ -332,10 +316,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       1         1
 Operation                            1       0       0         1
-RefObj                               7       6       0         1
+RefObj                               5       4       0         1
 RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    42      40       2         4
+                                    38      36       2         4
 ===================== END REDUCTION RESULT =====================

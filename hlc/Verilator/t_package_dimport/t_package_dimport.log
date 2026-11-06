@@ -1112,6 +1112,15 @@ Design name:unnamed:
             vpiParent: Parameter name:RAND_NUM_MAX
             vpiFullName: sub.RAND_NUM_MAX
             vpiActual: LogicTypespec
+          vpiExpr Constant start:32:38 end:32:40:
+            vpiParent: Parameter name:RAND_NUM_MAX
+            vpiConstType: string (6)
+            vpiDecompile: "\"\""
+            vpiValue: ""
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub.RAND_NUM_MAX
+              vpiActual: StringTypespec
         Parameter name:DATA_RANGE start:34:15 end:34:25:
           vpiParent: Module name:sub
           vpiName: DATA_RANGE
@@ -1121,56 +1130,14 @@ Design name:unnamed:
             vpiParent: Parameter name:DATA_RANGE
             vpiFullName: sub.DATA_RANGE
             vpiActual: LogicTypespec
-        Parameter name:DATA_WIDTH start:35:15 end:35:25:
-          vpiParent: Module name:sub
-          vpiName: DATA_WIDTH
-          vpiFullName: sub.DATA_WIDTH
-          vpiLocalParam: true
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:DATA_WIDTH
-            vpiFullName: sub.DATA_WIDTH
-            vpiActual: LogicTypespec
-        Parameter name:WIDTH start:36:15 end:36:20:
-          vpiParent: Module name:sub
-          vpiName: WIDTH
-          vpiFullName: sub.WIDTH
-          vpiLocalParam: true
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:WIDTH
-            vpiFullName: sub.WIDTH
-            vpiActual: LogicTypespec
-      vpiParamAssign (4 items):
-        ParamAssign start:32:14 end:32:40:
-          vpiParent: Module name:sub
-          vpiLhs RefObj name:RAND_NUM_MAX start:32:14 end:32:26:
-            vpiParent: ParamAssign
-            vpiName: RAND_NUM_MAX
-            vpiFullName: sub.RAND_NUM_MAX
-            vpiActual: Parameter name:RAND_NUM_MAX
-          vpiRhs Constant start:32:38 end:32:40:
-            vpiParent: ParamAssign
-            vpiConstType: string (6)
-            vpiDecompile: "\"\""
-            vpiValue: ""
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: sub
-              vpiActual: StringTypespec
-        ParamAssign start:34:15 end:34:54:
-          vpiParent: Module name:sub
-          vpiLhs RefObj name:DATA_RANGE start:34:15 end:34:25:
-            vpiParent: ParamAssign
-            vpiName: DATA_RANGE
-            vpiFullName: sub.DATA_RANGE
-            vpiActual: Parameter name:DATA_RANGE
-          vpiRhs Operation start:34:38 end:34:54:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:34:38 end:34:54:
+            vpiParent: Parameter name:DATA_RANGE
             vpiOpType: add (24)
             vpiOperand (2 items):
               RefObj name:RAND_NUM_MAX start:34:38 end:34:50:
                 vpiParent: Operation
                 vpiName: RAND_NUM_MAX
-                vpiFullName: sub.RAND_NUM_MAX
+                vpiFullName: sub.DATA_RANGE.RAND_NUM_MAX
                 vpiActual: Parameter name:RAND_NUM_MAX
               Constant start:34:53 end:34:54:
                 vpiParent: Operation
@@ -1180,17 +1147,19 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: sub
+                  vpiFullName: sub.DATA_RANGE
                   vpiActual: IntTypespec
-        ParamAssign start:35:15 end:35:59:
+        Parameter name:DATA_WIDTH start:35:15 end:35:25:
           vpiParent: Module name:sub
-          vpiLhs RefObj name:DATA_WIDTH start:35:15 end:35:25:
-            vpiParent: ParamAssign
-            vpiName: DATA_WIDTH
+          vpiName: DATA_WIDTH
+          vpiFullName: sub.DATA_WIDTH
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:DATA_WIDTH
             vpiFullName: sub.DATA_WIDTH
-            vpiActual: Parameter name:DATA_WIDTH
-          vpiRhs FuncCall name:ceil_log2 start:35:38 end:35:59:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr FuncCall name:ceil_log2 start:35:38 end:35:59:
+            vpiParent: Parameter name:DATA_WIDTH
             vpiName Identifier name:ceil_log2 start:35:38 end:35:47:
             vpiTaskFunc: Function name:ceil_log2
             vpiArgument (1 items):
@@ -1199,17 +1168,19 @@ Design name:unnamed:
                 vpiHighConn RefObj name:DATA_RANGE start:35:48 end:35:58:
                   vpiParent: NamedArgument
                   vpiName: DATA_RANGE
-                  vpiFullName: sub.DATA_RANGE
+                  vpiFullName: sub.DATA_WIDTH.DATA_RANGE
                   vpiActual: Parameter name:DATA_RANGE
-        ParamAssign start:36:15 end:36:71:
+        Parameter name:WIDTH start:36:15 end:36:20:
           vpiParent: Module name:sub
-          vpiLhs RefObj name:WIDTH start:36:15 end:36:20:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
+          vpiName: WIDTH
+          vpiFullName: sub.WIDTH
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:WIDTH
             vpiFullName: sub.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs FuncCall name:max start:36:38 end:36:71:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr FuncCall name:max start:36:38 end:36:71:
+            vpiParent: Parameter name:WIDTH
             vpiName Identifier name:max start:36:38 end:36:41:
             vpiTaskFunc: Function name:max
             vpiArgument (2 items):
@@ -1223,7 +1194,7 @@ Design name:unnamed:
                   vpiValue: 4
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: sub
+                    vpiFullName: sub.WIDTH
                     vpiActual: IntTypespec
               NamedArgument start:36:45 end:36:70:
                 vpiParent: FuncCall name:max
@@ -1241,7 +1212,7 @@ Design name:unnamed:
                           RefObj name:DATA_RANGE start:36:55 end:36:65:
                             vpiParent: Operation
                             vpiName: DATA_RANGE
-                            vpiFullName: sub.DATA_RANGE
+                            vpiFullName: sub.WIDTH.DATA_RANGE
                             vpiActual: Parameter name:DATA_RANGE
                           Constant start:36:68 end:36:69:
                             vpiParent: Operation
@@ -1251,7 +1222,7 @@ Design name:unnamed:
                             vpiValue: 1
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: sub
+                              vpiFullName: sub.WIDTH
                               vpiActual: IntTypespec
       vpiTypespec (2 items):
         ImportTypespec name:defs start:30:11 end:30:18:
@@ -1300,6 +1271,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WHICH
             vpiFullName: t.WHICH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:47:31 end:47:32:
+            vpiParent: Parameter name:WHICH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.WHICH
+              vpiActual: IntTypespec
         Parameter name:MAX_COUNT start:48:14 end:48:23:
           vpiParent: Module name:t
           vpiName: MAX_COUNT
@@ -1308,6 +1289,16 @@ Design name:unnamed:
             vpiParent: Parameter name:MAX_COUNT
             vpiFullName: t.MAX_COUNT
             vpiActual: LogicTypespec
+          vpiExpr Constant start:48:31 end:48:33:
+            vpiParent: Parameter name:MAX_COUNT
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.MAX_COUNT
+              vpiActual: IntTypespec
         Parameter name:MAX_EXPONENT start:50:15 end:50:27:
           vpiParent: Module name:t
           vpiName: MAX_EXPONENT
@@ -1317,6 +1308,18 @@ Design name:unnamed:
             vpiParent: Parameter name:MAX_EXPONENT
             vpiFullName: t.MAX_EXPONENT
             vpiActual: LogicTypespec
+          vpiExpr FuncCall name:log2 start:50:38 end:50:53:
+            vpiParent: Parameter name:MAX_EXPONENT
+            vpiName Identifier name:log2 start:50:38 end:50:42:
+            vpiTaskFunc: Function name:log2
+            vpiArgument (1 items):
+              NamedArgument start:50:43 end:50:52:
+                vpiParent: FuncCall name:log2
+                vpiHighConn RefObj name:MAX_COUNT start:50:43 end:50:52:
+                  vpiParent: NamedArgument
+                  vpiName: MAX_COUNT
+                  vpiFullName: t.MAX_EXPONENT.MAX_COUNT
+                  vpiActual: Parameter name:MAX_COUNT
         Parameter name:EXPONENT_WIDTH start:51:15 end:51:29:
           vpiParent: Module name:t
           vpiName: EXPONENT_WIDTH
@@ -1326,69 +1329,8 @@ Design name:unnamed:
             vpiParent: Parameter name:EXPONENT_WIDTH
             vpiFullName: t.EXPONENT_WIDTH
             vpiActual: LogicTypespec
-      vpiParamAssign (4 items):
-        ParamAssign start:47:14 end:47:32:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:WHICH start:47:14 end:47:19:
-            vpiParent: ParamAssign
-            vpiName: WHICH
-            vpiFullName: t.WHICH
-            vpiActual: Parameter name:WHICH
-          vpiRhs Constant start:47:31 end:47:32:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
-        ParamAssign start:48:14 end:48:33:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:MAX_COUNT start:48:14 end:48:23:
-            vpiParent: ParamAssign
-            vpiName: MAX_COUNT
-            vpiFullName: t.MAX_COUNT
-            vpiActual: Parameter name:MAX_COUNT
-          vpiRhs Constant start:48:31 end:48:33:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "10"
-            vpiValue: 10
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
-        ParamAssign start:50:15 end:50:53:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:MAX_EXPONENT start:50:15 end:50:27:
-            vpiParent: ParamAssign
-            vpiName: MAX_EXPONENT
-            vpiFullName: t.MAX_EXPONENT
-            vpiActual: Parameter name:MAX_EXPONENT
-          vpiRhs FuncCall name:log2 start:50:38 end:50:53:
-            vpiParent: ParamAssign
-            vpiName Identifier name:log2 start:50:38 end:50:42:
-            vpiTaskFunc: Function name:log2
-            vpiArgument (1 items):
-              NamedArgument start:50:43 end:50:52:
-                vpiParent: FuncCall name:log2
-                vpiHighConn RefObj name:MAX_COUNT start:50:43 end:50:52:
-                  vpiParent: NamedArgument
-                  vpiName: MAX_COUNT
-                  vpiFullName: t.MAX_COUNT
-                  vpiActual: Parameter name:MAX_COUNT
-        ParamAssign start:51:15 end:51:65:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:EXPONENT_WIDTH start:51:15 end:51:29:
-            vpiParent: ParamAssign
-            vpiName: EXPONENT_WIDTH
-            vpiFullName: t.EXPONENT_WIDTH
-            vpiActual: Parameter name:EXPONENT_WIDTH
-          vpiRhs FuncCall name:ceil_log2 start:51:38 end:51:65:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:ceil_log2 start:51:38 end:51:65:
+            vpiParent: Parameter name:EXPONENT_WIDTH
             vpiName Identifier name:ceil_log2 start:51:38 end:51:47:
             vpiTaskFunc: Function name:ceil_log2
             vpiArgument (1 items):
@@ -1401,7 +1343,7 @@ Design name:unnamed:
                     RefObj name:MAX_EXPONENT start:51:48 end:51:60:
                       vpiParent: Operation
                       vpiName: MAX_EXPONENT
-                      vpiFullName: t.MAX_EXPONENT
+                      vpiFullName: t.EXPONENT_WIDTH.MAX_EXPONENT
                       vpiActual: Parameter name:MAX_EXPONENT
                     Constant start:51:63 end:51:64:
                       vpiParent: Operation
@@ -1411,7 +1353,7 @@ Design name:unnamed:
                       vpiValue: 1
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: t
+                        vpiFullName: t.EXPONENT_WIDTH
                         vpiActual: IntTypespec
       vpiTypespec (2 items):
         ImportTypespec name:defs start:45:11 end:45:18:
@@ -1638,10 +1580,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       1         1
 Operation                           14      13       0         1
-RefObj                              47      46       0         1
+RefObj                              39      38       0         1
 RefTypespec                         46      46       1         1
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                   227     225       2         4
+                                   211     209       2         4
 ===================== END REDUCTION RESULT =====================

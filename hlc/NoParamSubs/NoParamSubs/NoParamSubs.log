@@ -215,23 +215,15 @@ Design name:unnamed:
             vpiParent: Parameter name:P
             vpiFullName: dut.P
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:26 end:2:31:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:P start:2:26 end:2:27:
-            vpiParent: ParamAssign
-            vpiName: P
-            vpiFullName: dut.P
-            vpiActual: Parameter name:P
-          vpiRhs Constant start:2:30 end:2:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:30 end:2:31:
+            vpiParent: Parameter name:P
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut.P
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -352,16 +344,8 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: top.X
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:26 end:7:37:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:X start:7:26 end:7:27:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: top.X
-            vpiActual: Parameter name:X
-          vpiRhs Operation start:7:30 end:7:37:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:7:30 end:7:37:
+            vpiParent: Parameter name:X
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               Constant start:7:32 end:7:33:
@@ -372,7 +356,7 @@ Design name:unnamed:
                 vpiValue: 0
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top.X
                   vpiActual: IntTypespec
               Constant start:7:35 end:7:36:
                 vpiParent: Operation
@@ -382,7 +366,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top.X
                   vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -437,7 +421,7 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.P(~X)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -473,7 +457,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_dut
             vpiName: dut
             vpiFullName: top.u_dut.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.P(~X))
           vpiArgument (1 items):
             NamedArgument start:11:7 end:11:12:
               vpiParent: RefInstance name:u_dut
@@ -502,19 +486,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:6:8 end:6:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:dut start:8:4 end:8:7:
+    ModuleTypespec name:dut #(.P(~X)) start:8:4 end:8:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:8:4 end:8:7:
+      vpiName Identifier name:dut #(.P(~X)) start:8:4 end:8:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:9:7 end:9:13:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.P(~X))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:P start:9:8 end:9:9:
             vpiParent: ParamAssign
             vpiName: P
-            vpiFullName: dut.P
+            vpiFullName: dut #(.P(~X)).P
             vpiActual: Parameter name:P
           vpiRhs Operation start:9:10 end:9:12:
             vpiParent: ParamAssign
@@ -523,7 +506,7 @@ Design name:unnamed:
               RefObj name:X start:9:11 end:9:12:
                 vpiParent: Operation
                 vpiName: X
-                vpiFullName: dut.X
+                vpiFullName: dut #(.P(~X)).X
                 vpiActual: Parameter name:X
       vpiModule: Module name:dut
   vpiLibrary (1 items):
@@ -578,7 +561,7 @@ COMMAND: ${HLC_DIR}/regression/NoParamSubs/NoParamSubs/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    78      78       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

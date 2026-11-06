@@ -217,6 +217,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: lzc #(.WIDTH(64)).WIDTH
             vpiActual: IntTypespec
+          vpiExpr Constant start:4:34 end:4:36:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "64"
+            vpiValue: 64
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: lzc #(.WIDTH(64)).WIDTH
+              vpiActual: IntTypespec
         Parameter name:NUM_LEVELS start:9:18 end:9:28:
           vpiParent: Module name:lzc #(.WIDTH(64))
           vpiName: NUM_LEVELS
@@ -226,6 +236,17 @@ Design name:unnamed:
             vpiParent: Parameter name:NUM_LEVELS
             vpiFullName: lzc #(.WIDTH(64)).NUM_LEVELS
             vpiActual: IntTypespec
+          vpiExpr SysFuncCall name:$clog2 start:9:31 end:9:44:
+            vpiParent: Parameter name:NUM_LEVELS
+            vpiName Identifier name:$clog2 start:9:31 end:9:37:
+            vpiArgument (1 items):
+              NamedArgument start:9:38 end:9:43:
+                vpiParent: SysFuncCall name:$clog2
+                vpiHighConn RefObj name:WIDTH start:9:38 end:9:43:
+                  vpiParent: NamedArgument
+                  vpiName: WIDTH
+                  vpiFullName: lzc #(.WIDTH(64)).NUM_LEVELS.WIDTH
+                  vpiActual: Parameter name:WIDTH
         Parameter name:level start:10:19 end:10:24:
           vpiParent: Module name:lzc #(.WIDTH(64))
           vpiName: level
@@ -235,58 +256,15 @@ Design name:unnamed:
             vpiParent: Parameter name:level
             vpiFullName: lzc #(.WIDTH(64)).level
             vpiActual: IntTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:4:26 end:4:36:
-          vpiParent: Module name:lzc #(.WIDTH(64))
-          vpiLhs RefObj name:WIDTH start:4:26 end:4:31:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: lzc #(.WIDTH(64)).WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:4:34 end:4:36:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "64"
-            vpiValue: 64
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: lzc #(.WIDTH(64))
-              vpiActual: IntTypespec
-        ParamAssign start:9:18 end:9:44:
-          vpiParent: Module name:lzc #(.WIDTH(64))
-          vpiLhs RefObj name:NUM_LEVELS start:9:18 end:9:28:
-            vpiParent: ParamAssign
-            vpiName: NUM_LEVELS
-            vpiFullName: lzc #(.WIDTH(64)).NUM_LEVELS
-            vpiActual: Parameter name:NUM_LEVELS
-          vpiRhs SysFuncCall name:$clog2 start:9:31 end:9:44:
-            vpiParent: ParamAssign
-            vpiName Identifier name:$clog2 start:9:31 end:9:37:
-            vpiArgument (1 items):
-              NamedArgument start:9:38 end:9:43:
-                vpiParent: SysFuncCall name:$clog2
-                vpiHighConn RefObj name:WIDTH start:9:38 end:9:43:
-                  vpiParent: NamedArgument
-                  vpiName: WIDTH
-                  vpiFullName: lzc #(.WIDTH(64)).WIDTH
-                  vpiActual: Parameter name:WIDTH
-        ParamAssign start:10:19 end:10:28:
-          vpiParent: Module name:lzc #(.WIDTH(64))
-          vpiLhs RefObj name:level start:10:19 end:10:24:
-            vpiParent: ParamAssign
-            vpiName: level
-            vpiFullName: lzc #(.WIDTH(64)).level
-            vpiActual: Parameter name:level
-          vpiRhs Constant start:10:27 end:10:28:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:10:27 end:10:28:
+            vpiParent: Parameter name:level
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: lzc #(.WIDTH(64))
+              vpiFullName: lzc #(.WIDTH(64)).level
               vpiActual: IntTypespec
       vpiDefName: lzc
       vpiDefNetType: wire (1)
@@ -373,16 +351,8 @@ Design name:unnamed:
                         vpiParent: Parameter name:POWER
                         vpiFullName: lzc #(.WIDTH(64)).all_true.POWER
                         vpiActual: IntTypespec
-                  vpiParamAssign (1 items):
-                    ParamAssign start:15:22 end:15:39:
-                      vpiParent: GenBlock name:all_true
-                      vpiLhs RefObj name:POWER start:15:22 end:15:27:
-                        vpiParent: ParamAssign
-                        vpiName: POWER
-                        vpiFullName: lzc #(.WIDTH(64)).all_true.POWER
-                        vpiActual: Parameter name:POWER
-                      vpiRhs Operation start:15:31 end:15:39:
-                        vpiParent: ParamAssign
+                      vpiExpr Operation start:15:31 end:15:39:
+                        vpiParent: Parameter name:POWER
                         vpiOpType: arith power (43)
                         vpiOperand (2 items):
                           Constant start:15:31 end:15:32:
@@ -393,12 +363,12 @@ Design name:unnamed:
                             vpiValue: 2
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: lzc #(.WIDTH(64)).all_true
+                              vpiFullName: lzc #(.WIDTH(64)).all_true.POWER
                               vpiActual: IntTypespec
                           RefObj name:level start:15:34 end:15:39:
                             vpiParent: Operation
                             vpiName: level
-                            vpiFullName: lzc #(.WIDTH(64)).all_true.level
+                            vpiFullName: lzc #(.WIDTH(64)).all_true.POWER.level
                             vpiActual: Parameter name:level
                   vpiStmt (1 items):
                     GenFor start:16:7 end:17:10:
@@ -536,11 +506,11 @@ Identifier                           7       6       0         1
 NamedArgument                        1       0       0         1
 Operation                            6       2       0         4
 RealTypespec                         0       1       1         0
-RefObj                              12       7       0         5
+RefObj                               8       3       0         5
 RefTypespec                         11      11       3         3
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    71      61       8        18
+                                    63      53       8        18
 ===================== END REDUCTION RESULT =====================

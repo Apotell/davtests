@@ -2117,8 +2117,8 @@ Design name:unnamed:
           vpiName Identifier name:enumb_t start:62:61 end:62:68:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:enumb_t
-        ModuleTypespec name:p:
-        ModuleTypespec name:p:
+        ModuleTypespec name:p #(.PARAM(2)):
+        ModuleTypespec name:p #(.PARAM(3)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_trace_complex.v"
@@ -3111,7 +3111,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p2
             vpiName: p
             vpiFullName: t.p2.p
-            vpiActual: ModuleTypespec name:p
+            vpiActual: ModuleTypespec name:p #(.PARAM(2))
         RefInstance name:p3 start:66:19 end:66:21:
           vpiParent: Module name:t
           vpiName: p3
@@ -3119,7 +3119,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p3
             vpiName: p
             vpiFullName: t.p3.p
-            vpiActual: ModuleTypespec name:p
+            vpiActual: ModuleTypespec name:p #(.PARAM(3))
     Module name:p file:$Source01/t_trace_complex.v start:100:1 end:103:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p start:100:8 end:100:9:
@@ -3133,23 +3133,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PARAM
             vpiFullName: p.PARAM
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:101:14 end:101:23:
-          vpiParent: Module name:p
-          vpiLhs RefObj name:PARAM start:101:14 end:101:19:
-            vpiParent: ParamAssign
-            vpiName: PARAM
-            vpiFullName: p.PARAM
-            vpiActual: Parameter name:PARAM
-          vpiRhs Constant start:101:22 end:101:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:101:22 end:101:23:
+            vpiParent: Parameter name:PARAM
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: p
+              vpiFullName: p.PARAM
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -3212,19 +3204,18 @@ Design name:unnamed:
       vpiName Identifier name:p start:100:8 end:100:9:
       vpiDefName: p
       vpiModule: Module name:p
-    ModuleTypespec name:p start:65:4 end:65:5:
+    ModuleTypespec name:p #(.PARAM(2)) start:65:4 end:65:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:p start:65:4 end:65:5:
+      vpiName Identifier name:p #(.PARAM(2)) start:65:4 end:65:5:
       vpiDefName: p
       vpiParamAssign (1 items):
         ParamAssign start:65:8 end:65:17:
-          vpiParent: ModuleTypespec name:p
+          vpiParent: ModuleTypespec name:p #(.PARAM(2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:PARAM start:65:9 end:65:14:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: p.PARAM
+            vpiFullName: p #(.PARAM(2)).PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs Constant start:65:15 end:65:16:
             vpiParent: ParamAssign
@@ -3234,22 +3225,21 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: p
+              vpiFullName: p #(.PARAM(2))
               vpiActual: IntTypespec
       vpiModule: Module name:p
-    ModuleTypespec name:p start:66:4 end:66:5:
+    ModuleTypespec name:p #(.PARAM(3)) start:66:4 end:66:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:p start:66:4 end:66:5:
+      vpiName Identifier name:p #(.PARAM(3)) start:66:4 end:66:5:
       vpiDefName: p
       vpiParamAssign (1 items):
         ParamAssign start:66:8 end:66:17:
-          vpiParent: ModuleTypespec name:p
+          vpiParent: ModuleTypespec name:p #(.PARAM(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:PARAM start:66:9 end:66:14:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: p.PARAM
+            vpiFullName: p #(.PARAM(3)).PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs Constant start:66:15 end:66:16:
             vpiParent: ParamAssign
@@ -3259,7 +3249,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: p
+              vpiFullName: p #(.PARAM(3))
               vpiActual: IntTypespec
       vpiModule: Module name:p
   vpiVariable (1 items):
@@ -3327,10 +3317,10 @@ Name                            Before   After   Added   Removed
 Constant                            58      58       3         3
 LongIntTypespec                      0       1       1         0
 Operation                           27      24       0         3
-RefObj                              67      65       0         2
+RefObj                              66      64       0         2
 RefTypespec                        114     114       3         3
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             227     227       0         0
 ----------------------------------------------------------------
-                                   494     490       7        11
+                                   492     488       7        11
 ===================== END REDUCTION RESULT =====================

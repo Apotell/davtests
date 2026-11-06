@@ -1757,23 +1757,15 @@ Design name:unnamed:
             vpiParent: Parameter name:neg_clk
             vpiFullName: template.neg_clk
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:11 end:2:22:
-          vpiParent: Module name:template
-          vpiLhs RefObj name:neg_clk start:2:11 end:2:18:
-            vpiParent: ParamAssign
-            vpiName: neg_clk
-            vpiFullName: template.neg_clk
-            vpiActual: Parameter name:neg_clk
-          vpiRhs Constant start:2:21 end:2:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:21 end:2:22:
+            vpiParent: Parameter name:neg_clk
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: template
+              vpiFullName: template.neg_clk
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1990,8 +1982,8 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:template:
-        ModuleTypespec name:template:
+        ModuleTypespec name:template #(.neg_clk(1)):
+        ModuleTypespec name:template #(.neg_clk(0)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00873/top.v"
@@ -2088,7 +2080,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:neg_clk
             vpiName: template
             vpiFullName: top.neg_clk.template
-            vpiActual: ModuleTypespec name:template
+            vpiActual: ModuleTypespec name:template #(.neg_clk(1))
           vpiArgument (3 items):
             NamedArgument start:17:37 end:17:40:
               vpiParent: RefInstance name:neg_clk
@@ -2147,7 +2139,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:pos_clk
             vpiName: template
             vpiFullName: top.pos_clk.template
-            vpiActual: ModuleTypespec name:template
+            vpiActual: ModuleTypespec name:template #(.neg_clk(0))
           vpiArgument (3 items):
             NamedArgument start:18:37 end:18:40:
               vpiParent: RefInstance name:pos_clk
@@ -2242,19 +2234,18 @@ Design name:unnamed:
       vpiName Identifier name:top start:16:8 end:16:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:template start:18:5 end:18:13:
+    ModuleTypespec name:template #(.neg_clk(0)) start:18:5 end:18:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:template start:18:5 end:18:13:
+      vpiName Identifier name:template #(.neg_clk(0)) start:18:5 end:18:13:
       vpiDefName: template
       vpiParamAssign (1 items):
         ParamAssign start:18:16 end:18:27:
-          vpiParent: ModuleTypespec name:template
+          vpiParent: ModuleTypespec name:template #(.neg_clk(0))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:neg_clk start:18:17 end:18:24:
             vpiParent: ParamAssign
             vpiName: neg_clk
-            vpiFullName: template.neg_clk
+            vpiFullName: template #(.neg_clk(0)).neg_clk
             vpiActual: Parameter name:neg_clk
           vpiRhs Constant start:18:25 end:18:26:
             vpiParent: ParamAssign
@@ -2264,22 +2255,21 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: template
+              vpiFullName: template #(.neg_clk(0))
               vpiActual: IntTypespec
       vpiModule: Module name:template
-    ModuleTypespec name:template start:17:5 end:17:13:
+    ModuleTypespec name:template #(.neg_clk(1)) start:17:5 end:17:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:template start:17:5 end:17:13:
+      vpiName Identifier name:template #(.neg_clk(1)) start:17:5 end:17:13:
       vpiDefName: template
       vpiParamAssign (1 items):
         ParamAssign start:17:16 end:17:27:
-          vpiParent: ModuleTypespec name:template
+          vpiParent: ModuleTypespec name:template #(.neg_clk(1))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:neg_clk start:17:17 end:17:24:
             vpiParent: ParamAssign
             vpiName: neg_clk
-            vpiFullName: template.neg_clk
+            vpiFullName: template #(.neg_clk(1)).neg_clk
             vpiActual: Parameter name:neg_clk
           vpiRhs Constant start:17:25 end:17:26:
             vpiParent: ParamAssign
@@ -2289,7 +2279,7 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: template
+              vpiFullName: template #(.neg_clk(1))
               vpiActual: IntTypespec
       vpiModule: Module name:template
   vpiLibrary (1 items):
@@ -2347,7 +2337,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00873/issue_00873/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             355     355       0         0
+Others                             353     353       0         0
 ----------------------------------------------------------------
-                                   355     355       0         0
+                                   353     353       0         0
 ===================== END REDUCTION RESULT =====================

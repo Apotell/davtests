@@ -220,6 +220,16 @@ Design name:unnamed:
             vpiParent: Parameter name:foo
             vpiFullName: test.foo
             vpiActual: LogicTypespec
+          vpiExpr Constant start:6:22 end:6:33:
+            vpiParent: Parameter name:foo
+            vpiConstType: binary (3)
+            vpiSize: 8
+            vpiDecompile: "8'b01010101"
+            vpiValue: "01010101"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test.foo
+              vpiActual: LogicTypespec
         Parameter name:bar start:7:16 end:7:19:
           vpiParent: Module name:test
           vpiName: bar
@@ -228,39 +238,14 @@ Design name:unnamed:
             vpiParent: Parameter name:bar
             vpiFullName: test.bar
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:6:16 end:6:33:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:foo start:6:16 end:6:19:
-            vpiParent: ParamAssign
-            vpiName: foo
-            vpiFullName: test.foo
-            vpiActual: Parameter name:foo
-          vpiRhs Constant start:6:22 end:6:33:
-            vpiParent: ParamAssign
-            vpiConstType: binary (3)
-            vpiSize: 8
-            vpiDecompile: "8'b01010101"
-            vpiValue: "01010101"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test
-              vpiActual: LogicTypespec
-        ParamAssign start:7:16 end:7:36:
-          vpiParent: Module name:test
-          vpiLhs RefObj name:bar start:7:16 end:7:19:
-            vpiParent: ParamAssign
-            vpiName: bar
-            vpiFullName: test.bar
-            vpiActual: Parameter name:bar
-          vpiRhs Operation start:7:22 end:7:36:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:7:22 end:7:36:
+            vpiParent: Parameter name:bar
             vpiOpType: concatenation (33)
             vpiOperand (2 items):
               RefObj name:foo start:7:23 end:7:26:
                 vpiParent: Operation
                 vpiName: foo
-                vpiFullName: test.foo
+                vpiFullName: test.bar.foo
                 vpiActual: Parameter name:foo
               Operation start:7:27 end:7:35:
                 vpiParent: Operation
@@ -274,7 +259,7 @@ Design name:unnamed:
                     vpiValue: 2
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: test
+                      vpiFullName: test.bar
                       vpiActual: IntTypespec
                   Operation start:7:29 end:7:34:
                     vpiParent: Operation
@@ -283,7 +268,7 @@ Design name:unnamed:
                       RefObj name:foo start:7:30 end:7:33:
                         vpiParent: Operation
                         vpiName: foo
-                        vpiFullName: test.foo
+                        vpiFullName: test.bar.foo
                         vpiActual: Parameter name:foo
       vpiTypespec (2 items):
         LogicTypespec:
@@ -463,10 +448,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            3       0       0         3
-RefObj                               9       7       0         2
+RefObj                               7       5       0         2
 RefTypespec                         10       9       0         1
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    58      52       1         7
+                                    54      48       1         7
 ===================== END REDUCTION RESULT =====================

@@ -167,23 +167,15 @@ Design name:unnamed:
             vpiParent: Parameter name:DRspDepth
             vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
             vpiActual: BitTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:5:25 end:5:41:
-          vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
-          vpiLhs RefObj name:DRspDepth start:5:25 end:5:34:
-            vpiParent: ParamAssign
-            vpiName: DRspDepth
-            vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
-            vpiActual: Parameter name:DRspDepth
-          vpiRhs Constant start:5:37 end:5:41:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:5:37 end:5:41:
+            vpiParent: Parameter name:DRspDepth
             vpiConstType: hexadecimal (5)
             vpiSize: 4
             vpiDecompile: "4'h2"
             vpiValue: "2"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "param_test #(.DRspDepth(4'h2))"
+              vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         BitTypespec:
@@ -271,7 +263,7 @@ Design name:unnamed:
       vpiName Identifier name:dut start:12:8 end:12:11:
       vpiFullName: dut
       vpiTypespec (1 items):
-        ModuleTypespec name:param_test:
+        "ModuleTypespec name:param_test #(.DRspDepth(4'h0))":
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -297,7 +289,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:t1
             vpiName: param_test
             vpiFullName: dut.t1.param_test
-            vpiActual: ModuleTypespec name:param_test
+            vpiActual: "ModuleTypespec name:param_test #(.DRspDepth(4'h0))"
   vpiTypespec (6 items):
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed
@@ -319,19 +311,18 @@ Design name:unnamed:
       vpiName Identifier name:dut start:12:8 end:12:11:
       vpiDefName: dut
       vpiModule: Module name:dut
-    ModuleTypespec name:param_test start:14:3 end:14:13:
+    "ModuleTypespec name:param_test #(.DRspDepth(4'h0)) start:14:3 end:14:13":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:param_test start:14:3 end:14:13:
+      "vpiName Identifier name:param_test #(.DRspDepth(4'h0)) start:14:3 end:14:13":
       vpiDefName: param_test
       vpiParamAssign (1 items):
         ParamAssign start:15:4 end:15:21:
-          vpiParent: ModuleTypespec name:param_test
+          vpiParent: "ModuleTypespec name:param_test #(.DRspDepth(4'h0))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:DRspDepth start:15:5 end:15:14:
             vpiParent: ParamAssign
             vpiName: DRspDepth
-            vpiFullName: param_test.DRspDepth
+            vpiFullName: "param_test #(.DRspDepth(4'h0)).DRspDepth"
             vpiActual: Parameter name:DRspDepth
           vpiRhs Constant start:15:16 end:15:20:
             vpiParent: ParamAssign
@@ -341,7 +332,7 @@ Design name:unnamed:
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: param_test
+              vpiFullName: "param_test #(.DRspDepth(4'h0))"
               vpiActual: IntTypespec
       vpiModule: "Module name:param_test #(.DRspDepth(4'h2))"
   vpiLibrary (1 items):
@@ -397,10 +388,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               6       5       0         1
+RefObj                               5       4       0         1
 RefTypespec                          8       8       1         1
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    52      50       2         4
+                                    50      48       2         4
 ===================== END REDUCTION RESULT =====================

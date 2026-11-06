@@ -367,23 +367,15 @@ Design name:unnamed:
             vpiParent: Parameter name:RESVAL
             vpiFullName: prim_subreg.RESVAL
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:3:26 end:3:37:
-          vpiParent: Module name:prim_subreg
-          vpiLhs RefObj name:RESVAL start:3:26 end:3:32:
-            vpiParent: ParamAssign
-            vpiName: RESVAL
-            vpiFullName: prim_subreg.RESVAL
-            vpiActual: Parameter name:RESVAL
-          vpiRhs Constant start:3:35 end:3:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:35 end:3:37:
+            vpiParent: Parameter name:RESVAL
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prim_subreg
+              vpiFullName: prim_subreg.RESVAL
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -467,16 +459,8 @@ Design name:unnamed:
             vpiName: struct_ab
             vpiFullName: prim_subreg_shadow.RESVAL.struct_ab
             vpiActual: TypedefTypespec name:struct_ab
-      vpiParamAssign (1 items):
-        ParamAssign start:13:24 end:16:5:
-          vpiParent: Module name:prim_subreg_shadow
-          vpiLhs RefObj name:RESVAL start:13:24 end:13:30:
-            vpiParent: ParamAssign
-            vpiName: RESVAL
-            vpiFullName: prim_subreg_shadow.RESVAL
-            vpiActual: Parameter name:RESVAL
-          vpiRhs Operation start:13:33 end:16:5:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:13:33 end:16:5:
+            vpiParent: Parameter name:RESVAL
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               TaggedPattern start:14:7 end:14:12:
@@ -484,7 +468,7 @@ Design name:unnamed:
                 vpiTag RefObj name:a start:14:7 end:14:8:
                   vpiParent: TaggedPattern
                   vpiName: a
-                  vpiFullName: prim_subreg_shadow.a
+                  vpiFullName: prim_subreg_shadow.RESVAL.a
                   vpiActual: TypespecMember name:a
                 vpiPattern Constant start:14:10 end:14:12:
                   vpiParent: TaggedPattern
@@ -494,14 +478,14 @@ Design name:unnamed:
                   vpiValue: "0"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: prim_subreg_shadow
+                    vpiFullName: prim_subreg_shadow.RESVAL
                     vpiActual: BitTypespec
               TaggedPattern start:15:7 end:15:12:
                 vpiParent: Operation
                 vpiTag RefObj name:b start:15:7 end:15:8:
                   vpiParent: TaggedPattern
                   vpiName: b
-                  vpiFullName: prim_subreg_shadow.b
+                  vpiFullName: prim_subreg_shadow.RESVAL.b
                   vpiActual: TypespecMember name:b
                 vpiPattern Constant start:15:10 end:15:12:
                   vpiParent: TaggedPattern
@@ -511,7 +495,7 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: prim_subreg_shadow
+                    vpiFullName: prim_subreg_shadow.RESVAL
                     vpiActual: BitTypespec
       vpiTypespec (6 items):
         LogicTypespec:
@@ -576,7 +560,7 @@ Design name:unnamed:
           vpiTypedef: Typedef name:struct_ab
         BitTypespec:
           vpiParent: Module name:prim_subreg_shadow
-        ModuleTypespec name:prim_subreg:
+        ModuleTypespec name:prim_subreg #(.RESVAL(RESVAL)):
       vpiDefName: prim_subreg_shadow
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -597,7 +581,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:staged_reg
             vpiName: prim_subreg
             vpiFullName: prim_subreg_shadow.staged_reg.prim_subreg
-            vpiActual: ModuleTypespec name:prim_subreg
+            vpiActual: ModuleTypespec name:prim_subreg #(.RESVAL(RESVAL))
     Module name:top file:$Source01/dut.sv start:24:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:24:8 end:24:11:
@@ -638,6 +622,16 @@ Design name:unnamed:
             vpiParent: Parameter name:v1
             vpiFullName: top.v1
             vpiActual: LogicTypespec
+          vpiExpr Constant start:29:19 end:29:20:
+            vpiParent: Parameter name:v1
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.v1
+              vpiActual: IntTypespec
         Parameter name:v2 start:30:14 end:30:16:
           vpiParent: Module name:top
           vpiName: v2
@@ -646,6 +640,16 @@ Design name:unnamed:
             vpiParent: Parameter name:v2
             vpiFullName: top.v2
             vpiActual: LogicTypespec
+          vpiExpr Constant start:30:19 end:30:20:
+            vpiParent: Parameter name:v2
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.v2
+              vpiActual: IntTypespec
         Parameter name:CTRL_RESET start:32:24 end:32:34:
           vpiParent: Module name:top
           vpiName: CTRL_RESET
@@ -655,61 +659,19 @@ Design name:unnamed:
             vpiName: struct_ab
             vpiFullName: top.CTRL_RESET.struct_ab
             vpiActual: TypedefTypespec name:struct_ab
-      vpiParamAssign (3 items):
-        ParamAssign start:29:14 end:29:20:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:v1 start:29:14 end:29:16:
-            vpiParent: ParamAssign
-            vpiName: v1
-            vpiFullName: top.v1
-            vpiActual: Parameter name:v1
-          vpiRhs Constant start:29:19 end:29:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:30:14 end:30:20:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:v2 start:30:14 end:30:16:
-            vpiParent: ParamAssign
-            vpiName: v2
-            vpiFullName: top.v2
-            vpiActual: Parameter name:v2
-          vpiRhs Constant start:30:19 end:30:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
-        ParamAssign start:32:24 end:36:5:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:CTRL_RESET start:32:24 end:32:34:
-            vpiParent: ParamAssign
-            vpiName: CTRL_RESET
-            vpiFullName: top.CTRL_RESET
-            vpiActual: Parameter name:CTRL_RESET
-          vpiRhs Operation start:32:37 end:36:5:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:32:37 end:36:5:
+            vpiParent: Parameter name:CTRL_RESET
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               RefObj name:v1 start:35:5 end:35:7:
                 vpiParent: Operation
                 vpiName: v1
-                vpiFullName: top.v1
+                vpiFullName: top.CTRL_RESET.v1
                 vpiActual: Parameter name:v1
               RefObj name:v2 start:35:9 end:35:11:
                 vpiParent: Operation
                 vpiName: v2
-                vpiFullName: top.v2
+                vpiFullName: top.CTRL_RESET.v2
                 vpiActual: Parameter name:v2
       vpiTypespec (6 items):
         LogicTypespec:
@@ -775,7 +737,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:top
           vpiScalar: true
-        ModuleTypespec name:prim_subreg_shadow:
+        ModuleTypespec name:prim_subreg_shadow #(.RESVAL(CTRL_RESET)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -796,7 +758,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_ctrl_reg_shadowed
             vpiName: prim_subreg_shadow
             vpiFullName: top.u_ctrl_reg_shadowed.prim_subreg_shadow
-            vpiActual: ModuleTypespec name:prim_subreg_shadow
+            vpiActual: ModuleTypespec name:prim_subreg_shadow #(.RESVAL(CTRL_RESET))
   vpiTypespec (6 items):
     ModuleTypespec name:prim_subreg:
       vpiParent: Design name:unnamed
@@ -816,44 +778,42 @@ Design name:unnamed:
       vpiName Identifier name:top start:24:8 end:24:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:prim_subreg start:18:4 end:18:15:
+    ModuleTypespec name:prim_subreg #(.RESVAL(RESVAL)) start:18:4 end:18:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_subreg start:18:4 end:18:15:
+      vpiName Identifier name:prim_subreg #(.RESVAL(RESVAL)) start:18:4 end:18:15:
       vpiDefName: prim_subreg
       vpiParamAssign (1 items):
         ParamAssign start:19:7 end:19:22:
-          vpiParent: ModuleTypespec name:prim_subreg
+          vpiParent: ModuleTypespec name:prim_subreg #(.RESVAL(RESVAL))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:RESVAL start:19:8 end:19:14:
             vpiParent: ParamAssign
             vpiName: RESVAL
-            vpiFullName: prim_subreg.RESVAL
+            vpiFullName: prim_subreg #(.RESVAL(RESVAL)).RESVAL
             vpiActual: Parameter name:RESVAL
           vpiRhs RefObj name:RESVAL start:19:15 end:19:21:
             vpiParent: ParamAssign
             vpiName: RESVAL
-            vpiFullName: prim_subreg.RESVAL
+            vpiFullName: prim_subreg #(.RESVAL(RESVAL)).RESVAL
             vpiActual: Parameter name:RESVAL
       vpiModule: Module name:prim_subreg
-    ModuleTypespec name:prim_subreg_shadow start:38:4 end:38:22:
+    ModuleTypespec name:prim_subreg_shadow #(.RESVAL(CTRL_RESET)) start:38:4 end:38:22:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prim_subreg_shadow start:38:4 end:38:22:
+      vpiName Identifier name:prim_subreg_shadow #(.RESVAL(CTRL_RESET)) start:38:4 end:38:22:
       vpiDefName: prim_subreg_shadow
       vpiParamAssign (1 items):
         ParamAssign start:39:7 end:39:26:
-          vpiParent: ModuleTypespec name:prim_subreg_shadow
+          vpiParent: ModuleTypespec name:prim_subreg_shadow #(.RESVAL(CTRL_RESET))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:RESVAL start:39:8 end:39:14:
             vpiParent: ParamAssign
             vpiName: RESVAL
-            vpiFullName: prim_subreg_shadow.RESVAL
+            vpiFullName: prim_subreg_shadow #(.RESVAL(CTRL_RESET)).RESVAL
             vpiActual: Parameter name:RESVAL
           vpiRhs RefObj name:CTRL_RESET start:39:15 end:39:25:
             vpiParent: ParamAssign
             vpiName: CTRL_RESET
-            vpiFullName: prim_subreg_shadow.CTRL_RESET
+            vpiFullName: prim_subreg_shadow #(.RESVAL(CTRL_RESET)).CTRL_RESET
             vpiActual: Parameter name:CTRL_RESET
       vpiModule: Module name:prim_subreg_shadow
   vpiLibrary (1 items):
@@ -909,10 +869,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            15      16       1         0
 Operation                            3       2       0         1
-RefObj                              17      16       0         1
+RefObj                              12      11       0         1
 RefTypespec                         30      29       0         1
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   132     130       1         3
+                                   122     120       1         3
 ===================== END REDUCTION RESULT =====================

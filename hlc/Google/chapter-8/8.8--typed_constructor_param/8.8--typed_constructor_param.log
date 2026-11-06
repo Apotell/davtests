@@ -276,7 +276,6 @@ Design name:unnamed:
             ParamAssign start:34:32 end:34:38:
               vpiParent: ClassTypespec name:test_cls #(.t(12))
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:t start:34:33 end:34:34:
                 vpiParent: ParamAssign
                 vpiName: t
@@ -427,23 +426,15 @@ Design name:unnamed:
                 vpiParent: Parameter name:t
                 vpiFullName: class_tb::test_cls #(.t(12))::t
                 vpiActual: IntTypespec
-          vpiParamAssign (1 items):
-            ParamAssign start:23:23 end:23:29:
-              vpiParent: ClassDefn name:test_cls #(.t(12))
-              vpiLhs RefObj name:t start:23:23 end:23:24:
-                vpiParent: ParamAssign
-                vpiName: t
-                vpiFullName: class_tb::test_cls #(.t(12))::t
-                vpiActual: Parameter name:t
-              vpiRhs Constant start:23:27 end:23:29:
-                vpiParent: ParamAssign
+              vpiExpr Constant start:23:27 end:23:29:
+                vpiParent: Parameter name:t
                 vpiConstType: int (7)
                 vpiSize: 32
                 vpiDecompile: "12"
                 vpiValue: 12
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: class_tb::test_cls #(.t(12))
+                  vpiFullName: class_tb::test_cls #(.t(12))::t
                   vpiActual: IntTypespec
           vpiTypespec (2 items):
             ClassTypespec name:super_cls:
@@ -611,10 +602,10 @@ Design name:unnamed:
                           vpiParent: Constant
                           vpiFullName: class_tb
                           vpiActual: IntTypespec
-                  vpiNameQualifier RefTypespec name:test_cls start:34:22 end:34:39:
+                  vpiNameQualifier RefTypespec name:test_cls #(.t(12)) #(.t(23)) start:34:22 end:34:39:
                     vpiParent: FuncCall name:new
-                    vpiName: test_cls
-                    vpiFullName: class_tb.test_cls
+                    vpiName: test_cls #(.t(12)) #(.t(23))
+                    vpiFullName: class_tb.test_cls #(.t(12)) #(.t(23))
                     vpiActual: ClassTypespec name:test_cls #(.t(12))
               SysTaskCall name:$display start:36:3 end:36:24:
                 vpiParent: Begin
@@ -701,7 +692,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.8--typed_constructor_param/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================

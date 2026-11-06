@@ -248,21 +248,13 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: TPTOP
           vpiFullName: top.TPTOP
-      vpiParamAssign (1 items):
-        ParamAssign start:2:16 end:2:27:
-          vpiParent: Module name:top
-          vpiLhs RefTypespec name:TPTOP start:2:16 end:2:21:
-            vpiParent: ParamAssign
-            vpiName: TPTOP
+          vpiExpr RefTypespec start:2:24 end:2:27:
+            vpiParent: TypeParameter name:TPTOP
             vpiFullName: top.TPTOP
-            vpiActual: TypeParameter name:TPTOP
-          vpiRhs RefTypespec start:2:24 end:2:27:
-            vpiParent: ParamAssign
-            vpiFullName: top
             vpiActual: IntTypespec
       vpiTypespec (2 items):
         TypeParameter name:TPTOP:
-        ModuleTypespec name:mid:
+        ModuleTypespec name:mid #(.TP0(TPTOP)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -288,7 +280,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u0
             vpiName: mid
             vpiFullName: top.u0.mid
-            vpiActual: ModuleTypespec name:mid
+            vpiActual: ModuleTypespec name:mid #(.TP0(TPTOP))
     Module name:mid #(.TP0(logic)) file:$Source01/dut.sv start:10:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mid #(.TP0(logic)) start:10:8 end:10:11:
@@ -310,25 +302,17 @@ Design name:unnamed:
           vpiParent: Module name:mid #(.TP0(logic))
           vpiName: TP0
           vpiFullName: mid #(.TP0(logic)).TP0
-      vpiParamAssign (1 items):
-        ParamAssign start:10:29 end:10:40:
-          vpiParent: Module name:mid #(.TP0(logic))
-          vpiLhs RefTypespec name:TP0 start:10:29 end:10:32:
-            vpiParent: ParamAssign
-            vpiName: TP0
+          vpiExpr RefTypespec start:10:35 end:10:40:
+            vpiParent: TypeParameter name:TP0
             vpiFullName: mid #(.TP0(logic)).TP0
-            vpiActual: TypeParameter name:TP0
-          vpiRhs RefTypespec start:10:35 end:10:40:
-            vpiParent: ParamAssign
-            vpiFullName: mid #(.TP0(logic))
             vpiActual: LogicTypespec
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:mid #(.TP0(logic))
           vpiScalar: true
         TypeParameter name:TP0:
-        ModuleTypespec name:bottom:
-        ModuleTypespec name:bottom:
+        ModuleTypespec name:bottom #(.TP1(TP0)):
+        ModuleTypespec name:bottom #(.TP1(int), .SIZE(20)):
       vpiDefName: mid
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -354,7 +338,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u1
             vpiName: bottom
             vpiFullName: mid #(.TP0(logic)).u1.bottom
-            vpiActual: ModuleTypespec name:bottom
+            vpiActual: ModuleTypespec name:bottom #(.TP1(TP0))
         RefInstance name:u2 start:13:33 end:13:35:
           vpiParent: Module name:mid #(.TP0(logic))
           vpiName: u2
@@ -362,7 +346,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u2
             vpiName: bottom
             vpiFullName: mid #(.TP0(logic)).u2.bottom
-            vpiActual: ModuleTypespec name:bottom
+            vpiActual: ModuleTypespec name:bottom #(.TP1(int), .SIZE(20))
     Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int)) file:$Source01/dut.sv start:17:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom #(.TP1(logic), .SIZE(10), .TP2(int)) start:17:8 end:17:14:
@@ -405,6 +389,10 @@ Design name:unnamed:
           vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
           vpiName: TP1
           vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP1
+          vpiExpr RefTypespec start:17:38 end:17:43:
+            vpiParent: TypeParameter name:TP1
+            vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP1
+            vpiActual: LogicTypespec
         Parameter name:SIZE start:17:55 end:17:59:
           vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
           vpiName: SIZE
@@ -413,49 +401,23 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE
             vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).SIZE
             vpiActual: LogicTypespec
-        TypeParameter name:TP2 start:17:79 end:17:82:
-          vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-          vpiName: TP2
-          vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP2
-      vpiParamAssign (3 items):
-        ParamAssign start:17:32 end:17:43:
-          vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-          vpiLhs RefTypespec name:TP1 start:17:32 end:17:35:
-            vpiParent: ParamAssign
-            vpiName: TP1
-            vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP1
-            vpiActual: TypeParameter name:TP1
-          vpiRhs RefTypespec start:17:38 end:17:43:
-            vpiParent: ParamAssign
-            vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-            vpiActual: LogicTypespec
-        ParamAssign start:17:55 end:17:62:
-          vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-          vpiLhs RefObj name:SIZE start:17:55 end:17:59:
-            vpiParent: ParamAssign
-            vpiName: SIZE
-            vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).SIZE
-            vpiActual: Parameter name:SIZE
-          vpiRhs Constant start:17:60 end:17:62:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:17:60 end:17:62:
+            vpiParent: Parameter name:SIZE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "10"
             vpiValue: 10
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int))
+              vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).SIZE
               vpiActual: IntTypespec
-        ParamAssign start:17:79 end:17:88:
+        TypeParameter name:TP2 start:17:79 end:17:82:
           vpiParent: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-          vpiLhs RefTypespec name:TP2 start:17:79 end:17:82:
-            vpiParent: ParamAssign
-            vpiName: TP2
+          vpiName: TP2
+          vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP2
+          vpiExpr RefTypespec start:17:85 end:17:88:
+            vpiParent: TypeParameter name:TP2
             vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int)).TP2
-            vpiActual: TypeParameter name:TP2
-          vpiRhs RefTypespec start:17:85 end:17:88:
-            vpiParent: ParamAssign
-            vpiFullName: bottom #(.TP1(logic), .SIZE(10), .TP2(int))
             vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -515,52 +477,49 @@ Design name:unnamed:
       vpiName Identifier name:bottom start:17:8 end:17:14:
       vpiDefName: bottom
       vpiModule: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-    ModuleTypespec name:bottom start:12:2 end:12:8:
+    ModuleTypespec name:bottom #(.TP1(TP0)) start:12:2 end:12:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bottom start:12:2 end:12:8:
+      vpiName Identifier name:bottom #(.TP1(TP0)) start:12:2 end:12:8:
       vpiDefName: bottom
       vpiParamAssign (1 items):
         ParamAssign start:12:11 end:12:20:
-          vpiParent: ModuleTypespec name:bottom
+          vpiParent: ModuleTypespec name:bottom #(.TP1(TP0))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TP1 start:12:12 end:12:15:
             vpiParent: ParamAssign
             vpiName: TP1
-            vpiFullName: bottom.TP1
+            vpiFullName: bottom #(.TP1(TP0)).TP1
             vpiActual: TypeParameter name:TP1
           vpiRhs RefTypespec name:TP0 start:12:16 end:12:19:
             vpiParent: ParamAssign
             vpiName: TP0
-            vpiFullName: bottom.TP0
+            vpiFullName: bottom #(.TP1(TP0)).TP0
             vpiActual: TypeParameter name:TP0
       vpiModule: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-    ModuleTypespec name:bottom start:13:2 end:13:8:
+    ModuleTypespec name:bottom #(.TP1(int), .SIZE(20)) start:13:2 end:13:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bottom start:13:2 end:13:8:
+      vpiName Identifier name:bottom #(.TP1(int), .SIZE(20)) start:13:2 end:13:8:
       vpiDefName: bottom
       vpiParamAssign (2 items):
         ParamAssign start:13:11 end:13:20:
-          vpiParent: ModuleTypespec name:bottom
+          vpiParent: ModuleTypespec name:bottom #(.TP1(int), .SIZE(20))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TP1 start:13:12 end:13:15:
             vpiParent: ParamAssign
             vpiName: TP1
-            vpiFullName: bottom.TP1
+            vpiFullName: bottom #(.TP1(int), .SIZE(20)).TP1
             vpiActual: TypeParameter name:TP1
           vpiRhs RefTypespec start:13:16 end:13:19:
             vpiParent: ParamAssign
-            vpiFullName: bottom
+            vpiFullName: bottom #(.TP1(int), .SIZE(20))
             vpiActual: IntTypespec
         ParamAssign start:13:22 end:13:31:
-          vpiParent: ModuleTypespec name:bottom
+          vpiParent: ModuleTypespec name:bottom #(.TP1(int), .SIZE(20))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:SIZE start:13:23 end:13:27:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: bottom.SIZE
+            vpiFullName: bottom #(.TP1(int), .SIZE(20)).SIZE
             vpiActual: Parameter name:SIZE
           vpiRhs Constant start:13:28 end:13:30:
             vpiParent: ParamAssign
@@ -570,27 +529,26 @@ Design name:unnamed:
             vpiValue: 20
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bottom
+              vpiFullName: bottom #(.TP1(int), .SIZE(20))
               vpiActual: IntTypespec
       vpiModule: Module name:bottom #(.TP1(logic), .SIZE(10), .TP2(int))
-    ModuleTypespec name:mid start:6:3 end:6:6:
+    ModuleTypespec name:mid #(.TP0(TPTOP)) start:6:3 end:6:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:mid start:6:3 end:6:6:
+      vpiName Identifier name:mid #(.TP0(TPTOP)) start:6:3 end:6:6:
       vpiDefName: mid
       vpiParamAssign (1 items):
         ParamAssign start:6:9 end:6:20:
-          vpiParent: ModuleTypespec name:mid
+          vpiParent: ModuleTypespec name:mid #(.TP0(TPTOP))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:TP0 start:6:10 end:6:13:
             vpiParent: ParamAssign
             vpiName: TP0
-            vpiFullName: mid.TP0
+            vpiFullName: mid #(.TP0(TPTOP)).TP0
             vpiActual: TypeParameter name:TP0
           vpiRhs RefTypespec name:TPTOP start:6:14 end:6:19:
             vpiParent: ParamAssign
             vpiName: TPTOP
-            vpiFullName: mid.TPTOP
+            vpiFullName: mid #(.TP0(TPTOP)).TPTOP
             vpiActual: TypeParameter name:TPTOP
       vpiModule: Module name:mid #(.TP0(logic))
   vpiLibrary (1 items):
@@ -645,7 +603,7 @@ COMMAND: ${HLC_DIR}/regression/TypeParam/TypeParam/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              76      76       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    76      76       0         0
 ===================== END REDUCTION RESULT =====================

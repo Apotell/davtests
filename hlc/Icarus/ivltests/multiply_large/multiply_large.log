@@ -3126,23 +3126,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: multiplier.N
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:25:11 end:25:14:
-          vpiParent: Module name:multiplier
-          vpiLhs RefObj name:N start:25:11 end:25:12:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: multiplier.N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:25:13 end:25:14:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:25:13 end:25:14:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: multiplier
+              vpiFullName: multiplier.N
               vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -3777,7 +3769,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:multiply_large
           vpiScalar: true
-        ModuleTypespec name:multiplier:
+        ModuleTypespec name:multiplier #(.N(65)):
       vpiDefName: multiply_large
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/multiply_large.v"
@@ -7335,7 +7327,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mpy
             vpiName: multiplier
             vpiFullName: multiply_large.mpy.multiplier
-            vpiActual: ModuleTypespec name:multiplier
+            vpiActual: ModuleTypespec name:multiplier #(.N(65))
           vpiArgument (3 items):
             NamedArgument start:56:22 end:56:23:
               vpiParent: RefInstance name:mpy
@@ -7391,18 +7383,17 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     LogicTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:multiplier start:56:1 end:56:11:
+    ModuleTypespec name:multiplier #(.N(65)) start:56:1 end:56:11:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:multiplier start:56:1 end:56:11:
+      vpiName Identifier name:multiplier #(.N(65)) start:56:1 end:56:11:
       vpiDefName: multiplier
       vpiParamAssign (1 items):
         ParamAssign start:22:11 end:22:15:
-          vpiParent: ModuleTypespec name:multiplier
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:multiplier #(.N(65))
           vpiLhs RefObj name:N start:25:11 end:25:12:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: multiplier.N
+            vpiFullName: multiplier #(.N(65)).N
             vpiActual: Parameter name:N
           vpiRhs Constant start:22:12 end:22:14:
             vpiParent: ParamAssign
@@ -7412,7 +7403,7 @@ Design name:unnamed:
             vpiValue: 65
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: multiplier
+              vpiFullName: multiplier #(.N(65))
               vpiActual: IntTypespec
       vpiModule: Module name:multiplier
   vpiLibrary (1 items):
@@ -7468,10 +7459,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           176     124      31        83
 Operation                          136      67       0        69
-RefObj                             201     197       0         4
+RefObj                             200     196       0         4
 RefTypespec                        194     129      18        83
 ----------------------------------------------------------------
-Others                             402     402       0         0
+Others                             401     401       0         0
 ----------------------------------------------------------------
-                                  1109     919      49       239
+                                  1107     917      49       239
 ===================== END REDUCTION RESULT =====================

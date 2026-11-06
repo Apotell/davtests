@@ -1268,6 +1268,10 @@ Design name:unnamed:
           vpiParent: Module name:foo #(.bar(logic))
           vpiName: bar
           vpiFullName: foo #(.bar(logic)).bar
+          vpiExpr RefTypespec start:7:26 end:7:31:
+            vpiParent: TypeParameter name:bar
+            vpiFullName: foo #(.bar(logic)).bar
+            vpiActual: LogicTypespec
         Parameter name:baz start:10:15 end:10:18:
           vpiParent: Module name:foo #(.bar(logic))
           vpiName: baz
@@ -1277,27 +1281,8 @@ Design name:unnamed:
             vpiParent: Parameter name:baz
             vpiFullName: foo #(.bar(logic)).baz
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:7:20 end:7:31:
-          vpiParent: Module name:foo #(.bar(logic))
-          vpiLhs RefTypespec name:bar start:7:20 end:7:23:
-            vpiParent: ParamAssign
-            vpiName: bar
-            vpiFullName: foo #(.bar(logic)).bar
-            vpiActual: TypeParameter name:bar
-          vpiRhs RefTypespec start:7:26 end:7:31:
-            vpiParent: ParamAssign
-            vpiFullName: foo #(.bar(logic))
-            vpiActual: LogicTypespec
-        ParamAssign start:10:15 end:10:31:
-          vpiParent: Module name:foo #(.bar(logic))
-          vpiLhs RefObj name:baz start:10:15 end:10:18:
-            vpiParent: ParamAssign
-            vpiName: baz
-            vpiFullName: foo #(.bar(logic)).baz
-            vpiActual: Parameter name:baz
-          vpiRhs SysFuncCall name:$bits start:10:21 end:10:31:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$bits start:10:21 end:10:31:
+            vpiParent: Parameter name:baz
             vpiName Identifier name:$bits start:10:21 end:10:26:
             vpiArgument (1 items):
               NamedArgument start:10:27 end:10:30:
@@ -1305,7 +1290,7 @@ Design name:unnamed:
                 vpiHighConn RefTypespec name:bar start:10:27 end:10:30:
                   vpiParent: NamedArgument
                   vpiName: bar
-                  vpiFullName: foo #(.bar(logic)).bar
+                  vpiFullName: foo #(.bar(logic)).baz.bar
                   vpiActual: TypeParameter name:bar
       vpiTypespec (2 items):
         LogicTypespec:
@@ -1380,23 +1365,15 @@ Design name:unnamed:
             vpiParent: Parameter name:bar_bits
             vpiFullName: foo_wrapper #(.bar_bits(9)).bar_bits
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:16:15 end:16:27:
-          vpiParent: Module name:foo_wrapper #(.bar_bits(9))
-          vpiLhs RefObj name:bar_bits start:16:15 end:16:23:
-            vpiParent: ParamAssign
-            vpiName: bar_bits
-            vpiFullName: foo_wrapper #(.bar_bits(9)).bar_bits
-            vpiActual: Parameter name:bar_bits
-          vpiRhs Constant start:16:26 end:16:27:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:16:26 end:16:27:
+            vpiParent: Parameter name:bar_bits
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "9"
             vpiValue: 9
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo_wrapper #(.bar_bits(9))
+              vpiFullName: foo_wrapper #(.bar_bits(9)).bar_bits
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1437,7 +1414,7 @@ Design name:unnamed:
                   vpiFullName: foo_wrapper #(.bar_bits(9))
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.bar(logic [bar_bits-1:0])):
       vpiDefName: foo_wrapper
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_type_param.v"
@@ -1473,7 +1450,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo_inst
             vpiName: foo
             vpiFullName: foo_wrapper #(.bar_bits(9)).foo_inst.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.bar(logic [bar_bits-1:0]))
           vpiArgument (1 items):
             NamedArgument start:19:48 end:19:68:
               vpiParent: RefInstance name:foo_inst
@@ -1579,23 +1556,15 @@ Design name:unnamed:
             vpiParent: Parameter name:bar_bits
             vpiFullName: t.bar_bits
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:42:15 end:42:28:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:bar_bits start:42:15 end:42:23:
-            vpiParent: ParamAssign
-            vpiName: bar_bits
-            vpiFullName: t.bar_bits
-            vpiActual: Parameter name:bar_bits
-          vpiRhs Constant start:42:26 end:42:28:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:42:26 end:42:28:
+            vpiParent: Parameter name:bar_bits
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "13"
             vpiValue: 13
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: t
+              vpiFullName: t.bar_bits
               vpiActual: IntTypespec
       vpiTypespec (11 items):
         LogicTypespec:
@@ -1665,7 +1634,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.bar(logic [$bits(qux1)-1:0])):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1733,7 +1702,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.bar(logic [$bits(qux2)-1:0])):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1801,11 +1770,11 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.bar(logic [$bits(qux3)-1:0])):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:foo_wrapper:
+        ModuleTypespec name:foo_wrapper #(.bar_bits(bar_bits)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_type_param.v"
@@ -2494,7 +2463,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo_inst1
             vpiName: foo
             vpiFullName: t.foo_inst1.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.bar(logic [$bits(qux1)-1:0]))
           vpiArgument (1 items):
             NamedArgument start:28:15 end:28:36:
               vpiParent: RefInstance name:foo_inst1
@@ -2516,7 +2485,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo_inst2
             vpiName: foo
             vpiFullName: t.foo_inst2.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.bar(logic [$bits(qux2)-1:0]))
           vpiArgument (1 items):
             NamedArgument start:34:15 end:34:36:
               vpiParent: RefInstance name:foo_inst2
@@ -2538,7 +2507,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo_inst3
             vpiName: foo
             vpiFullName: t.foo_inst3.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.bar(logic [$bits(qux3)-1:0]))
           vpiArgument (1 items):
             NamedArgument start:40:15 end:40:36:
               vpiParent: RefInstance name:foo_inst3
@@ -2560,7 +2529,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo_wrapper_inst
             vpiName: foo_wrapper
             vpiFullName: t.foo_wrapper_inst.foo_wrapper
-            vpiActual: ModuleTypespec name:foo_wrapper
+            vpiActual: ModuleTypespec name:foo_wrapper #(.bar_bits(bar_bits))
           vpiArgument (1 items):
             NamedArgument start:46:22 end:46:50:
               vpiParent: RefInstance name:foo_wrapper_inst
@@ -2680,7 +2649,7 @@ Design name:unnamed:
                             vpiFullName: t.gen_m
                             vpiActual: IntTypespec
                     vpiVector: true
-                  ModuleTypespec name:foo:
+                  ModuleTypespec name:foo #(.bar(logic [m-1:0])):
                 vpiStmt (2 items):
                   Initial start:94:13 end:100:16:
                     vpiParent: GenBlock name:gen_m
@@ -2770,7 +2739,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo_inst
                       vpiName: foo
                       vpiFullName: t.gen_m.foo_inst.foo
-                      vpiActual: ModuleTypespec name:foo
+                      vpiActual: ModuleTypespec name:foo #(.bar(logic [m-1:0]))
                     vpiArgument (1 items):
                       NamedArgument start:102:50 end:102:62:
                         vpiParent: RefInstance name:foo_inst
@@ -2801,119 +2770,113 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:foo start:27:4 end:27:7:
+    ModuleTypespec name:foo #(.bar(logic [$bits(qux1)-1:0])) start:27:4 end:27:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:27:4 end:27:7:
+      vpiName Identifier name:foo #(.bar(logic [$bits(qux1)-1:0])) start:27:4 end:27:7:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:27:10 end:27:45:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(logic [$bits(qux1)-1:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:bar start:27:11 end:27:14:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(logic [$bits(qux1)-1:0])).bar
             vpiActual: TypeParameter name:bar
           vpiRhs RefTypespec start:27:16 end:27:44:
             vpiParent: ParamAssign
-            vpiFullName: foo
+            vpiFullName: foo #(.bar(logic [$bits(qux1)-1:0]))
             vpiActual: LogicTypespec
       vpiModule: Module name:foo #(.bar(logic))
-    ModuleTypespec name:foo start:33:4 end:33:7:
+    ModuleTypespec name:foo #(.bar(logic [$bits(qux2)-1:0])) start:33:4 end:33:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:33:4 end:33:7:
+      vpiName Identifier name:foo #(.bar(logic [$bits(qux2)-1:0])) start:33:4 end:33:7:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:33:10 end:33:45:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(logic [$bits(qux2)-1:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:bar start:33:11 end:33:14:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(logic [$bits(qux2)-1:0])).bar
             vpiActual: TypeParameter name:bar
           vpiRhs RefTypespec start:33:16 end:33:44:
             vpiParent: ParamAssign
-            vpiFullName: foo
+            vpiFullName: foo #(.bar(logic [$bits(qux2)-1:0]))
             vpiActual: LogicTypespec
       vpiModule: Module name:foo #(.bar(logic))
-    ModuleTypespec name:foo start:39:4 end:39:7:
+    ModuleTypespec name:foo #(.bar(logic [$bits(qux3)-1:0])) start:39:4 end:39:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:39:4 end:39:7:
+      vpiName Identifier name:foo #(.bar(logic [$bits(qux3)-1:0])) start:39:4 end:39:7:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:39:10 end:39:45:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(logic [$bits(qux3)-1:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:bar start:39:11 end:39:14:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(logic [$bits(qux3)-1:0])).bar
             vpiActual: TypeParameter name:bar
           vpiRhs RefTypespec start:39:16 end:39:44:
             vpiParent: ParamAssign
-            vpiFullName: foo
+            vpiFullName: foo #(.bar(logic [$bits(qux3)-1:0]))
             vpiActual: LogicTypespec
       vpiModule: Module name:foo #(.bar(logic))
-    ModuleTypespec name:foo start:19:4 end:19:7:
+    ModuleTypespec name:foo #(.bar(logic [bar_bits-1:0])) start:19:4 end:19:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:19:4 end:19:7:
+      vpiName Identifier name:foo #(.bar(logic [bar_bits-1:0])) start:19:4 end:19:7:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:19:10 end:19:36:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(logic [bar_bits-1:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:bar start:19:11 end:19:14:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(logic [bar_bits-1:0])).bar
             vpiActual: TypeParameter name:bar
           vpiRhs RefTypespec start:19:16 end:19:35:
             vpiParent: ParamAssign
-            vpiFullName: foo
+            vpiFullName: foo #(.bar(logic [bar_bits-1:0]))
             vpiActual: LogicTypespec
       vpiModule: Module name:foo #(.bar(logic))
-    ModuleTypespec name:foo start:102:13 end:102:16:
+    ModuleTypespec name:foo #(.bar(logic [m-1:0])) start:102:13 end:102:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:102:13 end:102:16:
+      vpiName Identifier name:foo #(.bar(logic [m-1:0])) start:102:13 end:102:16:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:102:19 end:102:38:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.bar(logic [m-1:0]))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefTypespec name:bar start:102:20 end:102:23:
             vpiParent: ParamAssign
             vpiName: bar
-            vpiFullName: foo.bar
+            vpiFullName: foo #(.bar(logic [m-1:0])).bar
             vpiActual: TypeParameter name:bar
           vpiRhs RefTypespec start:102:25 end:102:37:
             vpiParent: ParamAssign
-            vpiFullName: foo
+            vpiFullName: foo #(.bar(logic [m-1:0]))
             vpiActual: LogicTypespec
       vpiModule: Module name:foo #(.bar(logic))
-    ModuleTypespec name:foo_wrapper start:45:4 end:45:15:
+    ModuleTypespec name:foo_wrapper #(.bar_bits(bar_bits)) start:45:4 end:45:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo_wrapper start:45:4 end:45:15:
+      vpiName Identifier name:foo_wrapper #(.bar_bits(bar_bits)) start:45:4 end:45:15:
       vpiDefName: foo_wrapper
       vpiParamAssign (1 items):
         ParamAssign start:45:18 end:45:38:
-          vpiParent: ModuleTypespec name:foo_wrapper
+          vpiParent: ModuleTypespec name:foo_wrapper #(.bar_bits(bar_bits))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:bar_bits start:45:19 end:45:27:
             vpiParent: ParamAssign
             vpiName: bar_bits
-            vpiFullName: foo_wrapper.bar_bits
+            vpiFullName: foo_wrapper #(.bar_bits(bar_bits)).bar_bits
             vpiActual: Parameter name:bar_bits
           vpiRhs RefObj name:bar_bits start:45:29 end:45:37:
             vpiParent: ParamAssign
             vpiName: bar_bits
-            vpiFullName: foo_wrapper.bar_bits
+            vpiFullName: foo_wrapper #(.bar_bits(bar_bits)).bar_bits
             vpiActual: Parameter name:bar_bits
       vpiModule: Module name:foo_wrapper #(.bar_bits(9))
   vpiLibrary (1 items):
@@ -2969,10 +2932,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            31      31       1         1
 Operation                           15      14       0         1
-RefObj                              89      88       0         1
-RefTypespec                         64      64       1         1
+RefObj                              86      85       0         1
+RefTypespec                         63      63       1         1
 ----------------------------------------------------------------
-Others                             235     235       0         0
+Others                             231     231       0         0
 ----------------------------------------------------------------
-                                   434     432       2         4
+                                   426     424       2         4
 ===================== END REDUCTION RESULT =====================

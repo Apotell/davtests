@@ -270,28 +270,20 @@ Design name:unnamed:
             vpiParent: Parameter name:SRAMInitFile
             vpiFullName: dut.SRAMInitFile
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:4:14 end:4:40:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:SRAMInitFile start:4:14 end:4:26:
-            vpiParent: ParamAssign
-            vpiName: SRAMInitFile
-            vpiFullName: dut.SRAMInitFile
-            vpiActual: Parameter name:SRAMInitFile
-          vpiRhs Constant start:1:20 end:1:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:1:20 end:1:22:
+            vpiParent: Parameter name:SRAMInitFile
             vpiConstType: string (6)
             vpiDecompile: "\"\""
             vpiValue: ""
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut.SRAMInitFile
               vpiActual: StringTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
           vpiScalar: true
-        ModuleTypespec name:ram_1p:
+        ModuleTypespec name:ram_1p #(.MemInitFile(SRAMInitFile)):
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -327,7 +319,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_ram
             vpiName: ram_1p
             vpiFullName: dut.u_ram.ram_1p
-            vpiActual: ModuleTypespec name:ram_1p
+            vpiActual: ModuleTypespec name:ram_1p #(.MemInitFile(SRAMInitFile))
           vpiArgument (1 items):
             NamedArgument start:8:12 end:8:19:
               vpiParent: RefInstance name:u_ram
@@ -366,22 +358,14 @@ Design name:unnamed:
             vpiParent: Parameter name:MemInitFile
             vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:23 end:13:39:
-          vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
-          vpiLhs RefObj name:MemInitFile start:13:23 end:13:34:
-            vpiParent: ParamAssign
-            vpiName: MemInitFile
-            vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
-            vpiActual: Parameter name:MemInitFile
-          vpiRhs Constant start:13:37 end:13:39:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:13:37 end:13:39:
+            vpiParent: Parameter name:MemInitFile
             vpiConstType: string (6)
             vpiDecompile: "\"\""
             vpiValue: ""
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ram_1p #(.MemInitFile(""))
+              vpiFullName: ram_1p #(.MemInitFile("")).MemInitFile
               vpiActual: StringTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -566,24 +550,23 @@ Design name:unnamed:
       vpiName Identifier name:ram_1p start:12:8 end:12:14:
       vpiDefName: ram_1p
       vpiModule: "Module name:ram_1p #(.MemInitFile(\"\"))"
-    ModuleTypespec name:ram_1p start:5:4 end:5:10:
+    ModuleTypespec name:ram_1p #(.MemInitFile(SRAMInitFile)) start:5:4 end:5:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ram_1p start:5:4 end:5:10:
+      vpiName Identifier name:ram_1p #(.MemInitFile(SRAMInitFile)) start:5:4 end:5:10:
       vpiDefName: ram_1p
       vpiParamAssign (1 items):
         ParamAssign start:6:6 end:6:32:
-          vpiParent: ModuleTypespec name:ram_1p
+          vpiParent: ModuleTypespec name:ram_1p #(.MemInitFile(SRAMInitFile))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:MemInitFile start:6:7 end:6:18:
             vpiParent: ParamAssign
             vpiName: MemInitFile
-            vpiFullName: ram_1p.MemInitFile
+            vpiFullName: ram_1p #(.MemInitFile(SRAMInitFile)).MemInitFile
             vpiActual: Parameter name:MemInitFile
           vpiRhs RefObj name:SRAMInitFile start:6:19 end:6:31:
             vpiParent: ParamAssign
             vpiName: SRAMInitFile
-            vpiFullName: ram_1p.SRAMInitFile
+            vpiFullName: ram_1p #(.MemInitFile(SRAMInitFile)).SRAMInitFile
             vpiActual: Parameter name:SRAMInitFile
       vpiModule: "Module name:ram_1p #(.MemInitFile(\"\"))"
   vpiLibrary (1 items):
@@ -638,7 +621,7 @@ COMMAND: ${HLC_DIR}/regression/ParamFile/ParamFile/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

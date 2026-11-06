@@ -239,23 +239,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ADDR_SPACE_DEBUG_MEM
             vpiFullName: tl_main_pkg::ADDR_SPACE_DEBUG_MEM
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:19 end:2:43:
-          vpiParent: Package name:tl_main_pkg
-          vpiLhs RefObj name:ADDR_SPACE_DEBUG_MEM start:2:19 end:2:39:
-            vpiParent: ParamAssign
-            vpiName: ADDR_SPACE_DEBUG_MEM
-            vpiFullName: tl_main_pkg::ADDR_SPACE_DEBUG_MEM
-            vpiActual: Parameter name:ADDR_SPACE_DEBUG_MEM
-          vpiRhs Constant start:2:42 end:2:43:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:42 end:2:43:
+            vpiParent: Parameter name:ADDR_SPACE_DEBUG_MEM
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: tl_main_pkg
+              vpiFullName: tl_main_pkg::ADDR_SPACE_DEBUG_MEM
               vpiActual: IntTypespec
       vpiDefName: tl_main_pkg
       vpiDefNetType: wire (1)
@@ -281,6 +273,16 @@ Design name:unnamed:
             vpiParent: Parameter name:HaltAddress
             vpiFullName: dm::HaltAddress
             vpiActual: IntTypespec
+          vpiExpr Constant start:6:33 end:6:35:
+            vpiParent: Parameter name:HaltAddress
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dm::HaltAddress
+              vpiActual: IntTypespec
         Parameter name:ExceptionAddress start:7:28 end:7:44:
           vpiParent: Package name:dm
           vpiName: ExceptionAddress
@@ -290,39 +292,14 @@ Design name:unnamed:
             vpiParent: Parameter name:ExceptionAddress
             vpiFullName: dm::ExceptionAddress
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:6:19 end:6:35:
-          vpiParent: Package name:dm
-          vpiLhs RefObj name:HaltAddress start:6:19 end:6:30:
-            vpiParent: ParamAssign
-            vpiName: HaltAddress
-            vpiFullName: dm::HaltAddress
-            vpiActual: Parameter name:HaltAddress
-          vpiRhs Constant start:6:33 end:6:35:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "10"
-            vpiValue: 10
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: dm
-              vpiActual: IntTypespec
-        ParamAssign start:7:28 end:7:62:
-          vpiParent: Package name:dm
-          vpiLhs RefObj name:ExceptionAddress start:7:28 end:7:44:
-            vpiParent: ParamAssign
-            vpiName: ExceptionAddress
-            vpiFullName: dm::ExceptionAddress
-            vpiActual: Parameter name:ExceptionAddress
-          vpiRhs Operation start:7:47 end:7:62:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:7:47 end:7:62:
+            vpiParent: Parameter name:ExceptionAddress
             vpiOpType: add (24)
             vpiOperand (2 items):
               RefObj name:HaltAddress start:7:47 end:7:58:
                 vpiParent: Operation
                 vpiName: HaltAddress
-                vpiFullName: dm::HaltAddress
+                vpiFullName: dm::ExceptionAddress::HaltAddress
                 vpiActual: Parameter name:HaltAddress
               Constant start:7:61 end:7:62:
                 vpiParent: Operation
@@ -332,7 +309,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: dm
+                  vpiFullName: dm::ExceptionAddress
                   vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -391,7 +368,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: top_earlgrey.tl_main_pkg
               vpiActual: StringTypespec
-        ModuleTypespec name:rv_core_ibex:
+        ModuleTypespec name:rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)):
       vpiDefName: top_earlgrey
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -412,7 +389,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_rv_core_ibex
             vpiName: rv_core_ibex
             vpiFullName: top_earlgrey.u_rv_core_ibex.rv_core_ibex
-            vpiActual: ModuleTypespec name:rv_core_ibex
+            vpiActual: ModuleTypespec name:rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress))
     Module name:rv_core_ibex file:$Source01/dut.sv start:18:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:rv_core_ibex start:18:8 end:18:20:
@@ -426,26 +403,18 @@ Design name:unnamed:
             vpiParent: Parameter name:DmExceptionAddr
             vpiFullName: rv_core_ibex.DmExceptionAddr
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:19:27 end:19:46:
-          vpiParent: Module name:rv_core_ibex
-          vpiLhs RefObj name:DmExceptionAddr start:19:27 end:19:42:
-            vpiParent: ParamAssign
-            vpiName: DmExceptionAddr
-            vpiFullName: rv_core_ibex.DmExceptionAddr
-            vpiActual: Parameter name:DmExceptionAddr
-          vpiRhs Constant start:19:45 end:19:46:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:19:45 end:19:46:
+            vpiParent: Parameter name:DmExceptionAddr
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "3"
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: rv_core_ibex
+              vpiFullName: rv_core_ibex.DmExceptionAddr
               vpiActual: IntTypespec
       vpiTypespec (1 items):
-        ModuleTypespec name:ibex_core:
+        ModuleTypespec name:ibex_core #(.DmExceptionAddr(DmExceptionAddr)):
       vpiDefName: rv_core_ibex
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -466,7 +435,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_core
             vpiName: ibex_core
             vpiFullName: rv_core_ibex.u_core.ibex_core
-            vpiActual: ModuleTypespec name:ibex_core
+            vpiActual: ModuleTypespec name:ibex_core #(.DmExceptionAddr(DmExceptionAddr))
     Module name:ibex_core file:$Source01/dut.sv start:25:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:ibex_core start:25:8 end:25:17:
@@ -480,23 +449,15 @@ Design name:unnamed:
             vpiParent: Parameter name:DmExceptionAddr
             vpiFullName: ibex_core.DmExceptionAddr
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:26:27 end:26:46:
-          vpiParent: Module name:ibex_core
-          vpiLhs RefObj name:DmExceptionAddr start:26:27 end:26:42:
-            vpiParent: ParamAssign
-            vpiName: DmExceptionAddr
-            vpiFullName: ibex_core.DmExceptionAddr
-            vpiActual: Parameter name:DmExceptionAddr
-          vpiRhs Constant start:26:45 end:26:46:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:26:45 end:26:46:
+            vpiParent: Parameter name:DmExceptionAddr
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ibex_core
+              vpiFullName: ibex_core.DmExceptionAddr
               vpiActual: IntTypespec
       vpiDefName: ibex_core
       vpiDefNetType: wire (1)
@@ -533,39 +494,37 @@ Design name:unnamed:
       vpiName Identifier name:ibex_core start:25:8 end:25:17:
       vpiDefName: ibex_core
       vpiModule: Module name:ibex_core
-    ModuleTypespec name:ibex_core start:20:4 end:20:13:
+    ModuleTypespec name:ibex_core #(.DmExceptionAddr(DmExceptionAddr)) start:20:4 end:20:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ibex_core start:20:4 end:20:13:
+      vpiName Identifier name:ibex_core #(.DmExceptionAddr(DmExceptionAddr)) start:20:4 end:20:13:
       vpiDefName: ibex_core
       vpiParamAssign (1 items):
         ParamAssign start:21:7 end:21:40:
-          vpiParent: ModuleTypespec name:ibex_core
+          vpiParent: ModuleTypespec name:ibex_core #(.DmExceptionAddr(DmExceptionAddr))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:DmExceptionAddr start:21:8 end:21:23:
             vpiParent: ParamAssign
             vpiName: DmExceptionAddr
-            vpiFullName: ibex_core.DmExceptionAddr
+            vpiFullName: ibex_core #(.DmExceptionAddr(DmExceptionAddr)).DmExceptionAddr
             vpiActual: Parameter name:DmExceptionAddr
           vpiRhs RefObj name:DmExceptionAddr start:21:24 end:21:39:
             vpiParent: ParamAssign
             vpiName: DmExceptionAddr
-            vpiFullName: ibex_core.DmExceptionAddr
+            vpiFullName: ibex_core #(.DmExceptionAddr(DmExceptionAddr)).DmExceptionAddr
             vpiActual: Parameter name:DmExceptionAddr
       vpiModule: Module name:ibex_core
-    ModuleTypespec name:rv_core_ibex start:13:3 end:13:15:
+    ModuleTypespec name:rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)) start:13:3 end:13:15:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:rv_core_ibex start:13:3 end:13:15:
+      vpiName Identifier name:rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)) start:13:3 end:13:15:
       vpiDefName: rv_core_ibex
       vpiParamAssign (1 items):
         ParamAssign start:14:6 end:14:67:
-          vpiParent: ModuleTypespec name:rv_core_ibex
+          vpiParent: ModuleTypespec name:rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:DmExceptionAddr start:14:7 end:14:22:
             vpiParent: ParamAssign
             vpiName: DmExceptionAddr
-            vpiFullName: rv_core_ibex.DmExceptionAddr
+            vpiFullName: rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)).DmExceptionAddr
             vpiActual: Parameter name:DmExceptionAddr
           vpiRhs Operation start:14:23 end:14:66:
             vpiParent: ParamAssign
@@ -574,22 +533,22 @@ Design name:unnamed:
               RefObj name:ADDR_SPACE_DEBUG_MEM start:14:23 end:14:43:
                 vpiParent: Operation
                 vpiName: ADDR_SPACE_DEBUG_MEM
-                vpiFullName: rv_core_ibex.ADDR_SPACE_DEBUG_MEM
+                vpiFullName: rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)).ADDR_SPACE_DEBUG_MEM
                 vpiActual: Parameter name:ADDR_SPACE_DEBUG_MEM
               RefObj name:dm::ExceptionAddress start:14:46 end:14:66:
                 vpiParent: Operation
                 vpiName: dm::ExceptionAddress
-                vpiFullName: rv_core_ibex.dm::ExceptionAddress
+                vpiFullName: rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)).dm::ExceptionAddress
                 vpiPathElem (2 items):
                   RefObj name:dm start:14:46 end:14:48:
                     vpiParent: RefObj name:dm::ExceptionAddress
                     vpiName: dm
-                    vpiFullName: rv_core_ibex.dm
+                    vpiFullName: rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)).dm
                     vpiActual: Package name:dm
                   RefObj name:ExceptionAddress start:14:50 end:14:66:
                     vpiParent: RefObj name:dm::ExceptionAddress
                     vpiName: ExceptionAddress
-                    vpiFullName: rv_core_ibex.ExceptionAddress
+                    vpiFullName: rv_core_ibex #(.DmExceptionAddr(ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress)).ExceptionAddress
                     vpiActual: Parameter name:ExceptionAddress
                 vpiActual: Parameter name:ExceptionAddress
       vpiModule: Module name:rv_core_ibex
@@ -646,10 +605,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       1         1
 Operation                            2       1       0         1
-RefObj                              18      17       0         1
+RefObj                              13      12       0         1
 RefTypespec                         15      15       1         1
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    89      87       2         4
+                                    79      77       2         4
 ===================== END REDUCTION RESULT =====================

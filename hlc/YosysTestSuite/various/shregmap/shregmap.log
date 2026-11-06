@@ -911,6 +911,16 @@ Design name:unnamed:
         vpiParent: Parameter name:DEPTH
         vpiFullName: DEPTH
         vpiActual: LogicTypespec
+      vpiExpr Constant start:16:19 end:16:20:
+        vpiParent: Parameter name:DEPTH
+        vpiConstType: int (7)
+        vpiSize: 32
+        vpiDecompile: "1"
+        vpiValue: 1
+        vpiTypespec RefTypespec:
+          vpiParent: Constant
+          vpiFullName: DEPTH
+          vpiActual: IntTypespec
     Parameter name:INIT start:17:23 end:17:27:
       vpiParent: Design name:unnamed
       vpiName: INIT
@@ -920,38 +930,14 @@ Design name:unnamed:
         vpiParent: Parameter name:INIT
         vpiFullName: INIT
         vpiActual: LogicTypespec
-  vpiParamAssign (2 items):
-    ParamAssign start:16:11 end:16:20:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:DEPTH start:16:11 end:16:16:
-        vpiParent: ParamAssign
-        vpiName: DEPTH
-        vpiFullName: DEPTH
-        vpiActual: Parameter name:DEPTH
-      vpiRhs Constant start:16:19 end:16:20:
-        vpiParent: ParamAssign
-        vpiConstType: int (7)
-        vpiSize: 32
-        vpiDecompile: "1"
-        vpiValue: 1
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: IntTypespec
-    ParamAssign start:17:23 end:17:43:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:INIT start:17:23 end:17:27:
-        vpiParent: ParamAssign
-        vpiName: INIT
-        vpiFullName: INIT
-        vpiActual: Parameter name:INIT
-      vpiRhs Operation start:17:30 end:17:43:
-        vpiParent: ParamAssign
+      vpiExpr Operation start:17:30 end:17:43:
+        vpiParent: Parameter name:INIT
         vpiOpType: multi-concatenation (34)
         vpiOperand (2 items):
           RefObj name:DEPTH start:17:31 end:17:36:
             vpiParent: Operation
             vpiName: DEPTH
-            vpiFullName: DEPTH
+            vpiFullName: INIT.DEPTH
             vpiActual: Parameter name:DEPTH
           Operation start:17:36 end:17:42:
             vpiParent: Operation
@@ -965,6 +951,7 @@ Design name:unnamed:
                 vpiValue: "0"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
+                  vpiFullName: INIT
                   vpiActual: BitTypespec
   vpiVariable (1 items):
     Variable name:r start:18:17 end:18:18:
@@ -1033,11 +1020,12 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/various/shregmap/design.hldb ${HLC
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            21      20       0         1
-Operation                            8       7       0         1
-RefTypespec                         33      32       0         1
+Constant                            21      21       3         3
+Operation                            8       4       0         4
+RefObj                              20      17       0         3
+RefTypespec                         33      32       2         3
 ----------------------------------------------------------------
-Others                              77      77       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                   139     136       0         3
+                                   135     127       5        13
 ===================== END REDUCTION RESULT =====================

@@ -309,6 +309,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: pkg::Width
             vpiActual: IntTypespec
+          vpiExpr Constant start:2:30 end:2:32:
+            vpiParent: Parameter name:Width
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "64"
+            vpiValue: 64
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: pkg::Width
+              vpiActual: IntTypespec
         Parameter name:InitDefault start:7:21 end:7:32:
           vpiParent: Package name:pkg
           vpiName: InitDefault
@@ -319,40 +329,15 @@ Design name:unnamed:
             vpiName: init_t
             vpiFullName: pkg::InitDefault::init_t
             vpiActual: TypedefTypespec name:init_t
-      vpiParamAssign (2 items):
-        ParamAssign start:2:17 end:2:32:
-          vpiParent: Package name:pkg
-          vpiLhs RefObj name:Width start:2:17 end:2:22:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: pkg::Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:2:30 end:2:32:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "64"
-            vpiValue: 64
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: pkg
-              vpiActual: IntTypespec
-        ParamAssign start:7:21 end:7:37:
-          vpiParent: Package name:pkg
-          vpiLhs RefObj name:InitDefault start:7:21 end:7:32:
-            vpiParent: ParamAssign
-            vpiName: InitDefault
-            vpiFullName: pkg::InitDefault
-            vpiActual: Parameter name:InitDefault
-          vpiRhs Constant start:7:35 end:7:37:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:35 end:7:37:
+            vpiParent: Parameter name:InitDefault
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'1"
             vpiValue: "1"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: pkg
+              vpiFullName: pkg::InitDefault
               vpiActual: BitTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -428,23 +413,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ResetValue
             vpiFullName: "foo2 #(.ResetValue('0)).ResetValue"
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:10:38 end:10:53:
-          vpiParent: "Module name:foo2 #(.ResetValue('0))"
-          vpiLhs RefObj name:ResetValue start:10:38 end:10:48:
-            vpiParent: ParamAssign
-            vpiName: ResetValue
-            vpiFullName: "foo2 #(.ResetValue('0)).ResetValue"
-            vpiActual: Parameter name:ResetValue
-          vpiRhs Constant start:10:51 end:10:53:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:10:51 end:10:53:
+            vpiParent: Parameter name:ResetValue
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "foo2 #(.ResetValue('0))"
+              vpiFullName: "foo2 #(.ResetValue('0)).ResetValue"
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -505,23 +482,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ResetValue
             vpiFullName: "foo #(.ResetValue('0)).ResetValue"
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:37 end:13:52:
-          vpiParent: "Module name:foo #(.ResetValue('0))"
-          vpiLhs RefObj name:ResetValue start:13:37 end:13:47:
-            vpiParent: ParamAssign
-            vpiName: ResetValue
-            vpiFullName: "foo #(.ResetValue('0)).ResetValue"
-            vpiActual: Parameter name:ResetValue
-          vpiRhs Constant start:13:50 end:13:52:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:13:50 end:13:52:
+            vpiParent: Parameter name:ResetValue
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "foo #(.ResetValue('0))"
+              vpiFullName: "foo #(.ResetValue('0)).ResetValue"
               vpiActual: BitTypespec
       vpiTypespec (3 items):
         BitTypespec:
@@ -552,7 +521,7 @@ Design name:unnamed:
                   vpiFullName: "foo #(.ResetValue('0))"
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:foo2:
+        ModuleTypespec name:foo2 #(.ResetValue(ResetValue)):
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -578,7 +547,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:f
             vpiName: foo2
             vpiFullName: "foo #(.ResetValue('0)).f.foo2"
-            vpiActual: ModuleTypespec name:foo2
+            vpiActual: ModuleTypespec name:foo2 #(.ResetValue(ResetValue))
     Module name:dut #(.Init(InitDefault)) file:$Source01/dut.sv start:17:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut #(.Init(InitDefault)) start:17:8 end:17:11:
@@ -593,18 +562,10 @@ Design name:unnamed:
             vpiName: init_t
             vpiFullName: dut #(.Init(InitDefault)).Init.init_t
             vpiActual: TypedefTypespec name:init_t
-      vpiParamAssign (1 items):
-        ParamAssign start:17:46 end:17:64:
-          vpiParent: Module name:dut #(.Init(InitDefault))
-          vpiLhs RefObj name:Init start:17:46 end:17:50:
-            vpiParent: ParamAssign
-            vpiName: Init
-            vpiFullName: dut #(.Init(InitDefault)).Init
-            vpiActual: Parameter name:Init
-          vpiRhs RefObj name:InitDefault start:17:53 end:17:64:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:InitDefault start:17:53 end:17:64:
+            vpiParent: Parameter name:Init
             vpiName: InitDefault
-            vpiFullName: dut #(.Init(InitDefault)).InitDefault
+            vpiFullName: dut #(.Init(InitDefault)).Init.InitDefault
             vpiActual: Parameter name:InitDefault
       vpiTypespec (2 items):
         ImportTypespec name:pkg start:17:19 end:17:25:
@@ -620,7 +581,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: dut #(.Init(InitDefault)).pkg
               vpiActual: StringTypespec
-        ModuleTypespec name:foo:
+        ModuleTypespec name:foo #(.ResetValue(Init.key)):
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -646,7 +607,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:f
             vpiName: foo
             vpiFullName: dut #(.Init(InitDefault)).f.foo
-            vpiActual: ModuleTypespec name:foo
+            vpiActual: ModuleTypespec name:foo #(.ResetValue(Init.key))
     Module name:top file:$Source01/dut.sv start:21:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:21:8 end:21:11:
@@ -705,54 +666,52 @@ Design name:unnamed:
       vpiName Identifier name:top start:21:8 end:21:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:foo2 start:14:3 end:14:7:
+    ModuleTypespec name:foo2 #(.ResetValue(ResetValue)) start:14:3 end:14:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo2 start:14:3 end:14:7:
+      vpiName Identifier name:foo2 #(.ResetValue(ResetValue)) start:14:3 end:14:7:
       vpiDefName: foo2
       vpiParamAssign (1 items):
         ParamAssign start:14:10 end:14:33:
-          vpiParent: ModuleTypespec name:foo2
+          vpiParent: ModuleTypespec name:foo2 #(.ResetValue(ResetValue))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:ResetValue start:14:11 end:14:21:
             vpiParent: ParamAssign
             vpiName: ResetValue
-            vpiFullName: foo2.ResetValue
+            vpiFullName: foo2 #(.ResetValue(ResetValue)).ResetValue
             vpiActual: Parameter name:ResetValue
           vpiRhs RefObj name:ResetValue start:14:22 end:14:32:
             vpiParent: ParamAssign
             vpiName: ResetValue
-            vpiFullName: foo2.ResetValue
+            vpiFullName: foo2 #(.ResetValue(ResetValue)).ResetValue
             vpiActual: Parameter name:ResetValue
       vpiModule: "Module name:foo2 #(.ResetValue('0))"
-    ModuleTypespec name:foo start:18:3 end:18:6:
+    ModuleTypespec name:foo #(.ResetValue(Init.key)) start:18:3 end:18:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:18:3 end:18:6:
+      vpiName Identifier name:foo #(.ResetValue(Init.key)) start:18:3 end:18:6:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:18:9 end:18:30:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.ResetValue(Init.key))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:ResetValue start:18:10 end:18:20:
             vpiParent: ParamAssign
             vpiName: ResetValue
-            vpiFullName: foo.ResetValue
+            vpiFullName: foo #(.ResetValue(Init.key)).ResetValue
             vpiActual: Parameter name:ResetValue
           vpiRhs RefObj name:Init.key start:18:21 end:18:29:
             vpiParent: ParamAssign
             vpiName: Init.key
-            vpiFullName: foo.Init.key
+            vpiFullName: foo #(.ResetValue(Init.key)).Init.key
             vpiPathElem (2 items):
               RefObj name:Init start:18:21 end:18:25:
                 vpiParent: RefObj name:Init.key
                 vpiName: Init
-                vpiFullName: foo.Init
+                vpiFullName: foo #(.ResetValue(Init.key)).Init
                 vpiActual: Parameter name:Init
               RefObj name:key start:18:26 end:18:29:
                 vpiParent: RefObj name:Init.key
                 vpiName: key
-                vpiFullName: foo.key
+                vpiFullName: foo #(.ResetValue(Init.key)).key
                 vpiActual: TypespecMember name:key
             vpiActual: TypespecMember name:key
       vpiModule: "Module name:foo #(.ResetValue('0))"
@@ -809,10 +768,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      11       1         1
 Operation                            1       0       0         1
-RefObj                              18      17       0         1
+RefObj                              13      12       0         1
 RefTypespec                         22      22       1         1
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                   121     119       2         4
+                                   111     109       2         4
 ===================== END REDUCTION RESULT =====================

@@ -101,14 +101,6 @@ Design name:unnamed:
             vpiParent: Parameter name:RESVAL
             vpiFullName: dut.RESVAL
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:26 end:2:32:
-          vpiParent: Module name:dut
-          vpiLhs RefObj name:RESVAL start:2:26 end:2:32:
-            vpiParent: ParamAssign
-            vpiName: RESVAL
-            vpiFullName: dut.RESVAL
-            vpiActual: Parameter name:RESVAL
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -153,7 +145,7 @@ Design name:unnamed:
       vpiName Identifier name:top start:5:8 end:5:11:
       vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:dut:
+        "ModuleTypespec name:dut #(.RESVAL(~2'h0))":
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -174,7 +166,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_dut
             vpiName: dut
             vpiFullName: top.u_dut.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: "ModuleTypespec name:dut #(.RESVAL(~2'h0))"
   vpiTypespec (5 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
@@ -191,19 +183,18 @@ Design name:unnamed:
       vpiModule: Module name:top
     IntTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:dut start:6:4 end:6:7:
+    "ModuleTypespec name:dut #(.RESVAL(~2'h0)) start:6:4 end:6:7":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:6:4 end:6:7:
+      "vpiName Identifier name:dut #(.RESVAL(~2'h0)) start:6:4 end:6:7":
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:7:7 end:7:23:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: "ModuleTypespec name:dut #(.RESVAL(~2'h0))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:RESVAL start:7:8 end:7:14:
             vpiParent: ParamAssign
             vpiName: RESVAL
-            vpiFullName: dut.RESVAL
+            vpiFullName: "dut #(.RESVAL(~2'h0)).RESVAL"
             vpiActual: Parameter name:RESVAL
           vpiRhs Operation start:7:15 end:7:22:
             vpiParent: ParamAssign
@@ -217,7 +208,7 @@ Design name:unnamed:
                 vpiValue: "0"
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: dut
+                  vpiFullName: "dut #(.RESVAL(~2'h0))"
                   vpiActual: IntTypespec
       vpiModule: Module name:dut
   vpiLibrary (1 items):
@@ -275,7 +266,7 @@ Constant                             3       3       1         1
 Operation                            1       0       0         1
 RefTypespec                          5       5       1         1
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    35      34       2         3
+                                    33      32       2         3
 ===================== END REDUCTION RESULT =====================

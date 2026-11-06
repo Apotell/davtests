@@ -797,6 +797,16 @@ Design name:unnamed:
             vpiParent: Parameter name:NUM_FP_FORMATS
             vpiFullName: fpnew_pkg::NUM_FP_FORMATS
             vpiActual: IntTypespec
+          vpiExpr Constant start:3:44 end:3:45:
+            vpiParent: Parameter name:NUM_FP_FORMATS
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "5"
+            vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fpnew_pkg::NUM_FP_FORMATS
+              vpiActual: IntTypespec
         Parameter name:FP_FORMAT_BITS start:4:27 end:4:41:
           vpiParent: Package name:fpnew_pkg
           vpiName: FP_FORMAT_BITS
@@ -806,6 +816,17 @@ Design name:unnamed:
             vpiParent: Parameter name:FP_FORMAT_BITS
             vpiFullName: fpnew_pkg::FP_FORMAT_BITS
             vpiActual: IntTypespec
+          vpiExpr SysFuncCall name:$clog2 start:4:44 end:4:66:
+            vpiParent: Parameter name:FP_FORMAT_BITS
+            vpiName Identifier name:$clog2 start:4:44 end:4:50:
+            vpiArgument (1 items):
+              NamedArgument start:4:51 end:4:65:
+                vpiParent: SysFuncCall name:$clog2
+                vpiHighConn RefObj name:NUM_FP_FORMATS start:4:51 end:4:65:
+                  vpiParent: NamedArgument
+                  vpiName: NUM_FP_FORMATS
+                  vpiFullName: fpnew_pkg::FP_FORMAT_BITS::NUM_FP_FORMATS
+                  vpiActual: Parameter name:NUM_FP_FORMATS
         Parameter name:FP_ENCODINGS start:20:49 end:20:61:
           vpiParent: Package name:fpnew_pkg
           vpiName: FP_ENCODINGS
@@ -816,60 +837,8 @@ Design name:unnamed:
             vpiName: fp_encoding_t [0:NUM_FP_FORMATS-1]
             vpiFullName: fpnew_pkg::FP_ENCODINGS::fp_encoding_t [0:NUM_FP_FORMATS-1]
             vpiActual: ArrayTypespec
-        Parameter name:RV64D_Xsflt start:29:29 end:29:40:
-          vpiParent: Package name:fpnew_pkg
-          vpiName: RV64D_Xsflt
-          vpiFullName: fpnew_pkg::RV64D_Xsflt
-          vpiLocalParam: true
-          vpiTypespec RefTypespec name:fpu_features_t start:29:14 end:29:28:
-            vpiParent: Parameter name:RV64D_Xsflt
-            vpiName: fpu_features_t
-            vpiFullName: fpnew_pkg::RV64D_Xsflt::fpu_features_t
-      vpiParamAssign (4 items):
-        ParamAssign start:3:27 end:3:45:
-          vpiParent: Package name:fpnew_pkg
-          vpiLhs RefObj name:NUM_FP_FORMATS start:3:27 end:3:41:
-            vpiParent: ParamAssign
-            vpiName: NUM_FP_FORMATS
-            vpiFullName: fpnew_pkg::NUM_FP_FORMATS
-            vpiActual: Parameter name:NUM_FP_FORMATS
-          vpiRhs Constant start:3:44 end:3:45:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "5"
-            vpiValue: 5
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: fpnew_pkg
-              vpiActual: IntTypespec
-        ParamAssign start:4:27 end:4:66:
-          vpiParent: Package name:fpnew_pkg
-          vpiLhs RefObj name:FP_FORMAT_BITS start:4:27 end:4:41:
-            vpiParent: ParamAssign
-            vpiName: FP_FORMAT_BITS
-            vpiFullName: fpnew_pkg::FP_FORMAT_BITS
-            vpiActual: Parameter name:FP_FORMAT_BITS
-          vpiRhs SysFuncCall name:$clog2 start:4:44 end:4:66:
-            vpiParent: ParamAssign
-            vpiName Identifier name:$clog2 start:4:44 end:4:50:
-            vpiArgument (1 items):
-              NamedArgument start:4:51 end:4:65:
-                vpiParent: SysFuncCall name:$clog2
-                vpiHighConn RefObj name:NUM_FP_FORMATS start:4:51 end:4:65:
-                  vpiParent: NamedArgument
-                  vpiName: NUM_FP_FORMATS
-                  vpiFullName: fpnew_pkg::NUM_FP_FORMATS
-                  vpiActual: Parameter name:NUM_FP_FORMATS
-        ParamAssign start:20:49 end:27:4:
-          vpiParent: Package name:fpnew_pkg
-          vpiLhs RefObj name:FP_ENCODINGS start:20:49 end:20:61:
-            vpiParent: ParamAssign
-            vpiName: FP_ENCODINGS
-            vpiFullName: fpnew_pkg::FP_ENCODINGS
-            vpiActual: Parameter name:FP_ENCODINGS
-          vpiRhs Operation start:20:65 end:27:4:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:20:65 end:27:4:
+            vpiParent: Parameter name:FP_ENCODINGS
             vpiOpType: assign pattern (87)
             vpiOperand (5 items):
               Operation start:21:5 end:21:14:
@@ -884,7 +853,7 @@ Design name:unnamed:
                     vpiValue: 8
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
                   Constant start:21:11 end:21:13:
                     vpiParent: Operation
@@ -894,7 +863,7 @@ Design name:unnamed:
                     vpiValue: 23
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
               Operation start:22:5 end:22:14:
                 vpiParent: Operation
@@ -908,7 +877,7 @@ Design name:unnamed:
                     vpiValue: 11
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
                   Constant start:22:11 end:22:13:
                     vpiParent: Operation
@@ -918,7 +887,7 @@ Design name:unnamed:
                     vpiValue: 52
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
               Operation start:23:5 end:23:14:
                 vpiParent: Operation
@@ -932,7 +901,7 @@ Design name:unnamed:
                     vpiValue: 5
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
                   Constant start:23:11 end:23:13:
                     vpiParent: Operation
@@ -942,7 +911,7 @@ Design name:unnamed:
                     vpiValue: 10
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
               Operation start:24:5 end:24:13:
                 vpiParent: Operation
@@ -956,7 +925,7 @@ Design name:unnamed:
                     vpiValue: 5
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
                   Constant start:24:11 end:24:12:
                     vpiParent: Operation
@@ -966,7 +935,7 @@ Design name:unnamed:
                     vpiValue: 2
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
               Operation start:25:5 end:25:13:
                 vpiParent: Operation
@@ -980,7 +949,7 @@ Design name:unnamed:
                     vpiValue: 8
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
                   Constant start:25:11 end:25:12:
                     vpiParent: Operation
@@ -990,17 +959,19 @@ Design name:unnamed:
                     vpiValue: 7
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: fpnew_pkg
+                      vpiFullName: fpnew_pkg::FP_ENCODINGS
                       vpiActual: IntTypespec
-        ParamAssign start:29:29 end:35:4:
+        Parameter name:RV64D_Xsflt start:29:29 end:29:40:
           vpiParent: Package name:fpnew_pkg
-          vpiLhs RefObj name:RV64D_Xsflt start:29:29 end:29:40:
-            vpiParent: ParamAssign
-            vpiName: RV64D_Xsflt
-            vpiFullName: fpnew_pkg::RV64D_Xsflt
-            vpiActual: Parameter name:RV64D_Xsflt
-          vpiRhs Operation start:29:43 end:35:4:
-            vpiParent: ParamAssign
+          vpiName: RV64D_Xsflt
+          vpiFullName: fpnew_pkg::RV64D_Xsflt
+          vpiLocalParam: true
+          vpiTypespec RefTypespec name:fpu_features_t start:29:14 end:29:28:
+            vpiParent: Parameter name:RV64D_Xsflt
+            vpiName: fpu_features_t
+            vpiFullName: fpnew_pkg::RV64D_Xsflt::fpu_features_t
+          vpiExpr Operation start:29:43 end:35:4:
+            vpiParent: Parameter name:RV64D_Xsflt
             vpiOpType: assign pattern (87)
             vpiOperand (5 items):
               TaggedPattern start:30:5 end:30:22:
@@ -1008,7 +979,7 @@ Design name:unnamed:
                 vpiTag RefObj name:Width start:30:5 end:30:10:
                   vpiParent: TaggedPattern
                   vpiName: Width
-                  vpiFullName: fpnew_pkg::Width
+                  vpiFullName: fpnew_pkg::RV64D_Xsflt::Width
                 vpiPattern Constant start:30:20 end:30:22:
                   vpiParent: TaggedPattern
                   vpiConstType: int (7)
@@ -1017,14 +988,14 @@ Design name:unnamed:
                   vpiValue: 64
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpnew_pkg
+                    vpiFullName: fpnew_pkg::RV64D_Xsflt
                     vpiActual: IntTypespec
               TaggedPattern start:31:5 end:31:24:
                 vpiParent: Operation
                 vpiTag RefObj name:EnableVectors start:31:5 end:31:18:
                   vpiParent: TaggedPattern
                   vpiName: EnableVectors
-                  vpiFullName: fpnew_pkg::EnableVectors
+                  vpiFullName: fpnew_pkg::RV64D_Xsflt::EnableVectors
                 vpiPattern Constant start:31:20 end:31:24:
                   vpiParent: TaggedPattern
                   vpiConstType: binary (3)
@@ -1033,14 +1004,14 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpnew_pkg
+                    vpiFullName: fpnew_pkg::RV64D_Xsflt
                     vpiActual: BitTypespec
               TaggedPattern start:32:5 end:32:24:
                 vpiParent: Operation
                 vpiTag RefObj name:EnableNanBox start:32:5 end:32:17:
                   vpiParent: TaggedPattern
                   vpiName: EnableNanBox
-                  vpiFullName: fpnew_pkg::EnableNanBox
+                  vpiFullName: fpnew_pkg::RV64D_Xsflt::EnableNanBox
                 vpiPattern Constant start:32:20 end:32:24:
                   vpiParent: TaggedPattern
                   vpiConstType: binary (3)
@@ -1049,14 +1020,14 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpnew_pkg
+                    vpiFullName: fpnew_pkg::RV64D_Xsflt
                     vpiActual: BitTypespec
               TaggedPattern start:33:5 end:33:28:
                 vpiParent: Operation
                 vpiTag RefObj name:FpFmtMask start:33:5 end:33:14:
                   vpiParent: TaggedPattern
                   vpiName: FpFmtMask
-                  vpiFullName: fpnew_pkg::FpFmtMask
+                  vpiFullName: fpnew_pkg::RV64D_Xsflt::FpFmtMask
                 vpiPattern Constant start:33:20 end:33:28:
                   vpiParent: TaggedPattern
                   vpiConstType: binary (3)
@@ -1065,14 +1036,14 @@ Design name:unnamed:
                   vpiValue: "11111"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpnew_pkg
+                    vpiFullName: fpnew_pkg::RV64D_Xsflt
                     vpiActual: LogicTypespec
               TaggedPattern start:34:5 end:34:27:
                 vpiParent: Operation
                 vpiTag RefObj name:IntFmtMask start:34:5 end:34:15:
                   vpiParent: TaggedPattern
                   vpiName: IntFmtMask
-                  vpiFullName: fpnew_pkg::IntFmtMask
+                  vpiFullName: fpnew_pkg::RV64D_Xsflt::IntFmtMask
                 vpiPattern Constant start:34:20 end:34:27:
                   vpiParent: TaggedPattern
                   vpiConstType: binary (3)
@@ -1081,7 +1052,7 @@ Design name:unnamed:
                   vpiValue: "1111"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: fpnew_pkg
+                    vpiFullName: fpnew_pkg::RV64D_Xsflt
                     vpiActual: LogicTypespec
       vpiTypespec (7 items):
         StructTypespec start:6:10 end:9:4:
@@ -1316,6 +1287,22 @@ Design name:unnamed:
             vpiParent: Parameter name:NUM_FORMATS
             vpiFullName: top.NUM_FORMATS
             vpiActual: IntTypespec
+          vpiExpr RefObj name:fpnew_pkg::NUM_FP_FORMATS start:44:43:
+            vpiParent: Parameter name:NUM_FORMATS
+            vpiName: fpnew_pkg::NUM_FP_FORMATS
+            vpiFullName: top.NUM_FORMATS.fpnew_pkg::NUM_FP_FORMATS
+            vpiPathElem (2 items):
+              RefObj name:fpnew_pkg start:44:43 end:44:52:
+                vpiParent: RefObj name:fpnew_pkg::NUM_FP_FORMATS
+                vpiName: fpnew_pkg
+                vpiFullName: top.NUM_FORMATS.fpnew_pkg
+                vpiActual: Package name:fpnew_pkg
+              RefObj name:NUM_FP_FORMATS start:44:54 end:44:68:
+                vpiParent: RefObj name:fpnew_pkg::NUM_FP_FORMATS
+                vpiName: NUM_FP_FORMATS
+                vpiFullName: top.NUM_FORMATS.NUM_FP_FORMATS
+                vpiActual: Parameter name:NUM_FP_FORMATS
+            vpiActual: Parameter name:NUM_FP_FORMATS
         Parameter name:Features start:45:46 end:45:54:
           vpiParent: Module name:top
           vpiName: Features
@@ -1334,6 +1321,22 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:fpnew_pkg::fpu_features_t
                 vpiName: fpu_features_t
                 vpiFullName: top.Features.fpnew_pkg::fpu_features_t.fpu_features_t
+          vpiExpr RefObj name:fpnew_pkg::RV64D_Xsflt start:45:63:
+            vpiParent: Parameter name:Features
+            vpiName: fpnew_pkg::RV64D_Xsflt
+            vpiFullName: top.Features.fpnew_pkg::RV64D_Xsflt
+            vpiPathElem (2 items):
+              RefObj name:fpnew_pkg start:45:63 end:45:72:
+                vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
+                vpiName: fpnew_pkg
+                vpiFullName: top.Features.fpnew_pkg
+                vpiActual: Package name:fpnew_pkg
+              RefObj name:RV64D_Xsflt start:45:74 end:45:85:
+                vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
+                vpiName: RV64D_Xsflt
+                vpiFullName: top.Features.RV64D_Xsflt
+                vpiActual: Parameter name:RV64D_Xsflt
+            vpiActual: Parameter name:RV64D_Xsflt
         Parameter name:WIDTH start:46:14 end:46:19:
           vpiParent: Module name:top
           vpiName: WIDTH
@@ -1342,74 +1345,20 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: top.WIDTH
             vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:44:28 end:44:68:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:NUM_FORMATS start:44:28 end:44:39:
-            vpiParent: ParamAssign
-            vpiName: NUM_FORMATS
-            vpiFullName: top.NUM_FORMATS
-            vpiActual: Parameter name:NUM_FORMATS
-          vpiRhs RefObj name:fpnew_pkg::NUM_FP_FORMATS start:44:43:
-            vpiParent: ParamAssign
-            vpiName: fpnew_pkg::NUM_FP_FORMATS
-            vpiFullName: top.fpnew_pkg::NUM_FP_FORMATS
-            vpiPathElem (2 items):
-              RefObj name:fpnew_pkg start:44:43 end:44:52:
-                vpiParent: RefObj name:fpnew_pkg::NUM_FP_FORMATS
-                vpiName: fpnew_pkg
-                vpiFullName: top.fpnew_pkg
-                vpiActual: Package name:fpnew_pkg
-              RefObj name:NUM_FP_FORMATS start:44:54 end:44:68:
-                vpiParent: RefObj name:fpnew_pkg::NUM_FP_FORMATS
-                vpiName: NUM_FP_FORMATS
-                vpiFullName: top.NUM_FP_FORMATS
-                vpiActual: Parameter name:NUM_FP_FORMATS
-            vpiActual: Parameter name:NUM_FP_FORMATS
-        ParamAssign start:45:46 end:45:85:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:Features start:45:46 end:45:54:
-            vpiParent: ParamAssign
-            vpiName: Features
-            vpiFullName: top.Features
-            vpiActual: Parameter name:Features
-          vpiRhs RefObj name:fpnew_pkg::RV64D_Xsflt start:45:63:
-            vpiParent: ParamAssign
-            vpiName: fpnew_pkg::RV64D_Xsflt
-            vpiFullName: top.fpnew_pkg::RV64D_Xsflt
-            vpiPathElem (2 items):
-              RefObj name:fpnew_pkg start:45:63 end:45:72:
-                vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
-                vpiName: fpnew_pkg
-                vpiFullName: top.fpnew_pkg
-                vpiActual: Package name:fpnew_pkg
-              RefObj name:RV64D_Xsflt start:45:74 end:45:85:
-                vpiParent: RefObj name:fpnew_pkg::RV64D_Xsflt
-                vpiName: RV64D_Xsflt
-                vpiFullName: top.RV64D_Xsflt
-                vpiActual: Parameter name:RV64D_Xsflt
-            vpiActual: Parameter name:RV64D_Xsflt
-        ParamAssign start:46:14 end:46:36:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:WIDTH start:46:14 end:46:19:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: top.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs RefObj name:Features.Width start:46:22 end:46:36:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:Features.Width start:46:22 end:46:36:
+            vpiParent: Parameter name:WIDTH
             vpiName: Features.Width
-            vpiFullName: top.Features.Width
+            vpiFullName: top.WIDTH.Features.Width
             vpiPathElem (2 items):
               RefObj name:Features start:46:22 end:46:30:
                 vpiParent: RefObj name:Features.Width
                 vpiName: Features
-                vpiFullName: top.Features
+                vpiFullName: top.WIDTH.Features
                 vpiActual: Parameter name:Features
               RefObj name:Width start:46:31 end:46:36:
                 vpiParent: RefObj name:Features.Width
                 vpiName: Width
-                vpiFullName: top.Width
+                vpiFullName: top.WIDTH.Width
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -1503,16 +1452,8 @@ Design name:unnamed:
                   vpiParent: Parameter name:FP_WIDTH
                   vpiFullName: top.gen_nanbox_check.FP_WIDTH
                   vpiActual: IntTypespec
-            vpiParamAssign (1 items):
-              ParamAssign start:50:29 end:50:89:
-                vpiParent: GenBlock name:gen_nanbox_check
-                vpiLhs RefObj name:FP_WIDTH start:50:29 end:50:37:
-                  vpiParent: ParamAssign
-                  vpiName: FP_WIDTH
-                  vpiFullName: top.gen_nanbox_check.FP_WIDTH
-                  vpiActual: Parameter name:FP_WIDTH
-                vpiRhs FuncCall name:fp_width start:50:40 end:50:89:
-                  vpiParent: ParamAssign
+                vpiExpr FuncCall name:fp_width start:50:40 end:50:89:
+                  vpiParent: Parameter name:FP_WIDTH
                   vpiName Identifier name:fp_width start:50:51 end:50:59:
                   vpiTaskFunc: Function name:fp_width
                   vpiArgument (1 items):
@@ -1525,28 +1466,28 @@ Design name:unnamed:
                           RefTypespec name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
                             vpiParent: Operation
                             vpiName: fpnew_pkg::fp_format_e
-                            vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_format_e
+                            vpiFullName: top.gen_nanbox_check.FP_WIDTH.fpnew_pkg::fp_format_e
                             vpiPathElem (2 items):
                               RefObj name:fpnew_pkg start:50:60 end:50:69:
                                 vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
                                 vpiName: fpnew_pkg
-                                vpiFullName: top.gen_nanbox_check.fpnew_pkg
+                                vpiFullName: top.gen_nanbox_check.FP_WIDTH.fpnew_pkg
                                 vpiActual: Package name:fpnew_pkg
                               RefTypespec name:fp_format_e start:50:71 end:50:82:
                                 vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
                                 vpiName: fp_format_e
-                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_format_e.fp_format_e
+                                vpiFullName: top.gen_nanbox_check.FP_WIDTH.fpnew_pkg::fp_format_e.fp_format_e
                                 vpiActual: TypedefTypespec name:fp_format_e
                             vpiActual: TypedefTypespec name:fp_format_e
                           RefObj name:fmt start:50:84 end:50:87:
                             vpiParent: Operation
                             vpiName: fmt
-                            vpiFullName: top.gen_nanbox_check.fmt
+                            vpiFullName: top.gen_nanbox_check.FP_WIDTH.fmt
                             vpiActual: Variable name:fmt
                   vpiNameQualifier RefObj name:fpnew_pkg start:50:40 end:50:49:
                     vpiParent: FuncCall name:fp_width
                     vpiName: fpnew_pkg
-                    vpiFullName: top.gen_nanbox_check.fpnew_pkg
+                    vpiFullName: top.gen_nanbox_check.FP_WIDTH.fpnew_pkg
                     vpiActual: Package name:fpnew_pkg
             vpiStmt (1 items):
               GenIfElse start:52:5 end:60:8:
@@ -1860,11 +1801,11 @@ Constant                            32      33       3         2
 Identifier                          19      18       0         1
 NamedArgument                        2       1       0         1
 Operation                           24      22       0         2
-RefObj                              60      57       0         3
+RefObj                              52      49       0         3
 RefTypespec                         55      55       2         2
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                   275     268       5        12
+                                   259     252       5        12
 ===================== END REDUCTION RESULT =====================

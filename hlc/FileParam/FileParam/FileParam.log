@@ -150,6 +150,16 @@ Design name:unnamed:
         vpiParent: Parameter name:P1
         vpiFullName: P1
         vpiActual: LogicTypespec
+      vpiExpr Constant start:1:17 end:1:18:
+        vpiParent: Parameter name:P1
+        vpiConstType: int (7)
+        vpiSize: 32
+        vpiDecompile: "1"
+        vpiValue: 1
+        vpiTypespec RefTypespec:
+          vpiParent: Constant
+          vpiFullName: P1
+          vpiActual: IntTypespec
     Parameter name:P2 start:3:12 end:3:14:
       vpiParent: Design name:unnamed
       vpiName: P2
@@ -159,38 +169,14 @@ Design name:unnamed:
         vpiParent: Parameter name:P2
         vpiFullName: P2
         vpiActual: LogicTypespec
-  vpiParamAssign (2 items):
-    ParamAssign start:1:12 end:1:18:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:P1 start:1:12 end:1:14:
-        vpiParent: ParamAssign
-        vpiName: P1
-        vpiFullName: P1
-        vpiActual: Parameter name:P1
-      vpiRhs Constant start:1:17 end:1:18:
-        vpiParent: ParamAssign
-        vpiConstType: int (7)
-        vpiSize: 32
-        vpiDecompile: "1"
-        vpiValue: 1
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: IntTypespec
-    ParamAssign start:3:12 end:3:23:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:P2 start:3:12 end:3:14:
-        vpiParent: ParamAssign
-        vpiName: P2
-        vpiFullName: P2
-        vpiActual: Parameter name:P2
-      vpiRhs Operation start:3:17 end:3:23:
-        vpiParent: ParamAssign
+      vpiExpr Operation start:3:17 end:3:23:
+        vpiParent: Parameter name:P2
         vpiOpType: add (24)
         vpiOperand (2 items):
           RefObj name:P1 start:3:17 end:3:19:
             vpiParent: Operation
             vpiName: P1
-            vpiFullName: P1
+            vpiFullName: P2.P1
             vpiActual: Parameter name:P1
           Constant start:3:22 end:3:23:
             vpiParent: Operation
@@ -200,6 +186,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
+              vpiFullName: P2
               vpiActual: IntTypespec
   vpiEnum (1 items):
     Enum start:5:9 end:9:2:
@@ -304,8 +291,12 @@ COMMAND: ${HLC_DIR}/regression/FileParam/FileParam/design.hldb ${HLC_DIR}/regres
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       4       2         2
+Operation                            2       0       0         2
+RefObj                               3       1       0         2
+RefTypespec                          8       8       2         2
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    45      45       0         0
+                                    41      37       4         8
 ===================== END REDUCTION RESULT =====================

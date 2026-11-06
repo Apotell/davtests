@@ -826,6 +826,16 @@ Design name:unnamed:
             vpiParent: Parameter name:InfoTypes
             vpiFullName: flash_ctrl_pkg::InfoTypes
             vpiActual: IntTypespec
+          vpiExpr Constant start:26:27 end:26:28:
+            vpiParent: Parameter name:InfoTypes
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: flash_ctrl_pkg::InfoTypes
+              vpiActual: IntTypespec
         Parameter name:InfosPerBank start:27:15 end:27:27:
           vpiParent: Package name:flash_ctrl_pkg
           vpiName: InfosPerBank
@@ -835,42 +845,8 @@ Design name:unnamed:
             vpiParent: Parameter name:InfosPerBank
             vpiFullName: flash_ctrl_pkg::InfosPerBank
             vpiActual: IntTypespec
-        Parameter name:InfoPageW start:33:16 end:33:25:
-          vpiParent: Package name:flash_ctrl_pkg
-          vpiName: InfoPageW
-          vpiFullName: flash_ctrl_pkg::InfoPageW
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:33:12 end:33:15:
-            vpiParent: Parameter name:InfoPageW
-            vpiFullName: flash_ctrl_pkg::InfoPageW
-            vpiActual: IntTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:26:15 end:26:28:
-          vpiParent: Package name:flash_ctrl_pkg
-          vpiLhs RefObj name:InfoTypes start:26:15 end:26:24:
-            vpiParent: ParamAssign
-            vpiName: InfoTypes
-            vpiFullName: flash_ctrl_pkg::InfoTypes
-            vpiActual: Parameter name:InfoTypes
-          vpiRhs Constant start:26:27 end:26:28:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: flash_ctrl_pkg
-              vpiActual: IntTypespec
-        ParamAssign start:27:15 end:31:5:
-          vpiParent: Package name:flash_ctrl_pkg
-          vpiLhs RefObj name:InfosPerBank start:27:15 end:27:27:
-            vpiParent: ParamAssign
-            vpiName: InfosPerBank
-            vpiFullName: flash_ctrl_pkg::InfosPerBank
-            vpiActual: Parameter name:InfosPerBank
-          vpiRhs FuncCall name:max_info_pages start:27:33 end:31:5:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:max_info_pages start:27:33 end:31:5:
+            vpiParent: Parameter name:InfosPerBank
             vpiName Identifier name:max_info_pages start:27:33 end:27:47:
             vpiTaskFunc: Function name:max_info_pages
             vpiArgument (1 items):
@@ -888,7 +864,7 @@ Design name:unnamed:
                       vpiValue: 10
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: flash_ctrl_pkg
+                        vpiFullName: flash_ctrl_pkg::InfosPerBank
                         vpiActual: IntTypespec
                     Constant start:29:5 end:29:6:
                       vpiParent: Operation
@@ -898,7 +874,7 @@ Design name:unnamed:
                       vpiValue: 1
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: flash_ctrl_pkg
+                        vpiFullName: flash_ctrl_pkg::InfosPerBank
                         vpiActual: IntTypespec
                     Constant start:30:5 end:30:6:
                       vpiParent: Operation
@@ -908,17 +884,19 @@ Design name:unnamed:
                       vpiValue: 2
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: flash_ctrl_pkg
+                        vpiFullName: flash_ctrl_pkg::InfosPerBank
                         vpiActual: IntTypespec
-        ParamAssign start:33:16 end:33:68:
+        Parameter name:InfoPageW start:33:16 end:33:25:
           vpiParent: Package name:flash_ctrl_pkg
-          vpiLhs RefObj name:InfoPageW start:33:16 end:33:25:
-            vpiParent: ParamAssign
-            vpiName: InfoPageW
+          vpiName: InfoPageW
+          vpiFullName: flash_ctrl_pkg::InfoPageW
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:33:12 end:33:15:
+            vpiParent: Parameter name:InfoPageW
             vpiFullName: flash_ctrl_pkg::InfoPageW
-            vpiActual: Parameter name:InfoPageW
-          vpiRhs FuncCall name:vbits start:33:34 end:33:68:
-            vpiParent: ParamAssign
+            vpiActual: IntTypespec
+          vpiExpr FuncCall name:vbits start:33:34 end:33:68:
+            vpiParent: Parameter name:InfoPageW
             vpiName Identifier name:vbits start:33:49 end:33:54:
             vpiTaskFunc: Function name:vbits
             vpiArgument (1 items):
@@ -927,12 +905,12 @@ Design name:unnamed:
                 vpiHighConn RefObj name:InfosPerBank start:33:55 end:33:67:
                   vpiParent: NamedArgument
                   vpiName: InfosPerBank
-                  vpiFullName: flash_ctrl_pkg::InfosPerBank
+                  vpiFullName: flash_ctrl_pkg::InfoPageW::InfosPerBank
                   vpiActual: Parameter name:InfosPerBank
             vpiNameQualifier RefObj name:prim_util_pkg start:33:34 end:33:47:
               vpiParent: FuncCall name:vbits
               vpiName: prim_util_pkg
-              vpiFullName: flash_ctrl_pkg::prim_util_pkg
+              vpiFullName: flash_ctrl_pkg::InfoPageW::prim_util_pkg
               vpiActual: Package name:prim_util_pkg
       vpiDefName: flash_ctrl_pkg
       vpiDefNetType: wire (1)
@@ -1170,16 +1148,8 @@ Design name:unnamed:
             vpiParent: Parameter name:NumPartWidth
             vpiFullName: otp_ctrl_pkg::NumPartWidth
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:54:17 end:54:51:
-          vpiParent: Package name:otp_ctrl_pkg
-          vpiLhs RefObj name:NumPartWidth start:54:17 end:54:29:
-            vpiParent: ParamAssign
-            vpiName: NumPartWidth
-            vpiFullName: otp_ctrl_pkg::NumPartWidth
-            vpiActual: Parameter name:NumPartWidth
-          vpiRhs FuncCall name:vbits start:54:32 end:54:51:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:vbits start:54:32 end:54:51:
+            vpiParent: Parameter name:NumPartWidth
             vpiName Identifier name:vbits start:54:32 end:54:37:
             vpiTaskFunc: Function name:vbits
             vpiArgument (1 items):
@@ -1188,7 +1158,7 @@ Design name:unnamed:
                 vpiHighConn RefObj name:InfosPerBank start:54:38 end:54:50:
                   vpiParent: NamedArgument
                   vpiName: InfosPerBank
-                  vpiFullName: otp_ctrl_pkg::InfosPerBank
+                  vpiFullName: otp_ctrl_pkg::NumPartWidth::InfosPerBank
       vpiTypespec (1 items):
         ImportTypespec name:prim_util_pkg start:50:10 end:50:30:
           vpiParent: Package name:otp_ctrl_pkg
@@ -1370,10 +1340,10 @@ Name                            Before   After   Added   Removed
 Constant                            31      32       1         0
 LongIntTypespec                      0       1       1         0
 Operation                           12      11       0         1
-RefObj                              36      35       0         1
-RefTypespec                        659     660       1         0
+RefObj                              32      31       0         1
+RefTypespec                        653     654       1         0
 ----------------------------------------------------------------
-Others                            1323    1323       0         0
+Others                            1313    1313       0         0
 ----------------------------------------------------------------
-                                  2061    2062       3         2
+                                  2041    2042       3         2
 ===================== END REDUCTION RESULT =====================

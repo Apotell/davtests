@@ -452,8 +452,8 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:paramtest_DFFRE:
-        ModuleTypespec name:paramtest_WRAP:
+        ModuleTypespec name:paramtest_DFFRE #(.W(1)):
+        ModuleTypespec name:paramtest_WRAP #(.W(7)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_ddeep_width.v"
@@ -525,7 +525,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dffre0
             vpiName: paramtest_DFFRE
             vpiFullName: t.dffre0.paramtest_DFFRE
-            vpiActual: ModuleTypespec name:paramtest_DFFRE
+            vpiActual: ModuleTypespec name:paramtest_DFFRE #(.W(1))
           vpiArgument (2 items):
             NamedArgument start:9:32 end:9:35:
               vpiParent: RefInstance name:dffre0
@@ -572,7 +572,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dffe0
             vpiName: paramtest_WRAP
             vpiFullName: t.dffe0.paramtest_WRAP
-            vpiActual: ModuleTypespec name:paramtest_WRAP
+            vpiActual: ModuleTypespec name:paramtest_WRAP #(.W(7))
           vpiArgument (2 items):
             NamedArgument start:10:30 end:10:33:
               vpiParent: RefInstance name:dffe0
@@ -637,23 +637,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: paramtest_WRAP.W
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:14:14 end:14:17:
-          vpiParent: Module name:paramtest_WRAP
-          vpiLhs RefObj name:W start:14:14 end:14:15:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: paramtest_WRAP.W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:14:16 end:14:17:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:14:16 end:14:17:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: paramtest_WRAP
+              vpiFullName: paramtest_WRAP.W
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -694,7 +686,7 @@ Design name:unnamed:
                   vpiFullName: paramtest_WRAP
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:paramtest_DFFRE:
+        ModuleTypespec name:paramtest_DFFRE #(.W(W)):
       vpiDefName: paramtest_WRAP
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_ddeep_width.v"
@@ -766,7 +758,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:dffre0
             vpiName: paramtest_DFFRE
             vpiFullName: paramtest_WRAP.dffre0.paramtest_DFFRE
-            vpiActual: ModuleTypespec name:paramtest_DFFRE
+            vpiActual: ModuleTypespec name:paramtest_DFFRE #(.W(W))
           vpiArgument (2 items):
             NamedArgument start:17:32 end:17:35:
               vpiParent: RefInstance name:dffre0
@@ -816,6 +808,16 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: paramtest_DFFRE.W
             vpiActual: LogicTypespec
+          vpiExpr Constant start:21:16 end:21:17:
+            vpiParent: Parameter name:W
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: paramtest_DFFRE.W
+              vpiActual: IntTypespec
         Parameter name:INIT start:22:22 end:22:26:
           vpiParent: Module name:paramtest_DFFRE
           vpiName: INIT
@@ -824,39 +826,14 @@ Design name:unnamed:
             vpiParent: Parameter name:INIT
             vpiFullName: paramtest_DFFRE.INIT
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:21:14 end:21:17:
-          vpiParent: Module name:paramtest_DFFRE
-          vpiLhs RefObj name:W start:21:14 end:21:15:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: paramtest_DFFRE.W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:21:16 end:21:17:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: paramtest_DFFRE
-              vpiActual: IntTypespec
-        ParamAssign start:22:22 end:22:36:
-          vpiParent: Module name:paramtest_DFFRE
-          vpiLhs RefObj name:INIT start:22:22 end:22:26:
-            vpiParent: ParamAssign
-            vpiName: INIT
-            vpiFullName: paramtest_DFFRE.INIT
-            vpiActual: Parameter name:INIT
-          vpiRhs Operation start:22:27 end:22:36:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:22:27 end:22:36:
+            vpiParent: Parameter name:INIT
             vpiOpType: multi-concatenation (34)
             vpiOperand (2 items):
               RefObj name:W start:22:28 end:22:29:
                 vpiParent: Operation
                 vpiName: W
-                vpiFullName: paramtest_DFFRE.W
+                vpiFullName: paramtest_DFFRE.INIT.W
                 vpiActual: Parameter name:W
               Operation start:22:29 end:22:35:
                 vpiParent: Operation
@@ -870,7 +847,7 @@ Design name:unnamed:
                     vpiValue: "0"
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: paramtest_DFFRE
+                      vpiFullName: paramtest_DFFRE.INIT
                       vpiActual: BitTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -1048,18 +1025,17 @@ Design name:unnamed:
       vpiName Identifier name:paramtest_DFFRE start:20:8 end:20:23:
       vpiDefName: paramtest_DFFRE
       vpiModule: Module name:paramtest_DFFRE
-    ModuleTypespec name:paramtest_DFFRE start:9:4 end:9:19:
+    ModuleTypespec name:paramtest_DFFRE #(.W(1)) start:9:4 end:9:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:paramtest_DFFRE start:9:4 end:9:19:
+      vpiName Identifier name:paramtest_DFFRE #(.W(1)) start:9:4 end:9:19:
       vpiDefName: paramtest_DFFRE
       vpiParamAssign (1 items):
         ParamAssign start:9:22 end:9:23:
-          vpiParent: ModuleTypespec name:paramtest_DFFRE
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:paramtest_DFFRE #(.W(1))
           vpiLhs RefObj name:W start:21:14 end:21:15:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: paramtest_DFFRE.W
+            vpiFullName: paramtest_DFFRE #(.W(1)).W
             vpiActual: Parameter name:W
           vpiRhs Constant start:9:22 end:9:23:
             vpiParent: ParamAssign
@@ -1069,40 +1045,38 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: paramtest_DFFRE
+              vpiFullName: paramtest_DFFRE #(.W(1))
               vpiActual: IntTypespec
       vpiModule: Module name:paramtest_DFFRE
-    ModuleTypespec name:paramtest_DFFRE start:17:4 end:17:19:
+    ModuleTypespec name:paramtest_DFFRE #(.W(W)) start:17:4 end:17:19:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:paramtest_DFFRE start:17:4 end:17:19:
+      vpiName Identifier name:paramtest_DFFRE #(.W(W)) start:17:4 end:17:19:
       vpiDefName: paramtest_DFFRE
       vpiParamAssign (1 items):
         ParamAssign start:17:22 end:17:23:
-          vpiParent: ModuleTypespec name:paramtest_DFFRE
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:paramtest_DFFRE #(.W(W))
           vpiLhs RefObj name:W start:21:14 end:21:15:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: paramtest_DFFRE.W
+            vpiFullName: paramtest_DFFRE #(.W(W)).W
             vpiActual: Parameter name:W
           vpiRhs RefObj name:W start:17:22 end:17:23:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: paramtest_DFFRE.W
+            vpiFullName: paramtest_DFFRE #(.W(W)).W
             vpiActual: Parameter name:W
       vpiModule: Module name:paramtest_DFFRE
-    ModuleTypespec name:paramtest_WRAP start:10:4 end:10:18:
+    ModuleTypespec name:paramtest_WRAP #(.W(7)) start:10:4 end:10:18:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:paramtest_WRAP start:10:4 end:10:18:
+      vpiName Identifier name:paramtest_WRAP #(.W(7)) start:10:4 end:10:18:
       vpiDefName: paramtest_WRAP
       vpiParamAssign (1 items):
         ParamAssign start:10:21 end:10:22:
-          vpiParent: ModuleTypespec name:paramtest_WRAP
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:paramtest_WRAP #(.W(7))
           vpiLhs RefObj name:W start:14:14 end:14:15:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: paramtest_WRAP.W
+            vpiFullName: paramtest_WRAP #(.W(7)).W
             vpiActual: Parameter name:W
           vpiRhs Constant start:10:21 end:10:22:
             vpiParent: ParamAssign
@@ -1112,7 +1086,7 @@ Design name:unnamed:
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: paramtest_WRAP
+              vpiFullName: paramtest_WRAP #(.W(7))
               vpiActual: IntTypespec
       vpiModule: Module name:paramtest_WRAP
   vpiLibrary (1 items):
@@ -1168,10 +1142,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      16       4         4
 Operation                            6       1       0         5
-RefObj                              35      31       0         4
+RefObj                              32      28       0         4
 RefTypespec                         33      32       3         4
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              69      69       0         0
 ----------------------------------------------------------------
-                                   162     152       7        17
+                                   156     146       7        17
 ===================== END REDUCTION RESULT =====================

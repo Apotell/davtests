@@ -237,6 +237,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Depth
             vpiFullName: otp_ctrl_ecc_reg.Depth
             vpiActual: IntTypespec
+          vpiExpr Constant start:2:27 end:2:30:
+            vpiParent: Parameter name:Depth
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "999"
+            vpiValue: 999
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: otp_ctrl_ecc_reg.Depth
+              vpiActual: IntTypespec
         Parameter name:Aw start:3:19 end:3:21:
           vpiParent: Module name:otp_ctrl_ecc_reg
           vpiName: Aw
@@ -246,33 +256,8 @@ Design name:unnamed:
             vpiParent: Parameter name:Aw
             vpiFullName: otp_ctrl_ecc_reg.Aw
             vpiActual: IntTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:2:19 end:2:30:
-          vpiParent: Module name:otp_ctrl_ecc_reg
-          vpiLhs RefObj name:Depth start:2:19 end:2:24:
-            vpiParent: ParamAssign
-            vpiName: Depth
-            vpiFullName: otp_ctrl_ecc_reg.Depth
-            vpiActual: Parameter name:Depth
-          vpiRhs Constant start:2:27 end:2:30:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "999"
-            vpiValue: 999
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: otp_ctrl_ecc_reg
-              vpiActual: IntTypespec
-        ParamAssign start:3:19 end:3:37:
-          vpiParent: Module name:otp_ctrl_ecc_reg
-          vpiLhs RefObj name:Aw start:3:19 end:3:21:
-            vpiParent: ParamAssign
-            vpiName: Aw
-            vpiFullName: otp_ctrl_ecc_reg.Aw
-            vpiActual: Parameter name:Aw
-          vpiRhs SysFuncCall name:$clog2 start:3:24 end:3:37:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$clog2 start:3:24 end:3:37:
+            vpiParent: Parameter name:Aw
             vpiName Identifier name:$clog2 start:3:24 end:3:30:
             vpiArgument (1 items):
               NamedArgument start:3:31 end:3:36:
@@ -280,7 +265,7 @@ Design name:unnamed:
                 vpiHighConn RefObj name:Depth start:3:31 end:3:36:
                   vpiParent: NamedArgument
                   vpiName: Depth
-                  vpiFullName: otp_ctrl_ecc_reg.Depth
+                  vpiFullName: otp_ctrl_ecc_reg.Aw.Depth
                   vpiActual: Parameter name:Depth
       vpiDefName: otp_ctrl_ecc_reg
       vpiDefNetType: wire (1)
@@ -372,31 +357,14 @@ Design name:unnamed:
             vpiName: part_info_t
             vpiFullName: top.Info.part_info_t
             vpiActual: TypedefTypespec name:part_info_t
-        Parameter name:NumScrmblBlocks start:13:19 end:13:34:
-          vpiParent: Module name:top
-          vpiName: NumScrmblBlocks
-          vpiFullName: top.NumScrmblBlocks
-          vpiLocalParam: true
-          vpiTypespec RefTypespec start:13:15 end:13:18:
-            vpiParent: Parameter name:NumScrmblBlocks
-            vpiFullName: top.NumScrmblBlocks
-            vpiActual: IntTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:12:26 end:12:49:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:Info start:12:26 end:12:30:
-            vpiParent: ParamAssign
-            vpiName: Info
-            vpiFullName: top.Info
-            vpiActual: Parameter name:Info
-          vpiRhs Operation start:12:33 end:12:49:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:12:33 end:12:49:
+            vpiParent: Parameter name:Info
             vpiOpType: cast (81)
             vpiOperand (2 items):
               RefTypespec name:part_info_t start:12:33 end:12:44:
                 vpiParent: Operation
                 vpiName: part_info_t
-                vpiFullName: top.part_info_t
+                vpiFullName: top.Info.part_info_t
                 vpiActual: TypedefTypespec name:part_info_t
               Constant start:12:46 end:12:48:
                 vpiParent: Operation
@@ -406,29 +374,31 @@ Design name:unnamed:
                 vpiValue: 10
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: top
+                  vpiFullName: top.Info
                   vpiActual: IntTypespec
-        ParamAssign start:13:19 end:13:43:
+        Parameter name:NumScrmblBlocks start:13:19 end:13:34:
           vpiParent: Module name:top
-          vpiLhs RefObj name:NumScrmblBlocks start:13:19 end:13:34:
-            vpiParent: ParamAssign
-            vpiName: NumScrmblBlocks
+          vpiName: NumScrmblBlocks
+          vpiFullName: top.NumScrmblBlocks
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:13:15 end:13:18:
+            vpiParent: Parameter name:NumScrmblBlocks
             vpiFullName: top.NumScrmblBlocks
-            vpiActual: Parameter name:NumScrmblBlocks
-          vpiRhs RefObj name:Info.x start:13:37 end:13:43:
-            vpiParent: ParamAssign
+            vpiActual: IntTypespec
+          vpiExpr RefObj name:Info.x start:13:37 end:13:43:
+            vpiParent: Parameter name:NumScrmblBlocks
             vpiName: Info.x
-            vpiFullName: top.Info.x
+            vpiFullName: top.NumScrmblBlocks.Info.x
             vpiPathElem (2 items):
               RefObj name:Info start:13:37 end:13:41:
                 vpiParent: RefObj name:Info.x
                 vpiName: Info
-                vpiFullName: top.Info
+                vpiFullName: top.NumScrmblBlocks.Info
                 vpiActual: Parameter name:Info
               RefObj name:x start:13:42 end:13:43:
                 vpiParent: RefObj name:Info.x
                 vpiName: x
-                vpiFullName: top.x
+                vpiFullName: top.NumScrmblBlocks.x
                 vpiActual: TypespecMember name:x
             vpiActual: TypespecMember name:x
       vpiTypespec (3 items):
@@ -440,7 +410,7 @@ Design name:unnamed:
           vpiName Identifier name:part_info_t start:10:6 end:10:17:
           vpiTypedefKind: struct (4)
           vpiTypedef: Typedef name:part_info_t
-        ModuleTypespec name:otp_ctrl_ecc_reg:
+        ModuleTypespec name:otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -476,7 +446,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_otp_ctrl_ecc_reg
             vpiName: otp_ctrl_ecc_reg
             vpiFullName: top.u_otp_ctrl_ecc_reg.otp_ctrl_ecc_reg
-            vpiActual: ModuleTypespec name:otp_ctrl_ecc_reg
+            vpiActual: ModuleTypespec name:otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks))
           vpiArgument (1 items):
             NamedArgument start:18:7 end:18:12:
               vpiParent: RefInstance name:u_otp_ctrl_ecc_reg
@@ -506,24 +476,23 @@ Design name:unnamed:
       vpiName Identifier name:top start:7:8 end:7:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ModuleTypespec name:otp_ctrl_ecc_reg start:15:4 end:15:20:
+    ModuleTypespec name:otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks)) start:15:4 end:15:20:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:otp_ctrl_ecc_reg start:15:4 end:15:20:
+      vpiName Identifier name:otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks)) start:15:4 end:15:20:
       vpiDefName: otp_ctrl_ecc_reg
       vpiParamAssign (1 items):
         ParamAssign start:16:7 end:16:31:
-          vpiParent: ModuleTypespec name:otp_ctrl_ecc_reg
+          vpiParent: ModuleTypespec name:otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Depth start:16:8 end:16:13:
             vpiParent: ParamAssign
             vpiName: Depth
-            vpiFullName: otp_ctrl_ecc_reg.Depth
+            vpiFullName: otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks)).Depth
             vpiActual: Parameter name:Depth
           vpiRhs RefObj name:NumScrmblBlocks start:16:15 end:16:30:
             vpiParent: ParamAssign
             vpiName: NumScrmblBlocks
-            vpiFullName: otp_ctrl_ecc_reg.NumScrmblBlocks
+            vpiFullName: otp_ctrl_ecc_reg #(.Depth(NumScrmblBlocks)).NumScrmblBlocks
             vpiActual: Parameter name:NumScrmblBlocks
       vpiModule: Module name:otp_ctrl_ecc_reg
   vpiLibrary (1 items):
@@ -580,10 +549,10 @@ Name                            Before   After   Added   Removed
 Constant                             2       3       1         0
 Identifier                          10       9       0         1
 NamedArgument                        2       1       0         1
-RefObj                              18      17       0         1
+RefObj                              14      13       0         1
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    78      75       1         4
+                                    70      67       1         4
 ===================== END REDUCTION RESULT =====================

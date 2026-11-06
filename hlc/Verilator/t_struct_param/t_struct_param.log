@@ -1296,16 +1296,8 @@ Design name:unnamed:
             vpiName: config_struct
             vpiFullName: t.MY_CONFIG.config_struct
             vpiActual: TypedefTypespec name:config_struct
-      vpiParamAssign (1 items):
-        ParamAssign start:36:30 end:36:58:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:MY_CONFIG start:36:30 end:36:39:
-            vpiParent: ParamAssign
-            vpiName: MY_CONFIG
-            vpiFullName: t.MY_CONFIG
-            vpiActual: Parameter name:MY_CONFIG
-          vpiRhs FuncCall name:static_config start:36:42 end:36:58:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:static_config start:36:42 end:36:58:
+            vpiParent: Parameter name:MY_CONFIG
             vpiName Identifier name:static_config start:36:42 end:36:55:
             vpiTaskFunc: Function name:static_config
             vpiArgument (1 items):
@@ -1319,7 +1311,7 @@ Design name:unnamed:
                   vpiValue: 1
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: t
+                    vpiFullName: t.MY_CONFIG
                     vpiActual: IntTypespec
       vpiTypespec (2 items):
         ImportTypespec name:config_pkg start:34:12 end:34:25:
@@ -1335,7 +1327,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: t.config_pkg
               vpiActual: StringTypespec
-        ModuleTypespec name:struct_submodule:
+        ModuleTypespec name:struct_submodule #(.MY_CONFIG(MY_CONFIG)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_struct_param.v"
@@ -1356,7 +1348,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:a_submodule_I
             vpiName: struct_submodule
             vpiFullName: t.a_submodule_I.struct_submodule
-            vpiActual: ModuleTypespec name:struct_submodule
+            vpiActual: ModuleTypespec name:struct_submodule #(.MY_CONFIG(MY_CONFIG))
       vpiEndLabel Identifier name:t start:39:13 end:39:14:
     "Module name:struct_submodule #(.MY_CONFIG('0)) file:$Source01/t_struct_param.v start:41:1 end:54:29":
       vpiParent: Design name:unnamed
@@ -1372,23 +1364,15 @@ Design name:unnamed:
             vpiName: config_struct
             vpiFullName: "struct_submodule #(.MY_CONFIG('0)).MY_CONFIG.config_struct"
             vpiActual: TypedefTypespec name:config_struct
-      vpiParamAssign (1 items):
-        ParamAssign start:43:30 end:43:44:
-          vpiParent: "Module name:struct_submodule #(.MY_CONFIG('0))"
-          vpiLhs RefObj name:MY_CONFIG start:43:30 end:43:39:
-            vpiParent: ParamAssign
-            vpiName: MY_CONFIG
-            vpiFullName: "struct_submodule #(.MY_CONFIG('0)).MY_CONFIG"
-            vpiActual: Parameter name:MY_CONFIG
-          vpiRhs Constant start:43:42 end:43:44:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:43:42 end:43:44:
+            vpiParent: Parameter name:MY_CONFIG
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "struct_submodule #(.MY_CONFIG('0))"
+              vpiFullName: "struct_submodule #(.MY_CONFIG('0)).MY_CONFIG"
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         ImportTypespec name:config_pkg start:42:10 end:42:23:
@@ -2052,24 +2036,23 @@ Design name:unnamed:
       vpiName Identifier name:struct_submodule start:41:8 end:41:24:
       vpiDefName: struct_submodule
       vpiModule: "Module name:struct_submodule #(.MY_CONFIG('0))"
-    ModuleTypespec name:struct_submodule start:38:5 end:38:21:
+    ModuleTypespec name:struct_submodule #(.MY_CONFIG(MY_CONFIG)) start:38:5 end:38:21:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:struct_submodule start:38:5 end:38:21:
+      vpiName Identifier name:struct_submodule #(.MY_CONFIG(MY_CONFIG)) start:38:5 end:38:21:
       vpiDefName: struct_submodule
       vpiParamAssign (1 items):
         ParamAssign start:38:24 end:38:45:
-          vpiParent: ModuleTypespec name:struct_submodule
+          vpiParent: ModuleTypespec name:struct_submodule #(.MY_CONFIG(MY_CONFIG))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:MY_CONFIG start:38:25 end:38:34:
             vpiParent: ParamAssign
             vpiName: MY_CONFIG
-            vpiFullName: struct_submodule.MY_CONFIG
+            vpiFullName: struct_submodule #(.MY_CONFIG(MY_CONFIG)).MY_CONFIG
             vpiActual: Parameter name:MY_CONFIG
           vpiRhs RefObj name:MY_CONFIG start:38:35 end:38:44:
             vpiParent: ParamAssign
             vpiName: MY_CONFIG
-            vpiFullName: struct_submodule.MY_CONFIG
+            vpiFullName: struct_submodule #(.MY_CONFIG(MY_CONFIG)).MY_CONFIG
             vpiActual: Parameter name:MY_CONFIG
       vpiModule: "Module name:struct_submodule #(.MY_CONFIG('0))"
   vpiLibrary (1 items):
@@ -2124,7 +2107,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_struct_param/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             368     368       0         0
+Others                             364     364       0         0
 ----------------------------------------------------------------
-                                   368     368       0         0
+                                   364     364       0         0
 ===================== END REDUCTION RESULT =====================

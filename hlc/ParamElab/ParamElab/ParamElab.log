@@ -178,7 +178,7 @@ Design name:unnamed:
       vpiName Identifier name:dut start:1:8 end:1:11:
       vpiFullName: dut
       vpiTypespec (1 items):
-        ModuleTypespec name:test:
+        ModuleTypespec name:test #(.Width(32), .DataBitsPerMask(8)):
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -204,7 +204,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:t
             vpiName: test
             vpiFullName: dut.t.test
-            vpiActual: ModuleTypespec name:test
+            vpiActual: ModuleTypespec name:test #(.Width(32), .DataBitsPerMask(8))
     Module name:test #(.Width(32), .DataBitsPerMask(2)) file:$Source01/dut.sv start:8:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test #(.Width(32), .DataBitsPerMask(2)) start:8:8 end:8:12:
@@ -218,6 +218,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).Width
             vpiActual: IntTypespec
+          vpiExpr Constant start:9:34 end:9:36:
+            vpiParent: Parameter name:Width
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "32"
+            vpiValue: 32
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).Width
+              vpiActual: IntTypespec
         Parameter name:DataBitsPerMask start:10:16 end:10:31:
           vpiParent: Module name:test #(.Width(32), .DataBitsPerMask(2))
           vpiName: DataBitsPerMask
@@ -226,6 +236,16 @@ Design name:unnamed:
             vpiParent: Parameter name:DataBitsPerMask
             vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).DataBitsPerMask
             vpiActual: IntTypespec
+          vpiExpr Constant start:10:34 end:10:35:
+            vpiParent: Parameter name:DataBitsPerMask
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).DataBitsPerMask
+              vpiActual: IntTypespec
         Parameter name:MaskWidth start:12:24 end:12:33:
           vpiParent: Module name:test #(.Width(32), .DataBitsPerMask(2))
           vpiName: MaskWidth
@@ -235,61 +255,19 @@ Design name:unnamed:
             vpiParent: Parameter name:MaskWidth
             vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).MaskWidth
             vpiActual: IntTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:9:16 end:9:36:
-          vpiParent: Module name:test #(.Width(32), .DataBitsPerMask(2))
-          vpiLhs RefObj name:Width start:9:16 end:9:21:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:9:34 end:9:36:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "32"
-            vpiValue: 32
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test #(.Width(32), .DataBitsPerMask(2))
-              vpiActual: IntTypespec
-        ParamAssign start:10:16 end:10:35:
-          vpiParent: Module name:test #(.Width(32), .DataBitsPerMask(2))
-          vpiLhs RefObj name:DataBitsPerMask start:10:16 end:10:31:
-            vpiParent: ParamAssign
-            vpiName: DataBitsPerMask
-            vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).DataBitsPerMask
-            vpiActual: Parameter name:DataBitsPerMask
-          vpiRhs Constant start:10:34 end:10:35:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test #(.Width(32), .DataBitsPerMask(2))
-              vpiActual: IntTypespec
-        ParamAssign start:12:24 end:12:59:
-          vpiParent: Module name:test #(.Width(32), .DataBitsPerMask(2))
-          vpiLhs RefObj name:MaskWidth start:12:24 end:12:33:
-            vpiParent: ParamAssign
-            vpiName: MaskWidth
-            vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).MaskWidth
-            vpiActual: Parameter name:MaskWidth
-          vpiRhs Operation start:12:36 end:12:59:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:12:36 end:12:59:
+            vpiParent: Parameter name:MaskWidth
             vpiOpType: divide (12)
             vpiOperand (2 items):
               RefObj name:Width start:12:36 end:12:41:
                 vpiParent: Operation
                 vpiName: Width
-                vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).Width
+                vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).MaskWidth.Width
                 vpiActual: Parameter name:Width
               RefObj name:DataBitsPerMask start:12:44 end:12:59:
                 vpiParent: Operation
                 vpiName: DataBitsPerMask
-                vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).DataBitsPerMask
+                vpiFullName: test #(.Width(32), .DataBitsPerMask(2)).MaskWidth.DataBitsPerMask
                 vpiActual: Parameter name:DataBitsPerMask
       vpiDefName: test
       vpiDefNetType: wire (1)
@@ -398,19 +376,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:test start:2:9 end:2:13:
+    ModuleTypespec name:test #(.Width(32), .DataBitsPerMask(8)) start:2:9 end:2:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:test start:2:9 end:2:13:
+      vpiName Identifier name:test #(.Width(32), .DataBitsPerMask(8)) start:2:9 end:2:13:
       vpiDefName: test
       vpiParamAssign (2 items):
         ParamAssign start:3:17 end:3:27:
-          vpiParent: ModuleTypespec name:test
+          vpiParent: ModuleTypespec name:test #(.Width(32), .DataBitsPerMask(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:3:18 end:3:23:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: test.Width
+            vpiFullName: test #(.Width(32), .DataBitsPerMask(8)).Width
             vpiActual: Parameter name:Width
           vpiRhs Constant start:3:24 end:3:26:
             vpiParent: ParamAssign
@@ -420,16 +397,15 @@ Design name:unnamed:
             vpiValue: 32
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test
+              vpiFullName: test #(.Width(32), .DataBitsPerMask(8))
               vpiActual: IntTypespec
         ParamAssign start:4:17 end:4:36:
-          vpiParent: ModuleTypespec name:test
+          vpiParent: ModuleTypespec name:test #(.Width(32), .DataBitsPerMask(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:DataBitsPerMask start:4:18 end:4:33:
             vpiParent: ParamAssign
             vpiName: DataBitsPerMask
-            vpiFullName: test.DataBitsPerMask
+            vpiFullName: test #(.Width(32), .DataBitsPerMask(8)).DataBitsPerMask
             vpiActual: Parameter name:DataBitsPerMask
           vpiRhs Constant start:4:34 end:4:35:
             vpiParent: ParamAssign
@@ -439,7 +415,7 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test
+              vpiFullName: test #(.Width(32), .DataBitsPerMask(8))
               vpiActual: IntTypespec
       vpiModule: Module name:test #(.Width(32), .DataBitsPerMask(2))
   vpiLibrary (1 items):
@@ -495,10 +471,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            19      20       1         0
 Operation                            3       2       0         1
-RefObj                              13      11       0         2
-RefTypespec                        631     632       1         0
+RefObj                              10       8       0         2
+RefTypespec                        625     626       1         0
 ----------------------------------------------------------------
-Others                            1271    1271       0         0
+Others                            1262    1262       0         0
 ----------------------------------------------------------------
-                                  1937    1936       2         3
+                                  1919    1918       2         3
 ===================== END REDUCTION RESULT =====================

@@ -183,6 +183,16 @@ Design name:unnamed:
             vpiParent: Parameter name:NStraps
             vpiFullName: test_pkg::NStraps
             vpiActual: IntTypespec
+          vpiExpr Constant start:3:27 end:3:28:
+            vpiParent: Parameter name:NStraps
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test_pkg::NStraps
+              vpiActual: IntTypespec
         Parameter name:MioStrapPos start:4:16 end:4:27:
           vpiParent: Package name:test_pkg
           vpiName: MioStrapPos
@@ -193,42 +203,8 @@ Design name:unnamed:
             vpiName: int [0:NStraps-1]
             vpiFullName: test_pkg::MioStrapPos::int [0:NStraps-1]
             vpiActual: ArrayTypespec
-        Parameter name:TEST_SIZE start:11:11 end:11:20:
-          vpiParent: Package name:test_pkg
-          vpiName: TEST_SIZE
-          vpiFullName: test_pkg::TEST_SIZE
-          vpiLocalParam: true
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:TEST_SIZE
-            vpiFullName: test_pkg::TEST_SIZE
-            vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:3:16 end:3:28:
-          vpiParent: Package name:test_pkg
-          vpiLhs RefObj name:NStraps start:3:16 end:3:23:
-            vpiParent: ParamAssign
-            vpiName: NStraps
-            vpiFullName: test_pkg::NStraps
-            vpiActual: Parameter name:NStraps
-          vpiRhs Constant start:3:27 end:3:28:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: test_pkg
-              vpiActual: IntTypespec
-        ParamAssign start:4:16 end:4:51:
-          vpiParent: Package name:test_pkg
-          vpiLhs RefObj name:MioStrapPos start:4:16 end:4:27:
-            vpiParent: ParamAssign
-            vpiName: MioStrapPos
-            vpiFullName: test_pkg::MioStrapPos
-            vpiActual: Parameter name:MioStrapPos
-          vpiRhs Operation start:4:44 end:4:51:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:4:44 end:4:51:
+            vpiParent: Parameter name:MioStrapPos
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               Constant start:4:46 end:4:47:
@@ -239,7 +215,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test_pkg
+                  vpiFullName: test_pkg::MioStrapPos
                   vpiActual: IntTypespec
               Constant start:4:49 end:4:50:
                 vpiParent: Operation
@@ -249,17 +225,19 @@ Design name:unnamed:
                 vpiValue: 0
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: test_pkg
+                  vpiFullName: test_pkg::MioStrapPos
                   vpiActual: IntTypespec
-        ParamAssign start:11:11 end:11:36:
+        Parameter name:TEST_SIZE start:11:11 end:11:20:
           vpiParent: Package name:test_pkg
-          vpiLhs RefObj name:TEST_SIZE start:11:11 end:11:20:
-            vpiParent: ParamAssign
-            vpiName: TEST_SIZE
+          vpiName: TEST_SIZE
+          vpiFullName: test_pkg::TEST_SIZE
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:TEST_SIZE
             vpiFullName: test_pkg::TEST_SIZE
-            vpiActual: Parameter name:TEST_SIZE
-          vpiRhs SysFuncCall name:$bits start:11:23 end:11:36:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr SysFuncCall name:$bits start:11:23 end:11:36:
+            vpiParent: Parameter name:TEST_SIZE
             vpiName Identifier name:$bits start:11:23 end:11:28:
             vpiArgument (1 items):
               NamedArgument start:11:29 end:11:35:
@@ -267,7 +245,7 @@ Design name:unnamed:
                 vpiHighConn RefTypespec name:t_test start:11:29 end:11:35:
                   vpiParent: NamedArgument
                   vpiName: t_test
-                  vpiFullName: test_pkg::t_test
+                  vpiFullName: test_pkg::TEST_SIZE::t_test
                   vpiActual: TypedefTypespec name:t_test
       vpiTypespec (5 items):
         ArrayTypespec:
@@ -412,10 +390,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            2       1       0         1
-RefObj                               5       4       0         1
+RefObj                               2       1       0         1
 RefTypespec                         15      15       1         1
 ----------------------------------------------------------------
-Others                              29      29       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    58      56       2         4
+                                    52      50       2         4
 ===================== END REDUCTION RESULT =====================

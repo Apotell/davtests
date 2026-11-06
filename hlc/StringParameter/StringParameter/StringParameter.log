@@ -113,7 +113,7 @@ Design name:unnamed:
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
       vpiTypespec (1 items):
-        ModuleTypespec name:parameter_module:
+        "ModuleTypespec name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))":
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -139,7 +139,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:test_module
             vpiName: parameter_module
             vpiFullName: top.test_module.parameter_module
-            vpiActual: ModuleTypespec name:parameter_module
+            vpiActual: "ModuleTypespec name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
     Module name:parameter_module file:$Source01/dut.sv start:8:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:parameter_module start:8:8 end:8:24:
@@ -153,6 +153,16 @@ Design name:unnamed:
             vpiParent: Parameter name:FIRSTPARAMETER
             vpiFullName: parameter_module.FIRSTPARAMETER
             vpiActual: LogicTypespec
+          vpiExpr Constant start:9:28 end:9:40:
+            vpiParent: Parameter name:FIRSTPARAMETER
+            vpiConstType: string (6)
+            vpiSize: 80
+            vpiDecompile: "\"FIRSTVALUE\""
+            vpiValue: FIRSTVALUE
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: parameter_module.FIRSTPARAMETER
+              vpiActual: StringTypespec
         Parameter name:SECONDPARAMETER start:10:11 end:10:26:
           vpiParent: Module name:parameter_module
           vpiName: SECONDPARAMETER
@@ -161,40 +171,15 @@ Design name:unnamed:
             vpiParent: Parameter name:SECONDPARAMETER
             vpiFullName: parameter_module.SECONDPARAMETER
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:9:11 end:9:40:
-          vpiParent: Module name:parameter_module
-          vpiLhs RefObj name:FIRSTPARAMETER start:9:11 end:9:25:
-            vpiParent: ParamAssign
-            vpiName: FIRSTPARAMETER
-            vpiFullName: parameter_module.FIRSTPARAMETER
-            vpiActual: Parameter name:FIRSTPARAMETER
-          vpiRhs Constant start:9:28 end:9:40:
-            vpiParent: ParamAssign
-            vpiConstType: string (6)
-            vpiSize: 80
-            vpiDecompile: "\"FIRSTVALUE\""
-            vpiValue: FIRSTVALUE
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: parameter_module
-              vpiActual: StringTypespec
-        ParamAssign start:10:11 end:10:42:
-          vpiParent: Module name:parameter_module
-          vpiLhs RefObj name:SECONDPARAMETER start:10:11 end:10:26:
-            vpiParent: ParamAssign
-            vpiName: SECONDPARAMETER
-            vpiFullName: parameter_module.SECONDPARAMETER
-            vpiActual: Parameter name:SECONDPARAMETER
-          vpiRhs Constant start:10:29 end:10:42:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:10:29 end:10:42:
+            vpiParent: Parameter name:SECONDPARAMETER
             vpiConstType: string (6)
             vpiSize: 88
             vpiDecompile: "\"SECONDVALUE\""
             vpiValue: SECONDVALUE
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: parameter_module
+              vpiFullName: parameter_module.SECONDPARAMETER
               vpiActual: StringTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -230,19 +215,18 @@ Design name:unnamed:
       vpiName Identifier name:parameter_module start:8:8 end:8:24:
       vpiDefName: parameter_module
       vpiModule: Module name:parameter_module
-    ModuleTypespec name:parameter_module start:2:9 end:2:25:
+    "ModuleTypespec name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\")) start:2:9 end:2:25":
       vpiParent: Design name:unnamed
-      vpiName Identifier name:parameter_module start:2:9 end:2:25:
+      "vpiName Identifier name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\")) start:2:9 end:2:25":
       vpiDefName: parameter_module
       vpiParamAssign (2 items):
         ParamAssign start:3:17 end:3:49:
-          vpiParent: ModuleTypespec name:parameter_module
+          vpiParent: "ModuleTypespec name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:FIRSTPARAMETER start:3:18 end:3:32:
             vpiParent: ParamAssign
             vpiName: FIRSTPARAMETER
-            vpiFullName: parameter_module.FIRSTPARAMETER
+            vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).FIRSTPARAMETER
             vpiActual: Parameter name:FIRSTPARAMETER
           vpiRhs Constant start:3:33 end:3:48:
             vpiParent: ParamAssign
@@ -252,16 +236,15 @@ Design name:unnamed:
             vpiValue: TOPFIRSTVALUE
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: parameter_module
+              vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE"))
               vpiActual: StringTypespec
         ParamAssign start:4:17 end:4:51:
-          vpiParent: ModuleTypespec name:parameter_module
+          vpiParent: "ModuleTypespec name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:SECONDPARAMETER start:4:18 end:4:33:
             vpiParent: ParamAssign
             vpiName: SECONDPARAMETER
-            vpiFullName: parameter_module.SECONDPARAMETER
+            vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).SECONDPARAMETER
             vpiActual: Parameter name:SECONDPARAMETER
           vpiRhs Constant start:4:34 end:4:50:
             vpiParent: ParamAssign
@@ -271,7 +254,7 @@ Design name:unnamed:
             vpiValue: TOPSECONDVALUE
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: parameter_module
+              vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE"))
               vpiActual: StringTypespec
       vpiModule: Module name:parameter_module
   vpiLibrary (1 items):
@@ -326,7 +309,7 @@ COMMAND: ${HLC_DIR}/regression/StringParameter/StringParameter/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1419,6 +1419,8 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:80:3: Unsupported typespec "alert_handler_ping_timer".
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:132:3: Unsupported typespec "alert_handler_class".
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:112:5: Unsupported typespec "prim_alert_receiver".
+[ERR:DL2520] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:113:7: Cannot override a local parameter "AsyncOn",
+             $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_pkg.sv:13:32: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:152:5: Unsupported typespec "alert_handler_accu".
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:163:5: Unsupported typespec "alert_handler_esc_timer".
 [ERR:DL2510] $Source01/src/lowrisc_ip_alert_handler_component_0.1/rtl/alert_handler.sv:198:5: Unsupported typespec "prim_esc_sender".
@@ -1434,12 +1436,12 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:524:3: Unsupported typespec "prim_fifo_sync".
 [ERR:DL2510] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:541:3: Unsupported typespec "flash_ctrl_rd".
 [ERR:DL2510] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:567:3: Unsupported typespec "flash_ctrl_erase".
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:461:10: Select name does not match pretty-printed expression: id:176264, type:BitSelect, name:prog_type_en[FlashProgNormal], relation:vpiLhs.
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:461:50: Select name does not match pretty-printed expression: id:176266, type:BitSelect, name:prog_type_avail[FlashProgNormal], relation:vpiPathElem.
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:463:10: Select name does not match pretty-printed expression: id:176279, type:BitSelect, name:prog_type_en[FlashProgRepair], relation:vpiLhs.
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:463:50: Select name does not match pretty-printed expression: id:176281, type:BitSelect, name:prog_type_avail[FlashProgRepair], relation:vpiPathElem.
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:749:59: Select name does not match pretty-printed expression: id:177376, type:BitSelect, name:prog_type_avail[FlashProgNormal], relation:vpiPathElem.
-[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:751:59: Select name does not match pretty-printed expression: id:177396, type:BitSelect, name:prog_type_avail[FlashProgRepair], relation:vpiPathElem.
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:461:10: Select name "prog_type_en[FlashProgNormal]" does not match pretty-printed name prog_type_en[FlashProgNormal = 0].
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:461:50: Select name "prog_type_avail[FlashProgNormal]" does not match pretty-printed name prog_type_avail[FlashProgNormal = 0].
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:463:10: Select name "prog_type_en[FlashProgRepair]" does not match pretty-printed name prog_type_en[FlashProgRepair = 1].
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:463:50: Select name "prog_type_avail[FlashProgRepair]" does not match pretty-printed name prog_type_avail[FlashProgRepair = 1].
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:749:59: Select name "prog_type_avail[FlashProgNormal]" does not match pretty-printed name prog_type_avail[FlashProgNormal = 0].
+[ERR:LN7722] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:751:59: Select name "prog_type_avail[FlashProgRepair]" does not match pretty-printed name prog_type_avail[FlashProgRepair = 1].
 [ERR:DL2510] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:642:7: Unsupported typespec "flash_ctrl_info_cfg".
 [ERR:DL2516] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:643:15: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
 [ERR:DL2516] $Source01/src/lowrisc_systems_flash_ctrl_0.1/rtl/autogen/flash_ctrl.sv:644:18: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
@@ -1452,20 +1454,42 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ip_hmac_0.1/rtl/hmac.sv:368:3: Unsupported typespec "hmac_core".
 [ERR:DL2510] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:345:3: Unsupported typespec "otbn_reg_top".
 [ERR:DL2510] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:512:5: Unsupported typespec "otbn_core".
-[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:175:14: Select name does not match pretty-printed expression: id:193047, type:BitSelect, name:tl_win_h2d[TlWinImem], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:176:14: Select name does not match pretty-printed expression: id:193052, type:BitSelect, name:tl_win_d2h[TlWinImem], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:306:16: Select name does not match pretty-printed expression: id:193547, type:BitSelect, name:tl_win_h2d[TlWinDmem], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:307:16: Select name does not match pretty-printed expression: id:193552, type:BitSelect, name:tl_win_d2h[TlWinDmem], relation:vpiHighConn.
+[ERR:DL2520] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:514:7: Cannot override a local parameter "DmemSizeByte",
+             $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:43:18: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:515:7: Cannot override a local parameter "ImemSizeByte",
+             $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:42:18: declared here.
+[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:175:14: Select name "tl_win_h2d[TlWinImem]" does not match pretty-printed name tl_win_h2d[TlWinImem = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:176:14: Select name "tl_win_d2h[TlWinImem]" does not match pretty-printed name tl_win_d2h[TlWinImem = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:306:16: Select name "tl_win_h2d[TlWinDmem]" does not match pretty-printed name tl_win_h2d[TlWinDmem = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:307:16: Select name "tl_win_d2h[TlWinDmem]" does not match pretty-printed name tl_win_d2h[TlWinDmem = 1].
 [ERR:DL2510] $Source01/src/lowrisc_ip_otbn_0.1/rtl/otbn.sv:409:5: Unsupported typespec "prim_alert_sender".
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:62:3: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:63:5: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:75:3: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:76:5: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:88:3: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:89:5: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:107:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:108:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:120:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:121:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:135:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:136:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:169:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:170:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:182:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:183:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:197:7: Unsupported typespec "prim_pad_wrapper".
+[ERR:DL2520] $Source01/src/lowrisc_ip_padctrl_component_0.1/rtl/padring.sv:198:9: Cannot override a local parameter "AttrDw",
+             $Source01/src/lowrisc_top_earlgrey_padctrl_reg_0.1/rtl/autogen/padctrl_reg_pkg.sv:12:17: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_pinmux_component_0.1/rtl/pinmux_wkup.sv:164:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_ip_rv_timer_0.1/rtl/rv_timer.sv:94:5: Unsupported typespec "timer_core".
 [ERR:DL2510] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:261:3: Unsupported typespec "prim_pulse_sync".
@@ -1477,22 +1501,22 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:447:3: Unsupported typespec "spi_fwm_txf_ctrl".
 [ERR:DL2510] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:530:3: Unsupported typespec "prim_ram_2p_adv".
 [ERR:DL2510] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:565:3: Unsupported typespec "spi_device_reg_top".
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:436:19: Select name does not match pretty-printed expression: id:203628, type:BitSelect, name:fwm_sram_req[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:437:19: Select name does not match pretty-printed expression: id:203633, type:BitSelect, name:fwm_sram_write[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:438:19: Select name does not match pretty-printed expression: id:203638, type:BitSelect, name:fwm_sram_addr[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:439:19: Select name does not match pretty-printed expression: id:203643, type:BitSelect, name:fwm_sram_wdata[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:440:19: Select name does not match pretty-printed expression: id:203648, type:BitSelect, name:fwm_sram_gnt[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:441:19: Select name does not match pretty-printed expression: id:203653, type:BitSelect, name:fwm_sram_rvalid[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:442:19: Select name does not match pretty-printed expression: id:203658, type:BitSelect, name:fwm_sram_rdata[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:443:19: Select name does not match pretty-printed expression: id:203663, type:BitSelect, name:fwm_sram_error[FwModeRxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:467:19: Select name does not match pretty-printed expression: id:203712, type:BitSelect, name:fwm_sram_req[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:468:19: Select name does not match pretty-printed expression: id:203717, type:BitSelect, name:fwm_sram_write[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:469:19: Select name does not match pretty-printed expression: id:203722, type:BitSelect, name:fwm_sram_addr[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:470:19: Select name does not match pretty-printed expression: id:203727, type:BitSelect, name:fwm_sram_wdata[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:471:19: Select name does not match pretty-printed expression: id:203732, type:BitSelect, name:fwm_sram_gnt[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:472:19: Select name does not match pretty-printed expression: id:203737, type:BitSelect, name:fwm_sram_rvalid[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:473:19: Select name does not match pretty-printed expression: id:203742, type:BitSelect, name:fwm_sram_rdata[FwModeTxFifo], relation:vpiHighConn.
-[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:474:19: Select name does not match pretty-printed expression: id:203747, type:BitSelect, name:fwm_sram_error[FwModeTxFifo], relation:vpiHighConn.
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:436:19: Select name "fwm_sram_req[FwModeRxFifo]" does not match pretty-printed name fwm_sram_req[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:437:19: Select name "fwm_sram_write[FwModeRxFifo]" does not match pretty-printed name fwm_sram_write[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:438:19: Select name "fwm_sram_addr[FwModeRxFifo]" does not match pretty-printed name fwm_sram_addr[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:439:19: Select name "fwm_sram_wdata[FwModeRxFifo]" does not match pretty-printed name fwm_sram_wdata[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:440:19: Select name "fwm_sram_gnt[FwModeRxFifo]" does not match pretty-printed name fwm_sram_gnt[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:441:19: Select name "fwm_sram_rvalid[FwModeRxFifo]" does not match pretty-printed name fwm_sram_rvalid[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:442:19: Select name "fwm_sram_rdata[FwModeRxFifo]" does not match pretty-printed name fwm_sram_rdata[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:443:19: Select name "fwm_sram_error[FwModeRxFifo]" does not match pretty-printed name fwm_sram_error[FwModeRxFifo = 0].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:467:19: Select name "fwm_sram_req[FwModeTxFifo]" does not match pretty-printed name fwm_sram_req[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:468:19: Select name "fwm_sram_write[FwModeTxFifo]" does not match pretty-printed name fwm_sram_write[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:469:19: Select name "fwm_sram_addr[FwModeTxFifo]" does not match pretty-printed name fwm_sram_addr[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:470:19: Select name "fwm_sram_wdata[FwModeTxFifo]" does not match pretty-printed name fwm_sram_wdata[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:471:19: Select name "fwm_sram_gnt[FwModeTxFifo]" does not match pretty-printed name fwm_sram_gnt[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:472:19: Select name "fwm_sram_rvalid[FwModeTxFifo]" does not match pretty-printed name fwm_sram_rvalid[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:473:19: Select name "fwm_sram_rdata[FwModeTxFifo]" does not match pretty-printed name fwm_sram_rdata[FwModeTxFifo = 1].
+[ERR:LN7722] $Source01/src/lowrisc_ip_spi_device_0.1/rtl/spi_device.sv:474:19: Select name "fwm_sram_error[FwModeTxFifo]" does not match pretty-printed name fwm_sram_error[FwModeTxFifo = 1].
 [ERR:DL2510] $Source01/src/lowrisc_ip_uart_0.1/rtl/uart.sv:49:3: Unsupported typespec "uart_core".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:315:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:336:3: Unsupported typespec "prim_pulse_sync".
@@ -1504,6 +1528,18 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:406:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:415:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:477:3: Unsupported typespec "usbdev_usbif".
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:478:5: Cannot override a local parameter "NEndpoints",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev_reg_pkg.sv:10:17: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:479:5: Cannot override a local parameter "AVFifoWidth",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:84:18: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:480:5: Cannot override a local parameter "RXFifoWidth",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:88:18: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:481:5: Cannot override a local parameter "MaxPktSizeByte",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:76:18: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:482:5: Cannot override a local parameter "NBuf",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:80:18: declared here.
+[ERR:DL2520] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:483:5: Cannot override a local parameter "SramAw",
+             $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:78:18: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:585:3: Unsupported typespec "usbdev_flop_2syncpulse".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:595:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_ip_usbdev_0.1/rtl/usbdev.sv:607:3: Unsupported typespec "prim_pulse_sync".
@@ -1518,6 +1554,8 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ip_pwrmgr_0.1/rtl/pwrmgr_cdc.sv:202:3: Unsupported typespec "prim_pulse_sync".
 [ERR:DL2510] $Source01/src/lowrisc_top_earlgrey_rv_plic_0.1/rtl/autogen/rv_plic.sv:241:3: Unsupported typespec "rv_plic_gateway".
 [ERR:DL2510] $Source01/src/lowrisc_top_earlgrey_rv_plic_0.1/rtl/autogen/rv_plic.sv:260:5: Unsupported typespec "rv_plic_target".
+[ERR:DL2520] $Source01/src/lowrisc_top_earlgrey_rv_plic_0.1/rtl/autogen/rv_plic.sv:262:7: Cannot override a local parameter "MAX_PRIO",
+             $Source01/src/lowrisc_top_earlgrey_rv_plic_0.1/rtl/autogen/rv_plic.sv:49:18: declared here.
 [ERR:DL2510] $Source01/src/lowrisc_systems_top_earlgrey_0.1/rtl/autogen/top_earlgrey.sv:425:3: Unsupported typespec "rv_core_ibex".
 [ERR:DL2510] $Source01/src/lowrisc_systems_top_earlgrey_0.1/rtl/autogen/top_earlgrey.sv:492:3: Unsupported typespec "rv_dm".
 [ERR:DL2510] $Source01/src/lowrisc_systems_top_earlgrey_0.1/rtl/autogen/top_earlgrey.sv:549:3: Unsupported typespec "prim_rom_adv".
@@ -1561,7 +1599,7 @@ COMMAND: -wd ../../../tests/IncompTitan -sverilog -Isrc/lowrisc_prim_assert_0.1/
 [ERR:DL2510] $Source01/src/lowrisc_ibex_ibex_core_0.1/rtl/ibex_if_stage.sv:455:5: Unsupported typespec "ibex_branch_predict".
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 163
+[  ERROR] : 182
 [WARNING] : 557
 [   NOTE] : 66
 ********************************************************************************
@@ -2067,11 +2105,11 @@ Identifier                       13955   13909       0        46
 LogicTypespec                     3718    3719       1         0
 NamedArgument                    19734   19688       0        46
 Operation                        16547   14807       0      1740
-RefObj                           81052   79754       0      1298
-RefTypespec                      50399   49691    1211      1919
+RefObj                           79657   78359       0      1298
+RefTypespec                      50393   49685    1211      1919
 SysFuncCall                        793     747       0        46
 ----------------------------------------------------------------
-Others                           62701   62701       0         0
+Others                           61300   61300       0         0
 ----------------------------------------------------------------
-                                281479  277147    2682      7014
+                                278677  274345    2682      7014
 ===================== END REDUCTION RESULT =====================

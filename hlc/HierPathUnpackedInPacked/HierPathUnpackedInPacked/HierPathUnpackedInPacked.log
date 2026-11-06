@@ -376,6 +376,16 @@ Design name:unnamed:
             vpiParent: Parameter name:Shares
             vpiFullName: keymgr_pkg::Shares
             vpiActual: IntTypespec
+          vpiExpr Constant start:2:27 end:2:28:
+            vpiParent: Parameter name:Shares
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: keymgr_pkg::Shares
+              vpiActual: IntTypespec
         Parameter name:KeyWidth start:3:18 end:3:26:
           vpiParent: Package name:keymgr_pkg
           vpiName: KeyWidth
@@ -385,40 +395,15 @@ Design name:unnamed:
             vpiParent: Parameter name:KeyWidth
             vpiFullName: keymgr_pkg::KeyWidth
             vpiActual: IntTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:2:18 end:2:28:
-          vpiParent: Package name:keymgr_pkg
-          vpiLhs RefObj name:Shares start:2:18 end:2:24:
-            vpiParent: ParamAssign
-            vpiName: Shares
-            vpiFullName: keymgr_pkg::Shares
-            vpiActual: Parameter name:Shares
-          vpiRhs Constant start:2:27 end:2:28:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: keymgr_pkg
-              vpiActual: IntTypespec
-        ParamAssign start:3:18 end:3:31:
-          vpiParent: Package name:keymgr_pkg
-          vpiLhs RefObj name:KeyWidth start:3:18 end:3:26:
-            vpiParent: ParamAssign
-            vpiName: KeyWidth
-            vpiFullName: keymgr_pkg::KeyWidth
-            vpiActual: Parameter name:KeyWidth
-          vpiRhs Constant start:3:29 end:3:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:3:29 end:3:31:
+            vpiParent: Parameter name:KeyWidth
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "16"
             vpiValue: 16
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: keymgr_pkg
+              vpiFullName: keymgr_pkg::KeyWidth
               vpiActual: IntTypespec
       vpiTypespec (7 items):
         LogicTypespec:
@@ -652,24 +637,8 @@ Design name:unnamed:
             vpiParent: Parameter name:p1
             vpiFullName: top.p1
             vpiActual: LogicTypespec
-        Parameter name:p2 start:24:13 end:24:15:
-          vpiParent: Module name:top
-          vpiName: p2
-          vpiFullName: top.p2
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:p2
-            vpiFullName: top.p2
-            vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:23:13 end:23:44:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:p1 start:23:13 end:23:15:
-            vpiParent: ParamAssign
-            vpiName: p1
-            vpiFullName: top.p1
-            vpiActual: Parameter name:p1
-          vpiRhs SysFuncCall name:$bits start:23:18 end:23:44:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$bits start:23:18 end:23:44:
+            vpiParent: Parameter name:p1
             vpiName Identifier name:$bits start:23:18 end:23:23:
             vpiArgument (1 items):
               NamedArgument start:23:24 end:23:43:
@@ -677,21 +646,21 @@ Design name:unnamed:
                 vpiHighConn RefObj name:keymgr_key_i.key[0] start:23:24 end:23:43:
                   vpiParent: NamedArgument
                   vpiName: keymgr_key_i.key[0]
-                  vpiFullName: top.keymgr_key_i.key[0]
+                  vpiFullName: top.p1.keymgr_key_i.key[0]
                   vpiPathElem (2 items):
                     RefObj name:keymgr_key_i start:23:24 end:23:36:
                       vpiParent: RefObj name:keymgr_key_i.key[0]
                       vpiName: keymgr_key_i
-                      vpiFullName: top.keymgr_key_i
+                      vpiFullName: top.p1.keymgr_key_i
                       vpiActual: Variable name:keymgr_key_i
                     BitSelect name:key[0] start:23:37 end:23:42:
                       vpiParent: RefObj name:keymgr_key_i.key[0]
                       vpiName: key[0]
-                      vpiFullName: top.keymgr_key_i.key[0].key[0]
+                      vpiFullName: top.p1.keymgr_key_i.key[0].key[0]
                       vpiPrefix RefObj name:key start:23:37 end:23:40:
                         vpiParent: BitSelect name:key[0]
                         vpiName: key
-                        vpiFullName: top.keymgr_key_i.key[0].key
+                        vpiFullName: top.p1.keymgr_key_i.key[0].key
                         vpiActual: TypespecMember name:key
                       vpiIndex Constant start:23:41 end:23:42:
                         vpiParent: BitSelect name:key[0]
@@ -701,18 +670,19 @@ Design name:unnamed:
                         vpiValue: 0
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: top.keymgr_key_i.key[0].key[0]
+                          vpiFullName: top.p1.keymgr_key_i.key[0].key[0]
                           vpiActual: IntTypespec
                   vpiActual: BitSelect name:key[0]
-        ParamAssign start:24:13 end:24:34:
+        Parameter name:p2 start:24:13 end:24:15:
           vpiParent: Module name:top
-          vpiLhs RefObj name:p2 start:24:13 end:24:15:
-            vpiParent: ParamAssign
-            vpiName: p2
+          vpiName: p2
+          vpiFullName: top.p2
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:p2
             vpiFullName: top.p2
-            vpiActual: Parameter name:p2
-          vpiRhs SysFuncCall name:$bits start:24:18 end:24:34:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr SysFuncCall name:$bits start:24:18 end:24:34:
+            vpiParent: Parameter name:p2
             vpiName Identifier name:$bits start:24:18 end:24:23:
             vpiArgument (1 items):
               NamedArgument start:24:24 end:24:33:
@@ -720,21 +690,21 @@ Design name:unnamed:
                 vpiHighConn RefObj name:a.pair[0] start:24:24 end:24:33:
                   vpiParent: NamedArgument
                   vpiName: a.pair[0]
-                  vpiFullName: top.a.pair[0]
+                  vpiFullName: top.p2.a.pair[0]
                   vpiPathElem (2 items):
                     RefObj name:a start:24:24 end:24:25:
                       vpiParent: RefObj name:a.pair[0]
                       vpiName: a
-                      vpiFullName: top.a
+                      vpiFullName: top.p2.a
                       vpiActual: Variable name:a
                     BitSelect name:pair[0] start:24:26 end:24:32:
                       vpiParent: RefObj name:a.pair[0]
                       vpiName: pair[0]
-                      vpiFullName: top.a.pair[0].pair[0]
+                      vpiFullName: top.p2.a.pair[0].pair[0]
                       vpiPrefix RefObj name:pair start:24:26 end:24:30:
                         vpiParent: BitSelect name:pair[0]
                         vpiName: pair
-                        vpiFullName: top.a.pair[0].pair
+                        vpiFullName: top.p2.a.pair[0].pair
                         vpiActual: TypespecMember name:pair
                       vpiIndex Constant start:24:31 end:24:32:
                         vpiParent: BitSelect name:pair[0]
@@ -744,7 +714,7 @@ Design name:unnamed:
                         vpiValue: 0
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: top.a.pair[0].pair[0]
+                          vpiFullName: top.p2.a.pair[0].pair[0]
                           vpiActual: IntTypespec
                   vpiActual: BitSelect name:pair[0]
       vpiTypespec (1 items):
@@ -922,10 +892,10 @@ Name                            Before   After   Added   Removed
 Constant                            13      13       3         3
 LongIntTypespec                      0       1       1         0
 Operation                            5       2       0         3
-RefObj                              20      18       0         2
+RefObj                              16      14       0         2
 RefTypespec                         30      30       3         3
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   132     128       7        11
+                                   124     120       7        11
 ===================== END REDUCTION RESULT =====================

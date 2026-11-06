@@ -81,7 +81,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/iface_class_test_8.sv:9:18: Failed to bind "bhg".
 [WRN:CP5851] $Source01/iface_class_test_8.sv:9:23: Failed to bind "arr".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/iface_class_test_8.sv:9:16: Null Actual: id:29, type:SubroutineCall, name:f, relation:vpiOperand.
+[ERR:LN7705] $Source01/iface_class_test_8.sv:9:16: Null Actual: id:25, type:SubroutineCall, name:f, relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -105,11 +105,25 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: base_ic::N
             vpiActual: LogicTypespec
+          vpiExpr Constant start:7:15 end:7:16:
+            vpiParent: Parameter name:N
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: base_ic::N
+              vpiActual: IntTypespec
         TypeParameter name:T start:8:16 end:8:17:
           vpiParent: ClassDefn name:base_ic
           vpiName: T
           vpiFullName: base_ic::T
           vpiLocalParam: true
+          vpiExpr RefTypespec start:8:20 end:8:23:
+            vpiParent: TypeParameter name:T
+            vpiFullName: base_ic::T
+            vpiActual: BitTypespec
         Parameter name:M start:9:12 end:9:13:
           vpiParent: ClassDefn name:base_ic
           vpiName: M
@@ -119,44 +133,8 @@ Design name:unnamed:
             vpiParent: Parameter name:M
             vpiFullName: base_ic::M
             vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:7:11 end:7:16:
-          vpiParent: ClassDefn name:base_ic
-          vpiLhs RefObj name:N start:7:11 end:7:12:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: base_ic::N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:7:15 end:7:16:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: base_ic
-              vpiActual: IntTypespec
-        ParamAssign start:8:16 end:8:23:
-          vpiParent: ClassDefn name:base_ic
-          vpiLhs RefTypespec name:T start:8:16 end:8:17:
-            vpiParent: ParamAssign
-            vpiName: T
-            vpiFullName: base_ic::T
-            vpiActual: TypeParameter name:T
-          vpiRhs RefTypespec start:8:20 end:8:23:
-            vpiParent: ParamAssign
-            vpiFullName: base_ic
-            vpiActual: BitTypespec
-        ParamAssign start:9:12 end:9:33:
-          vpiParent: ClassDefn name:base_ic
-          vpiLhs RefObj name:M start:9:12 end:9:13:
-            vpiParent: ParamAssign
-            vpiName: M
-            vpiFullName: base_ic::M
-            vpiActual: Parameter name:M
-          vpiRhs Operation start:9:16 end:9:33:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:9:16 end:9:33:
+            vpiParent: Parameter name:M
             vpiOpType: subtract (11)
             vpiOperand (2 items):
               SubroutineCall name:f start:9:16 end:9:30:
@@ -168,24 +146,24 @@ Design name:unnamed:
                     vpiHighConn RefObj name:bhg.arr[N] start:9:18 end:9:29:
                       vpiParent: NamedArgument
                       vpiName: bhg.arr[N]
-                      vpiFullName: base_ic::bhg.arr[N]
+                      vpiFullName: base_ic::M::bhg.arr[N]
                       vpiPathElem (2 items):
                         RefObj name:bhg start:9:18 end:9:21:
                           vpiParent: RefObj name:bhg.arr[N]
                           vpiName: bhg
-                          vpiFullName: base_ic::bhg
+                          vpiFullName: base_ic::M::bhg
                         BitSelect name:arr[N] start:9:23 end:9:28:
                           vpiParent: RefObj name:bhg.arr[N]
                           vpiName: arr[N]
-                          vpiFullName: base_ic::bhg.arr[N]::arr[N]
+                          vpiFullName: base_ic::M::bhg.arr[N]::arr[N]
                           vpiPrefix RefObj name:arr start:9:23 end:9:26:
                             vpiParent: BitSelect name:arr[N]
                             vpiName: arr
-                            vpiFullName: base_ic::bhg.arr[N]::arr
+                            vpiFullName: base_ic::M::bhg.arr[N]::arr
                           vpiIndex RefObj name:N start:9:27 end:9:28:
                             vpiParent: BitSelect name:arr[N]
                             vpiName: N
-                            vpiFullName: base_ic::bhg.arr[N]::N
+                            vpiFullName: base_ic::M::bhg.arr[N]::N
                             vpiActual: Parameter name:N
               Constant start:9:32 end:9:33:
                 vpiParent: Operation
@@ -195,7 +173,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: base_ic
+                  vpiFullName: base_ic::M
                   vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -276,7 +254,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/iface/iface_class_test_8/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    31      31       0         0
 ===================== END REDUCTION RESULT =====================

@@ -2392,13 +2392,13 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
-        ModuleTypespec name:prover:
+        ModuleTypespec name:prover #(.WIDTH(4)):
+        ModuleTypespec name:prover #(.WIDTH(32)):
+        ModuleTypespec name:prover #(.WIDTH(63)):
+        ModuleTypespec name:prover #(.WIDTH(64)):
+        ModuleTypespec name:prover #(.WIDTH(72)):
+        ModuleTypespec name:prover #(.WIDTH(126)):
+        ModuleTypespec name:prover #(.WIDTH(128)):
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -2775,7 +2775,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p4
             vpiName: prover
             vpiFullName: t.p4.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(4))
           vpiArgument (3 items):
             NamedArgument start:18:10 end:18:21:
               vpiParent: RefInstance name:p4
@@ -2823,7 +2823,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p32
             vpiName: prover
             vpiFullName: t.p32.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(32))
           vpiArgument (3 items):
             NamedArgument start:23:10 end:23:21:
               vpiParent: RefInstance name:p32
@@ -2871,7 +2871,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p63
             vpiName: prover
             vpiFullName: t.p63.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(63))
           vpiArgument (3 items):
             NamedArgument start:28:10 end:28:21:
               vpiParent: RefInstance name:p63
@@ -2919,7 +2919,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p64
             vpiName: prover
             vpiFullName: t.p64.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(64))
           vpiArgument (3 items):
             NamedArgument start:33:10 end:33:21:
               vpiParent: RefInstance name:p64
@@ -2967,7 +2967,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p72
             vpiName: prover
             vpiFullName: t.p72.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(72))
           vpiArgument (3 items):
             NamedArgument start:38:10 end:38:21:
               vpiParent: RefInstance name:p72
@@ -3015,7 +3015,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p126
             vpiName: prover
             vpiFullName: t.p126.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(126))
           vpiArgument (3 items):
             NamedArgument start:43:10 end:43:21:
               vpiParent: RefInstance name:p126
@@ -3063,7 +3063,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:p128
             vpiName: prover
             vpiFullName: t.p128.prover
-            vpiActual: ModuleTypespec name:prover
+            vpiActual: ModuleTypespec name:prover #(.WIDTH(128))
           vpiArgument (3 items):
             NamedArgument start:48:10 end:48:21:
               vpiParent: RefInstance name:p128
@@ -3189,23 +3189,15 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: prover.WIDTH
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:77:14 end:77:23:
-          vpiParent: Module name:prover
-          vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: prover.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:77:22 end:77:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:77:22 end:77:23:
+            vpiParent: Parameter name:WIDTH
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover.WIDTH
               vpiActual: IntTypespec
       vpiTypespec (12 items):
         LogicTypespec:
@@ -5909,18 +5901,17 @@ Design name:unnamed:
       vpiName Identifier name:prover start:71:8 end:71:14:
       vpiDefName: prover
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:41:4 end:41:10:
+    ModuleTypespec name:prover #(.WIDTH(126)) start:41:4 end:41:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:41:4 end:41:10:
+      vpiName Identifier name:prover #(.WIDTH(126)) start:41:4 end:41:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:41:13 end:41:16:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(126))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(126)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:41:13 end:41:16:
             vpiParent: ParamAssign
@@ -5930,21 +5921,20 @@ Design name:unnamed:
             vpiValue: 126
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(126))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:46:4 end:46:10:
+    ModuleTypespec name:prover #(.WIDTH(128)) start:46:4 end:46:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:46:4 end:46:10:
+      vpiName Identifier name:prover #(.WIDTH(128)) start:46:4 end:46:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:46:13 end:46:16:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(128))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(128)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:46:13 end:46:16:
             vpiParent: ParamAssign
@@ -5954,21 +5944,20 @@ Design name:unnamed:
             vpiValue: 128
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(128))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:21:4 end:21:10:
+    ModuleTypespec name:prover #(.WIDTH(32)) start:21:4 end:21:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:21:4 end:21:10:
+      vpiName Identifier name:prover #(.WIDTH(32)) start:21:4 end:21:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:21:13 end:21:15:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(32))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(32)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:21:13 end:21:15:
             vpiParent: ParamAssign
@@ -5978,21 +5967,20 @@ Design name:unnamed:
             vpiValue: 32
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(32))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:16:4 end:16:10:
+    ModuleTypespec name:prover #(.WIDTH(4)) start:16:4 end:16:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:16:4 end:16:10:
+      vpiName Identifier name:prover #(.WIDTH(4)) start:16:4 end:16:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:16:13 end:16:14:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(4))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(4)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:16:13 end:16:14:
             vpiParent: ParamAssign
@@ -6002,21 +5990,20 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(4))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:26:4 end:26:10:
+    ModuleTypespec name:prover #(.WIDTH(63)) start:26:4 end:26:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:26:4 end:26:10:
+      vpiName Identifier name:prover #(.WIDTH(63)) start:26:4 end:26:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:26:13 end:26:15:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(63))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(63)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:26:13 end:26:15:
             vpiParent: ParamAssign
@@ -6026,21 +6013,20 @@ Design name:unnamed:
             vpiValue: 63
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(63))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:31:4 end:31:10:
+    ModuleTypespec name:prover #(.WIDTH(64)) start:31:4 end:31:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:31:4 end:31:10:
+      vpiName Identifier name:prover #(.WIDTH(64)) start:31:4 end:31:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:31:13 end:31:15:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(64))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(64)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:31:13 end:31:15:
             vpiParent: ParamAssign
@@ -6050,21 +6036,20 @@ Design name:unnamed:
             vpiValue: 64
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(64))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
-    ModuleTypespec name:prover start:36:4 end:36:10:
+    ModuleTypespec name:prover #(.WIDTH(72)) start:36:4 end:36:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:prover start:36:4 end:36:10:
+      vpiName Identifier name:prover #(.WIDTH(72)) start:36:4 end:36:10:
       vpiDefName: prover
       vpiParamAssign (1 items):
         ParamAssign start:36:13 end:36:15:
-          vpiParent: ModuleTypespec name:prover
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:prover #(.WIDTH(72))
           vpiLhs RefObj name:WIDTH start:77:14 end:77:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: prover.WIDTH
+            vpiFullName: prover #(.WIDTH(72)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:36:13 end:36:15:
             vpiParent: ParamAssign
@@ -6074,7 +6059,7 @@ Design name:unnamed:
             vpiValue: 72
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: prover
+              vpiFullName: prover #(.WIDTH(72))
               vpiActual: IntTypespec
       vpiModule: Module name:prover
   vpiLibrary (1 items):
@@ -6130,10 +6115,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                           157     145      15        27
 Operation                           53      16       0        37
-RefObj                             162     147       0        15
+RefObj                             161     146       0        15
 RefTypespec                        193     171       5        27
 ----------------------------------------------------------------
-Others                             281     281       0         0
+Others                             280     280       0         0
 ----------------------------------------------------------------
-                                   846     760      20       106
+                                   844     758      20       106
 ===================== END REDUCTION RESULT =====================

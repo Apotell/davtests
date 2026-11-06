@@ -1711,23 +1711,15 @@ Design name:unnamed:
             vpiParent: Parameter name:BITS
             vpiFullName: dffn.BITS
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:43:14 end:43:22:
-          vpiParent: Module name:dffn
-          vpiLhs RefObj name:BITS start:43:14 end:43:18:
-            vpiParent: ParamAssign
-            vpiName: BITS
-            vpiFullName: dffn.BITS
-            vpiActual: Parameter name:BITS
-          vpiRhs Constant start:43:21 end:43:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:43:21 end:43:22:
+            vpiParent: Parameter name:BITS
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dffn
+              vpiFullName: dffn.BITS
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -1926,6 +1918,16 @@ Design name:unnamed:
             vpiParent: Parameter name:M
             vpiFullName: MxN_pipeline.M
             vpiActual: LogicTypespec
+          vpiExpr Constant start:56:16 end:56:17:
+            vpiParent: Parameter name:M
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: MxN_pipeline.M
+              vpiActual: IntTypespec
         Parameter name:N start:56:19 end:56:20:
           vpiParent: Module name:MxN_pipeline
           vpiName: N
@@ -1934,40 +1936,15 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: MxN_pipeline.N
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:56:14 end:56:17:
-          vpiParent: Module name:MxN_pipeline
-          vpiLhs RefObj name:M start:56:14 end:56:15:
-            vpiParent: ParamAssign
-            vpiName: M
-            vpiFullName: MxN_pipeline.M
-            vpiActual: Parameter name:M
-          vpiRhs Constant start:56:16 end:56:17:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "3"
-            vpiValue: 3
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: MxN_pipeline
-              vpiActual: IntTypespec
-        ParamAssign start:56:19 end:56:22:
-          vpiParent: Module name:MxN_pipeline
-          vpiLhs RefObj name:N start:56:19 end:56:20:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: MxN_pipeline.N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:56:21 end:56:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:56:21 end:56:22:
+            vpiParent: Parameter name:N
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "4"
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: MxN_pipeline
+              vpiFullName: MxN_pipeline.N
               vpiActual: IntTypespec
       vpiTypespec (7 items):
         LogicTypespec:
@@ -2141,8 +2118,8 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: dffn
             vpiFullName: MxN_pipeline.dffn
-            vpiActual: ModuleTypespec name:dffn
-        ModuleTypespec name:dffn:
+            vpiActual: ModuleTypespec name:dffn #(.BITS(M))
+        ModuleTypespec name:dffn #(.BITS(M)):
       vpiDefName: MxN_pipeline
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_mnpipe.v"
@@ -2357,23 +2334,22 @@ Design name:unnamed:
       vpiName Identifier name:MxN_pipeline start:55:8 end:55:20:
       vpiDefName: MxN_pipeline
       vpiModule: Module name:MxN_pipeline
-    ModuleTypespec name:dffn start:68:4 end:68:8:
+    ModuleTypespec name:dffn #(.BITS(M)) start:68:4 end:68:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dffn start:68:4 end:68:8:
+      vpiName Identifier name:dffn #(.BITS(M)) start:68:4 end:68:8:
       vpiDefName: dffn
       vpiParamAssign (1 items):
         ParamAssign start:68:11 end:68:12:
-          vpiParent: ModuleTypespec name:dffn
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:dffn #(.BITS(M))
           vpiLhs RefObj name:BITS start:43:14 end:43:18:
             vpiParent: ParamAssign
             vpiName: BITS
-            vpiFullName: dffn.BITS
+            vpiFullName: dffn #(.BITS(M)).BITS
             vpiActual: Parameter name:BITS
           vpiRhs RefObj name:M start:68:11 end:68:12:
             vpiParent: ParamAssign
             vpiName: M
-            vpiFullName: dffn.M
+            vpiFullName: dffn #(.BITS(M)).M
             vpiActual: Parameter name:M
       vpiModule: Module name:dffn
   vpiLibrary (1 items):
@@ -2429,10 +2405,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            45      46       6         5
 Operation                           24      17       0         7
-RefObj                              66      58       0         8
+RefObj                              63      55       0         8
 RefTypespec                         72      73       6         5
 ----------------------------------------------------------------
-Others                             127     127       0         0
+Others                             124     124       0         0
 ----------------------------------------------------------------
-                                   334     321      12        25
+                                   328     315      12        25
 ===================== END REDUCTION RESULT =====================

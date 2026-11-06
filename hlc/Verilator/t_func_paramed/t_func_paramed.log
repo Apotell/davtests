@@ -1016,7 +1016,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:extractor:
+        ModuleTypespec name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3)):
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -1485,7 +1485,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:extractor
             vpiName: extractor
             vpiFullName: t.extractor.extractor
-            vpiActual: ModuleTypespec name:extractor
+            vpiActual: ModuleTypespec name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3))
           vpiArgument (3 items):
             NamedArgument start:19:11 end:19:23:
               vpiParent: RefInstance name:extractor
@@ -1539,6 +1539,16 @@ Design name:unnamed:
             vpiParent: Parameter name:IN_WIDTH
             vpiFullName: extractor.IN_WIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:59:23 end:59:24:
+            vpiParent: Parameter name:IN_WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: extractor.IN_WIDTH
+              vpiActual: IntTypespec
         Parameter name:OUT_WIDTH start:60:14 end:60:23:
           vpiParent: Module name:extractor
           vpiName: OUT_WIDTH
@@ -1547,40 +1557,15 @@ Design name:unnamed:
             vpiParent: Parameter name:OUT_WIDTH
             vpiFullName: extractor.OUT_WIDTH
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:59:14 end:59:24:
-          vpiParent: Module name:extractor
-          vpiLhs RefObj name:IN_WIDTH start:59:14 end:59:22:
-            vpiParent: ParamAssign
-            vpiName: IN_WIDTH
-            vpiFullName: extractor.IN_WIDTH
-            vpiActual: Parameter name:IN_WIDTH
-          vpiRhs Constant start:59:23 end:59:24:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "8"
-            vpiValue: 8
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: extractor
-              vpiActual: IntTypespec
-        ParamAssign start:60:14 end:60:25:
-          vpiParent: Module name:extractor
-          vpiLhs RefObj name:OUT_WIDTH start:60:14 end:60:23:
-            vpiParent: ParamAssign
-            vpiName: OUT_WIDTH
-            vpiFullName: extractor.OUT_WIDTH
-            vpiActual: Parameter name:OUT_WIDTH
-          vpiRhs Constant start:60:24 end:60:25:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:60:24 end:60:25:
+            vpiParent: Parameter name:OUT_WIDTH
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "2"
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: extractor
+              vpiFullName: extractor.OUT_WIDTH
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -2133,18 +2118,17 @@ Design name:unnamed:
       vpiName Identifier name:extractor start:53:8 end:53:17:
       vpiDefName: extractor
       vpiModule: Module name:extractor
-    ModuleTypespec name:extractor start:17:4 end:17:13:
+    ModuleTypespec name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3)) start:17:4 end:17:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:extractor start:17:4 end:17:13:
+      vpiName Identifier name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3)) start:17:4 end:17:13:
       vpiDefName: extractor
       vpiParamAssign (2 items):
         ParamAssign start:17:16 end:17:17:
-          vpiParent: ModuleTypespec name:extractor
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3))
           vpiLhs RefObj name:IN_WIDTH start:59:14 end:59:22:
             vpiParent: ParamAssign
             vpiName: IN_WIDTH
-            vpiFullName: extractor.IN_WIDTH
+            vpiFullName: extractor #(.IN_WIDTH(4), .OUT_WIDTH(3)).IN_WIDTH
             vpiActual: Parameter name:IN_WIDTH
           vpiRhs Constant start:17:16 end:17:17:
             vpiParent: ParamAssign
@@ -2154,15 +2138,14 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: extractor
+              vpiFullName: extractor #(.IN_WIDTH(4), .OUT_WIDTH(3))
               vpiActual: IntTypespec
         ParamAssign start:17:18 end:17:19:
-          vpiParent: ModuleTypespec name:extractor
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:extractor #(.IN_WIDTH(4), .OUT_WIDTH(3))
           vpiLhs RefObj name:OUT_WIDTH start:60:14 end:60:23:
             vpiParent: ParamAssign
             vpiName: OUT_WIDTH
-            vpiFullName: extractor.OUT_WIDTH
+            vpiFullName: extractor #(.IN_WIDTH(4), .OUT_WIDTH(3)).OUT_WIDTH
             vpiActual: Parameter name:OUT_WIDTH
           vpiRhs Constant start:17:18 end:17:19:
             vpiParent: ParamAssign
@@ -2172,7 +2155,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: extractor
+              vpiFullName: extractor #(.IN_WIDTH(4), .OUT_WIDTH(3))
               vpiActual: IntTypespec
       vpiModule: Module name:extractor
   vpiLibrary (1 items):
@@ -2228,10 +2211,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            42      42       4         4
 Operation                           21      15       0         6
-RefObj                              54      48       0         6
+RefObj                              52      46       0         6
 RefTypespec                         63      63       4         4
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             117     117       0         0
 ----------------------------------------------------------------
-                                   299     287       8        20
+                                   295     283       8        20
 ===================== END REDUCTION RESULT =====================

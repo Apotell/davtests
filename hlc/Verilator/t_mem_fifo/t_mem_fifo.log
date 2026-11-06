@@ -1290,9 +1290,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_mem_fifo.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_mem_fifo.v:65:1: Compile module "fifo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7722] $Source01/t_mem_fifo.v:101:7: Select name does not match pretty-printed expression: id:569, type:IndexedPartSelect, name:fifo[wrPtr[fifoDepthLog2-1:0]][{1'b0, ~inWordPtr, 4'b0}+:16], relation:vpiLhs.
-[ERR:LN7722] $Source01/t_mem_fifo.v:101:3: Select name does not match pretty-printed expression: id:555, type:BitSelect, name:fifo[wrPtr[fifoDepthLog2-1:0]], relation:vpiPrefix.
-[ERR:LN7722] $Source01/t_mem_fifo.v:107:18: Select name does not match pretty-printed expression: id:593, type:BitSelect, name:fifo[rdPtr[fifoDepthLog2-1:0]], relation:vpiRhs.
+[ERR:LN7722] $Source01/t_mem_fifo.v:101:7: Select name "fifo[wrPtr[fifoDepthLog2-1:0]][{1'b0, ~inWordPtr, 4'b0}+:16]" does not match pretty-printed name fifo #(.fifoDepthLog2(1), .fifoDepth(1 << fifoDepthLog2))[wrPtr[fifoDepthLog2-1:0]][{1'b0, ~inWordPtr, 4'b0}+:16].
+[ERR:LN7722] $Source01/t_mem_fifo.v:101:3: Select name "fifo[wrPtr[fifoDepthLog2-1:0]]" does not match pretty-printed name fifo #(.fifoDepthLog2(1), .fifoDepth(1 << fifoDepthLog2))[wrPtr[fifoDepthLog2-1:0]].
+[ERR:LN7722] $Source01/t_mem_fifo.v:107:18: Select name "fifo[rdPtr[fifoDepthLog2-1:0]]" does not match pretty-printed name fifo #(.fifoDepthLog2(1), .fifoDepth(1 << fifoDepthLog2))[rdPtr[fifoDepthLog2-1:0]].
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2651,6 +2651,16 @@ Design name:unnamed:
             vpiParent: Parameter name:fifoDepthLog2
             vpiFullName: fifo.fifoDepthLog2
             vpiActual: LogicTypespec
+          vpiExpr Constant start:72:30 end:72:31:
+            vpiParent: Parameter name:fifoDepthLog2
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fifo.fifoDepthLog2
+              vpiActual: IntTypespec
         Parameter name:fifoDepth start:73:14 end:73:23:
           vpiParent: Module name:fifo
           vpiName: fifoDepth
@@ -2659,33 +2669,8 @@ Design name:unnamed:
             vpiParent: Parameter name:fifoDepth
             vpiFullName: fifo.fifoDepth
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:72:14 end:72:31:
-          vpiParent: Module name:fifo
-          vpiLhs RefObj name:fifoDepthLog2 start:72:14 end:72:27:
-            vpiParent: ParamAssign
-            vpiName: fifoDepthLog2
-            vpiFullName: fifo.fifoDepthLog2
-            vpiActual: Parameter name:fifoDepthLog2
-          vpiRhs Constant start:72:30 end:72:31:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: fifo
-              vpiActual: IntTypespec
-        ParamAssign start:73:14 end:73:44:
-          vpiParent: Module name:fifo
-          vpiLhs RefObj name:fifoDepth start:73:14 end:73:23:
-            vpiParent: ParamAssign
-            vpiName: fifoDepth
-            vpiFullName: fifo.fifoDepth
-            vpiActual: Parameter name:fifoDepth
-          vpiRhs Operation start:73:28 end:73:44:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:73:28 end:73:44:
+            vpiParent: Parameter name:fifoDepth
             vpiOpType: logical shift left (22)
             vpiOperand (2 items):
               Constant start:73:28 end:73:29:
@@ -2696,12 +2681,12 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: fifo
+                  vpiFullName: fifo.fifoDepth
                   vpiActual: IntTypespec
               RefObj name:fifoDepthLog2 start:73:31 end:73:44:
                 vpiParent: Operation
                 vpiName: fifoDepthLog2
-                vpiFullName: fifo.fifoDepthLog2
+                vpiFullName: fifo.fifoDepth.fifoDepthLog2
                 vpiActual: Parameter name:fifoDepthLog2
       vpiTypespec (8 items):
         LogicTypespec:
@@ -3361,10 +3346,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            81      81       4         4
 Operation                           24      20       0         4
-RefObj                              68      64       0         4
+RefObj                              66      62       0         4
 RefTypespec                        109     109       4         4
 ----------------------------------------------------------------
-Others                             201     201       0         0
+Others                             199     199       0         0
 ----------------------------------------------------------------
-                                   483     475       8        16
+                                   479     471       8        16
 ===================== END REDUCTION RESULT =====================

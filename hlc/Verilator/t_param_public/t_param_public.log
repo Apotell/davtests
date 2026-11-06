@@ -266,23 +266,15 @@ Design name:unnamed:
             vpiParent: Parameter name:INPACK
             vpiFullName: p::INPACK
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:42:15 end:42:46:
-          vpiParent: Package name:p
-          vpiLhs RefObj name:INPACK start:42:15 end:42:21:
-            vpiParent: ParamAssign
-            vpiName: INPACK
-            vpiFullName: p::INPACK
-            vpiActual: Parameter name:INPACK
-          vpiRhs Constant start:42:45 end:42:46:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:42:45 end:42:46:
+            vpiParent: Parameter name:INPACK
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "6"
             vpiValue: 6
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: p
+              vpiFullName: p::INPACK
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -307,8 +299,8 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:a:
-        ModuleTypespec name:b:
+        ModuleTypespec name:a #(.ONE(1)):
+        ModuleTypespec name:b #(.TWO(2)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_public.v"
@@ -385,7 +377,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:a1
             vpiName: a
             vpiFullName: t.a1.a
-            vpiActual: ModuleTypespec name:a
+            vpiActual: ModuleTypespec name:a #(.ONE(1))
         RefInstance name:b2 start:15:11 end:15:13:
           vpiParent: Module name:t
           vpiName: b2
@@ -393,7 +385,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:b2
             vpiName: b
             vpiFullName: t.b2.b
-            vpiActual: ModuleTypespec name:b
+            vpiActual: ModuleTypespec name:b #(.TWO(2))
     Module name:a file:$Source01/t_param_public.v start:23:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a start:23:8 end:23:9:
@@ -407,23 +399,15 @@ Design name:unnamed:
             vpiParent: Parameter name:ONE
             vpiFullName: a.ONE
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:24:14 end:24:43:
-          vpiParent: Module name:a
-          vpiLhs RefObj name:ONE start:24:14 end:24:17:
-            vpiParent: ParamAssign
-            vpiName: ONE
-            vpiFullName: a.ONE
-            vpiActual: Parameter name:ONE
-          vpiRhs Constant start:24:41 end:24:43:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:24:41 end:24:43:
+            vpiParent: Parameter name:ONE
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "22"
             vpiValue: 22
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: a
+              vpiFullName: a.ONE
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -484,23 +468,15 @@ Design name:unnamed:
             vpiParent: Parameter name:TWO
             vpiFullName: b #(.TWO(22)).TWO
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:32:15 end:32:44:
-          vpiParent: Module name:b #(.TWO(22))
-          vpiLhs RefObj name:TWO start:32:15 end:32:18:
-            vpiParent: ParamAssign
-            vpiName: TWO
-            vpiFullName: b #(.TWO(22)).TWO
-            vpiActual: Parameter name:TWO
-          vpiRhs Constant start:32:42 end:32:44:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:32:42 end:32:44:
+            vpiParent: Parameter name:TWO
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "22"
             vpiValue: 22
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: b #(.TWO(22))
+              vpiFullName: b #(.TWO(22)).TWO
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -569,18 +545,17 @@ Design name:unnamed:
       vpiName Identifier name:b start:31:8 end:31:9:
       vpiDefName: b
       vpiModule: Module name:b #(.TWO(22))
-    ModuleTypespec name:a start:14:4 end:14:5:
+    ModuleTypespec name:a #(.ONE(1)) start:14:4 end:14:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:a start:14:4 end:14:5:
+      vpiName Identifier name:a #(.ONE(1)) start:14:4 end:14:5:
       vpiDefName: a
       vpiParamAssign (1 items):
         ParamAssign start:14:8 end:14:9:
-          vpiParent: ModuleTypespec name:a
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:a #(.ONE(1))
           vpiLhs RefObj name:ONE start:24:14 end:24:17:
             vpiParent: ParamAssign
             vpiName: ONE
-            vpiFullName: a.ONE
+            vpiFullName: a #(.ONE(1)).ONE
             vpiActual: Parameter name:ONE
           vpiRhs Constant start:14:8 end:14:9:
             vpiParent: ParamAssign
@@ -590,21 +565,20 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: a
+              vpiFullName: a #(.ONE(1))
               vpiActual: IntTypespec
       vpiModule: Module name:a
-    ModuleTypespec name:b start:15:4 end:15:5:
+    ModuleTypespec name:b #(.TWO(2)) start:15:4 end:15:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:b start:15:4 end:15:5:
+      vpiName Identifier name:b #(.TWO(2)) start:15:4 end:15:5:
       vpiDefName: b
       vpiParamAssign (1 items):
         ParamAssign start:15:8 end:15:9:
-          vpiParent: ModuleTypespec name:b
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:b #(.TWO(2))
           vpiLhs RefObj name:TWO start:32:15 end:32:18:
             vpiParent: ParamAssign
             vpiName: TWO
-            vpiFullName: b.TWO
+            vpiFullName: b #(.TWO(2)).TWO
             vpiActual: Parameter name:TWO
           vpiRhs Constant start:15:8 end:15:9:
             vpiParent: ParamAssign
@@ -614,7 +588,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: b
+              vpiFullName: b #(.TWO(2))
               vpiActual: IntTypespec
       vpiModule: Module name:b #(.TWO(22))
   vpiLibrary (1 items):
@@ -670,10 +644,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            2       0       0         2
-RefObj                              12      10       0         2
+RefObj                               9       7       0         2
 RefTypespec                         15      15       2         2
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    92      88       4         8
+                                    86      82       4         8
 ===================== END REDUCTION RESULT =====================

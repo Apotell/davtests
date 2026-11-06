@@ -1151,6 +1151,16 @@ Design name:unnamed:
             vpiParent: Parameter name:SIZE
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).SIZE
             vpiActual: LogicTypespec
+          vpiExpr Constant start:4:22 end:4:24:
+            vpiParent: Parameter name:SIZE
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).SIZE
+              vpiActual: IntTypespec
         Parameter name:WIDTH start:4:26 end:4:31:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
           vpiName: WIDTH
@@ -1159,40 +1169,15 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:4:15 end:4:24:
-          vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiLhs RefObj name:SIZE start:4:15 end:4:19:
-            vpiParent: ParamAssign
-            vpiName: SIZE
-            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).SIZE
-            vpiActual: Parameter name:SIZE
-          vpiRhs Constant start:4:22 end:4:24:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "16"
-            vpiValue: 16
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-              vpiActual: IntTypespec
-        ParamAssign start:4:26 end:4:34:
-          vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiLhs RefObj name:WIDTH start:4:26 end:4:31:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:4:32 end:4:34:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:4:32 end:4:34:
+            vpiParent: Parameter name:WIDTH
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "32"
             vpiValue: 32
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
+              vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
               vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -1508,27 +1493,19 @@ Design name:unnamed:
                       vpiParent: Parameter name:START_BIT
                       vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.START_BIT
                       vpiActual: LogicTypespec
-                vpiParamAssign (1 items):
-                  ParamAssign start:17:24 end:17:49:
-                    vpiParent: GenBlock name:unflatten
-                    vpiLhs RefObj name:START_BIT start:17:24 end:17:33:
-                      vpiParent: ParamAssign
-                      vpiName: START_BIT
-                      vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.START_BIT
-                      vpiActual: Parameter name:START_BIT
-                    vpiRhs Operation start:17:36 end:17:49:
-                      vpiParent: ParamAssign
+                    vpiExpr Operation start:17:36 end:17:49:
+                      vpiParent: Parameter name:START_BIT
                       vpiOpType: multiply (25)
                       vpiOperand (2 items):
                         RefObj name:index start:17:36 end:17:41:
                           vpiParent: Operation
                           vpiName: index
-                          vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.index
+                          vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.START_BIT.index
                           vpiActual: Variable name:index
                         RefObj name:WIDTH start:17:44 end:17:49:
                           vpiParent: Operation
                           vpiName: WIDTH
-                          vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.WIDTH
+                          vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.START_BIT.WIDTH
                           vpiActual: Parameter name:WIDTH
                 vpiTypespec (1 items):
                   LogicTypespec:
@@ -1838,7 +1815,7 @@ Design name:unnamed:
                                 vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
                                 vpiActual: IntTypespec
                         vpiVector: true
-                      ModuleTypespec name:ArrayOrReduction:
+                      ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)):
                     vpiNet (1 items):
                       Net name:subResults start:31:30 end:31:40:
                         vpiParent: GenBlock name:recursive_case
@@ -1860,7 +1837,7 @@ Design name:unnamed:
                           vpiParent: RefInstance name:top
                           vpiName: ArrayOrReduction
                           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.ArrayOrReduction
-                          vpiActual: ModuleTypespec name:ArrayOrReduction
+                          vpiActual: ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2))
                         vpiArgument (2 items):
                           NamedArgument start:33:66 end:33:112:
                             vpiParent: RefInstance name:top
@@ -1971,7 +1948,7 @@ Design name:unnamed:
                           vpiParent: RefInstance name:bot
                           vpiName: ArrayOrReduction
                           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.ArrayOrReduction
-                          vpiActual: ModuleTypespec name:ArrayOrReduction
+                          vpiActual: ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2))
                         vpiArgument (2 items):
                           NamedArgument start:34:66 end:34:103:
                             vpiParent: RefInstance name:bot
@@ -2163,6 +2140,16 @@ Design name:unnamed:
             vpiParent: Parameter name:ELEMENTS
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
             vpiActual: LogicTypespec
+          vpiExpr Constant start:42:35 end:42:37:
+            vpiParent: Parameter name:ELEMENTS
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
+              vpiActual: IntTypespec
         Parameter name:WIDTH start:42:39 end:42:44:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
           vpiName: WIDTH
@@ -2171,6 +2158,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:42:45 end:42:47:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "32"
+            vpiValue: 32
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
+              vpiActual: IntTypespec
         Parameter name:ZERO_ELEMENT start:60:14 end:60:26:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
           vpiName: ZERO_ELEMENT
@@ -2180,56 +2177,14 @@ Design name:unnamed:
             vpiParent: Parameter name:ZERO_ELEMENT
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ZERO_ELEMENT
             vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:42:26 end:42:37:
-          vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiLhs RefObj name:ELEMENTS start:42:26 end:42:34:
-            vpiParent: ParamAssign
-            vpiName: ELEMENTS
-            vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
-            vpiActual: Parameter name:ELEMENTS
-          vpiRhs Constant start:42:35 end:42:37:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "16"
-            vpiValue: 16
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32))
-              vpiActual: IntTypespec
-        ParamAssign start:42:39 end:42:47:
-          vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiLhs RefObj name:WIDTH start:42:39 end:42:44:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:42:45 end:42:47:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "32"
-            vpiValue: 32
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32))
-              vpiActual: IntTypespec
-        ParamAssign start:60:14 end:60:42:
-          vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiLhs RefObj name:ZERO_ELEMENT start:60:14 end:60:26:
-            vpiParent: ParamAssign
-            vpiName: ZERO_ELEMENT
-            vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ZERO_ELEMENT
-            vpiActual: Parameter name:ZERO_ELEMENT
-          vpiRhs Operation start:60:29 end:60:42:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:60:29 end:60:42:
+            vpiParent: Parameter name:ZERO_ELEMENT
             vpiOpType: multi-concatenation (34)
             vpiOperand (2 items):
               RefObj name:WIDTH start:60:30 end:60:35:
                 vpiParent: Operation
                 vpiName: WIDTH
-                vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
+                vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ZERO_ELEMENT.WIDTH
                 vpiActual: Parameter name:WIDTH
               Operation start:60:35 end:60:41:
                 vpiParent: Operation
@@ -2243,7 +2198,7 @@ Design name:unnamed:
                     vpiValue: "0"
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32))
+                      vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ZERO_ELEMENT
                       vpiActual: BitTypespec
       vpiTypespec (8 items):
         LogicTypespec:
@@ -2842,27 +2797,19 @@ Design name:unnamed:
                       vpiParent: Parameter name:START_BIT
                       vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.START_BIT
                       vpiActual: LogicTypespec
-                vpiParamAssign (1 items):
-                  ParamAssign start:55:24 end:55:51:
-                    vpiParent: GenBlock name:unflatten
-                    vpiLhs RefObj name:START_BIT start:55:24 end:55:33:
-                      vpiParent: ParamAssign
-                      vpiName: START_BIT
-                      vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.START_BIT
-                      vpiActual: Parameter name:START_BIT
-                    vpiRhs Operation start:55:36 end:55:51:
-                      vpiParent: ParamAssign
+                    vpiExpr Operation start:55:36 end:55:51:
+                      vpiParent: Parameter name:START_BIT
                       vpiOpType: multiply (25)
                       vpiOperand (2 items):
                         RefObj name:g_index start:55:36 end:55:43:
                           vpiParent: Operation
                           vpiName: g_index
-                          vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.g_index
+                          vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.START_BIT.g_index
                           vpiActual: Variable name:g_index
                         RefObj name:WIDTH start:55:46 end:55:51:
                           vpiParent: Operation
                           vpiName: WIDTH
-                          vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.WIDTH
+                          vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.START_BIT.WIDTH
                           vpiActual: Parameter name:WIDTH
                 vpiTypespec (1 items):
                   LogicTypespec:
@@ -2947,33 +2894,31 @@ Design name:unnamed:
       vpiName Identifier name:Array start:42:8 end:42:13:
       vpiDefName: Array
       vpiModule: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-    ModuleTypespec name:ArrayOrReduction start:33:13 end:33:29:
+    ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)) start:33:13 end:33:29:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:ArrayOrReduction start:33:13 end:33:29:
+      vpiName Identifier name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)) start:33:13 end:33:29:
       vpiDefName: ArrayOrReduction
       vpiParamAssign (2 items):
         ParamAssign start:33:32 end:33:45:
-          vpiParent: ModuleTypespec name:ArrayOrReduction
+          vpiParent: ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WIDTH start:33:33 end:33:38:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: ArrayOrReduction.WIDTH
+            vpiFullName: ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs RefObj name:WIDTH start:33:39 end:33:44:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: ArrayOrReduction.WIDTH
+            vpiFullName: ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)).WIDTH
             vpiActual: Parameter name:WIDTH
         ParamAssign start:33:47 end:33:60:
-          vpiParent: ModuleTypespec name:ArrayOrReduction
+          vpiParent: ModuleTypespec name:ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:SIZE start:33:48 end:33:52:
             vpiParent: ParamAssign
             vpiName: SIZE
-            vpiFullName: ArrayOrReduction.SIZE
+            vpiFullName: ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)).SIZE
             vpiActual: Parameter name:SIZE
           vpiRhs Operation start:33:53 end:33:59:
             vpiParent: ParamAssign
@@ -2982,7 +2927,7 @@ Design name:unnamed:
               RefObj name:SIZE start:33:53 end:33:57:
                 vpiParent: Operation
                 vpiName: SIZE
-                vpiFullName: ArrayOrReduction.SIZE
+                vpiFullName: ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2)).SIZE
                 vpiActual: Parameter name:SIZE
               Constant start:33:58 end:33:59:
                 vpiParent: Operation
@@ -2992,7 +2937,7 @@ Design name:unnamed:
                 vpiValue: 2
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: ArrayOrReduction
+                  vpiFullName: ArrayOrReduction #(.WIDTH(WIDTH), .SIZE(SIZE / 2))
                   vpiActual: IntTypespec
       vpiModule: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
   vpiLibrary (1 items):
@@ -3050,11 +2995,11 @@ Constant                            52      52      19        19
 Identifier                          13      12       0         1
 NamedArgument                        5       4       0         1
 Operation                           41      15       0        26
-RefObj                              99      75       0        24
+RefObj                              92      68       0        24
 RefTypespec                         85      83      17        19
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   430     375      36        91
+                                   416     361      36        91
 ===================== END REDUCTION RESULT =====================

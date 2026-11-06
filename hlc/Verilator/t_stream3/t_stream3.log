@@ -1903,7 +1903,7 @@ Design name:unnamed:
                       vpiParent: GenFor
                       vpiFullName: t
                       vpiTypespec (1 items):
-                        ModuleTypespec name:Test:
+                        ModuleTypespec name:Test #(.WIDTH(width), .AMT(amt)):
                       vpiImplicitDecl: true
                       vpiStmt (1 items):
                         RefInstance name:test start:24:6 end:24:10:
@@ -1913,7 +1913,7 @@ Design name:unnamed:
                             vpiParent: RefInstance name:test
                             vpiName: Test
                             vpiFullName: t.test.Test
-                            vpiActual: ModuleTypespec name:Test
+                            vpiActual: ModuleTypespec name:Test #(.WIDTH(width), .AMT(amt))
                           vpiArgument (1 items):
                             NamedArgument start:24:12 end:24:32:
                               vpiParent: RefInstance name:test
@@ -2027,6 +2027,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: Test.WIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:65:22 end:65:23:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Test.WIDTH
+              vpiActual: IntTypespec
         Parameter name:AMT start:66:14 end:66:17:
           vpiParent: Module name:Test
           vpiName: AMT
@@ -2035,40 +2045,15 @@ Design name:unnamed:
             vpiParent: Parameter name:AMT
             vpiFullName: Test.AMT
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:65:14 end:65:23:
-          vpiParent: Module name:Test
-          vpiLhs RefObj name:WIDTH start:65:14 end:65:19:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: Test.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:65:22 end:65:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:66:20 end:66:21:
+            vpiParent: Parameter name:AMT
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Test
-              vpiActual: IntTypespec
-        ParamAssign start:66:14 end:66:21:
-          vpiParent: Module name:Test
-          vpiLhs RefObj name:AMT start:66:14 end:66:17:
-            vpiParent: ParamAssign
-            vpiName: AMT
-            vpiFullName: Test.AMT
-            vpiActual: Parameter name:AMT
-          vpiRhs Constant start:66:20 end:66:21:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Test
+              vpiFullName: Test.AMT
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -2729,38 +2714,36 @@ Design name:unnamed:
       vpiName Identifier name:Test start:60:8 end:60:12:
       vpiDefName: Test
       vpiModule: Module name:Test
-    ModuleTypespec name:Test start:22:6 end:22:10:
+    ModuleTypespec name:Test #(.WIDTH(width), .AMT(amt)) start:22:6 end:22:10:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Test start:22:6 end:22:10:
+      vpiName Identifier name:Test #(.WIDTH(width), .AMT(amt)) start:22:6 end:22:10:
       vpiDefName: Test
       vpiParamAssign (2 items):
         ParamAssign start:22:13 end:22:26:
-          vpiParent: ModuleTypespec name:Test
+          vpiParent: ModuleTypespec name:Test #(.WIDTH(width), .AMT(amt))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WIDTH start:22:14 end:22:19:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: Test.WIDTH
+            vpiFullName: Test #(.WIDTH(width), .AMT(amt)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs RefObj name:width start:22:20 end:22:25:
             vpiParent: ParamAssign
             vpiName: width
-            vpiFullName: Test.width
+            vpiFullName: Test #(.WIDTH(width), .AMT(amt)).width
             vpiActual: Variable name:width
         ParamAssign start:23:6 end:23:15:
-          vpiParent: ModuleTypespec name:Test
+          vpiParent: ModuleTypespec name:Test #(.WIDTH(width), .AMT(amt))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:AMT start:23:7 end:23:10:
             vpiParent: ParamAssign
             vpiName: AMT
-            vpiFullName: Test.AMT
+            vpiFullName: Test #(.WIDTH(width), .AMT(amt)).AMT
             vpiActual: Parameter name:AMT
           vpiRhs RefObj name:amt start:23:11 end:23:14:
             vpiParent: ParamAssign
             vpiName: amt
-            vpiFullName: Test.amt
+            vpiFullName: Test #(.WIDTH(width), .AMT(amt)).amt
             vpiActual: Variable name:amt
       vpiModule: Module name:Test
   vpiLibrary (1 items):
@@ -2816,10 +2799,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            45      46       9         8
 Operation                           41      32       0         9
-RefObj                              79      69       0        10
+RefObj                              77      67       0        10
 RefTypespec                         61      62       9         8
 ----------------------------------------------------------------
-Others                             203     203       0         0
+Others                             201     201       0         0
 ----------------------------------------------------------------
-                                   429     412      18        35
+                                   425     408      18        35
 ===================== END REDUCTION RESULT =====================

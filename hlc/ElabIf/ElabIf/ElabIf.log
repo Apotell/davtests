@@ -207,8 +207,8 @@ Design name:unnamed:
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiFullName: top
       vpiTypespec (2 items):
-        ModuleTypespec name:middleman:
-        ModuleTypespec name:middleman:
+        ModuleTypespec name:middleman #(.invert(1)):
+        ModuleTypespec name:middleman #(.invert(0)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -234,7 +234,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mdl1
             vpiName: middleman
             vpiFullName: top.mdl1.middleman
-            vpiActual: ModuleTypespec name:middleman
+            vpiActual: ModuleTypespec name:middleman #(.invert(1))
         RefInstance name:mdl0 start:3:28 end:3:32:
           vpiParent: Module name:top
           vpiName: mdl0
@@ -242,7 +242,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:mdl0
             vpiName: middleman
             vpiFullName: top.mdl0.middleman
-            vpiActual: ModuleTypespec name:middleman
+            vpiActual: ModuleTypespec name:middleman #(.invert(0))
     Module name:assigner #(.invert(0)) file:$Source01/dut.sv start:6:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assigner #(.invert(0)) start:6:8 end:6:16:
@@ -256,23 +256,15 @@ Design name:unnamed:
             vpiParent: Parameter name:invert
             vpiFullName: assigner #(.invert(0)).invert
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:6:29 end:6:39:
-          vpiParent: Module name:assigner #(.invert(0))
-          vpiLhs RefObj name:invert start:6:29 end:6:35:
-            vpiParent: ParamAssign
-            vpiName: invert
-            vpiFullName: assigner #(.invert(0)).invert
-            vpiActual: Parameter name:invert
-          vpiRhs Constant start:6:38 end:6:39:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:6:38 end:6:39:
+            vpiParent: Parameter name:invert
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: assigner #(.invert(0))
+              vpiFullName: assigner #(.invert(0)).invert
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -365,29 +357,21 @@ Design name:unnamed:
             vpiParent: Parameter name:invert
             vpiFullName: middleman #(.invert(0)).invert
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:30 end:13:40:
-          vpiParent: Module name:middleman #(.invert(0))
-          vpiLhs RefObj name:invert start:13:30 end:13:36:
-            vpiParent: ParamAssign
-            vpiName: invert
-            vpiFullName: middleman #(.invert(0)).invert
-            vpiActual: Parameter name:invert
-          vpiRhs Constant start:13:39 end:13:40:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:13:39 end:13:40:
+            vpiParent: Parameter name:invert
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middleman #(.invert(0))
+              vpiFullName: middleman #(.invert(0)).invert
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:middleman #(.invert(0))
           vpiScalar: true
-        ModuleTypespec name:assigner:
+        ModuleTypespec name:assigner #(.invert(invert)):
       vpiDefName: middleman
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -413,7 +397,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:asgn
             vpiName: assigner
             vpiFullName: middleman #(.invert(0)).asgn.assigner
-            vpiActual: ModuleTypespec name:assigner
+            vpiActual: ModuleTypespec name:assigner #(.invert(invert))
   vpiTypespec (13 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -445,39 +429,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:assigner start:14:4 end:14:12:
+    ModuleTypespec name:assigner #(.invert(invert)) start:14:4 end:14:12:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:assigner start:14:4 end:14:12:
+      vpiName Identifier name:assigner #(.invert(invert)) start:14:4 end:14:12:
       vpiDefName: assigner
       vpiParamAssign (1 items):
         ParamAssign start:14:15 end:14:30:
-          vpiParent: ModuleTypespec name:assigner
+          vpiParent: ModuleTypespec name:assigner #(.invert(invert))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:invert start:14:16 end:14:22:
             vpiParent: ParamAssign
             vpiName: invert
-            vpiFullName: assigner.invert
+            vpiFullName: assigner #(.invert(invert)).invert
             vpiActual: Parameter name:invert
           vpiRhs RefObj name:invert start:14:23 end:14:29:
             vpiParent: ParamAssign
             vpiName: invert
-            vpiFullName: assigner.invert
+            vpiFullName: assigner #(.invert(invert)).invert
             vpiActual: Parameter name:invert
       vpiModule: Module name:assigner #(.invert(0))
-    ModuleTypespec name:middleman start:3:4 end:3:13:
+    ModuleTypespec name:middleman #(.invert(0)) start:3:4 end:3:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:middleman start:3:4 end:3:13:
+      vpiName Identifier name:middleman #(.invert(0)) start:3:4 end:3:13:
       vpiDefName: middleman
       vpiParamAssign (1 items):
         ParamAssign start:3:16 end:3:26:
-          vpiParent: ModuleTypespec name:middleman
+          vpiParent: ModuleTypespec name:middleman #(.invert(0))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:invert start:3:17 end:3:23:
             vpiParent: ParamAssign
             vpiName: invert
-            vpiFullName: middleman.invert
+            vpiFullName: middleman #(.invert(0)).invert
             vpiActual: Parameter name:invert
           vpiRhs Constant start:3:24 end:3:25:
             vpiParent: ParamAssign
@@ -487,22 +469,21 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middleman
+              vpiFullName: middleman #(.invert(0))
               vpiActual: IntTypespec
       vpiModule: Module name:middleman #(.invert(0))
-    ModuleTypespec name:middleman start:2:4 end:2:13:
+    ModuleTypespec name:middleman #(.invert(1)) start:2:4 end:2:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:middleman start:2:4 end:2:13:
+      vpiName Identifier name:middleman #(.invert(1)) start:2:4 end:2:13:
       vpiDefName: middleman
       vpiParamAssign (1 items):
         ParamAssign start:2:16 end:2:26:
-          vpiParent: ModuleTypespec name:middleman
+          vpiParent: ModuleTypespec name:middleman #(.invert(1))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:invert start:2:17 end:2:23:
             vpiParent: ParamAssign
             vpiName: invert
-            vpiFullName: middleman.invert
+            vpiFullName: middleman #(.invert(1)).invert
             vpiActual: Parameter name:invert
           vpiRhs Constant start:2:24 end:2:25:
             vpiParent: ParamAssign
@@ -512,7 +493,7 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middleman
+              vpiFullName: middleman #(.invert(1))
               vpiActual: IntTypespec
       vpiModule: Module name:middleman #(.invert(0))
   vpiLibrary (1 items):
@@ -568,10 +549,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            18      19       1         0
 Operation                            2       1       0         1
-RefObj                              15      14       0         1
-RefTypespec                        630     631       1         0
+RefObj                              13      12       0         1
+RefTypespec                        624     625       1         0
 ----------------------------------------------------------------
-Others                            1283    1283       0         0
+Others                            1275    1275       0         0
 ----------------------------------------------------------------
-                                  1948    1948       2         2
+                                  1932    1932       2         2
 ===================== END REDUCTION RESULT =====================

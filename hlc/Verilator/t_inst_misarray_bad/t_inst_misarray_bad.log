@@ -322,7 +322,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.W(4)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_misarray_bad.v"
@@ -391,7 +391,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:udut
             vpiName: dut
             vpiFullName: t.udut.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.W(4))
           vpiArgument (2 items):
             NamedArgument start:15:22 end:15:31:
               vpiParent: RefInstance name:udut
@@ -439,23 +439,15 @@ Design name:unnamed:
             vpiParent: Parameter name:W
             vpiFullName: dut #(.W(1)).W
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:21:17 end:21:22:
-          vpiParent: Module name:dut #(.W(1))
-          vpiLhs RefObj name:W start:21:17 end:21:18:
-            vpiParent: ParamAssign
-            vpiName: W
-            vpiFullName: dut #(.W(1)).W
-            vpiActual: Parameter name:W
-          vpiRhs Constant start:21:21 end:21:22:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:21:21 end:21:22:
+            vpiParent: Parameter name:W
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut #(.W(1))
+              vpiFullName: dut #(.W(1)).W
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -797,19 +789,18 @@ Design name:unnamed:
       vpiModule: Module name:suba
     StringTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:dut start:15:4 end:15:7:
+    ModuleTypespec name:dut #(.W(4)) start:15:4 end:15:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:15:4 end:15:7:
+      vpiName Identifier name:dut #(.W(4)) start:15:4 end:15:7:
       vpiDefName: dut
       vpiParamAssign (1 items):
         ParamAssign start:15:10 end:15:15:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.W(4))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:W start:15:11 end:15:12:
             vpiParent: ParamAssign
             vpiName: W
-            vpiFullName: dut.W
+            vpiFullName: dut #(.W(4)).W
             vpiActual: Parameter name:W
           vpiRhs Constant start:15:13 end:15:14:
             vpiParent: ParamAssign
@@ -819,7 +810,7 @@ Design name:unnamed:
             vpiValue: 4
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: dut
+              vpiFullName: dut #(.W(4))
               vpiActual: IntTypespec
       vpiModule: Module name:dut #(.W(1))
   vpiLibrary (1 items):
@@ -875,10 +866,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            4       3       0         1
-RefObj                              27      26       0         1
+RefObj                              26      25       0         1
 RefTypespec                         22      22       1         1
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                   119     117       2         4
+                                   117     115       2         4
 ===================== END REDUCTION RESULT =====================

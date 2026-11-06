@@ -389,6 +389,16 @@ Design name:unnamed:
             vpiParent: Parameter name:WIDTH
             vpiFullName: bar.WIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:4:21 end:4:22:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: bar.WIDTH
+              vpiActual: IntTypespec
         Parameter name:INCREMENT start:7:14 end:7:23:
           vpiParent: Module name:bar
           vpiAttribute (1 items):
@@ -412,40 +422,15 @@ Design name:unnamed:
             vpiParent: Parameter name:INCREMENT
             vpiFullName: bar.INCREMENT
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:4:13 end:4:22:
-          vpiParent: Module name:bar
-          vpiLhs RefObj name:WIDTH start:4:13 end:4:18:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: bar.WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:4:21 end:4:22:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: bar
-              vpiActual: IntTypespec
-        ParamAssign start:7:14 end:7:27:
-          vpiParent: Module name:bar
-          vpiLhs RefObj name:INCREMENT start:7:14 end:7:23:
-            vpiParent: ParamAssign
-            vpiName: INCREMENT
-            vpiFullName: bar.INCREMENT
-            vpiActual: Parameter name:INCREMENT
-          vpiRhs Constant start:7:26 end:7:27:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:26 end:7:27:
+            vpiParent: Parameter name:INCREMENT
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "5"
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bar
+              vpiFullName: bar.INCREMENT
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -746,7 +731,7 @@ Design name:unnamed:
                   vpiFullName: foo
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:bar:
+        ModuleTypespec name:bar #(.WIDTH(8)):
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/attrib03_parameter.v"
@@ -868,7 +853,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:bar_instance
             vpiName: bar
             vpiFullName: foo.bar_instance.bar
-            vpiActual: ModuleTypespec name:bar
+            vpiActual: ModuleTypespec name:bar #(.WIDTH(8))
           vpiArgument (4 items):
             NamedArgument start:26:35 end:26:38:
               vpiParent: RefInstance name:bar_instance
@@ -934,19 +919,18 @@ Design name:unnamed:
       vpiName Identifier name:foo start:20:8 end:20:11:
       vpiDefName: foo
       vpiModule: Module name:foo
-    ModuleTypespec name:bar start:26:3 end:26:6:
+    ModuleTypespec name:bar #(.WIDTH(8)) start:26:3 end:26:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:bar start:26:3 end:26:6:
+      vpiName Identifier name:bar #(.WIDTH(8)) start:26:3 end:26:6:
       vpiDefName: bar
       vpiParamAssign (1 items):
         ParamAssign start:26:10 end:26:19:
-          vpiParent: ModuleTypespec name:bar
+          vpiParent: ModuleTypespec name:bar #(.WIDTH(8))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:WIDTH start:26:11 end:26:16:
             vpiParent: ParamAssign
             vpiName: WIDTH
-            vpiFullName: bar.WIDTH
+            vpiFullName: bar #(.WIDTH(8)).WIDTH
             vpiActual: Parameter name:WIDTH
           vpiRhs Constant start:26:17 end:26:18:
             vpiParent: ParamAssign
@@ -956,7 +940,7 @@ Design name:unnamed:
             vpiValue: 8
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: bar
+              vpiFullName: bar #(.WIDTH(8))
               vpiActual: IntTypespec
       vpiModule: Module name:bar
   vpiLibrary (1 items):
@@ -1012,10 +996,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      14       2         2
 Operation                            4       2       0         2
-RefObj                              29      27       0         2
+RefObj                              27      25       0         2
 RefTypespec                         33      33       2         2
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                   139     135       4         8
+                                   135     131       4         8
 ===================== END REDUCTION RESULT =====================

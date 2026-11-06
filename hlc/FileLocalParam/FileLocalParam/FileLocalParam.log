@@ -166,18 +166,10 @@ Design name:unnamed:
             vpiParent: Parameter name:D
             vpiFullName: top.D
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:13:13 end:13:19:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:D start:13:13 end:13:14:
-            vpiParent: ParamAssign
-            vpiName: D
-            vpiFullName: top.D
-            vpiActual: Parameter name:D
-          vpiRhs RefObj name:MAP start:13:16 end:13:19:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:MAP start:13:16 end:13:19:
+            vpiParent: Parameter name:D
             vpiName: MAP
-            vpiFullName: top.MAP
+            vpiFullName: top.D.MAP
             vpiActual: Parameter name:MAP
       vpiTypespec (1 items):
         LogicTypespec:
@@ -286,6 +278,16 @@ Design name:unnamed:
         vpiParent: Parameter name:AWIDTH
         vpiFullName: AWIDTH
         vpiActual: LogicTypespec
+      vpiExpr Constant start:1:56 end:1:58:
+        vpiParent: Parameter name:AWIDTH
+        vpiConstType: int (7)
+        vpiSize: 32
+        vpiDecompile: "16"
+        vpiValue: 16
+        vpiTypespec RefTypespec:
+          vpiParent: Constant
+          vpiFullName: AWIDTH
+          vpiActual: IntTypespec
     Parameter name:MAP start:3:23 end:3:26:
       vpiParent: Design name:unnamed
       vpiName: MAP
@@ -295,38 +297,14 @@ Design name:unnamed:
         vpiParent: Parameter name:MAP
         vpiFullName: MAP
         vpiActual: LogicTypespec
-  vpiParamAssign (2 items):
-    ParamAssign start:1:25 end:1:58:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:AWIDTH start:1:25 end:1:31:
-        vpiParent: ParamAssign
-        vpiName: AWIDTH
-        vpiFullName: AWIDTH
-        vpiActual: Parameter name:AWIDTH
-      vpiRhs Constant start:1:56 end:1:58:
-        vpiParent: ParamAssign
-        vpiConstType: int (7)
-        vpiSize: 32
-        vpiDecompile: "16"
-        vpiValue: 16
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: IntTypespec
-    ParamAssign start:3:23 end:5:48:
-      vpiParent: Design name:unnamed
-      vpiLhs RefObj name:MAP start:3:23 end:3:26:
-        vpiParent: ParamAssign
-        vpiName: MAP
-        vpiFullName: MAP
-        vpiActual: Parameter name:MAP
-      vpiRhs Operation start:3:33 end:5:48:
-        vpiParent: ParamAssign
+      vpiExpr Operation start:3:33 end:5:48:
+        vpiParent: Parameter name:MAP
         vpiOpType: concatenation (33)
         vpiOperand (1 items):
           RefObj name:AWIDTH start:4:3 end:4:9:
             vpiParent: Operation
             vpiName: AWIDTH
-            vpiFullName: AWIDTH
+            vpiFullName: MAP.AWIDTH
             vpiActual: Parameter name:AWIDTH
   vpiLibrary (1 items):
     Library name:work:
@@ -379,8 +357,13 @@ COMMAND: ${HLC_DIR}/regression/FileLocalParam/FileLocalParam/design.hldb ${HLC_D
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             3       3       1         1
+LogicTypespec                        4       5       1         0
+Operation                            2       0       0         2
+RefObj                               6       4       0         2
+RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              22      22       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    44      41       3         6
 ===================== END REDUCTION RESULT =====================

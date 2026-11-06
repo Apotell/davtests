@@ -514,6 +514,16 @@ Design name:unnamed:
             vpiParent: Parameter name:BAR
             vpiFullName: foo #(.BAR(0)).BAR
             vpiActual: LogicTypespec
+          vpiExpr Constant start:11:30 end:11:31:
+            vpiParent: Parameter name:BAR
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: foo #(.BAR(0)).BAR
+              vpiActual: IntTypespec
         Parameter name:BAZ start:12:23 end:12:26:
           vpiParent: Module name:foo #(.BAR(0))
           vpiName: BAZ
@@ -523,33 +533,8 @@ Design name:unnamed:
             vpiParent: Parameter name:BAZ
             vpiFullName: foo #(.BAR(0)).BAZ
             vpiActual: IntegerTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:11:24 end:11:31:
-          vpiParent: Module name:foo #(.BAR(0))
-          vpiLhs RefObj name:BAR start:11:24 end:11:27:
-            vpiParent: ParamAssign
-            vpiName: BAR
-            vpiFullName: foo #(.BAR(0)).BAR
-            vpiActual: Parameter name:BAR
-          vpiRhs Constant start:11:30 end:11:31:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: foo #(.BAR(0))
-              vpiActual: IntTypespec
-        ParamAssign start:12:23 end:12:41:
-          vpiParent: Module name:foo #(.BAR(0))
-          vpiLhs RefObj name:BAZ start:12:23 end:12:26:
-            vpiParent: ParamAssign
-            vpiName: BAZ
-            vpiFullName: foo #(.BAR(0)).BAZ
-            vpiActual: Parameter name:BAZ
-          vpiRhs FuncCall name:get_baz start:12:29 end:12:41:
-            vpiParent: ParamAssign
+          vpiExpr FuncCall name:get_baz start:12:29 end:12:41:
+            vpiParent: Parameter name:BAZ
             vpiName Identifier name:get_baz start:12:29 end:12:36:
             vpiTaskFunc: Function name:get_baz
             vpiArgument (1 items):
@@ -558,7 +543,7 @@ Design name:unnamed:
                 vpiHighConn RefObj name:BAR start:12:37 end:12:40:
                   vpiParent: NamedArgument
                   vpiName: BAR
-                  vpiFullName: foo #(.BAR(0)).BAR
+                  vpiFullName: foo #(.BAR(0)).BAZ.BAR
                   vpiActual: Parameter name:BAR
       vpiTypespec (2 items):
         LogicTypespec:
@@ -599,23 +584,15 @@ Design name:unnamed:
             vpiParent: Parameter name:QUX
             vpiFullName: foo2 #(.QUX(0)).QUX
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:15:25 end:15:32:
-          vpiParent: Module name:foo2 #(.QUX(0))
-          vpiLhs RefObj name:QUX start:15:25 end:15:28:
-            vpiParent: ParamAssign
-            vpiName: QUX
-            vpiFullName: foo2 #(.QUX(0)).QUX
-            vpiActual: Parameter name:QUX
-          vpiRhs Constant start:15:31 end:15:32:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:15:31 end:15:32:
+            vpiParent: Parameter name:QUX
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo2 #(.QUX(0))
+              vpiFullName: foo2 #(.QUX(0)).QUX
               vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
@@ -693,7 +670,7 @@ Design name:unnamed:
                 vpiName Identifier name:foo2_loop start:18:38 end:18:47:
                 vpiFullName: foo2 #(.QUX(0)).foo2_loop
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo:
+                  ModuleTypespec name:foo #(.BAR(QUX + x)):
                 vpiStmt (1 items):
                   RefInstance name:foo_in_foo2_inst start:19:32 end:19:48:
                     vpiParent: GenBlock name:foo2_loop
@@ -702,7 +679,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo_in_foo2_inst
                       vpiName: foo
                       vpiFullName: foo2 #(.QUX(0)).foo2_loop.foo_in_foo2_inst.foo
-                      vpiActual: ModuleTypespec name:foo
+                      vpiActual: ModuleTypespec name:foo #(.BAR(QUX + x))
     Module name:t file:$Source01/t_generate_fatal_bad.v start:24:1 end:45:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:24:8 end:24:9:
@@ -792,7 +769,7 @@ Design name:unnamed:
                 vpiName Identifier name:genloop start:27:38 end:27:45:
                 vpiFullName: t.genloop
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo:
+                  ModuleTypespec name:foo #(.BAR(i)):
                 vpiStmt (1 items):
                   RefInstance name:foo_inst start:28:26 end:28:34:
                     vpiParent: GenBlock name:genloop
@@ -801,7 +778,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo_inst
                       vpiName: foo
                       vpiFullName: t.genloop.foo_inst.foo
-                      vpiActual: ModuleTypespec name:foo
+                      vpiActual: ModuleTypespec name:foo #(.BAR(i))
             GenFor start:30:7 end:34:10:
               vpiParent: GenRegion
               vpiFullName: t
@@ -914,7 +891,7 @@ Design name:unnamed:
                       vpiName Identifier name:gen_l2 start:31:41 end:31:47:
                       vpiFullName: t.gen_l1.gen_l2
                       vpiTypespec (1 items):
-                        ModuleTypespec name:foo:
+                        ModuleTypespec name:foo #(.BAR(i + j * 2)):
                       vpiStmt (1 items):
                         RefInstance name:foo_inst2 start:32:35 end:32:44:
                           vpiParent: GenBlock name:gen_l2
@@ -923,7 +900,7 @@ Design name:unnamed:
                             vpiParent: RefInstance name:foo_inst2
                             vpiName: foo
                             vpiFullName: t.gen_l1.gen_l2.foo_inst2.foo
-                            vpiActual: ModuleTypespec name:foo
+                            vpiActual: ModuleTypespec name:foo #(.BAR(i + j * 2))
             GenIf start:35:7 end:37:10:
               vpiParent: GenRegion
               vpiCondition Operation start:35:11 end:35:17:
@@ -955,7 +932,7 @@ Design name:unnamed:
                 vpiName Identifier name:cond_true start:35:26 end:35:35:
                 vpiFullName: t.cond_true
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo:
+                  ModuleTypespec name:foo #(.BAR(6)):
                 vpiStmt (1 items):
                   RefInstance name:foo_inst3 start:36:26 end:36:35:
                     vpiParent: GenBlock name:cond_true
@@ -964,7 +941,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo_inst3
                       vpiName: foo
                       vpiFullName: t.cond_true.foo_inst3.foo
-                      vpiActual: ModuleTypespec name:foo
+                      vpiActual: ModuleTypespec name:foo #(.BAR(6))
             GenIf start:38:7 end:40:10:
               vpiParent: GenRegion
               vpiCondition Operation start:38:11 end:38:17:
@@ -995,7 +972,7 @@ Design name:unnamed:
                 vpiParent: GenIf
                 vpiFullName: t
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo:
+                  ModuleTypespec name:foo #(.BAR(7)):
                 vpiImplicitDecl: true
                 vpiStmt (1 items):
                   RefInstance name:foo_inst4 start:39:26 end:39:35:
@@ -1005,7 +982,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo_inst4
                       vpiName: foo
                       vpiFullName: t.foo_inst4.foo
-                      vpiActual: ModuleTypespec name:foo
+                      vpiActual: ModuleTypespec name:foo #(.BAR(7))
             GenFor start:41:7 end:43:10:
               vpiParent: GenRegion
               vpiFullName: t
@@ -1081,7 +1058,7 @@ Design name:unnamed:
                 vpiName Identifier name:nested_loop start:41:45 end:41:56:
                 vpiFullName: t.nested_loop
                 vpiTypespec (1 items):
-                  ModuleTypespec name:foo2:
+                  ModuleTypespec name:foo2 #(.QUX(i)):
                 vpiStmt (1 items):
                   RefInstance name:foo2_inst start:42:27 end:42:36:
                     vpiParent: GenBlock name:nested_loop
@@ -1090,7 +1067,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:foo2_inst
                       vpiName: foo2
                       vpiFullName: t.nested_loop.foo2_inst.foo2
-                      vpiActual: ModuleTypespec name:foo2
+                      vpiActual: ModuleTypespec name:foo2 #(.QUX(i))
   vpiTypespec (11 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1112,39 +1089,37 @@ Design name:unnamed:
       vpiName Identifier name:t start:24:8 end:24:9:
       vpiDefName: t
       vpiModule: Module name:t
-    ModuleTypespec name:foo2 start:42:10 end:42:14:
+    ModuleTypespec name:foo2 #(.QUX(i)) start:42:10 end:42:14:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo2 start:42:10 end:42:14:
+      vpiName Identifier name:foo2 #(.QUX(i)) start:42:10 end:42:14:
       vpiDefName: foo2
       vpiParamAssign (1 items):
         ParamAssign start:42:17 end:42:25:
-          vpiParent: ModuleTypespec name:foo2
+          vpiParent: ModuleTypespec name:foo2 #(.QUX(i))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:QUX start:42:18 end:42:21:
             vpiParent: ParamAssign
             vpiName: QUX
-            vpiFullName: foo2.QUX
+            vpiFullName: foo2 #(.QUX(i)).QUX
             vpiActual: Parameter name:QUX
           vpiRhs RefObj name:i start:42:23 end:42:24:
             vpiParent: ParamAssign
             vpiName: i
-            vpiFullName: foo2.i
+            vpiFullName: foo2 #(.QUX(i)).i
             vpiActual: Variable name:i
       vpiModule: Module name:foo2 #(.QUX(0))
-    ModuleTypespec name:foo start:36:10 end:36:13:
+    ModuleTypespec name:foo #(.BAR(6)) start:36:10 end:36:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:36:10 end:36:13:
+      vpiName Identifier name:foo #(.BAR(6)) start:36:10 end:36:13:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:36:16 end:36:24:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.BAR(6))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:BAR start:36:17 end:36:20:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: foo.BAR
+            vpiFullName: foo #(.BAR(6)).BAR
             vpiActual: Parameter name:BAR
           vpiRhs Constant start:36:22 end:36:23:
             vpiParent: ParamAssign
@@ -1154,22 +1129,21 @@ Design name:unnamed:
             vpiValue: 6
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo
+              vpiFullName: foo #(.BAR(6))
               vpiActual: IntTypespec
       vpiModule: Module name:foo #(.BAR(0))
-    ModuleTypespec name:foo start:39:10 end:39:13:
+    ModuleTypespec name:foo #(.BAR(7)) start:39:10 end:39:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:39:10 end:39:13:
+      vpiName Identifier name:foo #(.BAR(7)) start:39:10 end:39:13:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:39:16 end:39:24:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.BAR(7))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:BAR start:39:17 end:39:20:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: foo.BAR
+            vpiFullName: foo #(.BAR(7)).BAR
             vpiActual: Parameter name:BAR
           vpiRhs Constant start:39:22 end:39:23:
             vpiParent: ParamAssign
@@ -1179,22 +1153,21 @@ Design name:unnamed:
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: foo
+              vpiFullName: foo #(.BAR(7))
               vpiActual: IntTypespec
       vpiModule: Module name:foo #(.BAR(0))
-    ModuleTypespec name:foo start:19:10 end:19:13:
+    ModuleTypespec name:foo #(.BAR(QUX + x)) start:19:10 end:19:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:19:10 end:19:13:
+      vpiName Identifier name:foo #(.BAR(QUX + x)) start:19:10 end:19:13:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:19:16 end:19:30:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.BAR(QUX + x))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:BAR start:19:17 end:19:20:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: foo.BAR
+            vpiFullName: foo #(.BAR(QUX + x)).BAR
             vpiActual: Parameter name:BAR
           vpiRhs Operation start:19:22 end:19:29:
             vpiParent: ParamAssign
@@ -1203,27 +1176,26 @@ Design name:unnamed:
               RefObj name:QUX start:19:22 end:19:25:
                 vpiParent: Operation
                 vpiName: QUX
-                vpiFullName: foo.QUX
+                vpiFullName: foo #(.BAR(QUX + x)).QUX
                 vpiActual: Parameter name:QUX
               RefObj name:x start:19:28 end:19:29:
                 vpiParent: Operation
                 vpiName: x
-                vpiFullName: foo.x
+                vpiFullName: foo #(.BAR(QUX + x)).x
                 vpiActual: Variable name:x
       vpiModule: Module name:foo #(.BAR(0))
-    ModuleTypespec name:foo start:32:13 end:32:16:
+    ModuleTypespec name:foo #(.BAR(i + j * 2)) start:32:13 end:32:16:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:32:13 end:32:16:
+      vpiName Identifier name:foo #(.BAR(i + j * 2)) start:32:13 end:32:16:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:32:19 end:32:33:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.BAR(i + j * 2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:BAR start:32:20 end:32:23:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: foo.BAR
+            vpiFullName: foo #(.BAR(i + j * 2)).BAR
             vpiActual: Parameter name:BAR
           vpiRhs Operation start:32:25 end:32:32:
             vpiParent: ParamAssign
@@ -1232,7 +1204,7 @@ Design name:unnamed:
               RefObj name:i start:32:25 end:32:26:
                 vpiParent: Operation
                 vpiName: i
-                vpiFullName: foo.i
+                vpiFullName: foo #(.BAR(i + j * 2)).i
                 vpiActual: Variable name:i
               Operation start:32:29 end:32:32:
                 vpiParent: Operation
@@ -1241,7 +1213,7 @@ Design name:unnamed:
                   RefObj name:j start:32:29 end:32:30:
                     vpiParent: Operation
                     vpiName: j
-                    vpiFullName: foo.j
+                    vpiFullName: foo #(.BAR(i + j * 2)).j
                     vpiActual: Variable name:j
                   Constant start:32:31 end:32:32:
                     vpiParent: Operation
@@ -1251,27 +1223,26 @@ Design name:unnamed:
                     vpiValue: 2
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: foo
+                      vpiFullName: foo #(.BAR(i + j * 2))
                       vpiActual: IntTypespec
       vpiModule: Module name:foo #(.BAR(0))
-    ModuleTypespec name:foo start:28:10 end:28:13:
+    ModuleTypespec name:foo #(.BAR(i)) start:28:10 end:28:13:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:foo start:28:10 end:28:13:
+      vpiName Identifier name:foo #(.BAR(i)) start:28:10 end:28:13:
       vpiDefName: foo
       vpiParamAssign (1 items):
         ParamAssign start:28:16 end:28:24:
-          vpiParent: ModuleTypespec name:foo
+          vpiParent: ModuleTypespec name:foo #(.BAR(i))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:BAR start:28:17 end:28:20:
             vpiParent: ParamAssign
             vpiName: BAR
-            vpiFullName: foo.BAR
+            vpiFullName: foo #(.BAR(i)).BAR
             vpiActual: Parameter name:BAR
           vpiRhs RefObj name:i start:28:22 end:28:23:
             vpiParent: ParamAssign
             vpiName: i
-            vpiFullName: foo.i
+            vpiFullName: foo #(.BAR(i)).i
             vpiActual: Variable name:i
       vpiModule: Module name:foo #(.BAR(0))
   vpiTaskFunc (1 items):
@@ -1419,7 +1390,7 @@ Constant                            22      20       2         4
 Operation                           15      13       0         2
 RefTypespec                         35      33       2         4
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             128     128       0         0
 ----------------------------------------------------------------
-                                   206     200       4        10
+                                   200     194       4        10
 ===================== END REDUCTION RESULT =====================

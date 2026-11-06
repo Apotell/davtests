@@ -3030,8 +3030,8 @@ Design name:unnamed:
                   vpiFullName: l4
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:l5:
-        ModuleTypespec name:l5:
+        ModuleTypespec name:l5 #(.PARAM(1)):
+        ModuleTypespec name:l5 #(.PARAM(2)):
       vpiDefName: l4
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_tree.v"
@@ -3179,7 +3179,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u0
             vpiName: l5
             vpiFullName: l4.u0.l5
-            vpiActual: ModuleTypespec name:l5
+            vpiActual: ModuleTypespec name:l5 #(.PARAM(1))
           vpiArgument (2 items):
             NamedArgument start:96:16 end:96:17:
               vpiParent: RefInstance name:u0
@@ -3212,7 +3212,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u1
             vpiName: l5
             vpiFullName: l4.u1.l5
-            vpiActual: ModuleTypespec name:l5
+            vpiActual: ModuleTypespec name:l5 #(.PARAM(2))
           vpiArgument (2 items):
             NamedArgument start:96:38 end:96:40:
               vpiParent: RefInstance name:u1
@@ -3251,23 +3251,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PARAM
             vpiFullName: l5.PARAM
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:101:14 end:101:23:
-          vpiParent: Module name:l5
-          vpiLhs RefObj name:PARAM start:101:14 end:101:19:
-            vpiParent: ParamAssign
-            vpiName: PARAM
-            vpiFullName: l5.PARAM
-            vpiActual: Parameter name:PARAM
-          vpiRhs Constant start:101:22 end:101:23:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:101:22 end:101:23:
+            vpiParent: Parameter name:PARAM
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "5"
             vpiValue: 5
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: l5
+              vpiFullName: l5.PARAM
               vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -3522,18 +3514,17 @@ Design name:unnamed:
       vpiName Identifier name:l5 start:99:8 end:99:10:
       vpiDefName: l5
       vpiModule: Module name:l5
-    ModuleTypespec name:l5 start:96:4 end:96:6:
+    ModuleTypespec name:l5 #(.PARAM(1)) start:96:4 end:96:6:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:l5 start:96:4 end:96:6:
+      vpiName Identifier name:l5 #(.PARAM(1)) start:96:4 end:96:6:
       vpiDefName: l5
       vpiParamAssign (1 items):
         ParamAssign start:96:9 end:96:10:
-          vpiParent: ModuleTypespec name:l5
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:l5 #(.PARAM(1))
           vpiLhs RefObj name:PARAM start:101:14 end:101:19:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: l5.PARAM
+            vpiFullName: l5 #(.PARAM(1)).PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs Constant start:96:9 end:96:10:
             vpiParent: ParamAssign
@@ -3543,21 +3534,20 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: l5
+              vpiFullName: l5 #(.PARAM(1))
               vpiActual: IntTypespec
       vpiModule: Module name:l5
-    ModuleTypespec name:l5 start:96:26 end:96:28:
+    ModuleTypespec name:l5 #(.PARAM(2)) start:96:26 end:96:28:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:l5 start:96:26 end:96:28:
+      vpiName Identifier name:l5 #(.PARAM(2)) start:96:26 end:96:28:
       vpiDefName: l5
       vpiParamAssign (1 items):
         ParamAssign start:96:31 end:96:32:
-          vpiParent: ModuleTypespec name:l5
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:l5 #(.PARAM(2))
           vpiLhs RefObj name:PARAM start:101:14 end:101:19:
             vpiParent: ParamAssign
             vpiName: PARAM
-            vpiFullName: l5.PARAM
+            vpiFullName: l5 #(.PARAM(2)).PARAM
             vpiActual: Parameter name:PARAM
           vpiRhs Constant start:96:31 end:96:32:
             vpiParent: ParamAssign
@@ -3567,7 +3557,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: l5
+              vpiFullName: l5 #(.PARAM(2))
               vpiActual: IntTypespec
       vpiModule: Module name:l5
   vpiLibrary (1 items):
@@ -3622,7 +3612,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_tree/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             569     569       0         0
+Others                             567     567       0         0
 ----------------------------------------------------------------
-                                   569     569       0         0
+                                   567     567       0         0
 ===================== END REDUCTION RESULT =====================

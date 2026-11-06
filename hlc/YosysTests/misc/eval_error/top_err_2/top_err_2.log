@@ -473,23 +473,15 @@ Design name:unnamed:
             vpiParent: Parameter name:X
             vpiFullName: top.X
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:10:12 end:10:17:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:X start:10:12 end:10:13:
-            vpiParent: ParamAssign
-            vpiName: X
-            vpiFullName: top.X
-            vpiActual: Parameter name:X
-          vpiRhs Constant start:10:16 end:10:17:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:10:16 end:10:17:
+            vpiParent: Parameter name:X
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: top
+              vpiFullName: top.X
               vpiActual: IntTypespec
       vpiTypespec (8 items):
         LogicTypespec:
@@ -601,8 +593,8 @@ Design name:unnamed:
           vpiVector: true
         BitTypespec:
           vpiParent: Module name:top
-        ModuleTypespec name:middle:
-        ModuleTypespec name:middle:
+        ModuleTypespec name:middle #(.u(7)):
+        ModuleTypespec name:middle #(.u(0)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top_err_2.v"
@@ -807,7 +799,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_mid
             vpiName: middle
             vpiFullName: top.u_mid.middle
-            vpiActual: ModuleTypespec name:middle
+            vpiActual: ModuleTypespec name:middle #(.u(7))
           vpiArgument (3 items):
             NamedArgument start:19:20 end:19:25:
               vpiParent: RefInstance name:u_mid
@@ -860,7 +852,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_mid2
             vpiName: middle
             vpiFullName: top.u_mid2.middle
-            vpiActual: ModuleTypespec name:middle
+            vpiActual: ModuleTypespec name:middle #(.u(0))
           vpiArgument (2 items):
             NamedArgument start:20:21 end:20:26:
               vpiParent: RefInstance name:u_mid2
@@ -901,23 +893,15 @@ Design name:unnamed:
             vpiParent: Parameter name:u
             vpiFullName: middle.u
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:34:11 end:34:16:
-          vpiParent: Module name:middle
-          vpiLhs RefObj name:u start:34:11 end:34:12:
-            vpiParent: ParamAssign
-            vpiName: u
-            vpiFullName: middle.u
-            vpiActual: Parameter name:u
-          vpiRhs Constant start:34:15 end:34:16:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:34:15 end:34:16:
+            vpiParent: Parameter name:u
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "7"
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middle
+              vpiFullName: middle.u
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -1289,18 +1273,17 @@ Design name:unnamed:
       vpiName Identifier name:xiddle start:43:8 end:43:14:
       vpiDefName: xiddle
       vpiModule: Module name:xiddle
-    ModuleTypespec name:middle start:20:1 end:20:7:
+    ModuleTypespec name:middle #(.u(0)) start:20:1 end:20:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:middle start:20:1 end:20:7:
+      vpiName Identifier name:middle #(.u(0)) start:20:1 end:20:7:
       vpiDefName: middle
       vpiParamAssign (1 items):
         ParamAssign start:20:10 end:20:11:
-          vpiParent: ModuleTypespec name:middle
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:middle #(.u(0))
           vpiLhs RefObj name:u start:34:11 end:34:12:
             vpiParent: ParamAssign
             vpiName: u
-            vpiFullName: middle.u
+            vpiFullName: middle #(.u(0)).u
             vpiActual: Parameter name:u
           vpiRhs Constant start:20:10 end:20:11:
             vpiParent: ParamAssign
@@ -1310,21 +1293,20 @@ Design name:unnamed:
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middle
+              vpiFullName: middle #(.u(0))
               vpiActual: IntTypespec
       vpiModule: Module name:middle
-    ModuleTypespec name:middle start:19:1 end:19:7:
+    ModuleTypespec name:middle #(.u(7)) start:19:1 end:19:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:middle start:19:1 end:19:7:
+      vpiName Identifier name:middle #(.u(7)) start:19:1 end:19:7:
       vpiDefName: middle
       vpiParamAssign (1 items):
         ParamAssign start:19:10 end:19:11:
-          vpiParent: ModuleTypespec name:middle
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:middle #(.u(7))
           vpiLhs RefObj name:u start:34:11 end:34:12:
             vpiParent: ParamAssign
             vpiName: u
-            vpiFullName: middle.u
+            vpiFullName: middle #(.u(7)).u
             vpiActual: Parameter name:u
           vpiRhs Constant start:19:10 end:19:11:
             vpiParent: ParamAssign
@@ -1334,7 +1316,7 @@ Design name:unnamed:
             vpiValue: 7
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: middle
+              vpiFullName: middle #(.u(7))
               vpiActual: IntTypespec
       vpiModule: Module name:middle
   vpiLibrary (1 items):
@@ -1389,7 +1371,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/eval_error/top_err_2/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             195     195       0         0
 ----------------------------------------------------------------
-                                   199     199       0         0
+                                   195     195       0         0
 ===================== END REDUCTION RESULT =====================

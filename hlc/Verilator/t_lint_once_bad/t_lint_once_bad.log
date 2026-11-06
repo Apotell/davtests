@@ -174,9 +174,9 @@ Design name:unnamed:
       vpiName Identifier name:t start:9:8 end:9:9:
       vpiFullName: t
       vpiTypespec (3 items):
-        ModuleTypespec name:sub:
-        ModuleTypespec name:sub:
-        ModuleTypespec name:sub:
+        ModuleTypespec name:sub #(.A(1)):
+        ModuleTypespec name:sub #(.A(2)):
+        ModuleTypespec name:sub #(.A(3)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_lint_once_bad.v"
@@ -202,7 +202,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:sub1
             vpiName: sub
             vpiFullName: t.sub1.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.A(1))
         RefInstance name:sub2 start:11:17 end:11:21:
           vpiParent: Module name:t
           vpiName: sub2
@@ -210,7 +210,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:sub2
             vpiName: sub
             vpiFullName: t.sub2.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.A(2))
         RefInstance name:sub3 start:12:17 end:12:21:
           vpiParent: Module name:t
           vpiName: sub3
@@ -218,7 +218,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:sub3
             vpiName: sub
             vpiFullName: t.sub3.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.A(3))
     Module name:sub file:$Source01/t_lint_once_bad.v start:15:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:15:8 end:15:11:
@@ -253,23 +253,15 @@ Design name:unnamed:
             vpiParent: Parameter name:A
             vpiFullName: sub.A
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:16:14 end:16:19:
-          vpiParent: Module name:sub
-          vpiLhs RefObj name:A start:16:14 end:16:15:
-            vpiParent: ParamAssign
-            vpiName: A
-            vpiFullName: sub.A
-            vpiActual: Parameter name:A
-          vpiRhs Constant start:16:18 end:16:19:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:16:18 end:16:19:
+            vpiParent: Parameter name:A
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub.A
               vpiActual: IntTypespec
       vpiTypespec (3 items):
         LogicTypespec:
@@ -343,19 +335,18 @@ Design name:unnamed:
       vpiName Identifier name:sub start:15:8 end:15:11:
       vpiDefName: sub
       vpiModule: Module name:sub
-    ModuleTypespec name:sub start:10:4 end:10:7:
+    ModuleTypespec name:sub #(.A(1)) start:10:4 end:10:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:10:4 end:10:7:
+      vpiName Identifier name:sub #(.A(1)) start:10:4 end:10:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:10:10 end:10:15:
-          vpiParent: ModuleTypespec name:sub
+          vpiParent: ModuleTypespec name:sub #(.A(1))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:A start:10:11 end:10:12:
             vpiParent: ParamAssign
             vpiName: A
-            vpiFullName: sub.A
+            vpiFullName: sub #(.A(1)).A
             vpiActual: Parameter name:A
           vpiRhs Constant start:10:13 end:10:14:
             vpiParent: ParamAssign
@@ -365,22 +356,21 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub #(.A(1))
               vpiActual: IntTypespec
       vpiModule: Module name:sub
-    ModuleTypespec name:sub start:11:4 end:11:7:
+    ModuleTypespec name:sub #(.A(2)) start:11:4 end:11:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:11:4 end:11:7:
+      vpiName Identifier name:sub #(.A(2)) start:11:4 end:11:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:11:10 end:11:15:
-          vpiParent: ModuleTypespec name:sub
+          vpiParent: ModuleTypespec name:sub #(.A(2))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:A start:11:11 end:11:12:
             vpiParent: ParamAssign
             vpiName: A
-            vpiFullName: sub.A
+            vpiFullName: sub #(.A(2)).A
             vpiActual: Parameter name:A
           vpiRhs Constant start:11:13 end:11:14:
             vpiParent: ParamAssign
@@ -390,22 +380,21 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub #(.A(2))
               vpiActual: IntTypespec
       vpiModule: Module name:sub
-    ModuleTypespec name:sub start:12:4 end:12:7:
+    ModuleTypespec name:sub #(.A(3)) start:12:4 end:12:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:sub start:12:4 end:12:7:
+      vpiName Identifier name:sub #(.A(3)) start:12:4 end:12:7:
       vpiDefName: sub
       vpiParamAssign (1 items):
         ParamAssign start:12:10 end:12:15:
-          vpiParent: ModuleTypespec name:sub
+          vpiParent: ModuleTypespec name:sub #(.A(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:A start:12:11 end:12:12:
             vpiParent: ParamAssign
             vpiName: A
-            vpiFullName: sub.A
+            vpiFullName: sub #(.A(3)).A
             vpiActual: Parameter name:A
           vpiRhs Constant start:12:13 end:12:14:
             vpiParent: ParamAssign
@@ -415,7 +404,7 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: sub
+              vpiFullName: sub #(.A(3))
               vpiActual: IntTypespec
       vpiModule: Module name:sub
   vpiLibrary (1 items):
@@ -470,7 +459,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_once_bad/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    61      61       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

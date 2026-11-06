@@ -317,16 +317,8 @@ Design name:unnamed:
                 vpiFullName: top.init_val.pkg::complex_t.complex_t
                 vpiActual: TypedefTypespec name:complex_t
             vpiActual: TypedefTypespec name:complex_t
-      vpiParamAssign (1 items):
-        ParamAssign start:10:30 end:10:58:
-          vpiParent: Module name:top
-          vpiLhs RefObj name:init_val start:10:30 end:10:38:
-            vpiParent: ParamAssign
-            vpiName: init_val
-            vpiFullName: top.init_val
-            vpiActual: Parameter name:init_val
-          vpiRhs Operation start:10:41 end:10:58:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:10:41 end:10:58:
+            vpiParent: Parameter name:init_val
             vpiOpType: assign pattern (87)
             vpiOperand (2 items):
               TaggedPattern start:10:43 end:10:50:
@@ -334,7 +326,7 @@ Design name:unnamed:
                 vpiTag RefObj name:a start:10:43 end:10:44:
                   vpiParent: TaggedPattern
                   vpiName: a
-                  vpiFullName: top.a
+                  vpiFullName: top.init_val.a
                   vpiActual: TypespecMember name:a
                 vpiPattern Constant start:10:46 end:10:50:
                   vpiParent: TaggedPattern
@@ -344,14 +336,14 @@ Design name:unnamed:
                   vpiValue: "0"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: top
+                    vpiFullName: top.init_val
                     vpiActual: BitTypespec
               TaggedPattern start:10:52 end:10:57:
                 vpiParent: Operation
                 vpiTag RefObj name:b start:10:52 end:10:53:
                   vpiParent: TaggedPattern
                   vpiName: b
-                  vpiFullName: top.b
+                  vpiFullName: top.init_val.b
                   vpiActual: TypespecMember name:b
                 vpiPattern Constant start:10:55 end:10:57:
                   vpiParent: TaggedPattern
@@ -361,12 +353,12 @@ Design name:unnamed:
                   vpiValue: "1"
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
-                    vpiFullName: top
+                    vpiFullName: top.init_val
                     vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:top
-        ModuleTypespec name:dut:
+        ModuleTypespec name:dut #(.size($bits(pkg::complex_t)), .init({init_val})):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -394,7 +386,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:asgn0
             vpiName: dut
             vpiFullName: top.asgn0.dut
-            vpiActual: ModuleTypespec name:dut
+            vpiActual: ModuleTypespec name:dut #(.size($bits(pkg::complex_t)), .init({init_val}))
     "Module name:dut #(.size(0), .init('0)) file:$Source01/dut.sv start:17:1 end:22:10":
       vpiParent: Design name:unnamed
       "vpiName Identifier name:dut #(.size(0), .init('0)) start:17:8 end:17:11":
@@ -408,6 +400,16 @@ Design name:unnamed:
             vpiParent: Parameter name:size
             vpiFullName: "dut #(.size(0), .init('0)).size"
             vpiActual: IntTypespec
+          vpiExpr Constant start:18:26 end:18:27:
+            vpiParent: Parameter name:size
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "dut #(.size(0), .init('0)).size"
+              vpiActual: IntTypespec
         Parameter name:init start:19:30 end:19:34:
           vpiParent: "Module name:dut #(.size(0), .init('0))"
           vpiName: init
@@ -416,40 +418,15 @@ Design name:unnamed:
             vpiParent: Parameter name:init
             vpiFullName: "dut #(.size(0), .init('0)).init"
             vpiActual: BitTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:18:19 end:18:27:
-          vpiParent: "Module name:dut #(.size(0), .init('0))"
-          vpiLhs RefObj name:size start:18:19 end:18:23:
-            vpiParent: ParamAssign
-            vpiName: size
-            vpiFullName: "dut #(.size(0), .init('0)).size"
-            vpiActual: Parameter name:size
-          vpiRhs Constant start:18:26 end:18:27:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "dut #(.size(0), .init('0))"
-              vpiActual: IntTypespec
-        ParamAssign start:19:30 end:19:39:
-          vpiParent: "Module name:dut #(.size(0), .init('0))"
-          vpiLhs RefObj name:init start:19:30 end:19:34:
-            vpiParent: ParamAssign
-            vpiName: init
-            vpiFullName: "dut #(.size(0), .init('0)).init"
-            vpiActual: Parameter name:init
-          vpiRhs Constant start:19:37 end:19:39:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:19:37 end:19:39:
+            vpiParent: Parameter name:init
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "'0"
             vpiValue: "0"
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: "dut #(.size(0), .init('0))"
+              vpiFullName: "dut #(.size(0), .init('0)).init"
               vpiActual: BitTypespec
       vpiTypespec (2 items):
         BitTypespec:
@@ -532,19 +509,18 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
-    ModuleTypespec name:dut start:11:4 end:11:7:
+    ModuleTypespec name:dut #(.size($bits(pkg::complex_t)), .init({init_val})) start:11:4 end:11:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:dut start:11:4 end:11:7:
+      vpiName Identifier name:dut #(.size($bits(pkg::complex_t)), .init({init_val})) start:11:4 end:11:7:
       vpiDefName: dut
       vpiParamAssign (2 items):
         ParamAssign start:12:8 end:12:37:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.size($bits(pkg::complex_t)), .init({init_val}))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:size start:12:9 end:12:13:
             vpiParent: ParamAssign
             vpiName: size
-            vpiFullName: dut.size
+            vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).size
             vpiActual: Parameter name:size
           vpiRhs SysFuncCall name:$bits start:12:15 end:12:36:
             vpiParent: ParamAssign
@@ -556,27 +532,26 @@ Design name:unnamed:
                 vpiHighConn RefObj name:pkg::complex_t start:12:21 end:12:35:
                   vpiParent: NamedArgument
                   vpiName: pkg::complex_t
-                  vpiFullName: dut.pkg::complex_t
+                  vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).pkg::complex_t
                   vpiPathElem (2 items):
                     RefObj name:pkg start:12:21 end:12:24:
                       vpiParent: RefObj name:pkg::complex_t
                       vpiName: pkg
-                      vpiFullName: dut.pkg
+                      vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).pkg
                       vpiActual: Package name:pkg
                     RefObj name:complex_t start:12:26 end:12:35:
                       vpiParent: RefObj name:pkg::complex_t
                       vpiName: complex_t
-                      vpiFullName: dut.complex_t
+                      vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).complex_t
                       vpiActual: Typedef name:complex_t
                   vpiActual: Typedef name:complex_t
         ParamAssign start:13:8 end:13:26:
-          vpiParent: ModuleTypespec name:dut
+          vpiParent: ModuleTypespec name:dut #(.size($bits(pkg::complex_t)), .init({init_val}))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:init start:13:9 end:13:13:
             vpiParent: ParamAssign
             vpiName: init
-            vpiFullName: dut.init
+            vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).init
             vpiActual: Parameter name:init
           vpiRhs Operation start:13:15 end:13:25:
             vpiParent: ParamAssign
@@ -585,7 +560,7 @@ Design name:unnamed:
               RefObj name:init_val start:13:16 end:13:24:
                 vpiParent: Operation
                 vpiName: init_val
-                vpiFullName: dut.init_val
+                vpiFullName: dut #(.size($bits(pkg::complex_t)), .init({init_val})).init_val
                 vpiActual: Parameter name:init_val
       vpiModule: "Module name:dut #(.size(0), .init('0))"
   vpiLibrary (1 items):
@@ -641,10 +616,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            22      22       1         1
 Operation                            3       2       0         1
-RefObj                              16      15       0         1
-RefTypespec                        637     637       1         1
+RefObj                              13      12       0         1
+RefTypespec                        631     631       1         1
 ----------------------------------------------------------------
-Others                            1286    1286       0         0
+Others                            1277    1277       0         0
 ----------------------------------------------------------------
-                                  1964    1962       2         4
+                                  1946    1944       2         4
 ===================== END REDUCTION RESULT =====================

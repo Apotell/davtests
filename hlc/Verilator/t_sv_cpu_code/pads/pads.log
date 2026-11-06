@@ -518,16 +518,8 @@ Design name:unnamed:
             vpiParent: Parameter name:NUMPADS
             vpiFullName: pads #(.NUMPADS($size(pinout))).NUMPADS
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:10:5 end:10:30:
-          vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiLhs RefObj name:NUMPADS start:10:5 end:10:12:
-            vpiParent: ParamAssign
-            vpiName: NUMPADS
-            vpiFullName: pads #(.NUMPADS($size(pinout))).NUMPADS
-            vpiActual: Parameter name:NUMPADS
-          vpiRhs SysFuncCall name:$size start:10:15 end:10:30:
-            vpiParent: ParamAssign
+          vpiExpr SysFuncCall name:$size start:10:15 end:10:30:
+            vpiParent: Parameter name:NUMPADS
             vpiName Identifier name:$size start:10:15 end:10:20:
             vpiArgument (1 items):
               NamedArgument start:10:22 end:10:28:
@@ -535,7 +527,7 @@ Design name:unnamed:
                 vpiHighConn RefObj name:pinout start:10:22 end:10:28:
                   vpiParent: NamedArgument
                   vpiName: pinout
-                  vpiFullName: pads #(.NUMPADS($size(pinout))).pinout
+                  vpiFullName: pads #(.NUMPADS($size(pinout))).NUMPADS.pinout
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
@@ -739,6 +731,28 @@ Design name:unnamed:
                   vpiParent: Parameter name:p_type
                   vpiName: t_padtype
                   vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.t_padtype
+                vpiExpr RefObj name:pinout[i].padtype start:50:37 end:50:54:
+                  vpiParent: Parameter name:p_type
+                  vpiName: pinout[i].padtype
+                  vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.pinout[i].padtype
+                  vpiPathElem (2 items):
+                    BitSelect name:pinout[i] start:50:37 end:50:45:
+                      vpiParent: RefObj name:pinout[i].padtype
+                      vpiName: pinout[i]
+                      vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.pinout[i].padtype.pinout[i]
+                      vpiPrefix RefObj name:pinout start:50:37 end:50:43:
+                        vpiParent: BitSelect name:pinout[i]
+                        vpiName: pinout
+                        vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.pinout[i].padtype.pinout
+                      vpiIndex RefObj name:i start:50:44 end:50:45:
+                        vpiParent: BitSelect name:pinout[i]
+                        vpiName: i
+                        vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.pinout[i].padtype.i
+                        vpiActual: Variable name:i
+                    RefObj name:padtype start:50:47 end:50:54:
+                      vpiParent: RefObj name:pinout[i].padtype
+                      vpiName: padtype
+                      vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.padtype
               Parameter name:p_id start:51:28 end:51:32:
                 vpiParent: GenBlock
                 vpiName: p_id
@@ -748,65 +762,28 @@ Design name:unnamed:
                   vpiParent: Parameter name:p_id
                   vpiName: t_pinid
                   vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.t_pinid
-            vpiParamAssign (2 items):
-              ParamAssign start:50:28 end:50:54:
-                vpiParent: GenBlock
-                vpiLhs RefObj name:p_type start:50:28 end:50:34:
-                  vpiParent: ParamAssign
-                  vpiName: p_type
-                  vpiFullName: pads #(.NUMPADS($size(pinout))).p_type
-                  vpiActual: Parameter name:p_type
-                vpiRhs RefObj name:pinout[i].padtype start:50:37 end:50:54:
-                  vpiParent: ParamAssign
-                  vpiName: pinout[i].padtype
-                  vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].padtype
-                  vpiPathElem (2 items):
-                    BitSelect name:pinout[i] start:50:37 end:50:45:
-                      vpiParent: RefObj name:pinout[i].padtype
-                      vpiName: pinout[i]
-                      vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].padtype.pinout[i]
-                      vpiPrefix RefObj name:pinout start:50:37 end:50:43:
-                        vpiParent: BitSelect name:pinout[i]
-                        vpiName: pinout
-                        vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].padtype.pinout
-                      vpiIndex RefObj name:i start:50:44 end:50:45:
-                        vpiParent: BitSelect name:pinout[i]
-                        vpiName: i
-                        vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].padtype.i
-                        vpiActual: Variable name:i
-                    RefObj name:padtype start:50:47 end:50:54:
-                      vpiParent: RefObj name:pinout[i].padtype
-                      vpiName: padtype
-                      vpiFullName: pads #(.NUMPADS($size(pinout))).padtype
-              ParamAssign start:51:28 end:51:49:
-                vpiParent: GenBlock
-                vpiLhs RefObj name:p_id start:51:28 end:51:32:
-                  vpiParent: ParamAssign
-                  vpiName: p_id
-                  vpiFullName: pads #(.NUMPADS($size(pinout))).p_id
-                  vpiActual: Parameter name:p_id
-                vpiRhs RefObj name:pinout[i].id start:51:37 end:51:49:
-                  vpiParent: ParamAssign
+                vpiExpr RefObj name:pinout[i].id start:51:37 end:51:49:
+                  vpiParent: Parameter name:p_id
                   vpiName: pinout[i].id
-                  vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].id
+                  vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.pinout[i].id
                   vpiPathElem (2 items):
                     BitSelect name:pinout[i] start:51:37 end:51:45:
                       vpiParent: RefObj name:pinout[i].id
                       vpiName: pinout[i]
-                      vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].id.pinout[i]
+                      vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.pinout[i].id.pinout[i]
                       vpiPrefix RefObj name:pinout start:51:37 end:51:43:
                         vpiParent: BitSelect name:pinout[i]
                         vpiName: pinout
-                        vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].id.pinout
+                        vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.pinout[i].id.pinout
                       vpiIndex RefObj name:i start:51:44 end:51:45:
                         vpiParent: BitSelect name:pinout[i]
                         vpiName: i
-                        vpiFullName: pads #(.NUMPADS($size(pinout))).pinout[i].id.i
+                        vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.pinout[i].id.i
                         vpiActual: Variable name:i
                     RefObj name:id start:51:47 end:51:49:
                       vpiParent: RefObj name:pinout[i].id
                       vpiName: id
-                      vpiFullName: pads #(.NUMPADS($size(pinout))).id
+                      vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.id
             vpiImplicitDecl: true
             vpiStmt (1 items):
               GenCase start:54:7 end:91:14:
@@ -835,7 +812,6 @@ Design name:unnamed:
                             ParamAssign start:56:23 end:56:31:
                               vpiParent: UnsupportedTypespec name:pad_gpio
                               vpiConnByName: true
-                              vpiOverridden: true
                               vpiLhs RefObj name:ID start:56:24 end:56:26:
                                 vpiParent: ParamAssign
                                 vpiName: ID
@@ -1127,7 +1103,6 @@ Design name:unnamed:
                             ParamAssign start:78:24 end:78:32:
                               vpiParent: UnsupportedTypespec name:pad_vdd
                               vpiConnByName: true
-                              vpiOverridden: true
                               vpiLhs RefObj name:ID start:78:25 end:78:27:
                                 vpiParent: ParamAssign
                                 vpiName: ID
@@ -1187,7 +1162,6 @@ Design name:unnamed:
                             ParamAssign start:87:24 end:87:32:
                               vpiParent: UnsupportedTypespec name:pad_gnd
                               vpiConnByName: true
-                              vpiOverridden: true
                               vpiLhs RefObj name:ID start:87:25 end:87:27:
                                 vpiParent: ParamAssign
                                 vpiName: ID
@@ -1290,7 +1264,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             178     178       0         0
+Others                             172     172       0         0
 ----------------------------------------------------------------
-                                   178     178       0         0
+                                   172     172       0         0
 ===================== END REDUCTION RESULT =====================

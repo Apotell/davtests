@@ -303,8 +303,8 @@ Design name:unnamed:
                   vpiFullName: top
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:cnt:
-        ModuleTypespec name:cnt:
+        ModuleTypespec name:cnt #(.initval(1)):
+        ModuleTypespec name:cnt #(.initval(2)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/simple/defvalue.sv"
@@ -426,7 +426,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:foo
             vpiName: cnt
             vpiFullName: top.foo.cnt
-            vpiActual: ModuleTypespec name:cnt
+            vpiActual: ModuleTypespec name:cnt #(.initval(1))
           vpiArgument (3 items):
             NamedArgument start:2:16 end:2:22:
               vpiParent: RefInstance name:foo
@@ -464,7 +464,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:bar
             vpiName: cnt
             vpiFullName: top.bar.cnt
-            vpiActual: ModuleTypespec name:cnt
+            vpiActual: ModuleTypespec name:cnt #(.initval(2))
           vpiArgument (2 items):
             NamedArgument start:3:16 end:3:22:
               vpiParent: RefInstance name:bar
@@ -516,23 +516,15 @@ Design name:unnamed:
             vpiParent: Parameter name:initval
             vpiFullName: cnt #(.initval(0)).initval
             vpiActual: IntegerTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:7:20 end:7:31:
-          vpiParent: Module name:cnt #(.initval(0))
-          vpiLhs RefObj name:initval start:7:20 end:7:27:
-            vpiParent: ParamAssign
-            vpiName: initval
-            vpiFullName: cnt #(.initval(0)).initval
-            vpiActual: Parameter name:initval
-          vpiRhs Constant start:7:30 end:7:31:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:7:30 end:7:31:
+            vpiParent: Parameter name:initval
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "0"
             vpiValue: 0
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: cnt #(.initval(0))
+              vpiFullName: cnt #(.initval(0)).initval
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         IntegerTypespec:
@@ -732,18 +724,17 @@ Design name:unnamed:
       vpiName Identifier name:cnt start:6:8 end:6:11:
       vpiDefName: cnt
       vpiModule: Module name:cnt #(.initval(0))
-    ModuleTypespec name:cnt start:2:2 end:2:5:
+    ModuleTypespec name:cnt #(.initval(1)) start:2:2 end:2:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:cnt start:2:2 end:2:5:
+      vpiName Identifier name:cnt #(.initval(1)) start:2:2 end:2:5:
       vpiDefName: cnt
       vpiParamAssign (1 items):
         ParamAssign start:2:8 end:2:9:
-          vpiParent: ModuleTypespec name:cnt
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:cnt #(.initval(1))
           vpiLhs RefObj name:initval start:7:20 end:7:27:
             vpiParent: ParamAssign
             vpiName: initval
-            vpiFullName: cnt.initval
+            vpiFullName: cnt #(.initval(1)).initval
             vpiActual: Parameter name:initval
           vpiRhs Constant start:2:8 end:2:9:
             vpiParent: ParamAssign
@@ -753,21 +744,20 @@ Design name:unnamed:
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: cnt
+              vpiFullName: cnt #(.initval(1))
               vpiActual: IntTypespec
       vpiModule: Module name:cnt #(.initval(0))
-    ModuleTypespec name:cnt start:3:2 end:3:5:
+    ModuleTypespec name:cnt #(.initval(2)) start:3:2 end:3:5:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:cnt start:3:2 end:3:5:
+      vpiName Identifier name:cnt #(.initval(2)) start:3:2 end:3:5:
       vpiDefName: cnt
       vpiParamAssign (1 items):
         ParamAssign start:3:8 end:3:9:
-          vpiParent: ModuleTypespec name:cnt
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:cnt #(.initval(2))
           vpiLhs RefObj name:initval start:7:20 end:7:27:
             vpiParent: ParamAssign
             vpiName: initval
-            vpiFullName: cnt.initval
+            vpiFullName: cnt #(.initval(2)).initval
             vpiActual: Parameter name:initval
           vpiRhs Constant start:3:8 end:3:9:
             vpiParent: ParamAssign
@@ -777,7 +767,7 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: cnt
+              vpiFullName: cnt #(.initval(2))
               vpiActual: IntTypespec
       vpiModule: Module name:cnt #(.initval(0))
   vpiLibrary (1 items):
@@ -833,10 +823,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      13       1         0
 Operation                            2       1       0         1
-RefObj                              24      22       0         2
+RefObj                              23      21       0         2
 RefTypespec                         29      30       1         0
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                   123     122       2         3
+                                   121     120       2         3
 ===================== END REDUCTION RESULT =====================

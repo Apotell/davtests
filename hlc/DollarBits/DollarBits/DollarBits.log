@@ -231,23 +231,15 @@ Design name:unnamed:
             vpiParent: Parameter name:Width
             vpiFullName: other #(.Width(1)).Width
             vpiActual: IntTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:2:19 end:2:28:
-          vpiParent: Module name:other #(.Width(1))
-          vpiLhs RefObj name:Width start:2:19 end:2:24:
-            vpiParent: ParamAssign
-            vpiName: Width
-            vpiFullName: other #(.Width(1)).Width
-            vpiActual: Parameter name:Width
-          vpiRhs Constant start:2:27 end:2:28:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:2:27 end:2:28:
+            vpiParent: Parameter name:Width
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: other #(.Width(1))
+              vpiFullName: other #(.Width(1)).Width
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -456,7 +448,7 @@ Design name:unnamed:
                   vpiFullName: dut
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:other:
+        ModuleTypespec name:other #(.Width($bits({in}))):
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -520,7 +512,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:oth
             vpiName: other
             vpiFullName: dut.oth.other
-            vpiActual: ModuleTypespec name:other
+            vpiActual: ModuleTypespec name:other #(.Width($bits({in})))
           vpiArgument (2 items):
             NamedArgument start:8:37 end:8:44:
               vpiParent: RefInstance name:oth
@@ -562,19 +554,18 @@ Design name:unnamed:
       vpiName Identifier name:dut start:7:8 end:7:11:
       vpiDefName: dut
       vpiModule: Module name:dut
-    ModuleTypespec name:other start:8:4 end:8:9:
+    ModuleTypespec name:other #(.Width($bits({in}))) start:8:4 end:8:9:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:other start:8:4 end:8:9:
+      vpiName Identifier name:other #(.Width($bits({in}))) start:8:4 end:8:9:
       vpiDefName: other
       vpiParamAssign (1 items):
         ParamAssign start:8:12 end:8:31:
-          vpiParent: ModuleTypespec name:other
+          vpiParent: ModuleTypespec name:other #(.Width($bits({in})))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:Width start:8:13 end:8:18:
             vpiParent: ParamAssign
             vpiName: Width
-            vpiFullName: other.Width
+            vpiFullName: other #(.Width($bits({in}))).Width
             vpiActual: Parameter name:Width
           vpiRhs SysFuncCall name:$bits start:8:19 end:8:30:
             vpiParent: ParamAssign
@@ -589,7 +580,7 @@ Design name:unnamed:
                     RefObj name:in start:8:26 end:8:28:
                       vpiParent: Operation
                       vpiName: in
-                      vpiFullName: other.in
+                      vpiFullName: other #(.Width($bits({in}))).in
                       vpiActual: Net name:in
       vpiModule: Module name:other #(.Width(1))
   vpiLibrary (1 items):
@@ -645,10 +636,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9       9       2         2
 Operation                            3       1       0         2
-RefObj                              17      15       0         2
+RefObj                              16      14       0         2
 RefTypespec                         19      19       2         2
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    89      85       4         8
+                                    87      83       4         8
 ===================== END REDUCTION RESULT =====================

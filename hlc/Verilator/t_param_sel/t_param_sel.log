@@ -1136,7 +1136,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:Test:
+        ModuleTypespec name:Test #(.N(16), .PASSDOWN(2)):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -1835,7 +1835,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:test
             vpiName: Test
             vpiFullName: t.test.Test
-            vpiActual: ModuleTypespec name:Test
+            vpiActual: ModuleTypespec name:Test #(.N(16), .PASSDOWN(2))
           vpiArgument (3 items):
             NamedArgument start:25:9 end:25:26:
               vpiParent: RefInstance name:test
@@ -1941,6 +1941,16 @@ Design name:unnamed:
             vpiParent: Parameter name:N
             vpiFullName: Test.N
             vpiActual: LogicTypespec
+          vpiExpr Constant start:75:19 end:75:20:
+            vpiParent: Parameter name:N
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Test.N
+              vpiActual: IntTypespec
         Parameter name:PASSDOWN start:76:15 end:76:23:
           vpiParent: Module name:Test
           vpiName: PASSDOWN
@@ -1949,40 +1959,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PASSDOWN
             vpiFullName: Test.PASSDOWN
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:75:15 end:75:20:
-          vpiParent: Module name:Test
-          vpiLhs RefObj name:N start:75:15 end:75:16:
-            vpiParent: ParamAssign
-            vpiName: N
-            vpiFullName: Test.N
-            vpiActual: Parameter name:N
-          vpiRhs Constant start:75:19 end:75:20:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Test
-              vpiActual: IntTypespec
-        ParamAssign start:76:15 end:76:27:
-          vpiParent: Module name:Test
-          vpiLhs RefObj name:PASSDOWN start:76:15 end:76:23:
-            vpiParent: ParamAssign
-            vpiName: PASSDOWN
-            vpiFullName: Test.PASSDOWN
-            vpiActual: Parameter name:PASSDOWN
-          vpiRhs Constant start:76:26 end:76:27:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:76:26 end:76:27:
+            vpiParent: Parameter name:PASSDOWN
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Test
+              vpiFullName: Test.PASSDOWN
               vpiActual: IntTypespec
       vpiTypespec (4 items):
         LogicTypespec:
@@ -2040,7 +2025,7 @@ Design name:unnamed:
                   vpiFullName: Test
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:add:
+        ModuleTypespec name:add #(.PASSDOWN(PASSDOWN)):
       vpiDefName: Test
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_param_sel.v"
@@ -2137,7 +2122,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:add
             vpiName: add
             vpiFullName: Test.add.add
-            vpiActual: ModuleTypespec name:add
+            vpiActual: ModuleTypespec name:add #(.PASSDOWN(PASSDOWN))
           vpiArgument (2 items):
             NamedArgument start:78:25 end:78:49:
               vpiParent: RefInstance name:add
@@ -2236,23 +2221,15 @@ Design name:unnamed:
             vpiParent: Parameter name:PASSDOWN
             vpiFullName: add.PASSDOWN
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:89:14 end:89:29:
-          vpiParent: Module name:add
-          vpiLhs RefObj name:PASSDOWN start:89:14 end:89:22:
-            vpiParent: ParamAssign
-            vpiName: PASSDOWN
-            vpiFullName: add.PASSDOWN
-            vpiActual: Parameter name:PASSDOWN
-          vpiRhs Constant start:89:25 end:89:29:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:89:25 end:89:29:
+            vpiParent: Parameter name:PASSDOWN
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "9999"
             vpiValue: 9999
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: add
+              vpiFullName: add.PASSDOWN
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
@@ -2383,18 +2360,17 @@ Design name:unnamed:
       vpiName Identifier name:add start:83:8 end:83:11:
       vpiDefName: add
       vpiModule: Module name:add
-    ModuleTypespec name:Test start:23:4 end:23:8:
+    ModuleTypespec name:Test #(.N(16), .PASSDOWN(2)) start:23:4 end:23:8:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:Test start:23:4 end:23:8:
+      vpiName Identifier name:Test #(.N(16), .PASSDOWN(2)) start:23:4 end:23:8:
       vpiDefName: Test
       vpiParamAssign (2 items):
         ParamAssign start:23:11 end:23:13:
-          vpiParent: ModuleTypespec name:Test
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Test #(.N(16), .PASSDOWN(2))
           vpiLhs RefObj name:N start:75:15 end:75:16:
             vpiParent: ParamAssign
             vpiName: N
-            vpiFullName: Test.N
+            vpiFullName: Test #(.N(16), .PASSDOWN(2)).N
             vpiActual: Parameter name:N
           vpiRhs Constant start:23:11 end:23:13:
             vpiParent: ParamAssign
@@ -2404,15 +2380,14 @@ Design name:unnamed:
             vpiValue: 16
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Test
+              vpiFullName: Test #(.N(16), .PASSDOWN(2))
               vpiActual: IntTypespec
         ParamAssign start:23:14 end:23:15:
-          vpiParent: ModuleTypespec name:Test
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:Test #(.N(16), .PASSDOWN(2))
           vpiLhs RefObj name:PASSDOWN start:76:15 end:76:23:
             vpiParent: ParamAssign
             vpiName: PASSDOWN
-            vpiFullName: Test.PASSDOWN
+            vpiFullName: Test #(.N(16), .PASSDOWN(2)).PASSDOWN
             vpiActual: Parameter name:PASSDOWN
           vpiRhs Constant start:23:14 end:23:15:
             vpiParent: ParamAssign
@@ -2422,26 +2397,25 @@ Design name:unnamed:
             vpiValue: 2
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: Test
+              vpiFullName: Test #(.N(16), .PASSDOWN(2))
               vpiActual: IntTypespec
       vpiModule: Module name:Test
-    ModuleTypespec name:add start:78:4 end:78:7:
+    ModuleTypespec name:add #(.PASSDOWN(PASSDOWN)) start:78:4 end:78:7:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:add start:78:4 end:78:7:
+      vpiName Identifier name:add #(.PASSDOWN(PASSDOWN)) start:78:4 end:78:7:
       vpiDefName: add
       vpiParamAssign (1 items):
         ParamAssign start:78:10 end:78:18:
-          vpiParent: ModuleTypespec name:add
-          vpiOverridden: true
+          vpiParent: ModuleTypespec name:add #(.PASSDOWN(PASSDOWN))
           vpiLhs RefObj name:PASSDOWN start:89:14 end:89:22:
             vpiParent: ParamAssign
             vpiName: PASSDOWN
-            vpiFullName: add.PASSDOWN
+            vpiFullName: add #(.PASSDOWN(PASSDOWN)).PASSDOWN
             vpiActual: Parameter name:PASSDOWN
           vpiRhs RefObj name:PASSDOWN start:78:10 end:78:18:
             vpiParent: ParamAssign
             vpiName: PASSDOWN
-            vpiFullName: add.PASSDOWN
+            vpiFullName: add #(.PASSDOWN(PASSDOWN)).PASSDOWN
             vpiActual: Parameter name:PASSDOWN
       vpiModule: Module name:add
   vpiLibrary (1 items):
@@ -2497,10 +2471,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            54      53       7         8
 Operation                           20      12       0         8
-RefObj                              58      51       0         7
+RefObj                              55      48       0         7
 RefTypespec                         76      75       7         8
 ----------------------------------------------------------------
-Others                             139     139       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   347     330      14        31
+                                   341     324      14        31
 ===================== END REDUCTION RESULT =====================

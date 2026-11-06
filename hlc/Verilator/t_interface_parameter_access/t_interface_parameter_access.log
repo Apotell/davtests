@@ -659,23 +659,15 @@ Design name:unnamed:
             vpiParent: Parameter name:FOO
             vpiFullName: test_if #(.FOO(1)).FOO
             vpiActual: IntegerTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:8:39 end:8:46:
-          vpiParent: Interface name:test_if #(.FOO(1))
-          vpiLhs RefObj name:FOO start:8:39 end:8:42:
-            vpiParent: ParamAssign
-            vpiName: FOO
-            vpiFullName: test_if #(.FOO(1)).FOO
-            vpiActual: Parameter name:FOO
-          vpiRhs Constant start:8:45 end:8:46:
-            vpiParent: ParamAssign
+          vpiExpr Constant start:8:45 end:8:46:
+            vpiParent: Parameter name:FOO
             vpiConstType: int (7)
             vpiSize: 32
             vpiDecompile: "1"
             vpiValue: 1
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: test_if #(.FOO(1))
+              vpiFullName: test_if #(.FOO(1)).FOO
               vpiActual: IntTypespec
       vpiTypespec (2 items):
         IntegerTypespec:
@@ -752,28 +744,20 @@ Design name:unnamed:
             vpiParent: Parameter name:THE_TOP_FOO
             vpiFullName: t.THE_TOP_FOO
             vpiActual: LogicTypespec
-      vpiParamAssign (1 items):
-        ParamAssign start:43:15 end:43:46:
-          vpiParent: Module name:t
-          vpiLhs RefObj name:THE_TOP_FOO start:43:15 end:43:26:
-            vpiParent: ParamAssign
-            vpiName: THE_TOP_FOO
-            vpiFullName: t.THE_TOP_FOO
-            vpiActual: Parameter name:THE_TOP_FOO
-          vpiRhs RefObj name:the_interface.FOO start:43:29 end:43:46:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:the_interface.FOO start:43:29 end:43:46:
+            vpiParent: Parameter name:THE_TOP_FOO
             vpiName: the_interface.FOO
-            vpiFullName: t.the_interface.FOO
+            vpiFullName: t.THE_TOP_FOO.the_interface.FOO
             vpiPathElem (2 items):
               RefObj name:the_interface start:43:29 end:43:42:
                 vpiParent: RefObj name:the_interface.FOO
                 vpiName: the_interface
-                vpiFullName: t.the_interface
+                vpiFullName: t.THE_TOP_FOO.the_interface
                 vpiActual: RefInstance name:the_interface
               RefObj name:FOO start:43:43 end:43:46:
                 vpiParent: RefObj name:the_interface.FOO
                 vpiName: FOO
-                vpiFullName: t.FOO
+                vpiFullName: t.THE_TOP_FOO.FOO
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -784,7 +768,6 @@ Design name:unnamed:
             ParamAssign start:36:15 end:36:33:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:FOO start:36:16 end:36:19:
                 vpiParent: ParamAssign
                 vpiName: FOO
@@ -809,7 +792,6 @@ Design name:unnamed:
             ParamAssign start:36:15 end:36:33:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
-              vpiOverridden: true
               vpiLhs RefObj name:FOO start:36:16 end:36:19:
                 vpiParent: ParamAssign
                 vpiName: FOO
@@ -1002,6 +984,19 @@ Design name:unnamed:
             vpiParent: Parameter name:THE_FOO
             vpiFullName: testmod.THE_FOO
             vpiActual: LogicTypespec
+          vpiExpr RefObj name:intf.FOO start:62:25 end:62:33:
+            vpiParent: Parameter name:THE_FOO
+            vpiName: intf.FOO
+            vpiFullName: testmod.THE_FOO.intf.FOO
+            vpiPathElem (2 items):
+              RefObj name:intf start:62:25 end:62:29:
+                vpiParent: RefObj name:intf.FOO
+                vpiName: intf
+                vpiFullName: testmod.THE_FOO.intf
+              RefObj name:FOO start:62:30 end:62:33:
+                vpiParent: RefObj name:intf.FOO
+                vpiName: FOO
+                vpiFullName: testmod.THE_FOO.FOO
         Parameter name:THE_OTHER_FOO start:63:15 end:63:28:
           vpiParent: Module name:testmod
           vpiName: THE_OTHER_FOO
@@ -1011,48 +1006,20 @@ Design name:unnamed:
             vpiParent: Parameter name:THE_OTHER_FOO
             vpiFullName: testmod.THE_OTHER_FOO
             vpiActual: LogicTypespec
-      vpiParamAssign (2 items):
-        ParamAssign start:62:15 end:62:33:
-          vpiParent: Module name:testmod
-          vpiLhs RefObj name:THE_FOO start:62:15 end:62:22:
-            vpiParent: ParamAssign
-            vpiName: THE_FOO
-            vpiFullName: testmod.THE_FOO
-            vpiActual: Parameter name:THE_FOO
-          vpiRhs RefObj name:intf.FOO start:62:25 end:62:33:
-            vpiParent: ParamAssign
-            vpiName: intf.FOO
-            vpiFullName: testmod.intf.FOO
-            vpiPathElem (2 items):
-              RefObj name:intf start:62:25 end:62:29:
-                vpiParent: RefObj name:intf.FOO
-                vpiName: intf
-                vpiFullName: testmod.intf
-              RefObj name:FOO start:62:30 end:62:33:
-                vpiParent: RefObj name:intf.FOO
-                vpiName: FOO
-                vpiFullName: testmod.FOO
-        ParamAssign start:63:15 end:63:45:
-          vpiParent: Module name:testmod
-          vpiLhs RefObj name:THE_OTHER_FOO start:63:15 end:63:28:
-            vpiParent: ParamAssign
-            vpiName: THE_OTHER_FOO
-            vpiFullName: testmod.THE_OTHER_FOO
-            vpiActual: Parameter name:THE_OTHER_FOO
-          vpiRhs RefObj name:intf_no_mp.FOO start:63:31 end:63:45:
-            vpiParent: ParamAssign
+          vpiExpr RefObj name:intf_no_mp.FOO start:63:31 end:63:45:
+            vpiParent: Parameter name:THE_OTHER_FOO
             vpiName: intf_no_mp.FOO
-            vpiFullName: testmod.intf_no_mp.FOO
+            vpiFullName: testmod.THE_OTHER_FOO.intf_no_mp.FOO
             vpiPathElem (2 items):
               RefObj name:intf_no_mp start:63:31 end:63:41:
                 vpiParent: RefObj name:intf_no_mp.FOO
                 vpiName: intf_no_mp
-                vpiFullName: testmod.intf_no_mp
+                vpiFullName: testmod.THE_OTHER_FOO.intf_no_mp
                 vpiActual: Net name:intf_no_mp
               RefObj name:FOO start:63:42 end:63:45:
                 vpiParent: RefObj name:intf_no_mp.FOO
                 vpiName: FOO
-                vpiFullName: testmod.FOO
+                vpiFullName: testmod.THE_OTHER_FOO.FOO
                 vpiActual: Parameter name:FOO
             vpiActual: Parameter name:FOO
       vpiTypespec (1 items):
@@ -1568,7 +1535,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             222     222       0         0
+Others                             214     214       0         0
 ----------------------------------------------------------------
-                                   222     222       0         0
+                                   214     214       0         0
 ===================== END REDUCTION RESULT =====================

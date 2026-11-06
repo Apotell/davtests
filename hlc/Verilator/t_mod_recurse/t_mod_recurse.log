@@ -1587,7 +1587,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        ModuleTypespec name:PriorityChoice:
+        ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(3)):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -2302,7 +2302,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:pe
             vpiName: PriorityChoice
             vpiFullName: t.pe.PriorityChoice
-            vpiActual: ModuleTypespec name:PriorityChoice
+            vpiActual: ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(3))
           vpiArgument (3 items):
             NamedArgument start:25:8 end:25:19:
               vpiParent: RefInstance name:pe
@@ -2403,6 +2403,16 @@ Design name:unnamed:
             vpiParent: Parameter name:OCODEWIDTH
             vpiFullName: PriorityChoice.OCODEWIDTH
             vpiActual: LogicTypespec
+          vpiExpr Constant start:62:27 end:62:28:
+            vpiParent: Parameter name:OCODEWIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: PriorityChoice.OCODEWIDTH
+              vpiActual: IntTypespec
         Parameter name:CODEWIDTH start:63:15 end:63:24:
           vpiParent: Module name:PriorityChoice
           vpiName: CODEWIDTH
@@ -2412,48 +2422,14 @@ Design name:unnamed:
             vpiParent: Parameter name:CODEWIDTH
             vpiFullName: PriorityChoice.CODEWIDTH
             vpiActual: LogicTypespec
-        Parameter name:SCODEWIDTH start:64:15 end:64:25:
-          vpiParent: Module name:PriorityChoice
-          vpiName: SCODEWIDTH
-          vpiFullName: PriorityChoice.SCODEWIDTH
-          vpiLocalParam: true
-          vpiTypespec RefTypespec:
-            vpiParent: Parameter name:SCODEWIDTH
-            vpiFullName: PriorityChoice.SCODEWIDTH
-            vpiActual: LogicTypespec
-      vpiParamAssign (3 items):
-        ParamAssign start:62:14 end:62:28:
-          vpiParent: Module name:PriorityChoice
-          vpiLhs RefObj name:OCODEWIDTH start:62:14 end:62:24:
-            vpiParent: ParamAssign
-            vpiName: OCODEWIDTH
-            vpiFullName: PriorityChoice.OCODEWIDTH
-            vpiActual: Parameter name:OCODEWIDTH
-          vpiRhs Constant start:62:27 end:62:28:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: PriorityChoice
-              vpiActual: IntTypespec
-        ParamAssign start:63:15 end:63:37:
-          vpiParent: Module name:PriorityChoice
-          vpiLhs RefObj name:CODEWIDTH start:63:15 end:63:24:
-            vpiParent: ParamAssign
-            vpiName: CODEWIDTH
-            vpiFullName: PriorityChoice.CODEWIDTH
-            vpiActual: Parameter name:CODEWIDTH
-          vpiRhs Operation start:63:25 end:63:37:
-            vpiParent: ParamAssign
+          vpiExpr Operation start:63:25 end:63:37:
+            vpiParent: Parameter name:CODEWIDTH
             vpiOpType: subtract (11)
             vpiOperand (2 items):
               RefObj name:OCODEWIDTH start:63:25 end:63:35:
                 vpiParent: Operation
                 vpiName: OCODEWIDTH
-                vpiFullName: PriorityChoice.OCODEWIDTH
+                vpiFullName: PriorityChoice.CODEWIDTH.OCODEWIDTH
                 vpiActual: Parameter name:OCODEWIDTH
               Constant start:63:36 end:63:37:
                 vpiParent: Operation
@@ -2463,17 +2439,19 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: PriorityChoice
+                  vpiFullName: PriorityChoice.CODEWIDTH
                   vpiActual: IntTypespec
-        ParamAssign start:64:15 end:64:56:
+        Parameter name:SCODEWIDTH start:64:15 end:64:25:
           vpiParent: Module name:PriorityChoice
-          vpiLhs RefObj name:SCODEWIDTH start:64:15 end:64:25:
-            vpiParent: ParamAssign
-            vpiName: SCODEWIDTH
+          vpiName: SCODEWIDTH
+          vpiFullName: PriorityChoice.SCODEWIDTH
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SCODEWIDTH
             vpiFullName: PriorityChoice.SCODEWIDTH
-            vpiActual: Parameter name:SCODEWIDTH
-          vpiRhs Operation start:64:27 end:64:56:
-            vpiParent: ParamAssign
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:64:27 end:64:56:
+            vpiParent: Parameter name:SCODEWIDTH
             vpiOpType: condition (32)
             vpiOperand (3 items):
               Operation start:64:28 end:64:39:
@@ -2483,7 +2461,7 @@ Design name:unnamed:
                   RefObj name:CODEWIDTH start:64:28 end:64:37:
                     vpiParent: Operation
                     vpiName: CODEWIDTH
-                    vpiFullName: PriorityChoice.CODEWIDTH
+                    vpiFullName: PriorityChoice.SCODEWIDTH.CODEWIDTH
                     vpiActual: Parameter name:CODEWIDTH
                   Constant start:64:38 end:64:39:
                     vpiParent: Operation
@@ -2493,7 +2471,7 @@ Design name:unnamed:
                     vpiValue: 1
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: PriorityChoice
+                      vpiFullName: PriorityChoice.SCODEWIDTH
                       vpiActual: IntTypespec
               Constant start:64:43 end:64:44:
                 vpiParent: Operation
@@ -2503,12 +2481,12 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: PriorityChoice
+                  vpiFullName: PriorityChoice.SCODEWIDTH
                   vpiActual: IntTypespec
               RefObj name:CODEWIDTH start:64:47 end:64:56:
                 vpiParent: Operation
                 vpiName: CODEWIDTH
-                vpiFullName: PriorityChoice.CODEWIDTH
+                vpiFullName: PriorityChoice.SCODEWIDTH.CODEWIDTH
                 vpiActual: Parameter name:CODEWIDTH
       vpiTypespec (5 items):
         LogicTypespec:
@@ -2970,7 +2948,7 @@ Design name:unnamed:
                 vpiParent: GenIfElse
                 vpiFullName: PriorityChoice
                 vpiTypespec (1 items):
-                  ModuleTypespec name:PriorityChoice:
+                  ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1)):
                 vpiImplicitDecl: true
                 vpiStmt (3 items):
                   RefInstance name:leftMap start:86:3 end:86:10:
@@ -2980,7 +2958,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:leftMap
                       vpiName: PriorityChoice
                       vpiFullName: PriorityChoice.leftMap.PriorityChoice
-                      vpiActual: ModuleTypespec name:PriorityChoice
+                      vpiActual: ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1))
                     vpiArgument (3 items):
                       NamedArgument start:88:6 end:88:16:
                         vpiParent: RefInstance name:leftMap
@@ -3086,7 +3064,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:rightMap
                       vpiName: PriorityChoice
                       vpiFullName: PriorityChoice.rightMap.PriorityChoice
-                      vpiActual: ModuleTypespec name:PriorityChoice
+                      vpiActual: ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1))
                     vpiArgument (3 items):
                       NamedArgument start:95:6 end:95:17:
                         vpiParent: RefInstance name:rightMap
@@ -3381,19 +3359,18 @@ Design name:unnamed:
       vpiName Identifier name:PriorityChoice start:61:8 end:61:22:
       vpiDefName: PriorityChoice
       vpiModule: Module name:PriorityChoice
-    ModuleTypespec name:PriorityChoice start:24:4 end:24:18:
+    ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(3)) start:24:4 end:24:18:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:PriorityChoice start:24:4 end:24:18:
+      vpiName Identifier name:PriorityChoice #(.OCODEWIDTH(3)) start:24:4 end:24:18:
       vpiDefName: PriorityChoice
       vpiParamAssign (1 items):
         ParamAssign start:24:21 end:24:35:
-          vpiParent: ModuleTypespec name:PriorityChoice
+          vpiParent: ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(3))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:OCODEWIDTH start:24:22 end:24:32:
             vpiParent: ParamAssign
             vpiName: OCODEWIDTH
-            vpiFullName: PriorityChoice.OCODEWIDTH
+            vpiFullName: PriorityChoice #(.OCODEWIDTH(3)).OCODEWIDTH
             vpiActual: Parameter name:OCODEWIDTH
           vpiRhs Constant start:24:33 end:24:34:
             vpiParent: ParamAssign
@@ -3403,22 +3380,21 @@ Design name:unnamed:
             vpiValue: 3
             vpiTypespec RefTypespec:
               vpiParent: Constant
-              vpiFullName: PriorityChoice
+              vpiFullName: PriorityChoice #(.OCODEWIDTH(3))
               vpiActual: IntTypespec
       vpiModule: Module name:PriorityChoice
-    ModuleTypespec name:PriorityChoice start:85:3 end:85:17:
+    ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1)) start:85:3 end:85:17:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:PriorityChoice start:85:3 end:85:17:
+      vpiName Identifier name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1)) start:85:3 end:85:17:
       vpiDefName: PriorityChoice
       vpiParamAssign (1 items):
         ParamAssign start:85:20 end:85:45:
-          vpiParent: ModuleTypespec name:PriorityChoice
+          vpiParent: ModuleTypespec name:PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1))
           vpiConnByName: true
-          vpiOverridden: true
           vpiLhs RefObj name:OCODEWIDTH start:85:21 end:85:31:
             vpiParent: ParamAssign
             vpiName: OCODEWIDTH
-            vpiFullName: PriorityChoice.OCODEWIDTH
+            vpiFullName: PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1)).OCODEWIDTH
             vpiActual: Parameter name:OCODEWIDTH
           vpiRhs Operation start:85:32 end:85:44:
             vpiParent: ParamAssign
@@ -3427,7 +3403,7 @@ Design name:unnamed:
               RefObj name:OCODEWIDTH start:85:32 end:85:42:
                 vpiParent: Operation
                 vpiName: OCODEWIDTH
-                vpiFullName: PriorityChoice.OCODEWIDTH
+                vpiFullName: PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1)).OCODEWIDTH
                 vpiActual: Parameter name:OCODEWIDTH
               Constant start:85:43 end:85:44:
                 vpiParent: Operation
@@ -3437,7 +3413,7 @@ Design name:unnamed:
                 vpiValue: 1
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: PriorityChoice
+                  vpiFullName: PriorityChoice #(.OCODEWIDTH(OCODEWIDTH - 1))
                   vpiActual: IntTypespec
       vpiModule: Module name:PriorityChoice
   vpiLibrary (1 items):
@@ -3493,10 +3469,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            71      63      18        26
 Operation                           39      14       0        25
-RefObj                              91      72       0        19
+RefObj                              88      69       0        19
 RefTypespec                         96      88      18        26
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             173     173       0         0
 ----------------------------------------------------------------
-                                   473     413      36        96
+                                   467     407      36        96
 ===================== END REDUCTION RESULT =====================
