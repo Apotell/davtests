@@ -248,6 +248,21 @@ TEST_F(PreprocUhdmCovTest, RepeatedContinuousAssignmentsToVariablePortAreReporte
   }
 }
 
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// prim_assert.sv:28 `define ASSERT(__name, __prop, __clk = cl, __rst = rs): the body is only an 
+// `ifdef INC_ASSERT block that uses none of the formals.
+TEST_F(PreprocUhdmCovTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__name", 28, 9), nullptr)
+      << "macro argument '__name' (line 28) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__prop", 28, 9), nullptr)
+      << "macro argument '__prop' (line 28) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__clk", 28, 9), nullptr)
+      << "macro argument '__clk' (line 28) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__rst", 28, 9), nullptr)
+      << "macro argument '__rst' (line 28) is not used in the macro body";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

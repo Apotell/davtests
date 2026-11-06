@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -102,6 +103,18 @@ TEST_F(PreprocFuncMacroEmptyBodyTest, InceptionMacroHasNoTokens) {
       hldb::findByName<hldb::PreprocMacroDefinition>("INCEPTION", sf->getPreprocMacroDefinitions());
   ASSERT_NE(macro, nullptr);
   EXPECT_TRUE(macro->getTokens() == nullptr || macro->getTokens()->empty());
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define INCEPTION(a, b, c) has an empty body.
+TEST_F(PreprocFuncMacroEmptyBodyTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "a", 16, 9), nullptr)
+      << "macro argument 'a' (line 16) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 16, 9), nullptr)
+      << "macro argument 'b' (line 16) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "c", 16, 9), nullptr)
+      << "macro argument 'c' (line 16) is not used in the macro body";
 }
 
 }  // namespace hlc

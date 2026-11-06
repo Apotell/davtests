@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -82,6 +83,18 @@ TEST_F(PreprocMultiLineArgListBodyTest, LongMacroFormalArgNames) {
   EXPECT_EQ((*macro->getArguments())[0]->getName(), "a") << "first formal argument must be 'a'";
   EXPECT_EQ((*macro->getArguments())[1]->getName(), "b") << "second formal argument must be 'b'";
   EXPECT_EQ((*macro->getArguments())[2]->getName(), "c") << "third formal argument must be 'c'";
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define LONG_MACRO(a, b, c) text goes here: the body uses none of a, b, c.
+TEST_F(PreprocMultiLineArgListBodyTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "a", 7, 9), nullptr)
+      << "macro argument 'a' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 7, 9), nullptr)
+      << "macro argument 'b' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "c", 7, 9), nullptr)
+      << "macro argument 'c' (line 7) is not used in the macro body";
 }
 
 }  // namespace hlc

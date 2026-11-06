@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -209,6 +210,67 @@ TEST_F(MacroInstanceAlignmentTest, FirstAddInstanceHasFourActualArguments) {
                                 "2000000000, 100000)`)";
   ASSERT_NE(first->getArguments(), nullptr) << "ADD(a,b,c,d) call must have 4 actual arguments";
   EXPECT_EQ(first->getArguments()->size(), 4u);
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// MIN, MAX, ASSERT_ERROR, ASSERT, ASSERT_IF, ASSERT_STATIC_IN_PACKAGE, uvm_info, uvm_fatal and the 
+// DV_CHECK_* macros have empty bodies, so every formal is unused (ADD uses all of its formals).
+TEST_F(MacroInstanceAlignmentTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "x", 1, 9), nullptr)
+      << "macro argument 'x' (line 1) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "y", 1, 9), nullptr)
+      << "macro argument 'y' (line 1) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "x", 2, 9), nullptr)
+      << "macro argument 'x' (line 2) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "y", 2, 9), nullptr)
+      << "macro argument 'y' (line 2) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__name", 6, 9), nullptr)
+      << "macro argument '__name' (line 6) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__name", 7, 9), nullptr)
+      << "macro argument '__name' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__prop", 7, 9), nullptr)
+      << "macro argument '__prop' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__clk", 7, 9), nullptr)
+      << "macro argument '__clk' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__rst", 7, 9), nullptr)
+      << "macro argument '__rst' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__name", 8, 9), nullptr)
+      << "macro argument '__name' (line 8) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__prop", 8, 9), nullptr)
+      << "macro argument '__prop' (line 8) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__enable", 8, 9), nullptr)
+      << "macro argument '__enable' (line 8) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__clk", 8, 9), nullptr)
+      << "macro argument '__clk' (line 8) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__rst", 8, 9), nullptr)
+      << "macro argument '__rst' (line 8) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__name", 9, 9), nullptr)
+      << "macro argument '__name' (line 9) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "__prop", 9, 9), nullptr)
+      << "macro argument '__prop' (line 9) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "ID", 10, 9), nullptr)
+      << "macro argument 'ID' (line 10) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "MSG", 10, 9), nullptr)
+      << "macro argument 'MSG' (line 10) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "VERBOSITY", 10, 9), nullptr)
+      << "macro argument 'VERBOSITY' (line 10) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "ID", 11, 9), nullptr)
+      << "macro argument 'ID' (line 11) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "MSG", 11, 9), nullptr)
+      << "macro argument 'MSG' (line 11) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "a", 12, 9), nullptr)
+      << "macro argument 'a' (line 12) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 12, 9), nullptr)
+      << "macro argument 'b' (line 12) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "c", 12, 9), nullptr)
+      << "macro argument 'c' (line 12) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "a", 13, 9), nullptr)
+      << "macro argument 'a' (line 13) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 13, 9), nullptr)
+      << "macro argument 'b' (line 13) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "c", 13, 9), nullptr)
+      << "macro argument 'c' (line 13) is not used in the macro body";
 }
 
 }  // namespace hlc

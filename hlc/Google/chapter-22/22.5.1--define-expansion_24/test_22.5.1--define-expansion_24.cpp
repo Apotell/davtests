@@ -162,6 +162,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/begin.h>
@@ -667,6 +668,15 @@ TEST_F(DefineExpansion24Test, NoOtherDesignObjectsDeclared) {
     EXPECT_EQ(sizeOf(topInstance->getProcesses()), 1u);
   }
 }
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define H(x) "Hello, x": inside a string literal x is not substituted (22.5.1), so x is unused.
+TEST_F(DefineExpansion24Test, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "x", 19, 9), nullptr)
+      << "macro argument 'x' (line 19) is not used in the macro body";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -18,6 +18,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -128,6 +129,17 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, NMacroHasOneToken) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getTokens(), nullptr);
   EXPECT_FALSE(macro->getTokens()->empty()) << "N body must have at least one token (4)";
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// top_1.v:41 `define append(f) g``_master does not use f; top_1.v:43 `define DD(x,y,a,b) uses x, y 
+// and a but not b.
+TEST_F(UnitSimpleIncludeAndMacrosTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "f", 41, 9), nullptr)
+      << "macro argument 'f' (line 41) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 43, 9), nullptr)
+      << "macro argument 'b' (line 43) is not used in the macro body";
 }
 
 }  // namespace hlc

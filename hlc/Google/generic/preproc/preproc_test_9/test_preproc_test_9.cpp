@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -69,6 +70,18 @@ TEST_F(PreprocMultiLineArgListTest, LongMacroArgListParsedNotTreatedAsBody) {
   // contains the three formal parameters a, b, c.
   EXPECT_NE(macro->getArguments(), nullptr) << "LONG_MACRO arg list was not parsed -- getArguments() must not be null";
   EXPECT_EQ(macro->getArguments()->size(), 3u) << "LONG_MACRO must have exactly 3 formal arguments: a, b, c";
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define LONG_MACRO(a, b, c) has an empty body.
+TEST_F(PreprocMultiLineArgListTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "a", 7, 9), nullptr)
+      << "macro argument 'a' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 7, 9), nullptr)
+      << "macro argument 'b' (line 7) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "c", 7, 9), nullptr)
+      << "macro argument 'c' (line 7) is not used in the macro body";
 }
 
 }  // namespace hlc
