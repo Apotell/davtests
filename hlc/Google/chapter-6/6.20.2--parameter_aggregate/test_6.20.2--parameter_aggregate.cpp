@@ -35,17 +35,14 @@
 // -- UHDM tree (from log) ----
 //
 //   Module name:top
-//   |-- vpiParameter (1 item)
-//   |   `-- Parameter name:p
-//   |       `-- vpiTypespec  RefTypespec -> actual: ArrayTypespec
-//   |           |-- vpiArrayType: static (1)
-//   |           |-- vpiRange  Range [3:0]  (unpacked dimension)
-//   |           `-- vpiElemTypespec  RefTypespec -> actual: LogicTypespec
-//   |               `-- vpiRange (1 item)  Range [31:0]  (packed dimension)
-//   `-- vpiParamAssign (1 item)
-//       `-- ParamAssign
-//           |-- vpiLhs  RefObj name:p -> actual: Parameter name:p
-//           `-- vpiRhs  Operation
+//   `-- vpiParameter (1 item)
+//       `-- Parameter name:p
+//           |-- vpiTypespec  RefTypespec -> actual: ArrayTypespec
+//           |   |-- vpiArrayType: static (1)
+//           |   |-- vpiRange  Range [3:0]  (unpacked dimension)
+//           |   `-- vpiElemTypespec  RefTypespec -> actual: LogicTypespec
+//           |       `-- vpiRange (1 item)  Range [31:0]  (packed dimension)
+//           `-- vpiExpr  Operation  (the default value)
 //               |-- vpiOpType: assign pattern (75)
 //               `-- vpiOperand (4 items)
 //                   |-- Constant  vpiIntConst(9)  value:"1"
@@ -93,14 +90,13 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d) {
+static const hldb::Parameter *getParameter(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>("p", m->getParameters());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("p", m->getParameters());
 }
 
 static const hldb::ArrayTypespec *getArrayTypespec(const hldb::Design *d) {
-  const hldb::Parameter *p = getParam(d);
+  const hldb::Parameter *p = getParameter(d);
   if (!p || !p->getTypespec()) return nullptr;
   return p->getTypespec()->getActual<hldb::ArrayTypespec>();
 }
@@ -111,16 +107,9 @@ static const hldb::LogicTypespec *getElemLogicTypespec(const hldb::Design *d) {
   return at->getElemTypespec()->getActual<hldb::LogicTypespec>();
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
-  const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty()) return nullptr;
-  return (*m->getParamAssigns())[0];
-}
-
 static const hldb::Operation *getRhsOp(const hldb::Design *d) {
-  const hldb::ParamAssign *pa = getParamAssign(d);
-  if (!pa) return nullptr;
-  return pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *pa = getParameter(d);
+  return (pa == nullptr) ? nullptr : pa->getExpr<hldb::Operation>();
 }
 
 // ===========================================================================
@@ -140,7 +129,7 @@ TEST_F(ParameterAggregateTest, Parameter_Collection_HasOneEntry) {
   EXPECT_EQ(m->getParameters()->size(), 1u);
 }
 
-TEST_F(ParameterAggregateTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design), nullptr); }
+TEST_F(ParameterAggregateTest, Parameter_p_Exists) { EXPECT_NE(getParameter(m_design), nullptr); }
 
 // ===========================================================================
 // ArrayTypespec -- 'logic [31:0] p [3:0]'
@@ -149,7 +138,7 @@ TEST_F(ParameterAggregateTest, Parameter_p_Exists) { EXPECT_NE(getParam(m_design
 // IEEE 1800-2017 Sec 6.20.2: explicitly typed aggregate parameter resolves to
 // an ArrayTypespec, not a LogicTypespec.
 TEST_F(ParameterAggregateTest, Parameter_p_TypespecIsArrayTypespec) {
-  const hldb::Parameter *p = getParam(m_design);
+  const hldb::Parameter *p = getParameter(m_design);
   ASSERT_NE(p, nullptr);
   const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr);
@@ -236,62 +225,31 @@ TEST_F(ParameterAggregateTest, Parameter_p_ElemTypespec_Range_RightIs0) {
 }
 
 // ===========================================================================
-// ParamAssign collection
+// Parameter
 // ===========================================================================
 
-TEST_F(ParameterAggregateTest, ParamAssign_Collection_HasOneEntry) {
-  const hldb::Module *m = getTop(m_design);
-  ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getParamAssigns(), nullptr);
-  EXPECT_EQ(m->getParamAssigns()->size(), 1u);
-}
-
-// ===========================================================================
-// ParamAssign LHS
-// ===========================================================================
-
-TEST_F(ParameterAggregateTest, ParamAssign_Lhs_IsRefObj) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design);
+TEST_F(ParameterAggregateTest, Parameter_NameIsP) {
+  const hldb::Parameter *pa = getParameter(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr);
+  EXPECT_EQ(pa->getName(), std::string_view("p"));
 }
-
-TEST_F(ParameterAggregateTest, ParamAssign_Lhs_NameIsP) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design);
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "p");
-}
-
-TEST_F(ParameterAggregateTest, ParamAssign_Lhs_ActualIsParameter) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design);
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr);
-}
-
-// ===========================================================================
-// ParamAssign RHS -- assignment pattern '{1, 2, 3, 4}'
-// ===========================================================================
 
 // IEEE 1800-2017 Sec 10.9.1: '{...}' is an assignment pattern expression.
 // Surelog models this as an Operation with vpiAssignmentPatternOp (75).
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_IsOperation) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design);
+TEST_F(ParameterAggregateTest, Parameter_Expr_IsOperation) {
+  const hldb::Parameter *pa = getParameter(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "RHS of assignment pattern must be an Operation node";
+  EXPECT_NE(pa->getExpr<hldb::Operation>(), nullptr) << "RHS of assignment pattern must be an Operation node";
 }
 
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OpType_IsAssignmentPattern) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_OpType_IsAssignmentPattern) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp) << "'{...}' must have vpiOpType = vpiAssignmentPatternOp (75)";
 }
 
 // '{1, 2, 3, 4}' has 4 operands, one per array element.
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OperandCount_IsFour) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_OperandCount_IsFour) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -299,7 +257,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OperandCount_IsFour) {
 }
 
 // Each element literal is an unsized unsigned integer (Sec 5.7.1).
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreIntConst) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_AllOperands_AreIntConst) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -311,7 +269,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreIntConst) {
 }
 
 // Sec 6.20.2: unsized decimal literals use the host integer width (64 bits).
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_SizeIs64) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_AllOperands_SizeIs64) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -323,7 +281,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_SizeIs64) {
 }
 
 // Individual element values from the source: '{1, 2, 3, 4}'.
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand0_ValueIs1) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_Operand0_ValueIs1) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -333,7 +291,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand0_ValueIs1) {
   EXPECT_EQ(std::string(c->getValue()), "1");
 }
 
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand1_ValueIs2) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_Operand1_ValueIs2) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -343,7 +301,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand1_ValueIs2) {
   EXPECT_EQ(std::string(c->getValue()), "2");
 }
 
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand2_ValueIs3) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_Operand2_ValueIs3) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -353,7 +311,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand2_ValueIs3) {
   EXPECT_EQ(std::string(c->getValue()), "3");
 }
 
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand3_ValueIs4) {
+TEST_F(ParameterAggregateTest, Parameter_Expr_Operand3_ValueIs4) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);

@@ -46,27 +46,16 @@
 //   This file carries no :should_fail_because: tag, so it is expected
 //   to compile cleanly as legal SystemVerilog.
 //
-//   IMPORTANT object-model correction (two rounds, both confirmed by
-//   actually running this file): a first version assumed, by analogy
-//   with other expressions in this suite (case constants, return
-//   expressions, assignment RHS values), that "localparam a = fun(3);"
-//   would keep the call as a real FuncCall inside
-//   Parameter::getExpr(). That failed -- getExpr() returned null. A
-//   second look at the API showed why: Parameter (the declaration: name,
-//   localparam flag, ranges) and the actual "identifier = initializer"
-//   binding are two different objects in this model. The binding is a
-//   separate ParamAssign object, reachable via Scope::getParamAssigns()
-//   on the Module, with getLhs() (the Parameter being assigned) and
-//   getRhs() (the initializer expression). That is where "fun(3)"
-//   actually lives.
+//   Object model: a parameter holds its own value. "localparam a = fun(3);"
+//   is a single Parameter "a" whose Parameter::getExpr() is the
+//   initializer expression -- that is where "fun(3)" lives. (A declaration
+//   creates no ParamAssign; those carry overrides only.)
 //
 // What is checked:
 //   - module top has exactly 1 Parameter (via Scope::getParameters()),
 //     named "a", with getLocalParam() == true (confirming "localparam",
 //     not a plain "parameter")
-//   - module top has exactly 1 ParamAssign (via Scope::getParamAssigns()),
-//     whose getLhs() resolves to the Parameter "a" itself, and whose
-//     getRhs() is non-null and is either: (a) a FuncCall "fun" whose
+//   - that Parameter's getExpr() is non-null and is either: (a) a FuncCall "fun" whose
 //     getTaskFunc<hldb::Function>() resolves back to the "fun"
 //     declaration, with exactly 1 argument, Constant "3" (a legal
 //     constant function call per 13.4.3); or (b) a Constant already
@@ -169,36 +158,16 @@ TEST_F(ConstFunctionTest, ParamAIsLocalParam) {
 }
 
 TEST_F(ConstFunctionTest, ParamAExprIsPresentAndDescribesTheConstantFunctionCall) {
-  // CORRECTED: an earlier version of this test read Parameter::getExpr(), which came back null when actually
-  // run. Parameter::getExpr() and ParamAssign are two different fields in this object model: Parameter is the
-  // declaration itself (name, localparam flag, ranges); the actual "identifier = initializer" binding for a
-  // localparam is a separate ParamAssign object (lhs/rhs), reachable via Scope::getParamAssigns() on the
-  // Module. This version reads the value from there instead of guessing a second time.
+  // The initializer of 'localparam a = fun(3);' is the Parameter's own value, Parameter::getExpr().
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr) << "'localparam a = fun(3);' should produce a ParamAssign binding";
-  ASSERT_EQ(top->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const paramAssign = top->getParamAssigns()->at(0);
-  ASSERT_NE(paramAssign, nullptr);
+  ASSERT_NE(top->getParameters(), nullptr) << "'localparam a = fun(3);' should produce a Parameter binding";
+  ASSERT_EQ(top->getParameters()->size(), 1u);
+  const hldb::Parameter *const param = any_cast<hldb::Parameter>(top->getParameters()->at(0));
+  ASSERT_NE(param, nullptr);
+  EXPECT_EQ(param->getName(), "a");
 
-  // Deliberately not assuming a single shape for getLhs(): it may be the Parameter directly (as with other
-  // declaration-time bindings seen elsewhere in this suite, e.g. ForStmt's own inline "int i = 0"), or it may
-  // be a RefObj that resolves to the Parameter (as with ordinary, non-declaration assignments elsewhere in
-  // this suite). A prior version assumed the direct-Parameter shape and that came back null, so this version
-  // checks the plain (non-templated) getLhs() first and branches on whichever concrete shape is actually there.
-  const hldb::Any *const lhsAny = paramAssign->getLhs();
-  ASSERT_NE(lhsAny, nullptr) << "ParamAssign LHS must be non-null";
-  const hldb::Parameter *lhs = any_cast<hldb::Parameter>(lhsAny);
-  if (lhs == nullptr) {
-    const hldb::RefObj *const lhsRef = any_cast<hldb::RefObj>(lhsAny);
-    ASSERT_NE(lhsRef, nullptr) << "ParamAssign LHS is neither a Parameter nor a RefObj -- actual AnyType: "
-                                << static_cast<int>(lhsAny->getAnyType());
-    lhs = lhsRef->getActual<hldb::Parameter>();
-    ASSERT_NE(lhs, nullptr) << "ParamAssign LHS RefObj should resolve to the Parameter 'a'";
-  }
-  EXPECT_EQ(lhs->getName(), "a");
-
-  const hldb::Any *const rhs = paramAssign->getRhs();
+  const hldb::Any *const rhs = param->getExpr();
   ASSERT_NE(rhs, nullptr) << "'localparam a = fun(3);' must have a non-null initializer expression";
 
   // 'fun' is a module-level function, not a method (8.2): a plain FuncCall.
@@ -221,7 +190,7 @@ TEST_F(ConstFunctionTest, ParamAExprIsPresentAndDescribesTheConstantFunctionCall
            "Constant rather than keeping the FuncCall, the folded value must still be the correct result "
            "(fun(3) = 3 + 1 = 4)";
   } else {
-    FAIL() << "ParamAssign RHS for 'a' is neither a FuncCall nor a Constant -- actual AnyType: "
+    FAIL() << "Parameter value for 'a' is neither a FuncCall nor a Constant -- actual AnyType: "
            << static_cast<int>(rhs->getAnyType());
   }
 }

@@ -334,7 +334,6 @@ TEST_F(IfaceClassTest3Test, BaseIcHasNoParametersImplementsMembersOrEndLabel) {
   ASSERT_NE(baseIc, nullptr);
 
   EXPECT_EQ(sizeOf(baseIc->getParameters()), 0u) << "8.25: no parameter port list is written";
-  EXPECT_EQ(sizeOf(baseIc->getParamAssigns()), 0u) << "8.25: no parameter port list is written";
   EXPECT_EQ(baseIc->getImplements(), nullptr) << "8.26.2: an interface class implements nothing";
   EXPECT_EQ(sizeOf(baseIc->getMethods()), 0u) << "no pure virtual method is declared";
   EXPECT_EQ(sizeOf(baseIc->getTaskFuncDecls()), 0u) << "no method prototype is declared";
@@ -369,7 +368,6 @@ TEST_F(IfaceClassTest3Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

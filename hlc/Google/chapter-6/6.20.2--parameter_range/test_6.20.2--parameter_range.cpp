@@ -42,18 +42,13 @@
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
-//   |   +-- [0] Parameter name:"p"  localParam: false
-//   +-- getParamAssigns() (ParamAssignCollection, 1 item)
-//       +-- [0] ParamAssign
-//               lhs: Parameter name:"p"
-//               rhs: Constant
+//       +-- [0] Parameter name:"p"  localParam: false
+//               expr: Constant
 //                       constType: vpiHexConst (5)
 //                       size:      16
 //
-// NOTE: Surelog stores parameter default expressions via ParamAssign nodes
-// (Scope::getParamAssigns()), not directly in Parameter::getExpr(). Access
-// the default value by finding the ParamAssign by LHS name and calling
-// getRhs<T>().
+// NOTE: a parameter's default value is its own Parameter::getExpr(); a
+// declaration creates no ParamAssign (those carry overrides only).
 //
 // -- VPI constants ------------------------------------------------------------
 //   vpiHexConst = 5    (hexadecimal integer constant, vpi_user.h)
@@ -87,24 +82,15 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
-// Returns the ParamAssign for the named parameter (matched via getLhs name).
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
-}
-
-// Returns the RHS Constant of the named parameter's ParamAssign, or nullptr.
+// Returns the named parameter's default value as a Constant, or nullptr.
 static const hldb::Constant *getRhsConst(const hldb::Design *d, std::string_view name) {
-  const hldb::ParamAssign *pa = getParamAssign(d, name);
-  if (!pa) return nullptr;
-  return pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *p = getParameter(d, name);
+  return (p == nullptr) ? nullptr : p->getExpr<hldb::Constant>();
 }
 
 // ===========================================================================
@@ -134,21 +120,21 @@ TEST_F(ParameterRangeTest, ParameterCount) {
 // Parameter p = 16'h1234
 // ===========================================================================
 
-TEST_F(ParameterRangeTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
+TEST_F(ParameterRangeTest, P_Exists) { EXPECT_NE(getParameter(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // ss.6.20.2: 'parameter' is not a localparam; it is overridable.
 TEST_F(ParameterRangeTest, P_IsNotLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: 'parameter p' must not be marked as a localparam";
 }
 
 // ss.11.2.1: the default value must be a constant_expression, represented
-// here as a Constant node in the parameter's ParamAssign RHS.
+// here as a Constant node in the parameter's own expression.
 TEST_F(ParameterRangeTest, P_RhsIsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p = 16'h1234': RHS must be a Constant";
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter 'p' not found";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "'p = 16'h1234': RHS must be a Constant";
 }
 
 // ss.5.7.1: the hex base specifier 'h' in '16'h1234' is encoded as

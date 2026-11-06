@@ -46,7 +46,7 @@
 //
 // IEEE 1800-2023 6.20.2/23.3: a parameter override on an instance
 // ('.Depth(ReqDepth)') is a constant-expression connection; the override is
-// recorded via a by-name, overriding ParamAssign on the instance.
+// recorded via a by-name ParamAssign on the instance's typespec.
 // IEEE 1800-2023 27.5 "Generate-if constructs": the condition of a
 // generate-if is a constant expression evaluated at elaboration; here it is
 // preserved as an Operation(vpiEqOp) over the parameter and a Constant.
@@ -92,13 +92,8 @@ class ElabCParamTest : public Test {
   }
 
   template <typename ScopeT>
-  static const hldb::Parameter *findParam(const ScopeT *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *scope->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
+  static const hldb::Parameter *findParameter(const ScopeT *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, hldb::getParameters(scope));
   }
 
   template <typename ScopeT>
@@ -138,15 +133,12 @@ TEST_F(ElabCParamTest, ModulesExist) {
 TEST_F(ElabCParamTest, PrimFifoSync_DepthParamNotLocalWithDefaultFour) {
   const hldb::Module *const m = getModule("prim_fifo_sync");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const depth = findParam(m, "Depth");
+  const hldb::Parameter *const depth = findParameter(m, "Depth");
   ASSERT_NE(depth, nullptr) << "'parameter int unsigned Depth' not found";
   EXPECT_FALSE(depth->getLocalParam()) << "'parameter int unsigned Depth' must not be a localparam";
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "Depth");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'Depth' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = depth->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'Depth = 4': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getDecompile()), "4");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("4"));
 }
 
 // ---------------------------------------------------------------------------
@@ -212,13 +204,10 @@ TEST_F(ElabCParamTest, GenNormal_PtrvWIsLocalParamWithAddOperation) {
   const hldb::GenBlock *const elseBlk = gie->getElseStmt<hldb::GenBlock>();
   ASSERT_NE(elseBlk, nullptr);
 
-  const hldb::Parameter *const ptrvW = findParam(elseBlk, "PTRV_W");
+  const hldb::Parameter *const ptrvW = findParameter(elseBlk, "PTRV_W");
   ASSERT_NE(ptrvW, nullptr) << "'localparam int unsigned PTRV_W' not found inside 'gen_normal'";
   EXPECT_TRUE(ptrvW->getLocalParam()) << "'localparam PTRV_W' must be marked as a localparam";
-
-  const hldb::ParamAssign *const pa = findParamAssign(elseBlk, "PTRV_W");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'PTRV_W' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = ptrvW->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'$clog2(Depth) + ~|$clog2(Depth)': RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAddOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -239,13 +228,10 @@ TEST_F(ElabCParamTest, GenNormal_PtrvWIsLocalParamWithAddOperation) {
 TEST_F(ElabCParamTest, FifoSync_ReqDepthParamDefaultIsSix) {
   const hldb::Module *const m = getModule("fifo_sync");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const reqDepth = findParam(m, "ReqDepth");
+  const hldb::Parameter *const reqDepth = findParameter(m, "ReqDepth");
   ASSERT_NE(reqDepth, nullptr) << "'parameter int unsigned ReqDepth' not found";
   EXPECT_FALSE(reqDepth->getLocalParam());
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "ReqDepth");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = reqDepth->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'ReqDepth = 6': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "6");
 }
@@ -258,12 +244,11 @@ TEST_F(ElabCParamTest, FifoSync_InstantiatesPrimFifoSyncWithDepthOverride) {
   ASSERT_NE(reqfifo->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = reqfifo->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "reqfifo's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("prim_fifo_sync"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("prim_fifo_sync"));
 
   const hldb::ParamAssign *const pa = findParamAssign(mt, "Depth");
   ASSERT_NE(pa, nullptr) << "'.Depth(ReqDepth)' override not found on 'reqfifo'";
   EXPECT_TRUE(pa->getConnByName()) << "'.Depth(...)' is a by-name parameter connection (Sec 23.3)";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
 
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'.Depth(ReqDepth)': RHS must be a RefObj (reference to ReqDepth)";
@@ -279,13 +264,10 @@ TEST_F(ElabCParamTest, FifoSync_InstantiatesPrimFifoSyncWithDepthOverride) {
 TEST_F(ElabCParamTest, Socket1n_NParamDefaultIsTwo) {
   const hldb::Module *const m = getModule("socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const n = findParam(m, "N");
+  const hldb::Parameter *const n = findParameter(m, "N");
   ASSERT_NE(n, nullptr) << "'parameter int unsigned N' not found";
   EXPECT_FALSE(n->getLocalParam());
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "N");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = n->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'N = 2': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "2");
 }
@@ -296,9 +278,9 @@ TEST_F(ElabCParamTest, Socket1n_NParamDefaultIsTwo) {
 TEST_F(ElabCParamTest, Socket1n_DReqDepthDefaultIsMultiConcatWithNCount) {
   const hldb::Module *const m = getModule("socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(m, "DReqDepth");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'DReqDepth' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = findParameter(m, "DReqDepth");
+  ASSERT_NE(pa, nullptr) << "Parameter 'DReqDepth' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{N{4'h2}}': default RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiMultiConcatOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -313,13 +295,10 @@ TEST_F(ElabCParamTest, Socket1n_DReqDepthDefaultIsMultiConcatWithNCount) {
 TEST_F(ElabCParamTest, Socket1n_AAIsDReqDepthTimesTwo) {
   const hldb::Module *const m = getModule("socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const aa = findParam(m, "AA");
+  const hldb::Parameter *const aa = findParameter(m, "AA");
   ASSERT_NE(aa, nullptr) << "'parameter bit [7:0] AA' not found";
   EXPECT_TRUE(aa->getLocalParam());
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "AA");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = aa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'DReqDepth * 2': RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiMultOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -335,13 +314,10 @@ TEST_F(ElabCParamTest, Socket1n_AAIsDReqDepthTimesTwo) {
 TEST_F(ElabCParamTest, Socket1n_BBIsIndexedPartSelectOfDReqDepth) {
   const hldb::Module *const m = getModule("socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const bb = findParam(m, "BB");
+  const hldb::Parameter *const bb = findParameter(m, "BB");
   ASSERT_NE(bb, nullptr) << "'parameter bit [7:0] BB' not found";
   EXPECT_TRUE(bb->getLocalParam());
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "BB");
-  ASSERT_NE(pa, nullptr);
-  const hldb::IndexedPartSelect *const rhs = pa->getRhs<hldb::IndexedPartSelect>();
+  const hldb::IndexedPartSelect *const rhs = bb->getExpr<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr) << "'DReqDepth[1*4+:4]': RHS must be an IndexedPartSelect";
   EXPECT_EQ(rhs->getName(), std::string_view("DReqDepth[1*4+:4]"));
   const hldb::RefObj *const pro = rhs->getPrefix<hldb::RefObj>();
@@ -379,12 +355,11 @@ TEST_F(ElabCParamTest, Socket1n_GenerateForInstantiatesFifoSync) {
   ASSERT_NE(fifoD->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = fifoD->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "fifo_d's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("fifo_sync"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("fifo_sync"));
 
   const hldb::ParamAssign *const pa = findParamAssign(mt, "ReqDepth");
   ASSERT_NE(pa, nullptr) << "'.ReqDepth(DReqDepth[i*4+:4])' override not found on 'fifo_d'";
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::IndexedPartSelect *const rhs = pa->getRhs<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr) << "'.ReqDepth(DReqDepth[i*4+:4])': RHS must be an IndexedPartSelect";
   EXPECT_EQ(rhs->getName(), std::string_view("DReqDepth[i*4+:4]"));
@@ -401,9 +376,9 @@ TEST_F(ElabCParamTest, Socket1n_GenerateForInstantiatesFifoSync) {
 TEST_F(ElabCParamTest, AllZero_DReqDepthDefaultIsMultiConcatWithConstantCount) {
   const hldb::Module *const m = getModule("all_zero");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(m, "DReqDepth");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'DReqDepth' not found on 'all_zero'";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = findParameter(m, "DReqDepth");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'DReqDepth' not found on 'all_zero'";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{2{4'h0}}': default RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiMultiConcatOp);
   ASSERT_NE(rhs->getOperands(), nullptr);

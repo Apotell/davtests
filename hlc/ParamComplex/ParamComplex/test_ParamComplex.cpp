@@ -171,21 +171,8 @@ class ParamComplexTest : public Test {
     return hldb::findByName<hldb::TypespecMember>(name, st->getStruct()->getMembers());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // Whether 'rts' names complex_t, directly or as the last element of a
@@ -259,9 +246,9 @@ class ParamComplexTest : public Test {
   // 'scope' is 'expected'.
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -332,13 +319,11 @@ TEST_F(ParamComplexTest, InitValIsLocalComplexTPattern) {
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   ASSERT_NE(top->getParameters(), nullptr);
   ASSERT_EQ(top->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(top, "init_val");
+  const hldb::Parameter *const p = getParameter(top, "init_val");
   ASSERT_NE(p, nullptr) << "parameter 'init_val' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: declared 'localparam'";
   EXPECT_TRUE(namesComplexT(p->getTypespec())) << "26.3: 'pkg::complex_t' names the package's complex_t";
-  const hldb::ParamAssign *const pa = getParamAssign(top, "init_val");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -382,7 +367,7 @@ TEST_F(ParamComplexTest, Asgn0OverridesInitWithConcatOfInitVal) {
   const hldb::RefObj *const ref = any_cast<hldb::RefObj>(concat->getOperands()->at(0));
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "init_val");
-  EXPECT_EQ(ref->getActual(), getParam(getModule("top"), "init_val")) << "'init_val' is top's localparam";
+  EXPECT_EQ(ref->getActual(), getParameter(getModule("top"), "init_val")) << "'init_val' is top's localparam";
 }
 
 TEST_F(ParamComplexTest, DutDeclaresIntSizeAndBitVectorInit) {
@@ -390,19 +375,17 @@ TEST_F(ParamComplexTest, DutDeclaresIntSizeAndBitVectorInit) {
   ASSERT_NE(dut, nullptr) << "module 'dut' not found";
   ASSERT_NE(dut->getParameters(), nullptr);
   ASSERT_EQ(dut->getParameters()->size(), 2u);
-  const hldb::Parameter *const size = getParam(dut, "size");
+  const hldb::Parameter *const size = getParameter(dut, "size");
   ASSERT_NE(size, nullptr);
   EXPECT_FALSE(size->getLocalParam()) << "6.20.1: 'size' is in the parameter port list";
   ASSERT_NE(size->getTypespec(), nullptr);
   const hldb::IntTypespec *const it = size->getTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(it, nullptr) << "'size' is declared 'int'";
   EXPECT_TRUE(it->getSigned()) << "6.11, Table 6-8: 'int' is a 32-bit signed integer";
-  const hldb::ParamAssign *const sizeAssign = getParamAssign(dut, "size");
-  ASSERT_NE(sizeAssign, nullptr);
-  ASSERT_NE(sizeAssign->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(sizeAssign->getRhs<hldb::Constant>()->getDecompile(), "0");
+  ASSERT_NE(size->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(size->getExpr<hldb::Constant>()->getDecompile(), "0");
 
-  const hldb::Parameter *const init = getParam(dut, "init");
+  const hldb::Parameter *const init = getParameter(dut, "init");
   ASSERT_NE(init, nullptr);
   EXPECT_FALSE(init->getLocalParam()) << "6.20.1: 'init' is in the parameter port list";
   ASSERT_NE(init->getTypespec(), nullptr);
@@ -425,10 +408,8 @@ TEST_F(ParamComplexTest, DutDeclaresIntSizeAndBitVectorInit) {
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
-  const hldb::ParamAssign *const initAssign = getParamAssign(dut, "init");
-  ASSERT_NE(initAssign, nullptr);
-  ASSERT_NE(initAssign->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(initAssign->getRhs<hldb::Constant>()->getDecompile(), "'0");
+  ASSERT_NE(init->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(init->getExpr<hldb::Constant>()->getDecompile(), "'0");
 }
 
 // ---------------------------------------------------------------------------

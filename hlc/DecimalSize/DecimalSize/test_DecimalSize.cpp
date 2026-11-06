@@ -43,7 +43,7 @@
 //   - gem_gxl declares (non-local) parameters p_edma_queues,
 //     p_edma_axi_access_pipeline_bits, p_edma_jumbo_max_length,
 //     p_num_type1_screeners
-//   - each parameter's default ParamAssign RHS is a sized decimal Constant
+//   - each parameter's default Expr is a sized decimal Constant
 //     with the expected vpiConstType/size/value/decompile
 
 #include <hlc/Common/Session.h>
@@ -76,8 +76,8 @@ class DecimalSizeTest : public Test {
 
   static const hldb::Module *getGemGxl() { return getModule("gem_gxl"); }
 
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  static const hldb::Parameter *findParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 };
 
@@ -112,14 +112,14 @@ TEST_F(DecimalSizeTest, PEdmaQueuesIsModuleParameterNotLocalParam) {
 TEST_F(DecimalSizeTest, PEdmaQueuesDefaultIs32BitDecimalOne) {
   const hldb::Module *const gxl = getGemGxl();
   ASSERT_NE(gxl, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(gxl, "p_edma_queues");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'p_edma_queues' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = findParameter(gxl, "p_edma_queues");
+  ASSERT_NE(param, nullptr) << "default Parameter for 'p_edma_queues' not found";
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'p_edma_queues = 32'd1': default RHS must be a Constant";
   EXPECT_EQ(rhs->getConstType(), vpiDecConst) << "32'd1: constType should be decimal (vpiDecConst)";
   EXPECT_EQ(rhs->getSize(), 32);
-  EXPECT_EQ(std::string(rhs->getValue()), "1");
-  EXPECT_EQ(std::string(rhs->getDecompile()), "32'd1");
+  EXPECT_EQ(std::string(rhs->getValue()), std::string_view("1"));
+  EXPECT_EQ(std::string(rhs->getDecompile()), std::string_view("32'd1"));
 }
 
 // ---------------------------------------------------------------------------
@@ -129,14 +129,14 @@ TEST_F(DecimalSizeTest, PEdmaQueuesDefaultIs32BitDecimalOne) {
 TEST_F(DecimalSizeTest, PEdmaAxiAccessPipelineBitsDefaultIs4BitDecimalFour) {
   const hldb::Module *const gxl = getGemGxl();
   ASSERT_NE(gxl, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(gxl, "p_edma_axi_access_pipeline_bits");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'p_edma_axi_access_pipeline_bits' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = findParameter(gxl, "p_edma_axi_access_pipeline_bits");
+  ASSERT_NE(param, nullptr) << "default Parameter for 'p_edma_axi_access_pipeline_bits' not found";
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), vpiDecConst) << "4'd4: constType should be decimal (vpiDecConst)";
   EXPECT_EQ(rhs->getSize(), 4);
-  EXPECT_EQ(std::string(rhs->getValue()), "4");
-  EXPECT_EQ(std::string(rhs->getDecompile()), "4'd4");
+  EXPECT_EQ(std::string(rhs->getValue()), std::string_view("4"));
+  EXPECT_EQ(std::string(rhs->getDecompile()), std::string_view("4'd4"));
 }
 
 // ---------------------------------------------------------------------------
@@ -146,14 +146,14 @@ TEST_F(DecimalSizeTest, PEdmaAxiAccessPipelineBitsDefaultIs4BitDecimalFour) {
 TEST_F(DecimalSizeTest, PEdmaJumboMaxLengthDefaultIs14BitDecimal10240) {
   const hldb::Module *const gxl = getGemGxl();
   ASSERT_NE(gxl, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(gxl, "p_edma_jumbo_max_length");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'p_edma_jumbo_max_length' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = findParameter(gxl, "p_edma_jumbo_max_length");
+  ASSERT_NE(param, nullptr) << "default Parameter for 'p_edma_jumbo_max_length' not found";
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), vpiDecConst) << "14'd10240: constType should be decimal (vpiDecConst)";
   EXPECT_EQ(rhs->getSize(), 14);
-  EXPECT_EQ(std::string(rhs->getValue()), "10240");
-  EXPECT_EQ(std::string(rhs->getDecompile()), "14'd10240");
+  EXPECT_EQ(std::string(rhs->getValue()), std::string_view("10240"));
+  EXPECT_EQ(std::string(rhs->getDecompile()), std::string_view("14'd10240"));
 }
 
 // ---------------------------------------------------------------------------
@@ -163,14 +163,14 @@ TEST_F(DecimalSizeTest, PEdmaJumboMaxLengthDefaultIs14BitDecimal10240) {
 TEST_F(DecimalSizeTest, PNumType1ScreenersDefaultIs8BitDecimalZero) {
   const hldb::Module *const gxl = getGemGxl();
   ASSERT_NE(gxl, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(gxl, "p_num_type1_screeners");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'p_num_type1_screeners' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = findParameter(gxl, "p_num_type1_screeners");
+  ASSERT_NE(param, nullptr) << "default Parameter for 'p_num_type1_screeners' not found";
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getConstType(), vpiDecConst) << "8'd0: constType should be decimal (vpiDecConst)";
   EXPECT_EQ(rhs->getSize(), 8);
-  EXPECT_EQ(std::string(rhs->getValue()), "0");
-  EXPECT_EQ(std::string(rhs->getDecompile()), "8'd0");
+  EXPECT_EQ(std::string(rhs->getValue()), std::string_view("0"));
+  EXPECT_EQ(std::string(rhs->getDecompile()), std::string_view("8'd0"));
 }
 
 }  // namespace hlc

@@ -54,7 +54,7 @@
 // Checked:
 //   - packages "prim_mubi_pkg" and "pkg", and modules "GOOD" and "top" exist
 //   - "prim_mubi_pkg" declares parameter "MuBi4Width" (non-localparam) with
-//     default ParamAssign RHS Constant "4"
+//     default value (Parameter::getExpr()) Constant "4"
 //   - "prim_mubi_pkg" owns TypedefTypespec "mubi4_t" -> EnumTypespec with
 //     base typespec LogicTypespec whose range left expr is an Operation
 //     (vpiSubOp) of RefObj "MuBi4Width" and Constant "1"
@@ -147,8 +147,8 @@ class EnumConstConcatTest : public Test {
   }
 
   template <typename ScopeT>
-  static const hldb::ParamAssign *findParamAssign(const ScopeT *scope, std::string_view name) {
-    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(scope));
+  static const hldb::Parameter *getParameter(const ScopeT *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, hldb::getParameters(scope));
   }
 
   static const hldb::GenIf *getGenIf() {
@@ -194,9 +194,9 @@ TEST_F(EnumConstConcatTest, MuBi4WidthIsNonLocalParamWithDefaultFour) {
   ASSERT_NE(width, nullptr) << "'parameter int MuBi4Width' not found on package 'prim_mubi_pkg'";
   EXPECT_TRUE(width->getLocalParam());
 
-  const hldb::ParamAssign *const pa = findParamAssign(p, "MuBi4Width");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'MuBi4Width' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getParameter(p, "MuBi4Width");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'MuBi4Width' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'MuBi4Width = 4': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "4");
 }

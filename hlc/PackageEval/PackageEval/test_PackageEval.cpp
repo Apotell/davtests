@@ -33,12 +33,12 @@
 // What is checked, and why:
 //   Package test_pkg exists; no ': label' after endpackage.
 //   Parameters (6.20)
-//     - exactly 3 parameters, NStraps, MioStrapPos and TEST_SIZE, and exactly
-//       3 ParamAssigns
+//     - exactly 3 parameters, NStraps, MioStrapPos and TEST_SIZE, each
+//       holding its own value (Parameter::getExpr())
 //     - 6.20.4: inside a package 'parameter' is a synonym for 'localparam',
 //       so all 3 have getLocalParam() true
 //   parameter int NStraps = 2;
-//     - signed IntTypespec (6.11); ParamAssign RHS Constant "2"
+//     - signed IntTypespec (6.11); value Constant "2"
 //   parameter int MioStrapPos [0:NStraps-1] = '{1, 0};
 //     - ArrayTypespec, vpiStaticArray (a fixed-size unpacked dimension,
 //       7.4.2), element typespec signed IntTypespec
@@ -47,7 +47,7 @@
 //       (NStraps - 1 = 2 - 1); otherwise it is the unreduced Operation
 //       vpiSubOp over RefObj 'NStraps' (bound to that Parameter) and
 //       Constant "1"
-//     - ParamAssign RHS is an assignment pattern (10.9.1): Operation
+//     - the value is an assignment pattern (10.9.1): Operation
 //       vpiAssignmentPatternOp with exactly 2 operands, Constants "1", "0"
 //   typedef struct packed { ... } t_test; (7.2.1)
 //     - the package owns exactly 1 TypedefTypespec 't_test', aliasing a
@@ -55,7 +55,7 @@
 //     - exactly 2 members in declaration order: 'valid' (scalar logic, no
 //       packed range) and 'data' (logic with exactly 1 packed range [63:0])
 //   parameter TEST_SIZE = $bits(t_test);
-//     - unreduced, the ParamAssign RHS is a SysFuncCall "$bits" with exactly
+//     - unreduced, the value is a SysFuncCall "$bits" with exactly
 //       1 argument naming 't_test'
 //     - on an elaborated design it is reduced to 65: $bits of a packed
 //       struct is the sum of its members' widths, 1 + 64 (20.6.2, 7.2.1)
@@ -116,20 +116,14 @@ class PackageEvalTest : public Test {
     return hldb::findByName<hldb::Package>("test_pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
-    const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
-  }
-
   static const hldb::ArrayTypespec *getMioStrapPosType() {
-    const hldb::Parameter *const p = getParam("MioStrapPos");
+    const hldb::Parameter *const p = getParameter("MioStrapPos");
     if (p == nullptr || p->getTypespec() == nullptr) return nullptr;
     return p->getTypespec()->getActual<hldb::ArrayTypespec>();
   }
@@ -201,21 +195,21 @@ TEST_F(PackageEvalTest, PackageExistsWithoutEndLabel) {
   EXPECT_EQ(pkg->getEndLabel(), "");
 }
 
-TEST_F(PackageEvalTest, PackageHasThreeParametersAndThreeParamAssigns) {
+TEST_F(PackageEvalTest, PackageHasThreeParametersAndThreeParameters) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 3u);
-  EXPECT_NE(getParam("NStraps"), nullptr);
-  EXPECT_NE(getParam("MioStrapPos"), nullptr);
-  EXPECT_NE(getParam("TEST_SIZE"), nullptr);
-  ASSERT_NE(pkg->getParamAssigns(), nullptr);
-  EXPECT_EQ(pkg->getParamAssigns()->size(), 3u);
+  EXPECT_NE(getParameter("NStraps"), nullptr);
+  EXPECT_NE(getParameter("MioStrapPos"), nullptr);
+  EXPECT_NE(getParameter("TEST_SIZE"), nullptr);
+  ASSERT_NE(pkg->getParameters(), nullptr);
+  EXPECT_EQ(pkg->getParameters()->size(), 3u);
 }
 
 TEST_F(PackageEvalTest, AllParametersAreLocalParams) {
   for (std::string_view name : {"NStraps", "MioStrapPos", "TEST_SIZE"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(name);
     ASSERT_NE(p, nullptr) << name;
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << name << "' is declared in a package, where 'parameter' "
                                     << "is a synonym for 'localparam'";
@@ -227,16 +221,16 @@ TEST_F(PackageEvalTest, AllParametersAreLocalParams) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageEvalTest, NStrapsIsSignedIntTwo) {
-  const hldb::Parameter *const p = getParam("NStraps");
+  const hldb::Parameter *const p = getParameter("NStraps");
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::IntTypespec *const ts = p->getTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(ts, nullptr) << "declared 'int'";
   EXPECT_TRUE(ts->getSigned());
 
-  const hldb::ParamAssign *const pa = getParamAssign("NStraps");
+  const hldb::Parameter *const pa = getParameter("NStraps");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "2");
 }
@@ -287,8 +281,8 @@ TEST_F(PackageEvalTest, MioStrapPosRangeRightIsNStrapsMinusOne) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(op->getOperands()->at(0));
     ASSERT_NE(ref, nullptr);
     EXPECT_EQ(ref->getName(), "NStraps");
-    ASSERT_NE(getParam("NStraps"), nullptr);
-    EXPECT_EQ(ref->getActual<hldb::Parameter>(), getParam("NStraps"));
+    ASSERT_NE(getParameter("NStraps"), nullptr);
+    EXPECT_EQ(ref->getActual<hldb::Parameter>(), getParameter("NStraps"));
     const hldb::Constant *const one = any_cast<hldb::Constant>(op->getOperands()->at(1));
     ASSERT_NE(one, nullptr);
     EXPECT_EQ(one->getDecompile(), "1");
@@ -296,9 +290,9 @@ TEST_F(PackageEvalTest, MioStrapPosRangeRightIsNStrapsMinusOne) {
 }
 
 TEST_F(PackageEvalTest, MioStrapPosValueIsAssignmentPatternOneZero) {
-  const hldb::ParamAssign *const pa = getParamAssign("MioStrapPos");
+  const hldb::Parameter *const pa = getParameter("MioStrapPos");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{1, 0} should be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp) << "10.9.1: '{...} is an assignment pattern";
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -378,18 +372,18 @@ TEST_F(PackageEvalTest, MemberDataIsLogic63To0) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageEvalTest, TestSizeIsBitsOfTTest) {
-  const hldb::ParamAssign *const pa = getParamAssign("TEST_SIZE");
+  const hldb::Parameter *const pa = getParameter("TEST_SIZE");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
+  ASSERT_NE(pa->getExpr(), nullptr);
   if (m_design->getElaborated()) {
     // 20.6.2: $bits of a type is an elaboration-time constant.
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "on an elaborated design '$bits(t_test)' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(parseConstantValue(value, &v)) << "unparsable constant '" << value->getDecompile() << "'";
     EXPECT_EQ(v, 65u) << "7.2.1: a packed struct is as wide as its members together, 1 + 64";
   } else {
-    const hldb::SysFuncCall *const call = pa->getRhs<hldb::SysFuncCall>();
+    const hldb::SysFuncCall *const call = pa->getExpr<hldb::SysFuncCall>();
     ASSERT_NE(call, nullptr) << "unreduced, '$bits(t_test)' is a SysFuncCall";
     EXPECT_EQ(call->getName(), "$bits");
     ASSERT_NE(call->getArguments(), nullptr);

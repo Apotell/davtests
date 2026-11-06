@@ -32,8 +32,8 @@
 //   - design has module top with exactly 2 variables: "arr_a", "arr_b"
 //   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - module has exactly 1 Parameter "c" (RefTypespec -> IntegerTypespec,
-//     signed) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
-//     Parameter, rhs Constant "3" (vpiConstType=unsigned int)
+//     signed) whose value (Parameter::getExpr()) is Constant "3"
+//     (vpiConstType=unsigned int)
 //   - Initial process: 1 Begin with 5 stmts (2 Assignment + 2 SysFuncCall +
 //     1 IndexedPartSelect Assignment) -- the parameter declaration is a
 //     separate Module_item, not counted among the Begin's stmts
@@ -118,18 +118,15 @@ TEST_F(PackedVariableSliceTest, ModuleHasOneParameterNamedC) {
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntegerTypespec>(), nullptr);
 }
 
-TEST_F(PackedVariableSliceTest, ParamAssignSetsCToThree) {
+TEST_F(PackedVariableSliceTest, ParameterSetsCToThree) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = top->getParamAssigns()->at(0);
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_EQ(top->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(top->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "c");
-  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), "c");
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "3");
 }

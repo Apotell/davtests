@@ -37,8 +37,7 @@
 //       exactly 1 packed range [3:0]
 //     - A is a local parameter: in a package the keyword 'parameter' is a
 //       synonym for 'localparam' (6.20.4)
-//     - its ParamAssign binds the LHS to the Parameter and has the Constant
-//       RHS "4'hF"
+//     - its value (Parameter::getExpr()) is the Constant "4'hF"
 //   Module top (23.2)
 //     - exactly 1 port, 'a', with direction output and port index 0
 //       (37.14 detail 9)
@@ -179,15 +178,12 @@ TEST_F(PackageParamConstTest, ParameterAIsLocalParam) {
 TEST_F(PackageParamConstTest, ParameterAIsAssignedFourBitHexF) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
-  ASSERT_NE(pkg->getParamAssigns(), nullptr);
-  ASSERT_EQ(pkg->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = pkg->getParamAssigns()->at(0);
+  ASSERT_NE(pkg->getParameters(), nullptr);
+  ASSERT_EQ(pkg->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(pkg->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  ASSERT_NE(getA(), nullptr);
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getA());
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa, getA());
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'A' is assigned a literal";
   EXPECT_EQ(rhs->getDecompile(), "4'hF");
 }

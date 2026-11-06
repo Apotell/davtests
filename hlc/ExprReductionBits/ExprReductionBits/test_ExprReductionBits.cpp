@@ -96,10 +96,9 @@ class ExprReductionBitsTest : public Test {
     return hldb::findByName<hldb::Parameter>("PARAM", top->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign() {
+  static const hldb::Parameter *getParameter() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParamAssigns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>("PARAM", top->getParamAssigns());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("PARAM", top->getParameters());
   }
 
   static const hldb::Typedef *getEnumTypedef() {
@@ -151,9 +150,9 @@ TEST_F(ExprReductionBitsTest, ParamExistsAndIsNotLocalParam) {
 }
 
 TEST_F(ExprReductionBitsTest, ParamDefaultIsFour) {
-  const hldb::ParamAssign *const param = getParamAssign();
+  const hldb::Parameter *const param = getParameter();
   ASSERT_NE(param, nullptr);
-  const hldb::Constant *const expr = param->getRhs<hldb::Constant>();
+  const hldb::Constant *const expr = param->getExpr<hldb::Constant>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getDecompile(), "4");
 }

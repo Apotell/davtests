@@ -91,17 +91,15 @@ static const hldb::Module *getModule(const hldb::Design *d, std::string_view nam
   return hldb::findByName<hldb::Module>(name, d->getAllModules());
 }
 
-static const hldb::ParamAssign *getPkgParamAssign(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getPkgParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Package *const pkg = getPkg(d);
-  if (!pkg) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
+  return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
 }
 
-static const hldb::ParamAssign *getModuleParamAssign(const hldb::Design *d, std::string_view module,
+static const hldb::Parameter *getModuleParameter(const hldb::Design *d, std::string_view module,
                                                        std::string_view param) {
   const hldb::Module *const m = getModule(d, module);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(param, m->getParamAssigns());
+  return (m == nullptr) ?  nullptr :  hldb::findByName<hldb::Parameter>(param, m->getParameters());
 }
 
 // ===========================================================================
@@ -133,26 +131,26 @@ TEST_F(DefaultPatternAssignTest, PackageParameterValueTempExists) {
 // ===========================================================================
 
 TEST_F(DefaultPatternAssignTest, ValueTempRhsIsAssignmentPatternOp) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'VALUE_TEMP' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "VALUE_TEMP");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'VALUE_TEMP' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'int'{default: 1}' RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp);
 }
 
 TEST_F(DefaultPatternAssignTest, ValueTempPatternHasOneOperand) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "VALUE_TEMP");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   EXPECT_EQ(rhs->getOperands()->size(), 1u) << "a single 'default:' entry must produce exactly one operand";
 }
 
 TEST_F(DefaultPatternAssignTest, ValueTempOperandIsDefaultTaggedPattern) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "VALUE_TEMP");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -165,9 +163,9 @@ TEST_F(DefaultPatternAssignTest, ValueTempOperandIsDefaultTaggedPattern) {
 }
 
 TEST_F(DefaultPatternAssignTest, ValueTempPatternValueIsOne) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "VALUE_TEMP");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -180,9 +178,9 @@ TEST_F(DefaultPatternAssignTest, ValueTempPatternValueIsOne) {
 }
 
 TEST_F(DefaultPatternAssignTest, ValueTempOperationTypespecIsInt) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "VALUE_TEMP");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
 
   // The leading "int" in "int'{default: 1}" is the assignment_pattern_expression_type -- it must
@@ -197,25 +195,25 @@ TEST_F(DefaultPatternAssignTest, ValueTempOperationTypespecIsInt) {
 // ===========================================================================
 
 TEST_F(DefaultPatternAssignTest, BottomValueDefaultIsEight) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "bottom", "VALUE");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for bottom::VALUE not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "bottom", "VALUE");
+  ASSERT_NE(pa, nullptr) << "Parameter for bottom::VALUE not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "bottom::VALUE default must be a plain Constant, not an assignment pattern";
   EXPECT_EQ(rhs->getValue(), std::string_view("8"));
 }
 
 TEST_F(DefaultPatternAssignTest, UpperValueDefaultIsSeven) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "upper", "VALUE");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for upper::VALUE not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "upper", "VALUE");
+  ASSERT_NE(pa, nullptr) << "Parameter for upper::VALUE not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), std::string_view("7"));
 }
 
 TEST_F(DefaultPatternAssignTest, TopValueDefaultIsFive) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "top", "VALUE");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for top::VALUE not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "top", "VALUE");
+  ASSERT_NE(pa, nullptr) << "Parameter for top::VALUE not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), std::string_view("5"));
 }
@@ -226,9 +224,9 @@ TEST_F(DefaultPatternAssignTest, TopValueDefaultIsFive) {
 // ===========================================================================
 
 TEST_F(DefaultPatternAssignTest, LowerValueRhsIsAddOp) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "lower", "VALUE");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for lower::VALUE not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "lower", "VALUE");
+  ASSERT_NE(pa, nullptr) << "Parameter for lower::VALUE not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'VALUE_TEMP + 2' RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAddOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -236,9 +234,9 @@ TEST_F(DefaultPatternAssignTest, LowerValueRhsIsAddOp) {
 }
 
 TEST_F(DefaultPatternAssignTest, LowerValueFirstOperandReferencesValueTemp) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "lower", "VALUE");
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "lower", "VALUE");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);
@@ -249,9 +247,9 @@ TEST_F(DefaultPatternAssignTest, LowerValueFirstOperandReferencesValueTemp) {
 }
 
 TEST_F(DefaultPatternAssignTest, LowerValueSecondOperandIsConstantTwo) {
-  const hldb::ParamAssign *const pa = getModuleParamAssign(m_design, "lower", "VALUE");
+  const hldb::Parameter *const pa = getModuleParameter(m_design, "lower", "VALUE");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);

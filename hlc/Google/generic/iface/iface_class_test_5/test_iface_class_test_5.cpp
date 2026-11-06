@@ -299,28 +299,6 @@ class IfaceClassTest5Test : public Test {
     }
     return baseIc->getExtends()->getClassTypespecs();
   }
-
-  // The ParamAssign of base_ic giving parameter 'name' its default, or
-  // nullptr unless there is exactly one.
-  static const hldb::ParamAssign *getDefaultOf(std::string_view name) {
-    const hldb::ClassDefn *const baseIc = getBaseIc();
-    if ((baseIc == nullptr) || (baseIc->getParamAssigns() == nullptr)) {
-      return nullptr;
-    }
-    const hldb::ParamAssign *found = nullptr;
-    size_t count = 0;
-    for (const hldb::ParamAssign *paramAssign : *baseIc->getParamAssigns()) {
-      const hldb::Any *const lhs = paramAssign->getLhs();
-      if ((lhs != nullptr) && (lhs->getName() == name)) {
-        found = paramAssign;
-        ++count;
-      }
-    }
-    if (count != 1) {
-      return nullptr;
-    }
-    return found;
-  }
 };
 
 // Neither pkg1 nor base2 is declared, so both 'extends' references on line
@@ -408,11 +386,7 @@ TEST_F(IfaceClassTest5Test, ParameterNIsIntWithDefault8) {
   const hldb::IntTypespec *const intTypespec = typespec->getActual<hldb::IntTypespec>();
   ASSERT_NE(intTypespec, nullptr) << "6.11: N is declared 'int'";
   EXPECT_TRUE(intTypespec->getSigned()) << "6.11: int is signed";
-
-  EXPECT_EQ(sizeOf(baseIc->getParamAssigns()), 1u) << "N has exactly one default";
-  const hldb::ParamAssign *const assign = getDefaultOf("N");
-  ASSERT_NE(assign, nullptr) << "'N = 8' gives N one default";
-  const hldb::Constant *const value = assign->getRhs<hldb::Constant>();
+  const hldb::Constant *const value = n->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "the default of N is the literal 8";
   EXPECT_EQ(literalOf(value), "8");
 }
@@ -491,7 +465,6 @@ TEST_F(IfaceClassTest5Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u) << "N is a class parameter of base_ic";
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u) << "N is a class parameter of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

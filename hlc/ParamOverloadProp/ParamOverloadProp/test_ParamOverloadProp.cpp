@@ -107,21 +107,8 @@ class ParamOverloadPropTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Module *getElabFlop() {
@@ -168,9 +155,9 @@ class ParamOverloadPropTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -197,7 +184,7 @@ TEST_F(ParamOverloadPropTest, PrimFlopDeclaresTwoOverridableParameters) {
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 2u);
   for (std::string_view name : {"Width", "ResetValue"}) {
-    const hldb::Parameter *const p = getParam(m, name);
+    const hldb::Parameter *const p = getParameter(m, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: prim_flop has no parameter port list, so '" << name
                                      << "' is overridable";
@@ -207,20 +194,18 @@ TEST_F(ParamOverloadPropTest, PrimFlopDeclaresTwoOverridableParameters) {
 TEST_F(ParamOverloadPropTest, WidthIsIntDefaultingToOne) {
   const hldb::Module *const m = getModule("prim_flop");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const width = getParam(m, "Width");
+  const hldb::Parameter *const width = getParameter(m, "Width");
   ASSERT_NE(width, nullptr);
   ASSERT_NE(width->getTypespec(), nullptr);
   EXPECT_NE(width->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "'Width' is declared 'int'";
-  const hldb::ParamAssign *const pa = getParamAssign(m, "Width");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "1");
+  ASSERT_NE(width->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(width->getExpr<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(ParamOverloadPropTest, ResetValueIsLogicWidthMinusOneToZero) {
   const hldb::Module *const m = getModule("prim_flop");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const rv = getParam(m, "ResetValue");
+  const hldb::Parameter *const rv = getParameter(m, "ResetValue");
   ASSERT_NE(rv, nullptr);
   ASSERT_NE(rv->getTypespec(), nullptr);
   const hldb::LogicTypespec *const lt = rv->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -235,7 +220,7 @@ TEST_F(ParamOverloadPropTest, ResetValueIsLogicWidthMinusOneToZero) {
   const hldb::RefObj *const width = any_cast<hldb::RefObj>(left->getOperands()->at(0));
   ASSERT_NE(width, nullptr);
   EXPECT_EQ(width->getName(), "Width");
-  EXPECT_EQ(width->getActual(), getParam(m, "Width")) << "'Width' is prim_flop's own parameter";
+  EXPECT_EQ(width->getActual(), getParameter(m, "Width")) << "'Width' is prim_flop's own parameter";
   const hldb::Constant *const one = any_cast<hldb::Constant>(left->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");
@@ -247,12 +232,12 @@ TEST_F(ParamOverloadPropTest, ResetValueIsLogicWidthMinusOneToZero) {
 TEST_F(ParamOverloadPropTest, ResetValueDefaultsToWidth) {
   const hldb::Module *const m = getModule("prim_flop");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(m, "ResetValue");
+  const hldb::Parameter *const pa = getParameter(m, "ResetValue");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const width = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const width = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(width, nullptr) << "unreduced, the default is the name 'Width'";
   EXPECT_EQ(width->getName(), "Width");
-  EXPECT_EQ(width->getActual(), getParam(m, "Width")) << "'Width' is prim_flop's own parameter";
+  EXPECT_EQ(width->getActual(), getParameter(m, "Width")) << "'Width' is prim_flop's own parameter";
 }
 
 // ---------------------------------------------------------------------------
@@ -296,7 +281,7 @@ TEST_F(ParamOverloadPropTest, ElaboratedResetValueIsTwentyOneToZero) {
   if (m_design->getElaborated()) {
     const hldb::Module *const flop = getElabFlop();
     ASSERT_NE(flop, nullptr);
-    const hldb::Parameter *const rv = getParam(flop, "ResetValue");
+    const hldb::Parameter *const rv = getParameter(flop, "ResetValue");
     ASSERT_NE(rv, nullptr);
     ASSERT_NE(rv->getTypespec(), nullptr);
     const hldb::LogicTypespec *const lt = rv->getTypespec()->getActual<hldb::LogicTypespec>();

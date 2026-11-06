@@ -48,7 +48,7 @@
 //   * `localparam int unsigned V[CNT] = ...` is likewise a localparam.
 //
 // -- Function under test --------------------------------------------------
-//   * `ASSIGN_VADDR` is a Function whose return-value ParamAssign is
+//   * `ASSIGN_VADDR` is a Function whose return-value Parameter is
 //     distinct from a plain default value (VADDR's initializer is a
 //     function call, not an assignment pattern).
 
@@ -92,10 +92,9 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::ParamAssign *getPkgParamAssign(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getPkgParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Package *const pkg = getPkg(d);
-  if (!pkg) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
+  return (pkg == nullptr) ?  nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
 }
 
 // ===========================================================================
@@ -123,9 +122,9 @@ TEST_F(DefaultPatternIntTest, CntIsLocalParam) {
 }
 
 TEST_F(DefaultPatternIntTest, CntValueIsTwo) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "CNT");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'CNT' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "CNT");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'CNT' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), std::string_view("2"));
 }
@@ -144,17 +143,17 @@ TEST_F(DefaultPatternIntTest, VIsLocalParam) {
 }
 
 TEST_F(DefaultPatternIntTest, VRhsIsAssignmentPatternOp) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "V");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'V' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "V");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'V' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{default: 3}' RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp);
 }
 
 TEST_F(DefaultPatternIntTest, VPatternHasOneOperand) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   EXPECT_EQ(rhs->getOperands()->size(), 1u)
@@ -162,9 +161,9 @@ TEST_F(DefaultPatternIntTest, VPatternHasOneOperand) {
 }
 
 TEST_F(DefaultPatternIntTest, VOperandIsDefaultTaggedPattern) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -177,9 +176,9 @@ TEST_F(DefaultPatternIntTest, VOperandIsDefaultTaggedPattern) {
 }
 
 TEST_F(DefaultPatternIntTest, VPatternValueIsThree) {
-  const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getPkgParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -206,11 +205,11 @@ TEST_F(DefaultPatternIntTest, FunctionAssignVaddrExists) {
 TEST_F(DefaultPatternIntTest, VaddrRhsIsNotAssignmentPattern) {
   const hldb::Module *const top = getTop(m_design);
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("VADDR", top->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'VADDR' not found";
-  ASSERT_NE(pa->getRhs(), nullptr) << "'VADDR = ASSIGN_VADDR()' must have a non-null RHS";
-  EXPECT_NE(pa->getRhs()->getAnyType(), hldb::AnyType::Operation)
+  ASSERT_NE(top->getParameters(), nullptr);
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("VADDR", top->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'VADDR' not found";
+  ASSERT_NE(pa->getExpr(), nullptr) << "'VADDR = ASSIGN_VADDR()' must have a non-null RHS";
+  EXPECT_NE(pa->getExpr()->getAnyType(), hldb::AnyType::Operation)
       << "'VADDR = ASSIGN_VADDR()' RHS is a function call, not an assignment-pattern Operation";
 }
 

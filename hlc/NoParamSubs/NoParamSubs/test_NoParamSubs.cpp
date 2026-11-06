@@ -90,16 +90,9 @@ class NoParamSubsTest : public Test {
     return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(std::string_view mod, std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view mod, std::string_view name) {
     const hldb::Module *const m = getModule(mod);
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  static const hldb::ParamAssign *getOnlyParamAssign(std::string_view mod) {
-    const hldb::Module *const m = getModule(mod);
-    if (m == nullptr || m->getParamAssigns() == nullptr || m->getParamAssigns()->size() != 1) return nullptr;
-    return m->getParamAssigns()->at(0);
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::RefInstance *getUDut() {
@@ -153,31 +146,31 @@ TEST_F(NoParamSubsTest, TopPortOIsOutputLogicVariable) { checkOutputVarPort("top
 // ---------------------------------------------------------------------------
 
 TEST_F(NoParamSubsTest, PIsOverridableLogic1To0) {
-  const hldb::Parameter *const p = getParam("dut", "P");
+  const hldb::Parameter *const p = getParameter("dut", "P");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam());
   checkLogic1To0(p->getTypespec());
 }
 
 TEST_F(NoParamSubsTest, PDefaultIsZero) {
-  const hldb::ParamAssign *const pa = getOnlyParamAssign("dut");
+  const hldb::Parameter *const pa = getParameter("dut", "P");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Constant *const c = any_cast<hldb::Constant>(pa->getExpr());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(NoParamSubsTest, XIsOverridableLogic1To0) {
-  const hldb::Parameter *const x = getParam("top", "X");
+  const hldb::Parameter *const x = getParameter("top", "X");
   ASSERT_NE(x, nullptr);
   EXPECT_FALSE(x->getLocalParam());
   checkLogic1To0(x->getTypespec());
 }
 
 TEST_F(NoParamSubsTest, XDefaultIsTwoElementAssignmentPattern) {
-  const hldb::ParamAssign *const pa = getOnlyParamAssign("top");
+  const hldb::Parameter *const pa = getParameter("top", "X");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const op = any_cast<hldb::Operation>(pa->getRhs());
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -207,7 +200,7 @@ TEST_F(NoParamSubsTest, AssignAFromParameterReference) {
   ASSERT_NE(rhs, nullptr) << "with parameter substitution disabled, 'P' stays a reference";
   EXPECT_EQ(rhs->getName(), std::string_view("P"));
   ASSERT_NE(rhs->getActual(), nullptr);
-  EXPECT_EQ(rhs->getActual(), getParam("dut", "P"));
+  EXPECT_EQ(rhs->getActual(), getParameter("dut", "P"));
 }
 
 // ---------------------------------------------------------------------------
@@ -233,11 +226,10 @@ TEST_F(NoParamSubsTest, OverrideOfPByNameIsBitNegOfX) {
   ASSERT_EQ(mts->getParamAssigns()->size(), 1u);
   const hldb::ParamAssign *const pa = mts->getParamAssigns()->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "Sec 23.10.2.2: '.P(...)' is assignment by name";
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(pa->getLhs());
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("P"));
-  EXPECT_EQ(lhs->getActual(), getParam("dut", "P")) << "name must be that of the instantiated module's parameter";
+  EXPECT_EQ(lhs->getActual(), getParameter("dut", "P")) << "name must be that of the instantiated module's parameter";
   const hldb::Operation *const neg = any_cast<hldb::Operation>(pa->getRhs());
   ASSERT_NE(neg, nullptr);
   EXPECT_EQ(neg->getOpType(), vpiBitNegOp);
@@ -246,7 +238,7 @@ TEST_F(NoParamSubsTest, OverrideOfPByNameIsBitNegOfX) {
   const hldb::RefObj *const x = any_cast<hldb::RefObj>(neg->getOperands()->at(0));
   ASSERT_NE(x, nullptr);
   EXPECT_EQ(x->getName(), std::string_view("X"));
-  EXPECT_EQ(x->getActual(), getParam("top", "X"));
+  EXPECT_EQ(x->getActual(), getParameter("top", "X"));
 }
 
 TEST_F(NoParamSubsTest, PortAConnectedToO) {

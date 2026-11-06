@@ -84,18 +84,8 @@ class ElabParamTest : public Test {
   static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   template <typename ScopeT>
-  static const hldb::Parameter *findParam(const ScopeT *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *scope->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  template <typename ScopeT>
-  static const hldb::ParamAssign *findParamAssign(const ScopeT *scope, std::string_view name) {
-    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(scope));
+  static const hldb::Parameter *getParameter(const ScopeT *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, hldb::getParameters(scope));
   }
 
   static const hldb::EnumTypespec *getOpcodeEnum() {
@@ -132,13 +122,10 @@ TEST_F(ElabParamTest, ModuleDutExists) { EXPECT_NE(getDut(), nullptr) << "module
 TEST_F(ElabParamTest, PmpCfgWNotLocalParamWithDefaultTwo) {
   const hldb::Package *const pkg = getTopPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = findParam(pkg, "PMP_CFG_W");
+  const hldb::Parameter *const p = getParameter(pkg, "PMP_CFG_W");
   ASSERT_NE(p, nullptr) << "'parameter int unsigned PMP_CFG_W' not found in 'top_pkg'";
   EXPECT_TRUE(p->getLocalParam()) << "'parameter int unsigned PMP_CFG_W' must be a localparam";
-
-  const hldb::ParamAssign *const pa = findParamAssign(pkg, "PMP_CFG_W");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'PMP_CFG_W' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = p->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'PMP_CFG_W = 2': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "2");
 }

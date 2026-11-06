@@ -196,20 +196,20 @@ TEST_F(ApbSlaveTest, ParametersAreUntypedAndDefaultToEightAndThirtyTwo) {
   ASSERT_NE(addrWidth, nullptr);
   EXPECT_EQ(addrWidth->getTypespec(), nullptr) << "'addrWidth = 8' declares no explicit parameter type";
 
-  ASSERT_NE(mod->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const addrWidthAssign =
-      hldb::findByName<hldb::ParamAssign, hldb::ParamAssign>("addrWidth", mod->getParamAssigns());
+  ASSERT_NE(mod->getParameters(), nullptr);
+  const hldb::Parameter *const addrWidthAssign =
+      hldb::findByName<hldb::Parameter>("addrWidth", mod->getParameters());
   ASSERT_NE(addrWidthAssign, nullptr);
-  const hldb::Constant *const addrWidthVal = addrWidthAssign->getRhs<hldb::Constant>();
+  const hldb::Constant *const addrWidthVal = addrWidthAssign->getExpr<hldb::Constant>();
   ASSERT_NE(addrWidthVal, nullptr);
-  EXPECT_EQ(addrWidthVal->getDecompile(), "8");
+  EXPECT_EQ(addrWidthVal->getDecompile(), std::string_view("8"));
 
-  const hldb::ParamAssign *const dataWidthAssign =
-      hldb::findByName<hldb::ParamAssign, hldb::ParamAssign>("dataWidth", mod->getParamAssigns());
+  const hldb::Parameter *const dataWidthAssign =
+      hldb::findByName<hldb::Parameter>("dataWidth", mod->getParameters());
   ASSERT_NE(dataWidthAssign, nullptr);
-  const hldb::Constant *const dataWidthVal = dataWidthAssign->getRhs<hldb::Constant>();
+  const hldb::Constant *const dataWidthVal = dataWidthAssign->getExpr<hldb::Constant>();
   ASSERT_NE(dataWidthVal, nullptr);
-  EXPECT_EQ(dataWidthVal->getDecompile(), "32");
+  EXPECT_EQ(dataWidthVal->getDecompile(), std::string_view("32"));
 }
 
 TEST_F(ApbSlaveTest, SevenInputNetsThenOutputVariablePort) {

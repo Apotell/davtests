@@ -41,9 +41,9 @@
 // Checked:
 //   - module "dut" (matched by its bare vpiDefName, since its decorated
 //     vpiName embeds the unelaborated parameter value) has 2 parameters:
-//     NrDevices (not a localparam, ParamAssign rhs constant 1 -- the
+//     NrDevices (not a localparam, value constant 1 -- the
 //     source default, confirming the "-P" override was not applied) and
-//     NumBitsDeviceSel (a localparam, ParamAssign rhs the ternary
+//     NumBitsDeviceSel (a localparam, value the ternary
 //     "NrDevices > 1 ? $clog2(NrDevices) : 1")
 //   - module has 2 variables: "device_sel_req" (a vector logic, ranged
 //     "[NumBitsDeviceSel-1:0]") and "device" (an int, whose initializer
@@ -98,12 +98,9 @@ class AlwaysNoElabTest : public Test {
  protected:
   static const hldb::Module *getModule() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const mod = getModule();
-    if (mod == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ParamAssign, hldb::ParamAssign>(name, mod->getParamAssigns());
+    return (mod == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, mod->getParameters());
   }
 
   static const hldb::Always *getAlwaysProcess() {
@@ -141,9 +138,9 @@ TEST_F(AlwaysNoElabTest, NrDevicesKeepsSourceDefaultDespiteCommandLineOverride) 
   ASSERT_NE(nrDevices, nullptr);
   EXPECT_FALSE(nrDevices->getLocalParam());
 
-  const hldb::ParamAssign *const assign = getParamAssign("NrDevices");
-  ASSERT_NE(assign, nullptr);
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = getParameter("NrDevices");
+  ASSERT_NE(param, nullptr);
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1") << "'-PNrDevices=3' must not take effect without elaboration";
 }
@@ -156,9 +153,9 @@ TEST_F(AlwaysNoElabTest, NumBitsDeviceSelIsClog2Ternary) {
   ASSERT_NE(numBits, nullptr);
   EXPECT_TRUE(numBits->getLocalParam());
 
-  const hldb::ParamAssign *const assign = getParamAssign("NumBitsDeviceSel");
-  ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const condition = assign->getRhs<hldb::Operation>();
+  const hldb::Parameter *const param = getParameter("NumBitsDeviceSel");
+  ASSERT_NE(param, nullptr);
+  const hldb::Operation *const condition = param->getExpr<hldb::Operation>();
   ASSERT_NE(condition, nullptr);
   EXPECT_EQ(condition->getOpType(), vpiConditionOp);
   ASSERT_NE(condition->getOperands(), nullptr);

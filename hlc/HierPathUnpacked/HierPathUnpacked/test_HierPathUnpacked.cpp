@@ -90,15 +90,9 @@ class HierPathUnpackedTest : public Test {
 
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *top->getParamAssigns()) {
-      if (const hldb::Any *const lhs = pa->getLhs()) {
-        if (lhs->getName() == name) return pa;
-      }
-    }
-    return nullptr;
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
   }
 };
 
@@ -150,10 +144,10 @@ TEST_F(HierPathUnpackedTest, PairMemberIsUnpackedArrayOfTwo32BitLogic) {
 }
 
 TEST_F(HierPathUnpackedTest, ParamP2ValueIsBitsOfADotPairZero) {
-  const hldb::ParamAssign *const pa = getParamAssign("p2");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p2' not found";
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::Parameter *const pa = getParameter("p2");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p2' not found";
+  ASSERT_NE(pa->getExpr(), nullptr);
+  const hldb::SysFuncCall *const bits = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr);
   EXPECT_EQ(bits->getName(), std::string_view("$bits"));
   ASSERT_NE(bits->getArguments(), nullptr);
@@ -168,9 +162,9 @@ TEST_F(HierPathUnpackedTest, ParamP2ValueIsBitsOfADotPairZero) {
 }
 
 TEST_F(HierPathUnpackedTest, ParamP2ArgPathElemsResolveThroughUnpackedIndex) {
-  const hldb::ParamAssign *const pa = getParamAssign("p2");
+  const hldb::Parameter *const pa = getParameter("p2");
   ASSERT_NE(pa, nullptr);
-  const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::SysFuncCall *const bits = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr);
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);

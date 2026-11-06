@@ -79,17 +79,8 @@ class GenCaseTest : public Test {
  protected:
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(m));
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::GenCase *findGenCase(const hldb::Module *m) {
@@ -118,10 +109,10 @@ TEST_F(GenCaseTest, ModulesExist) {
 TEST_F(GenCaseTest, X2sb11IsTwoBitSignedWithDefaultAllOnes) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(findParam(top, "x_2sb11"), nullptr) << "'parameter logic signed [1:0] x_2sb11' not found";
-  const hldb::ParamAssign *const pa = findParamAssign(top, "x_2sb11");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'x_2sb11' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(getParameter(top, "x_2sb11"), nullptr) << "'parameter logic signed [1:0] x_2sb11' not found";
+  const hldb::Parameter *const pa = getParameter(top, "x_2sb11");
+  ASSERT_NE(pa, nullptr) << "Parameter 'x_2sb11' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'x_2sb11 = 2'sb11': default RHS must be a Constant";
   EXPECT_EQ(rhs->getSize(), 2) << "'2'sb11' is a 2-bit constant";
 }
@@ -129,10 +120,10 @@ TEST_F(GenCaseTest, X2sb11IsTwoBitSignedWithDefaultAllOnes) {
 TEST_F(GenCaseTest, X1sb1IsOneBitSignedWithDefaultAllOnes) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(findParam(top, "x_1sb1"), nullptr) << "'parameter bit signed x_1sb1' not found";
-  const hldb::ParamAssign *const pa = findParamAssign(top, "x_1sb1");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'x_1sb1' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(getParameter(top, "x_1sb1"), nullptr) << "'parameter bit signed x_1sb1' not found";
+  const hldb::Parameter *const pa = getParameter(top, "x_1sb1");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'x_1sb1' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'x_1sb1 = 1'sb1': default RHS must be a Constant";
   EXPECT_EQ(rhs->getSize(), 1) << "'1'sb1' is a 1-bit constant";
 }

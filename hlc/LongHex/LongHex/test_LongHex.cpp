@@ -172,10 +172,10 @@ TEST_F(LongHexTest, PackageParameterTypeIsLogic159To0) { expectLogic159To0(getPk
 TEST_F(LongHexTest, LongHexLiteralIsSized160Hex) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa =
-      hldb::findByName<hldb::ParamAssign>("RndCnstMaskingLfsrSeedDefault", pkg->getParamAssigns());
+  const hldb::Parameter *const pa =
+      hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeedDefault", pkg->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "RHS should be a Constant literal";
   EXPECT_EQ(c->getConstType(), vpiHexConst);
   EXPECT_EQ(c->getSize(), 160);
@@ -186,24 +186,12 @@ TEST_F(LongHexTest, LongHexLiteralIsSized160Hex) {
 TEST_F(LongHexTest, LongHexLiteralValueIsNotTruncated) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa =
-      hldb::findByName<hldb::ParamAssign>("RndCnstMaskingLfsrSeedDefault", pkg->getParamAssigns());
+  const hldb::Parameter *const pa =
+      hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeedDefault", pkg->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(normalizeHex(c->getValue()), "c132b5723c5a4cf4743b3c7c32d580f74f1713a");
-}
-
-TEST_F(LongHexTest, PackageParamAssignLhsBindsToParameter) {
-  const hldb::Package *const pkg = getPkg();
-  ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa =
-      hldb::findByName<hldb::ParamAssign>("RndCnstMaskingLfsrSeedDefault", pkg->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  ASSERT_NE(lhs->getActual(), nullptr);
-  EXPECT_EQ(lhs->getActual(), getPkgParam());
 }
 
 // ===========================================================================
@@ -228,10 +216,10 @@ TEST_F(LongHexTest, CipherCoreParameterTypeAndDefault) {
 
   const hldb::Module *const core = getModule("aes_cipher_core");
   ASSERT_NE(core, nullptr);
-  const hldb::ParamAssign *const pa =
-      hldb::findByName<hldb::ParamAssign>("RndCnstMaskingLfsrSeed", core->getParamAssigns());
+  const hldb::Parameter *const pa =
+      hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeed", core->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "0");
 }
@@ -324,7 +312,6 @@ TEST_F(LongHexTest, OverrideByNameBindsBothSides) {
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);

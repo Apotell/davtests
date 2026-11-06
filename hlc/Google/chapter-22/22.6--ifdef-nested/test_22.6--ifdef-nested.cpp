@@ -665,7 +665,6 @@ TEST_F(IfdefNestedTest, NoOtherDesignObjectsDeclared) {
   // A text macro is preprocessor text only (22.5.1): wow, nest_one,
   // second_nest and nest_two are not parameters or variables.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

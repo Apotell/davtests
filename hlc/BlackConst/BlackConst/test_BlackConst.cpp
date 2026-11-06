@@ -97,9 +97,7 @@
 //   |   +-- Parameter name:"paddr_width_p"   localParam:false  typespec->IntTypespec{signed:true}
 //   |   +-- ... (assoc_p, sets_p, fill_width_p, block_width_p, ctag_width_p)
 //   |   +-- Parameter name:"easy"            localParam:false
-//   +-- getParamAssigns() (ParamAssignCollection)
-//   |   +-- ParamAssign lhs:"dword_width_gp" rhs:Constant{decompile:"48"}
-//   |   +-- ... rhs:Constant{decompile:"12"/"13"/"14"/"15"/"16"/"17"}
+//   |   +-- ... expr:Constant{decompile:"12"/"13"/"14"/"15"/"16"/"17"}
 //   +-- getTypedefs() (TypedefCollection)
 //   |   +-- Typedef name:"bp_icache_req_s"          alias->StructTypespec{packed:true}
 //   |   +-- Typedef name:"bp_icache_req_metadata_s" alias->StructTypespec{packed:true}
@@ -155,10 +153,9 @@ static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view n
   return hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *const m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 static const hldb::Typedef *getTypedef(const hldb::Design *d, std::string_view name) {
@@ -193,9 +190,9 @@ TEST_F(BlackConstTest, DwordWidthGp_IsNotLocalParam) {
 }
 
 TEST_F(BlackConstTest, DwordWidthGp_RhsDecompile) {
-  const hldb::ParamAssign *const pa = getParamAssign(m_design, "dword_width_gp");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'dword_width_gp' not found";
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = getParameter(m_design, "dword_width_gp");
+  ASSERT_NE(param, nullptr) << "Parameter for 'dword_width_gp' not found";
+  const hldb::Constant *const c = param->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'parameter dword_width_gp = 48': RHS must be a Constant";
   EXPECT_EQ(std::string(c->getDecompile()), "48") << "'parameter dword_width_gp = 48': decompile must be \"48\"";
 }
@@ -243,9 +240,9 @@ TEST_F(BlackConstTest, TypedIntParams_TypespecIsSignedIntTypespec) {
 
 TEST_F(BlackConstTest, TypedIntParams_RhsDecompile) {
   for (const IntParam &ip : kIntParams) {
-    const hldb::ParamAssign *const pa = getParamAssign(m_design, ip.name);
-    ASSERT_NE(pa, nullptr) << "ParamAssign for '" << ip.name << "' not found";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const param = getParameter(m_design, ip.name);
+    ASSERT_NE(param, nullptr) << "Parameter for '" << ip.name << "' not found";
+    const hldb::Constant *const c = param->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "'parameter int " << ip.name << "': RHS must be a Constant";
     EXPECT_EQ(std::string(c->getDecompile()), ip.value)
         << "'parameter int " << ip.name << " = " << ip.value << "': decompile mismatch";
@@ -271,15 +268,9 @@ TEST_F(BlackConstTest, Easy_IsNotLocalParam) {
 // as an Operation with vpiMultiConcatOp, regardless of whether repeat_count
 // is itself a compile-time-foldable macro expansion.
 TEST_F(BlackConstTest, Easy_RhsIsMultiConcatOperation) {
-  const hldb::ParamAssign *const pa = getParamAssign(m_design, "easy");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'easy' not found";
-  const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
-  if (op == nullptr) {
-    GTEST_SKIP() << "HLC did not represent the macro-expanded replication '{`BSG_MAX(...){1'b1}}' as an "
-                     "Operation on ParamAssign::getRhs(); per IEEE 1800-2023 ss.11.4.12.1 the replication "
-                     "operator must produce a vpiMultiConcatOp Operation regardless of macro expansion. "
-                     "Fix pending.";
-  }
+  const hldb::Parameter *const param = getParameter(m_design, "easy");
+  ASSERT_NE(param, nullptr) << "Parameter for 'easy' not found";
+  const hldb::Operation *const op = param->getExpr<hldb::Operation>();
   EXPECT_EQ(op->getOpType(), vpiMultiConcatOp)
       << "ss.11.4.12.1: '{`BSG_MAX(dword_width_gp-$bits(pc),0){1'b1}}' must be a vpiMultiConcatOp";
 }

@@ -295,9 +295,9 @@ TEST_F(PackedArrayHighConnTest, DutHasEndLabelAndOverridableDioPadBank) {
 TEST_F(PackedArrayHighConnTest, DioPadBankDefaultsToUnbasedUnsizedZero) {
   const hldb::Module *const dut = getModule("dut");
   ASSERT_NE(dut, nullptr);
-  ASSERT_NE(dut->getParamAssigns(), nullptr);
-  ASSERT_EQ(dut->getParamAssigns()->size(), 1u);
-  const hldb::Constant *const def = dut->getParamAssigns()->at(0)->getRhs<hldb::Constant>();
+  ASSERT_NE(dut->getParameters(), nullptr);
+  ASSERT_EQ(dut->getParameters()->size(), 1u);
+  const hldb::Constant *const def = any_cast<hldb::Parameter>(dut->getParameters()->at(0))->getExpr<hldb::Constant>();
   ASSERT_NE(def, nullptr) << "'DioPadBank' defaults to a literal";
   EXPECT_EQ(def->getDecompile(), "'0") << "5.7.1: '0 is the unbased unsized literal that sets all bits to 0";
 }

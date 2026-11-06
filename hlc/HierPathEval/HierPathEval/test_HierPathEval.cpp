@@ -124,7 +124,7 @@ TEST_F(HierPathEvalTest, PadAttrInstanceParamOverrideIsHierPathToDioPadType) {
   ASSERT_NE(padAttrInst, nullptr) << "instance 'u_prim_pad_attr' not found under 'top'";
   const hldb::ModuleTypespec *const padAttrType = getInstanceType(padAttrInst);
   ASSERT_NE(padAttrType, nullptr);
-  EXPECT_EQ(padAttrType->getName(), std::string_view{"prim_pad_attr"});
+  EXPECT_EQ(padAttrType->getDefName(), std::string_view{"prim_pad_attr"});
 
   const hldb::ParamAssign *const pa = findParamAssign(padAttrType, "PadType");
   ASSERT_NE(pa, nullptr) << "param override 'PadType' not found on instance 'u_prim_pad_attr'";
@@ -174,7 +174,7 @@ TEST_F(HierPathEvalTest, GenericPadAttrInstanceParamOverrideIsPlainRefToPadType)
   ASSERT_NE(genericInst, nullptr) << "instance 'u_impl_generic' not found in 'gen_outer_if'";
   const hldb::ModuleTypespec *const genericType = getInstanceType(genericInst);
   ASSERT_NE(genericType, nullptr);
-  EXPECT_EQ(genericType->getName(), std::string_view{"prim_generic_pad_attr"});
+  EXPECT_EQ(genericType->getDefName(), std::string_view{"prim_generic_pad_attr"});
 
   const hldb::ParamAssign *const pa = findParamAssign(genericType, "PadTypeInGeneric");
   ASSERT_NE(pa, nullptr) << "param override 'PadTypeInGeneric' not found on instance 'u_impl_generic'";

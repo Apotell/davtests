@@ -121,7 +121,6 @@ TEST_F(HierPathOverrideTest, PadTypeOverrideIsHierPathSelectExpression) {
   ASSERT_NE(mt->getParamAssigns(), nullptr);
   const hldb::ParamAssign *const padType = hldb::findByName<hldb::ParamAssign>("PadType", mt->getParamAssigns());
   ASSERT_NE(padType, nullptr) << "override '.PadType(...)' not found on 'u_prim_pad_attr'";
-  EXPECT_TRUE(padType->getOverridden());
   EXPECT_TRUE(padType->getConnByName());
 
   // 'TargetCfg.dio_pad_type[0]' is a hierarchical path whose last element is the bit-select:
@@ -154,47 +153,6 @@ TEST_F(HierPathOverrideTest, PadTypeOverrideIsHierPathSelectExpression) {
   const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
   ASSERT_NE(idx, nullptr) << "'[0]' index should be a Constant";
   EXPECT_EQ(idx->getDecompile(), std::string_view{"0"});
-
-  // Previous elaborated-model / BitSelect-of-path version:
-  //   const hldb::Module *const inst = getPrimPadAttrInstance();
-  //   ASSERT_NE(inst, nullptr);
-  //   ASSERT_NE(inst->getParamAssigns(), nullptr);
-  //   const hldb::ParamAssign *padType = nullptr;
-  //   for (const hldb::ParamAssign *const pa : *inst->getParamAssigns()) {
-  //     const hldb::Any *const lhs = pa->getLhs();
-  //     if (lhs != nullptr && lhs->getName() == std::string_view{"PadType"}) {
-  //       padType = pa;
-  //       break;
-  //     }
-  //   }
-  //   if (padType == nullptr || !padType->getOverridden()) {
-  //     // Overridden ParamAssigns not being carried onto the elaborated child
-  //     // scope is a known, previously-flagged limitation (see
-  //     // hlc/ArianeElab/ArianeElab/test_ArianeElab.cpp T*: "Overriden
-  //     // ParamAssigns are not being retained yet. Part of static
-  //     // elaboration."). Skip the shape assertion rather than lock in the gap.
-  //     GTEST_SKIP() << "ParamAssign for overridden 'PadType' not retained on the elaborated "
-  //                      "'u_prim_pad_attr' scope; per IEEE 1800-2023 Sec 23.10 it should carry the "
-  //                      "override expression 'TargetCfg.dio_pad_type[0]'. Fix pending.";
-  //   }
-  //
-  //   ASSERT_NE(padType->getRhs(), nullptr);
-  //   const hldb::BitSelect *const bsel = padType->getRhs<hldb::BitSelect>();
-  //   ASSERT_NE(bsel, nullptr) << "'TargetCfg.dio_pad_type[0]': override RHS should be a BitSelect";
-  //
-  //   ASSERT_NE(bsel->getPrefix(), nullptr);
-  //   const hldb::RefObj *const prefix = bsel->getPrefix<hldb::RefObj>();
-  //   ASSERT_NE(prefix, nullptr) << "BitSelect prefix should be the hierarchical path RefObj";
-  //   EXPECT_EQ(prefix->getName(), std::string_view{"TargetCfg.dio_pad_type"});
-  //   ASSERT_NE(prefix->getPathElems(), nullptr);
-  //   ASSERT_EQ(prefix->getPathElems()->size(), 2u);
-  //   EXPECT_EQ(prefix->getPathElems()->at(0)->getName(), std::string_view{"TargetCfg"});
-  //   EXPECT_EQ(prefix->getPathElems()->at(1)->getName(), std::string_view{"dio_pad_type"});
-  //
-  //   ASSERT_NE(bsel->getIndex(), nullptr);
-  //   const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
-  //   ASSERT_NE(idx, nullptr) << "'[0]' index should be a Constant";
-  //   EXPECT_EQ(std::string(idx->getValue()), "0");
 }
 
 }  // namespace hlc

@@ -99,7 +99,7 @@
 //   Package riscv
 //     - exactly 12 parameters, each a local parameter of type logic [63:0]
 //       (a LogicTypespec with exactly 1 packed range [63:0]) whose
-//       ParamAssign RHS is the literal written in the source
+//       value (Parameter::getExpr()) is the literal written in the source
 //   Package ariane_pkg
 //     - exactly 1 parameter, SMODE_STATUS_READ_MASK, a local logic [63:0]
 //     - unreduced, its value is a bitwise OR (11.4.8) whose 12 terms, in
@@ -247,18 +247,12 @@ class PackageValueTest : public Test {
 
   static const hldb::Parameter *getPkgParam(std::string_view pkgName, std::string_view name) {
     const hldb::Package *const pkg = getPkg(pkgName);
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
-  // The ParamAssign in 'pkg' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Instance *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  // The Parameter named 'name' in 'scope'.
+  static const hldb::Parameter *getParameter(const hldb::Instance *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getImplE() {
@@ -518,9 +512,9 @@ TEST_F(PackageValueTest, ImplIsTypedByPrimPkgImplE) {
 }
 
 TEST_F(PackageValueTest, ImplDefaultIsPrimPkgImplGeneric) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule(), "Impl");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'Impl'";
-  ExpectScopedRef(pa->getRhs(), getPkg("prim_pkg"), "ImplGeneric", getImplGeneric());
+  const hldb::Parameter *const pa = getParameter(getModule(), "Impl");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'Impl'";
+  ExpectScopedRef(pa->getExpr(), getPkg("prim_pkg"), "ImplGeneric", getImplGeneric());
 }
 
 // ---------------------------------------------------------------------------
@@ -643,9 +637,9 @@ TEST_F(PackageValueTest, RiscvParameterValuesAreTheWrittenLiterals) {
                               {"SSTATUS_UPIE", "64'h00000010"},         {"SSTATUS_UXL", "64'h0000000300000000"},
                               {"SSTATUS64_SD", "64'h8000000000000000"}, {"SSTATUS32_SD", "64'h80000000"}};
   for (const Literal &lit : literals) {
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, lit.m_name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << lit.m_name << "'";
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(pkg, lit.m_name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << lit.m_name << "'";
+    const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "'" << lit.m_name << "' is assigned a literal";
     EXPECT_EQ(rhs->getDecompile(), lit.m_text) << "'" << lit.m_name << "'";
   }
@@ -667,9 +661,9 @@ TEST_F(PackageValueTest, ArianePkgDeclaresLocalMaskParameter) {
 }
 
 TEST_F(PackageValueTest, MaskIsBitwiseOrOfTwelveScopedRiscvParameters) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("ariane_pkg"), "SMODE_STATUS_READ_MASK");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'SMODE_STATUS_READ_MASK'";
-  const hldb::Operation *const top = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(getPkg("ariane_pkg"), "SMODE_STATUS_READ_MASK");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'SMODE_STATUS_READ_MASK'";
+  const hldb::Operation *const top = pa->getExpr<hldb::Operation>();
   ASSERT_NE(top, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(top->getOpType(), vpiBitOrOp) << "11.4.8: the terms are joined with '|'";
   std::vector<const hldb::Any *> terms;
@@ -685,9 +679,9 @@ TEST_F(PackageValueTest, MaskIsBitwiseOrOfTwelveScopedRiscvParameters) {
 TEST_F(PackageValueTest, MaskReducesToOrOfTheTwelveMasks) {
   if (m_design->getElaborated()) {
     const hldb::Package *const pkg = hldb::findByName<hldb::Package>("ariane_pkg", m_design->getTopPackages());
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, "SMODE_STATUS_READ_MASK");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'SMODE_STATUS_READ_MASK' in the elaborated ariane_pkg";
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(pkg, "SMODE_STATUS_READ_MASK");
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'SMODE_STATUS_READ_MASK' in the elaborated ariane_pkg";
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "6.20.2: a parameter value is reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(value, &v)) << "unparsable constant '" << value->getDecompile() << "'";

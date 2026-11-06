@@ -43,7 +43,7 @@
 // was written:
 //   - 6.20.2: "parameter real CLKFBOUT_PHASE = 1142.500" gives an explicit
 //     'real' type to the parameter (unlike 6.20.2--parameter_real.sv, which
-//     leaves the type implicit); its default ParamAssign rhs is a Constant
+//     leaves the type implicit); its default Parameter expr is a Constant
 //     with constType vpiRealConst.
 //   - 5.7.2: real literals ('0.1', '2.1', '12.50', ...) are real-typed
 //     Constants (vpiRealConst); integer literals ('0', '2', '8', '20', ...)
@@ -75,12 +75,12 @@
 // What is checked:
 //   - module 'top' exists and instantiates 'dut' as RefInstance "d",
 //     whose ModuleTypespec resolves to "dut"
-//   - "d"'s ParamAssign overriding CLKFBOUT_PHASE: by-name connection,
-//     marked as overriding the default, rhs Operation(vpiDivOp) over two
+//   - the ParamAssign on "d"'s typespec overriding CLKFBOUT_PHASE: by-name
+//     connection, rhs Operation(vpiDivOp) over two
 //     real Constants "12.50" and "3.0"
 //   - module 'dut' exists with parameter CLKFBOUT_PHASE typed 'real'
 //     (getTypespec resolves to RealTypespec), not a localparam, default
-//     ParamAssign rhs Constant with constType vpiRealConst
+//     Parameter expr Constant with constType vpiRealConst
 //   - 'err = CLKFBOUT_PHASE / 0': Operation(vpiDivOp), lhs RefObj
 //     "CLKFBOUT_PHASE" (resolving to the Parameter), rhs Constant "0"
 //   - 'average_delay = (r + f)/2': Operation(vpiDivOp) whose lhs is a
@@ -99,7 +99,7 @@
 //     with 3 statements: Assignment (lhs Variable "incr_d", rhs real
 //     Constant "10.1"), post-increment Operation(vpiPostIncOp) on RefObj
 //     "incr_d", and a ReturnStmt whose getCondition() is RefObj "incr_d"
-//   - 'A15 = incr_d()': ParamAssign rhs is a FuncCall named "incr_d" with
+//   - 'A15 = incr_d()': Parameter expr is a FuncCall named "incr_d" with
 //     no arguments, whose getTaskFunc() resolves back to that same
 //     Function
 //
@@ -167,22 +167,19 @@ class DoublePresTest : public Test {
     return hldb::findByName<hldb::Parameter>(name, dut->getParameters());
   }
 
-  static const hldb::ParamAssign *getDutParamAssign(std::string_view name) {
+  static const hldb::Parameter *getDutParameter(std::string_view name) {
     const hldb::Module *const dut = getDut();
-    if (dut == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>(name, dut->getParamAssigns());
+    return (dut == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, dut->getParameters());
   }
 
   static const hldb::Constant *getDutParamRhsConstant(std::string_view name) {
-    const hldb::ParamAssign *const pa = getDutParamAssign(name);
-    if (pa == nullptr) return nullptr;
-    return pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getDutParameter(name);
+    return (pa == nullptr) ? nullptr : pa->getExpr<hldb::Constant>();
   }
 
   static const hldb::Operation *getDutParamRhsOperation(std::string_view name) {
-    const hldb::ParamAssign *const pa = getDutParamAssign(name);
-    if (pa == nullptr) return nullptr;
-    return pa->getRhs<hldb::Operation>();
+    const hldb::Parameter *const pa = getDutParameter(name);
+    return (pa == nullptr) ? nullptr : pa->getExpr<hldb::Operation>();
   }
 
   static const hldb::Function *getIncrD() {
@@ -211,7 +208,7 @@ TEST_F(DoublePresTest, TopInstantiatesDutAsD) {
   ASSERT_NE(d->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = d->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "d's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("dut"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("dut"));
 }
 
 TEST_F(DoublePresTest, TopOverridesClkfboutPhaseWithDivOfTwoRealConstants) {
@@ -226,7 +223,6 @@ TEST_F(DoublePresTest, TopOverridesClkfboutPhaseWithDivOfTwoRealConstants) {
   const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("CLKFBOUT_PHASE", paramAssigns);
   ASSERT_NE(pa, nullptr) << "'.CLKFBOUT_PHASE(12.50/3.0)' override not found on d";
   EXPECT_TRUE(pa->getConnByName()) << "'.CLKFBOUT_PHASE(...)' is a by-name parameter connection";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
 
   const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "'12.50/3.0' should be an Operation(vpiDivOp)";
@@ -258,7 +254,7 @@ TEST_F(DoublePresTest, ClkfboutPhaseIsRealNonLocalParameter) {
 
 TEST_F(DoublePresTest, ClkfboutPhaseDefaultIsRealConstant) {
   const hldb::Constant *const c = getDutParamRhsConstant("CLKFBOUT_PHASE");
-  ASSERT_NE(c, nullptr) << "default ParamAssign rhs for CLKFBOUT_PHASE not found";
+  ASSERT_NE(c, nullptr) << "default Parameter expr for CLKFBOUT_PHASE not found";
   EXPECT_EQ(c->getConstType(), vpiRealConst);
   EXPECT_EQ(c->getDecompile(), "1142.500");
 }
@@ -485,9 +481,9 @@ TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
 // ===========================================================================
 
 TEST_F(DoublePresTest, A15CallsIncrDWithNoArguments) {
-  const hldb::ParamAssign *const pa = getDutParamAssign("A15");
+  const hldb::Parameter *const pa = getDutParameter("A15");
   ASSERT_NE(pa, nullptr);
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'incr_d()' should be a FuncCall (a module-level function is not a method, "
                               "IEEE 1800-2023 8.2)";
   EXPECT_EQ(call->getName(), "incr_d");

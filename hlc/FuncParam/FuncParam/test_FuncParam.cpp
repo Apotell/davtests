@@ -52,8 +52,8 @@
 //
 //   Sec 23.3.2/23.10 "Module instantiation": "prim_lfsr #(.LfsrDw(16))
 //   u_lfsr16();" overrides the "LfsrDw" parameter by name for this specific
-//   instance -- this should produce a per-instance ParamAssign whose
-//   getConnByName() is true, LHS resolving to the "LfsrDw" Parameter and
+//   instance -- this should produce a ParamAssign on that instance's
+//   typespec whose getConnByName() is true, LHS resolving to the "LfsrDw" Parameter and
 //   RHS Constant "16" (respectively "18" for u_lfsr18), without disturbing
 //   prim_lfsr's own default-value Parameter declaration.
 //
@@ -141,14 +141,10 @@ TEST_F(FuncParamTest, LfsrDwParameterDefaultsToTwelve) {
   const hldb::Module *const mod = getPrimLfsr();
   ASSERT_NE(mod, nullptr);
   ASSERT_NE(mod->getParameters(), nullptr);
-  const hldb::ParamAssign *const  pa = hldb::findByName<hldb::ParamAssign>("LfsrDw", mod->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  const hldb::Parameter *const lfsrDw = lhs->getActual<hldb::Parameter>();
+  const hldb::Parameter *const  lfsrDw = hldb::findByName<hldb::Parameter>("LfsrDw", mod->getParameters());
   ASSERT_NE(lfsrDw, nullptr);
   EXPECT_FALSE(lfsrDw->getLocalParam());
-  const hldb::Constant *const defaultVal = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const defaultVal = lfsrDw->getExpr<hldb::Constant>();
   ASSERT_NE(defaultVal, nullptr);
   EXPECT_EQ(defaultVal->getDecompile(), "12");
 }

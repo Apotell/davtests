@@ -68,11 +68,11 @@
 //     body assigns V[i] into ASSIGN_VADDR[i] (the function's own name
 //     used as the return-value accumulator, per IEEE 1800-2023 13.4.1 --
 //     it binds to the function's implicit return Variable)
-//   - VADDR's ParamAssign calls ASSIGN_VADDR() (a FuncCall: module-level
+//   - VADDR's value calls ASSIGN_VADDR() (a FuncCall: module-level
 //     functions are not methods) with zero arguments
 //   - function MAX_VADDR_CNT takes 2 IODecls: SRC (the same unpacked
 //     array shape as V) and ICNT (plain int)
-//   - MAX_VADDR's ParamAssign calls MAX_VADDR_CNT(VADDR, CNT): VADDR (an
+//   - MAX_VADDR's value calls MAX_VADDR_CNT(VADDR, CNT): VADDR (an
 //     array-typed localparam) passed as a plain argument expression --
 //     the construct this file is named for
 //   - module "top" has exactly 5 top-level generate-if statements (no
@@ -90,7 +90,7 @@
 // that requires running the constant-function evaluation HLC performs
 // internally, which the HLDB printed here does not expose as a value on
 // Parameter "MAX_VADDR" (unlike the plain-constant localparams in other
-// tests, its ParamAssign rhs is a call, not a folded Constant). Asserting
+// tests, its value (Parameter::getExpr()) is a call, not a folded Constant). Asserting
 // which branch is "true" would be guessing at that evaluation rather than
 // reading it from the log.
 
@@ -140,12 +140,9 @@ class ArrayExprFuncArgTest : public Test {
     return hldb::findByName<hldb::Module>("main", m_design->getAllModules());
   }
 
-  static const hldb::ParamAssign *getTopParamAssign(std::string_view name) {
+  static const hldb::Parameter *getTopParameter(std::string_view name) {
     const hldb::Module *const mod = getTopModule();
-    if (mod == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ParamAssign, hldb::ParamAssign>(name, mod->getParamAssigns());
+    return (mod == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, mod->getParameters());
   }
 
   static const hldb::Function *getTopFunction(std::string_view name) {
@@ -198,11 +195,11 @@ TEST_F(ArrayExprFuncArgTest, TopHasFourLocalparamsInOrder) {
 }
 
 TEST_F(ArrayExprFuncArgTest, CntIsThree) {
-  const hldb::ParamAssign *const assign = getTopParamAssign("CNT");
-  ASSERT_NE(assign, nullptr);
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = getTopParameter("CNT");
+  ASSERT_NE(param, nullptr);
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "3");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("3"));
 }
 
 TEST_F(ArrayExprFuncArgTest, VIsCntSizedArrayAssignedLiteralPattern) {
@@ -213,9 +210,7 @@ TEST_F(ArrayExprFuncArgTest, VIsCntSizedArrayAssignedLiteralPattern) {
   ASSERT_NE(v->getTypespec(), nullptr);
   expectCntSizedArrayTypespec(v->getTypespec()->getActual<hldb::ArrayTypespec>());
 
-  const hldb::ParamAssign *const assign = getTopParamAssign("V");
-  ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const pattern = assign->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = v->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr);
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -329,10 +324,10 @@ TEST_F(ArrayExprFuncArgTest, VaddrCallsAssignVaddrWithNoArguments) {
   const hldb::Function *const func = getTopFunction("ASSIGN_VADDR");
   ASSERT_NE(func, nullptr);
 
-  const hldb::ParamAssign *const assign = getTopParamAssign("VADDR");
-  ASSERT_NE(assign, nullptr);
+  const hldb::Parameter *const param = getTopParameter("VADDR");
+  ASSERT_NE(param, nullptr);
   // A module-level function is not a method (IEEE 1800-2023 8.2): FuncCall.
-  const hldb::FuncCall *const call = assign->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = param->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "ASSIGN_VADDR");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), func);
@@ -371,9 +366,9 @@ TEST_F(ArrayExprFuncArgTest, MaxVaddrPassesArrayParameterVaddrAsPlainArgument) {
   const hldb::Function *const func = getTopFunction("MAX_VADDR_CNT");
   ASSERT_NE(func, nullptr);
 
-  const hldb::ParamAssign *const assign = getTopParamAssign("MAX_VADDR");
-  ASSERT_NE(assign, nullptr);
-  const hldb::FuncCall *const call = assign->getRhs<hldb::FuncCall>();
+  const hldb::Parameter *const param = getTopParameter("MAX_VADDR");
+  ASSERT_NE(param, nullptr);
+  const hldb::FuncCall *const call = param->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "a module-level function call is a FuncCall (IEEE 1800-2023 8.2)";
   EXPECT_EQ(call->getName(), "MAX_VADDR_CNT");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), func);

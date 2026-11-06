@@ -30,7 +30,7 @@
 //   'width1' of instance 'fifo_inst' (module 'fifo') using the value of
 //   'top's own parameter 'width_a'. The defparam statement itself lives in
 //   module 'top' and is modeled there, distinct from top's own
-//   vpiParamAssign entries for its own #(...) parameter port list.
+//   vpiParameter entries for its own #(...) parameter port list.
 //
 // Rule 2 -- The defparam right-hand side is a parameter reference, not a
 //   literal: 'width_a' and 'width_b' name parameters declared in 'top'
@@ -103,11 +103,11 @@ TEST_F(DefParamFromParamTest, Fifo_HasTwoParameters) {
 TEST_F(DefParamFromParamTest, Fifo_Width1Default_IsConstant9) {
   const hldb::Module *const fifo = getModule(m_design, "fifo");
   ASSERT_NE(fifo, nullptr);
-  ASSERT_NE(fifo->getParamAssigns(), nullptr);
-  ASSERT_FALSE(fifo->getParamAssigns()->empty());
-  const hldb::ParamAssign *const pa = (*fifo->getParamAssigns())[0];
+  ASSERT_NE(fifo->getParameters(), nullptr);
+  ASSERT_FALSE(fifo->getParameters()->empty());
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*fifo->getParameters())[0]);
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width1 = 9' RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getValue()), "9");
 }
@@ -115,11 +115,11 @@ TEST_F(DefParamFromParamTest, Fifo_Width1Default_IsConstant9) {
 TEST_F(DefParamFromParamTest, Fifo_Width2Default_IsConstant8) {
   const hldb::Module *const fifo = getModule(m_design, "fifo");
   ASSERT_NE(fifo, nullptr);
-  ASSERT_NE(fifo->getParamAssigns(), nullptr);
-  ASSERT_GE(fifo->getParamAssigns()->size(), 2u);
-  const hldb::ParamAssign *const pa = (*fifo->getParamAssigns())[1];
+  ASSERT_NE(fifo->getParameters(), nullptr);
+  ASSERT_GE(fifo->getParameters()->size(), 2u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*fifo->getParameters())[1]);
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width2 = 8' RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getValue()), "8");
 }
@@ -139,11 +139,11 @@ TEST_F(DefParamFromParamTest, Top_HasTwoParameters) {
 TEST_F(DefParamFromParamTest, Top_WidthADefault_IsConstant10) {
   const hldb::Module *const top = getModule(m_design, "top");
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_FALSE(top->getParamAssigns()->empty());
-  const hldb::ParamAssign *const pa = (*top->getParamAssigns())[0];
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_FALSE(top->getParameters()->empty());
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*top->getParameters())[0]);
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width_a = 10' RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getValue()), "10");
 }
@@ -153,12 +153,12 @@ TEST_F(DefParamFromParamTest, Top_WidthBDefault_IsRefObjToWidthA) {
   // a reference to sibling parameter 'width_a', not a literal.
   const hldb::Module *const top = getModule(m_design, "top");
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_GE(top->getParamAssigns()->size(), 2u);
-  const hldb::ParamAssign *const pa = (*top->getParamAssigns())[1];
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_GE(top->getParameters()->size(), 2u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*top->getParameters())[1]);
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr) << "'parameter width_b = width_a' must have a non-null RHS";
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  ASSERT_NE(pa->getExpr(), nullptr) << "'parameter width_b = width_a' must have a non-null RHS";
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'width_a' on the RHS of 'width_b's default must be a RefObj";
   EXPECT_EQ(rhs->getName(), "width_a");
   EXPECT_NE(rhs->getActual<hldb::Parameter>(), nullptr) << "RefObj 'width_a' must resolve to the Parameter 'width_a'";
@@ -177,14 +177,14 @@ TEST_F(DefParamFromParamTest, Top_HasTwoDefParams) {
 }
 
 // The defparam statements are distinct from top's own #(...) parameter-port
-// default-value assignments: getParamAssigns() must still only hold the two
+// default-value assignments: getParameters() must still only hold the two
 // entries for width_a/width_b's own declarations, not the defparam overrides.
-TEST_F(DefParamFromParamTest, Top_ParamAssignsCollection_NotPollutedByDefParams) {
+TEST_F(DefParamFromParamTest, Top_ParametersCollection_NotPollutedByDefParams) {
   const hldb::Module *const top = getModule(m_design, "top");
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  EXPECT_EQ(top->getParamAssigns()->size(), 2u) << "sec. 23.10: 'defparam' overrides must not be merged into the "
-                                                    "module's own vpiParamAssign collection";
+  ASSERT_NE(top->getParameters(), nullptr);
+  EXPECT_EQ(top->getParameters()->size(), 2u) << "sec. 23.10: 'defparam' overrides must not be merged into the "
+                                                    "module's own vpiParameter collection";
 }
 
 // ---- First defparam: 'defparam fifo_inst.width1 = width_a;' ----

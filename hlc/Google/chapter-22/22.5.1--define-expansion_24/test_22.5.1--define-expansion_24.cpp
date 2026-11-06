@@ -652,7 +652,6 @@ TEST_F(DefineExpansion24Test, NoOtherDesignObjectsDeclared) {
   // The macros HI, LO and H and the formal argument x are preprocessor text,
   // not declarations.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

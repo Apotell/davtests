@@ -440,7 +440,6 @@ TEST_F(IfaceClassTest10Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "the functions are methods of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

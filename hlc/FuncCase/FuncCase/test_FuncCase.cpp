@@ -184,17 +184,17 @@ TEST_F(FuncCaseTest, EachCaseItemReturnsExpectedOperandCount) {
 TEST_F(FuncCaseTest, TopParamPFoldsToTwoOrRemainsUnfoldedCall) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("p", top->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("p", top->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p' not found";
 
-  if (const hldb::Constant *const c = pa->getRhs<hldb::Constant>()) {
+  if (const hldb::Constant *const c = pa->getExpr<hldb::Constant>()) {
     EXPECT_EQ(c->getDecompile(), std::string_view("2"))
         << "Sec 13.4.3: 'num_operands(DIVSQRT)' must fold to 2 at elaboration time";
     return;
   }
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   if (call == nullptr) {
-    GTEST_SKIP() << "HLC's ParamAssign RHS for 'p' is neither a folded Constant nor an unfolded FuncCall; per "
+    GTEST_SKIP() << "HLC's Parameter Expr for 'p' is neither a folded Constant nor an unfolded FuncCall; per "
                      "IEEE 1800-2023 Sec 13.4.3 this constant expression should evaluate to 2. Fix pending.";
   }
   EXPECT_EQ(call->getName(), std::string_view("num_operands"));

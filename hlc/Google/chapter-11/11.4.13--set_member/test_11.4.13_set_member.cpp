@@ -43,9 +43,9 @@
 //     ->getActual<LogicTypespec>()) is LogicTypespec, the implicit type a
 //     "localparam" with no explicit data type gets -- distinct from the
 //     IntTypespec of the constant assigned to it
-//   - module has exactly 2 ParamAssigns matching "c"->Constant "5" and
+//   - the values (Parameter::getExpr()) are "c"->Constant "5" and
 //     "d"->Constant "7" (both IntTypespec) -- the localparam's numeric
-//     value lives on the ParamAssign's rhs, not on the Parameter itself
+//     value lives on the Parameter itself
 //   - the initial block is a Begin with exactly 1 statement: a blocking
 //     Assignment, lhs RefObj "a", rhs an Operation (vpiInsideOp, 2
 //     operands): operand 0 = RefObj "b"; operand 1 = an Operation
@@ -119,7 +119,7 @@ TEST_F(SetMemberTest, VariableAHasNoInitializerVariableBIsTwelve) {
   EXPECT_EQ(b->getValue<hldb::Constant>()->getDecompile(), "12");
 }
 
-// --- the localparams: implicit LogicTypespec, value lives on ParamAssign --
+// --- the localparams: implicit LogicTypespec, value lives on the Parameter --
 
 TEST_F(SetMemberTest, ParametersCAndDAreLocalWithImplicitLogicTypespec) {
   const hldb::Module *const top = getTop();
@@ -136,19 +136,19 @@ TEST_F(SetMemberTest, ParametersCAndDAreLocalWithImplicitLogicTypespec) {
   }
 }
 
-TEST_F(SetMemberTest, ParamAssignsGiveCFiveAndDSeven) {
+TEST_F(SetMemberTest, ParameterGiveCFiveAndDSeven) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 2u);
-  const hldb::ParamAssign *const cAssign = hldb::findByName<hldb::ParamAssign>("c", top->getParamAssigns());
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_EQ(top->getParameters()->size(), 2u);
+  const hldb::Parameter *const cAssign = hldb::findByName<hldb::Parameter>("c", top->getParameters());
   ASSERT_NE(cAssign, nullptr);
-  ASSERT_NE(cAssign->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(cAssign->getRhs<hldb::Constant>()->getDecompile(), "5");
-  const hldb::ParamAssign *const dAssign = hldb::findByName<hldb::ParamAssign>("d", top->getParamAssigns());
+  ASSERT_NE(cAssign->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(cAssign->getExpr<hldb::Constant>()->getDecompile(), "5");
+  const hldb::Parameter *const dAssign = hldb::findByName<hldb::Parameter>("d", top->getParameters());
   ASSERT_NE(dAssign, nullptr);
-  ASSERT_NE(dAssign->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(dAssign->getRhs<hldb::Constant>()->getDecompile(), "7");
+  ASSERT_NE(dAssign->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(dAssign->getExpr<hldb::Constant>()->getDecompile(), "7");
 }
 
 // --- the point of the file: "inside" preserves named-parameter identity --

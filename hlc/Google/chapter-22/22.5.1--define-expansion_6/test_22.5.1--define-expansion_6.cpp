@@ -77,7 +77,7 @@
 //       (Sec 37.14 details 1, 8, 9, 10, 11; detail 10 names "module M();"
 //       as a null port)
 //     - no declarations or instantiations: no nets, variables, parameters,
-//       param assigns, continuous assignments, tasks/functions,
+//       continuous assignments, tasks/functions,
 //       instantiations (the macro text declares none of these, whatever HLC
 //       does with the illegal usage)
 //     - after elaboration only: exactly one top-level instance "top"
@@ -418,7 +418,6 @@ TEST_F(DefineExpansion6Test, ModuleTopHasNoDeclarations) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);
   EXPECT_EQ(countOf(top->getRefInstances()), 0u);

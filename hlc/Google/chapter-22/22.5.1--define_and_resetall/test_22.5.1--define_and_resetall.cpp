@@ -76,7 +76,7 @@
 //   - directive state of 'top' after `resetall: defNetType wire,
 //     unconnDrive highZ, not a cell, delay mode none
 //   - 'top' holds exactly one process and nothing else (no nets, variables,
-//     parameters, param assigns, continuous assignments, tasks/functions,
+//     parameters, continuous assignments, tasks/functions,
 //     instantiations)
 //   - that process is an initial procedure (line 20) whose statement is an
 //     unnamed begin-end block (lines 20-22) holding exactly one $display
@@ -377,7 +377,6 @@ TEST_F(DefineAndResetallTest, ModuleTopHoldsOnlyOneProcess) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);
   EXPECT_EQ(countOf(top->getRefInstances()), 0u);

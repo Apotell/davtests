@@ -199,21 +199,8 @@ class ParamOverload3Test : public Test {
 
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getTypedef(std::string_view name) {
@@ -262,7 +249,7 @@ TEST_F(ParamOverload3Test, PackageDeclaresFourLocalParameters) {
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 4u);
   for (std::string_view name : {"NUM_FP_FORMATS", "FP_FORMAT_BITS", "FP_ENCODINGS", "RV64D_Xsflt"}) {
-    const hldb::Parameter *const p = getParam(pkg, name);
+    const hldb::Parameter *const p = getParameter(pkg, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << name << "' is declared 'localparam'";
   }
@@ -271,24 +258,20 @@ TEST_F(ParamOverload3Test, PackageDeclaresFourLocalParameters) {
 TEST_F(ParamOverload3Test, NumFpFormatsIsFive) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = getParam(pkg, "NUM_FP_FORMATS");
+  const hldb::Parameter *const p = getParameter(pkg, "NUM_FP_FORMATS");
   ASSERT_NE(p, nullptr);
   ExpectIntUnsigned(p->getTypespec(), "NUM_FP_FORMATS");
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "NUM_FP_FORMATS");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "5");
+  ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "5");
 }
 
 TEST_F(ParamOverload3Test, FpFormatBitsIsClog2OfNumFpFormats) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = getParam(pkg, "FP_FORMAT_BITS");
+  const hldb::Parameter *const p = getParameter(pkg, "FP_FORMAT_BITS");
   ASSERT_NE(p, nullptr);
   ExpectIntUnsigned(p->getTypespec(), "FP_FORMAT_BITS");
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "FP_FORMAT_BITS");
-  ASSERT_NE(pa, nullptr);
-  const hldb::SysFuncCall *const call = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::SysFuncCall *const call = p->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr) << "unreduced, the value is a system function call";
   EXPECT_EQ(call->getName(), "$clog2") << "20.8.1";
   ASSERT_NE(call->getArguments(), nullptr);
@@ -296,7 +279,7 @@ TEST_F(ParamOverload3Test, FpFormatBitsIsClog2OfNumFpFormats) {
   const hldb::RefObj *const arg = call->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the argument is the name 'NUM_FP_FORMATS'";
   EXPECT_EQ(arg->getName(), "NUM_FP_FORMATS");
-  EXPECT_EQ(arg->getActual(), getParam(pkg, "NUM_FP_FORMATS")) << "the package's own localparam";
+  EXPECT_EQ(arg->getActual(), getParameter(pkg, "NUM_FP_FORMATS")) << "the package's own localparam";
 }
 
 TEST_F(ParamOverload3Test, FpEncodingTIsPackedStructOfTwoIntUnsigned) {
@@ -357,16 +340,16 @@ TEST_F(ParamOverload3Test, FpFormatEBaseIsFpFormatBitsMinusOneToZero) {
   const hldb::RefObj *const bits = any_cast<hldb::RefObj>(left->getOperands()->at(0));
   ASSERT_NE(bits, nullptr);
   EXPECT_EQ(bits->getName(), "FP_FORMAT_BITS");
-  EXPECT_EQ(bits->getActual(), getParam(getPkg(), "FP_FORMAT_BITS"));
+  EXPECT_EQ(bits->getActual(), getParameter(getPkg(), "FP_FORMAT_BITS"));
   const hldb::Constant *const right = base->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
 TEST_F(ParamOverload3Test, FpEncodingsIsFiveNestedPatterns) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "FP_ENCODINGS");
+  const hldb::Parameter *const pa = getParameter(getPkg(), "FP_ENCODINGS");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const outer = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const outer = pa->getExpr<hldb::Operation>();
   ASSERT_NE(outer, nullptr) << "unreduced, the value is an assignment pattern";
   EXPECT_EQ(outer->getOpType(), vpiAssignmentPatternOp) << "10.9.1";
   ASSERT_NE(outer->getOperands(), nullptr);
@@ -420,13 +403,11 @@ TEST_F(ParamOverload3Test, TopHasOneNullPort) {
 TEST_F(ParamOverload3Test, NumFormatsIsScopedNumFpFormats) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Parameter *const p = getParam(top, "NUM_FORMATS");
+  const hldb::Parameter *const p = getParameter(top, "NUM_FORMATS");
   ASSERT_NE(p, nullptr) << "localparam 'NUM_FORMATS' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: 'NUM_FORMATS' is declared 'localparam'";
   ExpectIntUnsigned(p->getTypespec(), "NUM_FORMATS");
-  const hldb::ParamAssign *const pa = getParamAssign(top, "NUM_FORMATS");
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const path = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const path = p->getExpr<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "unreduced, the value is the scoped name fpnew_pkg::NUM_FP_FORMATS";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u) << "the package, then the item";
@@ -437,8 +418,8 @@ TEST_F(ParamOverload3Test, NumFormatsIsScopedNumFpFormats) {
   const hldb::RefObj *const item = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(item, nullptr);
   EXPECT_EQ(item->getName(), "NUM_FP_FORMATS");
-  ASSERT_NE(getParam(getPkg(), "NUM_FP_FORMATS"), nullptr);
-  EXPECT_EQ(item->getActual(), getParam(getPkg(), "NUM_FP_FORMATS")) << "26.3: declared in fpnew_pkg";
+  ASSERT_NE(getParameter(getPkg(), "NUM_FP_FORMATS"), nullptr);
+  EXPECT_EQ(item->getActual(), getParameter(getPkg(), "NUM_FP_FORMATS")) << "26.3: declared in fpnew_pkg";
 }
 
 TEST_F(ParamOverload3Test, LoopRunsWhileFmtBelowIntCastOfNumFormats) {
@@ -462,7 +443,7 @@ TEST_F(ParamOverload3Test, LoopRunsWhileFmtBelowIntCastOfNumFormats) {
   const hldb::RefObj *const num = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(num, nullptr);
   EXPECT_EQ(num->getName(), "NUM_FORMATS");
-  EXPECT_EQ(num->getActual(), getParam(getTop(), "NUM_FORMATS")) << "top's own localparam";
+  EXPECT_EQ(num->getActual(), getParameter(getTop(), "NUM_FORMATS")) << "top's own localparam";
 }
 
 TEST_F(ParamOverload3Test, LoopBlockIsGenNanboxCheck) {

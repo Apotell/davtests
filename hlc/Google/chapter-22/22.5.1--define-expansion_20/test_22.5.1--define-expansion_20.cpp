@@ -659,7 +659,6 @@ TEST_F(DefineExpansion20Test, NoOtherDesignObjectsDeclared) {
 
   // The formal argument dly is macro text, not a declaration.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

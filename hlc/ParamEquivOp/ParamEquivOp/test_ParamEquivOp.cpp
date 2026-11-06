@@ -164,21 +164,8 @@ class ParamEquivOpTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::GenIf *getGenIf() {
@@ -223,16 +210,16 @@ class ParamEquivOpTest : public Test {
   // The reduced value of parameter 'name' in the elaborated top.
   static const hldb::Constant *getElabValue(std::string_view name) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
-    const hldb::ParamAssign *const pa = getParamAssign(top, name);
+    const hldb::Parameter *const pa = getParameter(top, name);
     if (pa == nullptr) return nullptr;
-    return pa->getRhs<hldb::Constant>();
+    return pa->getExpr<hldb::Constant>();
   }
 
   // Verifies the parameter 'name' of top holds the literal 'text'.
   static void ExpectLiteral(std::string_view name, std::string_view text) {
-    const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(getModule("top"), name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "'" << name << "' is assigned a literal";
     EXPECT_EQ(c->getDecompile(), text) << name;
   }
@@ -248,8 +235,8 @@ class ParamEquivOpTest : public Test {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(op->getOperands()->at(0));
     ASSERT_NE(ref, nullptr) << "the left operand of '== " << literal << "' names " << param;
     EXPECT_EQ(ref->getName(), param);
-    ASSERT_NE(getParam(getModule("top"), param), nullptr);
-    EXPECT_EQ(ref->getActual(), getParam(getModule("top"), param)) << "'" << param << "' is top's own parameter";
+    ASSERT_NE(getParameter(getModule("top"), param), nullptr);
+    EXPECT_EQ(ref->getActual(), getParameter(getModule("top"), param)) << "'" << param << "' is top's own parameter";
     const hldb::Constant *const c = any_cast<hldb::Constant>(op->getOperands()->at(1));
     ASSERT_NE(c, nullptr) << "the right operand of '" << param << " ==' is a literal";
     EXPECT_EQ(c->getDecompile(), literal);
@@ -281,7 +268,7 @@ TEST_F(ParamEquivOpTest, TopDeclaresTenOverridableParameters) {
   for (std::string_view name :
        {"p_edma_irq_read_clear", "p_edma_tx_pkt_buffer", "p_edma_rx_pkt_buffer", "p_edma_queues", "p_edma_tsu",
         "p_edma_axi", "p_edma_has_pcs", "p_edma_ext_fifo_interface", "p_has_dma", "p_int_exists"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list, so '" << name << "' is overridable";
   }
@@ -299,15 +286,15 @@ TEST_F(ParamEquivOpTest, FlagParametersHoldTheirLiterals) {
 }
 
 TEST_F(ParamEquivOpTest, HasDmaIsEqualityOfExtFifoInterfaceWithZero) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "p_has_dma");
+  const hldb::Parameter *const pa = getParameter(getModule("top"), "p_has_dma");
   ASSERT_NE(pa, nullptr);
-  ExpectEquality(pa->getRhs(), "p_edma_ext_fifo_interface", "1'b0");
+  ExpectEquality(pa->getExpr(), "p_edma_ext_fifo_interface", "1'b0");
 }
 
 TEST_F(ParamEquivOpTest, IntExistsIsEighteenItemConcatenation) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "p_int_exists");
+  const hldb::Parameter *const pa = getParameter(getModule("top"), "p_int_exists");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
   ASSERT_NE(concat, nullptr) << "unreduced, p_int_exists is an Operation";
   EXPECT_EQ(concat->getOpType(), vpiConcatOp) << "11.4.12: braces with a list of items are a concatenation";
   ASSERT_NE(concat->getOperands(), nullptr);
@@ -336,8 +323,8 @@ TEST_F(ParamEquivOpTest, GenerateIfComparesIntExistsWithLiteral) {
   const hldb::RefObj *const ref = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "p_int_exists");
-  ASSERT_NE(getParam(getModule("top"), "p_int_exists"), nullptr);
-  EXPECT_EQ(ref->getActual(), getParam(getModule("top"), "p_int_exists"));
+  ASSERT_NE(getParameter(getModule("top"), "p_int_exists"), nullptr);
+  EXPECT_EQ(ref->getActual(), getParameter(getModule("top"), "p_int_exists"));
   const hldb::Constant *const literal = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(literal, nullptr);
   EXPECT_EQ(literal->getDecompile(), "32'b11111111111111111111110011111111");

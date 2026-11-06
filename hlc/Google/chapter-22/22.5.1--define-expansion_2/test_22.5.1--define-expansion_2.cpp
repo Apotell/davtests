@@ -75,7 +75,7 @@
 //   - exactly one module definition, defName "top", lines 17-19, static
 //     default lifetime (Sec 6.21, Sec 37.3.7), one null port
 //   - 'top' holds exactly one process and nothing else (no nets, variables,
-//     parameters, param assigns, continuous assignments, tasks/functions,
+//     parameters, continuous assignments, tasks/functions,
 //     instantiations)
 //   - that process is an initial procedure on line 18 whose statement is a
 //     $display system task call on line 18, not user-defined
@@ -372,7 +372,6 @@ TEST_F(DefineExpansion2Test, ModuleTopHoldsOnlyOneProcess) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);
   EXPECT_EQ(countOf(top->getRefInstances()), 0u);

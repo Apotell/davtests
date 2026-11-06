@@ -221,10 +221,10 @@ TEST_F(LargeValue2StructTest, ScrmblKeyInitIsPackedStruct) {
 TEST_F(LargeValue2StructTest, DefaultValueIs256BitHexLiteral) {
   const hldb::Package *const pack = getPack();
   ASSERT_NE(pack, nullptr);
-  const hldb::ParamAssign *const pa =
-      hldb::findByName<hldb::ParamAssign>("RndCnstScrmblKeyInitDefault", pack->getParamAssigns());
+  const hldb::Parameter *const pa =
+      hldb::findByName<hldb::Parameter>("RndCnstScrmblKeyInitDefault", pack->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiHexConst);
   EXPECT_EQ(c->getSize(), 256) << "5.7.1: the size constant gives the exact width";
@@ -291,18 +291,18 @@ TEST_F(LargeValue2StructTest, TopParametersBindToImportedPackageParameters) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(pack, nullptr);
 
-  const hldb::ParamAssign *const k =
-      hldb::findByName<hldb::ParamAssign>("RndCnstScrmblKeyInit", top->getParamAssigns());
+  const hldb::Parameter *const k =
+      hldb::findByName<hldb::Parameter>("RndCnstScrmblKeyInit", top->getParameters());
   ASSERT_NE(k, nullptr);
-  const hldb::RefObj *const kr = k->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const kr = k->getExpr<hldb::RefObj>();
   ASSERT_NE(kr, nullptr);
   EXPECT_EQ(kr->getName(), "RndCnstScrmblKeyInitDefault");
   EXPECT_EQ(kr->getActual(), getParam(pack, "RndCnstScrmblKeyInitDefault"))
       << "26.3: resolves to the package parameter through the wildcard import";
 
-  const hldb::ParamAssign *const w = hldb::findByName<hldb::ParamAssign>("Width", top->getParamAssigns());
+  const hldb::Parameter *const w = hldb::findByName<hldb::Parameter>("Width", top->getParameters());
   ASSERT_NE(w, nullptr);
-  const hldb::RefObj *const wr = w->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const wr = w->getExpr<hldb::RefObj>();
   ASSERT_NE(wr, nullptr);
   EXPECT_EQ(wr->getName(), "SramKeyWidth");
   EXPECT_EQ(wr->getActual(), getParam(pack, "SramKeyWidth"));
@@ -334,7 +334,6 @@ TEST_F(LargeValue2StructTest, WidthOverrideFormalAndActualScopes) {
   const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("Width", mt->getParamAssigns());
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
@@ -357,7 +356,6 @@ TEST_F(LargeValue2StructTest, ResetValueOverrideSelectsStructMember) {
   const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("ResetValue", mt->getParamAssigns());
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);

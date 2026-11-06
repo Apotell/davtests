@@ -105,9 +105,9 @@ class LargeHexCastTest : public Test {
   static const hldb::Operation *getPattern(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
+    const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
     if (pa == nullptr) return nullptr;
-    return pa->getRhs<hldb::Operation>();
+    return pa->getExpr<hldb::Operation>();
   }
 
   // The Prefix value expression of the pattern, unwrapping a TaggedPattern

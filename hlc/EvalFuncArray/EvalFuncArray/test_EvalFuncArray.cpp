@@ -40,11 +40,6 @@
 // Per IEEE 1800-2023 Sec 5.9/6.20.2 "int" is a synonym for a 32-bit signed
 // "integer" typespec (IntTypespec in this object model, as used by
 // 13.4.3--const-function).
-//
-// As with EvalFunc, "parameter InfosPerBank = max_info_pages(...)" is
-// modeled via Scope::getParamAssigns() (a ParamAssign, not
-// Parameter::getExpr()) -- confirmed by test_13.4.3_const-function.cpp and
-// re-derived here from the real hldb headers, not from any .log dump.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -83,9 +78,9 @@ class EvalFuncArrayTest : public Test {
     return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Function>("max_info_pages", pkg->getTaskFuncs());
   }
 
-  static const hldb::ParamAssign *findParamAssign(std::string_view name) {
+  static const hldb::Parameter *findParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
-    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 };
 
@@ -96,9 +91,9 @@ TEST_F(EvalFuncArrayTest, FunctionMaxInfoPagesExists) { ASSERT_NE(getFunc(), nul
 // parameter int InfoTypes = 5;  -- plain scalar parameter, needed as the
 // function's array-size bound.
 TEST_F(EvalFuncArrayTest, ParamInfoTypesIsFive) {
-  const hldb::ParamAssign *const pa = findParamAssign("InfoTypes");
-  ASSERT_NE(pa, nullptr) << "'parameter int InfoTypes = 5;' should produce a ParamAssign binding";
-  const hldb::Constant *const rhs = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Parameter *const pa = findParameter("InfoTypes");
+  ASSERT_NE(pa, nullptr) << "'parameter int InfoTypes = 5;' should produce a Parameter binding";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'5' is a plain constant literal";
   EXPECT_EQ(rhs->getDecompile(), "5");
 }
@@ -133,9 +128,9 @@ TEST_F(EvalFuncArrayTest, FunctionHasOneArrayTypedInputArgument) {
 
 // parameter int InfosPerBank = max_info_pages('{10, 1, 14, 18, 12});
 TEST_F(EvalFuncArrayTest, ParamInfosPerBankCallsMaxInfoPagesWithFiveElementArray) {
-  const hldb::ParamAssign *const pa = findParamAssign("InfosPerBank");
-  ASSERT_NE(pa, nullptr) << "'parameter int InfosPerBank = max_info_pages(...);' should produce a ParamAssign";
-  const hldb::Any *const rhs = pa->getRhs();
+  const hldb::Parameter *const pa = findParameter("InfosPerBank");
+  ASSERT_NE(pa, nullptr) << "'parameter int InfosPerBank = max_info_pages(...);' should produce a Parameter";
+  const hldb::Any *const rhs = pa->getExpr();
   ASSERT_NE(rhs, nullptr);
 
   if (const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs)) {
@@ -163,7 +158,7 @@ TEST_F(EvalFuncArrayTest, ParamInfosPerBankCallsMaxInfoPagesWithFiveElementArray
     EXPECT_EQ(folded->getDecompile(), "18")
         << "max_info_pages({10,1,14,18,12}) must fold to the maximum element, 18";
   } else {
-    FAIL() << "ParamAssign RHS for 'InfosPerBank' is neither a FuncCall nor a Constant -- actual AnyType: "
+    FAIL() << "Parameter value for 'InfosPerBank' is neither a FuncCall nor a Constant -- actual AnyType: "
            << static_cast<int>(rhs->getAnyType());
   }
 }

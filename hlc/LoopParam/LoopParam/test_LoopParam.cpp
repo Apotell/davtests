@@ -85,12 +85,9 @@ TEST_F(LoopParamTest, FooDeclaresTwoNonlocalParameters) {
 TEST_F(LoopParamTest, P1IsAssignedReferenceToP2) {
   const hldb::Module *const foo = getFoo();
   ASSERT_NE(foo, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("P1", foo->getParamAssigns());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("P1", foo->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Parameter>("P1", foo->getParameters()));
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "P2");
   EXPECT_EQ(rhs->getStartLine(), 4u);
@@ -99,12 +96,9 @@ TEST_F(LoopParamTest, P1IsAssignedReferenceToP2) {
 TEST_F(LoopParamTest, P2IsAssignedReferenceToP1) {
   const hldb::Module *const foo = getFoo();
   ASSERT_NE(foo, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("P2", foo->getParamAssigns());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("P2", foo->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Parameter>("P2", foo->getParameters()));
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "P1");
   EXPECT_EQ(rhs->getStartLine(), 5u);
@@ -114,9 +108,9 @@ TEST_F(LoopParamTest, P2IsAssignedReferenceToP1) {
 TEST_F(LoopParamTest, BackwardReferenceToP1Binds) {
   const hldb::Module *const foo = getFoo();
   ASSERT_NE(foo, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("P2", foo->getParamAssigns());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("P2", foo->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), hldb::findByName<hldb::Parameter>("P1", foo->getParameters()));

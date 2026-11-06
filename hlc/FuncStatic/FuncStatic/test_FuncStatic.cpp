@@ -75,8 +75,8 @@
 //
 // What is NOT checked and why:
 //   - the runtime-accumulated values of "value1".."value4" are a
-//     simulation/elaboration-time concern; only that each ParamAssign's
-//     RHS resolves back to the right function via a FuncCall (or, if
+//     simulation/elaboration-time concern; only that each Parameter's
+//     value resolves back to the right function via a FuncCall (or, if
 //     folded, is documented leniently) is checked.
 
 #include <hlc/Common/Session.h>
@@ -238,7 +238,7 @@ TEST_F(FuncStaticTest, LocalParamsCallBothFunctionsWithDistinctArgs) {
   const hldb::Function *const accumulate2 = getFunc("accumulate2");
   ASSERT_NE(accumulate1, nullptr);
   ASSERT_NE(accumulate2, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
+  ASSERT_NE(top->getParameters(), nullptr);
 
   struct Expectation {
     std::string_view paramName;
@@ -252,10 +252,10 @@ TEST_F(FuncStaticTest, LocalParamsCallBothFunctionsWithDistinctArgs) {
       {"value4", accumulate2, "3"},
   };
   for (const Expectation &expectation : expectations) {
-    const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>(expectation.paramName, top->getParamAssigns());
-    ASSERT_NE(pa, nullptr) << "ParamAssign for '" << expectation.paramName << "' not found";
+    const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>(expectation.paramName, top->getParameters());
+    ASSERT_NE(pa, nullptr) << "Parameter for '" << expectation.paramName << "' not found";
     // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
-    const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+    const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
     ASSERT_NE(call, nullptr) << "'" << expectation.paramName << "' RHS should be a FuncCall";
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), expectation.fn);
     ASSERT_NE(call->getArguments(), nullptr);

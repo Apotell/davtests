@@ -50,7 +50,7 @@
 //       'int unsigned': an IntTypespec that is not signed (6.11.3)
 //   parameter NUM_FP_FORMATS = 4;
 //     - a local parameter (6.20.4: in a package 'parameter' is a synonym for
-//       'localparam') with the ParamAssign RHS Constant "4"
+//       'localparam') with the value Constant "4"
 //   localparam fp_encoding_t [0:NUM_FP_FORMATS-1] FP_ENCODINGS = '{...};
 //     - a local parameter whose type is a packed array (7.4.1) with the
 //       single packed dimension [0:NUM_FP_FORMATS-1] -- left bound Constant
@@ -156,21 +156,10 @@ class PackedArrayHierPathTest : public Test {
  protected:
   static const hldb::Package *getPkg() { return hldb::findByName<hldb::Package>("uvm", m_design->getAllPackages()); }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  // The Parameter whose 'name'.
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
-  }
-
-  // The ParamAssign whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
-    const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Typedef *getEncodingT() {
@@ -236,8 +225,8 @@ class PackedArrayHierPathTest : public Test {
     const hldb::RefObj *const array = sel->getPrefix<hldb::RefObj>();
     ASSERT_NE(array, nullptr) << "the select applies to 'FP_ENCODINGS'";
     EXPECT_EQ(array->getName(), "FP_ENCODINGS");
-    ASSERT_NE(getParam("FP_ENCODINGS"), nullptr);
-    EXPECT_EQ(array->getActual(), getParam("FP_ENCODINGS")) << "'FP_ENCODINGS' is the package's parameter";
+    ASSERT_NE(getParameter("FP_ENCODINGS"), nullptr);
+    EXPECT_EQ(array->getActual(), getParameter("FP_ENCODINGS")) << "'FP_ENCODINGS' is the package's parameter";
     const hldb::RefObj *const index = sel->getIndex<hldb::RefObj>();
     ASSERT_NE(index, nullptr) << "the index is 'fmt'";
     EXPECT_EQ(index->getName(), "fmt");
@@ -302,18 +291,18 @@ TEST_F(PackedArrayHierPathTest, EncodingTIsPackedStructOfTwoUnsignedInts) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackedArrayHierPathTest, NumFpFormatsIsLocalFour) {
-  const hldb::Parameter *const p = getParam("NUM_FP_FORMATS");
+  const hldb::Parameter *const p = getParameter("NUM_FP_FORMATS");
   ASSERT_NE(p, nullptr) << "parameter 'NUM_FP_FORMATS' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
-  const hldb::ParamAssign *const pa = getParamAssign("NUM_FP_FORMATS");
+  const hldb::Parameter *const pa = getParameter("NUM_FP_FORMATS");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "4");
 }
 
 TEST_F(PackedArrayHierPathTest, FpEncodingsIsLocalPackedArrayOfEncodingT) {
-  const hldb::Parameter *const p = getParam("FP_ENCODINGS");
+  const hldb::Parameter *const p = getParameter("FP_ENCODINGS");
   ASSERT_NE(p, nullptr) << "parameter 'FP_ENCODINGS' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: declared 'localparam'";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -333,7 +322,7 @@ TEST_F(PackedArrayHierPathTest, FpEncodingsIsLocalPackedArrayOfEncodingT) {
   const hldb::RefObj *const num = any_cast<hldb::RefObj>(right->getOperands()->at(0));
   ASSERT_NE(num, nullptr);
   EXPECT_EQ(num->getName(), "NUM_FP_FORMATS");
-  EXPECT_EQ(num->getActual(), getParam("NUM_FP_FORMATS"));
+  EXPECT_EQ(num->getActual(), getParameter("NUM_FP_FORMATS"));
   const hldb::Constant *const one = any_cast<hldb::Constant>(right->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");
@@ -349,9 +338,9 @@ TEST_F(PackedArrayHierPathTest, FpEncodingsIsLocalPackedArrayOfEncodingT) {
 }
 
 TEST_F(PackedArrayHierPathTest, FpEncodingsPatternListsFiveEncodings) {
-  const hldb::ParamAssign *const pa = getParamAssign("FP_ENCODINGS");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'FP_ENCODINGS'";
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter("FP_ENCODINGS");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'FP_ENCODINGS'";
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.1: an array assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);

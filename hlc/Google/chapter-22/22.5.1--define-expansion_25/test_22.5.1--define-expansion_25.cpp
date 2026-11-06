@@ -555,7 +555,6 @@ TEST_F(DefineExpansion25Test, NoOtherDesignObjectsDeclared) {
   // The formal arguments x and y and the actual arguments left side and right
   // side are macro text, not declarations.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

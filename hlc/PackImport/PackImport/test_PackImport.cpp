@@ -148,14 +148,9 @@ class PackImportTest : public Test {
     return hldb::findByName<hldb::EnumConst>("OPCODE_LUI", et->getEnum()->getEnumConsts());
   }
 
-  // The ParamAssign in 'pkg' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Package *pkg, std::string_view name) {
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  // The Parameter named 'name' in 'pkg'.
+  static const hldb::Parameter *getParameter(const hldb::Package *pkg, std::string_view name) {
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
@@ -263,9 +258,9 @@ TEST_F(PackImportTest, InsnLuiIsLocalLogic31To0) {
 }
 
 TEST_F(PackImportTest, InsnLuiConcatenatesZBitsWithImportedOpcodeLui) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("ibex_tracer_pkg"), "INSN_LUI");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'INSN_LUI'";
-  const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(getPkg("ibex_tracer_pkg"), "INSN_LUI");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'INSN_LUI'";
+  const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
   ASSERT_NE(concat, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(concat->getOpType(), vpiConcatOp) << "11.4.12: a concatenation";
   ASSERT_NE(concat->getOperands(), nullptr);
@@ -287,10 +282,10 @@ TEST_F(PackImportTest, InsnLuiConcatenatesZBitsWithImportedOpcodeLui) {
 
 TEST_F(PackImportTest, InsnLuiReducesToZBitsThenOpcodeLui) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa =
-        getParamAssign(hldb::findByName<hldb::Package>("ibex_tracer_pkg", m_design->getTopPackages()), "INSN_LUI");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'INSN_LUI' in the elaborated package";
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa =
+        getParameter(hldb::findByName<hldb::Package>("ibex_tracer_pkg", m_design->getTopPackages()), "INSN_LUI");
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'INSN_LUI' in the elaborated package";
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "6.20.2: a parameter value is reduced to a Constant";
     EXPECT_EQ(binaryBits(value), std::string(25, 'z') + "0110111")
         << "5.7.1, 11.4.12: 25 'z' bits, then 7'h37; the reduced value was '" << value->getDecompile() << "'";

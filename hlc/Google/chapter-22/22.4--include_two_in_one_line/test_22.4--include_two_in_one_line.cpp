@@ -75,7 +75,7 @@
 //     - one null port: no name, index 0, vpiPort, size 0, no low/high conn
 //       (Sec 37.14 details 1, 8, 9, 10, 11; detail 10 names "module M();"
 //       as a null port)
-//     - empty body: no nets, variables, parameters, param assigns,
+//     - empty body: no nets, variables, parameters,
 //       processes, continuous assignments, tasks/functions, instantiations
 //     - after elaboration only: exactly one top-level instance "top"
 //       (Sec 23.3.1), vpiTopModule (Sec 37.5), defined at line 9
@@ -313,7 +313,6 @@ TEST_F(IncludeTwoInOneLineTest, ModuleTopBodyIsEmpty) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getProcesses()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);

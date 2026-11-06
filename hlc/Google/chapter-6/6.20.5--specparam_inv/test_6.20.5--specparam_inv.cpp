@@ -39,7 +39,7 @@
 //   * Surelog still produces a partial HLDB despite the error:
 //       - 'delay' lives in getSpecParams() as a SpecParam (correctly isolated).
 //       - 'p' lives in getParameters() as a Parameter (parsed despite the error).
-//       - The ParamAssign RHS for 'p' is an add Operation whose left operand
+//       - The default value of 'p' (Parameter::getExpr()) is an add Operation whose left operand
 //         is a RefObj named "delay" (Surelog's implicit-net substitution) and
 //         whose right operand is Constant "2".
 //   * This documents that specparam names do NOT resolve as SpecParam nodes in
@@ -51,10 +51,7 @@
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] Parameter name:"p"  localParam: false
 //   |           typespec: RefTypespec -> LogicTypespec  (implicit, no keyword)
-//   +-- getParamAssigns() (ParamAssignCollection, 1 item)
-//   |   +-- [0] ParamAssign
-//   |           lhs: RefObj name:"p"
-//   |           rhs: Operation { opType: vpiAddOp (24) }
+//   |           expr: Operation { opType: vpiAddOp (24) }
 //   |               operands[0]: RefObj name:"delay"  (implicit net, NOT SpecParam)
 //   |               operands[1]: Constant { vpiDecompile: "2" }
 //   +-- getSpecParams() (SpecParamCollection, 1 item)
@@ -104,16 +101,9 @@ static const hldb::SpecParam *getSpecParam(const hldb::Design *d, std::string_vi
   return hldb::findByName<hldb::SpecParam>(name, m->getSpecParams());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-}
-
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // ===========================================================================
@@ -167,42 +157,37 @@ TEST_F(SpecparamInvTest, ParameterCount) {
   EXPECT_EQ(m->getParameters()->size(), 1u) << "module 'top' declares exactly one parameter: p";
 }
 
-TEST_F(SpecparamInvTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
+TEST_F(SpecparamInvTest, P_Exists) { EXPECT_NE(getParameter(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // 'parameter' (without localparam) must not be marked as a localparam.
 TEST_F(SpecparamInvTest, P_IsNotLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: 'parameter p' must NOT be marked as a localparam";
 }
 
-// The ParamAssign for 'p' must exist.
-TEST_F(SpecparamInvTest, P_ParamAssignExists) {
-  EXPECT_NE(getParamAssign(m_design, "p"), nullptr) << "ParamAssign for 'p' not found";
-}
-
 // The RHS of 'p' is the compound expression 'delay + 2'; it must be an
 // Operation node (not a plain Constant).
-TEST_F(SpecparamInvTest, P_RhsIsOperation) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+TEST_F(SpecparamInvTest, P_ExprIsOperation) {
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "'delay + 2' must be represented as an Operation node";
+  EXPECT_NE(pa->getExpr<hldb::Operation>(), nullptr) << "'delay + 2' must be represented as an Operation node";
 }
 
 // The '+' operator must have opType vpiAddOp (24).
-TEST_F(SpecparamInvTest, P_Rhs_IsAddOperation) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+TEST_F(SpecparamInvTest, P_Expr_IsAddOperation) {
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAddOp) << "'+' must have opType vpiAddOp (24)";
 }
 
 // The add operation has exactly two operands: the 'delay' reference and '2'.
 TEST_F(SpecparamInvTest, P_Rhs_HasTwoOperands) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   EXPECT_EQ(op->getOperands()->size(), 2u) << "'delay + 2' must have exactly two operands";
@@ -212,10 +197,10 @@ TEST_F(SpecparamInvTest, P_Rhs_HasTwoOperands) {
 // SpecParam node. Surelog treats it as an implicit net (RefObj) and emits
 // EL0535. This test documents that specparam names have no visibility in
 // parameter constant_expressions.
-TEST_F(SpecparamInvTest, P_Rhs_LeftOperand_IsRefObj) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+TEST_F(SpecparamInvTest, P_Expr_LeftOperand_IsRefObj) {
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
@@ -225,10 +210,10 @@ TEST_F(SpecparamInvTest, P_Rhs_LeftOperand_IsRefObj) {
 }
 
 // The right operand '2' must be a Constant.
-TEST_F(SpecparamInvTest, P_Rhs_RightOperand_IsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+TEST_F(SpecparamInvTest, P_Expr_RightOperand_IsConstant) {
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
@@ -236,10 +221,10 @@ TEST_F(SpecparamInvTest, P_Rhs_RightOperand_IsConstant) {
 }
 
 // The right operand must decompile to "2".
-TEST_F(SpecparamInvTest, P_Rhs_RightOperand_Is2) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+TEST_F(SpecparamInvTest, P_Expr_RightOperand_Is2) {
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);

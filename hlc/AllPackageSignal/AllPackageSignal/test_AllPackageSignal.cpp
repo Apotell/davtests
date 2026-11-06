@@ -38,8 +38,7 @@
 // Checked:
 //   - design has exactly 2 packages, pkg_b then pkg_a (source order)
 //   - pkg_b has exactly 1 parameter, "ParameterIntEqual4": a localparam
-//     with an actual IntTypespec, bound to a single ParamAssign whose rhs
-//     is the constant 4
+//     with an actual IntTypespec, whose expr is the constant 4
 //   - pkg_a has exactly 1 parameter, "ParameterIntInPkgA": same shape,
 //     also bound to constant 4
 //   - pkg_a has exactly 3 task/funcs (the 3 macro expansions), in source
@@ -105,11 +104,7 @@ class AllPackageSignalTest : public Test {
     ASSERT_NE(param->getTypespec(), nullptr);
     EXPECT_NE(param->getTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 
-    ASSERT_NE(pkg->getParamAssigns(), nullptr);
-    ASSERT_EQ(pkg->getParamAssigns()->size(), 1u);
-    const hldb::ParamAssign *const assign = pkg->getParamAssigns()->at(0);
-    ASSERT_NE(assign, nullptr);
-    const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+    const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr);
     EXPECT_EQ(rhs->getConstType(), vpiIntConst);
     EXPECT_EQ(rhs->getDecompile(), "4");

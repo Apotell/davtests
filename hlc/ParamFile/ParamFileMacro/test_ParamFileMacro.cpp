@@ -136,11 +136,11 @@ TEST_F(ParamFileMacroTest, ExactlyOnePreprocMacroDefinitionRecorded) {
 TEST_F(ParamFileMacroTest, LatestDefinitionPrevailsOverCommandLineValue) {
   const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(dut, nullptr);
-  ASSERT_NE(dut->getParamAssigns(), nullptr);
-  ASSERT_FALSE(dut->getParamAssigns()->empty());
-  const hldb::ParamAssign *const pa = (*dut->getParamAssigns())[0];
+  ASSERT_NE(dut->getParameters(), nullptr);
+  ASSERT_FALSE(dut->getParameters()->empty());
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*dut->getParameters())[0]);
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "SRAMInitFile's initializer should be a Constant";
   EXPECT_EQ(rhs->getDecompile(), "\"\"") << "expected the in-file redefinition's empty string, not the "
                                             "command-line value '/toto/blah'";

@@ -125,21 +125,8 @@ class ParamMultiConcatTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::RefInstance *getUDut() {
@@ -160,8 +147,8 @@ class ParamMultiConcatTest : public Test {
       const hldb::RefObj *const ref = any_cast<hldb::RefObj>(add->getOperands()->at(i));
       ASSERT_NE(ref, nullptr) << "operand " << i << " is the name '" << names[i] << "'";
       EXPECT_EQ(ref->getName(), names[i]);
-      ASSERT_NE(getParam(getModule("top"), names[i]), nullptr);
-      EXPECT_EQ(ref->getActual(), getParam(getModule("top"), names[i]))
+      ASSERT_NE(getParameter(getModule("top"), names[i]), nullptr);
+      EXPECT_EQ(ref->getActual(), getParameter(getModule("top"), names[i]))
           << "'" << names[i] << "' is top's own parameter";
     }
   }
@@ -224,9 +211,9 @@ class ParamMultiConcatTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -243,13 +230,12 @@ TEST_F(ParamMultiConcatTest, DutDeclaresIntWidthWithoutDefault) {
   ASSERT_NE(dut, nullptr) << "module 'dut' not found";
   ASSERT_NE(dut->getParameters(), nullptr);
   EXPECT_EQ(dut->getParameters()->size(), 1u);
-  const hldb::Parameter *const width = getParam(dut, "Width");
+  const hldb::Parameter *const width = getParameter(dut, "Width");
   ASSERT_NE(width, nullptr) << "parameter 'Width' not found";
   EXPECT_FALSE(width->getLocalParam()) << "6.20.4: 'Width' is a parameter port, not a localparam";
   ASSERT_NE(width->getTypespec(), nullptr);
   EXPECT_NE(width->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "'Width' is declared 'int'";
-  const hldb::ParamAssign *const pa = getParamAssign(dut, "Width");
-  EXPECT_TRUE(pa == nullptr || pa->getRhs() == nullptr)
+  EXPECT_TRUE(width->getExpr() == nullptr)
       << "Syntax 6-6 footnote 22: the default is omitted, which is legal in a parameter_port_list";
 }
 
@@ -274,7 +260,7 @@ TEST_F(ParamMultiConcatTest, DutPortWmaskIsInputOfWidthMinusOneToZero) {
   const hldb::RefObj *const width = any_cast<hldb::RefObj>(left->getOperands()->at(0));
   ASSERT_NE(width, nullptr);
   EXPECT_EQ(width->getName(), "Width");
-  EXPECT_EQ(width->getActual(), getParam(dut, "Width")) << "'Width' is dut's own parameter";
+  EXPECT_EQ(width->getActual(), getParameter(dut, "Width")) << "'Width' is dut's own parameter";
   const hldb::Constant *const one = any_cast<hldb::Constant>(left->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");
@@ -300,7 +286,7 @@ TEST_F(ParamMultiConcatTest, TopDeclaresThreeOverridableIntParameters) {
   ASSERT_NE(top->getParameters(), nullptr);
   EXPECT_EQ(top->getParameters()->size(), 3u);
   for (std::string_view name : {"Width", "EccWidth", "BBB"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list, so '" << name << "' is overridable";
     ASSERT_NE(p->getTypespec(), nullptr);
@@ -311,20 +297,20 @@ TEST_F(ParamMultiConcatTest, TopDeclaresThreeOverridableIntParameters) {
 TEST_F(ParamMultiConcatTest, WidthAndEccWidthHoldSixteenAndThree) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const width = getParamAssign(top, "Width");
+  const hldb::Parameter *const width = getParameter(top, "Width");
   ASSERT_NE(width, nullptr);
-  ASSERT_NE(width->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(width->getRhs<hldb::Constant>()->getDecompile(), "16");
-  const hldb::ParamAssign *const ecc = getParamAssign(top, "EccWidth");
+  ASSERT_NE(width->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(width->getExpr<hldb::Constant>()->getDecompile(), "16");
+  const hldb::Parameter *const ecc = getParameter(top, "EccWidth");
   ASSERT_NE(ecc, nullptr);
-  ASSERT_NE(ecc->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(ecc->getRhs<hldb::Constant>()->getDecompile(), "3");
+  ASSERT_NE(ecc->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(ecc->getExpr<hldb::Constant>()->getDecompile(), "3");
 }
 
 TEST_F(ParamMultiConcatTest, BbbIsReplicationOfOneBitOne) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "BBB");
+  const hldb::Parameter *const pa = getParameter(getModule("top"), "BBB");
   ASSERT_NE(pa, nullptr);
-  ExpectReplication(pa->getRhs());
+  ExpectReplication(pa->getExpr());
 }
 
 TEST_F(ParamMultiConcatTest, UDutOverridesWidthWithSum) {

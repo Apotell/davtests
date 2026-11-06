@@ -36,7 +36,7 @@
 // compilation unit (here, to 'module top'), but per Sec 6.20.4 it is never
 // overridable at instantiation, matching the general 'localparam' rule.
 // UHDM represents compilation-unit scope items directly under Design
-// (Design::getParameters()/getParamAssigns()), not under any Module.
+// (Design::getParameters()), not under any Module.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -61,15 +61,7 @@ class FileLocalParamTest : public Test {
 
  protected:
   static const hldb::Parameter *findUnitParam(std::string_view name) {
-    if (m_design->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m_design->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-  static const hldb::ParamAssign *findUnitParamAssign(std::string_view name) {
-    return hldb::findByName<hldb::ParamAssign>(name, m_design->getParamAssigns());
+    return hldb::findByName<hldb::Parameter>(name, m_design->getParameters());
   }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Module *getGood() {
@@ -86,13 +78,10 @@ TEST_F(FileLocalParamTest, AwidthIsUnitScopedLocalParam) {
   const hldb::Parameter *const p = findUnitParam("AWIDTH");
   ASSERT_NE(p, nullptr) << "'AWIDTH' not found at compilation-unit scope";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: 'localparam AWIDTH' must not be overridable";
-
-  const hldb::ParamAssign *const pa = findUnitParamAssign("AWIDTH");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'AWIDTH' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(pa->getRhs(), nullptr);
+  ASSERT_NE(p->getExpr(), nullptr);
+  const hldb::Constant *const rhs = p->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'AWIDTH = 16': RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getDecompile()), "16");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("16"));
 }
 
 // 'localparam [AWIDTH:0] MAP = { AWIDTH };' at $unit scope -- also
@@ -101,10 +90,7 @@ TEST_F(FileLocalParamTest, MapIsUnitScopedLocalParam) {
   const hldb::Parameter *const p = findUnitParam("MAP");
   ASSERT_NE(p, nullptr) << "'MAP' not found at compilation-unit scope";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: 'localparam MAP' must not be overridable";
-
-  const hldb::ParamAssign *const pa = findUnitParamAssign("MAP");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'MAP' not found";
-  ASSERT_NE(pa->getRhs(), nullptr) << "'MAP = { AWIDTH }': RHS must be non-null";
+  ASSERT_NE(p->getExpr(), nullptr) << "'MAP = { AWIDTH }': RHS must be non-null";
 }
 
 // 'parameter D = MAP;' inside 'top' is an overridable module parameter

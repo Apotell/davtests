@@ -100,8 +100,8 @@
 //   - The name HLC gives the module definition: it appends the parameter
 //     values ("module_a #(...)"), so the definition is looked up by its
 //     definition name instead.
-//   - Where HLC stores the type parameter's default (on the TypeParameter or
-//     as the RHS of a ParamAssign) is a model convention; both are searched.
+//   - The type parameter's default is read from TypeParameter::getExpr(); a
+//     declaration creates no ParamAssign.
 //   - Whether the package element of a scoped type path is a RefObj or a
 //     RefTypespec wrapping one is a model convention; either is accepted.
 //   - The width of zzz (129 + 5 + 1 + 1 + 1 = 137 bits). Nothing in the
@@ -191,20 +191,11 @@ class PackageTypeParamTest : public Test {
     return hldb::findByDefName<hldb::Module>("module_a", m_design->getAllModules());
   }
 
-  // The default type of TYPE_PARAMETER. HLC records it either on the
-  // TypeParameter itself or as the RHS of the module's ParamAssign for it;
-  // which one is a model convention.
+  // The default type of TYPE_PARAMETER.
   static const hldb::RefTypespec *getTypeParameterDefault() {
     const hldb::TypeParameter *const tp = getTypeParameter();
     if (tp == nullptr) return nullptr;
-    if (tp->getExpr() != nullptr) return tp->getExpr();
-    const hldb::Module *const m = getModuleA();
-    if (m == nullptr || m->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::RefTypespec *const lhs = pa->getLhs<hldb::RefTypespec>();
-      if ((lhs != nullptr) && (lhs->getActual() == tp)) return pa->getRhs<hldb::RefTypespec>();
-    }
-    return nullptr;
+    return tp->getExpr();
   }
 
   static const hldb::TypeParameter *getTypeParameter() {

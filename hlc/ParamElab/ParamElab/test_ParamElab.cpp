@@ -155,21 +155,8 @@ class ParamElabTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // The override expression for 'param' that the unelaborated instance
@@ -251,9 +238,9 @@ class ParamElabTest : public Test {
   // 'scope' is 'expected'.
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -265,17 +252,15 @@ class ParamElabTest : public Test {
   static void ExpectOverridableInt(std::string_view name, std::string_view value) {
     const hldb::Module *const test = getModule("test");
     ASSERT_NE(test, nullptr);
-    const hldb::Parameter *const p = getParam(test, name);
+    const hldb::Parameter *const p = getParameter(test, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: '" << name << "' is in the parameter port list";
     ASSERT_NE(p->getTypespec(), nullptr);
     const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
     ASSERT_NE(it, nullptr) << "'" << name << "' is declared 'int'";
     EXPECT_TRUE(it->getSigned()) << "6.11, Table 6-8: 'int' is a 32-bit signed integer";
-    const hldb::ParamAssign *const pa = getParamAssign(test, name);
-    ASSERT_NE(pa, nullptr);
-    ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-    EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), value);
+    ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), value);
   }
 };
 
@@ -320,7 +305,7 @@ TEST_F(ParamElabTest, TestDeclaresTwoOverridableIntsAndMaskWidth) {
   ASSERT_EQ(test->getParameters()->size(), 3u);
   ExpectOverridableInt("Width", "32");
   ExpectOverridableInt("DataBitsPerMask", "2");
-  const hldb::Parameter *const mask = getParam(test, "MaskWidth");
+  const hldb::Parameter *const mask = getParameter(test, "MaskWidth");
   ASSERT_NE(mask, nullptr) << "parameter 'MaskWidth' not found";
   EXPECT_TRUE(mask->getLocalParam()) << "6.20.4: declared 'localparam'";
 }
@@ -328,9 +313,9 @@ TEST_F(ParamElabTest, TestDeclaresTwoOverridableIntsAndMaskWidth) {
 TEST_F(ParamElabTest, MaskWidthIsWidthDividedByDataBitsPerMask) {
   const hldb::Module *const test = getModule("test");
   ASSERT_NE(test, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(test, "MaskWidth");
+  const hldb::Parameter *const pa = getParameter(test, "MaskWidth");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const div = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const div = pa->getExpr<hldb::Operation>();
   ASSERT_NE(div, nullptr) << "unreduced, 'Width / DataBitsPerMask' is an Operation";
   EXPECT_EQ(div->getOpType(), vpiDivOp) << "11.4.3: a division";
   ASSERT_NE(div->getOperands(), nullptr);
@@ -340,7 +325,7 @@ TEST_F(ParamElabTest, MaskWidthIsWidthDividedByDataBitsPerMask) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(div->getOperands()->at(i));
     ASSERT_NE(ref, nullptr) << "operand " << i;
     EXPECT_EQ(ref->getName(), names[i]);
-    EXPECT_EQ(ref->getActual(), getParam(test, names[i])) << "'" << names[i] << "' is test's parameter";
+    EXPECT_EQ(ref->getActual(), getParameter(test, names[i])) << "'" << names[i] << "' is test's parameter";
   }
 }
 
@@ -362,7 +347,7 @@ TEST_F(ParamElabTest, LoopGenerateIsBoundedByMaskWidth) {
   const hldb::RefObj *const mask = any_cast<hldb::RefObj>(lt->getOperands()->at(1));
   ASSERT_NE(mask, nullptr);
   EXPECT_EQ(mask->getName(), "MaskWidth");
-  EXPECT_EQ(mask->getActual(), getParam(test, "MaskWidth")) << "'MaskWidth' is test's localparam";
+  EXPECT_EQ(mask->getActual(), getParameter(test, "MaskWidth")) << "'MaskWidth' is test's localparam";
   EXPECT_NE(findInstance(loop->getStmt(), "u"), nullptr) << "the loop block holds the instance 'u'";
 }
 

@@ -100,12 +100,8 @@ class LargeHexTest : public Test {
     return nullptr;
   }
 
-  static const hldb::Parameter *getParam(const hldb::Module *m, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
     return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(const hldb::Module *m, std::string_view name) {
-    return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
   }
 
   static const hldb::Typespec *actualTs(const hldb::RefTypespec *rt) {
@@ -167,16 +163,13 @@ TEST_F(LargeHexTest, BothModulesExist) {
 TEST_F(LargeHexTest, FifoReqDepthIsIntUnsignedParameterPort) {
   const hldb::Module *const m = getModuleDef("tlul_fifo_sync");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const p = getParam(m, "ReqDepth");
+  const hldb::Parameter *const p = getParameter(m, "ReqDepth");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "a 'parameter' in the parameter_port_list is overridable";
   const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(actualTs(p->getTypespec()));
   ASSERT_NE(it, nullptr) << "ReqDepth is declared 'int unsigned'";
   EXPECT_FALSE(it->getSigned()) << "6.11.3: 'int unsigned' is unsigned";
-
-  const hldb::ParamAssign *const pa = getParamAssign(m, "ReqDepth");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "2");
 }
@@ -194,7 +187,7 @@ TEST_F(LargeHexTest, FifoStorageRangeUsesReqDepth) {
 TEST_F(LargeHexTest, DReqDepthIsBit76ParameterPort) {
   const hldb::Module *const m = getModuleDef("tlul_socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const p = getParam(m, "DReqDepth");
+  const hldb::Parameter *const p = getParameter(m, "DReqDepth");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam());
   const hldb::BitTypespec *const bt = any_cast<hldb::BitTypespec>(actualTs(p->getTypespec()));
@@ -215,9 +208,9 @@ TEST_F(LargeHexTest, DReqDepthIsBit76ParameterPort) {
 TEST_F(LargeHexTest, DReqDepthDefaultIs76BitHexLiteral) {
   const hldb::Module *const m = getModuleDef("tlul_socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(m, "DReqDepth");
+  const hldb::Parameter *const pa = getParameter(m, "DReqDepth");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiHexConst);
   EXPECT_EQ(c->getSize(), 76) << "5.7.1: the size constant gives the exact number of bits";
@@ -232,7 +225,7 @@ TEST_F(LargeHexTest, BodyParametersAreLocalIntUnsigned) {
   const hldb::Module *const m = getModuleDef("tlul_socket_1n");
   ASSERT_NE(m, nullptr);
   for (std::string_view name : {"ReqDepthKO", "ReqDepthOK"}) {
-    const hldb::Parameter *const p = getParam(m, name);
+    const hldb::Parameter *const p = getParameter(m, name);
     ASSERT_NE(p, nullptr) << name;
     EXPECT_TRUE(p->getLocalParam()) << "6.20.1: '" << name << "' is a synonym for localparam";
     const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(actualTs(p->getTypespec()));
@@ -244,10 +237,10 @@ TEST_F(LargeHexTest, BodyParametersAreLocalIntUnsigned) {
 TEST_F(LargeHexTest, ReqDepthKOIsPosIndexedPartSelect) {
   const hldb::Module *const m = getModuleDef("tlul_socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(m, "ReqDepthKO");
+  const hldb::Parameter *const pa = getParameter(m, "ReqDepthKO");
   ASSERT_NE(pa, nullptr);
-  checkPosIndexed(pa->getRhs(), "DReqDepth[8*4+:4]");
-  const hldb::IndexedPartSelect *const ips = pa->getRhs<hldb::IndexedPartSelect>();
+  checkPosIndexed(pa->getExpr(), "DReqDepth[8*4+:4]");
+  const hldb::IndexedPartSelect *const ips = pa->getExpr<hldb::IndexedPartSelect>();
   ASSERT_NE(ips, nullptr);
   const hldb::IndexedRange *const ir = ips->getRange();
   ASSERT_NE(ir, nullptr);
@@ -267,10 +260,10 @@ TEST_F(LargeHexTest, ReqDepthKOIsPosIndexedPartSelect) {
 TEST_F(LargeHexTest, ReqDepthOKIsPosIndexedPartSelect) {
   const hldb::Module *const m = getModuleDef("tlul_socket_1n");
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(m, "ReqDepthOK");
+  const hldb::Parameter *const pa = getParameter(m, "ReqDepthOK");
   ASSERT_NE(pa, nullptr);
-  checkPosIndexed(pa->getRhs(), "DReqDepth[0+:4]");
-  const hldb::IndexedPartSelect *const ips = pa->getRhs<hldb::IndexedPartSelect>();
+  checkPosIndexed(pa->getExpr(), "DReqDepth[0+:4]");
+  const hldb::IndexedPartSelect *const ips = pa->getExpr<hldb::IndexedPartSelect>();
   ASSERT_NE(ips, nullptr);
   const hldb::IndexedRange *const ir = ips->getRange();
   ASSERT_NE(ir, nullptr);
@@ -307,7 +300,6 @@ TEST_F(LargeHexTest, InstanceFifoDOverridesReqDepthByName) {
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName()) << "23.10.2.2: .ReqDepth(...) is a by-name parameter value assignment";
-  EXPECT_TRUE(pa->getOverridden());
   ASSERT_NE(pa->getLhs(), nullptr);
   EXPECT_EQ(pa->getLhs()->getName(), "ReqDepth");
   checkPosIndexed(pa->getRhs(), ".ReqDepth(DReqDepth[0+:4])");

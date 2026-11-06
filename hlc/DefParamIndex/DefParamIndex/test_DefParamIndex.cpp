@@ -210,13 +210,13 @@ TEST_F(DefParamIndexTest, HierdefparamB_AddvalueDefault_IsConstant44) {
   // by the defparam statements in 'hierdefparam_top'.
   const hldb::Module *const b = getModule(m_design, "hierdefparam_b");
   ASSERT_NE(b, nullptr);
-  ASSERT_NE(b->getParamAssigns(), nullptr);
-  ASSERT_FALSE(b->getParamAssigns()->empty());
-  const hldb::ParamAssign *const pa = (*b->getParamAssigns())[0];
+  ASSERT_NE(b->getParameters(), nullptr);
+  ASSERT_FALSE(b->getParameters()->empty());
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>((*b->getParameters())[0]);
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter [7:0] addvalue = 44' RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getValue()), "44");
+  EXPECT_EQ(std::string(rhs->getValue()), std::string_view("44"));
 }
 
 // ===========================================================================

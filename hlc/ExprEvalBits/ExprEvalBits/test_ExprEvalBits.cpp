@@ -93,16 +93,9 @@ class ExprEvalBitsTest : public Test {
     return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam() {
+  static const hldb::Parameter *getParameter() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParameters() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>("PARAM", top->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign() {
-    const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParamAssigns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>("PARAM", top->getParamAssigns());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("PARAM", top->getParameters());
   }
 
   static const hldb::Typedef *getEnumTypedef() {
@@ -148,17 +141,17 @@ TEST_F(ExprEvalBitsTest, ModuleHasOutputPortO) {
 }
 
 TEST_F(ExprEvalBitsTest, ParamExistsAndIsNotLocalParam) {
-  const hldb::Parameter *const param = getParam();
+  const hldb::Parameter *const param = getParameter();
   ASSERT_NE(param, nullptr) << "'parameter int PARAM = 4' not found on module 'top'";
   EXPECT_FALSE(param->getLocalParam());
 }
 
 TEST_F(ExprEvalBitsTest, ParamDefaultIsFour) {
-  const hldb::ParamAssign *const param = getParamAssign();
+  const hldb::Parameter *const param = getParameter();
   ASSERT_NE(param, nullptr);
-  const hldb::Constant *const expr = param->getRhs<hldb::Constant>();
+  const hldb::Constant *const expr = param->getExpr<hldb::Constant>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_EQ(expr->getDecompile(), "4");
+  EXPECT_EQ(expr->getDecompile(), std::string_view("4"));
 }
 
 // ---------------------------------------------------------------------------
@@ -226,7 +219,7 @@ TEST_F(ExprEvalBitsTest, TopAddOpRhsOperandIsParamRefObj) {
   const hldb::RefObj *const paramRef = any_cast<hldb::RefObj>(top->getOperands()->at(1));
   ASSERT_NE(paramRef, nullptr) << "rightmost operand of the top-level '+' should be the bare 'PARAM' RefObj";
   EXPECT_EQ(paramRef->getName(), "PARAM");
-  EXPECT_EQ(paramRef->getActual<hldb::Parameter>(), getParam());
+  EXPECT_EQ(paramRef->getActual<hldb::Parameter>(), getParameter());
 }
 
 TEST_F(ExprEvalBitsTest, TopAddOpLhsOperandIsNestedAddOpWith85) {
@@ -280,7 +273,7 @@ TEST_F(ExprEvalBitsTest, InnermostOperationIsBitsMinus32) {
   const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "PARAM");
-  EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParam());
+  EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParameter());
 }
 
 // ---------------------------------------------------------------------------

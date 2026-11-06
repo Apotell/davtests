@@ -327,7 +327,6 @@ TEST_F(UnconnectedDriveInvalid2Test, NoDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

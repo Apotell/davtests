@@ -93,32 +93,12 @@ class LocalParamTest : public Test {
   }
 
   static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if (lhs != nullptr && lhs->getName() == name) return pa;
-      const hldb::Parameter *const lhsp = pa->getLhs<hldb::Parameter>();
-      if (lhsp != nullptr && lhsp->getName() == name) return pa;
-    }
-    return nullptr;
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::RefInstance *findInst(std::string_view name) {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getRefInstances() == nullptr) return nullptr;
-    for (const hldb::RefInstance *const ri : *top->getRefInstances()) {
-      if (ri->getName() == name) return ri;
-    }
-    return nullptr;
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(name, top->getRefInstances());
   }
 
   static std::vector<const hldb::GenIf *> getGenIfs() {
@@ -154,7 +134,6 @@ class LocalParamTest : public Test {
     ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
     const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
     EXPECT_TRUE(pa->getConnByName());
-    EXPECT_TRUE(pa->getOverridden());
     const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
     ASSERT_NE(lhs, nullptr);
     EXPECT_EQ(lhs->getName(), "invert");
@@ -217,9 +196,7 @@ TEST_F(LocalParamTest, InvertIsNonLocalParameterDefaultZero) {
   const hldb::Parameter *const p = findParam(m, "invert");
   ASSERT_NE(p, nullptr) << "'parameter invert' not found";
   EXPECT_FALSE(p->getLocalParam()) << "'invert' is declared with 'parameter', not 'localparam'";
-  const hldb::ParamAssign *const pa = findParamAssign(m, "invert");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = p->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), "0");
 }
@@ -248,9 +225,7 @@ TEST_F(LocalParamTest, DoInvertIsLocalParamOfTypeInt) {
   ASSERT_NE(p->getTypespec(), nullptr);
   ASSERT_NE(p->getTypespec()->getActual(), nullptr);
   EXPECT_EQ(p->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec);
-  const hldb::ParamAssign *const pa = findParamAssign(m, "do_invert");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = p->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), "0");
 }

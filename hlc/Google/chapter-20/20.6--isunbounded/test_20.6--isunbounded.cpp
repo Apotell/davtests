@@ -32,8 +32,8 @@
 // Checked:
 //   - design has module "top" with exactly 1 Parameter "i" whose typespec
 //     resolves to a signed IntTypespec
-//   - module has exactly 1 ParamAssign: Lhs RefObj "i" resolving to that
-//     Parameter, Rhs Constant vpiUnboundedConst "$"
+//   - that Parameter's value (Parameter::getExpr()) is Constant
+//     vpiUnboundedConst "$"
 //   - module has exactly 1 process, an Initial whose body is a Begin
 //     wrapping exactly 2 statements and no variables
 //   - both statements are SysTaskCall "$display" with exactly 2 arguments:
@@ -88,18 +88,7 @@ class IsUnboundedFunctionTest : public Test {
 
   static const hldb::Parameter *getParameterI() {
     const hldb::Module *const mod = getModule();
-    if (mod == nullptr || mod->getParameters() == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::Parameter>("i", mod->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign() {
-    const hldb::Module *const mod = getModule();
-    if (mod == nullptr || mod->getParamAssigns() == nullptr || mod->getParamAssigns()->empty()) {
-      return nullptr;
-    }
-    return mod->getParamAssigns()->at(0);
+    return (mod == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("i", mod->getParameters());
   }
 
   static const hldb::Initial *getInitialProcess() {
@@ -182,21 +171,17 @@ TEST_F(IsUnboundedFunctionTest, ModuleHasSignedIntParameterI) {
   EXPECT_TRUE(ts->getSigned()) << "'int' is a signed type";
 }
 
-TEST_F(IsUnboundedFunctionTest, ParamAssignBindsIToUnboundedLiteral) {
+TEST_F(IsUnboundedFunctionTest, ParameterBindsIToUnboundedLiteral) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  ASSERT_NE(mod->getParamAssigns(), nullptr);
-  EXPECT_EQ(mod->getParamAssigns()->size(), 1u);
+  ASSERT_NE(mod->getParameters(), nullptr);
+  EXPECT_EQ(mod->getParameters()->size(), 1u);
 
-  const hldb::ParamAssign *const assign = getParamAssign();
-  ASSERT_NE(assign, nullptr);
+  const hldb::Parameter *const param = getParameterI();
+  ASSERT_NE(param, nullptr);
+  EXPECT_EQ(param->getName(), "i");
 
-  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr) << "'i' should be a RefObj";
-  EXPECT_EQ(lhs->getName(), "i");
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getParameterI());
-
-  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'$' should be a Constant";
   EXPECT_EQ(rhs->getConstType(), vpiUnboundedConst);
   EXPECT_EQ(rhs->getDecompile(), "$");

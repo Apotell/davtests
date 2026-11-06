@@ -80,7 +80,7 @@
 //   Packages p, q, r and s (26.2)
 //     - all four exist as distinct packages
 //     - each declares exactly 1 parameter -- 'package_param' in p,
-//       'package_para' in q, r and s -- whose ParamAssign RHS is Constant
+//       'package_para' in q, r and s -- whose value is Constant
 //       "1"; each is a local parameter (6.20.4: in a package 'parameter' is
 //       a synonym for 'localparam')
 //     - each declares exactly 2 variables, s1 and s2, each of an anonymous
@@ -381,14 +381,11 @@ TEST_F(PackageHierRefTest, EachPackageDeclaresOneParameterEqualToOne) {
     EXPECT_EQ(pkg->getParameters()->size(), 1u) << info.m_name;
     const hldb::Parameter *const param = getParam(info.m_name, info.m_paramName);
     ASSERT_NE(param, nullptr) << "parameter '" << info.m_paramName << "' not found in " << info.m_name;
-    ASSERT_NE(pkg->getParamAssigns(), nullptr) << info.m_name;
-    ASSERT_EQ(pkg->getParamAssigns()->size(), 1u) << info.m_name;
-    const hldb::ParamAssign *const pa = pkg->getParamAssigns()->at(0);
+    ASSERT_NE(pkg->getParameters(), nullptr) << info.m_name;
+    ASSERT_EQ(pkg->getParameters()->size(), 1u) << info.m_name;
+    const hldb::Parameter *const pa = any_cast<hldb::Parameter>(pkg->getParameters()->at(0));
     ASSERT_NE(pa, nullptr);
-    const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr) << info.m_name;
-    EXPECT_EQ(lhs->getActual<hldb::Parameter>(), param) << info.m_name;
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << info.m_name;
     EXPECT_EQ(rhs->getDecompile(), "1") << info.m_name;
   }

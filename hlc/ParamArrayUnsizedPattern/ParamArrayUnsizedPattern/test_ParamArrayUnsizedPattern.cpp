@@ -135,20 +135,15 @@ class ParamArrayUnsizedPatternTest : public Test {
  protected:
   static const hldb::Module *getTest() { return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()); }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const m = getTest();
     if (m == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::Any *getDefault(std::string_view name) {
-    const hldb::Module *const m = getTest();
-    if (m == nullptr || m->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa->getRhs();
-    }
-    return nullptr;
+    const hldb::Parameter *const p = getParameter(name);
+    return (p == nullptr) ? nullptr : p->getExpr();
   }
 
   // Verifies 'expr' is the unbased unsized literal '1.
@@ -176,14 +171,14 @@ TEST_F(ParamArrayUnsizedPatternTest, FourOverridableParameters) {
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 4u);
   for (std::string_view name : {"BobaCount", "NumBobaDrinkersDefault", "NumBobaDrinkers", "NumBobaDrinkersMulti"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: '" << name << "' is in the parameter port list, so it is overridable";
   }
 }
 
 TEST_F(ParamArrayUnsizedPatternTest, BobaCountIsSignedIntTwo) {
-  const hldb::Parameter *const p = getParam("BobaCount");
+  const hldb::Parameter *const p = getParameter("BobaCount");
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
@@ -196,17 +191,13 @@ TEST_F(ParamArrayUnsizedPatternTest, BobaCountIsSignedIntTwo) {
 
 TEST_F(ParamArrayUnsizedPatternTest, ArrayParametersAreUnpackedArraysOfUnsignedInt) {
   for (std::string_view name : {"NumBobaDrinkersDefault", "NumBobaDrinkers", "NumBobaDrinkersMulti"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     ASSERT_NE(p->getTypespec(), nullptr) << name;
     const hldb::RefTypespec *elem = p->getTypespec();
-    const bool hasRanges = (p->getRanges() != nullptr) && !p->getRanges()->empty();
-    if (const hldb::ArrayTypespec *const at = p->getTypespec()->getActual<hldb::ArrayTypespec>()) {
-      EXPECT_FALSE(at->getPacked()) << "7.4.2: '[BobaCount]' after " << name << " is an unpacked dimension";
-      elem = at->getElemTypespec();
-    } else {
-      EXPECT_TRUE(hasRanges) << "7.4.2: '" << name << "' declares an unpacked dimension";
-    }
+    const hldb::ArrayTypespec *const at = p->getTypespec()->getActual<hldb::ArrayTypespec>();
+    EXPECT_FALSE(at->getPacked()) << "7.4.2: '[BobaCount]' after " << name << " is an unpacked dimension";
+    elem = at->getElemTypespec();
     ASSERT_NE(elem, nullptr) << name;
     const hldb::IntTypespec *const it = elem->getActual<hldb::IntTypespec>();
     ASSERT_NE(it, nullptr) << "the elements of '" << name << "' are 'int unsigned'";
@@ -218,16 +209,13 @@ TEST_F(ParamArrayUnsizedPatternTest, ArrayParametersAreUnpackedArraysOfUnsignedI
 // [size] dimension malformed) in the file header.
 TEST_F(ParamArrayUnsizedPatternTest, ArrayDimensionsAreZeroToBobaCountMinusOne) {
   for (std::string_view name : {"NumBobaDrinkersDefault", "NumBobaDrinkers", "NumBobaDrinkersMulti"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     const hldb::Range *range = nullptr;
     if (p->getTypespec() != nullptr) {
       if (const hldb::ArrayTypespec *const at = p->getTypespec()->getActual<hldb::ArrayTypespec>()) {
         range = at->getRange();
       }
-    }
-    if ((range == nullptr) && (p->getRanges() != nullptr) && (p->getRanges()->size() == 1u)) {
-      range = p->getRanges()->at(0);
     }
     ASSERT_NE(range, nullptr) << "7.4.2: '" << name << "' declares one unpacked dimension";
     const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
@@ -240,7 +228,7 @@ TEST_F(ParamArrayUnsizedPatternTest, ArrayDimensionsAreZeroToBobaCountMinusOne) 
     const hldb::RefObj *const count = any_cast<hldb::RefObj>(right->getOperands()->at(0));
     ASSERT_NE(count, nullptr);
     EXPECT_EQ(count->getName(), "BobaCount");
-    EXPECT_EQ(count->getActual(), getParam("BobaCount"));
+    EXPECT_EQ(count->getActual(), getParameter("BobaCount"));
   }
 }
 
@@ -281,7 +269,7 @@ TEST_F(ParamArrayUnsizedPatternTest, ReplicationPatternRepeatsOnesBobaCountTimes
   const hldb::RefObj *const count = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(count, nullptr) << "the count is 'BobaCount'";
   EXPECT_EQ(count->getName(), "BobaCount");
-  EXPECT_EQ(count->getActual(), getParam("BobaCount"));
+  EXPECT_EQ(count->getActual(), getParameter("BobaCount"));
   ExpectAllOnes(op->getOperands()->at(1), "the replicated value");
 }
 

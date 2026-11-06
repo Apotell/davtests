@@ -535,7 +535,6 @@ TEST_F(DefineExpansion19Test, NoOtherDesignObjectsDeclared) {
   // The macro wordsize is preprocessor text, not a parameter; data lives in
   // top, not at the compilation-unit level.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

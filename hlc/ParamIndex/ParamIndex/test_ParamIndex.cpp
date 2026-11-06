@@ -180,18 +180,22 @@ class ParamIndexTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::TypeParameter *getTypeParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::TypeParameter>(name, scope->getParameters());
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::TypeParameter>(name, scope->getParameters());
   }
 
   // The name the LHS of 'pa' writes, whatever node holds it.
+  static std::string_view getLhsName(const hldb::Parameter *pa) {
+    if (pa == nullptr) return nullptr;
+    if (const hldb::RefTypespec *const rts = pa->getTypespec()) return rts->getName();
+    return {};
+  }
   static std::string_view getLhsName(const hldb::ParamAssign *pa) {
+    if (pa == nullptr) return nullptr;
     if (const hldb::RefObj *const ref = pa->getLhs<hldb::RefObj>()) return ref->getName();
     if (const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>()) return p->getName();
     if (const hldb::TypeParameter *const tp = pa->getLhs<hldb::TypeParameter>()) return tp->getName();
@@ -199,17 +203,18 @@ class ParamIndexTest : public Test {
     return {};
   }
 
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      if (getLhsName(pa) == name) return pa;
-    }
-    return nullptr;
-  }
-
   // The type a type-valued RHS names. Whether a type name is held as a
   // RefTypespec or as a RefObj is a model convention, so both are read.
+  static const hldb::Typespec *getRhsType(const hldb::Parameter *pa) {
+    if (pa == nullptr) return nullptr;
+    if (const hldb::Any *const rhs = pa->getExpr()) return hldb::getTypespec(rhs);
+    return nullptr;
+  }
+  static const hldb::Typespec *getRhsType(const hldb::TypeParameter *tp) {
+    if (tp == nullptr) return nullptr;
+    if (const hldb::RefTypespec *const rhs = tp->getExpr()) return rhs->getActual();
+    return nullptr;
+  }
   static const hldb::Typespec *getRhsType(const hldb::ParamAssign *pa) {
     if (pa == nullptr) return nullptr;
     if (const hldb::RefTypespec *const rts = pa->getRhs<hldb::RefTypespec>()) return rts->getActual();
@@ -347,13 +352,13 @@ TEST_F(ParamIndexTest, BottomDeclaresFourOverridableParameters) {
   const hldb::TypeParameter *const tp1 = getTypeParam(bottom, "TP1");
   ASSERT_NE(tp1, nullptr) << "6.20.3: 'TP1' is a type parameter";
   EXPECT_FALSE(tp1->getLocalParam()) << "6.20.4: TP1 is a parameter port";
-  const hldb::Parameter *const size = getParam(bottom, "SIZE");
+  const hldb::Parameter *const size = getParameter(bottom, "SIZE");
   ASSERT_NE(size, nullptr) << "'SIZE' is a value parameter";
   EXPECT_FALSE(size->getLocalParam()) << "6.20.4: SIZE is a parameter port";
   const hldb::TypeParameter *const tp2 = getTypeParam(bottom, "TP2");
   ASSERT_NE(tp2, nullptr) << "6.20.3: 'TP2' is a type parameter";
   EXPECT_FALSE(tp2->getLocalParam()) << "6.20.4: TP2 is a parameter port";
-  const hldb::Parameter *const ppp = getParam(bottom, "PPP");
+  const hldb::Parameter *const ppp = getParameter(bottom, "PPP");
   ASSERT_NE(ppp, nullptr) << "'PPP' is a value parameter";
   EXPECT_FALSE(ppp->getLocalParam()) << "6.20.4: PPP is a parameter port";
   ASSERT_NE(ppp->getTypespec(), nullptr);
@@ -378,20 +383,20 @@ TEST_F(ParamIndexTest, BottomParameterOrderIsTp1SizeTp2Ppp) {
 TEST_F(ParamIndexTest, BottomDefaultsAreLogicTenIntAnd1150) {
   const hldb::Module *const bottom = getModule("bottom");
   ASSERT_NE(bottom, nullptr);
-  const hldb::Typespec *const tp1 = getRhsType(getParamAssign(bottom, "TP1"));
+  const hldb::Typespec *const tp1 = getRhsType(getTypeParam(bottom, "TP1"));
   ASSERT_NE(tp1, nullptr) << "TP1 has a default type";
   EXPECT_NE(any_cast<hldb::LogicTypespec>(tp1), nullptr) << "TP1 defaults to logic";
-  const hldb::ParamAssign *const size = getParamAssign(bottom, "SIZE");
+  const hldb::Parameter *const size = getParameter(bottom, "SIZE");
   ASSERT_NE(size, nullptr);
-  ASSERT_NE(size->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(size->getRhs<hldb::Constant>()->getDecompile(), "10");
-  const hldb::Typespec *const tp2 = getRhsType(getParamAssign(bottom, "TP2"));
+  ASSERT_NE(size->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(size->getExpr<hldb::Constant>()->getDecompile(), "10");
+  const hldb::Typespec *const tp2 = getRhsType(getTypeParam(bottom, "TP2"));
   ASSERT_NE(tp2, nullptr) << "TP2 has a default type";
   EXPECT_NE(any_cast<hldb::IntTypespec>(tp2), nullptr) << "TP2 defaults to int";
-  const hldb::ParamAssign *const ppp = getParamAssign(bottom, "PPP");
+  const hldb::Parameter *const ppp = getParameter(bottom, "PPP");
   ASSERT_NE(ppp, nullptr);
-  ASSERT_NE(ppp->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(ppp->getRhs<hldb::Constant>()->getDecompile(), "1150");
+  ASSERT_NE(ppp->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(ppp->getExpr<hldb::Constant>()->getDecompile(), "1150");
 }
 
 TEST_F(ParamIndexTest, BottomVariablesUseItsOwnParameters) {
@@ -419,7 +424,7 @@ TEST_F(ParamIndexTest, BottomVariablesUseItsOwnParameters) {
   const hldb::RefObj *const left = lt->getRanges()->at(0)->getLeftExpr<hldb::RefObj>();
   ASSERT_NE(left, nullptr) << "unreduced, the left bound is the name 'SIZE'";
   EXPECT_EQ(left->getName(), "SIZE");
-  EXPECT_EQ(left->getActual(), getParam(bottom, "SIZE")) << "'SIZE' is bottom's own parameter";
+  EXPECT_EQ(left->getActual(), getParameter(bottom, "SIZE")) << "'SIZE' is bottom's own parameter";
   const hldb::Constant *const right = lt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
@@ -435,7 +440,7 @@ TEST_F(ParamIndexTest, TopDeclaresTypeParameterTptopAndDatatop) {
   const hldb::TypeParameter *const tptop = getTypeParam(top, "TPTOP");
   ASSERT_NE(tptop, nullptr) << "6.20.3: 'TPTOP' is a type parameter";
   EXPECT_FALSE(tptop->getLocalParam()) << "6.20.1: top has no parameter port list, so TPTOP is overridable";
-  const hldb::Typespec *const def = getRhsType(getParamAssign(top, "TPTOP"));
+  const hldb::Typespec *const def = getRhsType(tptop);
   ASSERT_NE(def, nullptr) << "TPTOP has a default type";
   EXPECT_NE(any_cast<hldb::IntTypespec>(def), nullptr) << "TPTOP defaults to int";
   const hldb::Variable *const data = getVariable(top, "DATATOP");
@@ -450,7 +455,7 @@ TEST_F(ParamIndexTest, MidDeclaresTypeParameterTp0AndData0) {
   const hldb::TypeParameter *const tp0 = getTypeParam(mid, "TP0");
   ASSERT_NE(tp0, nullptr) << "6.20.3: 'TP0' is a type parameter";
   EXPECT_FALSE(tp0->getLocalParam()) << "6.20.4: TP0 is a parameter port";
-  const hldb::Typespec *const def = getRhsType(getParamAssign(mid, "TP0"));
+  const hldb::Typespec *const def = getRhsType(tp0);
   ASSERT_NE(def, nullptr) << "TP0 has a default type";
   EXPECT_NE(any_cast<hldb::LogicTypespec>(def), nullptr) << "TP0 defaults to logic";
   const hldb::Variable *const data = getVariable(mid, "DATA0");
@@ -537,7 +542,7 @@ TEST_F(ParamIndexTest, NamedOverridesBindToTargetParameters) {
     ASSERT_NE(target, nullptr);
     const hldb::Any *const declared = (getTypeParam(target, o.m_param) != nullptr)
                                           ? static_cast<const hldb::Any *>(getTypeParam(target, o.m_param))
-                                          : static_cast<const hldb::Any *>(getParam(target, o.m_param));
+                                          : static_cast<const hldb::Any *>(getParameter(target, o.m_param));
     ASSERT_NE(declared, nullptr);
     EXPECT_EQ(getLhsActual(pas->at(o.m_index)), declared)
         << "23.10.2.2: the name in '." << o.m_param << "(...)' is " << o.m_target << "'s parameter";
@@ -598,9 +603,9 @@ TEST_F(ParamIndexTest, U3PppIsFourthOrderedValue) {
   if (m_design->getElaborated()) {
     const hldb::Module *const u3 = getElabInstance({"u0", "u3"});
     ASSERT_NE(u3, nullptr) << "the instance u0.u3 is elaborated";
-    const hldb::ParamAssign *const pa = getParamAssign(u3, "PPP");
+    const hldb::Parameter *const pa = getParameter(u3, "PPP");
     ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr);
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";

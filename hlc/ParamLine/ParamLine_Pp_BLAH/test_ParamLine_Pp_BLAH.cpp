@@ -255,9 +255,9 @@ TEST_F(ParamLinePpBlahTest, PIsOverridableWithDefaultOneBitZero) {
   const hldb::Parameter *const p = getP();
   ASSERT_NE(p, nullptr) << "parameter 'p' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list, so 'p' is overridable";
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 1u);
-  const hldb::Constant *const def = top->getParamAssigns()->at(0)->getRhs<hldb::Constant>();
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_EQ(top->getParameters()->size(), 1u);
+  const hldb::Constant *const def = any_cast<hldb::Parameter>(top->getParameters()->at(0))->getExpr<hldb::Constant>();
   ASSERT_NE(def, nullptr);
   EXPECT_EQ(def->getDecompile(), "1'b0") << "the definition keeps the default written in the source";
 }

@@ -74,7 +74,7 @@
 //       with exactly 1 member, size, a LogicTypespec with the packed range
 //       [10:0]
 //     - exactly 1 parameter, NumPart, a local (6.20.4) signed int with the
-//       ParamAssign RHS Constant "7"
+//       value Constant "7"
 //   Package otp_ctrl_part_pkg
 //     - records exactly 1 import, the wildcard import of otp_ctrl_pkg
 //     - exactly 1 parameter, PartInfo, a local parameter whose type is an
@@ -214,19 +214,8 @@ class ParamArrayTest : public Test {
     return hldb::findByName<hldb::TypespecMember>("size", st->getStruct()->getMembers());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // Whether 'rts' names the type of 'td' (6.18).
@@ -297,14 +286,12 @@ TEST_F(ParamArrayTest, PartInfoTIsPackedStructWithSize10To0) {
 TEST_F(ParamArrayTest, NumPartIsLocalIntSeven) {
   const hldb::Package *const pkg = getPkg("otp_ctrl_pkg");
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = getParam(pkg, "NumPart");
+  const hldb::Parameter *const p = getParameter(pkg, "NumPart");
   ASSERT_NE(p, nullptr) << "parameter 'NumPart' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
   ASSERT_NE(p->getTypespec(), nullptr);
   EXPECT_NE(p->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "'NumPart' is declared 'int'";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "NumPart");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = p->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "7");
 }
@@ -318,7 +305,7 @@ TEST_F(ParamArrayTest, PartPkgImportsAllOfOtpCtrlPkg) {
 }
 
 TEST_F(ParamArrayTest, PartInfoIsLocalUnpackedArrayOfPartInfoT) {
-  const hldb::Parameter *const p = getParam(getPkg("otp_ctrl_part_pkg"), "PartInfo");
+  const hldb::Parameter *const p = getParameter(getPkg("otp_ctrl_part_pkg"), "PartInfo");
   ASSERT_NE(p, nullptr) << "parameter 'PartInfo' not found";
   EXPECT_TRUE(p->getLocalParam()) << "declared 'localparam'";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -330,9 +317,9 @@ TEST_F(ParamArrayTest, PartInfoIsLocalUnpackedArrayOfPartInfoT) {
 }
 
 TEST_F(ParamArrayTest, PartInfoPatternListsTwoStructures) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("otp_ctrl_part_pkg"), "PartInfo");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'PartInfo'";
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(getPkg("otp_ctrl_part_pkg"), "PartInfo");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'PartInfo'";
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.1: an array assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -387,14 +374,12 @@ TEST_F(ParamArrayTest, InfoIsOverridablePartInfoTDefaultingToCastZero) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 2u) << "'Info' and 'NumLcOtpWords'";
-  const hldb::Parameter *const info = getParam(m, "Info");
+  const hldb::Parameter *const info = getParameter(m, "Info");
   ASSERT_NE(info, nullptr) << "parameter 'Info' not found";
   EXPECT_FALSE(info->getLocalParam()) << "6.20.1: a parameter in the parameter port list can be overridden";
   EXPECT_TRUE(namesTypedef(info->getTypespec(), getTypedef("otp_ctrl_pkg", "part_info_t")))
       << "26.4: the header import makes part_info_t visible to the parameter port list";
-  const hldb::ParamAssign *const pa = getParamAssign(m, "Info");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const cast = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const cast = info->getExpr<hldb::Operation>();
   ASSERT_NE(cast, nullptr) << "the default 'part_info_t'(0)' is an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1: a cast";
   ASSERT_NE(cast->getOperands(), nullptr);
@@ -410,12 +395,10 @@ TEST_F(ParamArrayTest, InfoIsOverridablePartInfoTDefaultingToCastZero) {
 TEST_F(ParamArrayTest, NumLcOtpWordsShiftsInfoSizeRightByOne) {
   const hldb::Module *const m = getModule("otp_ctrl_lci");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const p = getParam(m, "NumLcOtpWords");
+  const hldb::Parameter *const p = getParameter(m, "NumLcOtpWords");
   ASSERT_NE(p, nullptr) << "parameter 'NumLcOtpWords' not found";
   EXPECT_TRUE(p->getLocalParam()) << "declared 'localparam'";
-  const hldb::ParamAssign *const pa = getParamAssign(m, "NumLcOtpWords");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const shift = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const shift = p->getExpr<hldb::Operation>();
   ASSERT_NE(shift, nullptr) << "'Info.size >> 1' is an Operation";
   EXPECT_EQ(shift->getOpType(), vpiRShiftOp) << "11.4.10: '>>' is the logical right shift";
   ASSERT_NE(shift->getOperands(), nullptr);
@@ -426,7 +409,7 @@ TEST_F(ParamArrayTest, NumLcOtpWordsShiftsInfoSizeRightByOne) {
   ASSERT_EQ(path->getPathElems()->size(), 2u);
   const hldb::RefObj *const info = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
   ASSERT_NE(info, nullptr);
-  EXPECT_EQ(info->getActual(), getParam(m, "Info")) << "'Info' is the module's parameter";
+  EXPECT_EQ(info->getActual(), getParameter(m, "Info")) << "'Info' is the module's parameter";
   const hldb::RefObj *const size = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(size, nullptr);
   ASSERT_NE(getSizeMember(), nullptr);
@@ -455,7 +438,7 @@ TEST_F(ParamArrayTest, CntDIsLogicNumLcOtpWordsMinusOneDownTo0) {
   ASSERT_EQ(left->getOperands()->size(), 2u);
   const hldb::RefObj *const words = any_cast<hldb::RefObj>(left->getOperands()->at(0));
   ASSERT_NE(words, nullptr);
-  EXPECT_EQ(words->getActual(), getParam(m, "NumLcOtpWords"));
+  EXPECT_EQ(words->getActual(), getParameter(m, "NumLcOtpWords"));
 }
 
 TEST_F(ParamArrayTest, TopImportsAllOfPartPkg) { ExpectOnlyWildcardImport(getModule("top"), "otp_ctrl_part_pkg"); }
@@ -473,7 +456,7 @@ TEST_F(ParamArrayTest, TopOverridesInfoWithPartInfoElement) {
   const hldb::RefObj *const array = sel->getPrefix<hldb::RefObj>();
   ASSERT_NE(array, nullptr);
   EXPECT_EQ(array->getName(), "PartInfo");
-  EXPECT_EQ(array->getActual(), getParam(getPkg("otp_ctrl_part_pkg"), "PartInfo"))
+  EXPECT_EQ(array->getActual(), getParameter(getPkg("otp_ctrl_part_pkg"), "PartInfo"))
       << "26.3: PartInfo is imported from otp_ctrl_part_pkg";
   const hldb::RefObj *const index = sel->getIndex<hldb::RefObj>();
   ASSERT_NE(index, nullptr);

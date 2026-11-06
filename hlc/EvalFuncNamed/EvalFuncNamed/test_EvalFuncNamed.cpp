@@ -292,25 +292,25 @@ TEST_F(EvalFuncNamedTest, MyParam2ExistsAsLocalParam) {
 TEST_F(EvalFuncNamedTest, MyParam2ValueEvaluatesNamedCallOrRemainsUnfoldedFuncCall) {
   const hldb::Package *const pkg = getMyModuleTypesPkg();
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("MY_PARAM2", pkg->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'MY_PARAM2' not found";
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("MY_PARAM2", pkg->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'MY_PARAM2' not found";
 
-  if (const hldb::Constant *const c = pa->getRhs<hldb::Constant>()) {
+  if (const hldb::Constant *const c = pa->getExpr<hldb::Constant>()) {
     // Sec 13.4.3: a constant function used in a constant expression must be
     // evaluated at elaboration time: simple_func(.value2(12), .value1(24))
     // == simple_minus(value1=24, value2=12) == 24 - 12 == 12.
-    EXPECT_EQ(c->getDecompile(), "12") << "Sec 13.4.3: constant-function fold of 'simple_func(.value2(12), "
+    EXPECT_EQ(c->getDecompile(), std::string_view("12")) << "Sec 13.4.3: constant-function fold of 'simple_func(.value2(12), "
                                            ".value1(24))' should be 12";
     return;
   }
 
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   if (call == nullptr) {
-    GTEST_SKIP() << "HLC's ParamAssign RHS for a constant-function-valued localparam is neither a folded "
+    GTEST_SKIP() << "HLC's Parameter Expr for a constant-function-valued localparam is neither a folded "
                      "Constant nor an unfolded FuncCall; per IEEE 1800-2023 Sec 13.4.3 this constant "
                      "expression should evaluate to 12. Fix pending.";
   }
-  EXPECT_EQ(call->getName(), "simple_func");
+  EXPECT_EQ(call->getName(), std::string_view("simple_func"));
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg1 = findArgByFormalName(call, "value1");

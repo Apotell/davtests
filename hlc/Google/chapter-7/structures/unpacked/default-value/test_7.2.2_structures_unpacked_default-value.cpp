@@ -35,8 +35,8 @@
 //
 // Checked:
 //   - design has module top with exactly 1 Parameter "c" (typespec ->
-//     LogicTypespec) and exactly 1 ParamAssign: lhs RefObj "c" resolving the
-//     Parameter, rhs Constant hexadecimal "4'h5" (value "5")
+//     LogicTypespec) whose value (Parameter::getExpr()) is Constant
+//     hexadecimal "4'h5" (value "5")
 //   - module has exactly 1 net: "p1"
 //   - net "p1": RefTypespec -> StructTypespec, vpiPacked false (unpacked),
 //     exactly 2 TypespecMember "lo"/"hi"
@@ -133,18 +133,15 @@ TEST_F(UnpackedStructDefaultValueTest, ModuleHasOneParameterNamedC) {
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>(), nullptr);
 }
 
-TEST_F(UnpackedStructDefaultValueTest, ParamAssignSetsCToHexFive) {
+TEST_F(UnpackedStructDefaultValueTest, ParameterSetsCToHexFive) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = top->getParamAssigns()->at(0);
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_EQ(top->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(top->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), std::string_view("c"));
-  EXPECT_NE(lhs->getActual<hldb::Parameter>(), nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), std::string_view("c"));
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), std::string_view("4'h5"));
   EXPECT_EQ(rhs->getValue(), std::string_view("5"));

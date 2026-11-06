@@ -52,7 +52,7 @@
 // What is checked, and why:
 //   Package prim_cipher_pkg (26.2)
 //     - 'endpackage : prim_cipher_pkg' records the end label
-//     - exactly 2 parameters and 2 ParamAssigns; both parameters are
+//     - exactly 2 parameters, each holding its own value; both are
 //       localparams (6.20.4: 'parameter' in a package means 'localparam')
 //     - exactly 1 TaskFunc, the Function sbox4_64bit
 //   PRESENT_SBOX4 : logic [15:0][3:0] (7.4.1)
@@ -216,16 +216,9 @@ class PackageFuncCallTest : public Test {
 
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
-    const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>(name, pkg->getParamAssigns());
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Function *getSbox() {
@@ -442,10 +435,10 @@ TEST_F(PackageFuncCallTest, PackageHasTwoLocalParamsAndOneFunction) {
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 2u);
-  ASSERT_NE(pkg->getParamAssigns(), nullptr);
-  EXPECT_EQ(pkg->getParamAssigns()->size(), 2u);
+  ASSERT_NE(pkg->getParameters(), nullptr);
+  EXPECT_EQ(pkg->getParameters()->size(), 2u);
   for (std::string_view name : {"PRESENT_SBOX4", "PRINCE_ROUND_CONST"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(name);
     ASSERT_NE(p, nullptr) << name;
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << name << "' is declared in a package";
   }
@@ -458,7 +451,7 @@ TEST_F(PackageFuncCallTest, PackageHasTwoLocalParamsAndOneFunction) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageFuncCallTest, PresentSbox4IsLogic15To0By3To0) {
-  const hldb::Parameter *const p = getParam("PRESENT_SBOX4");
+  const hldb::Parameter *const p = getParameter("PRESENT_SBOX4");
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -470,20 +463,20 @@ TEST_F(PackageFuncCallTest, PresentSbox4IsLogic15To0By3To0) {
 }
 
 TEST_F(PackageFuncCallTest, PresentSbox4ValueIsConcatenationOfSixteenNibbles) {
-  const hldb::ParamAssign *const pa = getParamAssign("PRESENT_SBOX4");
+  const hldb::Parameter *const pa = getParameter("PRESENT_SBOX4");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
+  ASSERT_NE(pa->getExpr(), nullptr);
   if (m_design->getElaborated()) {
     // 6.20.2: a parameter's value is a constant expression fixed at
     // elaboration; 11.4.12: the concatenation is 16 x 4 = 64 bits wide.
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "on an elaborated design the concatenation should be reduced to a Constant";
     EXPECT_EQ(value->getSize(), 64);
     uint64_t v = 0;
     ASSERT_TRUE(parseConstantValue(value, &v)) << "unparsable constant '" << value->getDecompile() << "'";
     EXPECT_EQ(v, 0x21748FE3DA09B65CULL);
   } else {
-    const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+    const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
     ASSERT_NE(concat, nullptr);
     EXPECT_EQ(concat->getOpType(), vpiConcatOp);
     ASSERT_NE(concat->getOperands(), nullptr);
@@ -505,7 +498,7 @@ TEST_F(PackageFuncCallTest, PresentSbox4ValueIsConcatenationOfSixteenNibbles) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageFuncCallTest, PrinceRoundConstIsLogic11To0By63To0) {
-  const hldb::Parameter *const p = getParam("PRINCE_ROUND_CONST");
+  const hldb::Parameter *const p = getParameter("PRINCE_ROUND_CONST");
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -517,18 +510,18 @@ TEST_F(PackageFuncCallTest, PrinceRoundConstIsLogic11To0By63To0) {
 }
 
 TEST_F(PackageFuncCallTest, PrinceRoundConstValueIsConcatenationOfTwoWords) {
-  const hldb::ParamAssign *const pa = getParamAssign("PRINCE_ROUND_CONST");
+  const hldb::Parameter *const pa = getParameter("PRINCE_ROUND_CONST");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
+  ASSERT_NE(pa->getExpr(), nullptr);
   if (m_design->getElaborated()) {
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "on an elaborated design the concatenation should be reduced to a Constant";
     EXPECT_TRUE((value->getSize() == 128) || (value->getSize() == 768))
         << "the folded value is the 128-bit concatenation, or that value zero-extended to the 768-bit "
            "parameter type (10.7); got "
         << value->getSize();
   } else {
-    const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+    const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
     ASSERT_NE(concat, nullptr);
     EXPECT_EQ(concat->getOpType(), vpiConcatOp);
     ASSERT_NE(concat->getOperands(), nullptr);
@@ -851,8 +844,8 @@ TEST_F(PackageFuncCallTest, ContAssignRhsCallsPackageFunction) {
   ASSERT_NE(sboxArg, nullptr) << "the last path element should be a reference to PRESENT_SBOX4";
   EXPECT_TRUE(isScopedName(sboxArg->getName(), "PRESENT_SBOX4"))
       << "unexpected reference name '" << sboxArg->getName() << "'";
-  ASSERT_NE(getParam("PRESENT_SBOX4"), nullptr);
-  EXPECT_EQ(sboxArg->getActual<hldb::Parameter>(), getParam("PRESENT_SBOX4"))
+  ASSERT_NE(getParameter("PRESENT_SBOX4"), nullptr);
+  EXPECT_EQ(sboxArg->getActual<hldb::Parameter>(), getParameter("PRESENT_SBOX4"))
       << "26.3: the scoped name must bind to PRESENT_SBOX4 declared in prim_cipher_pkg";
 }
 
@@ -954,8 +947,8 @@ TEST_F(PackageFuncCallTest, SecondXorOperandSelectsFromPrinceRoundConst) {
   ASSERT_NE(param, nullptr);
   EXPECT_TRUE(isScopedName(param->getName(), "PRINCE_ROUND_CONST"))
       << "unexpected reference name '" << param->getName() << "'";
-  ASSERT_NE(getParam("PRINCE_ROUND_CONST"), nullptr);
-  EXPECT_EQ(param->getActual<hldb::Parameter>(), getParam("PRINCE_ROUND_CONST"))
+  ASSERT_NE(getParameter("PRINCE_ROUND_CONST"), nullptr);
+  EXPECT_EQ(param->getActual<hldb::Parameter>(), getParameter("PRINCE_ROUND_CONST"))
       << "26.3: the scoped name must bind to PRINCE_ROUND_CONST declared in prim_cipher_pkg";
 }
 

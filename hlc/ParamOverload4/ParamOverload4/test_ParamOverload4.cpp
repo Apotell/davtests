@@ -120,22 +120,9 @@ class ParamOverload4Test : public Test {
     return hldb::findByDefName<hldb::Module>("ibex_pmp", m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const m = getModule();
-    if (m == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::GenFor *getOuterLoop() {
@@ -183,17 +170,15 @@ TEST_F(ParamOverload4Test, DeclaresThreeOverridableIntUnsignedParameters) {
   const std::string_view names[] = {"PMPGranularity", "PMPNumChan", "PMPNumRegions"};
   const std::string_view values[] = {"0", "2", "4"};
   for (size_t i = 0; i < 3; ++i) {
-    const hldb::Parameter *const p = getParam(names[i]);
+    const hldb::Parameter *const p = getParameter(names[i]);
     ASSERT_NE(p, nullptr) << "parameter '" << names[i] << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.4: '" << names[i] << "' is a parameter port";
     ASSERT_NE(p->getTypespec(), nullptr);
     const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
     ASSERT_NE(it, nullptr) << "6.11: '" << names[i] << "' is an int";
     EXPECT_FALSE(it->getSigned()) << "6.11.3: '" << names[i] << "' is 'int unsigned'";
-    const hldb::ParamAssign *const pa = getParamAssign(m, names[i]);
-    ASSERT_NE(pa, nullptr);
-    ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-    EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), values[i]) << names[i];
+    ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), values[i]) << names[i];
   }
 }
 
@@ -214,8 +199,8 @@ TEST_F(ParamOverload4Test, OuterLoopRunsBelowPmpNumRegions) {
   const hldb::RefObj *const bound = any_cast<hldb::RefObj>(lt->getOperands()->at(1));
   ASSERT_NE(bound, nullptr);
   EXPECT_EQ(bound->getName(), "PMPNumRegions");
-  ASSERT_NE(getParam("PMPNumRegions"), nullptr);
-  EXPECT_EQ(bound->getActual(), getParam("PMPNumRegions")) << "the module's own parameter";
+  ASSERT_NE(getParameter("PMPNumRegions"), nullptr);
+  EXPECT_EQ(bound->getActual(), getParameter("PMPNumRegions")) << "the module's own parameter";
 }
 
 TEST_F(ParamOverload4Test, InnerLoopRunsBelowThirtyFour) {
@@ -256,7 +241,7 @@ TEST_F(ParamOverload4Test, IfElseComparesBWithGranularityPlusTwo) {
   const hldb::RefObj *const gran = any_cast<hldb::RefObj>(add->getOperands()->at(0));
   ASSERT_NE(gran, nullptr);
   EXPECT_EQ(gran->getName(), "PMPGranularity");
-  EXPECT_EQ(gran->getActual(), getParam("PMPGranularity"));
+  EXPECT_EQ(gran->getActual(), getParameter("PMPGranularity"));
   const hldb::Constant *const two = any_cast<hldb::Constant>(add->getOperands()->at(1));
   ASSERT_NE(two, nullptr);
   EXPECT_EQ(two->getDecompile(), "2");

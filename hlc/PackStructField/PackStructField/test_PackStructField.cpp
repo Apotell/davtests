@@ -154,19 +154,9 @@ class PackStructFieldTest : public Test {
     return hldb::findByName<hldb::TypespecMember>(name, st->getStruct()->getMembers());
   }
 
-  static const hldb::Parameter *getMyParameter() {
+  static const hldb::Parameter *getParameter() {
     const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>("my_parameter", pkg->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(const hldb::Package *pkg) {
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == "my_parameter")) return pa;
-    }
-    return nullptr;
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("my_parameter", pkg->getParameters());
   }
 
   static const hldb::Module *getModule() {
@@ -234,8 +224,8 @@ class PackStructFieldTest : public Test {
     const hldb::RefObj *const param = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
     ASSERT_NE(param, nullptr);
     EXPECT_EQ(param->getName(), "my_parameter");
-    ASSERT_NE(getMyParameter(), nullptr);
-    EXPECT_EQ(param->getActual(), getMyParameter()) << "26.3: 'my_parameter' is declared in my_package";
+    ASSERT_NE(getParameter(), nullptr);
+    EXPECT_EQ(param->getActual(), getParameter()) << "26.3: 'my_parameter' is declared in my_package";
     const hldb::RefObj *const m = any_cast<hldb::RefObj>(path->getPathElems()->at(2));
     ASSERT_NE(m, nullptr);
     EXPECT_EQ(m->getName(), member);
@@ -280,16 +270,16 @@ TEST_F(PackStructFieldTest, MyParameterIsLocalOfScopedMyStruct) {
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getMyParameter();
+  const hldb::Parameter *const p = getParameter();
   ASSERT_NE(p, nullptr) << "parameter 'my_parameter' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
   EXPECT_TRUE(namesMyStruct(p->getTypespec())) << "26.3: 'my_package::my_struct' names the package's own my_struct";
 }
 
 TEST_F(PackStructFieldTest, MyParameterIsMemberKeyedPattern) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg());
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'my_parameter'";
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter();
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'my_parameter'";
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -313,10 +303,9 @@ TEST_F(PackStructFieldTest, MyParameterIsMemberKeyedPattern) {
 
 TEST_F(PackStructFieldTest, MyParameterReducesToTwoBitsTen) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa =
-        getParamAssign(hldb::findByName<hldb::Package>("my_package", m_design->getTopPackages()));
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'my_parameter' in the elaborated package";
-    const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter();
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'my_parameter' in the elaborated package";
+    const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << "6.20.2: a parameter value is reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(value, &v)) << "unparsable constant '" << value->getDecompile() << "'";

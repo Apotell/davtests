@@ -237,11 +237,11 @@ TEST_F(EvalFuncPackTest, InfoPageWCallsVbitsViaPackageScopeOperator) {
   const hldb::Function *const vbits = getFunc(primPkg, "vbits");
   ASSERT_NE(vbits, nullptr);
 
-  ASSERT_NE(flashPkg->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("InfoPageW", flashPkg->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'InfoPageW' not found";
+  ASSERT_NE(flashPkg->getParameters(), nullptr);
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("InfoPageW", flashPkg->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'InfoPageW' not found";
 
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'InfoPageW = prim_util_pkg::vbits(InfosPerBank)' RHS should be a FuncCall";
   EXPECT_EQ(call->getName(), std::string_view("vbits"));
   const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
@@ -279,11 +279,11 @@ TEST_F(EvalFuncPackTest, NumPartWidthCallsVbitsViaExplicitImport) {
   const hldb::Function *const vbits = getFunc(primPkg, "vbits");
   ASSERT_NE(vbits, nullptr);
 
-  ASSERT_NE(otpPkg->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("NumPartWidth", otpPkg->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'NumPartWidth' not found";
+  ASSERT_NE(otpPkg->getParameters(), nullptr);
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("NumPartWidth", otpPkg->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'NumPartWidth' not found";
 
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'NumPartWidth = vbits(InfosPerBank)' RHS should be a FuncCall";
   EXPECT_EQ(call->getName(), "vbits");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), vbits)
@@ -312,11 +312,11 @@ TEST_F(EvalFuncPackTest, InfosPerBankForwardReferencesMaxInfoPages) {
   const hldb::Function *const maxInfoPages = getFunc(pkg, "max_info_pages");
   ASSERT_NE(maxInfoPages, nullptr);
 
-  ASSERT_NE(pkg->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("InfosPerBank", pkg->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'InfosPerBank' not found";
+  ASSERT_NE(pkg->getParameters(), nullptr);
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("InfosPerBank", pkg->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'InfosPerBank' not found";
 
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   if (call == nullptr) {
     GTEST_SKIP() << "HLC does not represent 'InfosPerBank = max_info_pages(...)' as a FuncCall RHS; a "
                      "package's declarations should all be visible throughout that package (Sec 3.12 "

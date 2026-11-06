@@ -54,7 +54,7 @@
 //       bp_inv_cfg_p and all_cfgs_gp. All are local parameters: three are
 //       declared 'localparam', and in a package the keyword 'parameter' is a
 //       synonym for 'localparam' (6.20.4)
-//     - max_cfgs: ParamAssign RHS Constant "128"
+//     - max_cfgs: value Constant "128"
 //     - lg_max_cfgs: unreduced, the SysFuncCall "$clog2" (20.8.1) with
 //       exactly 1 argument, RefObj 'max_cfgs' bound to that Parameter. A
 //       parameter value is a constant expression (6.20.2), so on an
@@ -155,20 +155,8 @@ class PackageTypeTest : public Test {
     return hldb::findByName<hldb::Package>(kPkgName, m_design->getTopPackages());
   }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
-    const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
-  }
-
-  // The ParamAssign in 'pkg' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Package *pkg, std::string_view name) {
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Package *pkg, std::string_view name) {
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Typedef *getProcParamS() {
@@ -284,30 +272,32 @@ TEST_F(PackageTypeTest, PackageDeclaresExactlyFourParameters) {
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 4u);
   for (std::string_view name : {"max_cfgs", "lg_max_cfgs", "bp_inv_cfg_p", "all_cfgs_gp"}) {
-    EXPECT_NE(getParam(name), nullptr) << "parameter '" << name << "' not found";
+    EXPECT_NE(getParameter(pkg, name), nullptr) << "parameter '" << name << "' not found";
   }
 }
 
 TEST_F(PackageTypeTest, AllParametersAreLocalParams) {
+  const hldb::Package *const pkg = getPkg();
+  ASSERT_NE(pkg, nullptr);
   for (std::string_view name : {"max_cfgs", "lg_max_cfgs", "bp_inv_cfg_p", "all_cfgs_gp"}) {
-    const hldb::Parameter *const p = getParam(name);
+    const hldb::Parameter *const p = getParameter(pkg, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << name << "' is a local parameter of the package";
   }
 }
 
 TEST_F(PackageTypeTest, MaxCfgsIs128) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "max_cfgs");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'max_cfgs'";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getParameter(getPkg(), "max_cfgs");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'max_cfgs'";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'max_cfgs' is assigned a literal";
   EXPECT_EQ(rhs->getDecompile(), "128");
 }
 
 TEST_F(PackageTypeTest, LgMaxCfgsIsClog2OfMaxCfgs) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "lg_max_cfgs");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'lg_max_cfgs'";
-  const hldb::SysFuncCall *const clog2 = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::Parameter *const pa = getParameter(getPkg(), "lg_max_cfgs");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'lg_max_cfgs'";
+  const hldb::SysFuncCall *const clog2 = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(clog2, nullptr) << "unreduced, '$clog2(max_cfgs)' is a system function call";
   EXPECT_EQ(clog2->getName(), "$clog2");
   ASSERT_NE(clog2->getArguments(), nullptr);
@@ -315,25 +305,25 @@ TEST_F(PackageTypeTest, LgMaxCfgsIsClog2OfMaxCfgs) {
   const hldb::RefObj *const arg = clog2->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "max_cfgs");
-  ASSERT_NE(getParam("max_cfgs"), nullptr);
-  EXPECT_EQ(arg->getActual(), getParam("max_cfgs"));
+  ASSERT_NE(getParameter(getPkg(), "max_cfgs"), nullptr);
+  EXPECT_EQ(arg->getActual(), getParameter(getPkg(), "max_cfgs"));
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const elab = getParamAssign(getTopPkg(), "lg_max_cfgs");
-    ASSERT_NE(elab, nullptr) << "no ParamAssign for 'lg_max_cfgs' in the elaborated package";
-    ExpectIntConstant(elab->getRhs(), 7, "6.20.2, 20.8.1: $clog2(128) = 7");
+    const hldb::Parameter *const elab = getParameter(getTopPkg(), "lg_max_cfgs");
+    ASSERT_NE(elab, nullptr) << "no Parameter for 'lg_max_cfgs' in the elaborated package";
+    ExpectIntConstant(elab->getExpr(), 7, "6.20.2, 20.8.1: $clog2(128) = 7");
   }
 }
 
 TEST_F(PackageTypeTest, BpInvCfgPIsTypedByProcParamS) {
-  const hldb::Parameter *const p = getParam("bp_inv_cfg_p");
+  const hldb::Parameter *const p = getParameter(getPkg(), "bp_inv_cfg_p");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(isProcParamS(p->getTypespec())) << "6.18: 'bp_inv_cfg_p' is declared with the type bp_proc_param_s";
 }
 
 TEST_F(PackageTypeTest, BpInvCfgPIsDefaultPatternOfInv) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "bp_inv_cfg_p");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'bp_inv_cfg_p'";
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(getPkg(), "bp_inv_cfg_p");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'bp_inv_cfg_p'";
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, '{default: \"inv\"} is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: an assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -345,15 +335,15 @@ TEST_F(PackageTypeTest, BpInvCfgPIsDefaultPatternOfInv) {
   EXPECT_EQ(value->getDecompile(), "\"inv\"");
   EXPECT_EQ(value->getConstType(), vpiStringConst) << "5.9: \"inv\" is a string literal";
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const elab = getParamAssign(getTopPkg(), "bp_inv_cfg_p");
-    ASSERT_NE(elab, nullptr) << "no ParamAssign for 'bp_inv_cfg_p' in the elaborated package";
-    ExpectIntConstant(elab->getRhs(), 0x00696E7600696E76ULL,
+    const hldb::Parameter *const elab = getParameter(getTopPkg(), "bp_inv_cfg_p");
+    ASSERT_NE(elab, nullptr) << "no Parameter for 'bp_inv_cfg_p' in the elaborated package";
+    ExpectIntConstant(elab->getExpr(), 0x00696E7600696E76ULL,
                       "10.9.2, 5.9, 7.2.1: each integer member holds 32'h00696E76 (\"inv\"), num_core first");
   }
 }
 
 TEST_F(PackageTypeTest, AllCfgsGpIsPackedArrayOfProcParamS) {
-  const hldb::Parameter *const p = getParam("all_cfgs_gp");
+  const hldb::Parameter *const p = getParameter(getPkg(), "all_cfgs_gp");
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const at = p->getTypespec()->getActual<hldb::ArrayTypespec>();
@@ -369,7 +359,7 @@ TEST_F(PackageTypeTest, AllCfgsGpIsPackedArrayOfProcParamS) {
   const hldb::RefObj *const maxCfgs = any_cast<hldb::RefObj>(left->getOperands()->at(0));
   ASSERT_NE(maxCfgs, nullptr);
   EXPECT_EQ(maxCfgs->getName(), "max_cfgs");
-  EXPECT_EQ(maxCfgs->getActual(), getParam("max_cfgs"));
+  EXPECT_EQ(maxCfgs->getActual(), getParameter(getPkg(), "max_cfgs"));
   const hldb::Constant *const one = any_cast<hldb::Constant>(left->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");
@@ -380,9 +370,9 @@ TEST_F(PackageTypeTest, AllCfgsGpIsPackedArrayOfProcParamS) {
 }
 
 TEST_F(PackageTypeTest, AllCfgsGpIsConcatOfBpInvCfgP) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "all_cfgs_gp");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'all_cfgs_gp'";
-  const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(getPkg(), "all_cfgs_gp");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'all_cfgs_gp'";
+  const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
   ASSERT_NE(concat, nullptr) << "unreduced, '{ bp_inv_cfg_p }' is an Operation";
   EXPECT_EQ(concat->getOpType(), vpiConcatOp) << "11.4.12: a concatenation";
   ASSERT_NE(concat->getOperands(), nullptr);
@@ -390,8 +380,8 @@ TEST_F(PackageTypeTest, AllCfgsGpIsConcatOfBpInvCfgP) {
   const hldb::RefObj *const ref = any_cast<hldb::RefObj>(concat->getOperands()->at(0));
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "bp_inv_cfg_p");
-  ASSERT_NE(getParam("bp_inv_cfg_p"), nullptr);
-  EXPECT_EQ(ref->getActual(), getParam("bp_inv_cfg_p"));
+  ASSERT_NE(getParameter(getPkg(), "bp_inv_cfg_p"), nullptr);
+  EXPECT_EQ(ref->getActual(), getParameter(getPkg(), "bp_inv_cfg_p"));
 }
 
 // ---------------------------------------------------------------------------

@@ -396,7 +396,6 @@ TEST_F(IncludeDefineExpansionTest, NoDesignObjectsDeclared) {
     EXPECT_EQ(countFromFile(m_design->getConfigs(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getCheckerDecls(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getParameters(), fileName), 0u) << fileName;
-    EXPECT_EQ(countFromFile(m_design->getParamAssigns(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getVariables(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getTypedefs(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getIncludeStmts(), fileName), 0u) << fileName;

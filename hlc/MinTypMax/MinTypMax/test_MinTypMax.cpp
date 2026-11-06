@@ -72,19 +72,12 @@ class MinTypMaxTest : public Test {
 
   static const hldb::Parameter *getValueParam() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *top->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == "value") return param;
-    }
-    return nullptr;
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("value", top->getParameters());
   }
 
   static const hldb::Operation *getMinTypMax() {
-    const hldb::Module *const top = getTop();
-    if (top == nullptr) return nullptr;
-    const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("value", hldb::getParamAssigns(top));
-    return (pa == nullptr) ? nullptr : pa->getRhs<hldb::Operation>();
+    const hldb::Parameter *const pa = getValueParam();
+    return (pa == nullptr) ? nullptr : pa->getExpr<hldb::Operation>();
   }
 
   static const hldb::SysTaskCall *getDisplay() {
@@ -107,9 +100,9 @@ TEST_F(MinTypMaxTest, TopDeclaresParameterValue) {
 TEST_F(MinTypMaxTest, DefaultIsMinTypMaxOperation) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("value", hldb::getParamAssigns(top));
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'value' not found";
-  ASSERT_NE(pa->getRhs(), nullptr) << "'value' has a default value";
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("value", top->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'value' not found";
+  ASSERT_NE(pa->getExpr(), nullptr) << "'value' has a default value";
   const hldb::Operation *const op = getMinTypMax();
   ASSERT_NE(op, nullptr) << "'(1:2:3)' must be an Operation";
   EXPECT_EQ(op->getOpType(), vpiMinTypMaxOp) << "Sec 11.11: min:typ:max expression";

@@ -43,15 +43,15 @@
 //
 // Checked:
 //   - module "dut" exists and declares parameters a, b, c (non-localparam)
-//     with default ParamAssign RHS Constants "1", "2", "3"
+//     with default Parameter expr Constants "1", "2", "3"
 //   - module "top" exists and instantiates "dut" via RefInstance "dut"
-//   - the instance carries a by-name, overriding ParamAssign for "a" with
+//   - the instance's typespec carries a by-name ParamAssign for "a" with
 //     RHS Constant "4"
-//   - the instance carries a by-name, overriding ParamAssign for "c" with
+//   - the instance's typespec carries a by-name ParamAssign for "c" with
 //     RHS Constant "5"
-//   - the instance carries a by-name ParamAssign for "b" whose RHS is
-//     absent (no param_expression given) and which is not marked as
-//     overriding the default (Sec 23.10: omitted expression keeps default)
+//   - the instance's typespec carries a by-name ParamAssign for "b" whose
+//     RHS is absent (no param_expression given), so "b" keeps its default
+//     (Sec 23.10: omitted expression keeps default)
 //   - compiler reports zero errors
 
 #include <hlc/Common/Session.h>
@@ -82,6 +82,10 @@ class EmptyAssignTest : public Test {
   static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
+
+  static const hldb::Parameter *findParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
+  }
 
   template <typename ScopeT>
   static const hldb::ParamAssign *findParamAssign(const ScopeT *scope, std::string_view name) {
@@ -120,26 +124,26 @@ TEST_F(EmptyAssignTest, DutHasThreeNonLocalParameters) {
   }
 }
 
-TEST_F(EmptyAssignTest, DutDefaultParamAssignsAreOneTwoThree) {
+TEST_F(EmptyAssignTest, DutDefaultParametersAreOneTwoThree) {
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(dut, "a");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'a' not found";
-  const hldb::Constant *const rhsA = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = findParameter(dut, "a");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'a' not found";
+  const hldb::Constant *const rhsA = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhsA, nullptr) << "'parameter a = 1': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhsA->getDecompile()), "1");
+  EXPECT_EQ(std::string(rhsA->getDecompile()), std::string_view("1"));
 
-  const hldb::ParamAssign *const pb = findParamAssign(dut, "b");
-  ASSERT_NE(pb, nullptr) << "default ParamAssign for 'b' not found";
-  const hldb::Constant *const rhsB = pb->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pb = findParameter(dut, "b");
+  ASSERT_NE(pb, nullptr) << "default Parameter for 'b' not found";
+  const hldb::Constant *const rhsB = pb->getExpr<hldb::Constant>();
   ASSERT_NE(rhsB, nullptr) << "'parameter b = 2': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhsB->getDecompile()), "2");
+  EXPECT_EQ(std::string(rhsB->getDecompile()), std::string_view("2"));
 
-  const hldb::ParamAssign *const pc = findParamAssign(dut, "c");
-  ASSERT_NE(pc, nullptr) << "default ParamAssign for 'c' not found";
-  const hldb::Constant *const rhsC = pc->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pc = findParameter(dut, "c");
+  ASSERT_NE(pc, nullptr) << "default Parameter for 'c' not found";
+  const hldb::Constant *const rhsC = pc->getExpr<hldb::Constant>();
   ASSERT_NE(rhsC, nullptr) << "'parameter c = 3': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhsC->getDecompile()), "3");
+  EXPECT_EQ(std::string(rhsC->getDecompile()), std::string_view("3"));
 }
 
 // ---------------------------------------------------------------------------
@@ -155,7 +159,7 @@ TEST_F(EmptyAssignTest, TopInstantiatesDutAsDut) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "instance's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("dut"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("dut"));
 }
 
 TEST_F(EmptyAssignTest, InstanceOverridesAWithFour) {
@@ -168,7 +172,6 @@ TEST_F(EmptyAssignTest, InstanceOverridesAWithFour) {
   const hldb::ParamAssign *const pa = findParamAssign(rt->getActual(), "a");
   ASSERT_NE(pa, nullptr) << "'.a(4)' override not found on the 'dut' instance";
   EXPECT_TRUE(pa->getConnByName()) << "'.a(4)' is a by-name parameter connection (Sec 23.3)";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'.a(4)' RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "4");
@@ -184,7 +187,6 @@ TEST_F(EmptyAssignTest, InstanceOverridesCWithFive) {
   const hldb::ParamAssign *const pa = findParamAssign(rt->getActual(), "c");
   ASSERT_NE(pa, nullptr) << "'.c(5)' override not found on the 'dut' instance";
   EXPECT_TRUE(pa->getConnByName()) << "'.c(5)' is a by-name parameter connection (Sec 23.3)";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'.c(5)' RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "5");
@@ -202,9 +204,6 @@ TEST_F(EmptyAssignTest, InstanceEmptyBOverrideKeepsDefault) {
                             "'dut' instance -- Sec 23.10 still requires a named parameter assignment entry "
                             "to be recorded, even with no expression";
   EXPECT_TRUE(pa->getConnByName()) << "'.b()' is still a by-name parameter connection (Sec 23.3)";
-  EXPECT_FALSE(pa->getOverridden())
-      << "Sec 23.10: '.b()' omits the param_expression, so parameter 'b' keeps its default value of 2 and "
-         "must not be marked as an overriding assignment";
   EXPECT_EQ(pa->getRhs(), nullptr) << "'.b()' provides no param_expression, so its RHS must be absent";
 }
 

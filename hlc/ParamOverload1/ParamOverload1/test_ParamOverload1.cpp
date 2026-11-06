@@ -126,22 +126,9 @@ class ParamOverload1Test : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getP() {
+  static const hldb::Parameter *getParameter() {
     const hldb::Module *const dut = getModule("dut");
-    if (dut == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>("P", dut->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+    return (dut == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("P", dut->getParameters());
   }
 
   static const hldb::RefInstance *getInstance(std::string_view name) {
@@ -208,7 +195,7 @@ TEST_F(ParamOverload1Test, PIsOverridableArrayOfInt) {
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getParameters(), nullptr);
   EXPECT_EQ(dut->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getP();
+  const hldb::Parameter *const p = getParameter();
   ASSERT_NE(p, nullptr) << "parameter 'P' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: dut has no parameter port list, so 'P' is overridable";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -221,7 +208,7 @@ TEST_F(ParamOverload1Test, PIsOverridableArrayOfInt) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (unpacked
 // [size] dimension malformed) in the file header.
 TEST_F(ParamOverload1Test, PIsArrayOfIntIndexedZeroToFour) {
-  const hldb::Parameter *const p = getP();
+  const hldb::Parameter *const p = getParameter();
   ASSERT_NE(p, nullptr);
   const hldb::Range *range = nullptr;
   if (p->getTypespec() != nullptr) {
@@ -244,9 +231,9 @@ TEST_F(ParamOverload1Test, PIsArrayOfIntIndexedZeroToFour) {
 }
 
 TEST_F(ParamOverload1Test, PDefaultsToOneThroughFive) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("dut"), "P");
+  const hldb::Parameter *const pa = getParameter();
   ASSERT_NE(pa, nullptr);
-  ExpectPositionalPattern(pa->getRhs(), {"1", "2", "3", "4", "5"});
+  ExpectPositionalPattern(pa->getExpr(), {"1", "2", "3", "4", "5"});
 }
 
 TEST_F(ParamOverload1Test, XIsAssignedElementTwoOfP) {
@@ -266,8 +253,8 @@ TEST_F(ParamOverload1Test, XIsAssignedElementTwoOfP) {
   const hldb::RefObj *const base = sel->getPrefix<hldb::RefObj>();
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "P");
-  ASSERT_NE(getP(), nullptr);
-  EXPECT_EQ(base->getActual(), getP()) << "'P' is dut's own parameter";
+  ASSERT_NE(getParameter(), nullptr);
+  EXPECT_EQ(base->getActual(), getParameter()) << "'P' is dut's own parameter";
   const hldb::Constant *const index = sel->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getDecompile(), "2");

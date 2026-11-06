@@ -146,15 +146,11 @@ TEST_F(FuncReturnRangeTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 TEST_F(FuncReturnRangeTest, WidthAIsFive) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("WIDTH_A", top->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const pr = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(pr, nullptr);
-  const hldb::Parameter *const widthA = pr->getActual<hldb::Parameter>();
+  ASSERT_NE(top->getParameters(), nullptr);
+  const hldb::Parameter *const widthA = hldb::findByName<hldb::Parameter>("WIDTH_A", top->getParameters());
   ASSERT_NE(widthA, nullptr);
   EXPECT_TRUE(widthA->getLocalParam());
-  const hldb::Constant *const val = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const val = widthA->getExpr<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getDecompile(), "5");
 }

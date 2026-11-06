@@ -469,7 +469,6 @@ TEST_F(IfaceClassTest9Test, NoOtherCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "the tasks are methods of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 1u) << "arg_type is the only typedef";
 }

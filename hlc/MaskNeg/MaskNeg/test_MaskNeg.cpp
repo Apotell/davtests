@@ -37,11 +37,11 @@
 //     "RESVAL" whose explicit data type is "logic [1:0]" (a LogicTypespec
 //     with one packed range [1:0])
 //   - Sec 6.20.1: the declaration in "dut" omits the default value, so the
-//     RESVAL ParamAssign (if one is modeled) carries no RHS
+//     Parameter RESVAL has no value (Parameter::getExpr() is null)
 //   - Sec 23.3.2/23.10.2.2: "top" contains the instance "u_dut" of module
 //     "dut"; the instance typespec resolves to a ModuleTypespec for "dut"
 //   - Sec 23.10.2.2 (parameter value assignment by name): the override is a
-//     single ParamAssign, connected by name and marked overridden, whose LHS
+//     single ParamAssign on the instance's typespec, connected by name, whose LHS
 //     binds to dut's Parameter "RESVAL"
 //   - Sec 11.4.8 (bitwise operators, unary ~) / Sec 5.7.1 (integer literal
 //     constants): the override RHS is Operation(vpiBitNegOp) with exactly
@@ -96,12 +96,7 @@ class MaskNegTest : public Test {
 
   static const hldb::Parameter *getResval() {
     const hldb::Module *const dut = getModule("dut");
-    if (dut == nullptr || dut->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *dut->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == "RESVAL") return param;
-    }
-    return nullptr;
+    return (dut == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("RESVAL", dut->getParameters());
   }
 
   static const hldb::RefInstance *getUDut() {
@@ -163,11 +158,9 @@ TEST_F(MaskNegTest, ResvalTypeIsLogicOneDownToZero) {
 TEST_F(MaskNegTest, ResvalDeclarationHasNoDefaultValue) {
   const hldb::Module *const dut = getModule("dut");
   ASSERT_NE(dut, nullptr);
-  ASSERT_NE(getResval(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("RESVAL", hldb::getParamAssigns(dut));
-  if (pa != nullptr) {
-    EXPECT_EQ(pa->getRhs(), nullptr) << "Sec 6.20.1: 'parameter logic [1:0] RESVAL;' specifies no default value";
-  }
+  const hldb::Parameter *const pa = getResval();
+  ASSERT_NE(pa, nullptr);
+  EXPECT_EQ(pa->getExpr(), nullptr) << "Sec 6.20.1: 'parameter logic [1:0] RESVAL;' specifies no default value";
 }
 
 // ---------------------------------------------------------------------------
@@ -196,7 +189,6 @@ TEST_F(MaskNegTest, OverrideIsNamedAndBindsToResval) {
   const hldb::ParamAssign *const pa = getOverride();
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName()) << "'.RESVAL(...)' is a named parameter assignment";
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);

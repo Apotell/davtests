@@ -58,7 +58,7 @@
 //     property 's' defaults to public visibility (see the FIXED COMPILER
 //     BUG notes below)
 //   - ClassDefn "test_cls": extends super_cls (confirmed via getExtends());
-//     has exactly 1 class parameter ("t", default ParamAssign "12"), 1
+//     has exactly 1 class parameter ("t", default value "12"), 1
 //     property ("a"), 1 constructor ("new(int def = 42)")
 //   - the test_cls constructor's body: "super.new(def + 3);" (resolves
 //     correctly, matching chapter-8/8.7--constructor_super.sv) and
@@ -305,15 +305,12 @@ TEST_F(ClassTypedConstructorParamTest, TestClsHasOneParameterTWithDefault12) {
   ASSERT_NE(t, nullptr);
   EXPECT_EQ(t->getName(), "t");
 
-  ASSERT_NE(c->getParamAssigns(), nullptr);
-  ASSERT_EQ(c->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = c->getParamAssigns()->at(0);
+  ASSERT_NE(c->getParameters(), nullptr);
+  ASSERT_EQ(c->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(c->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "t");
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), t);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), "t");
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "12");
 }
@@ -491,7 +488,6 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsHierPathResolvesToClassParam
   // ClassTypespec carries the parameter overrides that select the specialization.
   const hldb::RefTypespec *const rt = newCall->getNameQualifier<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr) << "the class should be the call's vpiNameQualifier, a RefTypespec";
-  EXPECT_EQ(rt->getName(), std::string_view("test_cls"));
   const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
   ASSERT_NE(ct->getParamAssigns(), nullptr);

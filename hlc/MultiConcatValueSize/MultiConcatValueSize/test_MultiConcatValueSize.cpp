@@ -157,10 +157,6 @@ class MultiConcatValueSizeTest : public Test {
     return nullptr;
   }
 
-  static const hldb::ParamAssign *findParamAssign(const hldb::Scope *s, std::string_view name) {
-    return (s == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, s->getParamAssigns());
-  }
-
   static const hldb::Enum *getPadEnum() {
     const hldb::Package *const p = getPkg("prim_pad_wrapper_pkg");
     if (p == nullptr) return nullptr;
@@ -196,9 +192,9 @@ class MultiConcatValueSizeTest : public Test {
 
   // Checks "'{ dio_pad_type: {N{X}} }" where N must bind to NDioPads and X to
   // the enum constant 'item'.
-  static void checkPattern(const hldb::ParamAssign *pa, std::string_view item) {
+  static void checkPattern(const hldb::Parameter *pa, std::string_view item) {
     ASSERT_NE(pa, nullptr);
-    const hldb::Operation *const pat = any_cast<hldb::Operation>(pa->getRhs());
+    const hldb::Operation *const pat = pa->getExpr<hldb::Operation>();
     ASSERT_NE(pat, nullptr) << "RHS is an assignment pattern";
     EXPECT_EQ(pat->getOpType(), vpiAssignmentPatternOp);
     ASSERT_NE(pat->getOperands(), nullptr);
@@ -301,9 +297,9 @@ TEST_F(MultiConcatValueSizeTest, NDioPadsIsLocalIntParamEqualTo1) {
   ASSERT_NE(n->getTypespec(), nullptr);
   ASSERT_NE(n->getTypespec()->getActual(), nullptr);
   EXPECT_EQ(n->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec);
-  const hldb::ParamAssign *const pa = findParamAssign(getPkg("pinmux_pkg"), "NDioPads");
+  const hldb::Parameter *const pa = findParam(getPkg("pinmux_pkg"), "NDioPads");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const v = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Constant *const v = pa->getExpr<hldb::Constant>();
   ASSERT_NE(v, nullptr);
   EXPECT_EQ(v->getDecompile(), "1");
 }
@@ -358,11 +354,11 @@ TEST_F(MultiConcatValueSizeTest, TargetCfgIsPackedStructOfPackedEnumArray) {
 // ===========================================================================
 
 TEST_F(MultiConcatValueSizeTest, DefaultTargetCfgIsPatternWithReplicationOfA) {
-  checkPattern(findParamAssign(getPkg("pinmux_pkg"), "DefaultTargetCfg"), "A");
+  checkPattern(findParam(getPkg("pinmux_pkg"), "DefaultTargetCfg"), "A");
 }
 
 TEST_F(MultiConcatValueSizeTest, PinmuxTargetCfgIsPatternWithReplicationOfB) {
-  checkPattern(findParamAssign(getMod("top"), "PinmuxTargetCfg"), "B");
+  checkPattern(findParam(getMod("top"), "PinmuxTargetCfg"), "B");
 }
 
 TEST_F(MultiConcatValueSizeTest, PinmuxTargetCfgIsLocalParamOfPkgScopedType) {
@@ -400,9 +396,9 @@ TEST_F(MultiConcatValueSizeTest, PadTypeParameterDefaultsToA) {
   const hldb::TypedefTypespec *const tts = any_cast<hldb::TypedefTypespec>(p->getTypespec()->getActual());
   ASSERT_NE(tts, nullptr);
   EXPECT_EQ(tts->getName(), "pad_type_e");
-  const hldb::ParamAssign *const pa = findParamAssign(m, "PadType");
+  const hldb::Parameter *const pa = findParam(m, "PadType");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const rhs = any_cast<hldb::RefObj>(pa->getRhs());
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), getEnumConst("A")) << "26.3: 'A' visible through the wildcard import";
@@ -449,9 +445,9 @@ TEST_F(MultiConcatValueSizeTest, SubTopTargetCfgDefaultsToPackageParam) {
   const hldb::Parameter *const p = findParam(m, "TargetCfg");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam());
-  const hldb::ParamAssign *const pa = findParamAssign(m, "TargetCfg");
+  const hldb::Parameter *const pa = findParam(m, "TargetCfg");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const rhs = any_cast<hldb::RefObj>(pa->getRhs());
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), findParam(getPkg("pinmux_pkg"), "DefaultTargetCfg"));

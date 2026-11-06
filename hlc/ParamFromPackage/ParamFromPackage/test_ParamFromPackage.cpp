@@ -122,21 +122,8 @@ class ParamFromPackageTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::RefInstance *getInstance() {
@@ -215,9 +202,9 @@ class ParamFromPackageTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -234,16 +221,16 @@ TEST_F(ParamFromPackageTest, AesPkgDeclaresLocalPackedX) {
   ASSERT_NE(pkg, nullptr) << "package 'aes_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const x = getParam(pkg, "X");
+  const hldb::Parameter *const x = getParameter(pkg, "X");
   ASSERT_NE(x, nullptr) << "parameter 'X' not found";
   EXPECT_TRUE(x->getLocalParam()) << "6.20.1: a param_assignment in a package becomes a localparam";
   ExpectLogic(x->getTypespec(), {{"7", "0"}, {"3", "0"}}, "X");
 }
 
 TEST_F(ParamFromPackageTest, XHoldsAbcdLiteral) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "X");
+  const hldb::Parameter *const pa = getParameter(getPkg(), "X");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "32'habcd");
 }
@@ -272,30 +259,30 @@ TEST_F(ParamFromPackageTest, CipherCoreDeclaresOverridablePAndZ) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 2u);
-  const hldb::Parameter *const p = getParam(m, "P");
+  const hldb::Parameter *const p = getParameter(m, "P");
   ASSERT_NE(p, nullptr) << "parameter 'P' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.4: 'P' is a parameter port, not a localparam";
   ExpectLogic(p->getTypespec(), {{"7", "0"}, {"3", "0"}}, "P");
-  const hldb::Parameter *const z = getParam(m, "Z");
+  const hldb::Parameter *const z = getParameter(m, "Z");
   ASSERT_NE(z, nullptr) << "parameter 'Z' not found";
   EXPECT_FALSE(z->getLocalParam()) << "6.20.4: 'Z' is a parameter port, not a localparam";
   ExpectLogic(z->getTypespec(), {}, "Z");
 }
 
 TEST_F(ParamFromPackageTest, PDefaultsToImportedX) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("aes_cipher_core"), "P");
+  const hldb::Parameter *const pa = getParameter(getModule("aes_cipher_core"), "P");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const x = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const x = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(x, nullptr) << "unreduced, the default of 'P' is the name 'X'";
   EXPECT_EQ(x->getName(), "X");
-  ASSERT_NE(getParam(getPkg(), "X"), nullptr);
-  EXPECT_EQ(x->getActual(), getParam(getPkg(), "X")) << "26.3, 26.4: 'X' is imported from aes_pkg";
+  ASSERT_NE(getParameter(getPkg(), "X"), nullptr);
+  EXPECT_EQ(x->getActual(), getParameter(getPkg(), "X")) << "26.3, 26.4: 'X' is imported from aes_pkg";
 }
 
 TEST_F(ParamFromPackageTest, ZDefaultsToZero) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("aes_cipher_core"), "Z");
+  const hldb::Parameter *const pa = getParameter(getModule("aes_cipher_core"), "Z");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "0");
 }

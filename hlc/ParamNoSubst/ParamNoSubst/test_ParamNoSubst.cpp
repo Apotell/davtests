@@ -152,21 +152,8 @@ class ParamNoSubstTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getCtrlRegT() {
@@ -216,7 +203,7 @@ class ParamNoSubstTest : public Test {
     ASSERT_NE(m, nullptr) << "module '" << name << "' not found";
     ASSERT_NE(m->getParameters(), nullptr);
     ASSERT_EQ(m->getParameters()->size(), 1u) << name;
-    const hldb::Parameter *const p = getParam(m, "RESVAL");
+    const hldb::Parameter *const p = getParameter(m, "RESVAL");
     ASSERT_NE(p, nullptr) << name;
     EXPECT_FALSE(p->getLocalParam()) << "6.20.4: " << name << "'s RESVAL is a parameter port";
     ASSERT_NE(p->getTypespec(), nullptr);
@@ -228,10 +215,8 @@ class ParamNoSubstTest : public Test {
     EXPECT_EQ(lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "31");
     ASSERT_NE(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>(), nullptr);
     EXPECT_EQ(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
-    const hldb::ParamAssign *const pa = getParamAssign(m, "RESVAL");
-    ASSERT_NE(pa, nullptr);
-    ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-    EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "'0") << "5.7.1: the unbased unsized literal '0";
+    ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "'0") << "5.7.1: the unbased unsized literal '0";
   }
 
   // Integer value of a Constant, from its decompiled text or from a sized or
@@ -272,9 +257,9 @@ class ParamNoSubstTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -312,13 +297,11 @@ TEST_F(ParamNoSubstTest, CtrlResetIsLocalPatternOfZero) {
   ASSERT_NE(pkg, nullptr) << "package 'aes_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(pkg, "CTRL_RESET");
+  const hldb::Parameter *const p = getParameter(pkg, "CTRL_RESET");
   ASSERT_NE(p, nullptr) << "parameter 'CTRL_RESET' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.1: a param_assignment in a package becomes a localparam";
   EXPECT_TRUE(namesCtrlRegT(p->getTypespec())) << "'CTRL_RESET' is declared 'ctrl_reg_t'";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "CTRL_RESET");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an assignment pattern";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -367,8 +350,8 @@ TEST_F(ParamNoSubstTest, ShadowPassesItsOwnResvalToCommittedReg) {
       any_cast<hldb::RefObj>(getResvalOverride("prim_subreg_shadow", "committed_reg", "prim_subreg"));
   ASSERT_NE(resval, nullptr) << "committed_reg instantiates prim_subreg with '.RESVAL(RESVAL)'";
   EXPECT_EQ(resval->getName(), "RESVAL");
-  ASSERT_NE(getParam(getModule("prim_subreg_shadow"), "RESVAL"), nullptr);
-  EXPECT_EQ(resval->getActual(), getParam(getModule("prim_subreg_shadow"), "RESVAL"))
+  ASSERT_NE(getParameter(getModule("prim_subreg_shadow"), "RESVAL"), nullptr);
+  EXPECT_EQ(resval->getActual(), getParameter(getModule("prim_subreg_shadow"), "RESVAL"))
       << "23.9: the override is written in prim_subreg_shadow's scope, so 'RESVAL' is its own parameter";
 }
 
@@ -411,8 +394,8 @@ TEST_F(ParamNoSubstTest, AesCorePassesImportedCtrlReset) {
       any_cast<hldb::RefObj>(getResvalOverride("aes_core", "ctrl_shadowed_reg", "prim_subreg_shadow"));
   ASSERT_NE(reset, nullptr) << "ctrl_shadowed_reg instantiates prim_subreg_shadow with '.RESVAL(CTRL_RESET)'";
   EXPECT_EQ(reset->getName(), "CTRL_RESET");
-  ASSERT_NE(getParam(getPkg(), "CTRL_RESET"), nullptr);
-  EXPECT_EQ(reset->getActual(), getParam(getPkg(), "CTRL_RESET")) << "26.3: 'CTRL_RESET' is imported from aes_pkg";
+  ASSERT_NE(getParameter(getPkg(), "CTRL_RESET"), nullptr);
+  EXPECT_EQ(reset->getActual(), getParameter(getPkg(), "CTRL_RESET")) << "26.3: 'CTRL_RESET' is imported from aes_pkg";
 }
 
 // ---------------------------------------------------------------------------

@@ -35,12 +35,11 @@
 //   Neither 'endpackage' has a ': label' (the trailing '// name' is only a
 //   comment), so both getEndLabel() are empty.
 //   Package spi_device_reg_pkg
-//     - exactly 1 parameter 'NumCmdInfo' and exactly 1 ParamAssign
+//     - exactly 1 parameter 'NumCmdInfo'
 //     - 6.20.4: inside a package the keyword 'parameter' is a synonym for
 //       'localparam', so getLocalParam() is true
 //     - type 'int unsigned' -> IntTypespec, unsigned (6.11)
-//     - the ParamAssign binds its LHS to the Parameter and its RHS is
-//       Constant "24"
+//     - its value (Parameter::getExpr()) is Constant "24"
 //   Package spi_device_pkg
 //     - declares no parameters of its own
 //     - owns exactly 1 TypedefTypespec, 'cmd_info_index_e', whose alias is
@@ -232,18 +231,16 @@ TEST_F(PackageConstTest, NumCmdInfoIsUnsignedInt) {
   EXPECT_FALSE(ts->getSigned()) << "'int unsigned' overrides int's default signedness";
 }
 
-TEST_F(PackageConstTest, NumCmdInfoParamAssignIsTwentyFour) {
+TEST_F(PackageConstTest, NumCmdInfoParameterIsTwentyFour) {
   const hldb::Package *const pkg = getRegPkg();
   ASSERT_NE(pkg, nullptr);
-  ASSERT_NE(pkg->getParamAssigns(), nullptr);
-  ASSERT_EQ(pkg->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = pkg->getParamAssigns()->at(0);
+  ASSERT_NE(pkg->getParameters(), nullptr);
+  ASSERT_EQ(pkg->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(pkg->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "NumCmdInfo");
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getNumCmdInfo());
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), "NumCmdInfo");
+  EXPECT_EQ(pa, getNumCmdInfo());
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "24");
 }

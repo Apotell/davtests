@@ -124,10 +124,6 @@ class LogicArrayParamTest : public Test {
     return nullptr;
   }
 
-  static const hldb::ParamAssign *findParamAssign(const hldb::Scope *s, std::string_view name) {
-    return (s == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, s->getParamAssigns());
-  }
-
   static const hldb::GenFor *getGenFor() {
     const hldb::Module *const m = getModule("alert_handler");
     if (m == nullptr || m->getGenStmts() == nullptr) return nullptr;
@@ -200,9 +196,7 @@ TEST_F(LogicArrayParamTest, RegPkgNAlertsIsSignedIntEqual20) {
   ASSERT_NE(n->getTypespec()->getActual(), nullptr);
   ASSERT_EQ(n->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec);
   EXPECT_TRUE(n->getTypespec()->getActual<hldb::IntTypespec>()->getSigned()) << "'int' is signed (Sec 6.11.3)";
-  const hldb::ParamAssign *const pa = findParamAssign(pkg, "NAlerts");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = n->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), std::string_view("20"));
 }
@@ -223,9 +217,9 @@ TEST_F(LogicArrayParamTest, RegPkgAsyncOnIsLogicNAlertsMinus1To0) {
 }
 
 TEST_F(LogicArrayParamTest, RegPkgAsyncOnDefaultIs20BitBinaryLiteral) {
-  const hldb::ParamAssign *const pa = findParamAssign(getPkg("alert_handler_reg_pkg"), "AsyncOn");
+  const hldb::Parameter *const pa = findParam(getPkg("alert_handler_reg_pkg"), "AsyncOn");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiBinaryConst);
   EXPECT_EQ(c->getSize(), 20);
@@ -246,9 +240,9 @@ TEST_F(LogicArrayParamTest, AlertPkgNAlertsIsUnsignedIntFromRegPkg) {
   ASSERT_NE(n->getTypespec()->getActual(), nullptr);
   ASSERT_EQ(n->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec);
   EXPECT_FALSE(n->getTypespec()->getActual<hldb::IntTypespec>()->getSigned()) << "'int unsigned' (Sec 6.11.3)";
-  const hldb::ParamAssign *const pa = findParamAssign(pkg, "NAlerts");
+  const hldb::Parameter *const pa = findParam(pkg, "NAlerts");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), findParam(getPkg("alert_handler_reg_pkg"), "NAlerts"))
@@ -272,9 +266,9 @@ TEST_F(LogicArrayParamTest, AlertPkgAsyncOnIsBitNAlertsMinus1To0) {
 }
 
 TEST_F(LogicArrayParamTest, AlertPkgAsyncOnValueReferencesRegPkg) {
-  const hldb::ParamAssign *const pa = findParamAssign(getPkg("alert_pkg"), "AsyncOn");
+  const hldb::Parameter *const pa = findParam(getPkg("alert_pkg"), "AsyncOn");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), findParam(getPkg("alert_handler_reg_pkg"), "AsyncOn"))
@@ -338,9 +332,9 @@ TEST_F(LogicArrayParamTest, DebugIsLocalparamFromImportedAsyncOnBitSelect) {
   const hldb::Parameter *const debug = findParam(b, "debug");
   ASSERT_NE(debug, nullptr) << "'localparam debug' not found in gen_alerts";
   EXPECT_TRUE(debug->getLocalParam());
-  const hldb::ParamAssign *const pa = findParamAssign(b, "debug");
+  const hldb::Parameter *const pa = findParam(b, "debug");
   ASSERT_NE(pa, nullptr);
-  const hldb::BitSelect *const sel = pa->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const sel = pa->getExpr<hldb::BitSelect>();
   ASSERT_NE(sel, nullptr) << "'AsyncOn[k]' should be a BitSelect";
   const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);

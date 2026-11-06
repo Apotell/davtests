@@ -33,8 +33,8 @@
 //   - design has module top with exactly 2 variables: "arr_a", "arr_b"
 //   - both variables: RefTypespec -> BitTypespec, 1 range [7:0], vector=true
 //   - module has exactly 1 Parameter "c" (RefTypespec -> IntegerTypespec,
-//     signed) with 1 ParamAssign: lhs RefObj "c" resolving the Parameter,
-//     rhs Constant "0" (zero-width part-select size)
+//     signed) whose value (Parameter::getExpr()) is Constant "0"
+//     (zero-width part-select size)
 //   - Initial process: 1 Begin with 5 stmts, same shape as variable-slice.sv:
 //     Stmt[3] is arr_b[4+:c] = arr_a[1+:c] -- IndexedPartSelect lhs/rhs with
 //     widthExpr RefObj "c" resolving to a Parameter whose value is 0
@@ -138,12 +138,12 @@ TEST_F(PackedVariableSliceZeroTest, ModuleHasOneParameterNamedCEqualsZero) {
   EXPECT_EQ(c->getName(), "c");
   EXPECT_NE(c->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntegerTypespec>(), nullptr);
 
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = top->getParamAssigns()->at(0);
+  ASSERT_NE(top->getParameters(), nullptr);
+  ASSERT_EQ(top->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(top->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  EXPECT_EQ(pa->getLhs<hldb::RefObj>()->getName(), "c");
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), "c");
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "0");
 }

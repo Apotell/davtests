@@ -95,15 +95,9 @@ class HierPathUnpackedInPackedTest : public Test {
 
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *top->getParamAssigns()) {
-      if (const hldb::Any *const lhs = pa->getLhs()) {
-        if (lhs->getName() == name) return pa;
-      }
-    }
-    return nullptr;
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
   }
 };
 
@@ -119,10 +113,10 @@ TEST_F(HierPathUnpackedInPackedTest, IllegalUnpackedMemberInPackedStructIsReport
 // Unaffected by foo_t's error: the legal hw_key_req_t.key[0] hierarchical
 // path into a packed 2D-dimensioned struct member.
 TEST_F(HierPathUnpackedInPackedTest, ParamP1ValueIsBitsOfKeymgrKeyIDotKeyZero) {
-  const hldb::ParamAssign *const pa = getParamAssign("p1");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p1' not found";
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::Parameter *const pa = getParameter("p1");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p1' not found";
+  ASSERT_NE(pa->getExpr(), nullptr);
+  const hldb::SysFuncCall *const bits = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr);
   EXPECT_EQ(bits->getName(), std::string_view("$bits"));
   ASSERT_NE(bits->getArguments(), nullptr);

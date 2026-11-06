@@ -42,7 +42,7 @@
 //   - the module has exactly 1 nested ClassDefn: "test_cls"
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     parameter ("a", not a localparam) whose class-level default
-//     ParamAssign rhs is Constant "12", defaults to automatic lifetime (see
+//     (Parameter::getExpr()) is Constant "12", defaults to automatic lifetime (see
 //     the FIXED COMPILER BUG #1 note below)
 //   - variable "test_obj": its typespec resolves (RefTypespec ->
 //     ClassTypespec) to the SAME ClassDefn as "test_cls"
@@ -72,8 +72,8 @@
 // binds this handle's "a" to 34, distinct from the class's own default of
 // 12 (confirmed by the source's own ":assert:(%d == 34)" expectation). HLC
 // previously left the ClassTypespec reached through test_obj's typespec with
-// getParamAssigns() == nullptr -- not even the class's default ParamAssign
-// was attached there, let alone one overriding "a" to 34; the "#(34)"
+// getParamAssigns() == nullptr -- no ParamAssign overriding "a" to 34 was
+// attached there (a typespec carries only the overrides written); the "#(34)"
 // override parsed and elaborated without any compiler error, but was not
 // tracked anywhere reachable from test_obj's HLDB typespec.
 // VariableTestObjTypespecParamAssignsReflectOverride below asserts the
@@ -199,18 +199,14 @@ TEST_F(ClassParametersTest, ClassHasOneParameterA) {
 TEST_F(ClassParametersTest, ClassParameterADefaultAssignIsTwelve) {
   const hldb::ClassDefn *const c = getTestClsDefn();
   ASSERT_NE(c, nullptr);
-  ASSERT_NE(c->getParamAssigns(), nullptr);
-  ASSERT_EQ(c->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = c->getParamAssigns()->at(0);
+  ASSERT_NE(c->getParameters(), nullptr);
+  ASSERT_EQ(c->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(c->getParameters()->at(0));
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "a");
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  EXPECT_EQ(pa->getName(), "a");
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "8.25: the class-level default for 'a' should be Constant '12'";
   EXPECT_EQ(rhs->getDecompile(), "12");
-  EXPECT_FALSE(pa->getOverridden()) << "8.25: the class's OWN default assign for 'a' does not override anything";
-  EXPECT_FALSE(pa->getConnByName()) << "'parameter a = 12' is a plain default value, not a by-name connection";
 }
 
 // --- variable "test_obj": the parameterized-class handle ----------------------
@@ -245,7 +241,6 @@ TEST_F(ClassParametersTest, VariableTestObjTypespecParamAssignsReflectOverride) 
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "34") << "8.25: test_obj's specialization must override 'a' to 34, not "
                                           "reuse the class's default of 12";
-  EXPECT_TRUE(pa->getOverridden()) << "8.25: 'test_cls #(34)' overrides the class's own default ParamAssign for 'a'";
   EXPECT_FALSE(pa->getConnByName()) << "'#(34)' is a positional (ordered) parameter value assignment, not by-name";
 }
 

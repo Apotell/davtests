@@ -108,7 +108,7 @@ class ArianeElabTest : public Test {
 
   // Find a Parameter (localparam or parameter) declared directly on `scope`.
   template <typename ScopeT>
-  static const hldb::Parameter *findParam(const ScopeT *scope, std::string_view name) {
+  static const hldb::Parameter *findParameter(const ScopeT *scope, std::string_view name) {
     return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
@@ -179,13 +179,11 @@ TEST_F(ArianeElabTest, PrivLvlEnumHasThreeConsts) {
 TEST_F(ArianeElabTest, LocalparamXlenIsSixtyFour) {
   const hldb::Package *const riscv = getRiscvPkg();
   ASSERT_NE(riscv, nullptr);
-  const hldb::Parameter *const xlen = findParam(riscv, "XLEN");
+  const hldb::Parameter *const xlen = findParameter(riscv, "XLEN");
   ASSERT_NE(xlen, nullptr) << "riscv::XLEN not found among package parameters";
   EXPECT_TRUE(xlen->getLocalParam()) << "'localparam XLEN = 64' must be a localparam, not a parameter";
 
-  const hldb::ParamAssign *const pa = findParamAssign(riscv, "XLEN");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign found for riscv::XLEN";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = xlen->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "IEEE 1800-2023 11.2.1: 'XLEN = 64' is a constant expression and must "
                               "elaborate to a Constant";
   EXPECT_EQ(rhs->getDecompile(), std::string_view("64"));
@@ -202,19 +200,17 @@ TEST_F(ArianeElabTest, LocalparamXlenIsSixtyFour) {
 TEST_F(ArianeElabTest, LocalparamFpPresentIsOne) {
   const hldb::Package *const arianePkg = getArianePkg();
   ASSERT_NE(arianePkg, nullptr);
-  const hldb::Parameter *const fpPresent = findParam(arianePkg, "FP_PRESENT");
+  const hldb::Parameter *const fpPresent = findParameter(arianePkg, "FP_PRESENT");
   ASSERT_NE(fpPresent, nullptr) << "ariane_pkg::FP_PRESENT not found among package parameters";
   EXPECT_TRUE(fpPresent->getLocalParam());
 
-  const hldb::ParamAssign *const pa = findParamAssign(arianePkg, "FP_PRESENT");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign found for ariane_pkg::FP_PRESENT";
   if (m_design->getElaborated()) {
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const rhs = fpPresent->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "IEEE 1800-2023 11.2.1: 'FP_PRESENT = RVF | RVD | ...' is a constant "
                                 "expression over other localparams and must elaborate to a Constant";
     EXPECT_EQ(rhs->getValue(), std::string_view("1"));
   } else {
-    const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
+    const hldb::Operation *const op = fpPresent->getExpr<hldb::Operation>();
     ASSERT_NE(op, nullptr);
     EXPECT_EQ(op->getOpType(), vpiBitOrOp);
     ASSERT_NE(op->getOperands(), nullptr);
@@ -262,7 +258,7 @@ TEST_F(ArianeElabTest, TopModuleInstantiatesAriane) {
   ASSERT_NE(iAriane->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = iAriane->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "i_ariane's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("ariane"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("ariane"));
 }
 
 TEST_F(ArianeElabTest, TopModuleArianeCfgOverrideParses) {
@@ -271,7 +267,6 @@ TEST_F(ArianeElabTest, TopModuleArianeCfgOverrideParses) {
   // (IEEE 1800-2023 23.3 named-parameter-value-assignment) -- see the
   // file-level comment for why the unresolved 'ariane_soc' package
   // reference itself is not asserted on here.
-  GTEST_SKIP() << "Overriden ParamAssigns are not being retained yet. Part of static elaboration.";
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::RefInstance *const iAriane = findRefInst("i_ariane", top);
@@ -280,10 +275,9 @@ TEST_F(ArianeElabTest, TopModuleArianeCfgOverrideParses) {
   ASSERT_NE(iRefTypespec, nullptr);
   const hldb::Typespec *const iTypespec = iRefTypespec->getActual();
   ASSERT_NE(iTypespec, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(iAriane, "ArianeCfg");
+  const hldb::ParamAssign *const pa = findParamAssign(iTypespec, "ArianeCfg");
   ASSERT_NE(pa, nullptr) << "'.ArianeCfg(ariane_soc::ArianeSocCfg)' override not found on i_ariane";
   EXPECT_TRUE(pa->getConnByName()) << "'.ArianeCfg(...)' is a by-name parameter connection";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
 }
 
 TEST_F(ArianeElabTest, ArianeModuleInstantiatesExStage) {
@@ -294,7 +288,7 @@ TEST_F(ArianeElabTest, ArianeModuleInstantiatesExStage) {
   ASSERT_NE(exStageI->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = exStageI->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "ex_stage_i's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("ex_stage"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("ex_stage"));
 }
 
 TEST_F(ArianeElabTest, ExStageGenerateIfInstantiatesFpuWrapWhenFpPresent) {

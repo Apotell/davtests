@@ -108,9 +108,9 @@ TEST_F(LargeHexStringTest, BottomInitIsNonLocalParameter) {
 TEST_F(LargeHexStringTest, BottomInitDefaultIs36864BitHexLiteral) {
   const hldb::Module *const bottom = getModule("bottom");
   ASSERT_NE(bottom, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("INIT_i", bottom->getParamAssigns());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("INIT_i", bottom->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), vpiHexConst);
   EXPECT_EQ(c->getSize(), 36864) << "5.7.1: the size constant gives the exact width";
@@ -135,7 +135,6 @@ TEST_F(LargeHexStringTest, TopOverridesInitByName) {
   const hldb::ParamAssign *const pa = getOverride();
   ASSERT_NE(pa, nullptr) << "23.10.2.2: #(.INIT_i(...)) parameter value assignment";
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   ASSERT_NE(pa->getLhs(), nullptr);
   EXPECT_EQ(pa->getLhs()->getName(), "INIT_i");
 }

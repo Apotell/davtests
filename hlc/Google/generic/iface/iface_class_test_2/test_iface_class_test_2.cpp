@@ -105,8 +105,8 @@
 //   - Where HLDB stores the parameters and their defaults: this suite's
 //     established convention (see chapter-6 6.20.3--parameter_type) is
 //     that value and type parameters both sit in getParameters(), and each
-//     default is the RHS of a ParamAssign whose LHS carries the parameter's
-//     name. That convention is followed; the LRM fixes only the names,
+//     holds its own default (Parameter/TypeParameter::getExpr()). That
+//     convention is followed; the LRM fixes only the names,
 //     kinds, order, N's type and the two defaults, which is what is
 //     asserted.
 //   - How the literal 8 is encoded (vpiConstType, size): 8 is an unsized
@@ -310,28 +310,6 @@ class IfaceClassTest2Test : public Test {
     }
     return hldb::findByName<hldb::TypeParameter>("T", baseIc->getParameters());
   }
-
-  // The ParamAssign of base_ic giving parameter 'name' its default, or
-  // nullptr unless there is exactly one.
-  static const hldb::ParamAssign *getDefaultOf(std::string_view name) {
-    const hldb::ClassDefn *const baseIc = getBaseIc();
-    if ((baseIc == nullptr) || (baseIc->getParamAssigns() == nullptr)) {
-      return nullptr;
-    }
-    const hldb::ParamAssign *found = nullptr;
-    size_t count = 0;
-    for (const hldb::ParamAssign *paramAssign : *baseIc->getParamAssigns()) {
-      const hldb::Any *const lhs = paramAssign->getLhs();
-      if ((lhs != nullptr) && (lhs->getName() == name)) {
-        found = paramAssign;
-        ++count;
-      }
-    }
-    if (count != 1) {
-      return nullptr;
-    }
-    return found;
-  }
 };
 
 // Lines 15-19 are a legal interface class declaration (8.26) and a legal
@@ -399,8 +377,6 @@ TEST_F(IfaceClassTest2Test, BaseIcHasTwoParametersNThenT) {
   ASSERT_NE(t, nullptr) << "6.20.3: the second parameter, 'type T', is a type parameter";
   EXPECT_EQ(t->getName(), "T");
   EXPECT_FALSE(t->getLocalParam()) << "6.20.1: T is a parameter port, not a localparam";
-
-  EXPECT_EQ(sizeOf(baseIc->getParamAssigns()), 2u) << "each of N and T has exactly one default";
 }
 
 // 'int N = 8': N's data type is int, a 2-state signed 32-bit integer
@@ -413,10 +389,7 @@ TEST_F(IfaceClassTest2Test, ParameterNIsIntWithDefault8) {
   const hldb::IntTypespec *const intTypespec = typespec->getActual<hldb::IntTypespec>();
   ASSERT_NE(intTypespec, nullptr) << "6.11: N is declared 'int'";
   EXPECT_TRUE(intTypespec->getSigned()) << "6.11: int is signed";
-
-  const hldb::ParamAssign *const assign = getDefaultOf("N");
-  ASSERT_NE(assign, nullptr) << "'N = 8' gives N one default";
-  const hldb::Constant *const value = assign->getRhs<hldb::Constant>();
+  const hldb::Constant *const value = n->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "the default of N is the literal 8";
   EXPECT_EQ(literalOf(value), "8");
 }
@@ -424,11 +397,9 @@ TEST_F(IfaceClassTest2Test, ParameterNIsIntWithDefault8) {
 // 'type T = string': the default of type parameter T is the data type
 // string (6.16, 6.20.3).
 TEST_F(IfaceClassTest2Test, TypeParameterTDefaultsToString) {
-  ASSERT_NE(getTypeParameterT(), nullptr);
-
-  const hldb::ParamAssign *const assign = getDefaultOf("T");
-  ASSERT_NE(assign, nullptr) << "'T = string' gives T one default";
-  const hldb::RefTypespec *const value = assign->getRhs<hldb::RefTypespec>();
+  const hldb::TypeParameter *const p = getTypeParameterT();
+  ASSERT_NE(p, nullptr);
+  const hldb::RefTypespec *const value = p->getExpr<hldb::RefTypespec>();
   ASSERT_NE(value, nullptr) << "the default of a type parameter is a data type";
   EXPECT_NE(value->getActual<hldb::StringTypespec>(), nullptr) << "6.16: the default type is string";
 }
@@ -500,7 +471,6 @@ TEST_F(IfaceClassTest2Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

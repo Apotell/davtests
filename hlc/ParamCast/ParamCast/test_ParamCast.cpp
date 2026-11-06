@@ -139,15 +139,8 @@ class ParamCastTest : public Test {
     return hldb::findByName<hldb::Parameter>("NumAgents", pkg->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Enum *getPartIdxEnum() {
@@ -231,9 +224,9 @@ TEST_F(ParamCastTest, NumAgentsIsLocalIntCastOfNumAgentsIdx) {
   const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(it, nullptr) << "'NumAgents' is declared 'int'";
   EXPECT_TRUE(it->getSigned()) << "6.11, Table 6-8: 'int' is a 32-bit signed integer";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "NumAgents");
+  const hldb::Parameter *const pa = getParameter(pkg, "NumAgents");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const cast = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const cast = pa->getExpr<hldb::Operation>();
   ASSERT_NE(cast, nullptr) << "unreduced, the cast of NumAgentsIdx to int is an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1: a cast";
   ASSERT_NE(cast->getOperands(), nullptr);
@@ -254,10 +247,10 @@ TEST_F(ParamCastTest, NumAgentsIsLocalIntCastOfNumAgentsIdx) {
 
 TEST_F(ParamCastTest, NumAgentsReducesToThree) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa =
-        getParamAssign(hldb::findByName<hldb::Package>("otp_ctrl_part_pkg", m_design->getTopPackages()), "NumAgents");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'NumAgents' in the elaborated package";
-    ExpectIntConstant(pa->getRhs(), 3, "6.19: NumAgentsIdx is the fourth name with implicit values, so it is 3");
+    const hldb::Parameter *const pa =
+        getParameter(hldb::findByName<hldb::Package>("otp_ctrl_part_pkg", m_design->getTopPackages()), "NumAgents");
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'NumAgents' in the elaborated package";
+    ExpectIntConstant(pa->getExpr(), 3, "6.19: NumAgentsIdx is the fourth name with implicit values, so it is 3");
   }
 }
 

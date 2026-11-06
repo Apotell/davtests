@@ -141,9 +141,9 @@ TEST_F(NegIntTest, WidthIsIntParameter) {
 TEST_F(NegIntTest, DefaultIsUnaryMinusOne) {
   const hldb::Module *const m = getMod();
   ASSERT_NE(m, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("WIDTH", hldb::getParamAssigns(m));
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'WIDTH' not found";
-  const hldb::Operation *const op = any_cast<hldb::Operation>(pa->getRhs());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("WIDTH", m->getParameters());
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'WIDTH' not found";
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "5.7.1: '-1' is a unary minus applied to 1";
   EXPECT_EQ(op->getOpType(), vpiMinusOp);
   ASSERT_NE(op->getOperands(), nullptr);

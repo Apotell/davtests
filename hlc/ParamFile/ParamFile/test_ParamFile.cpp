@@ -147,21 +147,8 @@ class ParamFileTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // The variable the lowConn of module 'name''s only port is bound to.
@@ -249,12 +236,12 @@ TEST_F(ParamFileTest, SramInitFileIsMacroExpandedEmptyString) {
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getParameters(), nullptr);
   EXPECT_EQ(dut->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(dut, "SRAMInitFile");
+  const hldb::Parameter *const p = getParameter(dut, "SRAMInitFile");
   ASSERT_NE(p, nullptr) << "parameter 'SRAMInitFile' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: dut has no parameter port list, so 'SRAMInitFile' is overridable";
-  const hldb::ParamAssign *const pa = getParamAssign(dut, "SRAMInitFile");
+  const hldb::Parameter *const pa = getParameter(dut, "SRAMInitFile");
   ASSERT_NE(pa, nullptr);
-  ExpectEmptyString(pa->getRhs<hldb::Constant>(), "22.5.1: the expansion of `PARAM_FILE");
+  ExpectEmptyString(pa->getExpr<hldb::Constant>(), "22.5.1: the expansion of `PARAM_FILE");
 }
 
 TEST_F(ParamFileTest, URamOverridesMemInitFileWithSramInitFile) {
@@ -272,8 +259,8 @@ TEST_F(ParamFileTest, URamOverridesMemInitFileWithSramInitFile) {
   const hldb::RefObj *const rhs = mt->getParamAssigns()->at(0)->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "the override value is the name 'SRAMInitFile'";
   EXPECT_EQ(rhs->getName(), "SRAMInitFile");
-  ASSERT_NE(getParam(getModule("dut"), "SRAMInitFile"), nullptr);
-  EXPECT_EQ(rhs->getActual(), getParam(getModule("dut"), "SRAMInitFile")) << "dut's own parameter";
+  ASSERT_NE(getParameter(getModule("dut"), "SRAMInitFile"), nullptr);
+  EXPECT_EQ(rhs->getActual(), getParameter(getModule("dut"), "SRAMInitFile")) << "dut's own parameter";
 }
 
 TEST_F(ParamFileTest, URamConnectsOutToO) {
@@ -300,12 +287,10 @@ TEST_F(ParamFileTest, RamDeclaresMemInitFileDefaultingToEmptyString) {
   ASSERT_NE(ram, nullptr) << "module 'ram_1p' not found";
   ASSERT_NE(ram->getParameters(), nullptr);
   EXPECT_EQ(ram->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(ram, "MemInitFile");
+  const hldb::Parameter *const p = getParameter(ram, "MemInitFile");
   ASSERT_NE(p, nullptr) << "parameter 'MemInitFile' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.4: 'MemInitFile' is a parameter port, not a localparam";
-  const hldb::ParamAssign *const pa = getParamAssign(ram, "MemInitFile");
-  ASSERT_NE(pa, nullptr);
-  ExpectEmptyString(pa->getRhs<hldb::Constant>(), "the default of MemInitFile");
+  ExpectEmptyString(p->getExpr<hldb::Constant>(), "the default of MemInitFile");
 }
 
 TEST_F(ParamFileTest, RamPortOutIsOutputLogicVariable) { ExpectOutputLogicVariablePort("ram_1p", "out"); }
@@ -346,8 +331,8 @@ TEST_F(ParamFileTest, IfStatementsTestMemInitFileAgainstEmptyString) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
     ASSERT_NE(ref, nullptr);
     EXPECT_EQ(ref->getName(), "MemInitFile");
-    ASSERT_NE(getParam(getModule("ram_1p"), "MemInitFile"), nullptr);
-    EXPECT_EQ(ref->getActual(), getParam(getModule("ram_1p"), "MemInitFile")) << "ram_1p's own parameter";
+    ASSERT_NE(getParameter(getModule("ram_1p"), "MemInitFile"), nullptr);
+    EXPECT_EQ(ref->getActual(), getParameter(getModule("ram_1p"), "MemInitFile")) << "ram_1p's own parameter";
     ExpectEmptyString(any_cast<hldb::Constant>(cond->getOperands()->at(1)), "the compared value");
   }
 }
@@ -366,9 +351,9 @@ TEST_F(ParamFileTest, ElaboratedMemInitFileIsEmptyString) {
     ASSERT_NE(dut, nullptr) << "the elaborated dut not found";
     const hldb::Module *const ram = hldb::findByName<hldb::Module>("u_ram", dut->getModules());
     ASSERT_NE(ram, nullptr) << "the instance u_ram is elaborated";
-    const hldb::ParamAssign *const pa = getParamAssign(ram, "MemInitFile");
+    const hldb::Parameter *const pa = getParameter(ram, "MemInitFile");
     ASSERT_NE(pa, nullptr);
-    ExpectEmptyString(pa->getRhs<hldb::Constant>(), "23.10.2.2: u_ram's MemInitFile = SRAMInitFile");
+    ExpectEmptyString(pa->getExpr<hldb::Constant>(), "23.10.2.2: u_ram's MemInitFile = SRAMInitFile");
     EXPECT_TRUE(ram->getGenScopeArrays() == nullptr || ram->getGenScopeArrays()->empty())
         << "12.4: the procedural 'if' statements create no generate scope";
   }

@@ -47,8 +47,8 @@
 //
 // Per the pattern already established in
 // hlc/Google/chapter-13/13.4.3--const-function/test_13.4.3_const-function.cpp,
-// "localparam X = f(...)" produces a Scope::getParamAssigns() binding whose
-// getRhs() is either the FuncCall as-parsed, or -- if HLC folds constant
+// "localparam X = f(...)" produces a Parameter in Scope::getParameters() whose
+// getExpr() is either the FuncCall as-parsed, or -- if HLC folds constant
 // function calls at elaboration time -- the already-evaluated Constant.
 // Both shapes are accepted below; only the resulting FuncCall's target
 // name/argument or the folded value is asserted, per the "assert the
@@ -91,8 +91,8 @@ class EvalFuncTest : public Test {
     return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Function>(name, scope->getTaskFuncs());
   }
 
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  static const hldb::Parameter *findParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 };
 
@@ -144,9 +144,9 @@ TEST_F(EvalFuncTest, FooIsIdentityFunctionOfItsInput) {
 
 // localparam RATIO = 30;
 TEST_F(EvalFuncTest, LocalparamRatioIs30) {
-  const hldb::ParamAssign *const pa = findParamAssign(getTop(), "RATIO");
-  ASSERT_NE(pa, nullptr) << "'localparam RATIO = 30;' should produce a ParamAssign binding";
-  const hldb::Constant *const rhs = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Parameter *const pa = findParameter(getTop(), "RATIO");
+  ASSERT_NE(pa, nullptr) << "'localparam RATIO = 30;' should produce a Parameter binding";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'30' is a plain constant literal, not a function call";
   EXPECT_EQ(rhs->getDecompile(), "30");
 }
@@ -176,37 +176,37 @@ static void ExpectConstantFunctionCallOrFoldedFive(const hldb::Any *rhs, std::st
         << "13.4.3 defines a constant function call as evaluated at elaboration time; " << expectedCalleeName
         << "(30) must fold to 5 (30->15->7->3->1, 5 halving steps)";
   } else {
-    FAIL() << "ParamAssign RHS for a log2RATIO localparam is neither a FuncCall nor a Constant -- actual AnyType: "
+    FAIL() << "Parameter value for a log2RATIO localparam is neither a FuncCall nor a Constant -- actual AnyType: "
            << static_cast<int>(rhs->getAnyType());
   }
 }
 
 TEST_F(EvalFuncTest, Log2Ratio1CallsLog2) {
-  const hldb::ParamAssign *const pa = findParamAssign(getTop(), "log2RATIO1");
+  const hldb::Parameter *const pa = findParameter(getTop(), "log2RATIO1");
   ASSERT_NE(pa, nullptr);
-  ExpectConstantFunctionCallOrFoldedFive(pa->getRhs(), "log2");
+  ExpectConstantFunctionCallOrFoldedFive(pa->getExpr(), "log2");
 }
 
 TEST_F(EvalFuncTest, Log2Ratio2CallsVbits) {
-  const hldb::ParamAssign *const pa = findParamAssign(getTop(), "log2RATIO2");
+  const hldb::Parameter *const pa = findParameter(getTop(), "log2RATIO2");
   ASSERT_NE(pa, nullptr);
-  ExpectConstantFunctionCallOrFoldedFive(pa->getRhs(), "vbits");
+  ExpectConstantFunctionCallOrFoldedFive(pa->getExpr(), "vbits");
 }
 
 TEST_F(EvalFuncTest, Log2Ratio3CallsLog2_2) {
-  const hldb::ParamAssign *const pa = findParamAssign(getTop(), "log2RATIO3");
+  const hldb::Parameter *const pa = findParameter(getTop(), "log2RATIO3");
   ASSERT_NE(pa, nullptr);
-  ExpectConstantFunctionCallOrFoldedFive(pa->getRhs(), "log2_2");
+  ExpectConstantFunctionCallOrFoldedFive(pa->getExpr(), "log2_2");
 }
 
 // localparam log2RATIO4 = prim_util_pkg::vbits(RATIO);  -- package-scoped
 // (class/package-scope) constant function call.
 TEST_F(EvalFuncTest, Log2Ratio4CallsPackageScopedVbits) {
-  const hldb::ParamAssign *const pa = findParamAssign(getTop(), "log2RATIO4");
+  const hldb::Parameter *const pa = findParameter(getTop(), "log2RATIO4");
   ASSERT_NE(pa, nullptr);
   // 37.42: a func call bound to the function; the package is its HLDB-only vpiNameQualifier (not a vpiPrefix,
   // which is only for an object a method is applied to).
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'prim_util_pkg::vbits(RATIO)' should be a FuncCall";
   EXPECT_EQ(call->getName(), std::string_view("vbits"));
   const hldb::RefObj *const pkgRO = call->getNameQualifier<hldb::RefObj>();

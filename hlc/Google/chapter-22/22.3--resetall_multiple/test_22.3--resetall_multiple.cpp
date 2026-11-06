@@ -56,7 +56,7 @@
 //     static."; Sec 37.3.7 vpiAutomatic == false)
 //   - one null port: no name, index 0, vpiPort, size 0, no low/high conn
 //     (Sec 37.14 details 1, 8, 9, 10, 11)
-//   - empty body: no nets, variables, parameters, param assigns, processes,
+//   - empty body: no nets, variables, parameters, processes,
 //     continuous assignments, tasks/functions, instantiations
 //   - none of the three `resetall is a text macro usage: zero macro instances
 //     and zero macro definitions in the source file (Sec 22.5.1)
@@ -227,7 +227,6 @@ TEST_F(ResetallMultipleTest, ModuleTopBodyIsEmpty) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getProcesses()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);

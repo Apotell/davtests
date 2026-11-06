@@ -141,21 +141,8 @@ class ParamNoImportTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getRspT() {
@@ -232,9 +219,9 @@ class ParamNoImportTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -268,12 +255,10 @@ TEST_F(ParamNoImportTest, TestDeclaresOverridablePwrAstRspDefaultingToZero) {
   ASSERT_NE(test, nullptr) << "module 'test' not found";
   ASSERT_NE(test->getParameters(), nullptr);
   EXPECT_EQ(test->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(test, "PWR_AST_RSP");
+  const hldb::Parameter *const p = getParameter(test, "PWR_AST_RSP");
   ASSERT_NE(p, nullptr) << "parameter 'PWR_AST_RSP' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.4: 'PWR_AST_RSP' is a parameter port, not a localparam";
-  const hldb::ParamAssign *const pa = getParamAssign(test, "PWR_AST_RSP");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "'0") << "5.7.1: the unbased unsized literal '0";
 }
@@ -308,16 +293,16 @@ TEST_F(ParamNoImportTest, DefaultIsLocalPwrAstRspT) {
   ASSERT_NE(pkg, nullptr) << "package 'pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(pkg, "PWR_AST_RSP_DEFAULT");
+  const hldb::Parameter *const p = getParameter(pkg, "PWR_AST_RSP_DEFAULT");
   ASSERT_NE(p, nullptr) << "parameter 'PWR_AST_RSP_DEFAULT' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.1: a param_assignment in a package becomes a localparam";
   EXPECT_TRUE(namesRspT(p->getTypespec())) << "'PWR_AST_RSP_DEFAULT' is declared 'pwr_ast_rsp_t'";
 }
 
 TEST_F(ParamNoImportTest, DefaultIsPatternOfSlowClkValTwoBOne0) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "PWR_AST_RSP_DEFAULT");
+  const hldb::Parameter *const pa = getParameter(getPkg(), "PWR_AST_RSP_DEFAULT");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an assignment pattern";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -384,8 +369,8 @@ TEST_F(ParamNoImportTest, ScopedNameBindsToPkgParameter) {
   const hldb::RefObj *const item = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(item, nullptr);
   EXPECT_EQ(item->getName(), "PWR_AST_RSP_DEFAULT");
-  ASSERT_NE(getParam(getPkg(), "PWR_AST_RSP_DEFAULT"), nullptr);
-  EXPECT_EQ(item->getActual(), getParam(getPkg(), "PWR_AST_RSP_DEFAULT"))
+  ASSERT_NE(getParameter(getPkg(), "PWR_AST_RSP_DEFAULT"), nullptr);
+  EXPECT_EQ(item->getActual(), getParameter(getPkg(), "PWR_AST_RSP_DEFAULT"))
       << "26.3: the item is declared in pkg, and no import is needed";
 }
 

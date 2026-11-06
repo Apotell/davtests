@@ -57,7 +57,7 @@
 //   lc_ctrl_pkg
 //     - exactly 2 parameters, A10 and A11, each 'logic [15:0]': a
 //       LogicTypespec with exactly 1 packed range [15:0]
-//     - each ParamAssign RHS is the Constant "16'h0000"
+//     - each value (Parameter::getExpr()) is the Constant "16'h0000"
 //     - exactly 1 Typedef, 'lc_state_e', whose alias is an EnumTypespec
 //       (6.19)
 //     - the enum's base type is a LogicTypespec with exactly 1 packed range
@@ -79,8 +79,8 @@
 //     - exactly 2 parameters of its own, OtpWidth and OtpAddrWidth, each a
 //       signed 'int'. The wildcard import makes otp_ctrl_reg_pkg's names
 //       visible but declares nothing in otp_ctrl_pkg (26.3)
-//     - OtpWidth's ParamAssign RHS is the Constant "16"
-//     - OtpAddrWidth's ParamAssign RHS is Operation vpiSubOp over
+//     - OtpWidth's value is the Constant "16"
+//     - OtpAddrWidth's value is Operation vpiSubOp over
 //       RefObj 'OtpByteAddrWidth' -- bound through the wildcard import to
 //       otp_ctrl_reg_pkg's Parameter (26.3) -- and the SysFuncCall
 //       "$clog2" (20.8.1) with exactly 1 argument, Operation vpiDivOp over
@@ -196,19 +196,8 @@ class PackageParamTest : public Test {
     return hldb::findByName<hldb::Package>(name, m_design->getTopPackages());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Package *pkg, std::string_view name) {
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
-  }
-
-  // The ParamAssign whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Package *pkg, std::string_view name) {
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Package *pkg, std::string_view name) {
+    return (pkg == nullptr) ? nullptr :  hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Enum *getLcStateEnum(const hldb::Package *pkg) {
@@ -286,7 +275,7 @@ class PackageParamTest : public Test {
 
   // Verifies 'name' in 'pkg' is a parameter of type signed 'int'.
   static void ExpectSignedIntParam(const hldb::Package *pkg, std::string_view name) {
-    const hldb::Parameter *const p = getParam(pkg, name);
+    const hldb::Parameter *const p = getParameter(pkg, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     ASSERT_NE(p->getTypespec(), nullptr);
     const hldb::IntTypespec *const ts = p->getTypespec()->getActual<hldb::IntTypespec>();
@@ -294,14 +283,11 @@ class PackageParamTest : public Test {
     EXPECT_TRUE(ts->getSigned()) << "6.11: 'int' is signed";
   }
 
-  // Verifies the ParamAssign of 'name' in 'pkg' has the Constant RHS 'value'.
-  static void ExpectLiteralParamAssign(const hldb::Package *pkg, std::string_view name, std::string_view value) {
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr);
-    EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getParam(pkg, name));
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  // Verifies the Parameter 'name' in 'pkg' has the Constant value 'value'.
+  static void ExpectLiteralParameter(const hldb::Package *pkg, std::string_view name, std::string_view value) {
+    const hldb::Parameter *const pa = getParameter(pkg, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "'" << name << "' is assigned a literal";
     EXPECT_EQ(rhs->getDecompile(), value);
   }
@@ -347,7 +333,7 @@ TEST_F(PackageParamTest, AllPackageParametersAreLocalParams) {
                              {"otp_ctrl_pkg", "OtpWidth"},
                              {"otp_ctrl_pkg", "OtpAddrWidth"}};
   for (const ParamRef &ref : params) {
-    const hldb::Parameter *const p = getParam(getPkg(ref.m_pkg), ref.m_name);
+    const hldb::Parameter *const p = getParameter(getPkg(ref.m_pkg), ref.m_name);
     ASSERT_NE(p, nullptr) << "parameter '" << ref.m_name << "' not found in " << ref.m_pkg;
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << ref.m_name << "' is declared in package " << ref.m_pkg
                                     << ", where 'parameter' is a synonym for 'localparam'";
@@ -365,15 +351,15 @@ TEST_F(PackageParamTest, LcCtrlPkgHasExactlyParametersA10AndA11) {
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 2u) << "'A10' and 'A11'";
-  EXPECT_NE(getParam(pkg, "A10"), nullptr);
-  EXPECT_NE(getParam(pkg, "A11"), nullptr);
+  EXPECT_NE(getParameter(pkg, "A10"), nullptr);
+  EXPECT_NE(getParameter(pkg, "A11"), nullptr);
 }
 
 TEST_F(PackageParamTest, A10AndA11AreLogic15To0) {
   const hldb::Package *const pkg = getPkg("lc_ctrl_pkg");
   ASSERT_NE(pkg, nullptr);
   for (std::string_view name : {"A10", "A11"}) {
-    const hldb::Parameter *const p = getParam(pkg, name);
+    const hldb::Parameter *const p = getParameter(pkg, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     ASSERT_NE(p->getTypespec(), nullptr);
     const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -394,8 +380,8 @@ TEST_F(PackageParamTest, A10AndA11AreLogic15To0) {
 TEST_F(PackageParamTest, A10AndA11AreAssignedSixteenBitZero) {
   const hldb::Package *const pkg = getPkg("lc_ctrl_pkg");
   ASSERT_NE(pkg, nullptr);
-  ExpectLiteralParamAssign(pkg, "A10", "16'h0000");
-  ExpectLiteralParamAssign(pkg, "A11", "16'h0000");
+  ExpectLiteralParameter(pkg, "A10", "16'h0000");
+  ExpectLiteralParameter(pkg, "A11", "16'h0000");
 }
 
 // ---------------------------------------------------------------------------
@@ -468,8 +454,8 @@ TEST_F(PackageParamTest, LcStTestUnlocked0IsConcatOfA11AndA10) {
   EXPECT_EQ(concat->getOpType(), vpiConcatOp) << "11.4.12: '{A11, A10}' is a concatenation";
   ASSERT_NE(concat->getOperands(), nullptr);
   ASSERT_EQ(concat->getOperands()->size(), 2u);
-  ExpectBoundRef(concat->getOperands()->at(0), "A11", getParam(pkg, "A11"));
-  ExpectBoundRef(concat->getOperands()->at(1), "A10", getParam(pkg, "A10"));
+  ExpectBoundRef(concat->getOperands()->at(0), "A11", getParameter(pkg, "A11"));
+  ExpectBoundRef(concat->getOperands()->at(1), "A10", getParameter(pkg, "A10"));
   if (m_design->getElaborated()) {
     const hldb::EnumConst *const elab = getEnumConst(getTopPkg("lc_ctrl_pkg"), "LcStTestUnlocked0");
     ASSERT_NE(elab, nullptr) << "'LcStTestUnlocked0' not found in the elaborated lc_ctrl_pkg";
@@ -494,9 +480,9 @@ TEST_F(PackageParamTest, OtpCtrlRegPkgHasThreeIntParameters) {
 TEST_F(PackageParamTest, OtpCtrlRegPkgParameterValues) {
   const hldb::Package *const pkg = getPkg("otp_ctrl_reg_pkg");
   ASSERT_NE(pkg, nullptr);
-  ExpectLiteralParamAssign(pkg, "NumSramKeyReqSlots", "2");
-  ExpectLiteralParamAssign(pkg, "OtpByteAddrWidth", "11");
-  ExpectLiteralParamAssign(pkg, "NumErrorEntries", "9");
+  ExpectLiteralParameter(pkg, "NumSramKeyReqSlots", "2");
+  ExpectLiteralParameter(pkg, "OtpByteAddrWidth", "11");
+  ExpectLiteralParameter(pkg, "NumErrorEntries", "9");
 }
 
 // ---------------------------------------------------------------------------
@@ -513,19 +499,19 @@ TEST_F(PackageParamTest, OtpCtrlPkgDeclaresOnlyItsOwnTwoParameters) {
   ExpectSignedIntParam(pkg, "OtpAddrWidth");
 }
 
-TEST_F(PackageParamTest, OtpWidthIsSixteen) { ExpectLiteralParamAssign(getPkg("otp_ctrl_pkg"), "OtpWidth", "16"); }
+TEST_F(PackageParamTest, OtpWidthIsSixteen) { ExpectLiteralParameter(getPkg("otp_ctrl_pkg"), "OtpWidth", "16"); }
 
 TEST_F(PackageParamTest, OtpAddrWidthSubtractsClog2FromImportedOtpByteAddrWidth) {
   const hldb::Package *const pkg = getPkg("otp_ctrl_pkg");
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "OtpAddrWidth");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'OtpAddrWidth'";
-  const hldb::Operation *const sub = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getParameter(pkg, "OtpAddrWidth");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'OtpAddrWidth'";
+  const hldb::Operation *const sub = pa->getExpr<hldb::Operation>();
   ASSERT_NE(sub, nullptr) << "unreduced, 'OtpByteAddrWidth - $clog2(OtpWidth/8)' is an Operation";
   EXPECT_EQ(sub->getOpType(), vpiSubOp);
   ASSERT_NE(sub->getOperands(), nullptr);
   ASSERT_EQ(sub->getOperands()->size(), 2u);
   ExpectBoundRef(sub->getOperands()->at(0), "OtpByteAddrWidth",
-                 getParam(getPkg("otp_ctrl_reg_pkg"), "OtpByteAddrWidth"));
+                 getParameter(getPkg("otp_ctrl_reg_pkg"), "OtpByteAddrWidth"));
 
   const hldb::SysFuncCall *const clog2 = any_cast<hldb::SysFuncCall>(sub->getOperands()->at(1));
   ASSERT_NE(clog2, nullptr) << "'$clog2(...)' is a system function call";
@@ -539,7 +525,7 @@ TEST_F(PackageParamTest, OtpAddrWidthSubtractsClog2FromImportedOtpByteAddrWidth)
   EXPECT_EQ(div->getOpType(), vpiDivOp);
   ASSERT_NE(div->getOperands(), nullptr);
   ASSERT_EQ(div->getOperands()->size(), 2u);
-  ExpectBoundRef(div->getOperands()->at(0), "OtpWidth", getParam(pkg, "OtpWidth"));
+  ExpectBoundRef(div->getOperands()->at(0), "OtpWidth", getParameter(pkg, "OtpWidth"));
   const hldb::Constant *const eight = any_cast<hldb::Constant>(div->getOperands()->at(1));
   ASSERT_NE(eight, nullptr);
   EXPECT_EQ(eight->getDecompile(), "8");
@@ -547,9 +533,9 @@ TEST_F(PackageParamTest, OtpAddrWidthSubtractsClog2FromImportedOtpByteAddrWidth)
 
 TEST_F(PackageParamTest, OtpAddrWidthReducesToTen) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa = getParamAssign(getTopPkg("otp_ctrl_pkg"), "OtpAddrWidth");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'OtpAddrWidth' in the elaborated otp_ctrl_pkg";
-    ExpectIntConstant(pa->getRhs(), 10, "6.20.2, 20.8.1: OtpAddrWidth = 11 - $clog2(16/8) = 11 - 1 = 10");
+    const hldb::Parameter *const pa = getParameter(getTopPkg("otp_ctrl_pkg"), "OtpAddrWidth");
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'OtpAddrWidth' in the elaborated otp_ctrl_pkg";
+    ExpectIntConstant(pa->getExpr(), 10, "6.20.2, 20.8.1: OtpAddrWidth = 11 - $clog2(16/8) = 11 - 1 = 10");
   }
 }
 
@@ -560,7 +546,8 @@ TEST_F(PackageParamTest, OtpAddrWidthReducesToTen) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // identifier not reported) in the file header.
 TEST_F(PackageParamTest, UndeclaredLcStateWidthIsReportedAsError) {
-  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"it shall be illegal if no identifier can be found that matches the reference\"; ObjectBinder::reportError skips every plain unresolved name as a possible implicit net, so no error is raised.";
+  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"it shall be illegal if no identifier can be found that matches the reference\"; "
+                  "ObjectBinder::reportError skips every plain unresolved name as a possible implicit net, so no error is raised.";
   ExpectReportedAsError({EventType::CompUndefinedVariable, EventType::ElabUndefVariable},
                         "LcStateWidth");
 }
@@ -568,7 +555,8 @@ TEST_F(PackageParamTest, UndeclaredLcStateWidthIsReportedAsError) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (import of
 // an undeclared package not reported) in the file header.
 TEST_F(PackageParamTest, ImportFromUndeclaredPrimUtilPkgIsReportedAsError) {
-  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"The compilation of a package shall precede the compilation of scopes in which the package is imported\"; CompUndefinedPackage exists but is never raised for an import of an undeclared package.";
+  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"The compilation of a package shall precede the compilation of scopes in which the package is imported\"; "
+                  "CompUndefinedPackage exists but is never raised for an import of an undeclared package.";
   ExpectReportedAsError({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage},
                         "prim_util_pkg");
 }

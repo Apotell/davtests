@@ -96,10 +96,10 @@ TEST_F(NonSynthErrorTest, SIsOverridableParameter) {
 TEST_F(NonSynthErrorTest, SInitializerIsSizeOfInt) {
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
-  ASSERT_NE(dut->getParamAssigns(), nullptr);
-  ASSERT_EQ(dut->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = dut->getParamAssigns()->at(0);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(pa->getRhs());
+  ASSERT_NE(dut->getParameters(), nullptr);
+  ASSERT_EQ(dut->getParameters()->size(), 1u);
+  const hldb::Parameter *const pa = any_cast<hldb::Parameter>(dut->getParameters()->at(0));
+  const hldb::SysFuncCall *const call = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr) << "Sec 20.7: $size(...) is a system function call";
   EXPECT_EQ(call->getName(), std::string_view("$size"));
 

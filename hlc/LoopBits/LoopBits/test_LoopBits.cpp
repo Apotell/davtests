@@ -336,9 +336,7 @@ TEST_F(LoopBitsTest, BlkHasLocalparamW) {
   const hldb::Parameter *const w = hldb::findByName<hldb::Parameter>("W", blk->getParameters());
   ASSERT_NE(w, nullptr);
   EXPECT_TRUE(w->getLocalParam());
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("W", blk->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = w->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getOpType(), vpiMultOp);
 }
@@ -424,7 +422,6 @@ TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
     ASSERT_NE(pa0, nullptr);
     ASSERT_NE(pa1, nullptr);
     EXPECT_FALSE(pa0->getConnByName()) << e.m_inst;
-    EXPECT_TRUE(pa0->getOverridden()) << e.m_inst;
 
     const hldb::Constant *const v0 = pa0->getRhs<hldb::Constant>();
     const hldb::Constant *const v1 = pa1->getRhs<hldb::Constant>();

@@ -165,11 +165,11 @@ TEST_F(Func128BitsTest, CalcBaseAddrsReturnsAnImplicitLogicVectorWithComputedRan
 TEST_F(Func128BitsTest, MBaseAddrIntCallsCalcBaseAddrsOrHasBeenConstantFolded) {
   const hldb::Module *const top = getScratchPad();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("M_BASE_ADDR_INT", top->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'M_BASE_ADDR_INT' not found";
+  ASSERT_NE(top->getParameters(), nullptr);
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("M_BASE_ADDR_INT", top->getParameters());
+  ASSERT_NE(pa, nullptr) << "Parameter for 'M_BASE_ADDR_INT' not found";
 
-  if (const hldb::Constant *const c = pa->getRhs<hldb::Constant>()) {
+  if (const hldb::Constant *const c = pa->getExpr<hldb::Constant>()) {
     // Sec 13.4.3: a constant function used in a constant expression must be
     // evaluated at elaboration time; only check that a folded value exists.
     EXPECT_NE(c->getDecompile(), std::string_view(""));
@@ -177,8 +177,8 @@ TEST_F(Func128BitsTest, MBaseAddrIntCallsCalcBaseAddrsOrHasBeenConstantFolded) {
   }
 
   // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
-  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
-  ASSERT_NE(call, nullptr) << "ParamAssign RHS for 'M_BASE_ADDR_INT' is neither a folded Constant nor an unfolded "
+  const hldb::FuncCall *const call = pa->getExpr<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "the value of 'M_BASE_ADDR_INT' is neither a folded Constant nor an unfolded "
                                "FuncCall";
   EXPECT_EQ(call->getName(), std::string_view("calcBaseAddrs"));
   ASSERT_NE(call->getArguments(), nullptr);

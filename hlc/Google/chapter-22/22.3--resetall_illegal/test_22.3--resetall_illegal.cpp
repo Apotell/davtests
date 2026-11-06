@@ -71,7 +71,7 @@
 //       none
 //     - static default lifetime (Sec 6.21, Sec 37.3.7)
 //     - one null port: no name, index 0, vpiPort, size 0, no low/high conn
-//     - empty body: no nets, variables, parameters, param assigns,
+//     - empty body: no nets, variables, parameters,
 //       processes, continuous assignments, tasks/functions, instantiations
 //     - after elaboration only: exactly one top-level instance "top"
 //       (Sec 23.3.1), vpiTopModule (Sec 37.5), defined at line 18
@@ -268,7 +268,6 @@ TEST_F(ResetallIllegalTest, ModuleTopBodyIsEmpty) {
   EXPECT_EQ(countOf(top->getNets()), 0u);
   EXPECT_EQ(countOf(top->getVariables()), 0u);
   EXPECT_EQ(countOf(top->getParameters()), 0u);
-  EXPECT_EQ(countOf(top->getParamAssigns()), 0u);
   EXPECT_EQ(countOf(top->getProcesses()), 0u);
   EXPECT_EQ(countOf(top->getContAssigns()), 0u);
   EXPECT_EQ(countOf(top->getTaskFuncs()), 0u);

@@ -82,10 +82,9 @@ static const hldb::Module *getModule(const hldb::Design *d, std::string_view nam
   return hldb::findByName<hldb::Module>(name, d->getAllModules());
 }
 
-static const hldb::ParamAssign *getTopParamAssign(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getTopParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *const top = getModule(d, "top");
-  if (!top) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, top->getParamAssigns());
+  return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
 }
 
 // ===========================================================================
@@ -117,9 +116,9 @@ TEST_F(DefaultPatternModuleTest, CntIsLocalParamInModule) {
 }
 
 TEST_F(DefaultPatternModuleTest, CntValueIsTwo) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "CNT");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'CNT' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getTopParameter(m_design, "CNT");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'CNT' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getValue(), std::string_view("2"));
 }
@@ -138,17 +137,17 @@ TEST_F(DefaultPatternModuleTest, VIsLocalParamInModule) {
 }
 
 TEST_F(DefaultPatternModuleTest, VRhsIsAssignmentPatternOp) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "V");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'V' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getTopParameter(m_design, "V");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'V' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{default: 3}' RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp);
 }
 
 TEST_F(DefaultPatternModuleTest, VPatternHasOneOperand) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getTopParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   EXPECT_EQ(rhs->getOperands()->size(), 1u)
@@ -156,9 +155,9 @@ TEST_F(DefaultPatternModuleTest, VPatternHasOneOperand) {
 }
 
 TEST_F(DefaultPatternModuleTest, VOperandIsDefaultTaggedPattern) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getTopParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -171,9 +170,9 @@ TEST_F(DefaultPatternModuleTest, VOperandIsDefaultTaggedPattern) {
 }
 
 TEST_F(DefaultPatternModuleTest, VPatternValueIsThree) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "V");
+  const hldb::Parameter *const pa = getTopParameter(m_design, "V");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 1u);
@@ -197,10 +196,10 @@ TEST_F(DefaultPatternModuleTest, FunctionAssignVaddrExists) {
 }
 
 TEST_F(DefaultPatternModuleTest, VaddrRhsIsNotAssignmentPattern) {
-  const hldb::ParamAssign *const pa = getTopParamAssign(m_design, "VADDR");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'VADDR' not found";
-  ASSERT_NE(pa->getRhs(), nullptr) << "'VADDR = ASSIGN_VADDR()' must have a non-null RHS";
-  EXPECT_NE(pa->getRhs()->getAnyType(), hldb::AnyType::Operation)
+  const hldb::Parameter *const pa = getTopParameter(m_design, "VADDR");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'VADDR' not found";
+  ASSERT_NE(pa->getExpr(), nullptr) << "'VADDR = ASSIGN_VADDR()' must have a non-null RHS";
+  EXPECT_NE(pa->getExpr()->getAnyType(), hldb::AnyType::Operation)
       << "'VADDR = ASSIGN_VADDR()' RHS is a function call, not an assignment-pattern Operation";
 }
 

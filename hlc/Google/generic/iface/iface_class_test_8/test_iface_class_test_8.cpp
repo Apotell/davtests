@@ -313,26 +313,14 @@ class IfaceClassTest8Test : public Test {
     return hldb::findByName<hldb::ClassDefn>("base_ic", m_design->getAllClasses());
   }
 
-  // The ParamAssign of base_ic giving parameter 'name' its value, or
-  // nullptr unless there is exactly one.
-  static const hldb::ParamAssign *getAssignOf(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::ClassDefn *const baseIc = getBaseIc();
-    if ((baseIc == nullptr) || (baseIc->getParamAssigns() == nullptr)) {
-      return nullptr;
-    }
-    const hldb::ParamAssign *found = nullptr;
-    size_t count = 0;
-    for (const hldb::ParamAssign *paramAssign : *baseIc->getParamAssigns()) {
-      const hldb::Any *const lhs = paramAssign->getLhs();
-      if ((lhs != nullptr) && (lhs->getName() == name)) {
-        found = paramAssign;
-        ++count;
-      }
-    }
-    if (count != 1) {
-      return nullptr;
-    }
-    return found;
+    return (baseIc == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, baseIc->getParameters());
+  }
+
+  static const hldb::TypeParameter *getTypeParameter(std::string_view name) {
+    const hldb::ClassDefn *const baseIc = getBaseIc();
+    return (baseIc == nullptr) ? nullptr : hldb::findByName<hldb::TypeParameter>(name, baseIc->getParameters());
   }
 };
 
@@ -440,24 +428,22 @@ TEST_F(IfaceClassTest8Test, BaseIcHasLocalParametersNTM) {
   ASSERT_NE(m, nullptr) << "the third parameter, M, is a value parameter";
   EXPECT_EQ(m->getName(), "M");
   EXPECT_TRUE(m->getLocalParam()) << "M is declared 'localparam'";
-
-  EXPECT_EQ(sizeOf(baseIc->getParamAssigns()), 3u) << "each of N, T and M has exactly one value";
 }
 
 // Line 7: 'parameter N = 2;' -- N's value is the literal 2.
 TEST_F(IfaceClassTest8Test, ParameterNIs2) {
-  const hldb::ParamAssign *const assign = getAssignOf("N");
-  ASSERT_NE(assign, nullptr) << "'N = 2' gives N one value";
-  const hldb::Constant *const value = assign->getRhs<hldb::Constant>();
+  const hldb::Parameter *const param = getParameter("N");
+  ASSERT_NE(param, nullptr) << "'N = 2' gives N one value";
+  const hldb::Constant *const value = param->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "the value of N is the literal 2";
   EXPECT_EQ(literalOf(value), "2");
 }
 
 // Line 8: 'parameter type T = bit;' -- T's type is bit (6.11).
 TEST_F(IfaceClassTest8Test, TypeParameterTIsBit) {
-  const hldb::ParamAssign *const assign = getAssignOf("T");
-  ASSERT_NE(assign, nullptr) << "'T = bit' gives T one type";
-  const hldb::RefTypespec *const value = assign->getRhs<hldb::RefTypespec>();
+  const hldb::TypeParameter *const param = getTypeParameter("T");
+  ASSERT_NE(param, nullptr) << "'T = bit' gives T one type";
+  const hldb::RefTypespec *const value = param->getExpr<hldb::RefTypespec>();
   ASSERT_NE(value, nullptr) << "the value of a type parameter is a data type";
   EXPECT_NE(value->getActual<hldb::BitTypespec>(), nullptr) << "6.11: T is bit";
 }
@@ -466,9 +452,9 @@ TEST_F(IfaceClassTest8Test, TypeParameterTIsBit) {
 // left operand is a call of f with one argument and whose right operand is
 // the literal 1.
 TEST_F(IfaceClassTest8Test, ParameterMIsFOfOneArgumentMinus1) {
-  const hldb::ParamAssign *const assign = getAssignOf("M");
-  ASSERT_NE(assign, nullptr) << "'M = ...' gives M one value";
-  const hldb::Operation *const subtraction = assign->getRhs<hldb::Operation>();
+  const hldb::Parameter *const param = getParameter("M");
+  ASSERT_NE(param, nullptr) << "'M = ...' gives M one value";
+  const hldb::Operation *const subtraction = param->getExpr<hldb::Operation>();
   ASSERT_NE(subtraction, nullptr) << "11.4.3: the value of M is an operation";
   EXPECT_EQ(subtraction->getOpType(), vpiSubOp) << "11.4.3: '-' between two operands is a binary subtraction";
   ASSERT_EQ(sizeOf(subtraction->getOperands()), 2u) << "a binary operation has two operands";
@@ -514,7 +500,6 @@ TEST_F(IfaceClassTest8Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u) << "N, T and M are parameters of base_ic";
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u) << "N, T and M are parameters of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 }

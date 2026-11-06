@@ -236,21 +236,8 @@ class ParamArraySelectTest : public Test {
     return hldb::findByName<hldb::Typedef>(name, p->getTypedefs());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // Whether 'rts' names the type of 'td' (6.18).
@@ -312,9 +299,9 @@ class ParamArraySelectTest : public Test {
   // 'scope' is 'expected'.
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -347,24 +334,20 @@ TEST_F(ParamArraySelectTest, PartInfoTHasMembersSizeThenOffset) {
 TEST_F(ParamArraySelectTest, NumPartIsLocalTwo) {
   const hldb::Package *const pkg = getPkg("otp_ctrl_pkg");
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = getParam(pkg, "NumPart");
+  const hldb::Parameter *const p = getParameter(pkg, "NumPart");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "NumPart");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "2");
+  ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "2");
 }
 
 TEST_F(ParamArraySelectTest, PartInfoPatternListsTwoKeyedStructures) {
   const hldb::Package *const pkg = getPkg("otp_ctrl_part_pkg");
   ASSERT_NE(pkg, nullptr);
-  const hldb::Parameter *const p = getParam(pkg, "PartInfo");
+  const hldb::Parameter *const p = getParameter(pkg, "PartInfo");
   ASSERT_NE(p, nullptr) << "parameter 'PartInfo' not found";
   EXPECT_TRUE(p->getLocalParam()) << "declared 'localparam'";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "PartInfo");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.1: an array assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -405,12 +388,12 @@ TEST_F(ParamArraySelectTest, EmptyPortListsDeclareOneNullPort) {
 TEST_F(ParamArraySelectTest, LciHasOverridableInfoAndLocalNumLcOtpWords) {
   const hldb::Module *const m = getModule("otp_ctrl_lci");
   ASSERT_NE(m, nullptr) << "module 'otp_ctrl_lci' not found";
-  const hldb::Parameter *const info = getParam(m, "Info");
+  const hldb::Parameter *const info = getParameter(m, "Info");
   ASSERT_NE(info, nullptr);
   EXPECT_FALSE(info->getLocalParam()) << "6.20.1: a parameter in the parameter port list can be overridden";
   EXPECT_TRUE(namesTypedef(info->getTypespec(), getTypedef("otp_ctrl_pkg", "part_info_t")))
       << "26.4: the header import makes part_info_t visible to the parameter port list";
-  const hldb::Parameter *const words = getParam(m, "NumLcOtpWords");
+  const hldb::Parameter *const words = getParameter(m, "NumLcOtpWords");
   ASSERT_NE(words, nullptr);
   EXPECT_TRUE(words->getLocalParam()) << "declared 'localparam'";
 }
@@ -429,7 +412,7 @@ TEST_F(ParamArraySelectTest, LciIfGenerateTestsNumLcOtpWordsAgainst28) {
   ASSERT_EQ(neq->getOperands()->size(), 2u);
   const hldb::RefObj *const words = any_cast<hldb::RefObj>(neq->getOperands()->at(0));
   ASSERT_NE(words, nullptr);
-  EXPECT_EQ(words->getActual(), getParam(m, "NumLcOtpWords"));
+  EXPECT_EQ(words->getActual(), getParameter(m, "NumLcOtpWords"));
   const hldb::Constant *const c = any_cast<hldb::Constant>(neq->getOperands()->at(1));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "28");
@@ -451,7 +434,7 @@ TEST_F(ParamArraySelectTest, TopOverridesInfoWithPartInfoElement) {
   ASSERT_NE(sel, nullptr) << "23.10.2.2: '.Info(PartInfo[LifeCycleIdx])' overrides Info with an element select";
   const hldb::RefObj *const array = sel->getPrefix<hldb::RefObj>();
   ASSERT_NE(array, nullptr);
-  EXPECT_EQ(array->getActual(), getParam(getPkg("otp_ctrl_part_pkg"), "PartInfo"))
+  EXPECT_EQ(array->getActual(), getParameter(getPkg("otp_ctrl_part_pkg"), "PartInfo"))
       << "26.3: PartInfo is imported from otp_ctrl_part_pkg";
   const hldb::RefObj *const index = sel->getIndex<hldb::RefObj>();
   ASSERT_NE(index, nullptr);
@@ -462,13 +445,11 @@ TEST_F(ParamArraySelectTest, TopOverridesInfoWithPartInfoElement) {
 TEST_F(ParamArraySelectTest, TopOtpByteAddrWidthIsOverridableSeven) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::Parameter *const p = getParam(top, "OtpByteAddrWidth");
+  const hldb::Parameter *const p = getParameter(top, "OtpByteAddrWidth");
   ASSERT_NE(p, nullptr) << "parameter 'OtpByteAddrWidth' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list, so a body 'parameter' is overridable";
-  const hldb::ParamAssign *const pa = getParamAssign(top, "OtpByteAddrWidth");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "7");
+  ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "7");
 }
 
 TEST_F(ParamArraySelectTest, TopHasOneLoopGenerateGenPartSel) {

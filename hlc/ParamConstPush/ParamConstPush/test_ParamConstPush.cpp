@@ -119,21 +119,8 @@ class ParamConstPushTest : public Test {
     return hldb::findByName<hldb::Package>(name, m_design->getAllPackages());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
@@ -194,9 +181,9 @@ class ParamConstPushTest : public Test {
                               std::string_view why) {
     const hldb::Package *const pkg = hldb::findByName<hldb::Package>(pkgName, m_design->getTopPackages());
     ASSERT_NE(pkg, nullptr) << "the elaborated package '" << pkgName << "' not found";
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated " << pkgName;
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(pkg, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated " << pkgName;
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -213,20 +200,20 @@ TEST_F(ParamConstPushTest, BasePkgDeclaresBaseAndUsage) {
   ASSERT_NE(pkg, nullptr) << "package 'base_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 2u);
-  ExpectLocalLogic1To0(getParam(pkg, "BASE"), "BASE");
-  ExpectLocalLogic1To0(getParam(pkg, "USAGE"), "USAGE");
-  const hldb::ParamAssign *const base = getParamAssign(pkg, "BASE");
+  ExpectLocalLogic1To0(getParameter(pkg, "BASE"), "BASE");
+  ExpectLocalLogic1To0(getParameter(pkg, "USAGE"), "USAGE");
+  const hldb::Parameter *const base = getParameter(pkg, "BASE");
   ASSERT_NE(base, nullptr);
-  ASSERT_NE(base->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(base->getRhs<hldb::Constant>()->getDecompile(), "2'b00");
+  ASSERT_NE(base->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(base->getExpr<hldb::Constant>()->getDecompile(), "2'b00");
 }
 
 TEST_F(ParamConstPushTest, UsageIsBaseOrOne) {
   const hldb::Package *const pkg = getPkg("base_pkg");
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "USAGE");
+  const hldb::Parameter *const pa = getParameter(pkg, "USAGE");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "unreduced, 'BASE | 2'b01' is an Operation";
   EXPECT_EQ(op->getOpType(), vpiBitOrOp) << "11.4.8: a bitwise or";
   ASSERT_NE(op->getOperands(), nullptr);
@@ -234,7 +221,7 @@ TEST_F(ParamConstPushTest, UsageIsBaseOrOne) {
   const hldb::RefObj *const base = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "BASE");
-  EXPECT_EQ(base->getActual(), getParam(pkg, "BASE")) << "'BASE' is base_pkg's own localparam";
+  EXPECT_EQ(base->getActual(), getParameter(pkg, "BASE")) << "'BASE' is base_pkg's own localparam";
   const hldb::Constant *const one = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "2'b01");
@@ -245,10 +232,10 @@ TEST_F(ParamConstPushTest, FromUsageIsScopedReferenceToUsage) {
   ASSERT_NE(pkg, nullptr) << "package 'error_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  ExpectLocalLogic1To0(getParam(pkg, "FROM_USAGE"), "FROM_USAGE");
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "FROM_USAGE");
+  ExpectLocalLogic1To0(getParameter(pkg, "FROM_USAGE"), "FROM_USAGE");
+  const hldb::Parameter *const pa = getParameter(pkg, "FROM_USAGE");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const path = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const path = pa->getExpr<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "unreduced, 'base_pkg::USAGE' is a reference";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u) << "the package, then the item";
@@ -259,8 +246,8 @@ TEST_F(ParamConstPushTest, FromUsageIsScopedReferenceToUsage) {
   const hldb::RefObj *const item = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(item, nullptr);
   EXPECT_EQ(item->getName(), "USAGE");
-  ASSERT_NE(getParam(getPkg("base_pkg"), "USAGE"), nullptr);
-  EXPECT_EQ(item->getActual(), getParam(getPkg("base_pkg"), "USAGE")) << "26.3: 'USAGE' is declared in base_pkg";
+  ASSERT_NE(getParameter(getPkg("base_pkg"), "USAGE"), nullptr);
+  EXPECT_EQ(item->getActual(), getParameter(getPkg("base_pkg"), "USAGE")) << "26.3: 'USAGE' is declared in base_pkg";
 }
 
 // ---------------------------------------------------------------------------
@@ -283,7 +270,6 @@ TEST_F(ParamConstPushTest, EmptyParameterPortListDeclaresNoParameter) {
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getParameters() == nullptr || top->getParameters()->empty())
       << "A.1.3: '#()' is an empty parameter_port_list";
-  EXPECT_TRUE(top->getParamAssigns() == nullptr || top->getParamAssigns()->empty());
 }
 
 TEST_F(ParamConstPushTest, TopHeaderImportsAllOfErrorPkg) {

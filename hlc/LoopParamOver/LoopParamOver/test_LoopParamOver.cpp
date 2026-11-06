@@ -86,15 +86,10 @@ class LoopParamOverTest : public Test {
   static const hldb::Module *getModule(std::string_view name) {
     return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
   }
-  static const hldb::Parameter *getParam(std::string_view module, std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view module, std::string_view name) {
     const hldb::Module *const m = getModule(module);
     if (m == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-  static const hldb::ParamAssign *getParamAssign(std::string_view module, std::string_view name) {
-    const hldb::Module *const m = getModule(module);
-    if (m == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
   }
 };
 
@@ -105,12 +100,12 @@ TEST_F(LoopParamOverTest, ModulesExist) {
 
 TEST_F(LoopParamOverTest, AllParametersAreNonlocal) {
   for (std::string_view name : {"P1", "P2"}) {
-    const hldb::Parameter *const p = getParam("Foo", name);
+    const hldb::Parameter *const p = getParameter("Foo", name);
     ASSERT_NE(p, nullptr) << "Foo." << name;
     EXPECT_FALSE(p->getLocalParam()) << "Foo." << name;
   }
   for (std::string_view name : {"P1", "P2", "P3"}) {
-    const hldb::Parameter *const p = getParam("top", name);
+    const hldb::Parameter *const p = getParameter("top", name);
     ASSERT_NE(p, nullptr) << "top." << name;
     EXPECT_FALSE(p->getLocalParam()) << "top." << name;
   }
@@ -130,17 +125,17 @@ TEST_F(LoopParamOverTest, OnlyTopIsTopLevelModule) {
 }
 
 TEST_F(LoopParamOverTest, FooP1DefaultIs10) {
-  const hldb::ParamAssign *const pa = getParamAssign("Foo", "P1");
+  const hldb::Parameter *const pa = getParameter("Foo", "P1");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "10");
 }
 
 TEST_F(LoopParamOverTest, FooP2IsSelfReferentialAddition) {
-  const hldb::ParamAssign *const pa = getParamAssign("Foo", "P2");
+  const hldb::Parameter *const pa = getParameter("Foo", "P2");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAddOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -153,11 +148,11 @@ TEST_F(LoopParamOverTest, FooP2IsSelfReferentialAddition) {
   EXPECT_EQ(b->getName(), "P2");
   // 6.5: P1 (line 2) is declared before line 3 and must bind to Foo.P1.
   ASSERT_NE(a->getActual(), nullptr);
-  EXPECT_EQ(a->getActual(), getParam("Foo", "P1"));
+  EXPECT_EQ(a->getActual(), getParameter("Foo", "P1"));
 }
 
 // top: P3 = P1; P2 = P3; P1 = P2;
-TEST_F(LoopParamOverTest, TopParamAssignShapes) {
+TEST_F(LoopParamOverTest, TopParameterShapes) {
   struct Expected {
     std::string_view m_lhs;
     std::string_view m_rhs;
@@ -165,12 +160,9 @@ TEST_F(LoopParamOverTest, TopParamAssignShapes) {
   };
   const Expected expected[] = {{"P3", "P1", 9}, {"P2", "P3", 10}, {"P1", "P2", 11}};
   for (const Expected &e : expected) {
-    const hldb::ParamAssign *const pa = getParamAssign("top", e.m_lhs);
+    const hldb::Parameter *const pa = getParameter("top", e.m_lhs);
     ASSERT_NE(pa, nullptr) << e.m_lhs;
-    const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr) << e.m_lhs;
-    EXPECT_EQ(lhs->getActual(), getParam("top", e.m_lhs)) << e.m_lhs;
-    const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+    const hldb::RefObj *const rhs = pa->getExpr<hldb::RefObj>();
     ASSERT_NE(rhs, nullptr) << e.m_lhs;
     EXPECT_EQ(rhs->getName(), e.m_rhs) << e.m_lhs;
     EXPECT_EQ(rhs->getStartLine(), e.m_line) << e.m_lhs;
@@ -179,19 +171,19 @@ TEST_F(LoopParamOverTest, TopParamAssignShapes) {
 
 // 6.5: backward references in top are legal and bind.
 TEST_F(LoopParamOverTest, TopBackwardReferencesBind) {
-  const hldb::ParamAssign *const p2 = getParamAssign("top", "P2");
+  const hldb::Parameter *const p2 = getParameter("top", "P2");
   ASSERT_NE(p2, nullptr);
-  const hldb::RefObj *const r2 = p2->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const r2 = p2->getExpr<hldb::RefObj>();
   ASSERT_NE(r2, nullptr);
   ASSERT_NE(r2->getActual(), nullptr);
-  EXPECT_EQ(r2->getActual(), getParam("top", "P3"));
+  EXPECT_EQ(r2->getActual(), getParameter("top", "P3"));
 
-  const hldb::ParamAssign *const p1 = getParamAssign("top", "P1");
+  const hldb::Parameter *const p1 = getParameter("top", "P1");
   ASSERT_NE(p1, nullptr);
-  const hldb::RefObj *const r1 = p1->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const r1 = p1->getExpr<hldb::RefObj>();
   ASSERT_NE(r1, nullptr);
   ASSERT_NE(r1->getActual(), nullptr);
-  EXPECT_EQ(r1->getActual(), getParam("top", "P2"));
+  EXPECT_EQ(r1->getActual(), getParameter("top", "P2"));
 }
 
 // 23.10.2.2: Foo #(.P1(P2)) sub();
@@ -209,15 +201,14 @@ TEST_F(LoopParamOverTest, SubOverridesFooP1WithTopP2) {
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "P1");
-  EXPECT_EQ(lhs->getActual(), getParam("Foo", "P1"));
+  EXPECT_EQ(lhs->getActual(), getParameter("Foo", "P1"));
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "P2");
-  EXPECT_EQ(rhs->getActual(), getParam("top", "P2")) << "override value is evaluated in the instantiating scope";
+  EXPECT_EQ(rhs->getActual(), getParameter("top", "P2")) << "override value is evaluated in the instantiating scope";
 }
 
 // 6.5 + 6.20: "P1" on line 9 is used before top.P1 is declared on line 11.

@@ -157,21 +157,8 @@ class ParamConstTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::EnumConst *getLcStScrap() {
@@ -240,9 +227,9 @@ class ParamConstTest : public Test {
   // 'scope' is 'expected'.
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -255,7 +242,7 @@ class ParamConstTest : public Test {
     ASSERT_NE(m, nullptr) << what << " not found";
     ASSERT_NE(m->getParameters(), nullptr);
     ASSERT_EQ(m->getParameters()->size(), 1u) << what;
-    const hldb::Parameter *const p = getParam(m, "ResetValue");
+    const hldb::Parameter *const p = getParameter(m, "ResetValue");
     ASSERT_NE(p, nullptr) << what;
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: " << what << "'s ResetValue is in the parameter port list";
     ASSERT_NE(p->getTypespec(), nullptr);
@@ -266,10 +253,8 @@ class ParamConstTest : public Test {
     const hldb::Constant *const left = lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>();
     ASSERT_NE(left, nullptr);
     EXPECT_EQ(left->getDecompile(), "3");
-    const hldb::ParamAssign *const pa = getParamAssign(m, "ResetValue");
-    ASSERT_NE(pa, nullptr);
-    ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-    EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "0") << what;
+    ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "0") << what;
   }
 };
 
@@ -285,13 +270,11 @@ TEST_F(ParamConstTest, B0AndB1AreLocalTwoBitLiterals) {
   const char *const names[] = {"B0", "B1"};
   const char *const values[] = {"2'b01", "2'b10"};
   for (size_t i = 0; i < 2; ++i) {
-    const hldb::Parameter *const p = getParam(pkg, names[i]);
+    const hldb::Parameter *const p = getParameter(pkg, names[i]);
     ASSERT_NE(p, nullptr) << "parameter '" << names[i] << "' not found";
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, names[i]);
-    ASSERT_NE(pa, nullptr);
-    ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-    EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), values[i]);
+    ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), values[i]);
   }
 }
 
@@ -308,7 +291,7 @@ TEST_F(ParamConstTest, LcStScrapIsConcatOfB1AndB0) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(concat->getOperands()->at(i));
     ASSERT_NE(ref, nullptr);
     EXPECT_EQ(ref->getName(), names[i]);
-    EXPECT_EQ(ref->getActual(), getParam(getPkg(), names[i]));
+    EXPECT_EQ(ref->getActual(), getParameter(getPkg(), names[i]));
   }
 }
 
@@ -341,7 +324,7 @@ TEST_F(ParamConstTest, PrimFlopPassesItsResetValueToGenericFlop) {
   const hldb::RefObj *const value = any_cast<hldb::RefObj>(getOverride(inst, "ResetValue"));
   ASSERT_NE(value, nullptr) << "23.10.2.2: '.ResetValue(ResetValue)' overrides by name";
   EXPECT_EQ(value->getName(), "ResetValue");
-  EXPECT_EQ(value->getActual(), getParam(getModule("prim_flop"), "ResetValue"))
+  EXPECT_EQ(value->getActual(), getParameter(getModule("prim_flop"), "ResetValue"))
       << "the value is prim_flop's own parameter";
 }
 

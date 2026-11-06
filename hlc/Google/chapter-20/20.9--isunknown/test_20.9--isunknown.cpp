@@ -39,9 +39,9 @@
 //     and 4 statements
 //   - each parameter val0..val3 is typed by a LogicTypespec that is a vector
 //     with exactly 1 range [3:0] (both bounds Constant unsigned int, size 64)
-//   - each parameter assignment, in order, has a RefObj LHS bound to its
-//     Parameter and a Constant binary RHS of size 4 ("4'b000x", "4'b000z",
-//     "4'b00xz", "4'b0000") whose typespec resolves to a LogicTypespec
+//   - each parameter, in order, has as its value (Parameter::getExpr()) a
+//     Constant binary of size 4 ("4'b000x", "4'b000z", "4'b00xz",
+//     "4'b0000") whose typespec resolves to a LogicTypespec
 //   - each statement is a SysTaskCall named "$display" with exactly 2
 //     arguments: a Constant string format (size 144) and a SysFuncCall named
 //     "$isunknown" with exactly 1 argument, a RefObj bound to the Begin's
@@ -103,20 +103,17 @@ class IsunknownFunctionTest : public Test {
   }
 
   // "parameter [3:0] valN = ...;" -- declared inside the begin block.
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Begin *const body = getInitialBody();
-    if (body == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::Parameter>(name, body->getParameters());
+    return (body == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, body->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign(size_t index) {
+  static const hldb::Parameter *getParameter(size_t index) {
     const hldb::Begin *const body = getInitialBody();
-    if (body == nullptr || body->getParamAssigns() == nullptr || body->getParamAssigns()->size() <= index) {
+    if (body == nullptr || body->getParameters() == nullptr || body->getParameters()->size() <= index) {
       return nullptr;
     }
-    return body->getParamAssigns()->at(index);
+    return any_cast<hldb::Parameter>(body->getParameters()->at(index));
   }
 
   // stmtIndex is the position of the $display statement in the begin block.
@@ -163,19 +160,15 @@ class IsunknownFunctionTest : public Test {
     EXPECT_EQ(right->getDecompile(), "0");
   }
 
-  // "valN = 4'b...": the LHS binds to the Parameter, the RHS is a 4-bit
-  // binary Constant.
-  static void expectParamAssign(size_t index, std::string_view name, std::string_view decompile) {
-    const hldb::ParamAssign *const assign = getParamAssign(index);
-    ASSERT_NE(assign, nullptr) << "parameter assignment " << index << " should exist";
+  // "valN = 4'b...": the Parameter's value is a 4-bit binary Constant.
+  static void expectParameter(size_t index, std::string_view name, std::string_view decompile) {
+    const hldb::Parameter *const param = getParameter(index);
+    ASSERT_NE(param, nullptr) << "parameter " << index << " should exist";
+    EXPECT_EQ(param->getName(), name);
+    ASSERT_NE(getParameter(name), nullptr);
+    EXPECT_EQ(param, getParameter(name));
 
-    const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr) << "the LHS of '" << name << " = ...' should be a RefObj";
-    EXPECT_EQ(lhs->getName(), name);
-    ASSERT_NE(getParam(name), nullptr);
-    EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getParam(name));
-
-    const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+    const hldb::Constant *const rhs = param->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "the RHS of '" << name << " = ...' should be a Constant";
     EXPECT_EQ(rhs->getConstType(), vpiBinaryConst);
     EXPECT_EQ(rhs->getSize(), 4);
@@ -213,8 +206,8 @@ class IsunknownFunctionTest : public Test {
     const hldb::RefObj *const arg = callArg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(arg, nullptr) << "'" << name << "' should be a RefObj";
     EXPECT_EQ(arg->getName(), name);
-    ASSERT_NE(getParam(name), nullptr);
-    EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParam(name))
+    ASSERT_NE(getParameter(name), nullptr);
+    EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParameter(name))
         << "'" << name << "' should bind to the Begin's Parameter";
   }
 };
@@ -236,8 +229,6 @@ TEST_F(IsunknownFunctionTest, InitialBodyIsBeginWithFourParametersAndFourStmts) 
   ASSERT_NE(body, nullptr) << "'initial begin ... end' should wrap the body in a Begin";
   ASSERT_NE(body->getParameters(), nullptr);
   EXPECT_EQ(body->getParameters()->size(), 4u) << "val0..val3 are declared in the begin block";
-  ASSERT_NE(body->getParamAssigns(), nullptr);
-  EXPECT_EQ(body->getParamAssigns()->size(), 4u) << "each parameter has one assignment";
   EXPECT_TRUE(body->getVariables() == nullptr || body->getVariables()->empty())
       << "the begin block declares parameters, not variables";
   ASSERT_NE(body->getStmts(), nullptr);
@@ -247,17 +238,17 @@ TEST_F(IsunknownFunctionTest, InitialBodyIsBeginWithFourParametersAndFourStmts) 
 // --- parameter [3:0] val0..val3 = ...; ---------------------------------------
 
 TEST_F(IsunknownFunctionTest, ParametersAreLogicVectors3To0) {
-  expectLogic3To0(getParam("val0"));
-  expectLogic3To0(getParam("val1"));
-  expectLogic3To0(getParam("val2"));
-  expectLogic3To0(getParam("val3"));
+  expectLogic3To0(getParameter("val0"));
+  expectLogic3To0(getParameter("val1"));
+  expectLogic3To0(getParameter("val2"));
+  expectLogic3To0(getParameter("val3"));
 }
 
 TEST_F(IsunknownFunctionTest, ParameterAssignmentsAreFourBitBinaryConstants) {
-  expectParamAssign(0, "val0", "4'b000x");
-  expectParamAssign(1, "val1", "4'b000z");
-  expectParamAssign(2, "val2", "4'b00xz");
-  expectParamAssign(3, "val3", "4'b0000");
+  expectParameter(0, "val0", "4'b000x");
+  expectParameter(1, "val1", "4'b000z");
+  expectParameter(2, "val2", "4'b00xz");
+  expectParameter(3, "val3", "4'b0000");
 }
 
 // --- $display(":assert: (%d == N)", $isunknown(valN)); x 4 -------------------

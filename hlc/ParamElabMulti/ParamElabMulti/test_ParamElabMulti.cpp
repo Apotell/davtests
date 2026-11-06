@@ -233,21 +233,8 @@ class ParamElabMultiTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getPadTypeE() {
@@ -361,9 +348,9 @@ class ParamElabMultiTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -377,14 +364,12 @@ class ParamElabMultiTest : public Test {
     ASSERT_NE(m, nullptr) << "module '" << name << "' not found";
     ASSERT_NE(m->getParameters(), nullptr);
     ASSERT_EQ(m->getParameters()->size(), 1u) << name;
-    const hldb::Parameter *const p = getParam(m, "PadType");
+    const hldb::Parameter *const p = getParameter(m, "PadType");
     ASSERT_NE(p, nullptr) << name;
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: " << name
                                      << " has no parameter port list, so 'PadType' is overridable";
     EXPECT_TRUE(namesPadTypeE(p->getTypespec())) << "26.3: " << name << "'s 'PadType' is the imported pad_type_e";
-    const hldb::ParamAssign *const pa = getParamAssign(m, "PadType");
-    ASSERT_NE(pa, nullptr);
-    const hldb::RefObj *const a = pa->getRhs<hldb::RefObj>();
+    const hldb::RefObj *const a = p->getExpr<hldb::RefObj>();
     ASSERT_NE(a, nullptr) << name << ": the default is 'A'";
     EXPECT_EQ(a->getName(), "A");
     ASSERT_NE(getEnumConst("A"), nullptr);
@@ -437,14 +422,14 @@ TEST_F(ParamElabMultiTest, PinmuxPkgDeclaresLocalNDioPadsOfOne) {
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 2u);
   for (std::string_view name : {"NDioPads", "DefaultTargetCfg"}) {
-    const hldb::Parameter *const p = getParam(pkg, name);
+    const hldb::Parameter *const p = getParameter(pkg, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
   }
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "NDioPads");
+  const hldb::Parameter *const pa = getParameter(pkg, "NDioPads");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "1");
+  ASSERT_NE(pa->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(pa->getExpr<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(ParamElabMultiTest, TargetCfgTIsPackedStructOfDioPadType) {
@@ -468,9 +453,9 @@ TEST_F(ParamElabMultiTest, TargetCfgTIsPackedStructOfDioPadType) {
 TEST_F(ParamElabMultiTest, DefaultTargetCfgReplicatesA) {
   const hldb::Package *const pkg = getPkg("pinmux_pkg");
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "DefaultTargetCfg");
+  const hldb::Parameter *const pa = getParameter(pkg, "DefaultTargetCfg");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -491,7 +476,7 @@ TEST_F(ParamElabMultiTest, DefaultTargetCfgReplicatesA) {
   const hldb::RefObj *const count = any_cast<hldb::RefObj>(repl->getOperands()->at(0));
   ASSERT_NE(count, nullptr);
   EXPECT_EQ(count->getName(), "NDioPads");
-  EXPECT_EQ(count->getActual(), getParam(pkg, "NDioPads")) << "'NDioPads' is pinmux_pkg's own parameter";
+  EXPECT_EQ(count->getActual(), getParameter(pkg, "NDioPads")) << "'NDioPads' is pinmux_pkg's own parameter";
   const hldb::Any *element = repl->getOperands()->at(1);
   const hldb::Operation *const inner = any_cast<hldb::Operation>(element);
   if ((inner != nullptr) && (inner->getOpType() == vpiConcatOp) && (inner->getOperands() != nullptr) &&
@@ -538,7 +523,7 @@ TEST_F(ParamElabMultiTest, GenAssignIsGuardedByPadTypeEqualsB) {
   const hldb::RefObj *const padType = any_cast<hldb::RefObj>(eq->getOperands()->at(0));
   ASSERT_NE(padType, nullptr);
   EXPECT_EQ(padType->getName(), "PadType");
-  EXPECT_EQ(padType->getActual(), getParam(getModule("prim_generic_pad_attr"), "PadType"));
+  EXPECT_EQ(padType->getActual(), getParameter(getModule("prim_generic_pad_attr"), "PadType"));
   const hldb::RefObj *const b = any_cast<hldb::RefObj>(eq->getOperands()->at(1));
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getName(), "B");
@@ -572,7 +557,7 @@ TEST_F(ParamElabMultiTest, GenGenericPassesPadTypeToUImplGeneric) {
   const hldb::RefObj *const value = any_cast<hldb::RefObj>(getOverride(inst, "PadType"));
   ASSERT_NE(value, nullptr) << "23.10.2.2: '.PadType(PadType)' overrides by name";
   EXPECT_EQ(value->getName(), "PadType");
-  EXPECT_EQ(value->getActual(), getParam(getModule("prim_pad_attr"), "PadType"))
+  EXPECT_EQ(value->getActual(), getParameter(getModule("prim_pad_attr"), "PadType"))
       << "the value is prim_pad_attr's own parameter";
 }
 
@@ -581,16 +566,14 @@ TEST_F(ParamElabMultiTest, SubTopDefaultsTargetCfgToDefaultTargetCfg) {
   ASSERT_NE(sub, nullptr) << "module 'sub_top' not found";
   ASSERT_NE(sub->getParameters(), nullptr);
   ASSERT_EQ(sub->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(sub, "TargetCfg");
+  const hldb::Parameter *const p = getParameter(sub, "TargetCfg");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: sub_top has no parameter port list, so 'TargetCfg' is overridable";
-  const hldb::ParamAssign *const pa = getParamAssign(sub, "TargetCfg");
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const value = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const value = p->getExpr<hldb::RefObj>();
   ASSERT_NE(value, nullptr);
   EXPECT_EQ(value->getName(), "DefaultTargetCfg");
-  ASSERT_NE(getParam(getPkg("pinmux_pkg"), "DefaultTargetCfg"), nullptr);
-  EXPECT_EQ(value->getActual(), getParam(getPkg("pinmux_pkg"), "DefaultTargetCfg"))
+  ASSERT_NE(getParameter(getPkg("pinmux_pkg"), "DefaultTargetCfg"), nullptr);
+  EXPECT_EQ(value->getActual(), getParameter(getPkg("pinmux_pkg"), "DefaultTargetCfg"))
       << "26.3: 'DefaultTargetCfg' is imported from pinmux_pkg";
 }
 
@@ -608,8 +591,8 @@ TEST_F(ParamElabMultiTest, GenDioAttrLoopsOverNDioPads) {
   const hldb::RefObj *const n = any_cast<hldb::RefObj>(lt->getOperands()->at(1));
   ASSERT_NE(n, nullptr);
   EXPECT_EQ(n->getName(), "NDioPads");
-  ASSERT_NE(getParam(getPkg("pinmux_pkg"), "NDioPads"), nullptr);
-  EXPECT_EQ(n->getActual(), getParam(getPkg("pinmux_pkg"), "NDioPads")) << "26.3: imported from pinmux_pkg";
+  ASSERT_NE(getParameter(getPkg("pinmux_pkg"), "NDioPads"), nullptr);
+  EXPECT_EQ(n->getActual(), getParameter(getPkg("pinmux_pkg"), "NDioPads")) << "26.3: imported from pinmux_pkg";
   const hldb::GenBlock *const block = loop->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr);
   EXPECT_EQ(block->getName(), "gen_dio_attr");
@@ -623,7 +606,7 @@ TEST_F(ParamElabMultiTest, TopPassesPinmuxTargetCfgToUSub) {
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   ASSERT_NE(top->getParameters(), nullptr);
   ASSERT_EQ(top->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(top, "PinmuxTargetCfg");
+  const hldb::Parameter *const p = getParameter(top, "PinmuxTargetCfg");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: declared 'localparam'";
   ASSERT_NE(top->getRefInstances(), nullptr);

@@ -30,24 +30,18 @@
 //     (ss.11.2.1).
 //   * Parameters declared in the port list are NOT localparams; they are
 //     overridable at instantiation (ss.6.20.2).
-//   * UHDM stores the parameter in the module's parameter collection and its
-//     default value in a ParamAssign node, exactly as for body-declared
-//     parameters.
+//   * HLDB stores the parameter in the module's parameter collection with its
+//     default value on the Parameter itself (Parameter::getExpr()), exactly as
+//     for body-declared parameters.
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
-//   |   +-- [0] Parameter name:"p"  localParam: false
-//   +-- getParamAssigns() (ParamAssignCollection, 1 item)
-//       +-- [0] ParamAssign
-//               lhs: Parameter name:"p"
-//               rhs: Constant { decompile: "12" }
+//       +-- [0] Parameter name:"p"  localParam: false
+//               expr: Constant { decompile: "12" }
 //
-// NOTE: Surelog stores parameter default expressions via ParamAssign nodes
-// (Scope::getParamAssigns()), not directly in Parameter::getExpr(). Access
-// the default value by finding the ParamAssign by LHS name and calling
-// getRhs<T>().
+// NOTE: a declaration creates no ParamAssign; those carry overrides only.
 //
 // -- VPI constants ------------------------------------------------------------
 //   vpiIntConst = 7    (int constant, vpi_user.h)
@@ -81,17 +75,9 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-}
-
-// Returns the ParamAssign for the named parameter (matched via getLhs name).
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // ===========================================================================
@@ -124,29 +110,29 @@ TEST_F(ParameterPortListTest, ParameterCount) {
 // ===========================================================================
 
 TEST_F(ParameterPortListTest, P_Exists) {
-  EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters";
+  EXPECT_NE(getParameter(m_design, "p"), nullptr) << "'p' not found in parameters";
 }
 
 // ss.6.20.2: parameters declared in a parameter port list are overridable and
 // must NOT be treated as localparams.
 TEST_F(ParameterPortListTest, P_IsNotLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "ss.6.20.2: '#(p = 12)' declares a parameter, not a localparam";
 }
 
 // ss.6.20.2: the default value '12' is a constant_expression (ss.11.2.1)
-// stored as a Constant in the parameter's ParamAssign RHS.
+// stored as a Constant in the parameter's own expression (Parameter::getExpr()).
 TEST_F(ParameterPortListTest, P_RhsIsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'p = 12': RHS must be a Constant";
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p' not found";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "'p = 12': RHS must be a Constant";
 }
 
 TEST_F(ParameterPortListTest, P_RhsDecompile) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  const hldb::Constant *c = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p' not found";
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'p = 12': RHS must be a Constant";
   EXPECT_EQ(std::string(c->getDecompile()), "12") << "'p = 12': decompile must be \"12\"";
 }

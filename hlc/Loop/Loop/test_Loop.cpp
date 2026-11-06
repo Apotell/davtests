@@ -183,10 +183,7 @@ TEST_F(LoopTest, TestParameterIsNonlocalWithDefault10) {
   const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("bht_row_width_p", test->getParameters());
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam());
-
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("bht_row_width_p", test->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "10");
 }
@@ -225,7 +222,6 @@ TEST_F(LoopTest, SelfInstanceOverridesParameterWithDecrement) {
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::Module *const test = getModule("test");
   ASSERT_NE(test, nullptr);

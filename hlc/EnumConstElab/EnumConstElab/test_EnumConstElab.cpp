@@ -64,23 +64,23 @@
 //   - "top" owns TypedefTypespec "enum_t" -> EnumTypespec (base logic[1:0])
 //     with 1 const "ENUM_ITEM" = 2'b11 (vpiBinaryConst)
 //   - "top" declares parameter "CTRL_RESET" (not a localparam), whose
-//     default ParamAssign RHS is an Operation (vpiAssignmentPatternOp)
+//     default (Parameter::getExpr()) is an Operation (vpiAssignmentPatternOp)
 //     with 2 TaggedPattern operands: "a" -> RefObj "ENUM_ITEM" resolving
 //     to the EnumConst above, "b" -> present (non-null) pattern
 //   - "top" instantiates "prim_subreg_shadow" as "u_ctrl_reg_shadowed"
-//     with a by-name, overriding ParamAssign for "RESVAL" whose RHS is a
-//     RefObj "CTRL_RESET" resolving to the Parameter above
+//     whose typespec carries a by-name ParamAssign for "RESVAL" whose RHS is
+//     a RefObj "CTRL_RESET" resolving to the Parameter above
 //   - "prim_subreg_shadow" owns its own, distinct TypedefTypespec
 //     "enum_t" -> EnumTypespec (base logic[2:0]) with 1 const
 //     "ENUM_ITEM" = 3'b000
 //   - "prim_subreg_shadow" declares parameter "RESVAL" whose default
-//     ParamAssign RHS is an assignment-pattern Operation whose "a" entry
+//     (Parameter::getExpr()) is an assignment-pattern Operation whose "a" entry
 //     is a RefObj "ENUM_ITEM" resolving to ITS OWN local EnumConst (not
 //     the one in "top" -- each module scope has an independently
 //     elaborated enum constant of the same name)
 //   - "prim_subreg_shadow" instantiates "prim_subreg" as "staged_reg"
-//     with a by-name, overriding ParamAssign for "RESVAL" whose RHS is a
-//     RefObj "RESVAL" resolving to ITS OWN Parameter "RESVAL"
+//     whose typespec carries a by-name ParamAssign for "RESVAL" whose RHS is
+//     a RefObj "RESVAL" resolving to ITS OWN Parameter "RESVAL"
 //   - "prim_subreg" declares parameter "RESVAL" (logic[4:0], default '0)
 //   - "prim_subreg" declares variable "a" (int) whose initial value is a
 //     cast Operation (vpiCastOp) to 'int' over a RefObj "RESVAL"
@@ -123,6 +123,10 @@ class EnumConstElabTest : public Test {
  protected:
   static const hldb::Module *getModule(std::string_view name) {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+
+  static const hldb::Parameter *findParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   template <typename ScopeT>
@@ -200,9 +204,9 @@ TEST_F(EnumConstElabTest, TopHasCtrlResetParameterNotLocalParam) {
 TEST_F(EnumConstElabTest, TopCtrlResetDefaultIsAssignmentPatternWithTwoOperands) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(top, "CTRL_RESET");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'CTRL_RESET' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = findParameter(top, "CTRL_RESET");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'CTRL_RESET' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "'{a: ENUM_ITEM, b: '0}' RHS must be an Operation";
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -212,9 +216,9 @@ TEST_F(EnumConstElabTest, TopCtrlResetDefaultIsAssignmentPatternWithTwoOperands)
 TEST_F(EnumConstElabTest, TopCtrlResetMemberAReferencesEnumItem) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(top, "CTRL_RESET");
+  const hldb::Parameter *const pa = findParameter(top, "CTRL_RESET");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);
@@ -236,9 +240,9 @@ TEST_F(EnumConstElabTest, TopCtrlResetMemberAReferencesEnumItem) {
 TEST_F(EnumConstElabTest, TopCtrlResetMemberBIsPresent) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(top, "CTRL_RESET");
+  const hldb::Parameter *const pa = findParameter(top, "CTRL_RESET");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getOperands(), nullptr);
   ASSERT_EQ(rhs->getOperands()->size(), 2u);
@@ -265,7 +269,7 @@ TEST_F(EnumConstElabTest, TopInstantiatesPrimSubregShadow) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), std::string_view("prim_subreg_shadow"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("prim_subreg_shadow"));
 }
 
 TEST_F(EnumConstElabTest, UCtrlRegShadowedOverridesResvalWithCtrlReset) {
@@ -279,7 +283,6 @@ TEST_F(EnumConstElabTest, UCtrlRegShadowedOverridesResvalWithCtrlReset) {
   const hldb::ParamAssign *const pa = findParamAssign(rt->getActual(), "RESVAL");
   ASSERT_NE(pa, nullptr) << "'.RESVAL(CTRL_RESET)' override not found";
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'.RESVAL(CTRL_RESET)' RHS must be a RefObj";
   EXPECT_EQ(rhs->getName(), std::string_view("CTRL_RESET"));
@@ -308,9 +311,9 @@ TEST_F(EnumConstElabTest, ShadowEnumHasOwnConstEnumItem) {
 TEST_F(EnumConstElabTest, ShadowResvalMemberAReferencesItsOwnEnumItem) {
   const hldb::Module *const shadow = getModule("prim_subreg_shadow");
   ASSERT_NE(shadow, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(shadow, "RESVAL");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'prim_subreg_shadow::RESVAL' not found";
-  const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = findParameter(shadow, "RESVAL");
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'prim_subreg_shadow::RESVAL' not found";
+  const hldb::Operation *const rhs = pa->getExpr<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(rhs->getOperands(), nullptr);
@@ -339,7 +342,7 @@ TEST_F(EnumConstElabTest, ShadowInstantiatesPrimSubreg) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getName(), std::string_view("prim_subreg"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("prim_subreg"));
 }
 
 TEST_F(EnumConstElabTest, StagedRegOverridesResvalWithShadowsResval) {
@@ -352,7 +355,6 @@ TEST_F(EnumConstElabTest, StagedRegOverridesResvalWithShadowsResval) {
   const hldb::ParamAssign *const pa = findParamAssign(rt->getActual(), "RESVAL");
   ASSERT_NE(pa, nullptr) << "'.RESVAL(RESVAL)' override not found";
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("RESVAL"));

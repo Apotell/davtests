@@ -242,14 +242,9 @@ class PackDataTypeTest : public Test {
     return hldb::findByName<hldb::Parameter>("KeyMgrDigestW", m->getParameters());
   }
 
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Instance *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  // The Parameter named 'name' in 'scope'.
+  static const hldb::Parameter *getParameter(const hldb::Instance *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::GenIf *getGenIf() {
@@ -355,9 +350,9 @@ TEST_F(PackDataTypeTest, KeyWidthIsSignedInt256) {
   const hldb::IntTypespec *const it = kw->getTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(it, nullptr) << "'KeyWidth' is declared 'int'";
   EXPECT_TRUE(it->getSigned()) << "6.11: 'int' is signed";
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "KeyWidth");
+  const hldb::Parameter *const pa = getParameter(pkg, "KeyWidth");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const value = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const value = pa->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr);
   EXPECT_EQ(value->getDecompile(), "256");
 }
@@ -496,9 +491,9 @@ TEST_F(PackDataTypeTest, KeyMgrDigestWIsLocalSignedInt) {
 }
 
 TEST_F(PackDataTypeTest, KeyMgrDigestWIsBitsOfDigestShare0) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("kmac_keymgr"), "KeyMgrDigestW");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'KeyMgrDigestW'";
-  const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::Parameter *const pa = getParameter(getModule("kmac_keymgr"), "KeyMgrDigestW");
+  ASSERT_NE(pa, nullptr) << "no Parameter for 'KeyMgrDigestW'";
+  const hldb::SysFuncCall *const bits = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr) << "unreduced, '$bits(...)' is a system function call";
   EXPECT_EQ(bits->getName(), "$bits");
   ASSERT_NE(bits->getArguments(), nullptr);
@@ -605,9 +600,9 @@ TEST_F(PackDataTypeTest, KeyMgrDigestWReducesTo247) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "kmac_keymgr is a top-level instance";
-    const hldb::ParamAssign *const pa = getParamAssign(top, "KeyMgrDigestW");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'KeyMgrDigestW' in the elaborated kmac_keymgr";
-    ExpectIntConstant(pa->getRhs(), 247, "20.6.2: $bits(logic [256-10:0]) = 247");
+    const hldb::Parameter *const pa = getParameter(top, "KeyMgrDigestW");
+    ASSERT_NE(pa, nullptr) << "no Parameter for 'KeyMgrDigestW' in the elaborated kmac_keymgr";
+    ExpectIntConstant(pa->getExpr(), 247, "20.6.2: $bits(logic [256-10:0]) = 247");
   }
 }
 

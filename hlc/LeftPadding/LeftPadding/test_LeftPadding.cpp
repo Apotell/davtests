@@ -87,24 +87,7 @@ class LeftPaddingTest : public Test {
 
   static const hldb::Parameter *findParam(std::string_view name) {
     const hldb::Module *const m = getModule();
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(std::string_view name) {
-    const hldb::Module *const m = getModule();
-    if (m == nullptr || m->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if (lhs != nullptr && lhs->getName() == name) return pa;
-      const hldb::Parameter *const lhsp = pa->getLhs<hldb::Parameter>();
-      if (lhsp != nullptr && lhsp->getName() == name) return pa;
-    }
-    return nullptr;
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::GenIf *getGenIf() {
@@ -120,9 +103,9 @@ class LeftPaddingTest : public Test {
   // source text is given in 'lits'.
   static void checkMultiConcat(std::string_view name, std::string_view repl,
                                const std::vector<std::string_view> &lits) {
-    const hldb::ParamAssign *const pa = findParamAssign(name);
-    ASSERT_NE(pa, nullptr) << "ParamAssign for '" << name << "' not found";
-    const hldb::Operation *const mc = pa->getRhs<hldb::Operation>();
+    const hldb::Parameter *const pa = findParam(name);
+    ASSERT_NE(pa, nullptr) << "Parameter for '" << name << "' not found";
+    const hldb::Operation *const mc = pa->getExpr<hldb::Operation>();
     ASSERT_NE(mc, nullptr) << "'" << name << "' default must be an Operation";
     EXPECT_EQ(mc->getOpType(), vpiMultiConcatOp) << "11.4.12.1: '{N{...}}' is a multiple concatenation";
     ASSERT_NE(mc->getOperands(), nullptr);

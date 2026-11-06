@@ -83,12 +83,7 @@ class ElabIfTest : public Test {
 
   template <typename ScopeT>
   static const hldb::Parameter *findParam(const ScopeT *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *scope->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   template <typename ScopeT>
@@ -97,8 +92,7 @@ class ElabIfTest : public Test {
   }
 
   static const hldb::RefInstance *findRefInst(std::string_view instName, const hldb::Module *parent) {
-    if (parent == nullptr || parent->getRefInstances() == nullptr) return nullptr;
-    return hldb::findByName<hldb::RefInstance>(instName, parent->getRefInstances());
+    return (parent == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(instName, parent->getRefInstances());
   }
 
   // Returns all GenIf statements directly in m's getGenStmts().
@@ -132,12 +126,9 @@ TEST_F(ElabIfTest, Assigner_InvertParamNotLocalWithDefaultZero) {
   const hldb::Parameter *const invert = findParam(m, "invert");
   ASSERT_NE(invert, nullptr) << "'parameter invert' not found on 'assigner'";
   EXPECT_FALSE(invert->getLocalParam()) << "'parameter invert' must not be a localparam";
-
-  const hldb::ParamAssign *const pa = findParamAssign(m, "invert");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'invert' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = invert->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'invert = 0': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getDecompile()), "0");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("0"));
 }
 
 TEST_F(ElabIfTest, Assigner_HasExactlyTwoGenIfStatements) {
@@ -254,12 +245,11 @@ TEST_F(ElabIfTest, Middleman_InstantiatesAssignerWithInvertPropagated) {
   ASSERT_NE(asgn->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = asgn->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "asgn's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("assigner"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("assigner"));
 
   const hldb::ParamAssign *const pa = findParamAssign(mt, "invert");
   ASSERT_NE(pa, nullptr) << "'.invert(invert)' override not found on 'asgn'";
   EXPECT_TRUE(pa->getConnByName()) << "'.invert(...)' is a by-name parameter connection (Sec 23.3)";
-  EXPECT_TRUE(pa->getOverridden());
 
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'.invert(invert)': RHS must be a RefObj (reference to middleman's own invert)";
@@ -280,11 +270,10 @@ TEST_F(ElabIfTest, Top_InstantiatesMiddlemanTwiceWithDistinctInvertOverrides) {
   ASSERT_NE(mdl1->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt1 = mdl1->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt1, nullptr);
-  EXPECT_EQ(mt1->getName(), std::string_view("middleman"));
+  EXPECT_EQ(mt1->getDefName(), std::string_view("middleman"));
   const hldb::ParamAssign *const pa1 = findParamAssign(mt1, "invert");
   ASSERT_NE(pa1, nullptr) << "'.invert(1)' override not found on 'mdl1'";
   EXPECT_TRUE(pa1->getConnByName());
-  EXPECT_TRUE(pa1->getOverridden());
   const hldb::Constant *const c1 = pa1->getRhs<hldb::Constant>();
   ASSERT_NE(c1, nullptr) << "'.invert(1)': RHS must be a Constant";
   EXPECT_EQ(std::string(c1->getDecompile()), "1");
@@ -293,11 +282,10 @@ TEST_F(ElabIfTest, Top_InstantiatesMiddlemanTwiceWithDistinctInvertOverrides) {
   ASSERT_NE(mdl0, nullptr) << "'middleman #(.invert(0)) mdl0()' RefInstance not found";
   const hldb::ModuleTypespec *const mt0 = mdl0->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt0, nullptr);
-  EXPECT_EQ(mt0->getName(), std::string_view("middleman"));
+  EXPECT_EQ(mt0->getDefName(), std::string_view("middleman"));
   const hldb::ParamAssign *const pa0 = findParamAssign(mt0, "invert");
   ASSERT_NE(pa0, nullptr) << "'.invert(0)' override not found on 'mdl0'";
   EXPECT_TRUE(pa0->getConnByName());
-  EXPECT_TRUE(pa0->getOverridden());
   const hldb::Constant *const c0 = pa0->getRhs<hldb::Constant>();
   ASSERT_NE(c0, nullptr) << "'.invert(0)': RHS must be a Constant";
   EXPECT_EQ(std::string(c0->getDecompile()), "0");

@@ -281,13 +281,13 @@ TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRe
 
 TEST_F(Chapter6ErrorRulesTest, Row22_SpecparamInParameterExpressionIsRejected) {
   // catalog row 22 | 6.20.5 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalSpecparamUse()
-  // (ModelBuilder.cpp). A specparam name used inside a parameter's value
-  // expression does not resolve through ObjectBinder (its RefObj is left
-  // permanently unbound), so this falls back to name matching instead: for
-  // each ParamAssign, collect the enclosing instance's own specparam names
-  // and search the rhs subtree (via a NamedRefObjFinder Visitor) for a
-  // matching RefObj name.
+  // Reported by hlc's Linter (Linter::checkParameter for a parameter's own
+  // value, Linter::checkParamAssign for an override). A specparam name used
+  // inside a parameter's value expression does not resolve through
+  // ObjectBinder (its RefObj is left permanently unbound), so this falls back
+  // to name matching instead: collect the enclosing instance's own specparam
+  // names and search the value subtree (via a NamedRefObjFinder Visitor) for
+  // a matching RefObj name.
   EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_regsize"), nullptr)
       << "a specparam cannot appear in a parameter's constant expression (IEEE 1800-2023 6.20.5)";
 }
@@ -318,7 +318,7 @@ TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
   // catches 'int r24_q[$:r24_r2]', reported using the queue's own declaring
   // Variable name (r24_q) via the same reverse-typespec-lookup shape used
   // elsewhere in this file.
-  EXPECT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
+  ASSERT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
       << "a $-valued parameter cannot be used as a queue bound (IEEE 1800-2023 6.20.7)";
 }
 

@@ -74,17 +74,8 @@ class GenBlockTest : public Test {
  protected:
   static const hldb::Module *getAxi() { return hldb::findByDefName<hldb::Module>("axi", m_design->getAllModules()); }
 
-  static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(m));
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   // Sec 27.5: finds the named GenScopeArray 'ARRAY_INT' (the untaken
@@ -135,10 +126,10 @@ TEST_F(GenBlockTest, ModulesExist) {
 TEST_F(GenBlockTest, NMasterDefaultsToEight) {
   const hldb::Module *const axi = getAxi();
   ASSERT_NE(axi, nullptr);
-  ASSERT_NE(findParam(axi, "N_MASTER"), nullptr) << "'parameter N_MASTER' not found";
-  const hldb::ParamAssign *const pa = findParamAssign(axi, "N_MASTER");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'N_MASTER' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(getParameter(axi, "N_MASTER"), nullptr) << "'parameter N_MASTER' not found";
+  const hldb::Parameter *const pa = getParameter(axi, "N_MASTER");
+  ASSERT_NE(pa, nullptr) << "Parameter 'N_MASTER' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'N_MASTER = 8': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "8");
 }
@@ -146,7 +137,7 @@ TEST_F(GenBlockTest, NMasterDefaultsToEight) {
 TEST_F(GenBlockTest, TotalNMasterIsLocalParam) {
   const hldb::Module *const axi = getAxi();
   ASSERT_NE(axi, nullptr);
-  const hldb::Parameter *const total = findParam(axi, "TOTAL_N_MASTER");
+  const hldb::Parameter *const total = getParameter(axi, "TOTAL_N_MASTER");
   ASSERT_NE(total, nullptr) << "'localparam TOTAL_N_MASTER' not found";
   EXPECT_TRUE(total->getLocalParam()) << "Sec 6.20.4: 'localparam' must be marked as a localparam";
 }

@@ -97,24 +97,15 @@ class HighLowTest : public Test {
  protected:
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(m));
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   // Returns the SysFuncCall default value of parameter 'name' -- e.g.
   // 'parameter high = $high(a);' -> SysFuncCall("$high", [RefObj("a")]).
-  static const hldb::SysFuncCall *findParamSysFuncCall(const hldb::Module *m, std::string_view name) {
-    const hldb::ParamAssign *const pa = findParamAssign(m, name);
-    return (pa == nullptr) ? nullptr : pa->getRhs<hldb::SysFuncCall>();
+  static const hldb::SysFuncCall *getParamSysFuncCall(const hldb::Module *m, std::string_view name) {
+    const hldb::Parameter *const pa = getParameter(m, name);
+    return (pa == nullptr) ? nullptr : pa->getExpr<hldb::SysFuncCall>();
   }
 
   // Returns all GenIf statements directly in m's getGenStmts(), in source
@@ -145,14 +136,10 @@ TEST_F(HighLowTest, ModulesExist) {
 TEST_F(HighLowTest, ParamAHasPackedRangeTwoToOne) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Parameter *const a = findParam(top, "a");
+  const hldb::Parameter *const a = getParameter(top, "a");
   ASSERT_NE(a, nullptr) << "'parameter [2:1] a' not found";
   // The packed dimension [2:1] is part of the parameter's data type (implicit logic, Sec 6.20.2 /
-  // 7.4.1), so it is a range of the LogicTypespec its RefTypespec resolves to, not of the Parameter
-  // object itself (Parameter::getRanges() would carry unpacked dimensions).
-  // ASSERT_NE(a->getRanges(), nullptr) << "'[2:1]' must produce a packed range";
-  // ASSERT_EQ(a->getRanges()->size(), 1u);
-  // const hldb::Range *const range = a->getRanges()->at(0);
+  // 7.4.1), so it is a range of the LogicTypespec its RefTypespec resolves to.
   ASSERT_NE(a->getTypespec(), nullptr);
   ASSERT_NE(a->getTypespec()->getActual(), nullptr);
   const hldb::LogicTypespec *const lt = a->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -173,9 +160,9 @@ TEST_F(HighLowTest, ParamAHasPackedRangeTwoToOne) {
 TEST_F(HighLowTest, ParamAHasDefaultValueTen) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(top, "a");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'a' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getParameter(top, "a");
+  ASSERT_NE(pa, nullptr) << "Parameter 'a' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'a = 10': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "10");
 }
@@ -189,7 +176,7 @@ TEST_F(HighLowTest, ParamAHasDefaultValueTen) {
 TEST_F(HighLowTest, HighParamDefaultIsSysFuncCallOfAWithNameDollarHigh) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = findParamSysFuncCall(top, "high");
+  const hldb::SysFuncCall *const call = getParamSysFuncCall(top, "high");
   ASSERT_NE(call, nullptr) << "'high = $high(a)': default RHS must be a SysFuncCall";
   EXPECT_EQ(call->getName(), std::string_view{"$high"});
   ASSERT_NE(call->getArguments(), nullptr);
@@ -203,7 +190,7 @@ TEST_F(HighLowTest, HighParamDefaultIsSysFuncCallOfAWithNameDollarHigh) {
 TEST_F(HighLowTest, LowParamDefaultIsSysFuncCallOfAWithNameDollarLow) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = findParamSysFuncCall(top, "low");
+  const hldb::SysFuncCall *const call = getParamSysFuncCall(top, "low");
   ASSERT_NE(call, nullptr) << "'low = $low(a)': default RHS must be a SysFuncCall";
   EXPECT_EQ(call->getName(), std::string_view{"$low"});
   ASSERT_NE(call->getArguments(), nullptr);
@@ -217,7 +204,7 @@ TEST_F(HighLowTest, LowParamDefaultIsSysFuncCallOfAWithNameDollarLow) {
 TEST_F(HighLowTest, LeftParamDefaultIsSysFuncCallOfAWithNameDollarLeft) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = findParamSysFuncCall(top, "left");
+  const hldb::SysFuncCall *const call = getParamSysFuncCall(top, "left");
   ASSERT_NE(call, nullptr) << "'left = $left(a)': default RHS must be a SysFuncCall";
   EXPECT_EQ(call->getName(), std::string_view{"$left"});
   ASSERT_NE(call->getArguments(), nullptr);
@@ -231,7 +218,7 @@ TEST_F(HighLowTest, LeftParamDefaultIsSysFuncCallOfAWithNameDollarLeft) {
 TEST_F(HighLowTest, RightParamDefaultIsSysFuncCallOfAWithNameDollarRight) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::SysFuncCall *const call = findParamSysFuncCall(top, "right");
+  const hldb::SysFuncCall *const call = getParamSysFuncCall(top, "right");
   ASSERT_NE(call, nullptr) << "'right = $right(a)': default RHS must be a SysFuncCall";
   EXPECT_EQ(call->getName(), std::string_view{"$right"});
   ASSERT_NE(call->getArguments(), nullptr);

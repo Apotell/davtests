@@ -119,10 +119,10 @@ class MultiConcatTest : public Test {
   static const hldb::Operation *getMatrixRhs() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    const hldb::ParamAssign *const pa =
-        hldb::findByName<hldb::ParamAssign>("TransTokenIdxMatrix", pkg->getParamAssigns());
+    const hldb::Parameter *const pa =
+        hldb::findByName<hldb::Parameter>("TransTokenIdxMatrix", pkg->getParameters());
     if (pa == nullptr) return nullptr;
-    return pa->getRhs<hldb::Operation>();
+    return pa->getExpr<hldb::Operation>();
   }
 
   // Checks 'any' is a replication whose inner concatenation lists 'names'.

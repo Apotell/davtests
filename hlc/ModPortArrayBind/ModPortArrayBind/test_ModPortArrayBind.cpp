@@ -224,9 +224,9 @@ TEST_F(ModPortArrayBindTest, ParameterBNIsIntUnsignedDefaultTwo) {
   ASSERT_NE(it, nullptr) << "'BN' is declared 'int unsigned'";
   EXPECT_FALSE(it->getSigned()) << "Sec 6.11: 'unsigned' qualifier";
 
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("BN", hldb::getParamAssigns(dec));
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("BN", dec->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "2");
 }

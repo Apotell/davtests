@@ -61,7 +61,7 @@
 // Checked:
 //   - modules "iNToRawFN", "iNToRawFN3", "iNToRecFN" all exist.
 //   - "iNToRawFN"'s parameter "intWidth": not a localparam, default value
-//     ParamAssign rhs Constant "1".
+//      Constant "1".
 //   - "iNToRawFN"'s localparam "expWidth": IS a localparam, whose expr is
 //     an Operation (vpiAddOp) of 2 operands: a FuncCall "clog2" (with one
 //     RefObj "intWidth" argument, TaskFunc unresolved) and Constant "1".
@@ -120,12 +120,8 @@ class Delay2ParamTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Module *m, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
     return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
   }
 
   // Checks 'localparam <lpName> = clog2(<paramName>) + 1;' for a module
@@ -133,19 +129,13 @@ class Delay2ParamTest : public Test {
   // that exact shape.
   static void ExpectClog2PlusOneLocalParam(const hldb::Module *m, std::string_view lpName,
                                             std::string_view paramName) {
-    const hldb::ParamAssign *const lpa = getParamAssign(m, lpName);
-    ASSERT_NE(lpa, nullptr) << "ParamAssign localparam '" << lpName << "' not found";
-
-    const hldb::RefObj *const lro = lpa->getLhs<hldb::RefObj>();
-    ASSERT_NE(lro, nullptr);
-    EXPECT_EQ(lro->getName(), lpName);
-
-    const hldb::Parameter *const lp = lro->getActual<hldb::Parameter>();
-    ASSERT_NE(lp, nullptr) << "Paramter localparam '" << lpName << "' not found";
+    const hldb::Parameter *const lp = getParameter(m, lpName);
+    ASSERT_NE(lp, nullptr) << "Parameter localparam '" << lpName << "' not found";
+    EXPECT_EQ(lp->getName(), lpName);
     EXPECT_TRUE(lp->getLocalParam()) << lpName << " must be a localparam (Sec 6.20.4)";
 
-    ASSERT_NE(lpa->getRhs(), nullptr) << lpName << ": rhs must be present";
-    const hldb::Operation *const add = lpa->getRhs<hldb::Operation>();
+    ASSERT_NE(lp->getExpr(), nullptr) << lpName << ": rhs must be present";
+    const hldb::Operation *const add = lp->getExpr<hldb::Operation>();
     ASSERT_NE(add, nullptr) << lpName << ": 'clog2(...) + 1' must be an Operation";
     EXPECT_EQ(add->getOpType(), vpiAddOp);
     ASSERT_NE(add->getOperands(), nullptr);
@@ -194,13 +184,10 @@ TEST_F(Delay2ParamTest, ModulesExist) {
 TEST_F(Delay2ParamTest, INToRawFN_IntWidthParamDefaultsToOne) {
   const hldb::Module *const m = getModule("iNToRawFN");
   ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const p = getParam(m, "intWidth");
+  const hldb::Parameter *const p = getParameter(m, "intWidth");
   ASSERT_NE(p, nullptr) << "'intWidth' not found among iNToRawFN's parameters";
   EXPECT_FALSE(p->getLocalParam()) << "Sec 6.20.2: 'parameter intWidth' is a module parameter, not a localparam";
-
-  const hldb::ParamAssign *const pa = getParamAssign(m, "intWidth");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'intWidth' not found";
-  const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'parameter intWidth = 1': RHS must be a Constant";
   EXPECT_EQ(c->getDecompile(), "1");
 }
@@ -221,21 +208,17 @@ TEST_F(Delay2ParamTest, INToRawFN3_TwoParamsDefaultToOne) {
   const hldb::Module *const m = getModule("iNToRawFN3");
   ASSERT_NE(m, nullptr);
 
-  const hldb::Parameter *const w1 = getParam(m, "intWidth");
+  const hldb::Parameter *const w1 = getParameter(m, "intWidth");
   ASSERT_NE(w1, nullptr);
   EXPECT_FALSE(w1->getLocalParam());
-  const hldb::ParamAssign *const pa1 = getParamAssign(m, "intWidth");
-  ASSERT_NE(pa1, nullptr);
-  ASSERT_NE(pa1->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa1->getRhs<hldb::Constant>()->getDecompile(), "1");
+  ASSERT_NE(w1->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(w1->getExpr<hldb::Constant>()->getDecompile(), std::string_view("1"));
 
-  const hldb::Parameter *const w2 = getParam(m, "intWidth2");
+  const hldb::Parameter *const w2 = getParameter(m, "intWidth2");
   ASSERT_NE(w2, nullptr);
   EXPECT_FALSE(w2->getLocalParam());
-  const hldb::ParamAssign *const pa2 = getParamAssign(m, "intWidth2");
-  ASSERT_NE(pa2, nullptr);
-  ASSERT_NE(pa2->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa2->getRhs<hldb::Constant>()->getDecompile(), "1");
+  ASSERT_NE(w2->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(w2->getExpr<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(Delay2ParamTest, INToRawFN3_BothLocalParamsAreClog2PlusOne) {
@@ -257,21 +240,17 @@ TEST_F(Delay2ParamTest, INToRecFN_ParamsDefaultToSixtyFour) {
   const hldb::Module *const m = getModule("iNToRecFN");
   ASSERT_NE(m, nullptr);
 
-  const hldb::Parameter *const w1 = getParam(m, "intWidth");
+  const hldb::Parameter *const w1 = getParameter(m, "intWidth");
   ASSERT_NE(w1, nullptr);
   EXPECT_FALSE(w1->getLocalParam());
-  const hldb::ParamAssign *const pa1 = getParamAssign(m, "intWidth");
-  ASSERT_NE(pa1, nullptr);
-  ASSERT_NE(pa1->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa1->getRhs<hldb::Constant>()->getDecompile(), "64");
+  ASSERT_NE(w1->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(w1->getExpr<hldb::Constant>()->getDecompile(), std::string_view("64"));
 
-  const hldb::Parameter *const w2 = getParam(m, "intWidth2");
+  const hldb::Parameter *const w2 = getParameter(m, "intWidth2");
   ASSERT_NE(w2, nullptr);
   EXPECT_FALSE(w2->getLocalParam());
-  const hldb::ParamAssign *const pa2 = getParamAssign(m, "intWidth2");
-  ASSERT_NE(pa2, nullptr);
-  ASSERT_NE(pa2->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa2->getRhs<hldb::Constant>()->getDecompile(), "64");
+  ASSERT_NE(w2->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(w2->getExpr<hldb::Constant>()->getDecompile(), std::string_view("64"));
 }
 
 TEST_F(Delay2ParamTest, INToRecFN_BufgPrimitiveHasFiveUnitDelay) {

@@ -184,13 +184,8 @@ class PackStructVarTest : public Test {
     return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign(const hldb::Package *pkg, std::string_view name) {
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Package *pkg, std::string_view name) {
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Typedef *getTlulTypedef(std::string_view name) {
@@ -339,18 +334,18 @@ TEST_F(PackStructVarTest, TopPkgLiteralParameters) {
                               {"FLASH_WORDS_PER_PAGE", "256"},
                               {"FLASH_BYTES_PER_WORD", "4"}};
   for (const Literal &lit : literals) {
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, lit.m_name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << lit.m_name << "'";
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(pkg, lit.m_name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << lit.m_name << "'";
+    const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "'" << lit.m_name << "' is assigned a literal";
     EXPECT_EQ(rhs->getDecompile(), lit.m_text) << "'" << lit.m_name << "'";
   }
 }
 
 TEST_F(PackStructVarTest, TlDbwIsTlDwShiftedRightByThree) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("top_pkg"), "TL_DBW");
+  const hldb::Parameter *const pa = getParameter(getPkg("top_pkg"), "TL_DBW");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const shift = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const shift = pa->getExpr<hldb::Operation>();
   ASSERT_NE(shift, nullptr) << "unreduced, '(TL_DW>>3)' is an Operation";
   EXPECT_EQ(shift->getOpType(), vpiRShiftOp) << "11.4.10: '>>' is the logical right shift";
   ASSERT_NE(shift->getOperands(), nullptr);
@@ -363,17 +358,17 @@ TEST_F(PackStructVarTest, TlDbwIsTlDwShiftedRightByThree) {
   ASSERT_NE(three, nullptr);
   EXPECT_EQ(three->getDecompile(), "3");
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const elab =
-        getParamAssign(hldb::findByName<hldb::Package>("top_pkg", m_design->getTopPackages()), "TL_DBW");
-    ASSERT_NE(elab, nullptr) << "no ParamAssign for 'TL_DBW' in the elaborated top_pkg";
-    ExpectIntConstant(elab->getRhs(), 4, "6.20.2: TL_DBW = 32 >> 3 = 4");
+    const hldb::Parameter *const elab =
+        getParameter(hldb::findByName<hldb::Package>("top_pkg", m_design->getTopPackages()), "TL_DBW");
+    ASSERT_NE(elab, nullptr) << "no Parameter for 'TL_DBW' in the elaborated top_pkg";
+    ExpectIntConstant(elab->getExpr(), 4, "6.20.2: TL_DBW = 32 >> 3 = 4");
   }
 }
 
 TEST_F(PackStructVarTest, TlSzwIsNestedClog2) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("top_pkg"), "TL_SZW");
+  const hldb::Parameter *const pa = getParameter(getPkg("top_pkg"), "TL_SZW");
   ASSERT_NE(pa, nullptr);
-  const hldb::SysFuncCall *const outer = pa->getRhs<hldb::SysFuncCall>();
+  const hldb::SysFuncCall *const outer = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(outer, nullptr) << "unreduced, the value is a $clog2 call";
   EXPECT_EQ(outer->getName(), "$clog2");
   ASSERT_NE(outer->getArguments(), nullptr);
@@ -392,10 +387,10 @@ TEST_F(PackStructVarTest, TlSzwIsNestedClog2) {
   ASSERT_NE(dbw, nullptr);
   EXPECT_EQ(dbw->getActual(), getTopPkgParam("TL_DBW"));
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const elab =
-        getParamAssign(hldb::findByName<hldb::Package>("top_pkg", m_design->getTopPackages()), "TL_SZW");
-    ASSERT_NE(elab, nullptr) << "no ParamAssign for 'TL_SZW' in the elaborated top_pkg";
-    ExpectIntConstant(elab->getRhs(), 2, "20.8.1: $clog2($clog2(4) + 1) = $clog2(3) = 2");
+    const hldb::Parameter *const elab =
+        getParameter(hldb::findByName<hldb::Package>("top_pkg", m_design->getTopPackages()), "TL_SZW");
+    ASSERT_NE(elab, nullptr) << "no Parameter for 'TL_SZW' in the elaborated top_pkg";
+    ExpectIntConstant(elab->getExpr(), 2, "20.8.1: $clog2($clog2(4) + 1) = $clog2(3) = 2");
   }
 }
 

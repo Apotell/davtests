@@ -43,7 +43,7 @@
 //     4 Nets; "reg gnt_0,gnt_1"/"reg state,next_state" (no net-type
 //     keyword) -> 4 Variables; no cross-duplication.
 //   - 6.20.2 "Parameter declarations": SIZE/IDLE/GNT0/GNT1 are 4
-//     Parameters, each with a ParamAssign carrying its Constant value
+//     Parameters, each carrying its Constant value (Parameter::getExpr())
 //     (SIZE=3 decimal -> vpiIntConst "3"; IDLE/GNT0/GNT1 sized binary
 //     literals -> vpiBinaryConst "3'b001"/"3'b010"/"3'b100").
 //   - 9.2.1/9.4.2: module has exactly 3 Always processes.
@@ -112,14 +112,7 @@ class FSM2AlwaysTest : public Test {
 
   static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const mod = getModule();
-    if (mod == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, mod->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
-    const hldb::Module *const mod = getModule();
-    if (mod == nullptr) return nullptr;
-    return hldb::findByName<hldb::ParamAssign>(name, mod->getParamAssigns());
+    return (mod == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, mod->getParameters());
   }
 
   // Named-begin bodies: each always block wraps its statement(s) in
@@ -186,18 +179,13 @@ TEST_F(FSM2AlwaysTest, FourNetsFourVariablesNoDuplication) {
 TEST_F(FSM2AlwaysTest, FourParametersWithExpectedValues) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  ASSERT_NE(mod->getParamAssigns(), nullptr);
-  EXPECT_EQ(mod->getParamAssigns()->size(), 4u);
+  ASSERT_NE(mod->getParameters(), nullptr);
+  EXPECT_EQ(mod->getParameters()->size(), 4u);
 
   const hldb::Parameter *const size = getParameter("SIZE");
   ASSERT_NE(size, nullptr);
-  const hldb::ParamAssign *const sizeAssign = getParamAssign("SIZE");
-  ASSERT_NE(sizeAssign, nullptr);
-  const hldb::RefObj *const lhs = sizeAssign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), size);
-  ASSERT_NE(sizeAssign->getRhs(), nullptr);
-  const hldb::Constant *const sizeVal = sizeAssign->getRhs<hldb::Constant>();
+  ASSERT_NE(size->getExpr(), nullptr);
+  const hldb::Constant *const sizeVal = size->getExpr<hldb::Constant>();
   ASSERT_NE(sizeVal, nullptr);
   EXPECT_EQ(sizeVal->getDecompile(), std::string_view{"3"});
   EXPECT_EQ(sizeVal->getConstType(), vpiIntConst);
@@ -210,13 +198,8 @@ TEST_F(FSM2AlwaysTest, FourParametersWithExpectedValues) {
   for (const std::pair<std::string_view, std::string_view> &entry : expected) {
     const hldb::Parameter *const param = getParameter(entry.first);
     ASSERT_NE(param, nullptr) << entry.first;
-    const hldb::ParamAssign *const assign = getParamAssign(entry.first);
-    ASSERT_NE(assign, nullptr) << entry.first;
-    const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr);
-    EXPECT_EQ(lhs->getActual<hldb::Parameter>(), param) << entry.first;
-    ASSERT_NE(assign->getRhs(), nullptr);
-    const hldb::Constant *const value = assign->getRhs<hldb::Constant>();
+    ASSERT_NE(param->getExpr(), nullptr);
+    const hldb::Constant *const value = param->getExpr<hldb::Constant>();
     ASSERT_NE(value, nullptr) << entry.first;
     EXPECT_EQ(value->getDecompile(), entry.second);
     EXPECT_EQ(value->getConstType(), vpiBinaryConst);

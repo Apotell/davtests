@@ -64,10 +64,9 @@
 // -- Expected HLDB tree (if compiler is correct) --------------------------------
 //
 //   Module name:top
-//   +-- getParamAssigns() (1 item)
-//   |   +-- ParamAssign name:"T"
-//   |           lhs: RefTypespec -> TypeParameter name:"T"
-//   |           rhs: RefTypespec -> LogicTypespec { range [11:0] }
+//   +-- getParameters() (1 item)
+//   |   +-- TypeParameter name:"T"
+//   |           expr: RefTypespec -> LogicTypespec { range [11:0] }
 //   +-- (initial block with case stmt and comparison expressions)
 
 #include <hlc/Common/Session.h>
@@ -99,10 +98,9 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
+static const hldb::TypeParameter *getTypeParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns()) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::TypeParameter>(name, m->getParameters());
 }
 
 // ===========================================================================
@@ -168,63 +166,33 @@ TEST_F(TypeOpCompareTest, Module_Top_Exists) {
 // 'parameter type T = type(logic[11:0])'  (ss.6.23)
 // ===========================================================================
 
-// ss.6.23: the type parameter assignment for T must be present in the module.
-TEST_F(TypeOpCompareTest, TypeParam_T_ParamAssign_Exists) {
+// ss.6.23: the type parameter T must be present in the module.
+TEST_F(TypeOpCompareTest, TypeParam_T_Parameter_Exists) {
   const hldb::Module *m = getTop(m_design);
   ASSERT_NE(m, nullptr) << "module 'top' not found";
-  ASSERT_NE(m->getParamAssigns(), nullptr);
-  EXPECT_NE(getParamAssign(m_design, "T"), nullptr)
-      << "ss.6.23: 'parameter type T' must produce a ParamAssign named 'T'";
+  ASSERT_NE(m->getParameters(), nullptr);
+  EXPECT_NE(getTypeParameter(m_design, "T"), nullptr)
+      << "ss.6.23: 'parameter type T' must produce a TypeParameter named 'T'";
 }
 
-// ss.6.23: for a type parameter, the LHS of the assignment is a RefTypespec
-// (not a RefObj as for value parameters) pointing to the TypeParameter node.
-TEST_F(TypeOpCompareTest, TypeParam_T_Lhs_IsRefTypespec) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'T' not found";
-  EXPECT_NE(pa->getLhs<hldb::RefTypespec>(), nullptr)
-      << "ss.6.23: LHS of a type parameter assignment must be a RefTypespec";
-}
-
-// ss.6.23: the LHS RefTypespec must resolve to a TypeParameter node.
-TEST_F(TypeOpCompareTest, TypeParam_T_Lhs_ActualIs_TypeParameter) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefTypespec *lhs = pa->getLhs<hldb::RefTypespec>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_NE(lhs->getActual<hldb::TypeParameter>(), nullptr)
-      << "ss.6.23: LHS RefTypespec must resolve to the TypeParameter node";
-}
-
-// ss.6.23: the TypeParameter node must be named 'T'.
-TEST_F(TypeOpCompareTest, TypeParam_T_Name) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefTypespec *lhs = pa->getLhs<hldb::RefTypespec>();
-  ASSERT_NE(lhs, nullptr);
-  const hldb::TypeParameter *tp = lhs->getActual<hldb::TypeParameter>();
-  ASSERT_NE(tp, nullptr);
-  EXPECT_EQ(tp->getName(), "T") << "ss.6.23: type parameter must be named 'T'";
-}
-
-// ss.6.23: the RHS of the assignment holds the default type expression.
-// 'type(logic[11:0])' yields the type 'logic[11:0]'; the RHS must be a
+// ss.6.23: the type parameter's own expression holds the default type.
+// 'type(logic[11:0])' yields the type 'logic[11:0]'; the default must be a
 // RefTypespec (the type() expression parsed into the typespec slot).
-TEST_F(TypeOpCompareTest, TypeParam_T_Rhs_IsRefTypespec) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
+TEST_F(TypeOpCompareTest, TypeParam_T_Expr_IsRefTypespec) {
+  const hldb::TypeParameter *pa = getTypeParameter(m_design, "T");
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::RefTypespec>(), nullptr)
-      << "ss.6.23: RHS of 'parameter type T = type(logic[11:0])' must be "
+  EXPECT_NE(pa->getExpr<hldb::RefTypespec>(), nullptr)
+      << "ss.6.23: the default of 'parameter type T = type(logic[11:0])' must be "
          "a RefTypespec";
 }
 
 // ss.6.23: 'type(logic[11:0])' resolves to the type 'logic[11:0]'.
-// The RHS RefTypespec must have vpiActual pointing to a LogicTypespec.
+// The default RefTypespec must have vpiActual pointing to a LogicTypespec.
 // Resolving type() to a concrete typespec is an elaboration-phase operation.
 TEST_F(TypeOpCompareTest, TypeParam_T_DefaultType_ResolvesToLogic) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "T");
+  const hldb::TypeParameter *pa = getTypeParameter(m_design, "T");
   ASSERT_NE(pa, nullptr);
-  const hldb::RefTypespec *rhs = pa->getRhs<hldb::RefTypespec>();
+  const hldb::RefTypespec *rhs = pa->getExpr<hldb::RefTypespec>();
   ASSERT_NE(rhs, nullptr);
   if (m_design->getElaborated()) {
     EXPECT_NE(rhs->getActual<hldb::LogicTypespec>(), nullptr)

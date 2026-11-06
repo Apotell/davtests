@@ -205,9 +205,9 @@ TEST_F(ParamBitSelectTest, TestIsOverridableFourBitParameter) {
   const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("test", dut->getParameters());
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: dut has no parameter port list, so a body 'parameter' is overridable";
-  ASSERT_NE(dut->getParamAssigns(), nullptr);
-  ASSERT_EQ(dut->getParamAssigns()->size(), 1u);
-  const hldb::Constant *const value = dut->getParamAssigns()->at(0)->getRhs<hldb::Constant>();
+  ASSERT_NE(dut->getParameters(), nullptr);
+  ASSERT_EQ(dut->getParameters()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Parameter>(dut->getParameters()->at(0))->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr);
   EXPECT_EQ(value->getDecompile(), "4'b0011");
 }

@@ -129,21 +129,8 @@ class ParamOverload2Test : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getPermT() {
@@ -229,16 +216,16 @@ TEST_F(ParamOverload2Test, DefaultIsLocalLfsrPermT) {
   ASSERT_NE(pkg, nullptr) << "package 'keymgr_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(pkg, "RndCnstLfsrPermDefault");
+  const hldb::Parameter *const p = getParameter(pkg, "RndCnstLfsrPermDefault");
   ASSERT_NE(p, nullptr) << "parameter 'RndCnstLfsrPermDefault' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.1: a param_assignment in a package becomes a localparam";
   EXPECT_TRUE(namesPermT(p->getTypespec())) << "'RndCnstLfsrPermDefault' is declared 'lfsr_perm_t'";
 }
 
 TEST_F(ParamOverload2Test, DefaultIsConcatOf128And256BitLiterals) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "RndCnstLfsrPermDefault");
+  const hldb::Parameter *const pa = getParameter(getPkg(), "RndCnstLfsrPermDefault");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const concat = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const concat = pa->getExpr<hldb::Operation>();
   ASSERT_NE(concat, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(concat->getOpType(), vpiConcatOp) << "11.4.12";
   ASSERT_NE(concat->getOperands(), nullptr);
@@ -284,17 +271,15 @@ TEST_F(ParamOverload2Test, RndCnstLfsrPermDefaultsToPackageValue) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(m, "RndCnstLfsrPerm");
+  const hldb::Parameter *const p = getParameter(m, "RndCnstLfsrPerm");
   ASSERT_NE(p, nullptr) << "parameter 'RndCnstLfsrPerm' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: keymgr has no parameter port list, so the parameter is overridable";
   EXPECT_TRUE(namesPermT(p->getTypespec())) << "26.3: 'lfsr_perm_t' is imported from keymgr_pkg";
-  const hldb::ParamAssign *const pa = getParamAssign(m, "RndCnstLfsrPerm");
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const def = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const def = p->getExpr<hldb::RefObj>();
   ASSERT_NE(def, nullptr) << "unreduced, the default is the name 'RndCnstLfsrPermDefault'";
   EXPECT_EQ(def->getName(), "RndCnstLfsrPermDefault");
-  ASSERT_NE(getParam(getPkg(), "RndCnstLfsrPermDefault"), nullptr);
-  EXPECT_EQ(def->getActual(), getParam(getPkg(), "RndCnstLfsrPermDefault")) << "26.3: imported from keymgr_pkg";
+  ASSERT_NE(getParameter(getPkg(), "RndCnstLfsrPermDefault"), nullptr);
+  EXPECT_EQ(def->getActual(), getParameter(getPkg(), "RndCnstLfsrPermDefault")) << "26.3: imported from keymgr_pkg";
 }
 
 // ---------------------------------------------------------------------------
@@ -333,9 +318,9 @@ TEST_F(ParamOverload2Test, DefaultReducesTo384Bits) {
   if (m_design->getElaborated()) {
     const hldb::Package *const pkg = hldb::findByName<hldb::Package>("keymgr_pkg", m_design->getTopPackages());
     ASSERT_NE(pkg, nullptr) << "the elaborated keymgr_pkg not found";
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, "RndCnstLfsrPermDefault");
+    const hldb::Parameter *const pa = getParameter(pkg, "RndCnstLfsrPermDefault");
     ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: the default should be reduced to a Constant";
     EXPECT_EQ(c->getSize(), 384) << "11.4.12: 128 + 256 bits";
   }
@@ -347,9 +332,9 @@ TEST_F(ParamOverload2Test, UKeymgrReceivesOne) {
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
     const hldb::Module *const keymgr = hldb::findByName<hldb::Module>("u_keymgr", top->getModules());
     ASSERT_NE(keymgr, nullptr) << "the instance u_keymgr is elaborated";
-    const hldb::ParamAssign *const pa = getParamAssign(keymgr, "RndCnstLfsrPerm");
+    const hldb::Parameter *const pa = getParameter(keymgr, "RndCnstLfsrPerm");
     ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: the parameter should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";

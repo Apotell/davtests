@@ -517,7 +517,6 @@ TEST_F(DefineExpansion26Test, NoOtherDesignObjectsDeclared) {
   // The formal argument f, the actual argument clock and the built name
   // clock_master are not declarations.
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
 

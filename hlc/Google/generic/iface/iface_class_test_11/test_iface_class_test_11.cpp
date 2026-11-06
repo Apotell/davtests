@@ -446,10 +446,7 @@ TEST_F(IfaceClassTest11Test, ParameterNIsLocalWithValue2) {
   ASSERT_NE(n, nullptr) << "N is a value parameter";
   EXPECT_EQ(n->getName(), "N");
   EXPECT_TRUE(n->getLocalParam()) << "6.20.1: 'parameter' in a class body is a synonym for 'localparam'";
-
-  const hldb::ParamAssignCollection *const assigns = baseIc->getParamAssigns();
-  ASSERT_EQ(sizeOf(assigns), 1u) << "N has exactly one value";
-  const hldb::Constant *const value = assigns->at(0)->getRhs<hldb::Constant>();
+  const hldb::Constant *const value = n->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "the value of N is the literal 2";
   EXPECT_EQ(literalOf(value), "2");
 }
@@ -517,7 +514,6 @@ TEST_F(IfaceClassTest11Test, NoCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "the prototypes are methods of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u) << "N is a parameter of base_ic";
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u) << "N is a parameter of base_ic";
   EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u) << "car_type is a typedef of base_ic";
 }

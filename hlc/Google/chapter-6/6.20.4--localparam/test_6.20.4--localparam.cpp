@@ -31,23 +31,20 @@
 //   * 'localparam p = 123' declares a local constant p with value 123.
 //   * UHDM represents a localparam as a Parameter node with
 //     vpiLocalParam == true (getLocalParam() returns true).
-//   * The default value is a constant_expression (ss.11.2.1), accessed through
-//     the module's ParamAssign collection, not directly via Parameter::getExpr().
+//   * The default value is a constant_expression (ss.11.2.1), held by the
+//     Parameter itself (Parameter::getExpr()).
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
-//   |   +-- [0] Parameter name:"p"  localParam: true
-//   +-- getParamAssigns() (ParamAssignCollection, 1 item)
-//       +-- [0] ParamAssign
-//               lhs: RefObj name:"p"  actual: Parameter name:"p"
-//               rhs: Constant { decompile: "123" }
+//       +-- [0] Parameter name:"p"  localParam: true
+//               expr: Constant { decompile: "123" }
 //
 // NOTE: Both 'parameter' and 'localparam' appear as Parameter nodes in
 // getParameters(). The only API difference is getLocalParam(): false for
-// parameter, true for localparam. The default value is stored in the
-// ParamAssign RHS -- Parameter::getExpr() is NOT populated by Surelog.
+// parameter, true for localparam. The value is Parameter::getExpr(); a
+// declaration creates no ParamAssign.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -78,16 +75,9 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-}
-
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // ===========================================================================
@@ -119,36 +109,36 @@ TEST_F(LocalparamTest, ParameterCount) {
 // ===========================================================================
 
 // ss.6.20.4: 'localparam' must produce a Parameter node named "p".
-TEST_F(LocalparamTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
+TEST_F(LocalparamTest, P_Exists) { EXPECT_NE(getParameter(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // ss.6.20.4: THE defining rule -- a localparam is NOT overridable at
 // instantiation. UHDM encodes this as vpiLocalParam == true.
 TEST_F(LocalparamTest, P_IsLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam p' must be marked as a localparam "
                                      "(not overridable at instantiation)";
 }
 
 // ss.6.20.4: the value '123' is a constant_expression (ss.11.2.1).
-// It is stored in the ParamAssign RHS, not in Parameter::getExpr().
-TEST_F(LocalparamTest, P_ParamAssignExists) {
-  EXPECT_NE(getParamAssign(m_design, "p"), nullptr) << "ParamAssign for 'p' not found";
+// It is stored in the Parameter Expr, not in Parameter::getExpr().
+TEST_F(LocalparamTest, P_ParameterExists) {
+  EXPECT_NE(getParameter(m_design, "p"), nullptr) << "Parameter for 'p' not found";
 }
 
 // ss.11.2.1: the default value must be a constant_expression; here it is
 // the integer literal 123, represented as a Constant node.
 TEST_F(LocalparamTest, P_RhsIsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "'localparam p = 123': RHS must be a Constant";
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p' not found";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "'localparam p = 123': RHS must be a Constant";
 }
 
 // ss.6.20.4: the declared value is 123; the Constant must decompile to "123".
 TEST_F(LocalparamTest, P_RhsDecompile) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  const hldb::Constant *c = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter for 'p' not found";
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'localparam p = 123': RHS must be a Constant";
   EXPECT_EQ(std::string(c->getDecompile()), "123") << "'localparam p = 123': decompile must be \"123\"";
 }

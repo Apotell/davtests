@@ -162,8 +162,8 @@ TEST_F(FSMFunctionTest, NextStateIsNetStateIsVariable) {
 TEST_F(FSMFunctionTest, FourParametersExist) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  ASSERT_NE(mod->getParamAssigns(), nullptr);
-  EXPECT_EQ(mod->getParamAssigns()->size(), 4u);
+  ASSERT_NE(mod->getParameters(), nullptr);
+  EXPECT_EQ(mod->getParameters()->size(), 4u);
   for (std::string_view name : {"SIZE", "IDLE", "GNT0", "GNT1"}) {
     EXPECT_NE(getParameter(name), nullptr) << name;
   }

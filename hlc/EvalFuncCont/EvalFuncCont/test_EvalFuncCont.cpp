@@ -41,12 +41,6 @@
 // "WIDTH" inside a "localparam" initializer -- the same canonical
 // constant-function-call context as EvalFunc/EvalFuncArray. This file has
 // no :should_fail_because: tag and is expected to compile cleanly.
-//
-// As with EvalFunc/EvalFuncArray, "localparam NUM_OUT = num_out(WIDTH);" is
-// modeled via Scope::getParamAssigns() (ParamAssign lhs/rhs), not
-// Parameter::getExpr() -- re-derived from the real hldb headers, matching
-// the pattern already confirmed by test_13.4.3_const-function.cpp. No .log
-// file was consulted to write this file's expectations.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -84,9 +78,9 @@ class EvalFuncContTest : public Test {
     return (top == nullptr) ? nullptr : hldb::findByName<hldb::Function>("num_out", top->getTaskFuncs());
   }
 
-  static const hldb::ParamAssign *findParamAssign(std::string_view name) {
+  static const hldb::Parameter *findParameter(std::string_view name) {
     const hldb::Module *const top = getTop();
-    return (top == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, top->getParamAssigns());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
   }
 };
 
@@ -96,18 +90,18 @@ TEST_F(EvalFuncContTest, FunctionNumOutExists) { ASSERT_NE(getFunc(), nullptr); 
 
 // parameter WIDTH = 33;
 TEST_F(EvalFuncContTest, ParamWidthIs33) {
-  const hldb::ParamAssign *const pa = findParamAssign("WIDTH");
-  ASSERT_NE(pa, nullptr) << "'parameter WIDTH = 33;' should produce a ParamAssign binding";
-  const hldb::Constant *const rhs = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Parameter *const pa = findParameter("WIDTH");
+  ASSERT_NE(pa, nullptr) << "'parameter WIDTH = 33;' should produce a Parameter binding";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "33");
 }
 
 // localparam MAX_WIDTH = 11;
 TEST_F(EvalFuncContTest, LocalparamMaxWidthIs11) {
-  const hldb::ParamAssign *const pa = findParamAssign("MAX_WIDTH");
-  ASSERT_NE(pa, nullptr) << "'localparam MAX_WIDTH = 11;' should produce a ParamAssign binding";
-  const hldb::Constant *const rhs = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Parameter *const pa = findParameter("MAX_WIDTH");
+  ASSERT_NE(pa, nullptr) << "'localparam MAX_WIDTH = 11;' should produce a Parameter binding";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "11");
 }
@@ -115,9 +109,9 @@ TEST_F(EvalFuncContTest, LocalparamMaxWidthIs11) {
 // localparam NUM_OUT = num_out(WIDTH);  -- per 13.4.3 a legal constant
 // function call, same accepted-shape pattern as EvalFunc/EvalFuncArray.
 TEST_F(EvalFuncContTest, LocalparamNumOutCallsNumOut) {
-  const hldb::ParamAssign *const pa = findParamAssign("NUM_OUT");
-  ASSERT_NE(pa, nullptr) << "'localparam NUM_OUT = num_out(WIDTH);' should produce a ParamAssign binding";
-  const hldb::Any *const rhs = pa->getRhs();
+  const hldb::Parameter *const pa = findParameter("NUM_OUT");
+  ASSERT_NE(pa, nullptr) << "'localparam NUM_OUT = num_out(WIDTH);' should produce a Parameter binding";
+  const hldb::Any *const rhs = pa->getExpr();
   ASSERT_NE(rhs, nullptr);
   // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
   if (const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs)) {
@@ -132,7 +126,7 @@ TEST_F(EvalFuncContTest, LocalparamNumOutCallsNumOut) {
     //   num_out=4: (33+3)/4=9, not > 11 -> stop. Result: 4.
     EXPECT_EQ(folded->getDecompile(), "4") << "num_out(33) must fold to 4 per the function's own while-loop logic";
   } else {
-    FAIL() << "ParamAssign RHS for 'NUM_OUT' is neither a FuncCall nor a Constant -- actual AnyType: "
+    FAIL() << "Parameter value for 'NUM_OUT' is neither a FuncCall nor a Constant -- actual AnyType: "
            << static_cast<int>(rhs->getAnyType());
   }
 }

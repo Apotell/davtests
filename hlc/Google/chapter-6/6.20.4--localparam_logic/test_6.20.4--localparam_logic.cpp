@@ -46,13 +46,12 @@
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 2 items)
-//   |   +-- [0] Parameter name:"p"  localParam: true
-//   |           typespec: RefTypespec -> LogicTypespec { range [10:0] }
-//   |   +-- [1] Parameter name:"q"  localParam: true
-//   |           typespec: RefTypespec -> LogicTypespec { range [10:0] }
-//   +-- getParamAssigns() (ParamAssignCollection, 2 items)
-//       +-- [0] ParamAssign  lhs:"p"  rhs: Operation { opType: vpiLShiftOp }
-//       +-- [1] ParamAssign  lhs:"q"  rhs: Operation { opType: vpiLShiftOp }
+//       +-- [0] Parameter name:"p"  localParam: true
+//       |       typespec: RefTypespec -> LogicTypespec { range [10:0] }
+//       |       expr: Operation { opType: vpiLShiftOp }
+//       +-- [1] Parameter name:"q"  localParam: true
+//               typespec: RefTypespec -> LogicTypespec { range [10:0] }
+//               expr: Operation { opType: vpiLShiftOp }
 //
 // -- VPI constants ------------------------------------------------------------
 //   vpiLShiftOp = 22  (logical left shift <<, vpi_user.h)
@@ -91,21 +90,14 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-}
-
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // Returns the LogicTypespec for the named parameter, or nullptr.
 static const hldb::LogicTypespec *getLogicTypespec(const hldb::Design *d, std::string_view name) {
-  const hldb::Parameter *p = getParam(d, name);
+  const hldb::Parameter *p = getParameter(d, name);
   if (!p || !p->getTypespec()) return nullptr;
   return p->getTypespec()->getActual<hldb::LogicTypespec>();
 }
@@ -138,11 +130,11 @@ TEST_F(LocalparamLogicTest, ParameterCount) {
 // localparam [10:0] p = 1 << 5  (implicit logic)
 // ===========================================================================
 
-TEST_F(LocalparamLogicTest, P_Exists) { EXPECT_NE(getParam(m_design, "p"), nullptr) << "'p' not found in parameters"; }
+TEST_F(LocalparamLogicTest, P_Exists) { EXPECT_NE(getParameter(m_design, "p"), nullptr) << "'p' not found in parameters"; }
 
 // ss.6.20.4: p is a localparam and must NOT be overridable.
 TEST_F(LocalparamLogicTest, P_IsLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam [10:0] p' must be marked as a localparam";
 }
@@ -150,7 +142,7 @@ TEST_F(LocalparamLogicTest, P_IsLocalParam) {
 // ss.6.3.4 + ss.6.9.1: a packed range without an explicit type keyword
 // implies 'logic'; the typespec must resolve to LogicTypespec.
 TEST_F(LocalparamLogicTest, P_Typespec_IsLogicTypespec) {
-  const hldb::Parameter *p = getParam(m_design, "p");
+  const hldb::Parameter *p = getParameter(m_design, "p");
   ASSERT_NE(p, nullptr);
   const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr) << "'localparam [10:0] p' must have a typespec";
@@ -193,20 +185,20 @@ TEST_F(LocalparamLogicTest, P_Typespec_RightBound_Is0) {
   EXPECT_EQ(std::string(right->getDecompile()), "0") << "ss.6.9.1: right bound of '[10:0]' must be 0";
 }
 
-// ss.11.2.1: '1 << 5' is a constant_expression; in UHDM the RHS is an
-// Operation node, not a plain Constant, because it is a compound expression.
+// ss.11.2.1: '1 << 5' is a constant_expression; in HLDB the parameter's value
+// is an Operation node, not a plain Constant, because it is a compound expression.
 TEST_F(LocalparamLogicTest, P_RhsIsOperation) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'p' not found";
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "'1 << 5' must be represented as an Operation node";
+  const hldb::Parameter *pa = getParameter(m_design, "p");
+  ASSERT_NE(pa, nullptr) << "Parameter 'p' not found";
+  EXPECT_NE(pa->getExpr<hldb::Operation>(), nullptr) << "'1 << 5' must be represented as an Operation node";
 }
 
 // ss.11.4.10: '<<' is a logical left shift; the operation type must be
 // vpiLShiftOp (22).
 TEST_F(LocalparamLogicTest, P_Rhs_IsLeftShift) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "p");
+  const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiLShiftOp) << "ss.11.4.10: '<<' must have opType vpiLShiftOp (22)";
 }
@@ -215,11 +207,11 @@ TEST_F(LocalparamLogicTest, P_Rhs_IsLeftShift) {
 // localparam logic [10:0] q = 1 << 5  (explicit logic)
 // ===========================================================================
 
-TEST_F(LocalparamLogicTest, Q_Exists) { EXPECT_NE(getParam(m_design, "q"), nullptr) << "'q' not found in parameters"; }
+TEST_F(LocalparamLogicTest, Q_Exists) { EXPECT_NE(getParameter(m_design, "q"), nullptr) << "'q' not found in parameters"; }
 
 // ss.6.20.4: q is a localparam and must NOT be overridable.
 TEST_F(LocalparamLogicTest, Q_IsLocalParam) {
-  const hldb::Parameter *q = getParam(m_design, "q");
+  const hldb::Parameter *q = getParameter(m_design, "q");
   ASSERT_NE(q, nullptr);
   EXPECT_TRUE(q->getLocalParam()) << "ss.6.20.4: 'localparam logic [10:0] q' must be marked as a "
                                      "localparam";
@@ -227,7 +219,7 @@ TEST_F(LocalparamLogicTest, Q_IsLocalParam) {
 
 // ss.6.3.4: the explicit 'logic' keyword must produce a LogicTypespec.
 TEST_F(LocalparamLogicTest, Q_Typespec_IsLogicTypespec) {
-  const hldb::Parameter *q = getParam(m_design, "q");
+  const hldb::Parameter *q = getParameter(m_design, "q");
   ASSERT_NE(q, nullptr);
   const hldb::RefTypespec *rt = q->getTypespec();
   ASSERT_NE(rt, nullptr) << "'localparam logic [10:0] q' must have a typespec";
@@ -246,15 +238,15 @@ TEST_F(LocalparamLogicTest, Q_Typespec_HasRange) {
 // ss.11.2.1 + ss.11.4.10: '1 << 5' on q must be an Operation with
 // vpiLShiftOp.
 TEST_F(LocalparamLogicTest, Q_RhsIsOperation) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "q");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 'q' not found";
-  EXPECT_NE(pa->getRhs<hldb::Operation>(), nullptr) << "'1 << 5' must be represented as an Operation node";
+  const hldb::Parameter *pa = getParameter(m_design, "q");
+  ASSERT_NE(pa, nullptr) << "Parameter 'q' not found";
+  EXPECT_NE(pa->getExpr<hldb::Operation>(), nullptr) << "'1 << 5' must be represented as an Operation node";
 }
 
 TEST_F(LocalparamLogicTest, Q_Rhs_IsLeftShift) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "q");
+  const hldb::Parameter *pa = getParameter(m_design, "q");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *op = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiLShiftOp) << "ss.11.4.10: '<<' must have opType vpiLShiftOp (22)";
 }

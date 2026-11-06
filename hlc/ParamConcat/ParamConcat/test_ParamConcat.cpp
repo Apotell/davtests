@@ -139,21 +139,8 @@ class ParamConcatTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getStatusT() {
@@ -220,9 +207,9 @@ class ParamConcatTest : public Test {
   // 'scope' is 'expected'.
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(scope, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -252,7 +239,7 @@ TEST_F(ParamConcatTest, IbexCsrDeclaresOverridableTwoBitResetValue) {
   ASSERT_NE(csr, nullptr) << "module 'ibex_csr' not found";
   ASSERT_NE(csr->getParameters(), nullptr);
   ASSERT_EQ(csr->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(csr, "ResetValue");
+  const hldb::Parameter *const p = getParameter(csr, "ResetValue");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: 'ResetValue' is in the parameter port list";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -266,10 +253,8 @@ TEST_F(ParamConcatTest, IbexCsrDeclaresOverridableTwoBitResetValue) {
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
   EXPECT_EQ(right->getDecompile(), "0");
-  const hldb::ParamAssign *const pa = getParamAssign(csr, "ResetValue");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "'0");
+  ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "'0");
 }
 
 // ---------------------------------------------------------------------------
@@ -305,7 +290,7 @@ TEST_F(ParamConcatTest, MstatusRstValIsLocalPatternKeyedOutOfOrder) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParameters(), nullptr);
   ASSERT_EQ(top->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(top, "MSTATUS_RST_VAL");
+  const hldb::Parameter *const p = getParameter(top, "MSTATUS_RST_VAL");
   ASSERT_NE(p, nullptr) << "parameter 'MSTATUS_RST_VAL' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: declared 'localparam'";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -316,9 +301,7 @@ TEST_F(ParamConcatTest, MstatusRstValIsLocalPatternKeyedOutOfOrder) {
       ((viaTypedef != nullptr) && (viaTypedef->getTypedef() == td)) ||
       ((td->getAlias() != nullptr) && (p->getTypespec()->getActual() == td->getAlias()->getActual()));
   EXPECT_TRUE(isStatusT) << "'MSTATUS_RST_VAL' is declared 'status_t'";
-  const hldb::ParamAssign *const pa = getParamAssign(top, "MSTATUS_RST_VAL");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -356,7 +339,7 @@ TEST_F(ParamConcatTest, UMstatusCsrOverridesResetValueWithConcat) {
   const hldb::RefObj *const ref = any_cast<hldb::RefObj>(concat->getOperands()->at(0));
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "MSTATUS_RST_VAL");
-  EXPECT_EQ(ref->getActual(), getParam(top, "MSTATUS_RST_VAL")) << "'MSTATUS_RST_VAL' is top's localparam";
+  EXPECT_EQ(ref->getActual(), getParameter(top, "MSTATUS_RST_VAL")) << "'MSTATUS_RST_VAL' is top's localparam";
 }
 
 // ---------------------------------------------------------------------------

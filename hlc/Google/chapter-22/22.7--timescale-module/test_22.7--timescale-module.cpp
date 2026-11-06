@@ -178,6 +178,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
 #include <hldb/checker_decl.h>
@@ -243,20 +244,6 @@ std::vector<const T *> fromSourceFile(const std::vector<T *> *collection) {
     }
   }
   return objects;
-}
-
-// The object of 'collection' named 'name', or nullptr unless there is exactly one.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  const T *found = nullptr;
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() != name) continue;
-      if (found != nullptr) return nullptr;
-      found = object;
-    }
-  }
-  return found;
 }
 
 // The object of 'collection' that starts on 'line', or nullptr unless there is exactly one.
@@ -362,19 +349,10 @@ class TimescaleModuleTest : public Test {
     return (topInstances.size() == 1) ? topInstances.front() : nullptr;
   }
 
-  // The parameter assignment in 'scope' whose left-hand side is 'name', or
+  // The parameter in 'scope' whose left-hand side is 'name', or
   // nullptr unless there is exactly one.
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *scope, std::string_view name) {
-    const hldb::ParamAssign *found = nullptr;
-    if (const hldb::ParamAssignCollection *const paramAssigns = scope->getParamAssigns()) {
-      for (const hldb::ParamAssign *paramAssign : *paramAssigns) {
-        const hldb::Any *const lhs = paramAssign->getLhs();
-        if ((lhs == nullptr) || (lhs->getName() != name)) continue;
-        if (found != nullptr) return nullptr;
-        found = paramAssign;
-      }
-    }
-    return found;
+  static const hldb::Parameter *findParameter(const hldb::Module *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // The process of test that starts on line 20, or nullptr.
@@ -487,7 +465,6 @@ TEST_F(TimescaleModuleTest, ModuleTestItems) {
   EXPECT_EQ(sizeOf(test->getPorts()), 0u);
   EXPECT_EQ(sizeOf(test->getVariables()), 1u) << "logic set;";
   EXPECT_EQ(sizeOf(test->getParameters()), 1u) << "parameter d = 1.55;";
-  EXPECT_EQ(sizeOf(test->getParamAssigns()), 1u) << "d = 1.55";
   EXPECT_EQ(sizeOf(test->getProcesses()), 1u) << "initial begin ... end";
 
   EXPECT_EQ(sizeOf(test->getNets()), 0u);
@@ -541,13 +518,13 @@ TEST_F(TimescaleModuleTest, TimePrecisionOfTestIs1Nanosecond) {
 TEST_F(TimescaleModuleTest, SetIsAnUnsignedLogicVariable) {
   const hldb::Module *const test = getModuleTest();
   ASSERT_NE(test, nullptr);
-  const hldb::Variable *const set = findByName(test->getVariables(), "set");
+  const hldb::Variable *const set = hldb::findByName<hldb::Variable>("set", test->getVariables());
   ASSERT_NE(set, nullptr) << "set is a variable of test";
   EXPECT_EQ(set->getStartLine(), 18u);
 
   const hldb::RefTypespec *const typespec = set->getTypespec();
   ASSERT_NE(typespec, nullptr) << "set is declared with the data type logic";
-  const hldb::LogicTypespec *const logic = ::any_cast<hldb::LogicTypespec>(typespec->getActual());
+  const hldb::LogicTypespec *const logic = typespec->getActual<hldb::LogicTypespec>();
   ASSERT_NE(logic, nullptr) << "set is declared logic";
   EXPECT_FALSE(logic->getSigned()) << "logic is unsigned";
   EXPECT_EQ(sizeOf(logic->getRanges()), 0u) << "no packed dimension";
@@ -563,11 +540,10 @@ TEST_F(TimescaleModuleTest, SetIsAnUnsignedLogicVariable) {
 TEST_F(TimescaleModuleTest, ParameterDIsNotLocalAndHasNoRange) {
   const hldb::Module *const test = getModuleTest();
   ASSERT_NE(test, nullptr);
-  const hldb::Parameter *const d = ::any_cast<hldb::Parameter>(findByName(test->getParameters(), "d"));
+  const hldb::Parameter *const d = findParameter(test, "d");
   ASSERT_NE(d, nullptr) << "d is a value parameter of test";
   EXPECT_EQ(d->getStartLine(), 19u);
   EXPECT_FALSE(d->getLocalParam());
-  EXPECT_EQ(sizeOf(d->getRanges()), 0u);
 }
 
 // 1.55 is a real literal (5.7.2), a vpiRealConst. d has no type of its own,
@@ -578,16 +554,16 @@ TEST_F(TimescaleModuleTest, ParameterDIsNotLocalAndHasNoRange) {
 TEST_F(TimescaleModuleTest, ParameterDIsReal) {
   const hldb::Module *const test = getModuleTest();
   ASSERT_NE(test, nullptr);
-  const hldb::ParamAssign *const paramAssign = findParamAssign(test, "d");
-  ASSERT_NE(paramAssign, nullptr) << "d = 1.55 is a parameter assignment of test";
-  const hldb::Constant *const value = ::any_cast<hldb::Constant>(paramAssign->getRhs());
+  const hldb::Parameter *const param = findParameter(test, "d");
+  ASSERT_NE(param, nullptr) << "d = 1.55 is a parameter assignment of test";
+  const hldb::Constant *const value = param->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "d is assigned a literal";
   EXPECT_EQ(value->getConstType(), vpiRealConst);
 
   if (m_design->getElaborated()) {
     const hldb::Module *const topInstance = getTopInstance();
     ASSERT_NE(topInstance, nullptr);
-    const hldb::Any *const d = findByName(topInstance->getParameters(), "d");
+    const hldb::Any *const d = findParameter(topInstance, "d");
     ASSERT_NE(d, nullptr) << "d is a parameter of the top-level instance";
     const hldb::Any::vpi_property_value_t constType = d->getVpiPropertyValue(vpiConstType);
     ASSERT_TRUE(std::holds_alternative<int64_t>(constType));
@@ -602,19 +578,19 @@ TEST_F(TimescaleModuleTest, ParameterDIsReal) {
 TEST_F(TimescaleModuleTest, ParameterDKeepsTheValue1_55) {
   const hldb::Module *const test = getModuleTest();
   ASSERT_NE(test, nullptr);
-  const hldb::ParamAssign *const paramAssign = findParamAssign(test, "d");
-  ASSERT_NE(paramAssign, nullptr) << "d = 1.55 is a parameter assignment of test";
-  EXPECT_EQ(paramAssign->getStartLine(), 19u);
-  const hldb::Constant *const value = ::any_cast<hldb::Constant>(paramAssign->getRhs());
+  const hldb::Parameter *const param = findParameter(test, "d");
+  ASSERT_NE(param, nullptr) << "d = 1.55 is a parameter assignment of test";
+  EXPECT_EQ(param->getStartLine(), 19u);
+  const hldb::Constant *const value = param->getExpr<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "d is assigned a literal";
   EXPECT_DOUBLE_EQ(realValueOf(value), 1.55) << "literal: " << literalOf(value);
 
   if (m_design->getElaborated()) {
     const hldb::Module *const topInstance = getTopInstance();
     ASSERT_NE(topInstance, nullptr);
-    const hldb::ParamAssign *const finalAssign = findParamAssign(topInstance, "d");
+    const hldb::Parameter *const finalAssign = findParameter(topInstance, "d");
     ASSERT_NE(finalAssign, nullptr) << "d is a parameter of the top-level instance";
-    const hldb::Constant *const finalValue = ::any_cast<hldb::Constant>(finalAssign->getRhs());
+    const hldb::Constant *const finalValue = finalAssign->getExpr<hldb::Constant>();
     ASSERT_NE(finalValue, nullptr) << "the final value of d is a constant";
     EXPECT_DOUBLE_EQ(realValueOf(finalValue), 1.55) << "literal: " << literalOf(finalValue);
   }

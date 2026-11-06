@@ -170,9 +170,9 @@ class KmacTest : public Test {
     ASSERT_NE(en->getTypespec(), nullptr);
     EXPECT_NE(en->getTypespec()->getActual<hldb::BitTypespec>(), nullptr) << "EnMasking is 'bit'";
 
-    const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("Share", m->getParamAssigns());
+    const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("Share", m->getParameters());
     ASSERT_NE(pa, nullptr);
-    const hldb::Operation *const cond = pa->getRhs<hldb::Operation>();
+    const hldb::Operation *const cond = pa->getExpr<hldb::Operation>();
     ASSERT_NE(cond, nullptr);
     EXPECT_EQ(cond->getOpType(), vpiConditionOp);
     ASSERT_NE(cond->getOperands(), nullptr);
@@ -259,9 +259,9 @@ TEST_F(KmacTest, KeccakRateIsUnpackedArrayWithFiveElementPattern) {
   EXPECT_EQ(at->getArrayType(), vpiStaticArray);
   EXPECT_FALSE(at->getPacked());
 
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("KeccakRate", pkg->getParamAssigns());
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("KeccakRate", pkg->getParameters());
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pat = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pat = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pat, nullptr);
   EXPECT_EQ(pat->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(pat->getOperands(), nullptr);

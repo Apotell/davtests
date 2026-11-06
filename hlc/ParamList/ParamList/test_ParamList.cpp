@@ -93,21 +93,8 @@ class ParamListTest : public Test {
     return hldb::findByDefName<hldb::Module>("r5p_soc_top", m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // Integer value of a Constant, from its decompiled text or from a sized or
@@ -161,7 +148,7 @@ TEST_F(ParamListTest, DeclaresTwoOverridableParameters) {
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 2u) << "6.20.1: both keyword-less entries are parameters";
   for (std::string_view name : {"GW", "XLEN"}) {
-    const hldb::Parameter *const p = getParam(m, name);
+    const hldb::Parameter *const p = getParameter(m, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.4: '" << name << "' is a parameter port, not a localparam";
   }
@@ -171,7 +158,7 @@ TEST_F(ParamListTest, ParametersAreIntUnsigned) {
   const hldb::Module *const m = getModule();
   ASSERT_NE(m, nullptr);
   for (std::string_view name : {"GW", "XLEN"}) {
-    const hldb::Parameter *const p = getParam(m, name);
+    const hldb::Parameter *const p = getParameter(m, name);
     ASSERT_NE(p, nullptr);
     ASSERT_NE(p->getTypespec(), nullptr) << "'" << name << "' is declared 'int unsigned'";
     const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
@@ -184,9 +171,9 @@ TEST_F(ParamListTest, ParametersDefaultToThirtyTwo) {
   const hldb::Module *const m = getModule();
   ASSERT_NE(m, nullptr);
   for (std::string_view name : {"GW", "XLEN"}) {
-    const hldb::ParamAssign *const pa = getParamAssign(m, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(m, name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr);
     EXPECT_EQ(c->getDecompile(), "32") << name;
   }
@@ -199,9 +186,9 @@ TEST_F(ParamListTest, ElaboratedParametersHoldThirtyTwo) {
     const hldb::Module *const top = m_design->getTopModules()->at(0);
     EXPECT_EQ(top->getDefName(), "r5p_soc_top");
     for (std::string_view name : {"GW", "XLEN"}) {
-      const hldb::ParamAssign *const pa = getParamAssign(top, name);
-      ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated module";
-      const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+      const hldb::Parameter *const pa = getParameter(top, name);
+      ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated module";
+      const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
       ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
       uint64_t v = 0;
       ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";

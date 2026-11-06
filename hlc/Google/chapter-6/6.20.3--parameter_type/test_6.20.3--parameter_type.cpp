@@ -45,10 +45,7 @@
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] TypeParameter name:"T"  localParam: false
-//   +-- getParamAssigns() (ParamAssignCollection, 1 item)
-//   |   +-- [0] ParamAssign
-//   |           lhs: RefTypespec name:"T"  actual: TypeParameter name:"T"
-//   |           rhs: RefTypespec -> RealTypespec
+//   |           expr: RefTypespec -> RealTypespec
 //   +-- getVariables() (VariableCollection, 1 item)
 //       +-- [0] Variable name:"num"
 //               typespec: RefTypespec -> TypeParameter name:"T"
@@ -56,12 +53,10 @@
 //
 // NOTE: TypeParameter nodes live in the same getParameters() AnyCollection as
 // ordinary Parameter nodes. They are retrieved by casting Any* entries with
-// any_cast<TypeParameter>. Like value parameters, type parameters store their
-// default via a ParamAssign node (Scope::getParamAssigns()). The LHS of that
-// ParamAssign is a RefTypespec named "T" pointing to the TypeParameter; the RHS
-// is a RefTypespec whose actual typespec is the default type (RealTypespec).
-// TypeParameter::getExpr() is NOT populated by Surelog -- use the ParamAssign
-// RHS to access the default type.
+// any_cast<TypeParameter>. Like value parameters, a type parameter holds its
+// default itself: TypeParameter::getExpr() is a RefTypespec whose actual
+// typespec is the default type (RealTypespec). A declaration creates no
+// ParamAssign; those carry overrides only.
 //
 // -- VPI constants ----
 //   vpiRealConst     = 2    (real constant, vpi_user.h)
@@ -102,18 +97,10 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 
 // Type parameters share the AnyCollection returned by getParameters().
 // findByName<TypeParameter> matches by getName() and casts via any_cast.
-static const hldb::TypeParameter *getTypeParam(const hldb::Design *d, std::string_view name) {
+// The default type for a type parameter is stored in TypeParameter::getExpr().
+static const hldb::TypeParameter *getTypeParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::TypeParameter>(name, m->getParameters());
-}
-
-// The default type for a type parameter is stored in ParamAssign::getRhs(),
-// matched by getLhs()->getName() == name (the LHS RefTypespec carries the name).
-static const hldb::ParamAssign *getTypeParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::TypeParameter>(name, m->getParameters());
 }
 
 // Returns the named variable from the module's variable collection.
@@ -153,33 +140,33 @@ TEST_F(ParameterTypeTest, ParameterCount) {
 
 // ss.6.20.3: the 'type' keyword produces a TypeParameter node, not a Parameter.
 TEST_F(ParameterTypeTest, T_ExistsAsTypeParameter) {
-  EXPECT_NE(getTypeParam(m_design, "T"), nullptr)
+  EXPECT_NE(getTypeParameter(m_design, "T"), nullptr)
       << "ss.6.20.3: 'type T' must produce a TypeParameter node named \"T\"";
 }
 
 // ss.6.20.3: a type parameter declared in the port list is overridable and
 // must NOT be a localparam.
 TEST_F(ParameterTypeTest, T_IsNotLocalParam) {
-  const hldb::TypeParameter *tp = getTypeParam(m_design, "T");
+  const hldb::TypeParameter *tp = getTypeParameter(m_design, "T");
   ASSERT_NE(tp, nullptr);
   EXPECT_FALSE(tp->getLocalParam()) << "ss.6.20.3: '#(type T = real)' must not be marked as a localparam";
 }
 
 // ss.6.20.3: a type parameter must carry a default type expression.
-// '= real' provides the default, stored as ParamAssign::getRhs<RefTypespec>().
+// '= real' provides the default, stored as TypeParameter::getExpr() (a RefTypespec).
 TEST_F(ParameterTypeTest, T_DefaultTypeExprExists) {
-  const hldb::ParamAssign *pa = getTypeParamAssign(m_design, "T");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for type parameter 'T' not found";
-  EXPECT_NE(pa->getRhs<hldb::RefTypespec>(), nullptr)
+  const hldb::TypeParameter *pa = getTypeParameter(m_design, "T");
+  ASSERT_NE(pa, nullptr) << "Parameter for type parameter 'T' not found";
+  EXPECT_NE(pa->getExpr<hldb::RefTypespec>(), nullptr)
       << "ss.6.20.3: 'type T = real' must have a non-null default type expr";
 }
 
 // ss.6.20.3 + ss.6.12.1: the default type 'real' resolves to RealTypespec
-// via the RefTypespec stored as ParamAssign::getRhs().
+// via the RefTypespec stored as TypeParameter::getExpr().
 TEST_F(ParameterTypeTest, T_DefaultType_IsReal) {
-  const hldb::ParamAssign *pa = getTypeParamAssign(m_design, "T");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for type parameter 'T' not found";
-  const hldb::RefTypespec *rt = pa->getRhs<hldb::RefTypespec>();
+  const hldb::TypeParameter *pa = getTypeParameter(m_design, "T");
+  ASSERT_NE(pa, nullptr) << "Parameter for type parameter 'T' not found";
+  const hldb::RefTypespec *rt = pa->getExpr<hldb::RefTypespec>();
   ASSERT_NE(rt, nullptr) << "default type expr must be non-null";
   EXPECT_NE(rt->getActual<hldb::RealTypespec>(), nullptr)
       << "ss.6.12.1: default type 'real' must resolve to RealTypespec";

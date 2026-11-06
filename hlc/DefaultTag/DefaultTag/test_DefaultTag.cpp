@@ -77,16 +77,14 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::ParamAssign *getXParamAssign(const hldb::Design *d) {
+static const hldb::Parameter *getXParameter(const hldb::Design *d) {
   const hldb::Module *const top = getTop(d);
-  if (!top) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>("X", top->getParamAssigns());
+  return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("X", top->getParameters());
 }
 
 static const hldb::Operation *getXPattern(const hldb::Design *d) {
-  const hldb::ParamAssign *const pa = getXParamAssign(d);
-  if (!pa) return nullptr;
-  return pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const pa = getXParameter(d);
+  return (pa == nullptr) ? nullptr : pa->getExpr<hldb::Operation>();
 }
 
 // ===========================================================================

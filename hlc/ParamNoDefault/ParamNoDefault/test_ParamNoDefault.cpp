@@ -152,21 +152,8 @@ class ParamNoDefaultTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::Typedef *getStruct1() {
@@ -217,7 +204,7 @@ TEST_F(ParamNoDefaultTest, DutDeclaresOverridableLogic4To0AWithoutValue) {
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getParameters(), nullptr);
   EXPECT_EQ(dut->getParameters()->size(), 1u);
-  const hldb::Parameter *const a = getParam(dut, "A");
+  const hldb::Parameter *const a = getParameter(dut, "A");
   ASSERT_NE(a, nullptr) << "parameter 'A' not found";
   EXPECT_FALSE(a->getLocalParam()) << "6.20.1: dut has no parameter port list, so 'A' is overridable";
   ASSERT_NE(a->getTypespec(), nullptr);
@@ -229,8 +216,7 @@ TEST_F(ParamNoDefaultTest, DutDeclaresOverridableLogic4To0AWithoutValue) {
   EXPECT_EQ(lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "4");
   ASSERT_NE(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>(), nullptr);
   EXPECT_EQ(lt->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0");
-  const hldb::ParamAssign *const pa = getParamAssign(dut, "A");
-  EXPECT_TRUE(pa == nullptr || pa->getRhs() == nullptr) << "the source writes no value for 'A'";
+  EXPECT_EQ(a->getExpr(), nullptr) << "the source writes no value for 'A'";
 }
 
 // ---------------------------------------------------------------------------
@@ -263,16 +249,16 @@ TEST_F(ParamNoDefaultTest, XIsOverridableStruct1) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParameters(), nullptr);
   EXPECT_EQ(top->getParameters()->size(), 1u);
-  const hldb::Parameter *const x = getParam(top, "X");
+  const hldb::Parameter *const x = getParameter(top, "X");
   ASSERT_NE(x, nullptr) << "parameter 'X' not found";
   EXPECT_FALSE(x->getLocalParam()) << "6.20.1: top has no parameter port list, so 'X' is overridable";
   EXPECT_TRUE(namesStruct1(x->getTypespec())) << "'X' is declared 'struct_1'";
 }
 
 TEST_F(ParamNoDefaultTest, XValueKeysMembersAAndB) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "X");
+  const hldb::Parameter *const pa = getParameter(getModule("top"), "X");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "'{a: '1, b: '0} is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -290,9 +276,9 @@ TEST_F(ParamNoDefaultTest, XValueKeysMembersAAndB) {
 }
 
 TEST_F(ParamNoDefaultTest, MemberKeyABindsToStruct1MemberA) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "X");
+  const hldb::Parameter *const pa = getParameter(getModule("top"), "X");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr);
   ASSERT_NE(pattern->getOperands(), nullptr);
   ASSERT_EQ(pattern->getOperands()->size(), 2u);
@@ -328,8 +314,8 @@ TEST_F(ParamNoDefaultTest, UDutOverridesAWithX) {
   const hldb::RefObj *const x = mt->getParamAssigns()->at(0)->getRhs<hldb::RefObj>();
   ASSERT_NE(x, nullptr) << "the override value is the name 'X'";
   EXPECT_EQ(x->getName(), "X");
-  ASSERT_NE(getParam(top, "X"), nullptr);
-  EXPECT_EQ(x->getActual(), getParam(top, "X")) << "'X' is top's own parameter";
+  ASSERT_NE(getParameter(top, "X"), nullptr);
+  EXPECT_EQ(x->getActual(), getParameter(top, "X")) << "'X' is top's own parameter";
 }
 
 // ---------------------------------------------------------------------------

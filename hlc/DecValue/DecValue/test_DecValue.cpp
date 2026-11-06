@@ -70,9 +70,9 @@ class DecValueTest : public Test {
     return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
   }
 
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const top = getTop();
-    return (top == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, top->getParamAssigns());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, top->getParameters());
   }
 };
 
@@ -115,9 +115,9 @@ TEST_F(DecValueTest, CIsLocalParam) {
 }
 
 TEST_F(DecValueTest, CInitializerIsDivisionOfAAndB) {
-  const hldb::ParamAssign *const c = getParamAssign("C");
+  const hldb::Parameter *const c = getParameter("C");
   ASSERT_NE(c, nullptr);
-  const hldb::Operation *const div = c->getRhs<hldb::Operation>();
+  const hldb::Operation *const div = c->getExpr<hldb::Operation>();
   ASSERT_NE(div, nullptr) << "Sec 11.4.4: 'A / B' must be a division Operation";
   EXPECT_EQ(div->getOpType(), vpiDivOp);
   ASSERT_NE(div->getOperands(), nullptr);

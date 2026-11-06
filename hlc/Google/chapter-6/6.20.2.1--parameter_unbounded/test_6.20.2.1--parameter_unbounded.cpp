@@ -26,7 +26,7 @@
 //
 // The '$' token used as a parameter value represents an unbounded integer.
 // It is commonly used as an upper bound in parameterised width expressions
-// (e.g. queue sizes, part-select ranges). Surelog represents the unbounded
+// (e.g. queue sizes, part-select ranges). HLC represents the unbounded
 // value as a Constant with vpiConstType = vpiUnbounded (11) and
 // vpiDecompile = "$".
 //
@@ -35,11 +35,8 @@
 //   Module name:top
 //   |-- vpiParameter (1 item)
 //   |   `-- Parameter name:p
-//   |       `-- vpiTypespec  RefTypespec -> LogicTypespec
-//   |-- vpiParamAssign (1 item)
-//   |   `-- ParamAssign
-//   |       |-- vpiLhs  RefObj name:p -> actual: Parameter name:p
-//   |       `-- vpiRhs  Constant
+//   |       |-- vpiTypespec  RefTypespec -> LogicTypespec
+//   |       `-- vpiExpr  Constant  (the default value)
 //   |           |-- vpiTypespec  RefTypespec -> StringTypespec
 //   |           |-- vpiConstType: unbounded (11)
 //   |           `-- vpiDecompile: "$"
@@ -114,16 +111,9 @@ static const hldb::Net *getNet(const hldb::Design *d, std::string_view name) {
   return hldb::findByName<hldb::Net>(name, m->getNets());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d) {
+static const hldb::Parameter *getParameter(const hldb::Design *d) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>("p", m->getParameters());
-}
-
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d) {
-  const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns() || m->getParamAssigns()->empty()) return nullptr;
-  return (*m->getParamAssigns())[0];
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>("p", m->getParameters());
 }
 
 static const hldb::Always *getAlways(const hldb::Design *d) {
@@ -160,80 +150,47 @@ TEST_F(ParameterUnboundedTest, ModuleExists) { ASSERT_NE(getTop(m_design), nullp
 // Parameter -- 'parameter p = $'
 // ===========================================================================
 
-TEST_F(ParameterUnboundedTest, Param_Collection_HasOneEntry) {
+TEST_F(ParameterUnboundedTest, Parameter_Collection_HasOneEntry) {
   const auto *m = getTop(m_design);
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 1u) << "one parameter declaration ('p') expected";
 }
 
-TEST_F(ParameterUnboundedTest, Param_p_Exists) {
-  EXPECT_NE(getParam(m_design), nullptr) << "Parameter named 'p' not found";
+TEST_F(ParameterUnboundedTest, Parameter_p_Exists) {
+  EXPECT_NE(getParameter(m_design), nullptr) << "Parameter named 'p' not found";
 }
 
-TEST_F(ParameterUnboundedTest, Param_p_HasLogicTypespec) {
-  const auto *p = getParam(m_design);
+TEST_F(ParameterUnboundedTest, Parameter_p_HasLogicTypespec) {
+  const hldb::Parameter *p = getParameter(m_design);
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
   EXPECT_NE(p->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr)
       << "'parameter p' with no explicit type must use LogicTypespec";
 }
 
-// ===========================================================================
-// ParamAssign -- value assignment 'p = $'
-// ===========================================================================
-
-TEST_F(ParameterUnboundedTest, ParamAssign_Collection_HasOneEntry) {
-  const auto *m = getTop(m_design);
-  ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getParamAssigns(), nullptr);
-  EXPECT_EQ(m->getParamAssigns()->size(), 1u) << "one ParamAssign expected (for 'p = $')";
-}
-
-TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_IsRefObj) {
-  const auto *pa = getParamAssign(m_design);
+TEST_F(ParameterUnboundedTest, Parameter_Expr_IsConstant) {
+  const hldb::Parameter *pa = getParameter(m_design);
   ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getLhs<hldb::RefObj>(), nullptr) << "ParamAssign lhs must be RefObj referencing 'p'";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "Parameter value ('$') must be a Constant node";
 }
 
-TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_NameIsP) {
-  const auto *pa = getParamAssign(m_design);
-  ASSERT_NE(pa, nullptr);
-  const auto *ref = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "p");
-}
-
-TEST_F(ParameterUnboundedTest, ParamAssign_Lhs_ActualIsParameter) {
-  const auto *pa = getParamAssign(m_design);
-  ASSERT_NE(pa, nullptr);
-  const auto *ref = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Parameter>(), nullptr) << "ParamAssign lhs RefObj must resolve to Parameter node";
-}
-
-TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsConstant) {
-  const auto *pa = getParamAssign(m_design);
-  ASSERT_NE(pa, nullptr);
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ParamAssign rhs ('$') must be a Constant node";
-}
-
-TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_IsUnbounded) {
+TEST_F(ParameterUnboundedTest, Parameter_Expr_IsUnbounded) {
   // Sec 6.20.2.1: '$' is the unbounded value; Surelog represents it as a
   // Constant with vpiConstType = vpiUnbounded (11).
-  const auto *pa = getParamAssign(m_design);
+  const hldb::Parameter *pa = getParameter(m_design);
   ASSERT_NE(pa, nullptr);
-  const auto *c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getConstType(), 11) /* vpiUnbounded */
       << "Sec 6.20.2.1: '$' must have vpiConstType = vpiUnbounded (11)";
 }
 
-TEST_F(ParameterUnboundedTest, ParamAssign_Rhs_ValueIsDollar) {
+TEST_F(ParameterUnboundedTest, Parameter_Rhs_ValueIsDollar) {
   // The decompile/string representation of the unbounded value is "$".
-  const auto *pa = getParamAssign(m_design);
+  const hldb::Parameter *pa = getParameter(m_design);
   ASSERT_NE(pa, nullptr);
-  const auto *c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(std::string(c->getValue()), "$") << "Sec 6.20.2.1: unbounded '$' constant must have value \"$\"";
 }

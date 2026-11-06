@@ -126,29 +126,12 @@ class NegParamTest : public Test {
 
   static const hldb::Parameter *getParam(std::string_view mod, std::string_view name) {
     const hldb::Module *const m = getModuleByDef(mod);
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(std::string_view mod, std::string_view name) {
-    const hldb::Module *const m = getModuleByDef(mod);
-    if (m == nullptr || m->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::Any *const lhs = pa->getLhs();
-      if (lhs == nullptr) continue;
-      if (const hldb::Parameter *const p = any_cast<hldb::Parameter>(lhs)) {
-        if (p->getName() == name) return pa;
-      } else if (const hldb::RefObj *const r = any_cast<hldb::RefObj>(lhs)) {
-        if (r->getName() == name) return pa;
-      }
-    }
-    return nullptr;
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::Variable *getVar(std::string_view mod, std::string_view name) {
     const hldb::Module *const m = getModuleByDef(mod);
-    if (m == nullptr || m->getVariables() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Variable>(name, m->getVariables());
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Variable>(name, m->getVariables());
   }
 
   // Parse an integral Constant's value; returns false when not parseable.
@@ -199,10 +182,10 @@ TEST_F(NegParamTest, DramBaseAddrIsLocalParam) {
 }
 
 TEST_F(NegParamTest, DramBaseAddrValueIs40BitHexPositive) {
-  const hldb::ParamAssign *const pa = getParamAssign("top", "dram_base_addr_gp");
+  const hldb::Parameter *const pa = getParam("top", "dram_base_addr_gp");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::Constant *const c = any_cast<hldb::Constant>(pa->getRhs());
+  ASSERT_NE(pa->getExpr(), nullptr);
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "a literal initializer must be a Constant";
   EXPECT_EQ(c->getConstType(), vpiHexConst);
   EXPECT_EQ(c->getSize(), 40) << "Sec 5.7.1: 40'h... is a 40-bit literal";
@@ -250,10 +233,10 @@ TEST_F(NegParamTest, UndeclaredTypeBpProcParamSIsDiagnosed) {
 }
 
 TEST_F(NegParamTest, BpDefaultCfgInitializerIsKeyedAssignmentPattern) {
-  const hldb::ParamAssign *const pa = getParamAssign("top", "bp_default_cfg_p");
+  const hldb::Parameter *const pa = getParam("top", "bp_default_cfg_p");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::Operation *const op = any_cast<hldb::Operation>(pa->getRhs());
+  ASSERT_NE(pa->getExpr(), nullptr);
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp) << "Sec 10.9: '{...} is an assignment pattern";
   ASSERT_NE(op->getOperands(), nullptr);
@@ -292,10 +275,10 @@ TEST_F(NegParamTest, PrimPackerPortParamDefaults) {
   };
   const ParamDefault expected[] = {{"InW", 32u}, {"OutW", 32u}, {"HintByteData", 0u}};
   for (const ParamDefault &e : expected) {
-    const hldb::ParamAssign *const pa = getParamAssign("prim_packer", e.m_name);
+    const hldb::Parameter *const pa = getParam("prim_packer", e.m_name);
     ASSERT_NE(pa, nullptr) << e.m_name;
     uint64_t v = 99;
-    ASSERT_TRUE(constValue(pa->getRhs(), v)) << e.m_name;
+    ASSERT_TRUE(constValue(pa->getExpr(), v)) << e.m_name;
     EXPECT_EQ(v, e.m_value) << e.m_name;
   }
 }
@@ -309,9 +292,9 @@ TEST_F(NegParamTest, PrimPackerBodyParamsAreLocalParams) {
 }
 
 TEST_F(NegParamTest, IdxWIsClog2PlusReductionNorOfClog2) {
-  const hldb::ParamAssign *const pa = getParamAssign("prim_packer", "IdxW");
+  const hldb::Parameter *const pa = getParam("prim_packer", "IdxW");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const add = any_cast<hldb::Operation>(pa->getRhs());
+  const hldb::Operation *const add = pa->getExpr<hldb::Operation>();
   ASSERT_NE(add, nullptr);
   EXPECT_EQ(add->getOpType(), vpiAddOp);
   ASSERT_NE(add->getOperands(), nullptr);
@@ -338,9 +321,9 @@ TEST_F(NegParamTest, IdxWIsClog2PlusReductionNorOfClog2) {
 }
 
 TEST_F(NegParamTest, PtrWIsClog2OfConcatWPlusOne) {
-  const hldb::ParamAssign *const pa = getParamAssign("prim_packer", "PtrW");
+  const hldb::Parameter *const pa = getParam("prim_packer", "PtrW");
   ASSERT_NE(pa, nullptr);
-  const hldb::SysFuncCall *const call = any_cast<hldb::SysFuncCall>(pa->getRhs());
+  const hldb::SysFuncCall *const call = pa->getExpr<hldb::SysFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), std::string_view("$clog2"));
   ASSERT_NE(call->getArguments(), nullptr);

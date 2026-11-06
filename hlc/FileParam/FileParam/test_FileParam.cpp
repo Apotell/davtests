@@ -66,15 +66,7 @@ class FileParamTest : public Test {
 
  protected:
   static const hldb::Parameter *findUnitParam(std::string_view name) {
-    if (m_design->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m_design->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-  static const hldb::ParamAssign *findUnitParamAssign(std::string_view name) {
-    return hldb::findByName<hldb::ParamAssign>(name, m_design->getParamAssigns());
+    return hldb::findByName<hldb::Parameter>(name, m_design->getParameters());
   }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
@@ -94,11 +86,8 @@ TEST_F(FileParamTest, P1IsUnitScopedLocalParamWithValueOne) {
   const hldb::Parameter *const p1 = findUnitParam("P1");
   ASSERT_NE(p1, nullptr) << "'P1' not found at compilation-unit scope";
   EXPECT_TRUE(p1->getLocalParam()) << "6.20.4: 'localparam P1' must not be overridable";
-
-  const hldb::ParamAssign *const pa = findUnitParamAssign("P1");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(pa->getRhs(), nullptr);
+  ASSERT_NE(p1->getExpr(), nullptr);
+  const hldb::Constant *const rhs = p1->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'P1 = 1': RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "1");
 }
@@ -109,11 +98,8 @@ TEST_F(FileParamTest, P2IsUnitScopedLocalParamReferencingP1) {
   const hldb::Parameter *const p2 = findUnitParam("P2");
   ASSERT_NE(p2, nullptr) << "'P2' not found at compilation-unit scope";
   EXPECT_TRUE(p2->getLocalParam());
-
-  const hldb::ParamAssign *const pa = findUnitParamAssign("P2");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::Operation *const addOp = pa->getRhs<hldb::Operation>();
+  ASSERT_NE(p2->getExpr(), nullptr);
+  const hldb::Operation *const addOp = p2->getExpr<hldb::Operation>();
   ASSERT_NE(addOp, nullptr) << "'P1 + 2': RHS must be an Operation(vpiAddOp)";
   EXPECT_EQ(addOp->getOpType(), vpiAddOp);
   ASSERT_NE(addOp->getOperands(), nullptr);

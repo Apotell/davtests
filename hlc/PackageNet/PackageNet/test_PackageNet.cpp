@@ -44,8 +44,7 @@
 //     - exactly 2 parameters, p1 and p2. Both are local parameters: p2 is
 //       declared 'localparam', and in a package the keyword 'parameter' is a
 //       synonym for 'localparam' (6.20.4)
-//     - their ParamAssigns bind the LHS to the Parameter and have the
-//       Constant RHS "1" and "2"
+//     - their values (Parameter::getExpr()) are the Constants "1" and "2"
 //     - typedef logic [1:0] word; (6.18): exactly 1 Typedef, 'word', whose
 //       alias is a LogicTypespec with exactly 1 packed range [1:0]
 //     - word v; is a data declaration with no net type, so it declares a
@@ -137,21 +136,9 @@ class PackageNetTest : public Test {
     return hldb::findByName<hldb::Package>("my_package1", m_design->getAllPackages());
   }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
-  }
-
-  // The ParamAssign whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(std::string_view name) {
-    const hldb::Package *const pkg = getPkg();
-    if (pkg == nullptr || pkg->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *pkg->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
+    return (pkg == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, pkg->getParameters());
   }
 
   static const hldb::Typedef *getWord() {
@@ -192,16 +179,11 @@ class PackageNetTest : public Test {
     EXPECT_EQ(ref->getActual(), target) << "26.3: '" << name << "' must bind to my_package1's declaration";
   }
 
-  // Verifies the ParamAssign of 'name' binds its LHS to the Parameter and has
-  // the Constant RHS 'value'.
-  static void ExpectParamAssign(std::string_view name, std::string_view value) {
-    const hldb::ParamAssign *const pa = getParamAssign(name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr);
-    ASSERT_NE(getParam(name), nullptr);
-    EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getParam(name));
-    const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  // Verifies the Parameter 'name' has the Constant value 'value'.
+  static void ExpectParameter(std::string_view name, std::string_view value) {
+    const hldb::Parameter *const pa = getParameter(name);
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
     ASSERT_NE(rhs, nullptr) << "'" << name << "' is assigned a literal";
     EXPECT_EQ(rhs->getDecompile(), value);
   }
@@ -223,22 +205,22 @@ TEST_F(PackageNetTest, PackageHasExactlyParametersP1AndP2) {
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 2u) << "'p1' and 'p2'";
-  EXPECT_NE(getParam("p1"), nullptr);
-  EXPECT_NE(getParam("p2"), nullptr);
+  EXPECT_NE(getParameter("p1"), nullptr);
+  EXPECT_NE(getParameter("p2"), nullptr);
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (package
 // parameter is not a localparam) in the file header.
 TEST_F(PackageNetTest, BothParametersAreLocalParams) {
-  ASSERT_NE(getParam("p1"), nullptr);
-  ASSERT_NE(getParam("p2"), nullptr);
-  EXPECT_TRUE(getParam("p1")->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
-  EXPECT_TRUE(getParam("p2")->getLocalParam()) << "6.20.4: 'p2' is declared 'localparam'";
+  ASSERT_NE(getParameter("p1"), nullptr);
+  ASSERT_NE(getParameter("p2"), nullptr);
+  EXPECT_TRUE(getParameter("p1")->getLocalParam()) << "6.20.4: in a package, 'parameter' is a synonym for 'localparam'";
+  EXPECT_TRUE(getParameter("p2")->getLocalParam()) << "6.20.4: 'p2' is declared 'localparam'";
 }
 
-TEST_F(PackageNetTest, ParamAssignsAreOneAndTwo) {
-  ExpectParamAssign("p1", "1");
-  ExpectParamAssign("p2", "2");
+TEST_F(PackageNetTest, ParametersAreOneAndTwo) {
+  ExpectParameter("p1", "1");
+  ExpectParameter("p2", "2");
 }
 
 TEST_F(PackageNetTest, TypedefWordIsLogic1To0) {
@@ -349,8 +331,8 @@ TEST_F(PackageNetTest, AssignmentRhsAddsPackageParameters) {
   EXPECT_EQ(add->getOpType(), vpiAddOp);
   ASSERT_NE(add->getOperands(), nullptr);
   ASSERT_EQ(add->getOperands()->size(), 2u);
-  ExpectBoundRef(add->getOperands()->at(0), "p1", getParam("p1"));
-  ExpectBoundRef(add->getOperands()->at(1), "p2", getParam("p2"));
+  ExpectBoundRef(add->getOperands()->at(0), "p1", getParameter("p1"));
+  ExpectBoundRef(add->getOperands()->at(1), "p2", getParameter("p2"));
 }
 
 // ---------------------------------------------------------------------------

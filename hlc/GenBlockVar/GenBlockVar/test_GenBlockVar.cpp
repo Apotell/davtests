@@ -78,17 +78,8 @@ class GenBlockVarTest : public Test {
   // static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
-    if (m == nullptr || m->getParameters() == nullptr) return nullptr;
-    for (const hldb::Any *const p : *m->getParameters()) {
-      const hldb::Parameter *const param = any_cast<hldb::Parameter>(p);
-      if (param != nullptr && param->getName() == name) return param;
-    }
-    return nullptr;
-  }
-
-  static const hldb::ParamAssign *findParamAssign(const hldb::Module *m, std::string_view name) {
-    return (m == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(m));
+  static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::GenIfElse *findGenIfElse(const hldb::Module *m) {
@@ -113,14 +104,12 @@ TEST_F(GenBlockVarTest, ModuleTopExists) { ASSERT_NE(getTop(), nullptr) << "modu
 TEST_F(GenBlockVarTest, AsyncOnParamNotLocalWithDefaultZero) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  const hldb::Parameter *const asyncOn = findParam(top, "AsyncOn");
+  const hldb::Parameter *const asyncOn = getParameter(top, "AsyncOn");
   ASSERT_NE(asyncOn, nullptr) << "'parameter bit AsyncOn' not found";
   EXPECT_FALSE(asyncOn->getLocalParam()) << "'parameter bit AsyncOn' must not be a localparam";
 
-  const hldb::ParamAssign *const pa = findParamAssign(top, "AsyncOn");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'AsyncOn' not found";
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(asyncOn->getExpr(), nullptr);
+  const hldb::Constant *const rhs = asyncOn->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'AsyncOn = 1'b0': default RHS must be a Constant";
   // getDecompile() is the source text of the literal, i.e. "1'b0".
   // EXPECT_EQ(std::string(rhs->getDecompile()), "0");

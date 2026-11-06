@@ -52,13 +52,12 @@
 //
 //   Module name:top
 //   +-- getParameters() (AnyCollection, 2 items)
-//   |   +-- [0] Parameter name:"s1"  localParam: true
-//   |           typespec: RefTypespec -> LogicTypespec  (Surelog implicit)
-//   |   +-- [1] Parameter name:"s2"  localParam: true
-//   |           typespec: RefTypespec -> StringTypespec (explicit 'string')
-//   +-- getParamAssigns() (ParamAssignCollection, 2 items)
-//       +-- [0] ParamAssign  lhs:"s1"  rhs: Constant { constType: vpiStringConst (6) }
-//       +-- [1] ParamAssign  lhs:"s2"  rhs: Constant { constType: vpiStringConst (6) }
+//       +-- [0] Parameter name:"s1"  localParam: true
+//       |       typespec: RefTypespec -> LogicTypespec  (HLC implicit)
+//       |       expr: Constant { constType: vpiStringConst (6) }
+//       +-- [1] Parameter name:"s2"  localParam: true
+//               typespec: RefTypespec -> StringTypespec (explicit 'string')
+//               expr: Constant { constType: vpiStringConst (6) }
 //
 // -- VPI constants ------------------------------------------------------------
 //   vpiStringConst = 6  (string literal constant, vpi_user.h)
@@ -95,16 +94,9 @@ static const hldb::Module *getTop(const hldb::Design *d) {
   return hldb::findByName<hldb::Module>("top", d->getAllModules());
 }
 
-static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
+static const hldb::Parameter *getParameter(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParameters()) return nullptr;
-  return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-}
-
-static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
-  const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
 }
 
 // ===========================================================================
@@ -136,28 +128,28 @@ TEST_F(LocalparamStringTest, ParameterCount) {
 // ===========================================================================
 
 TEST_F(LocalparamStringTest, S1_Exists) {
-  EXPECT_NE(getParam(m_design, "s1"), nullptr) << "'s1' not found in parameters";
+  EXPECT_NE(getParameter(m_design, "s1"), nullptr) << "'s1' not found in parameters";
 }
 
 // ss.6.20.4: s1 is a localparam and must NOT be overridable.
 TEST_F(LocalparamStringTest, S1_IsLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "s1");
+  const hldb::Parameter *p = getParameter(m_design, "s1");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam s1' must be marked as a localparam";
 }
 
-// ss.5.9: "foo" is a string literal; the ParamAssign RHS must be a Constant.
+// ss.5.9: "foo" is a string literal; the Parameter value must be a Constant.
 TEST_F(LocalparamStringTest, S1_RhsIsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "s1");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 's1' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ss.5.9: '\"foo\"' must be represented as a Constant node";
+  const hldb::Parameter *pa = getParameter(m_design, "s1");
+  ASSERT_NE(pa, nullptr) << "Parameter for 's1' not found";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "ss.5.9: '\"foo\"' must be represented as a Constant node";
 }
 
 // ss.5.9: a string literal has constType vpiStringConst (6).
 TEST_F(LocalparamStringTest, S1_Rhs_ConstType_IsString) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "s1");
+  const hldb::Parameter *pa = getParameter(m_design, "s1");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'\"foo\"' RHS must be a Constant";
   EXPECT_EQ(c->getConstType(), vpiStringConst) << "ss.5.9: '\"foo\"' must have constType vpiStringConst (6)";
 }
@@ -167,26 +159,26 @@ TEST_F(LocalparamStringTest, S1_Rhs_ConstType_IsString) {
 // ===========================================================================
 
 TEST_F(LocalparamStringTest, S2_Exists) {
-  EXPECT_NE(getParam(m_design, "s2"), nullptr) << "'s2' not found in parameters";
+  EXPECT_NE(getParameter(m_design, "s2"), nullptr) << "'s2' not found in parameters";
 }
 
 // ss.6.20.4: s2 is a localparam and must NOT be overridable.
 TEST_F(LocalparamStringTest, S2_IsLocalParam) {
-  const hldb::Parameter *p = getParam(m_design, "s2");
+  const hldb::Parameter *p = getParameter(m_design, "s2");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "ss.6.20.4: 'localparam string s2' must be marked as a localparam";
 }
 
 // ss.6.16: the explicit 'string' type must be recorded as a non-null typespec.
 TEST_F(LocalparamStringTest, S2_TypespecExists) {
-  const hldb::Parameter *p = getParam(m_design, "s2");
+  const hldb::Parameter *p = getParameter(m_design, "s2");
   ASSERT_NE(p, nullptr);
   EXPECT_NE(p->getTypespec(), nullptr) << "ss.6.16: 'localparam string s2' must have a non-null typespec";
 }
 
 // ss.6.16: the explicit 'string' keyword must resolve to a StringTypespec.
 TEST_F(LocalparamStringTest, S2_Typespec_IsStringTypespec) {
-  const hldb::Parameter *p = getParam(m_design, "s2");
+  const hldb::Parameter *p = getParameter(m_design, "s2");
   ASSERT_NE(p, nullptr);
   const hldb::RefTypespec *rt = p->getTypespec();
   ASSERT_NE(rt, nullptr);
@@ -194,18 +186,18 @@ TEST_F(LocalparamStringTest, S2_Typespec_IsStringTypespec) {
       << "ss.6.16: 'string' keyword must resolve to StringTypespec";
 }
 
-// ss.5.9: "bar" is a string literal; the ParamAssign RHS must be a Constant.
+// ss.5.9: "bar" is a string literal; the Parameter value must be a Constant.
 TEST_F(LocalparamStringTest, S2_RhsIsConstant) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "s2");
-  ASSERT_NE(pa, nullptr) << "ParamAssign for 's2' not found";
-  EXPECT_NE(pa->getRhs<hldb::Constant>(), nullptr) << "ss.5.9: '\"bar\"' must be represented as a Constant node";
+  const hldb::Parameter *pa = getParameter(m_design, "s2");
+  ASSERT_NE(pa, nullptr) << "Parameter for 's2' not found";
+  EXPECT_NE(pa->getExpr<hldb::Constant>(), nullptr) << "ss.5.9: '\"bar\"' must be represented as a Constant node";
 }
 
 // ss.5.9: a string literal has constType vpiStringConst (6).
 TEST_F(LocalparamStringTest, S2_Rhs_ConstType_IsString) {
-  const hldb::ParamAssign *pa = getParamAssign(m_design, "s2");
+  const hldb::Parameter *pa = getParameter(m_design, "s2");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *c = pa->getRhs<hldb::Constant>();
+  const hldb::Constant *c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'\"bar\"' RHS must be a Constant";
   EXPECT_EQ(c->getConstType(), vpiStringConst) << "ss.5.9: '\"bar\"' must have constType vpiStringConst (6)";
 }

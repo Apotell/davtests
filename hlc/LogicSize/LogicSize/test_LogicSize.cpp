@@ -146,10 +146,10 @@ TEST_F(LogicSizeTest, TopParamXIsScalarLogic) {
 TEST_F(LogicSizeTest, DutParamPDefaultIsConstantZero) {
   const hldb::Module *const dut = getModule("dut");
   ASSERT_NE(dut, nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("P", dut->getParamAssigns());
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'P' not found";
-  ASSERT_NE(pa->getRhs(), nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>("P", dut->getParameters());
+  ASSERT_NE(pa, nullptr) << "default Parameter for 'P' not found";
+  ASSERT_NE(pa->getExpr(), nullptr);
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'P = 0': default value must be a Constant";
   EXPECT_EQ(rhs->getDecompile(), std::string_view("0"));
 }
@@ -226,7 +226,6 @@ TEST_F(LogicSizeTest, UDutOverridesPByNameWithBitNegOfX) {
   const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("P", mts->getParamAssigns());
   ASSERT_NE(pa, nullptr) << "override '.P(~X)' not found";
   EXPECT_TRUE(pa->getConnByName()) << "'.P(...)' is a named parameter assignment (Sec 23.10.2.2)";
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr) << "'~X' should be an Operation";
   EXPECT_EQ(op->getOpType(), vpiBitNegOp);

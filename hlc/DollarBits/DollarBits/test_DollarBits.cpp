@@ -35,10 +35,10 @@
 // Checked:
 //   - modules "other" and "dut" both exist
 //   - "other" declares parameter "Width" (not a localparam), whose default
-//     ParamAssign RHS decompiles to "1"
+//     (Parameter::getExpr()) decompiles to "1"
 //   - "dut" instantiates "other" via RefInstance "oth", whose typespec
 //     resolves (ModuleTypespec) to "other"
-//   - "oth" carries an explicit, overriding, by-name ParamAssign for
+//   - "oth"'s typespec carries an explicit, by-name ParamAssign overriding
 //     "Width" (Sec 23.3 named parameter value assignment)
 //   - that ParamAssign's RHS is a SysFuncCall "$bits" with exactly one
 //     argument
@@ -81,9 +81,14 @@ class DollarBitsTest : public Test {
   static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   template <typename ScopeT>
-  static const hldb::ParamAssign *findParamAssign(const ScopeT *scope, std::string_view name) {
-    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(scope));
+  static const hldb::Parameter *getParameter(const ScopeT *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, hldb::getParameters(scope));
   }
+
+  template <typename ScopeT>
+  static const hldb::ParamAssign *getParamAssign(const ScopeT *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::ParamAssign>(name, hldb::getParamAssigns(scope));
+  }  
 };
 
 // ---------------------------------------------------------------------------
@@ -117,9 +122,9 @@ TEST_F(DollarBitsTest, OtherHasWidthParameterNotLocalParam) {
 TEST_F(DollarBitsTest, OtherWidthDefaultIsOne) {
   const hldb::Module *const other = getOther();
   ASSERT_NE(other, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(other, "Width");
-  ASSERT_NE(pa, nullptr) << "default ParamAssign for 'Width' not found";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
+  const hldb::Parameter *const pa = getParameter(other, "Width");
+  ASSERT_NE(pa, nullptr) << "Parameter 'Width' not found";
+  const hldb::Constant *const rhs = pa->getExpr<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter int Width = 1': default RHS must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), "1");
 }
@@ -137,7 +142,7 @@ TEST_F(DollarBitsTest, DutInstantiatesOtherAsOth) {
   ASSERT_NE(oth->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = oth->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "'oth's typespec is not ModuleTypespec";
-  EXPECT_EQ(mt->getName(), std::string_view("other"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("other"));
 }
 
 TEST_F(DollarBitsTest, OthWidthOverrideIsByNameAndOverriding) {
@@ -149,10 +154,9 @@ TEST_F(DollarBitsTest, OthWidthOverrideIsByNameAndOverriding) {
   ASSERT_NE(rt, nullptr);
   const hldb::ModuleTypespec *const mt = rt->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(mt, "Width");
+  const hldb::ParamAssign *const pa = getParamAssign(mt, "Width");
   ASSERT_NE(pa, nullptr) << "'.Width($bits({in}))' override not found on 'oth'";
   EXPECT_TRUE(pa->getConnByName()) << "'.Width(...)' is a by-name parameter connection (Sec 23.3)";
-  EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
 }
 
 TEST_F(DollarBitsTest, OthWidthOverrideRhsIsBitsSysFuncCallWithOneArgument) {
@@ -164,7 +168,7 @@ TEST_F(DollarBitsTest, OthWidthOverrideRhsIsBitsSysFuncCallWithOneArgument) {
   ASSERT_NE(rt, nullptr);
   const hldb::ModuleTypespec *const mt = rt->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(mt, "Width");
+  const hldb::ParamAssign *const pa = getParamAssign(mt, "Width");
   ASSERT_NE(pa, nullptr);
   const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr) << "Sec 20.6.2: '.Width($bits({in}))' RHS must be a SysFuncCall";
@@ -182,7 +186,7 @@ TEST_F(DollarBitsTest, BitsArgumentIsSingleOperandConcatOfIn) {
   ASSERT_NE(rt, nullptr);
   const hldb::ModuleTypespec *const mt = rt->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(mt, "Width");
+  const hldb::ParamAssign *const pa = getParamAssign(mt, "Width");
   ASSERT_NE(pa, nullptr);
   const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr);

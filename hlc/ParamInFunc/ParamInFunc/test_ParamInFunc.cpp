@@ -164,21 +164,8 @@ class ParamInFuncTest : public Test {
     return hldb::findByName<hldb::Function>("func3", top->getTaskFuncs());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   // The only statement of func3, looking through a Begin that holds just it.
@@ -219,13 +206,13 @@ class ParamInFuncTest : public Test {
     const hldb::RefObj *const a = sel->getRange()->getLeftExpr<hldb::RefObj>();
     ASSERT_NE(a, nullptr) << "the left bound is the name 'A'";
     EXPECT_EQ(a->getName(), "A");
-    ASSERT_NE(getParam(getFunc3(), "A"), nullptr);
-    EXPECT_EQ(a->getActual(), getParam(getFunc3(), "A")) << "'A' is func3's own localparam";
+    ASSERT_NE(getParameter(getFunc3(), "A"), nullptr);
+    EXPECT_EQ(a->getActual(), getParameter(getFunc3(), "A")) << "'A' is func3's own localparam";
     const hldb::RefObj *const b = sel->getRange()->getRightExpr<hldb::RefObj>();
     ASSERT_NE(b, nullptr) << "the right bound is the name 'B'";
     EXPECT_EQ(b->getName(), "B");
-    ASSERT_NE(getParam(getFunc3(), "B"), nullptr);
-    EXPECT_EQ(b->getActual(), getParam(getFunc3(), "B")) << "'B' is func3's own parameter";
+    ASSERT_NE(getParameter(getFunc3(), "B"), nullptr);
+    EXPECT_EQ(b->getActual(), getParameter(getFunc3(), "B")) << "'B' is func3's own parameter";
   }
 };
 
@@ -301,13 +288,13 @@ TEST_F(ParamInFuncTest, Func3DeclaresInputInp) {
 TEST_F(ParamInFuncTest, Func3DeclaresLocalparamAOf31) {
   const hldb::Function *const f = getFunc3();
   ASSERT_NE(f, nullptr);
-  const hldb::Parameter *const a = getParam(f, "A");
+  const hldb::Parameter *const a = getParameter(f, "A");
   ASSERT_NE(a, nullptr) << "func3's localparam 'A' not found";
   EXPECT_TRUE(a->getLocalParam()) << "6.20.4: 'A' is declared 'localparam'";
-  const hldb::ParamAssign *const pa = getParamAssign(f, "A");
+  const hldb::Parameter *const pa = getParameter(f, "A");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "31");
+  ASSERT_NE(pa->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(pa->getExpr<hldb::Constant>()->getDecompile(), "31");
 }
 
 TEST_F(ParamInFuncTest, Func3DeclaresParameterBOfOneMinusZero) {
@@ -315,10 +302,10 @@ TEST_F(ParamInFuncTest, Func3DeclaresParameterBOfOneMinusZero) {
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getParameters(), nullptr);
   EXPECT_EQ(f->getParameters()->size(), 2u) << "func3 declares A and B";
-  ASSERT_NE(getParam(f, "B"), nullptr) << "func3's parameter 'B' not found";
-  const hldb::ParamAssign *const pa = getParamAssign(f, "B");
+  ASSERT_NE(getParameter(f, "B"), nullptr) << "func3's parameter 'B' not found";
+  const hldb::Parameter *const pa = getParameter(f, "B");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const sub = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const sub = pa->getExpr<hldb::Operation>();
   ASSERT_NE(sub, nullptr) << "unreduced, '1 - 0' is an Operation";
   EXPECT_EQ(sub->getOpType(), vpiSubOp) << "11.4.3: a subtraction";
   ASSERT_NE(sub->getOperands(), nullptr);

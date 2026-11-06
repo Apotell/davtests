@@ -167,22 +167,9 @@ class ParamOverloadingTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(std::string_view module, std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view module, std::string_view name) {
     const hldb::Module *const m = getModule(module);
-    if (m == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, m->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
+    return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());
   }
 
   static const hldb::Typedef *getStructAb(std::string_view module) {
@@ -291,9 +278,9 @@ class ParamOverloadingTest : public Test {
   static void ExpectElabParam(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr);
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "' in the elaborated scope";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = hldb::findByName<hldb::Parameter>(name, scope->getParameters());
+    ASSERT_NE(pa, nullptr) << "no Parameter for '" << name << "' in the elaborated scope";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -319,7 +306,7 @@ TEST_F(ParamOverloadingTest, PrimSubregDeclaresOverridableLogic4To0Resval) {
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getParameters(), nullptr);
   EXPECT_EQ(m->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam("prim_subreg", "RESVAL");
+  const hldb::Parameter *const p = getParameter("prim_subreg", "RESVAL");
   ASSERT_NE(p, nullptr);
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: prim_subreg has no parameter port list, so RESVAL is overridable";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -329,10 +316,8 @@ TEST_F(ParamOverloadingTest, PrimSubregDeclaresOverridableLogic4To0Resval) {
   ASSERT_EQ(lt->getRanges()->size(), 1u);
   ASSERT_NE(lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>(), nullptr);
   EXPECT_EQ(lt->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "4");
-  const hldb::ParamAssign *const pa = getParamAssign(m, "RESVAL");
-  ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(pa->getRhs<hldb::Constant>()->getDecompile(), "'0");
+  ASSERT_NE(p->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(p->getExpr<hldb::Constant>()->getDecompile(), "'0");
 }
 
 TEST_F(ParamOverloadingTest, PrimSubregAIsIntCastOfResval) {
@@ -355,7 +340,7 @@ TEST_F(ParamOverloadingTest, PrimSubregAIsIntCastOfResval) {
   const hldb::RefObj *const resval = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(resval, nullptr);
   EXPECT_EQ(resval->getName(), "RESVAL");
-  EXPECT_EQ(resval->getActual(), getParam("prim_subreg", "RESVAL")) << "prim_subreg's own parameter";
+  EXPECT_EQ(resval->getActual(), getParameter("prim_subreg", "RESVAL")) << "prim_subreg's own parameter";
 }
 
 // ---------------------------------------------------------------------------
@@ -365,13 +350,13 @@ TEST_F(ParamOverloadingTest, PrimSubregAIsIntCastOfResval) {
 TEST_F(ParamOverloadingTest, ShadowStructAbIsThreeThenTwoBits) { ExpectStructAb("prim_subreg_shadow", "2", "1"); }
 
 TEST_F(ParamOverloadingTest, ShadowResvalKeysAAndB) {
-  const hldb::Parameter *const p = getParam("prim_subreg_shadow", "RESVAL");
+  const hldb::Parameter *const p = getParameter("prim_subreg_shadow", "RESVAL");
   ASSERT_NE(p, nullptr) << "prim_subreg_shadow's RESVAL not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: no parameter port list, so RESVAL is overridable";
   EXPECT_TRUE(namesStructAb(p->getTypespec(), "prim_subreg_shadow")) << "23.9: its own struct_ab";
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("prim_subreg_shadow"), "RESVAL");
+  const hldb::Parameter *const pa = getParameter("prim_subreg_shadow", "RESVAL");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr);
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -392,8 +377,8 @@ TEST_F(ParamOverloadingTest, ShadowPassesItsOwnResvalToStagedReg) {
       any_cast<hldb::RefObj>(getResvalOverride("prim_subreg_shadow", "staged_reg", "prim_subreg"));
   ASSERT_NE(resval, nullptr) << "staged_reg instantiates prim_subreg with '.RESVAL(RESVAL)'";
   EXPECT_EQ(resval->getName(), "RESVAL");
-  ASSERT_NE(getParam("prim_subreg_shadow", "RESVAL"), nullptr);
-  EXPECT_EQ(resval->getActual(), getParam("prim_subreg_shadow", "RESVAL"))
+  ASSERT_NE(getParameter("prim_subreg_shadow", "RESVAL"), nullptr);
+  EXPECT_EQ(resval->getActual(), getParameter("prim_subreg_shadow", "RESVAL"))
       << "23.9: the override is written in prim_subreg_shadow's scope";
 }
 
@@ -410,26 +395,24 @@ TEST_F(ParamOverloadingTest, TheTwoStructAbAreDistinct) {
 }
 
 TEST_F(ParamOverloadingTest, V1AndV2HoldOneAndZero) {
-  const hldb::Module *const top = getModule("top");
-  ASSERT_NE(top, nullptr);
-  const hldb::ParamAssign *const v1 = getParamAssign(top, "v1");
+  const hldb::Parameter *const v1 = getParameter("top", "v1");
   ASSERT_NE(v1, nullptr);
-  ASSERT_NE(v1->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(v1->getRhs<hldb::Constant>()->getDecompile(), "1");
-  const hldb::ParamAssign *const v2 = getParamAssign(top, "v2");
+  ASSERT_NE(v1->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(v1->getExpr<hldb::Constant>()->getDecompile(), "1");
+  const hldb::Parameter *const v2 = getParameter("top", "v2");
   ASSERT_NE(v2, nullptr);
-  ASSERT_NE(v2->getRhs<hldb::Constant>(), nullptr);
-  EXPECT_EQ(v2->getRhs<hldb::Constant>()->getDecompile(), "0");
+  ASSERT_NE(v2->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(v2->getExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
 TEST_F(ParamOverloadingTest, CtrlResetIsPositionalPatternOfV1AndV2) {
-  const hldb::Parameter *const p = getParam("top", "CTRL_RESET");
+  const hldb::Parameter *const p = getParameter("top", "CTRL_RESET");
   ASSERT_NE(p, nullptr) << "parameter 'CTRL_RESET' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list";
   EXPECT_TRUE(namesStructAb(p->getTypespec(), "top")) << "23.9: CTRL_RESET is of top's own struct_ab";
-  const hldb::ParamAssign *const pa = getParamAssign(getModule("top"), "CTRL_RESET");
+  const hldb::Parameter *const pa = getParameter("top", "CTRL_RESET");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const pattern = pa->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr);
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a positional structure pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -439,8 +422,8 @@ TEST_F(ParamOverloadingTest, CtrlResetIsPositionalPatternOfV1AndV2) {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(pattern->getOperands()->at(i));
     ASSERT_NE(ref, nullptr) << "item " << i << " is the name '" << names[i] << "'";
     EXPECT_EQ(ref->getName(), names[i]);
-    ASSERT_NE(getParam("top", names[i]), nullptr);
-    EXPECT_EQ(ref->getActual(), getParam("top", names[i])) << "top's own parameter";
+    ASSERT_NE(getParameter("top", names[i]), nullptr);
+    EXPECT_EQ(ref->getActual(), getParameter("top", names[i])) << "top's own parameter";
   }
 }
 
@@ -449,8 +432,8 @@ TEST_F(ParamOverloadingTest, TopPassesCtrlResetToShadow) {
       any_cast<hldb::RefObj>(getResvalOverride("top", "u_ctrl_reg_shadowed", "prim_subreg_shadow"));
   ASSERT_NE(reset, nullptr) << "u_ctrl_reg_shadowed instantiates prim_subreg_shadow with '.RESVAL(CTRL_RESET)'";
   EXPECT_EQ(reset->getName(), "CTRL_RESET");
-  ASSERT_NE(getParam("top", "CTRL_RESET"), nullptr);
-  EXPECT_EQ(reset->getActual(), getParam("top", "CTRL_RESET")) << "top's own parameter";
+  ASSERT_NE(getParameter("top", "CTRL_RESET"), nullptr);
+  EXPECT_EQ(reset->getActual(), getParameter("top", "CTRL_RESET")) << "top's own parameter";
 }
 
 // ---------------------------------------------------------------------------

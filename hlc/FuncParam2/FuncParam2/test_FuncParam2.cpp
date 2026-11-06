@@ -127,16 +127,12 @@ TEST_F(FuncParam2Test, FuncLocalParamIsLocalParamWithValueThirtyOne) {
   // IEEE 1800-2023 37.12, Note 5: a body with no statements has a null
   // vpiStmt; the declarations belong to the function's own scope.
   EXPECT_EQ(func->getStmt(), nullptr) << "the function body holds declarations only, no statements";
-  ASSERT_NE(func->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_LOCALPARAM", func->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const pr = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(pr, nullptr);
-  const hldb::Parameter *const localParam = pr->getActual<hldb::Parameter>();
+  ASSERT_NE(func->getParameters(), nullptr);
+  const hldb::Parameter *const localParam = hldb::findByName<hldb::Parameter>("FUNC_LOCALPARAM", func->getParameters());
   ASSERT_NE(localParam, nullptr) << "'localparam FUNC_LOCALPARAM' not found in function scope";
   EXPECT_TRUE(localParam->getLocalParam()) << "'localparam' keyword must produce getLocalParam() == true";
 
-  const hldb::Operation *const val = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const val = localParam->getExpr<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "'32 - 1' should be Operation(vpiSubOp)";
   EXPECT_EQ(val->getOpType(), vpiSubOp);
   ASSERT_NE(val->getOperands(), nullptr);
@@ -153,15 +149,11 @@ TEST_F(FuncParam2Test, FuncLocalParamIsLocalParamWithValueThirtyOne) {
 TEST_F(FuncParam2Test, FuncParameterBehavesAsLocalParamPerSec6_20_2) {
   const hldb::Function *const func = getFunc();
   ASSERT_NE(func, nullptr);
-  ASSERT_NE(func->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_PARAMETER", func->getParamAssigns());
-  ASSERT_NE(pa, nullptr);
-  const hldb::RefObj *const pr = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(pr, nullptr);
-  const hldb::Parameter *const param = pr->getActual<hldb::Parameter>();
+  ASSERT_NE(func->getParameters(), nullptr);
+  const hldb::Parameter *const param = hldb::findByName<hldb::Parameter>("FUNC_PARAMETER", func->getParameters());
   ASSERT_NE(param, nullptr) << "'parameter FUNC_PARAMETER' not found in function scope";
   ASSERT_TRUE(param->getLocalParam());
-  const hldb::Operation *const val = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const val = param->getExpr<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "'1 - 0' should be Operation(vpiSubOp)";
   EXPECT_EQ(val->getOpType(), vpiSubOp);
   ASSERT_NE(val->getOperands(), nullptr);

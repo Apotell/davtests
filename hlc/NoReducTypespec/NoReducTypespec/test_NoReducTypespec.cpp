@@ -118,27 +118,11 @@ class NoReducTypespecTest : public Test {
   }
 
   static const hldb::Module *getModuleByDef(std::string_view defName) {
-    if (m_design->getAllModules() == nullptr) return nullptr;
-    for (const hldb::Module *const m : *m_design->getAllModules()) {
-      if (m->getDefName() == defName) return m;
-    }
-    return nullptr;
+    return hldb::findByDefName<hldb::Module>(defName, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParameters() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(pa->getLhs());
-      if (lhs != nullptr && lhs->getName() == name) return pa;
-      const hldb::Parameter *const p = any_cast<hldb::Parameter>(pa->getLhs());
-      if (p != nullptr && p->getName() == name) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   static const hldb::TypedefTypespec *getXbarCfgT() {
@@ -208,7 +192,7 @@ TEST_F(NoReducTypespecTest, XbarCfgTIsPackedStructOfThreeIntUnsigned) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NoReducTypespecTest, CfgTypedByPackageScopedTypedef) {
-  const hldb::Parameter *const cfg = getParam(getModuleByDef("axi_xbar"), "Cfg");
+  const hldb::Parameter *const cfg = getParameter(getModuleByDef("axi_xbar"), "Cfg");
   ASSERT_NE(cfg, nullptr);
   EXPECT_FALSE(cfg->getLocalParam());
   ASSERT_NE(cfg->getTypespec(), nullptr);
@@ -216,23 +200,23 @@ TEST_F(NoReducTypespecTest, CfgTypedByPackageScopedTypedef) {
 }
 
 TEST_F(NoReducTypespecTest, CfgDefaultIsUnbasedUnsizedZero) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModuleByDef("axi_xbar"), "Cfg");
+  const hldb::Parameter *const pa = getParameter(getModuleByDef("axi_xbar"), "Cfg");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), std::string_view("'0"));
 }
 
 TEST_F(NoReducTypespecTest, DebugInitializerIsCfgNoSlvPorts) {
   const hldb::Module *const xbar = getModuleByDef("axi_xbar");
-  const hldb::ParamAssign *const pa = getParamAssign(xbar, "DEBUG");
+  const hldb::Parameter *const pa = getParameter(xbar, "DEBUG");
   ASSERT_NE(pa, nullptr);
-  checkCfgMember(pa->getRhs(), "NoSlvPorts", getParam(xbar, "Cfg"));
+  checkCfgMember(pa->getExpr(), "NoSlvPorts", getParameter(xbar, "Cfg"));
 }
 
 TEST_F(NoReducTypespecTest, DebugIsLogicVector31To0) {
   GTEST_SKIP() << "HLC doesn't implement implicit sizing of parameters";
-  const hldb::Parameter *const dbg = getParam(getModuleByDef("axi_xbar"), "DEBUG");
+  const hldb::Parameter *const dbg = getParameter(getModuleByDef("axi_xbar"), "DEBUG");
   ASSERT_NE(dbg, nullptr);
   EXPECT_FALSE(dbg->getLocalParam());
   ASSERT_NE(dbg->getTypespec(), nullptr);
@@ -250,8 +234,8 @@ TEST_F(NoReducTypespecTest, DebugIsLogicVector31To0) {
 
 TEST_F(NoReducTypespecTest, ConnectivityIsBitWithTwoUnreducedPackedDims) {
   const hldb::Module *const xbar = getModuleByDef("axi_xbar");
-  const hldb::Parameter *const cfg = getParam(xbar, "Cfg");
-  const hldb::Parameter *const conn = getParam(xbar, "Connectivity");
+  const hldb::Parameter *const cfg = getParameter(xbar, "Cfg");
+  const hldb::Parameter *const conn = getParameter(xbar, "Connectivity");
   ASSERT_NE(conn, nullptr);
   ASSERT_NE(conn->getTypespec(), nullptr);
   const hldb::BitTypespec *const bt = conn->getTypespec()->getActual<hldb::BitTypespec>();
@@ -277,9 +261,9 @@ TEST_F(NoReducTypespecTest, ConnectivityIsBitWithTwoUnreducedPackedDims) {
 }
 
 TEST_F(NoReducTypespecTest, ConnectivityDefaultIsUnbasedUnsizedOne) {
-  const hldb::ParamAssign *const pa = getParamAssign(getModuleByDef("axi_xbar"), "Connectivity");
+  const hldb::Parameter *const pa = getParameter(getModuleByDef("axi_xbar"), "Connectivity");
   ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const c = any_cast<hldb::Constant>(pa->getRhs());
+  const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), std::string_view("'1"));
 }
@@ -289,7 +273,7 @@ TEST_F(NoReducTypespecTest, ConnectivityDefaultIsUnbasedUnsizedOne) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NoReducTypespecTest, AxiXbarCfgIsLocalParamOfXbarCfgT) {
-  const hldb::Parameter *const p = getParam(getPkg("cheshire_pkg"), "AxiXbarCfg");
+  const hldb::Parameter *const p = getParameter(getPkg("cheshire_pkg"), "AxiXbarCfg");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam());
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -297,9 +281,9 @@ TEST_F(NoReducTypespecTest, AxiXbarCfgIsLocalParamOfXbarCfgT) {
 }
 
 TEST_F(NoReducTypespecTest, AxiXbarCfgInitializerIsKeyedPattern) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg("cheshire_pkg"), "AxiXbarCfg");
+  const hldb::Parameter *const pa = getParameter(getPkg("cheshire_pkg"), "AxiXbarCfg");
   ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const op = any_cast<hldb::Operation>(pa->getRhs());
+  const hldb::Operation *const op = pa->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiAssignmentPatternOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -338,15 +322,14 @@ TEST_F(NoReducTypespecTest, CheshireSocOverridesCfgByNameWithImportedParam) {
   ASSERT_EQ(mts->getParamAssigns()->size(), 1u);
   const hldb::ParamAssign *const pa = mts->getParamAssigns()->at(0);
   EXPECT_TRUE(pa->getConnByName());
-  EXPECT_TRUE(pa->getOverridden());
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(pa->getLhs());
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("Cfg"));
-  EXPECT_EQ(lhs->getActual(), getParam(getModuleByDef("axi_xbar"), "Cfg"));
+  EXPECT_EQ(lhs->getActual(), getParameter(getModuleByDef("axi_xbar"), "Cfg"));
   const hldb::RefObj *const rhs = any_cast<hldb::RefObj>(pa->getRhs());
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view("AxiXbarCfg"));
-  EXPECT_EQ(rhs->getActual(), getParam(getPkg("cheshire_pkg"), "AxiXbarCfg"))
+  EXPECT_EQ(rhs->getActual(), getParameter(getPkg("cheshire_pkg"), "AxiXbarCfg"))
       << "Sec 26.3: wildcard import makes cheshire_pkg::AxiXbarCfg visible";
 }
 
