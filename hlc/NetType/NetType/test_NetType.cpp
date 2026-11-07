@@ -146,10 +146,6 @@ TEST_F(NetTypeTest, NetBitIsNettypeOfBit) {
 }
 
 TEST_F(NetTypeTest, NetBitResolutionFuncIsMyFunction) {
-  GTEST_SKIP() << "HLC drops the nettype's resolution function (getResolutionFunc() is null): the 'with my_function' "
-                  "reference appears to be converted into a FuncCall (13.5.5 parenthesis-less call) and lost from vpiResolutionFunc. Per "
-                  "IEEE 1800-2023 Sec 6.6.7 'with tf_identifier' names the resolution function; it is not a call. "
-                  "Fix pending.";
   const hldb::Typedef *const td = getTypedef("net_bit");
   ASSERT_NE(td, nullptr);
   const hldb::RefObj *const fn = td->getResolutionFunc();
@@ -250,10 +246,6 @@ TEST_F(NetTypeTest, WTIsUnresolvedNettypeOfT) {
 }
 
 TEST_F(NetTypeTest, WTsumIsNettypeOfTResolvedByTsum) {
-  GTEST_SKIP() << "HLC drops the nettype's resolution function (getResolutionFunc() is null): the 'with Tsum' "
-                  "reference appears to be converted into a FuncCall (13.5.5 parenthesis-less call) and lost from vpiResolutionFunc. Per "
-                  "IEEE 1800-2023 Sec 6.6.7 'with tf_identifier' names the resolution function; it is not a call. "
-                  "Fix pending.";
   const hldb::Typedef *const td = getTypedef("wTsum");
   ASSERT_NE(td, nullptr);
   EXPECT_TRUE(td->getIsNettype());
