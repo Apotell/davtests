@@ -245,6 +245,14 @@ TEST_F(SimpleIncludeAndMacrosTest, UnusedMacroArgumentsAreReported) {
       << "macro argument 'b' (line 43) is not used in the macro body";
 }
 
+// Legal SystemVerilog: IEEE 1800-2023 5.9.1 says "An escaped character not appearing in Table 5-1 is
+// treated the same as if the character was not escaped", so "Hum\pty" means "Humpty". It is still
+// suspect (a likely typo), so HLC reports it as a warning: top_2.v:47 $display("Hum\pty ...").
+TEST_F(SimpleIncludeAndMacrosTest, UnknownEscapedSequenceIsReported) {
+  ASSERT_NE(findEvent(EventType::PpUnrecognizedEscapedSequence, "\\p", 47, 15), nullptr)
+      << "5.9.1: '\\p' is not in Table 5-1 and is reported as a warning";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
