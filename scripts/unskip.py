@@ -499,3 +499,43 @@ def _main() -> int:
 
 if __name__ == '__main__':
     sys.exit(_main())
+
+
+# Examples of skips that are left alone
+# -------------------------------------
+# 'disable' never touches these: the skip is not commented out, the test still
+# skips during the run, and 'apply' never removes it. They need a person to
+# review them.
+#
+# 1. Inside a nested block -- a guard that only fires in some situations.
+#    Removing it would let the code below dereference a null pointer, so a
+#    "pass" without it proves nothing.
+#
+#      // hlc/BlackConst/BlackConst/test_BlackConst.cpp:278
+#      const hldb::Operation *const op = pa->getRhs<hldb::Operation>();
+#      if (op == nullptr) {
+#        GTEST_SKIP() << "HLC did not represent the ... replication as an Operation ...";
+#      }
+#      // ... code below uses op ...
+#
+# 2. Conditional on the same line. Commenting out only the GTEST_SKIP() part
+#    would attach "if (pp2 == nullptr)" to the next statement and silently
+#    change the test.
+#
+#      // hlc/GenerateUnnamed/GenerateUnnamed/test_GenerateUnnamed.cpp:131
+#      if (pp2 == nullptr) GTEST_SKIP() << "'pp2' itself was not elaborated ...";
+#
+# 3. Inside a helper function, not a test body. A helper can be called from
+#    several tests, so no single test decides whether the skip can go.
+#
+#      // hlc/LibraryIntercon/LibraryIntercon/test_LibraryIntercon.cpp:193
+#          EXPECT_EQ(target->getLibraries()->at(1)->getActual(), findLibrary(lib1));
+#          GTEST_SKIP() << "HLC Gap. Need developer attention.";
+#
+# 4. Placeholder test -- nothing to check besides the skip. Without the skip
+#    the body is empty and always "passes", hiding a known gap behind a green
+#    test.
+#
+#      TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
+#        GTEST_SKIP() << "Known HLC gap: 1s encodes as 10^0 = 0 ...";
+#      }
