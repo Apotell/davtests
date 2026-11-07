@@ -1,15 +1,38 @@
 name: 'unskip'
-run-name: "unskip ${{ github.ref }}"
+run-name: "unskip | ${{ github.ref_name }}"
+
+# Finds GTEST_SKIP()s that are no longer needed and opens a pull request removing them:
+#   1. Comment out every GTEST_SKIP() scripts/unskip.py can handle (an unconditional statement in
+#      a test body whose test checks something besides the skip).
+#   2. Build and run only the test files that had one, with a gtest XML report per executable.
+#   3. Record which of those test cases passed.
+#   4. Start again from a clean checkout of the same commit (reverting step 1).
+#   5. Delete the GTEST_SKIP()s of the test cases that passed.
+#   6. Commit to a new branch (fixed prefix, random suffix), push it and open a pull request.
+#
+# Run it from master. Every job checks out the commit the run started on, so the new branch is cut
+# from that master commit. Run from another branch, the pull request would also carry that
+# branch's own commits -- use dry_run there.
 
 concurrency:
-  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.repository }}-${{ github.workflow }}
   cancel-in-progress: true
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Only report the passing tests; do not push a branch or open a pull request'
+        type: boolean
+        default: false
 
+permissions:
+  contents: read
 
 env:
   PYTHON3_VERSION: '3.14'
+  BRANCH_PREFIX: 'unskip/'
+  NUM_SHARDS: 2
 
 jobs:
 # Preflight ###########################################################################################################
@@ -18,31 +41,10 @@ jobs:
     name: "Preflight | ubuntu"
     runs-on: ubuntu-latest
     outputs:
-      run_regression: ${{ steps.changes.outputs.run_regression }}
       build_run_id: ${{ steps.find-artifact.outputs.build_run_id }}
       build_run_number: ${{ steps.find-artifact.outputs.build_run_number }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v6
-
-    - name: Detect changed files
-      id: changes
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        changed=$(gh api /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files \
-          --jq '.[].filename')
-        echo "Changed files:"
-        echo "$changed"
-        if echo "$changed" | grep -qE '(\.hlc$|^tests/)'; then
-          echo "run_regression=true"  >> $GITHUB_OUTPUT
-          echo "Regression triggered: .hlc or tests/ files changed."
-        else
-          echo "run_regression=false" >> $GITHUB_OUTPUT
-          echo "Regression skipped: no .hlc or tests/ files changed."
-        fi
-
     - name: Find most recent build artifact
       id: find-artifact
       env:
@@ -58,22 +60,20 @@ jobs:
         echo "Run ID    : $build_run_id"
         echo "Run number: $build_run_number"
 
-# C++ Tests ###########################################################################################################
+# C++ Tests (skips disabled) ##########################################################################################
 
   cpp_tests:
-    name: "C++ Tests | ubuntu | release | shard ${{ matrix.shard }}/${{ matrix.num_shards }}"
+    name: "C++ Tests | ubuntu | skips disabled | shard ${{ matrix.shard }}/2"
     needs: preflight
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-26.04
 
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - { platform: ubuntu, os: ubuntu-26.04, shard: 0, num_shards: 2 }
-          - { platform: ubuntu, os: ubuntu-26.04, shard: 1, num_shards: 2 }
+        shard: [0, 1]  # keep in sync with NUM_SHARDS
 
     env:
-      build-artifact-name: hlc_${{ matrix.platform }}_release_${{ github.event.inputs.run_number }}
+      build-artifact-name: hlc_ubuntu_release_${{ needs.preflight.outputs.build_run_number }}
 
     steps:
     - name: Checkout repository
@@ -81,56 +81,76 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Disable GTEST_SKIPs
+      run: python3 scripts/unskip.py disable --filter-list scripts/filter.lst
+
+    # shard_tests.py treats an empty filter list as "every test", so stop here when nothing was
+    # disabled, and when this shard got none of the affected tests.
+    - name: Generate shard list
+      id: shard
+      run: |
+        if [ -s scripts/filter.lst ]; then
+          python3 scripts/shard_tests.py          \
+            --test-dirpath hlc                    \
+            --output scripts/shard.lst            \
+            --shard ${{ matrix.shard }}           \
+            --num_shards ${{ env.NUM_SHARDS }}    \
+            --filters @scripts/filter.lst
+        else
+          : > scripts/shard.lst
+        fi
+        if [ -s scripts/shard.lst ]; then
+          echo "has_tests=true"  >> $GITHUB_OUTPUT
+        else
+          echo "has_tests=false" >> $GITHUB_OUTPUT
+          echo "No test with a disabled skip in this shard."
+        fi
+
     - name: Install Dependencies
+      if: steps.shard.outputs.has_tests == 'true'
       run: |
         sudo apt-get update -qq
         sudo apt-get install -y cmake ninja-build
 
     - name: Setup Clang
+      if: steps.shard.outputs.has_tests == 'true'
       uses: egor-tensin/setup-clang@v2
 
     - name: Setup compiler cache
+      if: steps.shard.outputs.has_tests == 'true'
       uses: hendrikmuhs/ccache-action@v1.2.24
       with:
         variant: 'ccache'
-        key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
+        key: "ubuntu-unskip/${{ matrix.shard }}"
         restore-keys: |
-          ${{ matrix.platform }}-master/${{ matrix.shard }}
-          ${{ matrix.platform }}-master
+          ubuntu-master/${{ matrix.shard }}
+          ubuntu-master
         evict-old-files: 'job'
 
     - name: Download artifact (build)
+      if: steps.shard.outputs.has_tests == 'true'
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ github.event.inputs.run_id }}
-        repository: Apotell/hlc
+        run-id: ${{ needs.preflight.outputs.build_run_id }}
+        repository: Apotell/artifacts
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
     - name: Extract build artifact
-      shell: bash
+      if: steps.shard.outputs.has_tests == 'true'
       run: |
         tar xzfp ${{ env.build-artifact-name }}.tar.gz
         mv ${{ env.build-artifact-name }} build
-
-    - name: Generate shard list
-      shell: bash
-      run: |
-        python3 scripts/shard_tests.py          \
-          --test-dirpath hlc                    \
-          --output scripts/shard.lst            \
-          --shard ${{ matrix.shard }}           \
-          --num_shards ${{ matrix.num_shards }}
 
     # The binary dir is the extracted hlc install itself (build/), so the test executables land in
     # build/bin next to hlc and its hlc.conf -- the same layout as other platforms. hlc loads
     # hlc.conf (and through it the precompiled UVM/OVM cache under share/hlc/pkg) from the running
     # executable's own directory, so a test binary built anywhere else silently runs uncached.
     - name: Configure
+      if: steps.shard.outputs.has_tests == 'true'
       env:
         CC: clang
         CXX: clang++
-        SCCACHE_GHA_ENABLED: "true"
       run: |
         cmake                                                         \
           -G Ninja                                                    \
@@ -141,25 +161,118 @@ jobs:
           -DTEST_LIST_FILE=${{ github.workspace }}/scripts/shard.lst  \
           -S . -B build
 
+    # -k 0: one test file that fails to build must not stop the others. Its test cases get no
+    # report, so they count as not passed and keep their skip.
     - name: Build
+      if: steps.shard.outputs.has_tests == 'true'
       env:
         # Every test compiles against the shared davtests PCH. ccache refuses to cache those
         # compiles unless it is told to accept PCH use.
         CCACHE_SLOPPINESS: pch_defines,time_macros
-      run: cmake --build build -j $(nproc)
+      run: cmake --build build -j $(nproc) -- -k 0 || echo "::warning::Some test files failed to build"
 
+    # Failing tests are expected here (most skips are still needed), so ctest's status is ignored;
+    # the per-test-case results come from the XML reports.
     - name: Test
-      timeout-minutes: 15
-      run: ctest --test-dir build --output-on-failure -j $(nproc)
+      if: steps.shard.outputs.has_tests == 'true'
+      timeout-minutes: 30
+      env:
+        GTEST_OUTPUT: xml:${{ github.workspace }}/gtest_xml/
+      run: |
+        mkdir -p gtest_xml
+        ctest --test-dir build -j $(nproc) --timeout 600 --no-tests=ignore || true
 
-    # ctest writes every test's full output -- passing tests included -- to LastTest.log, unlike
-    # --output-on-failure, which only echoes failing tests to the console.
-    - name: Archive test log
-      if: ${{ !cancelled() }}
+    - name: Collect results
+      if: steps.shard.outputs.has_tests == 'true'
+      run: |
+        mkdir -p gtest_xml
+        python3 scripts/unskip.py collect                   \
+          --xml-dirpath gtest_xml                           \
+          --test-list scripts/shard.lst                     \
+          --output unskip_results/shard_${{ matrix.shard }}.json
+
+    - name: Archive results
+      if: ${{ !cancelled() && steps.shard.outputs.has_tests == 'true' }}
       uses: actions/upload-artifact@v7
       with:
-        name: cpp_tests_${{ matrix.platform }}_${{ matrix.shard }}_${{ github.run_number }}
-        path: build/Testing/Temporary/LastTest.log
+        name: unskip_results_${{ matrix.shard }}_${{ github.run_number }}
+        path: |
+          unskip_results/
+          gtest_xml/
+          build/Testing/Temporary/LastTest.log
+
+# Remove passing skips ################################################################################################
+
+  unskip:
+    name: "Remove passing skips"
+    needs: [preflight, cpp_tests]
+    if: ${{ !cancelled() && needs.preflight.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    # A fresh checkout of the tested commit: none of cpp_tests' edits are here.
+    # The CI token (not GITHUB_TOKEN) pushes and opens the pull request, because GitHub does not
+    # start other workflows (pr.yml) for a pull request opened with GITHUB_TOKEN.
+    - name: Checkout repository
+      uses: actions/checkout@v6
+      with:
+        token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    - name: Download results
+      uses: actions/download-artifact@v7
+      with:
+        pattern: unskip_results_*_${{ github.run_number }}
+        path: results
+
+    - name: Remove passing skips
+      run: |
+        mapfile -t files < <(find results -path '*/unskip_results/*.json' | sort)
+        if [ ${#files[@]} -eq 0 ]; then
+          echo "No results to apply."
+          echo 0 > count.txt
+          exit 0
+        fi
+        python3 scripts/unskip.py apply   \
+          --results "${files[@]}"         \
+          --summary pr_body.md            \
+          --count-file count.txt
+        cat pr_body.md >> $GITHUB_STEP_SUMMARY
+        git diff --stat
+
+    - name: Commit, push and open pull request
+      if: ${{ !inputs.dry_run }}
+      env:
+        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+      run: |
+        count=$(cat count.txt)
+        if [ "$count" -eq 0 ] || git diff --quiet -- hlc; then
+          echo "No skip can be removed; nothing to commit."
+          exit 0
+        fi
+
+        run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        branch="${BRANCH_PREFIX}$(date -u +%Y%m%d)-$(openssl rand -hex 4)"
+        git config user.name  "github-actions[bot]"
+        git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+        git switch -c "$branch"
+        git add -- hlc
+        git commit -m "Remove GTEST_SKIP from ${count} passing test case(s)" \
+                   -m "Found by the unskip workflow: ${run_url}"
+        git push origin "$branch"
+
+        {
+          cat pr_body.md
+          echo
+          echo "Found by the unskip workflow: ${run_url}"
+        } > pr_body_full.md
+        gh pr create                                                     \
+          --base master                                                  \
+          --head "$branch"                                               \
+          --title "Remove GTEST_SKIP from ${count} passing test case(s)" \
+          --body-file pr_body_full.md
 
 # Cache Cleanup #######################################################################################################
 
