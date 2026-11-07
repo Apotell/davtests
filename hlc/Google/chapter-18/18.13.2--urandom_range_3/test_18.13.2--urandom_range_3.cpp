@@ -237,7 +237,7 @@
 // 1800.2-2017-1.0 on its own, and none of them is in this file. The largest
 // groups are about 600 CP5824 "Multiply defined typedef" errors, raised on
 // classes UVM forward-declares with 'typedef class ...;' before defining
-// them (legal per 6.18; uvm_object is one), and about 1000 LN7705 "Null
+// them (legal per 6.18; uvm_object is one), and about 1000 DV8504 "Null
 // Actual" references HLC leaves unresolved inside the library. Separately,
 // this fixture's .hlc passes -nobuiltin, which leaves out built-in classes
 // UVM relies on (for example mailbox) and adds about 270 more errors; that

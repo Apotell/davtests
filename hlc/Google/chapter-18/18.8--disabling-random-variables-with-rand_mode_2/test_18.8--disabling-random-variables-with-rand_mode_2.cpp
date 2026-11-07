@@ -227,11 +227,11 @@
 //   - IllegalPropertyValue (2038) twice at line 21, column 18 -- the
 //     '{' that opens constraint c, once per constraint expression --
 //     although the constraint block is legal (18.5).
-//   - LN7705 "Null Actual" at line 37, column 13 and line 38, column 20 --
+//   - DV8504 "Null Actual" at line 37, column 13 and line 38, column 20 --
 //     the two rand_mode() calls on 'obj.x' are left unbound, although 18.8
 //     defines rand_mode() for every random variable. The call on 'obj'
 //     alone (line 36) gets no such error. This does not depend on uvm_pkg.
-//   - LN7705 "Null Actual" at lines 34, 46 and 57 (raise_objection,
+//   - DV8504 "Null Actual" at lines 34, 46 and 57 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 7 errors point into this file, 0 syntax errors and 11

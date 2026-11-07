@@ -95,7 +95,7 @@
 // KNOWN FAILURE (undefined package / function misreported), not a defect in
 // this test: HLC 577 models M's value (subtraction, call of f with one
 // argument, literal 1) and declares no bhg or f, but its only diagnostic is
-// one LN7705 "Null Actual" on line 9, which names neither the missing
+// one DV8504 "Null Actual" on line 9, which names neither the missing
 // package bhg nor the missing function f. PackageBhgIsReportedUndefined
 // and FunctionFIsReportedUndefined assert the LRM behavior and are expected
 // to fail until HLC is fixed; they are intentionally not skipped or

@@ -96,7 +96,7 @@ endmodule
 //
 // Kept in its own fixture: HLC does not model 'with' on reverse() at all --
 // the call resolves to a MethodFuncCall with no actual, which the linter
-// separately reports as "Null Actual" (LN7705). Isolated so that internal
+// separately reports as "Null Actual" (DV8504). Isolated so that internal
 // diagnostic does not appear alongside unrelated rows.
 module r40_m;
   int r40_q[$] = {1, 2, 3};

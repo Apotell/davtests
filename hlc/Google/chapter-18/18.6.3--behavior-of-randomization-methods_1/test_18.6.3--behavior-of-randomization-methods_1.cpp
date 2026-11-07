@@ -206,7 +206,7 @@
 //     (ClassEnvIsDeclaredOnceAsUserDefinedClass passes), so nothing is
 //     multiply defined (8.3, 6.18). HLC bug; remains when uvm_pkg.sv is
 //     compiled.
-//   - LN7705 "Null Actual" at lines 34, 51 and 62 (raise_objection,
+//   - DV8504 "Null Actual" at lines 34, 51 and 62 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // NoFatalSyntaxOrErrorDiagnostics asserts zero errors overall, as legal

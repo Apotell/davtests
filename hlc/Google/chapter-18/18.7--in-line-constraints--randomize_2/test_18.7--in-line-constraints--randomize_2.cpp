@@ -227,7 +227,7 @@
 //   - IllegalPropertyValue (2038) twice at line 29, column 39 -- the
 //     '{' that opens the 'with' block, once per constraint expression --
 //     although the inline constraint is legal (18.7).
-//   - LN7705 "Null Actual" at lines 44, 56 and 67 (raise_objection,
+//   - DV8504 "Null Actual" at lines 44, 56 and 67 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 0 syntax errors and 9 errors in total. Neither check is

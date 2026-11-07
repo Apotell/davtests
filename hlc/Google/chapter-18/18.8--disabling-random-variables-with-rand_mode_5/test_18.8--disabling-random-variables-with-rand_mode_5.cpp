@@ -217,7 +217,7 @@
 //
 // KNOWN FAILURE (errors reported on legal lines), not a defect in this
 // test: EveryErrorInThisFileIsOnTheRandModeDeclaration fails. Instead of an
-// error on the override, HLC reports LN7705 "Null Actual" at:
+// error on the override, HLC reports DV8504 "Null Actual" at:
 //   - line 40, column 19 -- the built-in rand_mode() call on 'obj.x' is
 //     left unbound, although 18.8 defines it for every random variable.
 //     This does not depend on uvm_pkg.

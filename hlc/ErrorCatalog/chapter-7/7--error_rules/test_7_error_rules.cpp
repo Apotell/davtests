@@ -170,12 +170,12 @@ TEST_F(Chapter7ErrorRulesTest, Row40_WithClauseOnReverseIsRejected) {
   // catalog row 40 | 7.12.2 | COMP
   // See 7--error_rules_inv4.sv: HLC does not model 'with' on reverse() at
   // all; the call resolves to a MethodFuncCall with no actual, reported by
-  // the linter as "Null Actual" (LN7705) rather than a graceful diagnostic
+  // the linter as "Null Actual" (DV8504) rather than a graceful diagnostic
   // naming this rule.
   // EXPECTED TO FAIL: no diagnostic implemented for this row's own rule.
   GTEST_SKIP() << "no diagnostic implemented; HLC does not model 'with' on reverse() at all, so "
                   "the call resolves to a MethodFuncCall with no actual and is instead reported "
-                  "as a generic \"Null Actual\" (LN7705) rather than this row's own rule";
+                  "as a generic \"Null Actual\" (DV8504) rather than this row's own rule";
   EXPECT_NE(findEvent(EventType::CompIllegalWithClause, "reverse"), nullptr)
       << "reverse() cannot take a with clause (IEEE 1800-2023 7.12.2)";
 }

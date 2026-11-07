@@ -152,7 +152,7 @@ TEST_F(Chapter8ErrorRulesTest, Row230_AbstractClassCannotBeConstructedDirectly) 
   // an extended non-abstract object." r230_base is declared virtual on line 78
   // and constructed directly on line 82.
   //
-  // HLC does emit two diagnostics at 82:15 -- a CP5851 "Failed to bind new"
+  // HLC does emit two diagnostics at 82:15 -- a DV8514 "Failed to bind new"
   // warning and a Linter null-actual error -- but both are about the unbound
   // new call, not about the class being abstract, and they fire for
   // non-abstract classes too. Neither is asserted here.

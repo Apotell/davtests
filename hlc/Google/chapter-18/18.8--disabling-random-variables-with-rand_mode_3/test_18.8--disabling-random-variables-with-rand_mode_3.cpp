@@ -224,11 +224,11 @@
 //   - CompMultiplyDefinedTypedef (5824) at line 24, column 1 -- the
 //     'class env' declaration, although the file declares 'env' once (the
 //     ClassEnvIsDeclaredOnceAsUserDefinedClass check passes).
-//   - LN7705 "Null Actual" at line 37, column 14, line 38, column 21 and
+//   - DV8504 "Null Actual" at line 37, column 14, line 38, column 21 and
 //     line 39, column 21 -- all three rand_mode() calls on the static 'x'
 //     are left unbound, although 18.8 defines rand_mode() for every random
 //     variable, static or not. This does not depend on uvm_pkg.
-//   - LN7705 "Null Actual" at lines 35, 47 and 58 (raise_objection,
+//   - DV8504 "Null Actual" at lines 35, 47 and 58 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 9 errors point into this file, 0 syntax errors and 13

@@ -208,7 +208,7 @@
 //     builds for it is correct (ClassAHasOneConstraintBlockC and
 //     ConstraintCIsBGreaterThan5AndBLessThan12 pass). HLC bug; remains when
 //     uvm_pkg.sv is compiled.
-//   - LN7705 "Null Actual" at lines 39, 49 and 60 (raise_objection,
+//   - DV8504 "Null Actual" at lines 39, 49 and 60 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 //

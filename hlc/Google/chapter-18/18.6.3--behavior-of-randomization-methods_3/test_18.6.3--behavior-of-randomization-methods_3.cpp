@@ -219,7 +219,7 @@
 //     raised on the feasible constraints of the 18.6.1/18.6.2 fixtures, so
 //     it is not an infeasibility diagnostic. HLC bug; remains when
 //     uvm_pkg.sv is compiled.
-//   - LN7705 "Null Actual" at lines 40, 50 and 61 (raise_objection,
+//   - DV8504 "Null Actual" at lines 40, 50 and 61 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // NoFatalSyntaxOrErrorDiagnostics asserts zero errors overall, as legal

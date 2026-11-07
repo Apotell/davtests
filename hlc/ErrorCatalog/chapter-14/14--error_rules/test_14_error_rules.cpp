@@ -22,7 +22,7 @@
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
 // row 439's and row 444's modules compile. Row 439's only diagnostic is a
-// CP5851 "Failed to bind cb" warning at 15:15 -- HLC does not resolve the
+// DV8514 "Failed to bind cb" warning at 15:15 -- HLC does not resolve the
 // clockvar reference cb.b at all, which is a binding gap, not the direction
 // check row 439 calls for. It is not asserted here: it would pass for the
 // wrong reason and would keep passing after cb.b starts binding correctly, at

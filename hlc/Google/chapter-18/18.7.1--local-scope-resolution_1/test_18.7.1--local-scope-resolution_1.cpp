@@ -220,7 +220,7 @@
 //   - IllegalPropertyValue (2038) at line 24, column 30 -- the '{'
 //     that opens the 'with' block, the same false error HLC raises on the
 //     '{' of class constraint blocks in the 18.6.x fixtures.
-//   - LN7705 "Null Actual" at lines 37, 47 and 58 (raise_objection,
+//   - DV8504 "Null Actual" at lines 37, 47 and 58 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 3 syntax errors and 8 errors. Neither check is skipped or

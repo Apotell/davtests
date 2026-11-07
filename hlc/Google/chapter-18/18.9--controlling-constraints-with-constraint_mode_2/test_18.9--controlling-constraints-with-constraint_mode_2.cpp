@@ -220,7 +220,7 @@
 //
 // KNOWN FAILURE (errors reported on legal lines), not a defect in this
 // test: EveryErrorInThisFileIsOnTheConstraintModeDeclaration fails. Instead
-// of an error on the override, HLC reports LN7705 "Null Actual" at lines 38,
+// of an error on the override, HLC reports DV8504 "Null Actual" at lines 38,
 // 48 and 59 (raise_objection, drop_objection, run_test) -- a consequence of
 // uvm_pkg not being compiled (see above). It is expected to pass once
 // uvm_pkg.sv is compiled and the override is reported, and is intentionally

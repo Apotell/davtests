@@ -183,7 +183,7 @@
 //     'constraint c') and at line 35, column 28 (the '{' that opens the
 //     'with' block), although both constraint blocks are legal (18.5, 18.7)
 //     and the class constraint model is built correctly.
-//   - LN7705 "Null Actual" at lines 33, 42 and 53 (raise_objection,
+//   - DV8504 "Null Actual" at lines 33, 42 and 53 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 0 syntax errors and 9 errors in total. Neither check is

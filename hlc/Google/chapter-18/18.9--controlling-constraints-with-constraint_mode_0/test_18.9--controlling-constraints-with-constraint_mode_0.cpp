@@ -223,7 +223,7 @@
 //   - IllegalPropertyValue (2038) at line 21, column 19 and line 22,
 //     column 19 -- the '{' that opens constraint c1 and constraint c2, once
 //     per constraint expression -- although both blocks are legal (18.5).
-//   - LN7705 "Null Actual" at lines 35, 47 and 58 (raise_objection,
+//   - DV8504 "Null Actual" at lines 35, 47 and 58 (raise_objection,
 //     drop_objection, run_test) -- a consequence of uvm_pkg not being
 //     compiled (see above).
 // With this .hlc: 5 errors point into this file, 0 syntax errors and 9

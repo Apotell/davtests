@@ -222,7 +222,7 @@
 // 1800.2-2017-1.0 on its own, and none of them is in this file. The largest
 // groups are about 600 CP5824 "Multiply defined typedef" errors, raised on
 // classes UVM forward-declares with 'typedef class ...;' before defining
-// them (legal per 6.18; uvm_object is one), and about 1000 LN7705 "Null
+// them (legal per 6.18; uvm_object is one), and about 1000 DV8504 "Null
 // Actual" references HLC leaves unresolved inside the library.
 // NoFatalSyntaxOrErrorDiagnostics asserts zero errors, as legal source
 // requires, and is expected to fail until HLC is fixed. The same unresolved

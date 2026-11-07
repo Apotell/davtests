@@ -89,7 +89,7 @@
 //
 // KNOWN COMPILER BUG (undeclared type reported as a warning), not a defect
 // in this test: HLC leaves the type of 'fmt' unresolved, as it should, but
-// reports 'fp_format_e' only as a CP5851 "Failed to bind" warning; 26.3
+// reports 'fp_format_e' only as a DV8514 "Failed to bind" warning; 26.3
 // makes the reference illegal, so it is an error.
 // UndeclaredTypeFpFormatEIsReportedAsError is expected to fail until HLC is
 // fixed; it is intentionally not skipped or relaxed.
