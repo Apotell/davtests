@@ -74,6 +74,16 @@ TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
       << "`MACRO1 has 3 formal arguments and is called with 4";
   EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "macro_with_args", 45, 0), nullptr)
       << "`macro_with_args has 2 formal arguments and is called with 3";
+  // IEEE 1800-2023 22.5.1: "It shall be an error if any of the remaining formal arguments does not
+  // have a default specified." mode.vh:38 `D() leaves y of D(x,y) without a value; mode.vh:49
+  // `MACRO1 ( 1 ), top_3.v:37 `MACRO1 ( , ) and top_3.v:39 `MACRO1 ( ) leave c of
+  // MACRO1(a=5,b="B",c) without one. top_3.v:41 `MACRO1 has no argument list at all, so c has no
+  // value either (besides the missing parentheses, PpMacroParenthesisNeeded).
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "D", 38, 0), nullptr) << "`D() omits y, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 49, 0), nullptr) << "`MACRO1 ( 1 ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 37, 0), nullptr) << "`MACRO1 ( , ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 39, 0), nullptr) << "`MACRO1 ( ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 41, 0), nullptr) << "`MACRO1 without parentheses gives c no value";
   // IEEE 1800-2023 22.1/22.5.1: a grave accent starts either a compiler directive or the usage of
   // a defined text macro. top_3.v:16 `defaut_nettype (misspelled `default_nettype) is neither.
   EXPECT_NE(findEvent(EventType::PpUnkownMacro, "defaut_nettype", 16, 0), nullptr)
