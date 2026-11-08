@@ -31,6 +31,7 @@
 // (a) exactly one was captured, and (b) its immediate parent is the expected specific model type.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -344,6 +345,17 @@ TEST_F(Attributes2, ArrayManipulationCall) {
 // Attributes2_func is a module-level function, not a method (IEEE 1800-2023 8.2), so the call is
 // a FuncCall.
 TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::FuncCall>("a_subroutine_call"); }
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(Attributes2, ProgramsReportObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_nested_program", 112, 11), nullptr)
+      << "program Attributes2_nested_program (dut.sv:112)";
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_nonansi", 117, 40), nullptr)
+      << "program Attributes2_program_nonansi (dut.sv:117)";
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_ansi", 123, 37), nullptr)
+      << "program Attributes2_program_ansi (dut.sv:123)";
+}
 
 }  // namespace hlc
 

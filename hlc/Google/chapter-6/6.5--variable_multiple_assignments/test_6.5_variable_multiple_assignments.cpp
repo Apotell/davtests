@@ -179,12 +179,13 @@ TEST_F(VariableMultipleAssignmentsTest, NoProcesses) {
 // ---------------------------------------------------------------------------
 // The actual point of this file: v is driven by TWO continuous assignments
 // ---------------------------------------------------------------------------
-TEST_F(VariableMultipleAssignmentsTest, CompilerShouldRejectTwoContinuousAssignmentsToOneVariableButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment.'"
-                  "Compiler needs to report this as an error.";
-  EXPECT_NE(findEvent(EventType::CompMultipleAssigningProcesses, "v"), nullptr)
-      << "IEEE 1800-2023 10.3.2: 'v' has two continuous assignments, and a variable may be "
-         "driven by only one.";
+// IEEE 1800-2023 6.5: "it shall be an error to have multiple continuous assignments ... writing
+// to any term in the expansion of the longest static prefix of a variable". Reported on the
+// first of the two assignments (line 20).
+TEST_F(VariableMultipleAssignmentsTest, TwoContinuousAssignmentsToOneVariableAreReported) {
+  ASSERT_NE(findEvent(EventType::MultipleContAssign, "v", 20, 9), nullptr)
+      << "IEEE 1800-2023 6.5: 'v' has two continuous assignments, and a variable may be "
+         "written by only one.";
 }
 
 }  // namespace hlc

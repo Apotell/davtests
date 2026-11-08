@@ -55,10 +55,14 @@ TEST_F(Chapter11ErrorRulesTest, Row333_AssignmentOperatorOutsideProceduralContex
   // assignment, or in an expression that is not within a procedural
   // statement." All three forms appear in r333_m: 'always @((a = b))',
   // 'assign w = (a += 1)', and 'initial assign a = (b = 2)'.
-  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r333_m"), nullptr)
-      << "an assignment operator is illegal in an event expression, a procedural continuous "
-         "assignment's own expression, or any expression outside a procedural statement "
-         "(IEEE 1800-2023 11.3.6)";
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r333_m", 14, 10), nullptr)
+      << "an assignment operator is illegal in an event expression (IEEE 1800-2023 11.3.6)";
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r333_m", 15, 15), nullptr)
+      << "an assignment operator is illegal in an expression that is not within a procedural "
+         "statement: 'assign w = (a += 1)' (IEEE 1800-2023 11.3.6)";
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r333_m", 16, 23), nullptr)
+      << "an assignment operator is illegal in an expression within a procedural continuous "
+         "assignment: 'initial assign a = (b = 2)' (IEEE 1800-2023 11.3.6)";
 }
 
 // --- row 338: select of a concatenation cannot be an lvalue (11.4.12) -------

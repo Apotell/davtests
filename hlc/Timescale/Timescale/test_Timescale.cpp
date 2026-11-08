@@ -18,6 +18,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -519,6 +520,18 @@ TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
   ASSERT_NE(it, nullptr);
   EXPECT_EQ(it->m_severity, EventSeverity::Error);
 }
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(TimescaleTest, ProgramsReportObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "c_prog", 30, 9), nullptr)
+      << "program c_prog (cu_timeunit.sv:30)";
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "d_prog", 47, 9), nullptr)
+      << "program d_prog (decl.sv:47)";
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "t_prog", 39, 9), nullptr)
+      << "program t_prog (timescale.sv:39)";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -56,6 +56,7 @@
 // consulted to decide this).
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -165,6 +166,14 @@ TEST_F(FuncDefTest, ForStmtConditionIsGreaterThanOperation) {
   const hldb::Operation *const cond = forStmt->getCondition<hldb::Operation>();
   ASSERT_NE(cond, nullptr) << "'a > 0' should be an Operation";
   EXPECT_EQ(cond->getOpType(), vpiGtOp);
+}
+
+// "countLeadingZeros#(...) countLeadingZeros_notCDom(...)" names a module that is never
+// defined, so its two ordered connections have no formal port to bind to and their port
+// sides stay unnamed (LintInvalidName, no location).
+TEST_F(FuncDefTest, ConnectionsToUndefinedModuleHaveUnnamedPorts) {
+  EXPECT_NE(findEvent(EventType::LintInvalidName), nullptr)
+      << "the ordered connections of 'countLeadingZeros_notCDom' to the undefined module have no port";
 }
 
 }  // namespace hlc

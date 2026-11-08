@@ -27,6 +27,7 @@
 //   - top_nonansi declares a class-handle variable 'cls0'
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -108,6 +109,13 @@ TEST_F(NonAnsiInstantiationTest, TopNonansiHasCls0VariableNoNetDuplicate) {
       << "class-handle variable 'cls0' not found";
   EXPECT_EQ(hldb::findByName<hldb::Net>("cls0", top->getNets()), nullptr)
       << "'cls0' is a class-handle variable -- it must not also appear in vpiNet";
+}
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(NonAnsiInstantiationTest, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "nets_and_variables_program", 31, 9), nullptr)
+      << "program nets_and_variables_program (Instantiation.sv:31)";
 }
 
 }  // namespace hlc

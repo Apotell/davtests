@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Events/EventListener.h>
@@ -152,6 +153,14 @@ TEST_F(PreprocStringTest, NoErrorsReported) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 0) << "MEM_ROOT is defined via -D on the command line; no preprocessor error is expected";
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define message(TOTO) TATA: the body does not use TOTO.
+TEST_F(PreprocStringTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "TOTO", 3, 9), nullptr)
+      << "macro argument 'TOTO' (line 3) is not used in the macro body";
 }
 
 }  // namespace hlc

@@ -40,6 +40,7 @@
 //   7. The `ifndef guard prevents _my_incl_vh_ from being defined more than once.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1505,6 +1506,21 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, BLOBCondM2StartLineIsTen) {
   const hldb::PreprocMacroCondition *const cond = findCondition(mi, "M2");
   ASSERT_NE(cond, nullptr);
   EXPECT_EQ(cond->getStartLine(), 10u) << "`elsif M2 is at mode.vh line 10";
+}
+
+// The .hlc passes "-y blah", and no directory "blah" exists next to the sources. -y is a tool
+// option, not part of IEEE 1800, so the warning is checked against the command line only.
+TEST_F(DiffSimpleIncludeAndMacrosTest, MissingLibraryPathIsReported) {
+  const hlc::Event *const event = findEvent(EventType::CmdLibraryPathDoesNotExist);
+  ASSERT_NE(event, nullptr);
+  ASSERT_EQ(event->getArguments().size(), 1u);
+  const hlc::EventArg *const arg = event->getArgument(0);
+  ASSERT_NE(arg, nullptr);
+  std::string_view value = arg->m_value;
+  if (std::string_view::size_type pos = value.find('/'); pos != std::string_view::npos) {
+    value = value.substr(pos + 1);
+  }
+  EXPECT_EQ(value, std::string_view("blah")) << "the -y library directory 'blah' does not exist";
 }
 
 }  // namespace hlc

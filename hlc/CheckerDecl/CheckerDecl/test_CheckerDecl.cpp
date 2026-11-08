@@ -23,6 +23,7 @@
 #include <hldb/any.h>
 #include <hldb/assert_stmt.h>
 #include <hldb/assume.h>
+#include <hldb/attribute.h>
 #include <hldb/checker_decl.h>
 #include <hldb/checker_port.h>
 #include <hldb/cont_assign.h>
@@ -36,10 +37,14 @@
 #include <hldb/initial.h>
 #include <hldb/let_decl.h>
 #include <hldb/net.h>
+#include <hldb/operation.h>
 #include <hldb/property_decl.h>
+#include <hldb/property_spec.h>
 #include <hldb/restrict.h>
 #include <hldb/sequence_decl.h>
+#include <hldb/sequence_inst.h>
 #include <hldb/unit.h>
+#include <hldb/vpi_user.h>
 #include <hldb/variable.h>
 
 #include <gtest/gtest.h>
@@ -297,6 +302,33 @@ TEST_F(CheckerDeclTest, C5_ConcurrentAssertions) {
   EXPECT_EQ(c5->getConcurrentAssertions()->size(), 2u);
 }
 
+// IEEE 1800-2023 37.50: a concurrent assertion carries its clocking event as
+// vpiClockingEvent (an expr) and its body as vpiProperty (a property inst or a
+// property spec). For 'cover sequence (@(posedge clk) s_a_then_b)' the clocking
+// event is '@(posedge clk)' and the covered sequence is the spec's property
+// expression.
+TEST_F(CheckerDeclTest, C5_CoverSequenceClockingEventAndSequence) {
+  const auto *c5 = findChecker("C5_RestrictCoverSeq");
+  ASSERT_NE(c5, nullptr);
+  ASSERT_NE(c5->getConcurrentAssertions(), nullptr);
+  const hldb::Cover *cover = nullptr;
+  for (const auto *assertion : *c5->getConcurrentAssertions()) {
+    if (const hldb::Cover *const c = any_cast<hldb::Cover>(assertion)) cover = c;
+  }
+  ASSERT_NE(cover, nullptr);
+  EXPECT_TRUE(cover->getIsCoverSequence());
+
+  const hldb::Operation *const event = cover->getClockingEvent<hldb::Operation>();
+  ASSERT_NE(event, nullptr);
+  EXPECT_EQ(event->getOpType(), vpiPosedgeOp);
+
+  const hldb::PropertySpec *const spec = cover->getProperty<hldb::PropertySpec>();
+  ASSERT_NE(spec, nullptr);
+  const hldb::SequenceInst *const seq = spec->getPropertyExpr<hldb::SequenceInst>();
+  ASSERT_NE(seq, nullptr);
+  EXPECT_EQ(seq->getName(), std::string_view("s_a_then_b"));
+}
+
 // ============================================================================
 // C6 -- function_declaration + continuous_assign
 // ============================================================================
@@ -547,6 +579,31 @@ TEST_F(CheckerDeclTest, C15_ConcurrentAssertion) {
   ASSERT_NE(c15, nullptr);
   ASSERT_NE(c15->getConcurrentAssertions(), nullptr);
   EXPECT_EQ(c15->getConcurrentAssertions()->size(), 1u);
+}
+
+// IEEE 1800-2023 5.12: an attribute_instance in front of a checker_or_generate_item
+// (Annex A.1.8) specifies properties of that item, so it is attached to the item.
+TEST_F(CheckerDeclTest, C15_AttributesAttachedToConcurrentAssertion) {
+  const auto *c15 = findChecker("C15_AttributedItem");
+  ASSERT_NE(c15, nullptr);
+  ASSERT_NE(c15->getConcurrentAssertions(), nullptr);
+  ASSERT_EQ(c15->getConcurrentAssertions()->size(), 1u);
+  const auto *assertion = c15->getConcurrentAssertions()->at(0);
+  ASSERT_NE(assertion->getAttributes(), nullptr);
+  ASSERT_EQ(assertion->getAttributes()->size(), 2u);  // (* synthesis, keep *)
+  EXPECT_EQ(assertion->getAttributes()->at(0)->getName(), std::string_view("synthesis"));
+  EXPECT_EQ(assertion->getAttributes()->at(1)->getName(), std::string_view("keep"));
+}
+
+TEST_F(CheckerDeclTest, C15_AttributeAttachedToSequenceDecl) {
+  const auto *c15 = findChecker("C15_AttributedItem");
+  ASSERT_NE(c15, nullptr);
+  ASSERT_NE(c15->getSequenceDecls(), nullptr);
+  const hldb::SequenceDecl *const sx = hldb::findByName<hldb::SequenceDecl>("s_x", c15->getSequenceDecls());
+  ASSERT_NE(sx, nullptr);
+  ASSERT_NE(sx->getAttributes(), nullptr);
+  ASSERT_EQ(sx->getAttributes()->size(), 1u);  // (* checker_attr = "val" *)
+  EXPECT_EQ(sx->getAttributes()->at(0)->getName(), std::string_view("checker_attr"));
 }
 
 // ============================================================================

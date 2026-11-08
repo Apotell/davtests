@@ -202,18 +202,13 @@ TEST_F(PackedStructDefaultValueTest, ModuleHasNoProcesses) {
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
-// --- known compiler defect: illegal packed-member default value accepted ----
+// --- 7.2.2: a packed structure member shall not have a default value ----------
 
-TEST_F(PackedStructDefaultValueTest, CompilerShouldRejectPackedMemberDefaultValueButDoesNot) {
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompPackedStructMemberHasDefaultValue, 26, 17), nullptr)
-      << "IEEE 1800-2017 7.2.2: members of packed structures shall not be assigned individual default "
-         "member values ('bit [3:0] lo = c;' inside 'struct packed'). This file is annotated "
-         ":should_fail_because: exactly this reason, yet the compiler currently emits zero errors -- "
-         "it silently accepts the illegal construct instead of rejecting it. This is a genuine "
-         "compile-time defect, not a simulation gap: TypespecMember::getDefaultValue() is already "
-         "populated for 'lo' in the elaborated AST (see MemberLoHasIllegalDefaultValueResolvingToParameterC "
-         "above), so the compiler has everything it needs to detect and reject this at compile time.";
+TEST_F(PackedStructDefaultValueTest, PackedMemberDefaultValueIsRejected) {
+  // IEEE 1800-2023 7.2.2: "members of packed structures shall not be assigned individual default
+  // member values". The default value of 'lo' ('bit [3:0] lo = c;' inside 'struct packed') is at 26:17.
+  EXPECT_NE(findEvent(EventType::IllegalDefaultValue, 26, 17), nullptr)
+      << "7.2.2: a packed structure member shall not be assigned a default value";
 }
 
 }  // namespace hlc

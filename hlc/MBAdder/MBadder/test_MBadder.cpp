@@ -222,6 +222,14 @@ TEST_F(MBadderTest, AssignmentReferencesBindToPortNets) {
   }
 }
 
+// The .hlc passes "-ast", which is not an HLC option (the AST dump is "-d ast", also passed).
+// The option is a tool matter, not part of IEEE 1800, so the warning is checked against the
+// command line only.
+TEST_F(MBadderTest, UnknownAstOptionIsIgnored) {
+  ASSERT_NE(findEvent(EventType::CmdMinusArgIgnored, std::string_view("-ast")), nullptr)
+      << "the unknown command line option -ast is reported as ignored";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

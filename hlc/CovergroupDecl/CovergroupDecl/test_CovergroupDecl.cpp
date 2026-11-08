@@ -41,15 +41,19 @@
 
 #include <hldb/Utils.h>
 #include <hldb/any.h>
+#include <hldb/constant.h>
 #include <hldb/cover_bin.h>
 #include <hldb/cover_cross.h>
 #include <hldb/cover_group.h>
 #include <hldb/cover_point.h>
 #include <hldb/coverage_option.h>
 #include <hldb/design.h>
+#include <hldb/function.h>
+#include <hldb/io_decl.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
+#include <hldb/vpi_user.h>
 
 #include <gtest/gtest.h>
 
@@ -810,6 +814,71 @@ TEST_F(CovergroupDeclTest, CpArrHasFirstBin) {
   EXPECT_NE(firstBin(cp), nullptr) << "cp_arr should have an array bin (quarters[4])";
 }
 
+// IEEE 1800-2023 19.5: "To create a fixed number of bins for a set of values, a single
+// positive integral expression is specified inside the square brackets."
+// 'bins quarters[4] = {[4'h0:4'hF]};' -- size 4, value the range list.
+TEST_F(CovergroupDeclTest, CpArrBinHasArraySizeAndRangeListValue) {
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  ASSERT_NE(mod, nullptr);
+  const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
+  ASSERT_NE(cg, nullptr);
+  const auto *cp = findCP(cg->getStmts(), "cp_arr");
+  ASSERT_NE(cp, nullptr);
+  const hldb::CoverBin *const bin = firstBin(cp);
+  ASSERT_NE(bin, nullptr);
+  EXPECT_EQ(bin->getName(), std::string_view("quarters"));
+  const hldb::Constant *const size = bin->getArraySize<hldb::Constant>();
+  ASSERT_NE(size, nullptr);
+  EXPECT_EQ(size->getDecompile(), std::string_view("4"));
+  const hldb::Operation *const value = bin->getValue<hldb::Operation>();
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getOpType(), vpiListOp);
+  EXPECT_EQ(bin->getWith(), nullptr);
+  EXPECT_EQ(bin->getCondition(), nullptr);
+}
+
+// IEEE 1800-2023 19.5.1.1: "The with clause specifies that only those values in the
+// covergroup_range_list that satisfy the given expression ... are included in the bin."
+// 'bins hi_half = {[4'h0:4'hF]} with (item > 7);'
+TEST_F(CovergroupDeclTest, CpWithBinHasWithClause) {
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  ASSERT_NE(mod, nullptr);
+  const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
+  ASSERT_NE(cg, nullptr);
+  const auto *cp = findCP(cg->getStmts(), "cp_with");
+  ASSERT_NE(cp, nullptr);
+  const hldb::CoverBin *const bin = firstBin(cp);
+  ASSERT_NE(bin, nullptr);
+  EXPECT_EQ(bin->getName(), std::string_view("hi_half"));
+  ASSERT_NE(bin->getValue<hldb::Operation>(), nullptr);
+  EXPECT_EQ(bin->getValue<hldb::Operation>()->getOpType(), vpiListOp);
+  const hldb::Operation *const with = bin->getWith<hldb::Operation>();
+  ASSERT_NE(with, nullptr);
+  EXPECT_EQ(with->getOpType(), vpiGtOp);
+  EXPECT_EQ(bin->getArraySize(), nullptr);
+  EXPECT_EQ(bin->getCondition(), nullptr);
+}
+
+// IEEE 1800-2023 19.5: "An iff construct at the end of a bin definition provides a per-bin
+// guard condition." 'bins rd = {2'b00} iff (en);'
+TEST_F(CovergroupDeclTest, CpBinIffBinHasGuardCondition) {
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  ASSERT_NE(mod, nullptr);
+  const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
+  ASSERT_NE(cg, nullptr);
+  const auto *cp = findCP(cg->getStmts(), "cp_bin_iff");
+  ASSERT_NE(cp, nullptr);
+  const hldb::CoverBin *const bin = firstBin(cp);
+  ASSERT_NE(bin, nullptr);
+  EXPECT_EQ(bin->getName(), std::string_view("rd"));
+  ASSERT_NE(bin->getValue(), nullptr);
+  const hldb::RefObj *const guard = bin->getCondition<hldb::RefObj>();
+  ASSERT_NE(guard, nullptr);
+  EXPECT_EQ(guard->getName(), std::string_view("en"));
+  EXPECT_EQ(bin->getArraySize(), nullptr);
+  EXPECT_EQ(bin->getWith(), nullptr);
+}
+
 TEST_F(CovergroupDeclTest, CpDefHasFirstBin) {
   const hldb::Module *mod = hldb::findByDefName<hldb::Module>("cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
@@ -837,6 +906,25 @@ TEST_F(CovergroupDeclTest, CgSampledHasSamplingEvent) {
   const auto *cg = findCG(mod->getCoverGroups(), "cg_sampled");
   ASSERT_NE(cg, nullptr) << "cg_sampled not found";
   EXPECT_NE(cg->getCoverageEvent(), nullptr) << "cg_sampled should have 'with function sample(...)' event";
+}
+
+// IEEE 1800-2023 19.8.1: 'with function sample(input logic [3:0] v_a, input logic [1:0] v_o)'
+// declares the covergroup's sample() method with those arguments, so the coverage event is
+// a function 'sample' owning both argument declarations.
+TEST_F(CovergroupDeclTest, CgSampledEventIsSampleFunctionWithArguments) {
+  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  ASSERT_NE(mod, nullptr);
+  const auto *cg = findCG(mod->getCoverGroups(), "cg_sampled");
+  ASSERT_NE(cg, nullptr) << "cg_sampled not found";
+  const hldb::Function *const sample = cg->getCoverageEvent<hldb::Function>();
+  ASSERT_NE(sample, nullptr) << "coverage event should be the sample() function";
+  EXPECT_EQ(sample->getName(), std::string_view("sample"));
+  ASSERT_NE(sample->getIODecls(), nullptr);
+  ASSERT_EQ(sample->getIODecls()->size(), 2u);
+  EXPECT_EQ(sample->getIODecls()->at(0)->getName(), std::string_view("v_a"));
+  EXPECT_EQ(sample->getIODecls()->at(0)->getDirection(), vpiInput);
+  EXPECT_EQ(sample->getIODecls()->at(1)->getName(), std::string_view("v_o"));
+  EXPECT_EQ(sample->getIODecls()->at(1)->getDirection(), vpiInput);
 }
 
 }  // namespace hlc

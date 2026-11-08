@@ -18,6 +18,7 @@
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -66,8 +67,44 @@ TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
       << "illegal macro argument counts must be reported as errors";
   EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, 40, 0), nullptr)
       << "too many actual arguments for a macro must be reported as an error";
+  // IEEE 1800-2023 22.5.1: "It shall be an error to specify more actual arguments than the number
+  // of formal arguments." top_3.v:35 `MACRO1 ( 1 , , 3 , 4 ) passes 4 to 3 formals; top_3.v:45
+  // `macro_with_args( out, in, toomany) passes 3 to 2.
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "MACRO1", 35, 0), nullptr)
+      << "`MACRO1 has 3 formal arguments and is called with 4";
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, "macro_with_args", 45, 0), nullptr)
+      << "`macro_with_args has 2 formal arguments and is called with 3";
+  // IEEE 1800-2023 22.5.1: "It shall be an error if any of the remaining formal arguments does not
+  // have a default specified." mode.vh:38 `D() leaves y of D(x,y) without a value; mode.vh:49
+  // `MACRO1 ( 1 ), top_3.v:37 `MACRO1 ( , ) and top_3.v:39 `MACRO1 ( ) leave c of
+  // MACRO1(a=5,b="B",c) without one. top_3.v:41 `MACRO1 has no argument list at all, so c has no
+  // value either (besides the missing parentheses, PpMacroParenthesisNeeded).
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "D", 38, 0), nullptr) << "`D() omits y, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 49, 0), nullptr) << "`MACRO1 ( 1 ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 37, 0), nullptr) << "`MACRO1 ( , ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 39, 0), nullptr) << "`MACRO1 ( ) omits c, which has no default";
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 41, 0), nullptr) << "`MACRO1 without parentheses gives c no value";
+  // IEEE 1800-2023 22.1/22.5.1: a grave accent starts either a compiler directive or the usage of
+  // a defined text macro. top_3.v:16 `defaut_nettype (misspelled `default_nettype) is neither.
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "defaut_nettype", 16, 0), nullptr)
+      << "`defaut_nettype is not a directive and no such macro is defined";
   EXPECT_NE(findEvent(EventType::PpRecursiveMacroDefinition, 47, 0), nullptr)
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
+}
+
+// The .hlc passes "-y blah", and no directory "blah" exists next to the sources. -y is a tool
+// option, not part of IEEE 1800, so the warning is checked against the command line only.
+TEST_F(SimpleIncludeAndMacrosTest, MissingLibraryPathIsReported) {
+  const hlc::Event *const event = findEvent(EventType::CmdLibraryPathDoesNotExist);
+  ASSERT_NE(event, nullptr);
+  ASSERT_EQ(event->getArguments().size(), 1u);
+  const hlc::EventArg *const arg = event->getArgument(0);
+  ASSERT_NE(arg, nullptr);
+  std::string_view value = arg->m_value;
+  if (std::string_view::size_type pos = value.find('/'); pos != std::string_view::npos) {
+    value = value.substr(pos + 1);
+  }
+  EXPECT_EQ(value, std::string_view("blah")) << "the -y library directory 'blah' does not exist";
 }
 
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile.
@@ -213,6 +250,25 @@ TEST_F(SimpleIncludeAndMacrosTest, TopLevelEventHasNoContextNotes) {
   for (const Event *const event : events) {
     EXPECT_TRUE(event->getNotes().empty()) << event->getArgument(0)->m_file;
   }
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// top_1.v:41 `define append(f) g``_master does not use f; top_1.v:43 `define DD(x,y,a,b) uses x, y 
+// and a but not b.
+TEST_F(SimpleIncludeAndMacrosTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "f", 41, 9), nullptr)
+      << "macro argument 'f' (line 41) is not used in the macro body";
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "b", 43, 9), nullptr)
+      << "macro argument 'b' (line 43) is not used in the macro body";
+}
+
+// Legal SystemVerilog: IEEE 1800-2023 5.9.1 says "An escaped character not appearing in Table 5-1 is
+// treated the same as if the character was not escaped", so "Hum\pty" means "Humpty". It is still
+// suspect (a likely typo), so HLC reports it as a warning: top_2.v:47 $display("Hum\pty ...").
+TEST_F(SimpleIncludeAndMacrosTest, UnknownEscapedSequenceIsReported) {
+  ASSERT_NE(findEvent(EventType::PpUnrecognizedEscapedSequence, "\\p", 47, 15), nullptr)
+      << "5.9.1: '\\p' is not in Table 5-1 and is reported as a warning";
 }
 
 }  // namespace hlc

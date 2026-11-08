@@ -48,6 +48,7 @@
 // standard text above and the real hldb API headers.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -111,6 +112,19 @@ TEST_F(EscapeTest, EscapedInstanceNameDoesNotContainBackslash) {
   }
   EXPECT_EQ(inst->getName().find('\\'), std::string_view::npos)
       << "escaped-identifier instance name must not retain the leading backslash per IEEE 1800-2023 Sec 5.6.1";
+}
+
+// IEEE 1800-2023 Sec 23.3.2.1: in a connection by ordered list, "the port expressions listed
+// for the module instance shall be in the same order as the ports listed in the module
+// declaration". "bottom3 u2 (a[0], b);" (top.v:21) passes two ordered connections to
+// "module bottom3 ();", whose header is one port with an empty expression; the second
+// connection, b at 21:20, has no port to connect to. Its port side also stays unnamed
+// (LintInvalidName, no location).
+TEST_F(EscapeTest, OrderedConnectionPastLastPortIsRejected) {
+  EXPECT_NE(findEvent(EventType::CompTooManyPortConnections, "u2", 21, 20), nullptr)
+      << "23.3.2.1: b is a second ordered connection to bottom3, which has one port";
+  EXPECT_NE(findEvent(EventType::LintInvalidName), nullptr)
+      << "the port side of the connection past the last port of bottom3 is unnamed";
 }
 
 }  // namespace hlc

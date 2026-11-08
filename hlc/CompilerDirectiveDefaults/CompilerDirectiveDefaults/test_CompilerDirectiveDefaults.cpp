@@ -31,6 +31,7 @@
 // preprocessor and never reach the design model, so they are not part of this fixture.)
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -232,6 +233,13 @@ TEST_F(CompilerDirectiveDefaultsTest, BeginKeywordsValue) {
   ASSERT_NE(v, nullptr);
   EXPECT_EQ(v->getConstType(), vpiStringConst);
   EXPECT_EQ(v->getValue(), "1800-2017");
+}
+
+// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
+// not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
+TEST_F(CompilerDirectiveDefaultsTest, ProgramReportsObsoleteUsage) {
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "prg", 18, 9), nullptr)
+      << "program prg (dut.sv:18)";
 }
 
 }  // namespace hlc

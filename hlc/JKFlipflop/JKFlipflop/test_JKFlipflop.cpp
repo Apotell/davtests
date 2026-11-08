@@ -59,12 +59,14 @@
 // What is NOT checked and why:
 //   - elaborated / top-module views: this .hlc does not elaborate, so
 //     getTopModules() and instance hierarchy are not populated by design.
-//   - the "-ast" warning (CM5010) about an ignored command line argument:
-//     tool CLI behavior, not something IEEE 1800 specifies.
+//
+// Also checked (command line, not IEEE 1800): the .hlc passes "-ast", which
+// HLC does not know, so it warns that the argument is ignored (CM5010).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -365,6 +367,14 @@ TEST_F(JKFlipflopTest, AlwaysBodyIfElseBlockingAssignments) {
   const hldb::RefObj *const din = elseA->getRhs<hldb::RefObj>();
   ASSERT_NE(din, nullptr);
   EXPECT_EQ(din->getName(), "Din");
+}
+
+// The .hlc passes "-ast", which is not an HLC option (the AST dump is "-d ast", also passed).
+// The option is a tool matter, not part of IEEE 1800, so the warning is checked against the
+// command line only.
+TEST_F(JKFlipflopTest, UnknownAstOptionIsIgnored) {
+  ASSERT_NE(findEvent(EventType::CmdMinusArgIgnored, std::string_view("-ast")), nullptr)
+      << "the unknown command line option -ast is reported as ignored";
 }
 
 }  // namespace hlc

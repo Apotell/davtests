@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -202,6 +203,14 @@ TEST_F(YosysTestSuiteMacrosTest, SelBitsHasTokens) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getTokens(), nullptr);
   EXPECT_FALSE(macro->getTokens()->empty()) << "sel_bits body must have tokens";
+}
+
+// Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
+// tool warning, checked because it truthfully describes the source:
+// `define get_lsb(off, len) (off) does not use len.
+TEST_F(YosysTestSuiteMacrosTest, UnusedMacroArgumentsAreReported) {
+  ASSERT_NE(findEvent(EventType::PpMacroUnusedArgument, "len", 6, 9), nullptr)
+      << "macro argument 'len' (line 6) is not used in the macro body";
 }
 
 }  // namespace hlc

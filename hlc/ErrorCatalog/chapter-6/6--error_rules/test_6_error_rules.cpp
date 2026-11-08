@@ -281,14 +281,9 @@ TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRe
 
 TEST_F(Chapter6ErrorRulesTest, Row22_SpecparamInParameterExpressionIsRejected) {
   // catalog row 22 | 6.20.5 | COMP
-  // Reported by hlc's Linter (Linter::checkParameter for a parameter's own
-  // value, Linter::checkParamAssign for an override). A specparam name used
-  // inside a parameter's value expression does not resolve through
-  // ObjectBinder (its RefObj is left permanently unbound), so this falls back
-  // to name matching instead: collect the enclosing instance's own specparam
-  // names and search the value subtree (via a NamedRefObjFinder Visitor) for
-  // a matching RefObj name.
-  EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_regsize"), nullptr)
+  // Line 181: "parameter r22_regsize = r22_dhold + 1.0;". The event names the
+  // specparam that is used (r22_dhold), at the position of that use.
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_dhold", 181, 27), nullptr)
       << "a specparam cannot appear in a parameter's constant expression (IEEE 1800-2023 6.20.5)";
 }
 
@@ -320,6 +315,11 @@ TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
   // elsewhere in this file.
   ASSERT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
       << "a $-valued parameter cannot be used as a queue bound (IEEE 1800-2023 6.20.7)";
+  // 6.20.7: "$ may be assigned to a value parameter of a simple bit vector
+  // type (see 6.11.1)." Line 201, "parameter real r24_rp = $;": real is not a
+  // simple bit vector type.
+  EXPECT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_rp", 201, 18), nullptr)
+      << "$ cannot be assigned to a real parameter (IEEE 1800-2023 6.20.7)";
 }
 
 // --- row 26: hierarchical reference into an unnamed block (6.21) -----------
@@ -364,19 +364,17 @@ TEST_F(Chapter6ErrorRulesTest, Row27_MissingLifetimeKeywordIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row28_ContinuousOrNonblockingWriteToAutomaticTargetIsRejected) {
   // catalog row 28 | 6.21 | COMP
-  // FIXED 2026-08-29 (continuous-assignment half): wired in
-  // ModelBuilder::reportIllegalAssignmentToAutomaticOrDynamicTarget()
-  // (ModelBuilder.cpp), which checks (a) every ContAssign whose LHS is a
-  // Select into a Variable with a non-static-array typespec -- catches
-  // 'assign r28_dyn[0] = 1' -- and (b) every nonblocking Assignment whose LHS
-  // resolves to a Variable with getAutomatic() set. Confirmed via direct
-  // hlc.exe verification that (a) fires on r28_dyn; (b) does not additionally
-  // fire on r28_a inside 'task automatic r28_t()' in this fixture (the
-  // variable's own getAutomatic() flag was not observed set for a plain
-  // local inside an automatic task body), which this row's assertion does
-  // not depend on since it only checks the r28_dyn symbol.
+  // IEEE 1800-2023 6.21: "Automatic variables and elements of dynamically
+  // sized array variables shall not be written with nonblocking, continuous,
+  // or procedural continuous assignments." Variables declared in an automatic
+  // task are automatic (same subclause). The fixture breaks the rule twice:
+  //   251: assign r28_dyn[0] = 1;   continuous write to a dynamic array element
+  //   252: r28_a <= 1;              nonblocking write to a local of 'task automatic'
   EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "r28_dyn"), nullptr)
       << "a dynamic array element cannot be the target of a continuous assignment (IEEE 1800-2023 "
+         "6.21)";
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "r28_a", 252, 38), nullptr)
+      << "an automatic variable cannot be written with a nonblocking assignment (IEEE 1800-2023 "
          "6.21)";
 }
 

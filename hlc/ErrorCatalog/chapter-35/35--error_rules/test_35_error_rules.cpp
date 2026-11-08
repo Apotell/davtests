@@ -34,12 +34,34 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/design.h>
+#include <hldb/module.h>
+#include <hldb/sv_vpi_user.h>
+#include <hldb/task_func_decl.h>
+
 namespace hlc {
 
 class Chapter35ErrorRulesTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "35--error_rules.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  // IEEE 1800-2023 35.5.4: dpi_spec_string ::= "DPI-C" | "DPI". Both forms are
+  // recorded on the imported subroutine (vpiDPICStr, sv_vpi_user.h); the
+  // quoted string is never a Constant of its own.
+  static void expectDpiImport(std::string_view moduleName, std::string_view funcName, int32_t dpiStr) {
+    const hldb::Module *const module = hldb::findByName<hldb::Module>(moduleName, m_design->getAllModules());
+    ASSERT_NE(module, nullptr) << moduleName;
+    ASSERT_NE(module->getTaskFuncDecls(), nullptr) << moduleName;
+    ASSERT_EQ(module->getTaskFuncDecls()->size(), 1u) << moduleName;
+    const hldb::TaskFuncDecl *const decl = module->getTaskFuncDecls()->at(0);
+    ASSERT_NE(decl, nullptr) << moduleName;
+    EXPECT_EQ(decl->getName(), funcName);
+    EXPECT_EQ(decl->getAccessType(), vpiDPIImportAcc) << funcName;
+    EXPECT_EQ(decl->getDPICStr(), dpiStr) << funcName;
+  }
 };
 
 // --- row 1108: linkage names follow C identifier rules (35.4) ---------------
@@ -85,6 +107,17 @@ TEST_F(Chapter35ErrorRulesTest, Row1123_DeprecatedDpiSpecStringIsDiagnosed) {
   // should be replaced with "DPI-C".
   EXPECT_NE(findEvent(EventType::CompIllegalDpiDeclaration, "r1123_f"), nullptr)
       << "the deprecated 'DPI' spec string must be diagnosed (IEEE 1800-2023 35.5.4)";
+}
+
+// --- the dpi_spec_string is a property of the import, not an expression ------
+
+TEST_F(Chapter35ErrorRulesTest, DpiCSpecStringIsRecordedOnTheImport) {
+  expectDpiImport("r1109_m", "r1109_f", vpiDPIC);
+}
+
+TEST_F(Chapter35ErrorRulesTest, DeprecatedDpiSpecStringIsRecordedOnTheImport) {
+  expectDpiImport("r1109_n", "r1109_f", vpiDPI);
+  expectDpiImport("r1123_m", "r1123_f", vpiDPI);
 }
 
 }  // namespace hlc

@@ -30,29 +30,28 @@
 //     to system timing checks (e.g. $setup, $hold).
 //   * Using a specparam name in a parameter constant_expression is INVALID.
 //     'parameter p = delay + 2' violates this rule.
-//   * The compiler must reject this construct. Surelog emits:
-//     [ERR:EL0535] Illegal implicit net "id:13, name:delay"
-//     because 'delay' is not visible as a constant in the parameter expression
-//     context; Surelog resolves it as an implicit net (RefObj) instead.
+//   * The compiler must reject this construct. HLC reports
+//     [ERR:CP5882] CompIllegalSpecparamUse naming the specparam 'delay' at its
+//     use, 19:16.
 //
 // Error-recovery representation (structural reference, not spec-mandated):
-//   * Surelog still produces a partial HLDB despite the error:
+//   * HLC still produces a partial HLDB despite the error:
 //       - 'delay' lives in getSpecParams() as a SpecParam (correctly isolated).
 //       - 'p' lives in getParameters() as a Parameter (parsed despite the error).
-//       - The default value of 'p' (Parameter::getExpr()) is an add Operation whose left operand
-//         is a RefObj named "delay" (Surelog's implicit-net substitution) and
+//       - The ParamAssign RHS for 'p' is an add Operation whose left operand
+//         is a RefObj named "delay" (left unbound) and
 //         whose right operand is Constant "2".
 //   * This documents that specparam names do NOT resolve as SpecParam nodes in
-//     parameter expressions -- they become unresolved implicit-net references.
+//     parameter expressions -- they stay unresolved references.
 //
 // -- UHDM tree ----------------------------------------------------------------
 //
-//   Module name:top  [ERROR: EL0535 on line 19]
+//   Module name:top  [ERROR: CP5882 on line 19]
 //   +-- getParameters() (AnyCollection, 1 item)
 //   |   +-- [0] Parameter name:"p"  localParam: false
 //   |           typespec: RefTypespec -> LogicTypespec  (implicit, no keyword)
 //   |           expr: Operation { opType: vpiAddOp (24) }
-//   |               operands[0]: RefObj name:"delay"  (implicit net, NOT SpecParam)
+//   |               operands[0]: RefObj name:"delay"  (unbound, NOT SpecParam)
 //   |               operands[1]: Constant { vpiDecompile: "2" }
 //   +-- getSpecParams() (SpecParamCollection, 1 item)
 //       +-- [0] SpecParam name:"delay"
@@ -63,6 +62,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -141,6 +141,14 @@ TEST_F(SpecparamInvTest, Delay_Exists) {
 // parameter p = delay + 2  (invalid -- specparam used in param expression)
 // ===========================================================================
 
+// IEEE 1800-2023 6.20.5: "parameter and localparam shall not be assigned a
+// constant expression that includes any specify parameters." Line 19 assigns
+// 'delay + 2' to parameter p; the error names the specparam 'delay' at 19:16.
+TEST_F(SpecparamInvTest, SpecparamInParameterExpressionIsReported) {
+  ASSERT_NE(findEvent(EventType::CompIllegalSpecparamUse, "delay", 19, 16), nullptr)
+      << "6.20.5: specparam 'delay' must not appear in the value of parameter 'p'";
+}
+
 // The parameter 'p' is syntactically parsed and appears in getParameters()
 // despite the error on its RHS expression.
 TEST_F(SpecparamInvTest, ParameterCollectionExists) {
@@ -194,9 +202,8 @@ TEST_F(SpecparamInvTest, P_Rhs_HasTwoOperands) {
 }
 
 // ss.6.20.5: 'delay' used in the parameter expression is NOT resolved as the
-// SpecParam node. Surelog treats it as an implicit net (RefObj) and emits
-// EL0535. This test documents that specparam names have no visibility in
-// parameter constant_expressions.
+// SpecParam node; it stays an unbound RefObj. This test documents that
+// specparam names have no visibility in parameter constant_expressions.
 TEST_F(SpecparamInvTest, P_Expr_LeftOperand_IsRefObj) {
   const hldb::Parameter *pa = getParameter(m_design, "p");
   ASSERT_NE(pa, nullptr);
@@ -206,7 +213,7 @@ TEST_F(SpecparamInvTest, P_Expr_LeftOperand_IsRefObj) {
   ASSERT_GE(op->getOperands()->size(), 1u);
   EXPECT_NE(any_cast<hldb::RefObj>((*op->getOperands())[0]), nullptr)
       << "ss.6.20.5: 'delay' in parameter expression must NOT resolve as a "
-         "SpecParam -- it becomes a RefObj (implicit net) and triggers EL0535";
+         "SpecParam -- it stays an unbound RefObj";
 }
 
 // The right operand '2' must be a Constant.
