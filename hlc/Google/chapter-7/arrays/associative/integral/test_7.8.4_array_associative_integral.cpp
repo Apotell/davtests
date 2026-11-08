@@ -42,8 +42,8 @@
 #include <hldb/int_typespec.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -54,26 +54,26 @@ class Integral : public Test {
 };
 
 TEST_F(Integral, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(Integral, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(Integral, VariableNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
 TEST_F(Integral, VariableHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
   ASSERT_NE(variable, nullptr);
@@ -87,7 +87,7 @@ TEST_F(Integral, VariableHasAssociativeArrayTypespec) {
 TEST_F(Integral, AssocArrayKeyTypeIsInteger) {
   // `integer` keyword maps to IntegerTypespec (4-state 32-bit),
   // distinct from IntTypespec (2-state `int` keyword)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -98,7 +98,7 @@ TEST_F(Integral, AssocArrayKeyTypeIsInteger) {
 
 TEST_F(Integral, AssocArrayKeyTypeIsNotInt) {
   // Confirm it is NOT IntTypespec ? `integer` and `int` are different types
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -108,7 +108,7 @@ TEST_F(Integral, AssocArrayKeyTypeIsNotInt) {
 }
 
 TEST_F(Integral, AssocArrayValueTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -118,13 +118,13 @@ TEST_F(Integral, AssocArrayValueTypeIsInt) {
 }
 
 TEST_F(Integral, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(Integral, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

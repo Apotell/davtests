@@ -59,8 +59,8 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
-#include <hldb/gen_if.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_if.h>
 #include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/module.h>
@@ -84,7 +84,7 @@ class GenModHierPathTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // 'generate ... endgenerate' is a generate region (Sec 27.3), so the
@@ -178,7 +178,7 @@ TEST_F(GenModHierPathTest, RamInstanceDeclaredInsideBody) {
   // const hldb::GenScope *const body = getBody();
   // ASSERT_NE(body, nullptr);
   // ASSERT_NE(body->getModules(), nullptr) << "'body' should carry the 'ram' module instance";
-  // const hldb::Module *const ram = hldb::findByName<hldb::Module>("ram", body->getModules());
+  // const hldb::Module *const ram = hldb::findByDefName<hldb::Module>("ram", body->getModules());
   // ASSERT_NE(ram, nullptr) << "'ram' instance not found inside 'body'";
   // EXPECT_EQ(ram->getDefName(), std::string_view("ForNarrowRequest"));
 }

@@ -69,12 +69,12 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,21 +88,21 @@ class OpDeleteTest : public Test {
 // --- module ----
 
 TEST_F(OpDeleteTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable arr ----
 
 TEST_F(OpDeleteTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(OpDeleteTest, VariableNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
@@ -111,7 +111,7 @@ TEST_F(OpDeleteTest, VariableNameIsArr) {
 // --- ArrayTypespec ----
 
 TEST_F(OpDeleteTest, VariableHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
   ASSERT_NE(variable, nullptr);
@@ -122,7 +122,7 @@ TEST_F(OpDeleteTest, VariableHasArrayTypespec) {
 
 TEST_F(OpDeleteTest, ArrayTypespecIsDynamic) {
   // vpiArrayType: dynamic (2)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -131,7 +131,7 @@ TEST_F(OpDeleteTest, ArrayTypespecIsDynamic) {
 }
 
 TEST_F(OpDeleteTest, ArrayTypespecElemIsBitTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -142,7 +142,7 @@ TEST_F(OpDeleteTest, ArrayTypespecElemIsBitTypespec) {
 
 TEST_F(OpDeleteTest, ArrayTypespecHasNoIndexTypespec) {
   // Dynamic arrays have no index typespec (only associative arrays do)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -153,7 +153,7 @@ TEST_F(OpDeleteTest, ArrayTypespecHasNoIndexTypespec) {
 // --- BitTypespec [7:0] ----
 
 TEST_F(OpDeleteTest, BitTypespecIsVector) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
                                           ->at(0)
@@ -166,7 +166,7 @@ TEST_F(OpDeleteTest, BitTypespecIsVector) {
 }
 
 TEST_F(OpDeleteTest, BitTypespecIsNotSigned) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
                                           ->at(0)
@@ -179,7 +179,7 @@ TEST_F(OpDeleteTest, BitTypespecIsNotSigned) {
 }
 
 TEST_F(OpDeleteTest, RangeLeftIs7) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
                                           ->at(0)
@@ -195,7 +195,7 @@ TEST_F(OpDeleteTest, RangeLeftIs7) {
 }
 
 TEST_F(OpDeleteTest, RangeRightIs0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
                                           ->at(0)
@@ -211,7 +211,7 @@ TEST_F(OpDeleteTest, RangeRightIs0) {
 }
 
 TEST_F(OpDeleteTest, RangeConstTypesAreInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
                                           ->at(0)
@@ -232,21 +232,21 @@ TEST_F(OpDeleteTest, RangeConstTypesAreInt) {
 // --- Initial process ----
 
 TEST_F(OpDeleteTest, ModuleHasOneProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(OpDeleteTest, ProcessIsInitial) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_NE(any_cast<hldb::Initial>(top->getProcesses()->at(0)), nullptr);
 }
 
 TEST_F(OpDeleteTest, InitialBodyIsBegin) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -256,7 +256,7 @@ TEST_F(OpDeleteTest, InitialBodyIsBegin) {
 // --- Begin statements ----
 
 TEST_F(OpDeleteTest, BeginHasFourStatements) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -269,7 +269,7 @@ TEST_F(OpDeleteTest, BeginHasFourStatements) {
 // --- Stmt[0]: Assignment ----
 
 TEST_F(OpDeleteTest, FirstStmtIsAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -278,7 +278,7 @@ TEST_F(OpDeleteTest, FirstStmtIsAssignment) {
 }
 
 TEST_F(OpDeleteTest, AssignmentIsBlocking) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(0));
@@ -287,7 +287,7 @@ TEST_F(OpDeleteTest, AssignmentIsBlocking) {
 }
 
 TEST_F(OpDeleteTest, AssignmentRhsIsArrayExpr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(0));
@@ -297,7 +297,7 @@ TEST_F(OpDeleteTest, AssignmentRhsIsArrayExpr) {
 
 TEST_F(OpDeleteTest, ArrayExprHasOneExpr) {
   // new[16] -- the size expression list has exactly 1 item
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayExpr *const ae =
       any_cast<hldb::Assignment>(
@@ -309,7 +309,7 @@ TEST_F(OpDeleteTest, ArrayExprHasOneExpr) {
 }
 
 TEST_F(OpDeleteTest, ArrayExprSizeIs16) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayExpr *const ae =
       any_cast<hldb::Assignment>(
@@ -322,7 +322,7 @@ TEST_F(OpDeleteTest, ArrayExprSizeIs16) {
 }
 
 TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayExpr *const ae =
       any_cast<hldb::Assignment>(
@@ -337,7 +337,7 @@ TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsInt) {
 // --- Stmt[1]: first $display ----
 
 TEST_F(OpDeleteTest, SecondStmtIsSysTaskCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -346,7 +346,7 @@ TEST_F(OpDeleteTest, SecondStmtIsSysTaskCall) {
 }
 
 TEST_F(OpDeleteTest, FirstDisplayNameIsDisplay) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
@@ -355,7 +355,7 @@ TEST_F(OpDeleteTest, FirstDisplayNameIsDisplay) {
 }
 
 TEST_F(OpDeleteTest, FirstDisplayHasTwoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
@@ -367,7 +367,7 @@ TEST_F(OpDeleteTest, FirstDisplayHasTwoArguments) {
 TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeCall) {
   // arr.size (no parentheses, 13.5.5) is a MethodFuncCall "size" with
   // vpiPrefix RefObj "arr" (IEEE 1800-2023 37.42 detail 2)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
@@ -391,7 +391,7 @@ TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeCall) {
 TEST_F(OpDeleteTest, ThirdStmtIsMethodFuncCall) {
   // arr.delete is a call of the built-in void function delete() (7.5.3)
   // written without parentheses (13.5.5), used as a statement
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -400,7 +400,7 @@ TEST_F(OpDeleteTest, ThirdStmtIsMethodFuncCall) {
 }
 
 TEST_F(OpDeleteTest, DeleteCallNameIsDelete) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
@@ -410,7 +410,7 @@ TEST_F(OpDeleteTest, DeleteCallNameIsDelete) {
 }
 
 TEST_F(OpDeleteTest, DeleteCallHasNoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
@@ -419,7 +419,7 @@ TEST_F(OpDeleteTest, DeleteCallHasNoArguments) {
 }
 
 TEST_F(OpDeleteTest, DeleteCallPrefixIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
@@ -431,7 +431,7 @@ TEST_F(OpDeleteTest, DeleteCallPrefixIsArr) {
 }
 
 TEST_F(OpDeleteTest, DeleteCallBindsToBuiltinDelete) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
@@ -443,7 +443,7 @@ TEST_F(OpDeleteTest, DeleteCallBindsToBuiltinDelete) {
 // --- Stmt[3]: second $display ----
 
 TEST_F(OpDeleteTest, FourthStmtIsSysFuncCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -452,7 +452,7 @@ TEST_F(OpDeleteTest, FourthStmtIsSysFuncCall) {
 }
 
 TEST_F(OpDeleteTest, SecondDisplayNameIsDisplay) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
@@ -461,7 +461,7 @@ TEST_F(OpDeleteTest, SecondDisplayNameIsDisplay) {
 }
 
 TEST_F(OpDeleteTest, SecondDisplayHasTwoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
@@ -472,7 +472,7 @@ TEST_F(OpDeleteTest, SecondDisplayHasTwoArguments) {
 
 TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeCall) {
   // second $display also gets arr.size as a MethodFuncCall with prefix "arr"
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
@@ -492,26 +492,38 @@ TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeCall) {
 
 TEST_F(OpDeleteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(OpDeleteTest, DesignHasIntTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1)), nullptr);
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      break;
+    }
+  }
+  ASSERT_NE(it, nullptr);
 }
 
 TEST_F(OpDeleteTest, DesignHasStringTypespec) {
   // StringTypespec is added because $display uses string literal arguments
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *st = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((st = any_cast<hldb::StringTypespec>(ts))) {
+      break;
+    }
+  }
+  EXPECT_NE(st, nullptr);
 }
 
 // --- structural completeness ----
 
 TEST_F(OpDeleteTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

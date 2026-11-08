@@ -63,11 +63,11 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -81,18 +81,18 @@ class AssociativeArrayNumTest : public Test {
 // --- module / variable ----
 
 TEST_F(AssociativeArrayNumTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayNumTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(AssociativeArrayNumTest, VariableArrIsAssociativeArrayOfIntByInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arr = hldb::findByName<hldb::Variable>("arr", top->getVariables());
   ASSERT_NE(arr, nullptr);
@@ -108,7 +108,7 @@ TEST_F(AssociativeArrayNumTest, VariableArrIsAssociativeArrayOfIntByInt) {
 // --- initial process ----
 
 TEST_F(AssociativeArrayNumTest, InitialBeginHasSevenStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -121,7 +121,7 @@ TEST_F(AssociativeArrayNumTest, InitialBeginHasSevenStmts) {
 }
 
 TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -150,7 +150,7 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
 }
 
 TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -172,7 +172,7 @@ TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
 }
 
 TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -194,7 +194,7 @@ TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
 }
 
 TEST_F(AssociativeArrayNumTest, SecondAssignmentSetsArrHexFfffToTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -215,7 +215,7 @@ TEST_F(AssociativeArrayNumTest, SecondAssignmentSetsArrHexFfffToTwo) {
 }
 
 TEST_F(AssociativeArrayNumTest, ThirdDisplayAssertsNumEqualsTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -229,7 +229,7 @@ TEST_F(AssociativeArrayNumTest, ThirdDisplayAssertsNumEqualsTwo) {
 }
 
 TEST_F(AssociativeArrayNumTest, ThirdAssignmentSetsArrBinary1000ToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -251,7 +251,7 @@ TEST_F(AssociativeArrayNumTest, ThirdAssignmentSetsArrBinary1000ToThree) {
 }
 
 TEST_F(AssociativeArrayNumTest, FourthDisplayAssertsNumEqualsThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -267,7 +267,7 @@ TEST_F(AssociativeArrayNumTest, FourthDisplayAssertsNumEqualsThree) {
 // --- known compiler limitation: skipped canary for a future fix ----
 
 TEST_F(AssociativeArrayNumTest, ArrRefObjShouldResolve) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -296,14 +296,20 @@ TEST_F(AssociativeArrayNumTest, ArrRefObjShouldResolve) {
 
 TEST_F(AssociativeArrayNumTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(AssociativeArrayNumTest, DesignHasLogicTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::LogicTypespec>(m_design->getTypespecs()->at(4)), nullptr);
+  const hldb::LogicTypespec *lt = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((lt = any_cast<hldb::LogicTypespec>(ts))) {
+      break;
+    }
+  }
+  ASSERT_NE(lt, nullptr);
 }
 
 }  // namespace hlc

@@ -226,7 +226,7 @@ class UngetcTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   // "int fd;" -- the file's one and only declaration.
   static const hldb::Variable *getFd() {

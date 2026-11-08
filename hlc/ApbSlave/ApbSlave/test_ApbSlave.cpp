@@ -142,7 +142,7 @@ class ApbSlaveTest : public Test {
   }
 
   static const hldb::Module *getTestbenchModule() {
-    return hldb::findByName<hldb::Module>("apb_slave_unit_test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("apb_slave_unit_test", m_design->getAllModules());
   }
 
   static const hldb::Always *getAlwaysProcess() {

@@ -637,7 +637,7 @@ TEST_F(ParamElabMultiTest, USubReceivesTargetCfgOfB) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
-    const hldb::Module *const sub = hldb::findByName<hldb::Module>("u_sub", top->getModules());
+    const hldb::Module *const sub = hldb::findByDefName<hldb::Module>("u_sub", top->getModules());
     ASSERT_NE(sub, nullptr) << "the instance u_sub is elaborated";
     ExpectElabParam(sub, "TargetCfg", 1, "23.10.2.2: PinmuxTargetCfg = '{dio_pad_type: {1{B}}} = 3'h1");
   }
@@ -647,16 +647,16 @@ TEST_F(ParamElabMultiTest, PadTypeBReachesUImplGeneric) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const sub = hldb::findByName<hldb::Module>("u_sub", top->getModules());
+    const hldb::Module *const sub = hldb::findByDefName<hldb::Module>("u_sub", top->getModules());
     ASSERT_NE(sub, nullptr);
     const hldb::GenScope *const dio = getOnlyGenScope(sub, "gen_dio_attr");
     ASSERT_NE(dio, nullptr) << "27.4: NDioPads = 1, so gen_dio_attr is instantiated exactly once, for k = 0";
-    const hldb::Module *const padAttr = hldb::findByName<hldb::Module>("u_prim_pad_attr", dio->getModules());
+    const hldb::Module *const padAttr = hldb::findByDefName<hldb::Module>("u_prim_pad_attr", dio->getModules());
     ASSERT_NE(padAttr, nullptr) << "gen_dio_attr[0] holds u_prim_pad_attr";
     ExpectElabParam(padAttr, "PadType", 1, "23.10.2.2: TargetCfg.dio_pad_type[0] = B = 3'h1");
     const hldb::GenScope *const generic = getOnlyGenScope(padAttr, "gen_generic");
     ASSERT_NE(generic, nullptr) << "27.5: 'if (1)' selects gen_generic";
-    const hldb::Module *const impl = hldb::findByName<hldb::Module>("u_impl_generic", generic->getModules());
+    const hldb::Module *const impl = hldb::findByDefName<hldb::Module>("u_impl_generic", generic->getModules());
     ASSERT_NE(impl, nullptr) << "gen_generic holds u_impl_generic";
     ExpectElabParam(impl, "PadType", 1, "23.10.2.2: '.PadType(PadType)' passes B = 3'h1 on");
   }
@@ -666,15 +666,15 @@ TEST_F(ParamElabMultiTest, GenAssignIsGeneratedWithImplicitNetA) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const sub = hldb::findByName<hldb::Module>("u_sub", top->getModules());
+    const hldb::Module *const sub = hldb::findByDefName<hldb::Module>("u_sub", top->getModules());
     ASSERT_NE(sub, nullptr);
     const hldb::GenScope *const dio = getOnlyGenScope(sub, "gen_dio_attr");
     ASSERT_NE(dio, nullptr);
-    const hldb::Module *const padAttr = hldb::findByName<hldb::Module>("u_prim_pad_attr", dio->getModules());
+    const hldb::Module *const padAttr = hldb::findByDefName<hldb::Module>("u_prim_pad_attr", dio->getModules());
     ASSERT_NE(padAttr, nullptr);
     const hldb::GenScope *const generic = getOnlyGenScope(padAttr, "gen_generic");
     ASSERT_NE(generic, nullptr);
-    const hldb::Module *const impl = hldb::findByName<hldb::Module>("u_impl_generic", generic->getModules());
+    const hldb::Module *const impl = hldb::findByDefName<hldb::Module>("u_impl_generic", generic->getModules());
     ASSERT_NE(impl, nullptr);
     const hldb::GenScope *const assignScope = getOnlyGenScope(impl, "gen_assign");
     ASSERT_NE(assignScope, nullptr) << "27.5: PadType == B holds in u_impl_generic, so gen_assign is instantiated";

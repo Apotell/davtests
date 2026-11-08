@@ -50,12 +50,13 @@
 #include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
 #include <hldb/class_defn.h>
-#include <hldb/variable.h>
+#include <hldb/design.h>
 #include <hldb/int_typespec.h>
-#include <hldb/vpi_user.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 namespace hlc {
 class RandModifierTest : public Test {
@@ -65,7 +66,8 @@ class RandModifierTest : public Test {
 };
 
 TEST_F(RandModifierTest, ClassAndPropertyExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
@@ -73,7 +75,8 @@ TEST_F(RandModifierTest, ClassAndPropertyExist) {
 }
 
 TEST_F(RandModifierTest, PropertyBIsMarkedRand) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
   ASSERT_NE(b, nullptr);
@@ -82,7 +85,8 @@ TEST_F(RandModifierTest, PropertyBIsMarkedRand) {
 }
 
 TEST_F(RandModifierTest, PropertyBIsSignedIntTypespec) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
   ASSERT_NE(b, nullptr);

@@ -63,13 +63,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/part_select.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -83,19 +83,19 @@ class PackedSliceTest : public Test {
 // --- module / variables ----
 
 TEST_F(PackedSliceTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedSliceTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(PackedSliceTest, VariableArrAAndArrBAreBitTypespecRange7to0) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
@@ -107,7 +107,7 @@ TEST_F(PackedSliceTest, VariableArrAAndArrBAreBitTypespecRange7to0) {
 // --- initial process ----
 
 TEST_F(PackedSliceTest, InitialBeginHasFiveStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -120,7 +120,7 @@ TEST_F(PackedSliceTest, InitialBeginHasFiveStmts) {
 }
 
 TEST_F(PackedSliceTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -135,7 +135,7 @@ TEST_F(PackedSliceTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
 }
 
 TEST_F(PackedSliceTest, FirstDisplayHasThreeArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -149,7 +149,7 @@ TEST_F(PackedSliceTest, FirstDisplayHasThreeArguments) {
 }
 
 TEST_F(PackedSliceTest, ThirdAssignmentCopiesArrATwoZeroSliceIntoArrBFiveThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -175,7 +175,7 @@ TEST_F(PackedSliceTest, ThirdAssignmentCopiesArrATwoZeroSliceIntoArrBFiveThree) 
 }
 
 TEST_F(PackedSliceTest, SecondDisplayAssertsBitPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -203,7 +203,7 @@ TEST_F(PackedSliceTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedSliceTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -215,7 +215,7 @@ TEST_F(PackedSliceTest, RuntimeValueRequiresSimulation) {
   //                 "the actual runtime bit pattern of arr_b after the 3-bit slice copy cannot be "
   //                 "observed here. slice.sv's own $display format string documents the expected value.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

@@ -172,6 +172,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 
 #include <hlc/Tests/Test.h>
 
@@ -218,10 +219,11 @@ class PropertyInterfaceUvmFailTest : public Test {
 // ... All tests belonging to PropertyInterfaceUvmFailTest go here!
 
 TEST_F(PropertyInterfaceUvmFailTest, ModuleMemCtrlAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mem_ctrl", m_design->getAllModules()), nullptr)
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mem_ctrl", m_design->getAllModules()), nullptr)
       << "module 'mem_ctrl' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(PropertyInterfaceUvmFailTest, InterfaceMemCtrlIfExistsWithClkReadWritePorts) {
@@ -234,7 +236,8 @@ TEST_F(PropertyInterfaceUvmFailTest, InterfaceMemCtrlIfExistsWithClkReadWritePor
 }
 
 TEST_F(PropertyInterfaceUvmFailTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 

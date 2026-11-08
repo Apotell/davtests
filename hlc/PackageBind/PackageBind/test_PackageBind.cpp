@@ -138,7 +138,7 @@ class PackageBindTest : public Test {
     return hldb::findByName<hldb::Package>("prim_util_pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Function *getClog2() {
     const hldb::Package *const pkg = getPkg();

@@ -93,7 +93,7 @@ class HierPathUnpackedInPackedTest : public Test {
     return nullptr;
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Module *const top = getTop();

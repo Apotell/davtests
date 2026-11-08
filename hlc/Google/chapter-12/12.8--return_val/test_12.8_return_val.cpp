@@ -92,9 +92,9 @@
 #include <hldb/for_stmt.h>
 #include <hldb/func_call.h>
 #include <hldb/function.h>
+#include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
-#include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
@@ -113,7 +113,7 @@ class ReturnValTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("jump_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("jump_tb", m_design->getAllModules());
   }
 
   static const hldb::Function *getFun() {

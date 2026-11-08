@@ -52,6 +52,7 @@
 #include <hldb/process_stmt.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -64,14 +65,15 @@ class AnsiCheckerTest : public Test {
 };
 
 TEST_F(AnsiCheckerTest, CheckerExists) {
-  ASSERT_NE(m_design->getCheckerDecls(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls()),
-            nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getCheckerDecls(), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls()), nullptr);
 }
 
 TEST_F(AnsiCheckerTest, CheckerHasTwoInputPorts) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getPorts(), nullptr);
   ASSERT_EQ(checker->getPorts()->size(), 2u);
@@ -85,8 +87,9 @@ TEST_F(AnsiCheckerTest, CheckerHasTwoInputPorts) {
 }
 
 TEST_F(AnsiCheckerTest, CheckerHasLogicVariablesNoNetDuplicate) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getVariables(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::Variable>("ck_logic", checker->getVariables()), nullptr);
@@ -99,8 +102,9 @@ TEST_F(AnsiCheckerTest, CheckerHasLogicVariablesNoNetDuplicate) {
 
 TEST_F(AnsiCheckerTest, CkVecIsVectorOneToZero) {
   // 'logic [1:0] ck_vec;' has an explicit packed dimension.
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("ck_vec", checker->getVariables());
   ASSERT_NE(v, nullptr);
@@ -118,9 +122,9 @@ TEST_F(AnsiCheckerTest, CkVecIsVectorOneToZero) {
 TEST_F(AnsiCheckerTest, CheckerHasRandVariables) {
   GTEST_SKIP() << "Rand is allowed only in unpacked structures; As per the standard, It shall be"
                   "legal to declare a random_qualifier (rand|randc) only within unpacked structures.";
-
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getVariables(), nullptr);
 
@@ -134,8 +138,9 @@ TEST_F(AnsiCheckerTest, CheckerHasRandVariables) {
 }
 
 TEST_F(AnsiCheckerTest, CheckerHasOneProcess) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getProcesses(), nullptr);
   ASSERT_EQ(checker->getProcesses()->size(), 1u);

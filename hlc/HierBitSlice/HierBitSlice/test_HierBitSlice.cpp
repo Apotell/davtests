@@ -45,8 +45,8 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/gen_for.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_for.h>
 #include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/gen_scope_array.h>
@@ -135,7 +135,7 @@ class HierBitSliceTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("int_execute_stage", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("int_execute_stage", m_design->getAllModules());
   }
 
   // Returns the "lane_alu_gen" generate-for body, or nullptr if it cannot be

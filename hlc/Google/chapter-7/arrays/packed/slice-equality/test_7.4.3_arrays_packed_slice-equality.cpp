@@ -65,7 +65,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/part_select.h>
 #include <hldb/range.h>
@@ -73,6 +72,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -86,12 +86,12 @@ class PackedSliceEqualityTest : public Test {
 // --- module / variables ----
 
 TEST_F(PackedSliceEqualityTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedSliceEqualityTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
@@ -100,7 +100,7 @@ TEST_F(PackedSliceEqualityTest, ModuleHasTwoVariables) {
 // --- initial process ----
 
 TEST_F(PackedSliceEqualityTest, InitialBeginHasFiveStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -113,7 +113,7 @@ TEST_F(PackedSliceEqualityTest, InitialBeginHasFiveStmts) {
 }
 
 TEST_F(PackedSliceEqualityTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -128,7 +128,7 @@ TEST_F(PackedSliceEqualityTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
 }
 
 TEST_F(PackedSliceEqualityTest, FirstDisplayHasThreeArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -142,7 +142,7 @@ TEST_F(PackedSliceEqualityTest, FirstDisplayHasThreeArguments) {
 }
 
 TEST_F(PackedSliceEqualityTest, SecondDisplayArgIsEqualOperationOnSlices) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -173,7 +173,7 @@ TEST_F(PackedSliceEqualityTest, SecondDisplayArgIsEqualOperationOnSlices) {
 }
 
 TEST_F(PackedSliceEqualityTest, ThirdDisplayArgIsNotEqualOperationOnSlices) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -205,7 +205,7 @@ TEST_F(PackedSliceEqualityTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(PackedSliceEqualityTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -218,7 +218,7 @@ TEST_F(PackedSliceEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   //                 "observed here. slice-equality.sv's own $display format strings document the "
   //                 "expected values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

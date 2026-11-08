@@ -40,8 +40,8 @@
 //     resolved at simulation runtime)
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -53,8 +53,8 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
-#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -72,14 +72,14 @@ class EnumFirstTest : public Test {
 };
 
 TEST_F(EnumFirstTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Module typespec -- TypedefTypespec "e" -> EnumTypespec with 4 consts
 // ---------------------------------------------------------------------------
 TEST_F(EnumFirstTest, TypedefEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -89,7 +89,7 @@ TEST_F(EnumFirstTest, TypedefEExists) {
 }
 
 TEST_F(EnumFirstTest, EnumHasFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -111,7 +111,7 @@ TEST_F(EnumFirstTest, EnumHasFourConsts) {
 // Variable "val" -- declared with inline initializer EnumConst "a"
 // ---------------------------------------------------------------------------
 TEST_F(EnumFirstTest, ValVariableDeclaredWithInitA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -133,7 +133,7 @@ TEST_F(EnumFirstTest, ValVariableDeclaredWithInitA) {
 // Assignment: val = val.first() -- rhs is MethodFuncCall "first" (prefix "val", IEEE 1800-2023 37.42)
 // ---------------------------------------------------------------------------
 TEST_F(EnumFirstTest, AssignmentRhsIsCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -151,7 +151,7 @@ TEST_F(EnumFirstTest, AssignmentRhsIsCall) {
 }
 
 TEST_F(EnumFirstTest, CallReceiverAndMethod) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -169,7 +169,7 @@ TEST_F(EnumFirstTest, CallReceiverAndMethod) {
 }
 
 TEST_F(EnumFirstTest, CallReceiverResolvesToVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -186,7 +186,7 @@ TEST_F(EnumFirstTest, CallReceiverResolvesToVariable) {
 }
 
 TEST_F(EnumFirstTest, FirstCallBindsToBuiltinEnumTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

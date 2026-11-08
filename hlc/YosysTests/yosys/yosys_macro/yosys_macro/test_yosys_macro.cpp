@@ -35,7 +35,7 @@ class YoysysTestsMacroTest : public Test {
 
 // LRM 22.5.1: the top module that exercises macro expansions must compile.
 TEST_F(YoysysTestsMacroTest, TopModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'top' must compile";
 }
 
@@ -50,7 +50,7 @@ TEST_F(YoysysTestsMacroTest, NoMacroDefinitionsInTopV) {
 
 // top.v: `timescale 1ns/10ps -> time unit 1ns (-9), time precision 10ps (-11).
 TEST_F(YoysysTestsMacroTest, TimescaleIsSetOnModule) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(module->getTimeUnit(), -9);
   EXPECT_EQ(module->getTimePrecision(), -11);
@@ -60,7 +60,7 @@ TEST_F(YoysysTestsMacroTest, TimescaleIsSetOnModule) {
 // data type; per IEEE 1800-2023 Sec 23.2.2.3, input ports always default to
 // a net of the default net type (wire), regardless of data type.
 TEST_F(YoysysTestsMacroTest, InputPortsAreWireNets) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr);
   for (const char *const name : {"clk", "rst", "a"}) {
     const hldb::Net *const n = hldb::findByName<hldb::Net>(name, module->getNets());
@@ -76,7 +76,7 @@ TEST_F(YoysysTestsMacroTest, InputPortsAreWireNets) {
 // an output port whose data type is declared with the explicit data_type
 // syntax defaults to a variable, not a net.
 TEST_F(YoysysTestsMacroTest, OutputPortWithExplicitRegIsVariable) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("x", module->getVariables());
   EXPECT_NE(v, nullptr) << "output port 'x' has an explicit 'reg' data type and must be a Variable (Sec 23.2.2.3)";

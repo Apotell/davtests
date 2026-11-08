@@ -65,7 +65,7 @@ class SequenceMethodCallTest : public Test {
 
  protected:
   const hldb::Module *getModule() const {
-    return hldb::findByName<hldb::Module>("sequence_method_call", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("sequence_method_call", m_design->getAllModules());
   }
 
   const hldb::SequenceDecl *findSeq(std::string_view name) const {

@@ -98,6 +98,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -143,7 +144,8 @@ class RandomProductionWeights0Test : public Test {
  protected:
   // A subroutine declared at compilation-unit scope (design level or the $unit package).
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
-    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_design->getTaskFuncs())) return tf;
+    if (m_unit == nullptr) return nullptr;
+    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
     if (m_design->getAllPackages() != nullptr) {
       for (const hldb::Package *const pkg : *m_design->getAllPackages()) {
         if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, pkg->getTaskFuncs())) return tf;

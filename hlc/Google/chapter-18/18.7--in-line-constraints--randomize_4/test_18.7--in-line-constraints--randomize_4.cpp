@@ -317,6 +317,7 @@
 #include <hldb/tf_call.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -343,7 +344,7 @@ class InLineConstraintsRandomize4Test : public Test {
     if (pkg == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::ClassDefn>(name, pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, pkg->getClassDefns());
   }
 
   static const hldb::Function *getUvmEnvNew() {
@@ -365,7 +366,7 @@ class InLineConstraintsRandomize4Test : public Test {
   // --- class a ------------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassAX() {
@@ -379,10 +380,7 @@ class InLineConstraintsRandomize4Test : public Test {
   // --- function F ---------------------------------------------------------
 
   static const hldb::Function *getF() {
-    if (m_design->getTaskFuncs() == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::Function>("F", m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Function>("F", m_unit->getTaskFuncs());
   }
 
   // 37.15: a reference to a formal resolves to the Variable holding it,
@@ -449,7 +447,9 @@ class InLineConstraintsRandomize4Test : public Test {
 
   // --- class env ----------------------------------------------------------
 
-  static const hldb::ClassDefn *getEnv() { return hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()); }
+  static const hldb::ClassDefn *getEnv() {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
+  }
 
   static const hldb::Variable *getEnvProperty(std::string_view name) {
     const hldb::ClassDefn *const env = getEnv();
@@ -502,7 +502,7 @@ class InLineConstraintsRandomize4Test : public Test {
 
   // --- module top ---------------------------------------------------------
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Variable *getEnvironment() {
     const hldb::Module *const top = getTop();
@@ -783,9 +783,10 @@ TEST_F(InLineConstraintsRandomize4Test, UvmPkgProvidesTheNamesTheFileUses) {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize4Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";
@@ -832,9 +833,10 @@ TEST_F(InLineConstraintsRandomize4Test, ClassAHasOneRandIntPropertyX) {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize4Test, FIsCompilationUnitFunctionReturningInt) {
-  ASSERT_NE(m_design->getTaskFuncs(), nullptr) << "3.12.1: F is declared in the compilation unit";
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getTaskFuncs(), nullptr) << "3.12.1: F is declared in the compilation unit";
   size_t count = 0;
-  for (const hldb::TaskFunc *const tf : *m_design->getTaskFuncs()) {
+  for (const hldb::TaskFunc *const tf : *m_unit->getTaskFuncs()) {
     if (tf->getName() == "F") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares function 'F' exactly once";
@@ -929,9 +931,10 @@ TEST_F(InLineConstraintsRandomize4Test, YInWithBindsToFormalOfF) {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize4Test, ClassEnvIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "env") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'env' exactly once";

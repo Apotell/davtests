@@ -66,9 +66,9 @@
 #include <hldb/constant.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
-#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
@@ -85,7 +85,7 @@ class GenIfTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // module -> getGenStmts() -> GenRegion -> its GenFor statement

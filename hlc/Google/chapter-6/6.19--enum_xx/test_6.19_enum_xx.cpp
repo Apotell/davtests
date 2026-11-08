@@ -41,9 +41,9 @@
 #include <hldb/enum_typespec.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -55,14 +55,14 @@ class EnumXxTest : public Test {
 };
 
 TEST_F(EnumXxTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // EnumTypespec with explicit base type: integer
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxTest, EnumBaseTypeIsInteger) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -80,7 +80,7 @@ TEST_F(EnumXxTest, EnumBaseTypeIsInteger) {
 // 3 consts: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxTest, EnumHasThreeConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -97,7 +97,7 @@ TEST_F(EnumXxTest, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumXxTest, ConstAValueIsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -113,7 +113,7 @@ TEST_F(EnumXxTest, ConstAValueIsZero) {
 }
 
 TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -142,7 +142,7 @@ TEST_F(EnumXxTest, ConstBValueIsMultiConcatOperation) {
 }
 
 TEST_F(EnumXxTest, ConstCValueIsOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::EnumTypespec *enumTs = nullptr;
   for (const auto *ts : *top->getTypespecs()) {
@@ -161,7 +161,7 @@ TEST_F(EnumXxTest, ConstCValueIsOne) {
 // Variable "val" -> EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxTest, VariableValExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
@@ -169,7 +169,7 @@ TEST_F(EnumXxTest, VariableValExists) {
 }
 
 TEST_F(EnumXxTest, VariableValHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
@@ -177,7 +177,7 @@ TEST_F(EnumXxTest, VariableValHasNoInitialValue) {
 }
 
 TEST_F(EnumXxTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

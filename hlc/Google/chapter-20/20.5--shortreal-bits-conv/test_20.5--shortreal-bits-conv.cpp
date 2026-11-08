@@ -90,7 +90,7 @@ class ShortRealBitsConvFunctionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getModule() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Variable *getShortRealVariable() {
     const hldb::Module *const mod = getModule();

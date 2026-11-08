@@ -73,11 +73,11 @@ class EnumNumericalExprTest : public Test {
 };
 
 TEST_F(EnumNumericalExprTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumNumericalExprTest, TypedefEWithFourConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -99,7 +99,7 @@ TEST_F(EnumNumericalExprTest, TypedefEWithFourConsts) {
 // Begin block -- 2 variables: i (IntegerTypespec) and val (TypedefTypespec)
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprTest, BeginHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -110,7 +110,7 @@ TEST_F(EnumNumericalExprTest, BeginHasTwoVariables) {
 }
 
 TEST_F(EnumNumericalExprTest, IVariableIsIntegerType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -123,7 +123,7 @@ TEST_F(EnumNumericalExprTest, IVariableIsIntegerType) {
 }
 
 TEST_F(EnumNumericalExprTest, ValVariableIsTypedefType) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -139,7 +139,7 @@ TEST_F(EnumNumericalExprTest, ValVariableIsTypedefType) {
 // Statements -- 2 assignments
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprTest, TwoStatements) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -150,7 +150,7 @@ TEST_F(EnumNumericalExprTest, TwoStatements) {
 }
 
 TEST_F(EnumNumericalExprTest, FirstAssignmentValEqualsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -169,7 +169,7 @@ TEST_F(EnumNumericalExprTest, FirstAssignmentValEqualsA) {
 // 2nd assignment: i = val * 4 -- rhs is Operation(multiply, val, 4)
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumericalExprTest, SecondAssignmentRhsIsMultiplyOp) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -184,7 +184,7 @@ TEST_F(EnumNumericalExprTest, SecondAssignmentRhsIsMultiplyOp) {
 }
 
 TEST_F(EnumNumericalExprTest, MultiplyOperandsAreValAnd4) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -205,7 +205,7 @@ TEST_F(EnumNumericalExprTest, MultiplyOperandsAreValAnd4) {
 }
 
 TEST_F(EnumNumericalExprTest, MultiplyConstant4IsIntConst) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -224,7 +224,7 @@ TEST_F(EnumNumericalExprTest, MultiplyConstant4IsIntConst) {
 }
 
 TEST_F(EnumNumericalExprTest, MultiplyOpHasNoStaticResultTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

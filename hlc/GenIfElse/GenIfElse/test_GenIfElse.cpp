@@ -56,10 +56,10 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_if_else.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -74,7 +74,7 @@ class GenIfElseTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // top->getGenStmts() -> GenIfElse directly (no surrounding GenBlock).

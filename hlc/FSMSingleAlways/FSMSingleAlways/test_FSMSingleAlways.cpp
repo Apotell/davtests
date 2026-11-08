@@ -105,7 +105,7 @@ class FSMSingleAlwaysTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("fsm_using_single_always", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("fsm_using_single_always", m_design->getAllModules());
   }
 
   static const hldb::Parameter *getParameter(std::string_view name) {

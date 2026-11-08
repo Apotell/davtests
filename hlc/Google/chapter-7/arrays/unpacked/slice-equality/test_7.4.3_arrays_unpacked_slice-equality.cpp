@@ -97,12 +97,12 @@ class UnpackedSliceEqualityTest : public Test {
 // --- module / variables ----
 
 TEST_F(UnpackedSliceEqualityTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedSliceEqualityTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u)
@@ -110,7 +110,7 @@ TEST_F(UnpackedSliceEqualityTest, ModuleHasTwoVariables) {
 }
 
 TEST_F(UnpackedSliceEqualityTest, ModuleHasNoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in slice-equality.sv";
 }
@@ -118,7 +118,7 @@ TEST_F(UnpackedSliceEqualityTest, ModuleHasNoNets) {
 // --- initial process ----
 
 TEST_F(UnpackedSliceEqualityTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -131,7 +131,7 @@ TEST_F(UnpackedSliceEqualityTest, InitialBeginHasSixStmts) {
 }
 
 TEST_F(UnpackedSliceEqualityTest, FirstTwoStmtsAssignPatternLiterals) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -158,7 +158,7 @@ TEST_F(UnpackedSliceEqualityTest, FirstTwoStmtsAssignPatternLiterals) {
 }
 
 TEST_F(UnpackedSliceEqualityTest, FifthStmtArgIsEqualOperationOnPartSelects) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -191,7 +191,7 @@ TEST_F(UnpackedSliceEqualityTest, FifthStmtArgIsEqualOperationOnPartSelects) {
 }
 
 TEST_F(UnpackedSliceEqualityTest, SixthStmtArgIsNotEqualOperationOnPartSelects) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -217,14 +217,20 @@ TEST_F(UnpackedSliceEqualityTest, SixthStmtArgIsNotEqualOperationOnPartSelects) 
 
 TEST_F(UnpackedSliceEqualityTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedSliceEqualityTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *st = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((st = any_cast<hldb::StringTypespec>(ts))) {
+      break;
+    }
+  }
+  EXPECT_NE(st, nullptr);
 }
 
 TEST_F(UnpackedSliceEqualityTest, CompilerReportsZeroErrors) {
@@ -237,7 +243,7 @@ TEST_F(UnpackedSliceEqualityTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedSliceEqualityTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -246,7 +252,7 @@ TEST_F(UnpackedSliceEqualityTest, NoContAssigns) {
 
 TEST_F(UnpackedSliceEqualityTest, RuntimeSliceComparisonResultsRequireSimulation) {
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

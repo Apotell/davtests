@@ -48,6 +48,7 @@
 #include <hldb/module.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
+#include <hldb/unit.h>
 
 #include <string>
 #include <string_view>
@@ -61,7 +62,7 @@ class FileLocalParamTest : public Test {
 
  protected:
   static const hldb::Parameter *findUnitParam(std::string_view name) {
-    return hldb::findByName<hldb::Parameter>(name, m_design->getParameters());
+    return hldb::findByName<hldb::Parameter>(name, m_unit->getParameters());
   }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Module *getGood() {
@@ -75,6 +76,7 @@ TEST_F(FileLocalParamTest, ModuleTopExists) { ASSERT_NE(getTop(), nullptr) << "m
 
 // 'localparam AWIDTH = 16;' at $unit scope.
 TEST_F(FileLocalParamTest, AwidthIsUnitScopedLocalParam) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Parameter *const p = findUnitParam("AWIDTH");
   ASSERT_NE(p, nullptr) << "'AWIDTH' not found at compilation-unit scope";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: 'localparam AWIDTH' must not be overridable";
@@ -87,6 +89,7 @@ TEST_F(FileLocalParamTest, AwidthIsUnitScopedLocalParam) {
 // 'localparam [AWIDTH:0] MAP = { AWIDTH };' at $unit scope -- also
 // non-overridable per 6.20.4, referencing 'AWIDTH' in its own packed range.
 TEST_F(FileLocalParamTest, MapIsUnitScopedLocalParam) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Parameter *const p = findUnitParam("MAP");
   ASSERT_NE(p, nullptr) << "'MAP' not found at compilation-unit scope";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4: 'localparam MAP' must not be overridable";

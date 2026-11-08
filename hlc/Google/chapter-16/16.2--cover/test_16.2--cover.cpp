@@ -97,19 +97,19 @@ class CoverTest : public Test {
 // ... All tests belonging to CoverTest go here!
 
 TEST_F(CoverTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(CoverTest, VariableADeclared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   EXPECT_NE(a, nullptr) << "'logic a = 1;' should declare a Variable named 'a'";
 }
 
 TEST_F(CoverTest, InitialBindsCoverDirectlyWithNoBeginWrapper) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module top has exactly one process (the initial block)";
@@ -126,7 +126,7 @@ TEST_F(CoverTest, InitialBindsCoverDirectlyWithNoBeginWrapper) {
 }
 
 TEST_F(CoverTest, CoverIsPlainImmediateCover) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -139,7 +139,7 @@ TEST_F(CoverTest, CoverIsPlainImmediateCover) {
 }
 
 TEST_F(CoverTest, CoverConditionIsNotEqualComparison) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -159,7 +159,7 @@ TEST_F(CoverTest, CoverConditionIsNotEqualComparison) {
 }
 
 TEST_F(CoverTest, CoverHasNoPassStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

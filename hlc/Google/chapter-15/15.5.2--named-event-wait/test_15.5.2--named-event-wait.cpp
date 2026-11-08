@@ -107,6 +107,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <hlc/Tests/Test.h>
@@ -120,22 +121,23 @@ class NamedEventWaitTest : public Test {
 // ... All tests belonging to NamedEventWaitTest go here!
 
 TEST_F(NamedEventWaitTest, ModuleInnerExists) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr) << "module 'inner' not found";
 }
 
 TEST_F(NamedEventWaitTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(NamedEventWaitTest, ClassFooExists) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr) << "class 'foo' not found";
 }
 
 TEST_F(NamedEventWaitTest, TopEventDeclarationShouldBeNamedEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   EXPECT_NE(e, nullptr) << "event 'e' should be a NamedEvent per IEEE 1800-2023 Sec 6.7; HLC currently "
@@ -144,7 +146,8 @@ TEST_F(NamedEventWaitTest, TopEventDeclarationShouldBeNamedEvent) {
 }
 
 TEST_F(NamedEventWaitTest, ClassFooEventDeclarationShouldBeNamedEvent) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", foo->getNamedEvents());
   EXPECT_NE(e, nullptr) << "class foo's field 'e' should be a NamedEvent per IEEE 1800-2023 Sec 6.7; "
@@ -152,7 +155,7 @@ TEST_F(NamedEventWaitTest, ClassFooEventDeclarationShouldBeNamedEvent) {
 }
 
 TEST_F(NamedEventWaitTest, InnerInitialHasSingleEventControlWithNoControlledStmt) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getProcesses(), nullptr);
   ASSERT_EQ(inner->getProcesses()->size(), 1u) << "module inner should have exactly one process (the initial block)";
@@ -170,9 +173,9 @@ TEST_F(NamedEventWaitTest, InnerInitialHasSingleEventControlWithNoControlledStmt
 }
 
 TEST_F(NamedEventWaitTest, InnerHierarchicalEventReferenceResolvesTopAndEvent) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr);
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Initial *const init = any_cast<hldb::Initial>(inner->getProcesses()->front());
@@ -203,7 +206,7 @@ TEST_F(NamedEventWaitTest, InnerHierarchicalEventReferenceResolvesTopAndEvent) {
 }
 
 TEST_F(NamedEventWaitTest, TopInitialWrapsSingleEventControlInBegin) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -233,7 +236,8 @@ TEST_F(NamedEventWaitTest, TopInitialWrapsSingleEventControlInBegin) {
 }
 
 TEST_F(NamedEventWaitTest, ClassFooWaitETaskBodyIsEventControlOnOwnEventField) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr);
   ASSERT_NE(foo->getMethods(), nullptr);
   ASSERT_EQ(foo->getMethods()->size(), 1u) << "class foo declares exactly one method: wait_e()";
@@ -258,7 +262,7 @@ TEST_F(NamedEventWaitTest, ClassFooWaitETaskBodyIsEventControlOnOwnEventField) {
   // resolves to that class's own field, not any module-level declaration of
   // the same name -- confirm the resolved target is scoped to class foo, not
   // to module top's unrelated "e".
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const topsEvent = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   ASSERT_NE(topsEvent, nullptr) << "module top's 'e' should be locatable as a Variable (see gap note above)";

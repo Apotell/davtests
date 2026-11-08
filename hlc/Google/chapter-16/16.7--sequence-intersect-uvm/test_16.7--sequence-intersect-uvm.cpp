@@ -180,6 +180,7 @@
 #include <hldb/sequence_decl.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 
 #include <hlc/Tests/Test.h>
 
@@ -229,13 +230,15 @@ class SequenceIntersectUvmTest : public Test {
 // ... All tests belonging to SequenceIntersectUvmTest go here!
 
 TEST_F(SequenceIntersectUvmTest, ModuleModAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod", m_design->getAllModules()), nullptr) << "module 'mod' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod", m_design->getAllModules()), nullptr) << "module 'mod' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(SequenceIntersectUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -250,14 +253,14 @@ TEST_F(SequenceIntersectUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask)
 }
 
 TEST_F(SequenceIntersectUvmTest, SequenceSeqDeclaredInModuleTop) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr) << "sequence 'seq' not found in module top";
 }
 
 TEST_F(SequenceIntersectUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -280,7 +283,7 @@ TEST_F(SequenceIntersectUvmTest, SequenceExprIsIntersectOfFixedAndRangedCycleDel
   GTEST_SKIP() << "nested cycle-delay opType != vpiUnaryCycleDelayOp; wrong constant vs. HLC gap not yet "
                   "determined -- see test_16.7--sequence-and-uvm.cpp.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -317,7 +320,7 @@ TEST_F(SequenceIntersectUvmTest, SequenceExprIsIntersectOfFixedAndRangedCycleDel
 }
 
 TEST_F(SequenceIntersectUvmTest, AssertPropertyIsReachableAndReferencesSeq) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

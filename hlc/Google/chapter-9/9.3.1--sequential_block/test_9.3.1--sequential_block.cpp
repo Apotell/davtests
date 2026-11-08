@@ -86,7 +86,7 @@ class SequentialBlockTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("sequential_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("sequential_tb", m_design->getAllModules());
   }
 
   static const hldb::Variable *getVariable(std::string_view name) {

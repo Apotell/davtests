@@ -154,6 +154,7 @@
 #include <hldb/type_parameter.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -279,10 +280,7 @@ class IfaceClassTest2Test : public Test {
   // as for every parameterized design unit in this suite (see
   // GenBlockVar and 8.8--typed_constructor_param).
   static const hldb::ClassDefn *getBaseIc() {
-    if (m_design == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByDefName<hldb::ClassDefn>("base_ic", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("base_ic", m_unit->getClassDefns());
   }
 
   // The module definition test, or nullptr.
@@ -290,7 +288,7 @@ class IfaceClassTest2Test : public Test {
     if (m_design == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   }
 
   // The value parameter N of base_ic, or nullptr.
@@ -348,8 +346,8 @@ TEST_F(IfaceClassTest2Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // user-defined (37.29 vpiClassType), and the 'interface' keyword makes it
 // an interface class (8.26).
 TEST_F(IfaceClassTest2Test, BaseIcIsUserDefinedInterfaceClass) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countDefNamed(m_design->getAllClasses(), "base_ic"), 1u) << "base_ic is declared exactly once";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countDefNamed(m_unit->getClassDefns(), "base_ic"), 1u) << "base_ic is declared exactly once";
 
   const hldb::ClassDefn *const baseIc = getBaseIc();
   ASSERT_NE(baseIc, nullptr);
@@ -453,26 +451,29 @@ TEST_F(IfaceClassTest2Test, TestModuleIsEmpty) {
 // base_ic is the only class, and it is in no package.
 TEST_F(IfaceClassTest2Test, NoOtherDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u) << "base_ic is the only class";
+  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u) << "base_ic is the only class";
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) other than base_ic is declared: no
 // subroutine, let, parameter, variable or typedef.
 TEST_F(IfaceClassTest2Test, NoCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // 23.3.1: test is never instantiated, so it is a top-level module,
@@ -485,7 +486,7 @@ TEST_F(IfaceClassTest2Test, TestIsTheTopLevelModule) {
 
   if (m_design->getElaborated()) {
     ASSERT_EQ(countFromSourceFile(m_design->getTopModules()), 1u) << "23.3.1: test is the only top-level module";
-    const hldb::Module *const topInstance = hldb::findByName<hldb::Module>("test", m_design->getTopModules());
+    const hldb::Module *const topInstance = hldb::findByDefName<hldb::Module>("test", m_design->getTopModules());
     ASSERT_NE(topInstance, nullptr) << "23.3.1: the top instance is named after module test";
     EXPECT_TRUE(topInstance->getTopModule()) << "23.3.1: test is never instantiated, so it is a top-level module";
   } else {

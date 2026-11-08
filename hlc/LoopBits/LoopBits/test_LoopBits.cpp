@@ -91,8 +91,8 @@
 #include <hldb/constant.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
-#include <hldb/gen_if.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_if.h>
 #include <hldb/gen_region.h>
 #include <hldb/initial.h>
 #include <hldb/logic_typespec.h>
@@ -119,7 +119,7 @@ class LoopBitsTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // Module: generate region -> if (S) begin : a

@@ -64,6 +64,7 @@
 #include <hldb/typespec_member.h>
 #include <hldb/union.h>
 #include <hldb/union_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/vpi_user.h>
 
 #include <string_view>
@@ -83,8 +84,8 @@ class FileTypespecTest : public Test {
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Typedef *findUnitTypedef(std::string_view name) {
-    if (m_design->getTypedefs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Typedef>(name, m_design->getTypedefs());
+    if (m_unit->getTypedefs() == nullptr) return nullptr;
+    return hldb::findByName<hldb::Typedef>(name, m_unit->getTypedefs());
   }
 };
 
@@ -97,6 +98,7 @@ TEST_F(FileTypespecTest, ModuleTopExists) { ASSERT_NE(getTop(), nullptr) << "mod
 
 // 'padded_fooes_t' declared at $unit scope, not inside any package.
 TEST_F(FileTypespecTest, PaddedFooesTIsUnitScopedTypedef) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = findUnitTypedef("padded_fooes_t");
   ASSERT_NE(td, nullptr) << "'padded_fooes_t' not found at compilation-unit scope";
   ASSERT_NE(td->getAlias(), nullptr);
@@ -109,6 +111,7 @@ TEST_F(FileTypespecTest, PaddedFooesTIsUnitScopedTypedef) {
 // members are each declared/typed differently (one refers into a package,
 // the other refers to the sibling unit-scoped typedef above).
 TEST_F(FileTypespecTest, TopFlagTIsUnitScopedPackedUnionWithTwoMembers) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = findUnitTypedef("top_flag_t");
   ASSERT_NE(td, nullptr) << "'top_flag_t' not found at compilation-unit scope";
   ASSERT_NE(td->getAlias(), nullptr);

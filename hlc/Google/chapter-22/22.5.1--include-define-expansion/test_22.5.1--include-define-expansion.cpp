@@ -142,6 +142,7 @@
 #include <hldb/source_file.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -383,6 +384,7 @@ TEST_F(IncludeDefineExpansionTest, MacroUsage) {
 // (33.3.1) either.
 TEST_F(IncludeDefineExpansionTest, NoDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   const std::vector<std::string_view> fileNames = {kSourceFileName, kIncludedFileName};
   for (std::string_view fileName : fileNames) {
@@ -394,11 +396,12 @@ TEST_F(IncludeDefineExpansionTest, NoDesignObjectsDeclared) {
     EXPECT_EQ(countFromFile(m_design->getAllClasses(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getAllUdps(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getConfigs(), fileName), 0u) << fileName;
-    EXPECT_EQ(countFromFile(m_design->getCheckerDecls(), fileName), 0u) << fileName;
-    EXPECT_EQ(countFromFile(m_design->getParameters(), fileName), 0u) << fileName;
-    EXPECT_EQ(countFromFile(m_design->getVariables(), fileName), 0u) << fileName;
-    EXPECT_EQ(countFromFile(m_design->getTypedefs(), fileName), 0u) << fileName;
     EXPECT_EQ(countFromFile(m_design->getIncludeStmts(), fileName), 0u) << fileName;
+
+    EXPECT_EQ(countFromFile(m_unit->getCheckerDecls(), fileName), 0u) << fileName;
+    EXPECT_EQ(countFromFile(m_unit->getParameters(), fileName), 0u) << fileName;
+    EXPECT_EQ(countFromFile(m_unit->getVariables(), fileName), 0u) << fileName;
+    EXPECT_EQ(countFromFile(m_unit->getTypedefs(), fileName), 0u) << fileName;
   }
 }
 }  // namespace hlc

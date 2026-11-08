@@ -108,7 +108,7 @@ class LongHexTest : public Test {
     return hldb::findByName<hldb::Package>("aes_pkg", m_design->getAllPackages());
   }
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
   static const hldb::Parameter *getPkgParam() {
     const hldb::Package *const pkg = getPkg();

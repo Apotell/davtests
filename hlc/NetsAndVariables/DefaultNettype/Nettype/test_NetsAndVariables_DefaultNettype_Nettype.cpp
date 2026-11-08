@@ -52,7 +52,7 @@ class DefaultNettypeTest : public Test {
 
  protected:
   static const hldb::Module *getModule(const char *const name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 };
 

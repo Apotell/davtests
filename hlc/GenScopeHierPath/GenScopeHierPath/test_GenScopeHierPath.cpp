@@ -78,9 +78,9 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
 #include <hldb/bit_select.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -102,7 +102,7 @@ class GenScopeHierPathTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   static const hldb::GenFor *findGenFor(const hldb::Module *m) {
@@ -198,7 +198,7 @@ TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
   // ASSERT_NE(gf->getModules(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
-  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // const hldb::Module *const inst = hldb::findByDefName<hldb::Module>("u_prim_pad_attr", gf->getModules());
   // ASSERT_NE(inst, nullptr);
   // EXPECT_EQ(inst->getDefName(), std::string_view("prim_pad_attr"));
   const hldb::GenBlock *const block = getGenDioAttr();
@@ -220,7 +220,7 @@ TEST_F(GenScopeHierPathTest, PadTypeOverrideReferencesLoopScopedK) {
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
   // ASSERT_NE(gf->getModules(), nullptr);
-  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // const hldb::Module *const inst = hldb::findByDefName<hldb::Module>("u_prim_pad_attr", gf->getModules());
   // ASSERT_NE(inst, nullptr);
   //
   // ASSERT_NE(inst->getParamAssigns(), nullptr);

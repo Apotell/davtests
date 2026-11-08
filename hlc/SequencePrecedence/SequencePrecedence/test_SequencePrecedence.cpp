@@ -53,7 +53,7 @@ class SequencePrecedenceTest : public Test {
 
  protected:
   const hldb::Operation *seqOp(std::string_view name) const {
-    const hldb::Module *mod = hldb::findByName<hldb::Module>("sequence_precedence", m_design->getAllModules());
+    const hldb::Module *mod = hldb::findByDefName<hldb::Module>("sequence_precedence", m_design->getAllModules());
     if (mod == nullptr) return nullptr;
     const hldb::SequenceDecl *sd = hldb::findByName<hldb::SequenceDecl>(name, mod->getSequenceDecls());
     if (sd == nullptr) return nullptr;

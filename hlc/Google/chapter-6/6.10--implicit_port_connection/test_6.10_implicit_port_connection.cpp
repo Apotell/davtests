@@ -117,18 +117,18 @@ TEST_F(ImplicitPortConnectionTest, TwoModulesExist) {
 // top -- net declarations (a, b, d explicit; c implicit)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnectionTest, TopModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ImplicitPortConnectionTest, TopHasThreeNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, d -- 'c' is implicit and absent from vpiNet";
 }
 
 TEST_F(ImplicitPortConnectionTest, TopANetHasInitialValueOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr) << "net 'a' not found in top";
@@ -138,7 +138,7 @@ TEST_F(ImplicitPortConnectionTest, TopANetHasInitialValueOne) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopBNetHasInitialValueZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr) << "net 'b' not found in top";
@@ -148,13 +148,13 @@ TEST_F(ImplicitPortConnectionTest, TopBNetHasInitialValueZero) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopDNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("d", top->getNets()), nullptr) << "net 'd' not found in top";
 }
 
 TEST_F(ImplicitPortConnectionTest, CIsNotMaterializedAsNetInTop) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
@@ -169,7 +169,7 @@ TEST_F(ImplicitPortConnectionTest, CIsNotMaterializedAsNetInTop) {
 // top -- assign d = c (RHS 'c' stays an unresolved RefObj -- non-elaborated model)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnectionTest, TopContAssignLhsIsD) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 1u);
@@ -180,7 +180,7 @@ TEST_F(ImplicitPortConnectionTest, TopContAssignLhsIsD) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopContAssignRhsCStaysUnresolvedRefObj) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -197,14 +197,14 @@ TEST_F(ImplicitPortConnectionTest, TopContAssignRhsCStaysUnresolvedRefObj) {
 // top -- module instantiation: test mod(a, b, c)
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnectionTest, TopHasOneRefInstance) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr) << "top has no ref instances";
   EXPECT_EQ(top->getRefInstances()->size(), 1u);
 }
 
 TEST_F(ImplicitPortConnectionTest, TopRefInstanceIsNamedMod) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -214,7 +214,7 @@ TEST_F(ImplicitPortConnectionTest, TopRefInstanceIsNamedMod) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopRefInstanceHasThreePorts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -225,7 +225,7 @@ TEST_F(ImplicitPortConnectionTest, TopRefInstanceHasThreePorts) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopPortCConnectionHasNoActual) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -247,7 +247,7 @@ TEST_F(ImplicitPortConnectionTest, TopPortCConnectionHasNoActual) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopRefInstanceModPointsToWorkAtTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
@@ -262,11 +262,11 @@ TEST_F(ImplicitPortConnectionTest, TopRefInstanceModPointsToWorkAtTest) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TopRefInstanceModTypespecGetModuleIsNull) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
 
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
 
   const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(top->getRefInstances()->at(0));
@@ -283,25 +283,25 @@ TEST_F(ImplicitPortConnectionTest, TopRefInstanceModTypespecGetModuleIsNull) {
 // test -- module definition with ports and assign c = a | b
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortConnectionTest, TestModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ImplicitPortConnectionTest, TestHasThreeNets) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getNets(), nullptr);
   EXPECT_EQ(test->getNets()->size(), 3u) << "expected nets a, b, c in test";
 }
 
 TEST_F(ImplicitPortConnectionTest, TestHasThreePorts) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
   EXPECT_EQ(test->getPorts()->size(), 3u);
 }
 
 TEST_F(ImplicitPortConnectionTest, TestPortAIsInput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
@@ -311,7 +311,7 @@ TEST_F(ImplicitPortConnectionTest, TestPortAIsInput) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TestPortBIsInput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
@@ -321,7 +321,7 @@ TEST_F(ImplicitPortConnectionTest, TestPortBIsInput) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TestPortCIsOutput) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getPorts(), nullptr);
 
@@ -331,7 +331,7 @@ TEST_F(ImplicitPortConnectionTest, TestPortCIsOutput) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TestContAssignRhsIsBitOr) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getContAssigns(), nullptr);
   ASSERT_EQ(test->getContAssigns()->size(), 1u);
@@ -342,7 +342,7 @@ TEST_F(ImplicitPortConnectionTest, TestContAssignRhsIsBitOr) {
 }
 
 TEST_F(ImplicitPortConnectionTest, TestBitOrOperandsAreAAndB) {
-  const hldb::Module *const test = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const test = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(test, nullptr);
   ASSERT_NE(test->getContAssigns(), nullptr);
 

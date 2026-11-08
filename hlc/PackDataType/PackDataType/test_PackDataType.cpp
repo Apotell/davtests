@@ -227,7 +227,7 @@ class PackDataTypeTest : public Test {
   }
 
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   static const hldb::Variable *getVar(std::string_view name) {
@@ -598,7 +598,7 @@ TEST_F(PackDataTypeTest, KeymgrDigestElementIsLogicKeyMgrDigestWMinus1To0) {
 
 TEST_F(PackDataTypeTest, KeyMgrDigestWReducesTo247) {
   if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "kmac_keymgr is a top-level instance";
     const hldb::Parameter *const pa = getParameter(top, "KeyMgrDigestW");
     ASSERT_NE(pa, nullptr) << "no Parameter for 'KeyMgrDigestW' in the elaborated kmac_keymgr";
@@ -617,7 +617,7 @@ TEST_F(PackDataTypeTest, KmacKeymgrIsTheOnlyTopLevelInstance) {
 
 TEST_F(PackDataTypeTest, IfGenerateInstantiatesOkInGenblk1) {
   if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
     const hldb::GenScopeArray *const gen = hldb::findByName<hldb::GenScopeArray>("genblk1", top->getGenScopeArrays());
     ASSERT_NE(gen, nullptr) << "27.5, 27.6: 247 == 247, so the unnamed block of the first generate construct, "
@@ -637,7 +637,7 @@ TEST_F(PackDataTypeTest, IfGenerateInstantiatesOkInGenblk1) {
 
 TEST_F(PackDataTypeTest, KeymgrDigestElementReducesTo246To0) {
   if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("kmac_keymgr", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
     const hldb::Variable *const v = hldb::findByName<hldb::Variable>("keymgr_digest", top->getVariables());
     ASSERT_NE(v, nullptr) << "'keymgr_digest' not found in the elaborated kmac_keymgr";

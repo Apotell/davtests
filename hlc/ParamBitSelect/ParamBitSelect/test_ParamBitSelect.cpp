@@ -158,7 +158,7 @@ class ParamBitSelectTest : public Test {
   // Whether an instance named 'name' exists in 'scope' or below it.
   static bool hasInstance(const hldb::GenScope *scope, std::string_view name) {
     if (scope == nullptr) return false;
-    if (hldb::findByName<hldb::Module>(name, scope->getModules()) != nullptr) return true;
+    if (hldb::findByDefName<hldb::Module>(name, scope->getModules()) != nullptr) return true;
     if (scope->getGenScopeArrays() == nullptr) return false;
     for (const hldb::GenScopeArray *const gsa : *scope->getGenScopeArrays()) {
       if (gsa->getGenScopes() == nullptr) continue;

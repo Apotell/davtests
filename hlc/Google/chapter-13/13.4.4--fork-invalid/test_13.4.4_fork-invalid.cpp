@@ -77,8 +77,8 @@
 //     structural compile-time property
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -108,7 +108,7 @@ class ForkInvalidTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Function *getFun() {
     const hldb::Module *const top = getTop();

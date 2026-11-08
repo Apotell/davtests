@@ -42,7 +42,8 @@ class DefaultNettypeWorTest : public Test {
 };
 
 TEST_F(DefaultNettypeWorTest, ImplicitNetExists) {
-  const hldb::Module *const mod = hldb::findByName<hldb::Module>("default_nettype_wor_test", m_design->getAllModules());
+  const hldb::Module *const mod =
+      hldb::findByDefName<hldb::Module>("default_nettype_wor_test", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("implicit_net_wor", mod->getNets()), nullptr);
 }

@@ -389,7 +389,7 @@ TEST_F(ParamNoImportTest, TReceivesTwo) {
   if (m_design->getElaborated()) {
     const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("dut", m_design->getTopModules());
     ASSERT_NE(dut, nullptr) << "the elaborated dut not found";
-    const hldb::Module *const t = hldb::findByName<hldb::Module>("t", dut->getModules());
+    const hldb::Module *const t = hldb::findByDefName<hldb::Module>("t", dut->getModules());
     ASSERT_NE(t, nullptr) << "the instance t is elaborated";
     ExpectElabParam(t, "PWR_AST_RSP", 2u, "23.10.2.2: '.PWR_AST_RSP(pkg::PWR_AST_RSP_DEFAULT)' = 2'b10");
   }

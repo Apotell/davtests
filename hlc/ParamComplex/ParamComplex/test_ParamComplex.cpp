@@ -436,7 +436,7 @@ TEST_F(ParamComplexTest, Asgn0ReceivesSizeFourAndInitSeven) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const asgn0 = hldb::findByName<hldb::Module>("asgn0", top->getModules());
+    const hldb::Module *const asgn0 = hldb::findByDefName<hldb::Module>("asgn0", top->getModules());
     ASSERT_NE(asgn0, nullptr) << "the instance asgn0 is elaborated";
     ExpectElabParam(asgn0, "size", 4, "20.6.2: $bits(complex_t) = 1 + 3");
     ExpectElabParam(asgn0, "init", 7, "23.10.2.2: '{init_val}' = 4'b0111");

@@ -50,7 +50,7 @@ class CompilerDirectivesPragma : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("ts", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("ts", d->getAllModules());
 }
 
 // ----

@@ -120,12 +120,12 @@ class AssumePropertyTest : public Test {
 // ... All tests belonging to AssumePropertyTest go here!
 
 TEST_F(AssumePropertyTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(AssumePropertyTest, AssumePropertyIsReachable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)
@@ -140,7 +140,7 @@ TEST_F(AssumePropertyTest, AssumePropertyIsReachable) {
 }
 
 TEST_F(AssumePropertyTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondition) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assume *const assumeProp = any_cast<hldb::Assume>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assumeProp, nullptr);
@@ -159,7 +159,7 @@ TEST_F(AssumePropertyTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondit
 }
 
 TEST_F(AssumePropertyTest, PropertyExprIsEqualityOfAAndOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assume *const assumeProp = any_cast<hldb::Assume>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assumeProp, nullptr);

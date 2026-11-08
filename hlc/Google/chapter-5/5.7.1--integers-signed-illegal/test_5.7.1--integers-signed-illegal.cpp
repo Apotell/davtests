@@ -57,7 +57,7 @@ class IntegersSignedIllegal : public Test {
 // reaches UHDM.
 // ----
 TEST_F(IntegersSignedIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
       << "'top' should not exist -- syntax error broke the parse";
 }
 

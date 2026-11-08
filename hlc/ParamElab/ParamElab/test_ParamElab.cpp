@@ -108,8 +108,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -367,7 +367,7 @@ TEST_F(ParamElabTest, MaskWidthIsComputedFromTheOverrides) {
   if (m_design->getElaborated()) {
     const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("dut", m_design->getTopModules());
     ASSERT_NE(dut, nullptr) << "the elaborated dut not found";
-    const hldb::Module *const t = hldb::findByName<hldb::Module>("t", dut->getModules());
+    const hldb::Module *const t = hldb::findByDefName<hldb::Module>("t", dut->getModules());
     ASSERT_NE(t, nullptr) << "the instance t is elaborated";
     ExpectElabParam(t, "Width", 32, "23.10.2.2: '.Width(32)'");
     ExpectElabParam(t, "DataBitsPerMask", 8, "23.10.2.2: '.DataBitsPerMask(8)'");

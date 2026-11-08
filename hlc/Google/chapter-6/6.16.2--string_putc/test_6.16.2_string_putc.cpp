@@ -46,8 +46,8 @@
 //     string methods
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -56,14 +56,14 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
-#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/task_func.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/task_func.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -75,21 +75,21 @@ class StringPutcTest : public Test {
 };
 
 TEST_F(StringPutcTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Variable -- only 'a' (string); putc is void so no result variable 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringPutcTest, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u) << "only variable 'a'; putc is void";
 }
 
 TEST_F(StringPutcTest, AVariableTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -99,7 +99,7 @@ TEST_F(StringPutcTest, AVariableTypespecIsString) {
 }
 
 TEST_F(StringPutcTest, AVariableInitialValueIsTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -113,14 +113,14 @@ TEST_F(StringPutcTest, AVariableInitialValueIsTest) {
 // Initial process -- initial a.putc(2, "B")
 // ---------------------------------------------------------------------------
 TEST_F(StringPutcTest, InitialProcessExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
 TEST_F(StringPutcTest, InitialStmtIsCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -133,7 +133,7 @@ TEST_F(StringPutcTest, InitialStmtIsCall) {
 // Method call -- receiver 'a' and FuncCall 'putc' with 2 arguments
 // ---------------------------------------------------------------------------
 TEST_F(StringPutcTest, CallReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -146,7 +146,7 @@ TEST_F(StringPutcTest, CallReceiverIsA) {
 }
 
 TEST_F(StringPutcTest, CallMethodIsPutc) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -166,7 +166,7 @@ TEST_F(StringPutcTest, CallMethodIsPutc) {
 }
 
 TEST_F(StringPutcTest, PutcFirstArgumentIsTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -183,7 +183,7 @@ TEST_F(StringPutcTest, PutcFirstArgumentIsTwo) {
 }
 
 TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -204,7 +204,7 @@ TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
 // a.putc(2, "B") runtime mutation
 // ---------------------------------------------------------------------------
 TEST_F(StringPutcTest, PutcMutationIsPreEvaluated) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);

@@ -104,12 +104,12 @@ class PropertyDisjTest : public Test {
 // ... All tests belonging to PropertyDisjTest go here!
 
 TEST_F(PropertyDisjTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(PropertyDisjTest, AssertPropertyIsReachable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)
@@ -124,7 +124,7 @@ TEST_F(PropertyDisjTest, AssertPropertyIsReachable) {
 }
 
 TEST_F(PropertyDisjTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondition) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
@@ -143,7 +143,7 @@ TEST_F(PropertyDisjTest, PropertySpecHasPosedgeClockingEventAndNoDisableConditio
 }
 
 TEST_F(PropertyDisjTest, PropertyExprIsLogicalOrOfAAndB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);

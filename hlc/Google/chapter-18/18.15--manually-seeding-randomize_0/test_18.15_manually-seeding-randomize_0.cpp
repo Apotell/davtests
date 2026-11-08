@@ -91,6 +91,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -202,7 +203,7 @@ class ManuallySeedingRandomize0Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 

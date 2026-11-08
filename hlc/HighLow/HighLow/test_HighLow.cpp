@@ -69,9 +69,9 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_if.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -95,7 +95,7 @@ class HighLowTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
     return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());

@@ -149,6 +149,7 @@
 #include <hldb/source_file.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -347,7 +348,6 @@ TEST_F(DefaultNettypeRedefinitionTest, SourceFileHasNoIncludesOrMacros) {
 // nowhere a net, implicit or explicit, could be.
 TEST_F(DefaultNettypeRedefinitionTest, NoDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTopModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
@@ -356,11 +356,12 @@ TEST_F(DefaultNettypeRedefinitionTest, NoDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 }  // namespace hlc
 

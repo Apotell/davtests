@@ -39,7 +39,7 @@ class PreprocStringTest : public Test {
 // module must compile cleanly with no preprocessor diagnostics at all --
 // see NoErrorsReported below for the direct check.
 TEST_F(PreprocStringTest, TestModuleCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'test' must compile";
 }
 

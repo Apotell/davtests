@@ -56,13 +56,12 @@ class FpuRptrMacrosTest : public Test {
 
 // Both modules in fpu_rptr_macros.v must compile cleanly.
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp64Compiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("fpu_bufrpt_grp64", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("fpu_bufrpt_grp64", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'fpu_bufrpt_grp64' must compile";
 }
 
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp32Compiles) {
-  const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("fpu_bufrpt_grp32", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("fpu_bufrpt_grp32", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "module 'fpu_bufrpt_grp32' must compile";
 }
 
@@ -81,7 +80,7 @@ TEST_F(FpuRptrMacrosTest, NoMacroDefinitionsInSourceFile) {
 // has a net-type keyword or an explicit data type, so both default to
 // vpiWire nets (Sec 23.2.2.3), not variables.
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp64PortsAreWireNets) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("fpu_bufrpt_grp64", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("fpu_bufrpt_grp64", m_design->getAllModules());
   ASSERT_NE(module, nullptr);
   const hldb::Net *const in = getPortNet(module, "in");
   if (in != nullptr) EXPECT_EQ(in->getNetType(), vpiWire);
@@ -91,8 +90,7 @@ TEST_F(FpuRptrMacrosTest, FpuBufrptGrp64PortsAreWireNets) {
 
 // fpu_bufrpt_grp32: same shape as fpu_bufrpt_grp64, at a 32-bit width.
 TEST_F(FpuRptrMacrosTest, FpuBufrptGrp32PortsAreWireNets) {
-  const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("fpu_bufrpt_grp32", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("fpu_bufrpt_grp32", m_design->getAllModules());
   ASSERT_NE(module, nullptr);
   const hldb::Net *const in = getPortNet(module, "in");
   if (in != nullptr) EXPECT_EQ(in->getNetType(), vpiWire);

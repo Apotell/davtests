@@ -147,13 +147,13 @@ class PropertyDisableIffFailTest : public Test {
 // ... All tests belonging to PropertyDisableIffFailTest go here!
 
 TEST_F(PropertyDisableIffFailTest, ModuleClkGenAndTopExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
       << "module 'clk_gen' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
 }
 
 TEST_F(PropertyDisableIffFailTest, PropertyPropDeclaredWithPosedgeClockingEventAndNegatedDisableCondition) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr) << "property 'prop' not found in module top";
@@ -185,7 +185,7 @@ TEST_F(PropertyDisableIffFailTest, PropertyPropDeclaredWithPosedgeClockingEventA
 }
 
 TEST_F(PropertyDisableIffFailTest, PropertyExprIsBareReferenceToOut) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -198,7 +198,7 @@ TEST_F(PropertyDisableIffFailTest, PropertyExprIsBareReferenceToOut) {
 }
 
 TEST_F(PropertyDisableIffFailTest, AssertPropertyIsReachableAndReferencesProp) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

@@ -125,6 +125,7 @@
 #include <hldb/task_func.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -264,6 +265,7 @@ TEST_F(EmptyTest5Test, SourceFileHasNoMacroDefinitionsOrInstances) {
 // file declares no design element (3.2-3.12, A.1.2).
 TEST_F(EmptyTest5Test, NoDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
@@ -272,7 +274,7 @@ TEST_F(EmptyTest5Test, NoDesignElementsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) exists either: the words in the
@@ -280,12 +282,13 @@ TEST_F(EmptyTest5Test, NoDesignElementsDeclared) {
 // identifiers of any declaration.
 TEST_F(EmptyTest5Test, NoCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // With no module in the file there is nothing to instantiate implicitly as

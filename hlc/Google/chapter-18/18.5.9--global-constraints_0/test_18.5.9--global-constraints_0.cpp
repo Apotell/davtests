@@ -94,6 +94,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -106,7 +107,7 @@ class GlobalConstraints0Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getVar(std::string_view className, std::string_view varName) {

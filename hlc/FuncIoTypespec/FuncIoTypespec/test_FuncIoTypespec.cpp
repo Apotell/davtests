@@ -90,7 +90,7 @@ class FuncIoTypespecTest : public Test {
 
  protected:
   static const hldb::Module *getShift() {
-    return hldb::findByName<hldb::Module>("shift", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("shift", m_design->getAllModules());
   }
 
   static const hldb::Function *getFshlU1() {

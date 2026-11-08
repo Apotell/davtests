@@ -115,9 +115,7 @@ class ForLoopTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getModuleT() {
-    return hldb::findByName<hldb::Module>("t", m_design->getAllModules());
-  }
+  static const hldb::Module *getModuleT() { return hldb::findByDefName<hldb::Module>("t", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitial() {
     const hldb::Module *const m = getModuleT();

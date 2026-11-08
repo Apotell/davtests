@@ -74,7 +74,7 @@ class EventTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("t", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("t", m_design->getAllModules()); }
 };
 
 TEST_F(EventTest, ModuleExists) { ASSERT_NE(getTop(), nullptr) << "module 't' not found"; }

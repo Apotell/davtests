@@ -105,11 +105,11 @@ class CovergroupMethodsTest : public Test {
 };
 
 TEST_F(CovergroupMethodsTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(CovergroupMethodsTest, CovergroupIsDeclared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getCoverGroups(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::CoverGroup>("cg1", top->getCoverGroups()), nullptr);

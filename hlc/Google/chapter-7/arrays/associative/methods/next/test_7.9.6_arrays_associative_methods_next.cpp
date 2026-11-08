@@ -53,8 +53,8 @@
 //     RuntimeValuesOfRcAndSRequireSimulation below)
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -70,11 +70,11 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -88,18 +88,18 @@ class AssociativeArrayNextTest : public Test {
 // --- module / variables ----
 
 TEST_F(AssociativeArrayNextTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayNextTest, ModuleHasThreeVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 3u);
 }
 
 TEST_F(AssociativeArrayNextTest, VariableMapIsAssociativeArrayOfIntByString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const map = hldb::findByName<hldb::Variable>("map", top->getVariables());
   ASSERT_NE(map, nullptr);
@@ -115,7 +115,7 @@ TEST_F(AssociativeArrayNextTest, VariableMapIsAssociativeArrayOfIntByString) {
 // --- initial process ----
 
 TEST_F(AssociativeArrayNextTest, InitialBeginHasSevenStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -130,7 +130,7 @@ TEST_F(AssociativeArrayNextTest, InitialBeginHasSevenStmts) {
 // --- map["hello"]=1, map["sad"]=2, map["world"]=3 ----
 
 TEST_F(AssociativeArrayNextTest, PopulatesMapHelloSadWorld) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -156,7 +156,7 @@ TEST_F(AssociativeArrayNextTest, PopulatesMapHelloSadWorld) {
 // --- rc = map.first(s); ----
 
 TEST_F(AssociativeArrayNextTest, FirstCallAssignsRcFromMapFirstS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -182,7 +182,7 @@ TEST_F(AssociativeArrayNextTest, FirstCallAssignsRcFromMapFirstS) {
 }
 
 TEST_F(AssociativeArrayNextTest, FirstDisplayAssertsRcOneAndSHello) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -206,7 +206,7 @@ TEST_F(AssociativeArrayNextTest, FirstDisplayAssertsRcOneAndSHello) {
 // --- rc = map.next(s); ----
 
 TEST_F(AssociativeArrayNextTest, SecondCallAssignsRcFromMapNextS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -234,7 +234,7 @@ TEST_F(AssociativeArrayNextTest, SecondCallAssignsRcFromMapNextS) {
 }
 
 TEST_F(AssociativeArrayNextTest, SecondDisplayAssertsRcOneAndSSad) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -262,7 +262,7 @@ TEST_F(AssociativeArrayNextTest, RuntimeValuesOfRcAndSRequireSimulation) {
                   "the actual runtime values written into rc/s by first()/next() cannot be observed "
                   "here. next.sv's own $display format strings document the expected values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);

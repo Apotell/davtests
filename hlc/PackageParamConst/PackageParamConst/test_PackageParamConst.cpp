@@ -118,7 +118,7 @@ class PackageParamConstTest : public Test {
     return hldb::findByName<hldb::Parameter>("A", pkg->getParameters());
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Net *getNetA() {
     const hldb::Module *const top = getTop();

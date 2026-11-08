@@ -106,7 +106,7 @@ TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssign
 
 TEST_F(AssignInExprInvTest, FailedParseLeavesNoWellFormedTopModule) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr) << "the syntax error prevents a well-formed 'top' module from "
                              "being elaborated, unlike every clean file in this chapter";
 }

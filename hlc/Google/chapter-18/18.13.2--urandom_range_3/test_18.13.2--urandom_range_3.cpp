@@ -317,8 +317,8 @@
 //   - The license and metadata comments are comments, not design objects.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -353,6 +353,7 @@
 #include <hldb/task_call.h>
 #include <hldb/task_func.h>
 #include <hldb/tf_call.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -379,7 +380,7 @@ class UrandomRange3Test : public Test {
   static const hldb::ClassDefn *getUvmClass(std::string_view name) {
     const hldb::Package *const pkg = getUvmPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, pkg->getClassDefns());
   }
 
   static const hldb::Function *getUvmEnvNew() {
@@ -397,7 +398,7 @@ class UrandomRange3Test : public Test {
   // --- class a ------------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getDoUrandomRange() {
@@ -500,7 +501,9 @@ class UrandomRange3Test : public Test {
 
   // --- class env ----------------------------------------------------------
 
-  static const hldb::ClassDefn *getEnv() { return hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()); }
+  static const hldb::ClassDefn *getEnv() {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
+  }
 
   static const hldb::Variable *getProperty(std::string_view name) {
     const hldb::ClassDefn *const env = getEnv();
@@ -543,7 +546,7 @@ class UrandomRange3Test : public Test {
 
   // --- module top ---------------------------------------------------------
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Variable *getEnvironment() {
     const hldb::Module *const top = getTop();
@@ -765,9 +768,10 @@ TEST_F(UrandomRange3Test, UvmPkgProvidesTheNamesTheFileUses) {
 // ---------------------------------------------------------------------------
 
 TEST_F(UrandomRange3Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";
@@ -887,9 +891,10 @@ TEST_F(UrandomRange3Test, DoUrandomRangeReturnsVal) {
 // ---------------------------------------------------------------------------
 
 TEST_F(UrandomRange3Test, ClassEnvIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "env") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'env' exactly once";

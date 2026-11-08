@@ -62,7 +62,7 @@ class HierPathContTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("unsized_single_bit_1", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("unsized_single_bit_1", m_design->getAllModules());
   }
 
   static const hldb::ContAssign *findContAssignByLhsName(const hldb::Module *top, std::string_view lhsName) {

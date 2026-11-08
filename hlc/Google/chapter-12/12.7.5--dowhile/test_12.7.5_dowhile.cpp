@@ -93,7 +93,7 @@ class DoWhileTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("dowhile_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("dowhile_tb", m_design->getAllModules());
   }
 
   static const hldb::Begin *getInitialBody() {

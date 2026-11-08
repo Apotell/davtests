@@ -82,7 +82,7 @@ class BlockingAssignmentTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBegin() {
     const hldb::Module *const top = getTop();
@@ -179,7 +179,13 @@ TEST_F(BlockingAssignmentTest, DesignHasThreeTypespecs) {
 
 TEST_F(BlockingAssignmentTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *st = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((st = any_cast<hldb::StringTypespec>(ts))) {
+      break;
+    }
+  }
+  EXPECT_NE(st, nullptr);
 }
 
 TEST_F(BlockingAssignmentTest, CompilerReportsZeroErrors) {

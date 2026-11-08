@@ -85,40 +85,40 @@ class ImplicitPortTest : public Test {
 };
 
 TEST_F(ImplicitPortTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Nets -- a, b (from ports) and c (internal wire) are all formally declared
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortTest, ThreeNetsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
   EXPECT_EQ(top->getNets()->size(), 3u) << "expected nets a, b, and c";
 }
 
 TEST_F(ImplicitPortTest, ANetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr) << "net 'a' not found";
 }
 
 TEST_F(ImplicitPortTest, BNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr) << "net 'b' not found";
 }
 
 TEST_F(ImplicitPortTest, CNetExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(hldb::findByName<hldb::Net>("c", top->getNets()), nullptr)
       << "net 'c' not found -- it is a formally declared internal wire";
 }
 
 TEST_F(ImplicitPortTest, ANetTypeIsWire) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -126,7 +126,7 @@ TEST_F(ImplicitPortTest, ANetTypeIsWire) {
 }
 
 TEST_F(ImplicitPortTest, BNetTypeIsWire) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -134,7 +134,7 @@ TEST_F(ImplicitPortTest, BNetTypeIsWire) {
 }
 
 TEST_F(ImplicitPortTest, CNetTypeIsWire) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
@@ -142,7 +142,7 @@ TEST_F(ImplicitPortTest, CNetTypeIsWire) {
 }
 
 TEST_F(ImplicitPortTest, ANetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
   ASSERT_NE(a, nullptr);
@@ -150,7 +150,7 @@ TEST_F(ImplicitPortTest, ANetHasNoInitialValue) {
 }
 
 TEST_F(ImplicitPortTest, BNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
   ASSERT_NE(b, nullptr);
@@ -161,14 +161,14 @@ TEST_F(ImplicitPortTest, BNetHasNoInitialValue) {
 // Ports -- only a and b; c is an internal wire, not a port
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortTest, TwoPortsExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
   EXPECT_EQ(top->getPorts()->size(), 2u) << "only a and b are ports; c is an internal wire";
 }
 
 TEST_F(ImplicitPortTest, PortAIsInput) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Port *const pa = hldb::findByName<hldb::Port>("a", top->getPorts());
   ASSERT_NE(pa, nullptr) << "port 'a' not found";
@@ -176,7 +176,7 @@ TEST_F(ImplicitPortTest, PortAIsInput) {
 }
 
 TEST_F(ImplicitPortTest, PortBIsInput) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Port *const pb = hldb::findByName<hldb::Port>("b", top->getPorts());
   ASSERT_NE(pb, nullptr) << "port 'b' not found";
@@ -184,7 +184,7 @@ TEST_F(ImplicitPortTest, PortBIsInput) {
 }
 
 TEST_F(ImplicitPortTest, CIsNotAPort) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Port>("c", top->getPorts()), nullptr)
@@ -192,7 +192,7 @@ TEST_F(ImplicitPortTest, CIsNotAPort) {
 }
 
 TEST_F(ImplicitPortTest, PortALowConnResolvesToNetA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Port *const pa = hldb::findByName<hldb::Port>("a", top->getPorts());
   ASSERT_NE(pa, nullptr);
@@ -204,7 +204,7 @@ TEST_F(ImplicitPortTest, PortALowConnResolvesToNetA) {
 }
 
 TEST_F(ImplicitPortTest, PortBLowConnResolvesToNetB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Port *const pb = hldb::findByName<hldb::Port>("b", top->getPorts());
   ASSERT_NE(pb, nullptr);
@@ -219,14 +219,14 @@ TEST_F(ImplicitPortTest, PortBLowConnResolvesToNetB) {
 // Continuous assignment -- assign c = a | b
 // ---------------------------------------------------------------------------
 TEST_F(ImplicitPortTest, ContAssignExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
 }
 
 TEST_F(ImplicitPortTest, ContAssignLhsIsCWithActual) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -237,7 +237,7 @@ TEST_F(ImplicitPortTest, ContAssignLhsIsCWithActual) {
 }
 
 TEST_F(ImplicitPortTest, ContAssignRhsIsBitOr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -247,7 +247,7 @@ TEST_F(ImplicitPortTest, ContAssignRhsIsBitOr) {
 }
 
 TEST_F(ImplicitPortTest, BitOrOperandsAreAAndB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
 
@@ -265,7 +265,7 @@ TEST_F(ImplicitPortTest, BitOrOperandsAreAAndB) {
 }
 
 TEST_F(ImplicitPortTest, CNetHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Net *const c = hldb::findByName<hldb::Net>("c", top->getNets());
   ASSERT_NE(c, nullptr);
@@ -274,7 +274,7 @@ TEST_F(ImplicitPortTest, CNetHasNoInitialValue) {
 }
 
 TEST_F(ImplicitPortTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }

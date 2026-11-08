@@ -68,7 +68,9 @@ class Keywords1364_2005Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("main", m_design->getAllModules()); }
+  static const hldb::Module *getModule() {
+    return hldb::findByDefName<hldb::Module>("main", m_design->getAllModules());
+  }
 
   static void expectVectorRange(const hldb::Variable *var, int32_t left, int32_t right) {
     ASSERT_NE(var, nullptr);

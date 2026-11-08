@@ -206,19 +206,19 @@ class ClassSuperDefaultNewTest : public Test {
   static const hldb::ClassDefn *getUvmVoidDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_void", pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_void", pkg->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmObjectDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_object", pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_object", pkg->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmReportObjectDefn() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_report_object", pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_report_object", pkg->getClassDefns());
   }
 
   static const hldb::Function *getPrintFunction() {
@@ -233,9 +233,7 @@ class ClassSuperDefaultNewTest : public Test {
     return any_cast<hldb::Function>(c->getMethods()->at(0));
   }
 
-  static const hldb::Module *getModuleM() {
-    return hldb::findByName<hldb::Module>("m", m_design->getAllModules());
-  }
+  static const hldb::Module *getModuleM() { return hldb::findByDefName<hldb::Module>("m", m_design->getAllModules()); }
 
   static const hldb::Variable *getVariableU0() {
     const hldb::Module *const m = getModuleM();

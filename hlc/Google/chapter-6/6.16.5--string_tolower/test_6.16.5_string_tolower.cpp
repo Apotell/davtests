@@ -45,8 +45,8 @@
 //     assertion for when HLC adds compile-time evaluation of string methods
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -57,11 +57,11 @@
 #include <hldb/func_call.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/task_func.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
+#include <hldb/task_func.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -73,21 +73,21 @@ class StringTolowerTest : public Test {
 };
 
 TEST_F(StringTolowerTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
 // Variable declarations -- string 'a' and string 'b'
 // ---------------------------------------------------------------------------
 TEST_F(StringTolowerTest, TwoVariablesExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(StringTolowerTest, AVariableTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -97,7 +97,7 @@ TEST_F(StringTolowerTest, AVariableTypespecIsString) {
 }
 
 TEST_F(StringTolowerTest, AVariableInitialValueIsTest) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -108,7 +108,7 @@ TEST_F(StringTolowerTest, AVariableInitialValueIsTest) {
 }
 
 TEST_F(StringTolowerTest, BVariableTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -121,7 +121,7 @@ TEST_F(StringTolowerTest, BVariableTypespecIsString) {
 // Method call -- b's initial value is the method call a.tolower()
 // ---------------------------------------------------------------------------
 TEST_F(StringTolowerTest, BVariableHasValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -129,7 +129,7 @@ TEST_F(StringTolowerTest, BVariableHasValue) {
 }
 
 TEST_F(StringTolowerTest, BVariableValueIsNotPreEvaluatedConstant) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -138,7 +138,7 @@ TEST_F(StringTolowerTest, BVariableValueIsNotPreEvaluatedConstant) {
 }
 
 TEST_F(StringTolowerTest, BVariableValueIsCall) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -148,7 +148,7 @@ TEST_F(StringTolowerTest, BVariableValueIsCall) {
 }
 
 TEST_F(StringTolowerTest, CallReceiverIsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -162,7 +162,7 @@ TEST_F(StringTolowerTest, CallReceiverIsA) {
 }
 
 TEST_F(StringTolowerTest, CallMethodIsTolower) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -182,7 +182,7 @@ TEST_F(StringTolowerTest, CallMethodIsTolower) {
 }
 
 TEST_F(StringTolowerTest, TolowerHasNoArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -195,7 +195,7 @@ TEST_F(StringTolowerTest, TolowerHasNoArguments) {
 // a.tolower() runtime result
 // ---------------------------------------------------------------------------
 TEST_F(StringTolowerTest, TolowerResultIsPreEvaluated) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);

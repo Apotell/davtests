@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -72,12 +72,12 @@ TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
 
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile.
 TEST_F(SimpleIncludeAndMacrosTest, FakelibNand2Compiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_NAND2", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("FAKELIB_NAND2", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_NAND2 must compile";
 }
 
 TEST_F(SimpleIncludeAndMacrosTest, FakelibDffCompiles) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("FAKELIB_DFF", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("FAKELIB_DFF", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "FAKELIB_DFF must compile";
 }
 

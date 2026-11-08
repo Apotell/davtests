@@ -97,7 +97,7 @@ class TimescaleTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getM1() { return hldb::findByName<hldb::Module>("m1", m_design->getAllModules()); }
+  static const hldb::Module *getM1() { return hldb::findByDefName<hldb::Module>("m1", m_design->getAllModules()); }
 
   // Every top-level module, interface, program and package, and everything nested in them.
   static const hldb::Instance *findInstance(std::string_view name) {
@@ -173,7 +173,7 @@ TEST_F(TimescaleTest, M1ExplicitTimescale) {
 TEST_F(TimescaleTest, M11ExplicitTimescale) {
   const hldb::Module *const m1 = getM1();
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
-  const hldb::Module *const m11 = hldb::findByName<hldb::Module>("m11", m1->getModules());
+  const hldb::Module *const m11 = hldb::findByDefName<hldb::Module>("m11", m1->getModules());
   ASSERT_NE(m11, nullptr) << "Module m11 is null";
   EXPECT_EQ(m11->getTimeUnit(), -8);
   EXPECT_EQ(m11->getTimePrecision(), -11);
@@ -186,7 +186,7 @@ TEST_F(TimescaleTest, M11ExplicitTimescale) {
 TEST_F(TimescaleTest, M12InheritsTimeUnitFromEnclosingModule) {
   const hldb::Module *const m1 = getM1();
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
-  const hldb::Module *const m12 = hldb::findByName<hldb::Module>("m12", m1->getModules());
+  const hldb::Module *const m12 = hldb::findByDefName<hldb::Module>("m12", m1->getModules());
   ASSERT_NE(m12, nullptr) << "Module m12 is null";
   EXPECT_EQ(m12->getTimeUnit(), -8) << "m12 must inherit m1's time unit per Sec 3.14.2.3 rule (a)";
   EXPECT_EQ(m12->getTimePrecision(), -12);
@@ -195,7 +195,7 @@ TEST_F(TimescaleTest, M12InheritsTimeUnitFromEnclosingModule) {
 // m2 (not nested, no timeunit of its own): per Sec 3.14.2.3 rule (b),
 // inherits from the last `timescale 1 ns/1 ps directive -> -9/-12.
 TEST_F(TimescaleTest, M2InheritsFromTimescaleDirective) {
-  const hldb::Module *const m2 = hldb::findByName<hldb::Module>("m2", m_design->getAllModules());
+  const hldb::Module *const m2 = hldb::findByDefName<hldb::Module>("m2", m_design->getAllModules());
   ASSERT_NE(m2, nullptr) << "Module m2 is null";
   EXPECT_EQ(m2->getTimeUnit(), -9);
   EXPECT_EQ(m2->getTimePrecision(), -12);

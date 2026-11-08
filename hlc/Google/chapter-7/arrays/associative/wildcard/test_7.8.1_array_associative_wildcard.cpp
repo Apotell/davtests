@@ -45,8 +45,8 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -59,28 +59,28 @@ class WildcardTest : public Test {
 // --- module ----
 
 TEST_F(WildcardTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable "arr" : int[*] ----
 
 TEST_F(WildcardTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(WildcardTest, VariableNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
 TEST_F(WildcardTest, VariableHasAssociativeArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
   ASSERT_NE(variable, nullptr);
@@ -96,7 +96,7 @@ TEST_F(WildcardTest, AssocArrayKeyIsWildcard) {
   // is *", so a wildcard index names no type at all. Sec 37.25 detail 2 makes that
   // explicit for the object model: "For the wildcard index type (see 7.8.1),
   // vpiIndexTypespec shall return NULL" -- not an empty typespec placeholder.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -106,7 +106,7 @@ TEST_F(WildcardTest, AssocArrayKeyIsWildcard) {
 
 TEST_F(WildcardTest, AssocArrayValueTypeIsInt) {
   // element type is IntTypespec (from `int arr[*]`)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -117,20 +117,20 @@ TEST_F(WildcardTest, AssocArrayValueTypeIsInt) {
 
 TEST_F(WildcardTest, VariableHasNoInitialValue) {
   // int arr[*] -- plain declaration with no initializer
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getValue<hldb::Any>(), nullptr);
 }
 
 TEST_F(WildcardTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(WildcardTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
@@ -138,7 +138,7 @@ TEST_F(WildcardTest, NoContAssigns) {
 TEST_F(WildcardTest, WildcardAffectsKeyTypeOnlyNotElementType) {
   // The wildcard applies to the index only: Sec 37.25 detail 2 requires a NULL
   // vpiIndexTypespec, while the element type (int) still resolves normally.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();

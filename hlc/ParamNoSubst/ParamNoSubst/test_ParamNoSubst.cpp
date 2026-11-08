@@ -406,10 +406,10 @@ TEST_F(ParamNoSubstTest, ResvalIsZeroAtBothLevels) {
   if (m_design->getElaborated()) {
     const hldb::Module *const core = hldb::findByDefName<hldb::Module>("aes_core", m_design->getTopModules());
     ASSERT_NE(core, nullptr) << "the elaborated aes_core not found";
-    const hldb::Module *const shadow = hldb::findByName<hldb::Module>("ctrl_shadowed_reg", core->getModules());
+    const hldb::Module *const shadow = hldb::findByDefName<hldb::Module>("ctrl_shadowed_reg", core->getModules());
     ASSERT_NE(shadow, nullptr) << "the instance ctrl_shadowed_reg is elaborated";
     ExpectElabParam(shadow, "RESVAL", 0u, "23.10.2.2: CTRL_RESET = '{manual_operation: '0} = 0");
-    const hldb::Module *const committed = hldb::findByName<hldb::Module>("committed_reg", shadow->getModules());
+    const hldb::Module *const committed = hldb::findByDefName<hldb::Module>("committed_reg", shadow->getModules());
     ASSERT_NE(committed, nullptr) << "the instance committed_reg is elaborated";
     ExpectElabParam(committed, "RESVAL", 0u, "23.10.2.2: prim_subreg_shadow's RESVAL = 0");
   }

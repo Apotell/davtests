@@ -51,7 +51,7 @@ class NonescapedAccess : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("identifiers", d->getAllModules());
 }
 
 static const hldb::ContAssign *getContAssign(const hldb::Design *d) {

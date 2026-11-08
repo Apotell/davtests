@@ -89,17 +89,18 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
-#include <hldb/class_defn.h>
-#include <hldb/variable.h>
-#include <hldb/extends.h>
-#include <hldb/constraint.h>
-#include <hldb/distribution.h>
-#include <hldb/operation.h>
-#include <hldb/ref_obj.h>
 #include <hldb/bit_typespec.h>
+#include <hldb/class_defn.h>
+#include <hldb/constraint.h>
+#include <hldb/design.h>
+#include <hldb/distribution.h>
+#include <hldb/extends.h>
+#include <hldb/module.h>
+#include <hldb/operation.h>
 #include <hldb/range.h>
+#include <hldb/ref_obj.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -110,7 +111,8 @@ class InLineRandomVariableControl1Test : public Test {
 };
 
 TEST_F(InLineRandomVariableControl1Test, RandCPropertiesXYAndPlainPropertiesVWExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", a->getVariables());
@@ -137,7 +139,8 @@ TEST_F(InLineRandomVariableControl1Test, RandCPropertiesXYAndPlainPropertiesVWEx
 }
 
 TEST_F(InLineRandomVariableControl1Test, ConstraintCIsXLessThanVAndYGreaterThanW) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", a->getConstraints());
@@ -173,13 +176,14 @@ TEST_F(InLineRandomVariableControl1Test, ConstraintCIsXLessThanVAndYGreaterThanW
 }
 
 TEST_F(InLineRandomVariableControl1Test, ClassEnvExtendsUvmEnv) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   EXPECT_NE(env->getExtends(), nullptr) << "Sec 8.13: 'class env extends uvm_env;' should record its base class";
 }
 
 TEST_F(InLineRandomVariableControl1Test, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 

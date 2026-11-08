@@ -380,7 +380,7 @@ TEST_F(ParamEquivOpTest, GenerateBlockIsInstantiatedWithGood) {
     ASSERT_NE(gsa->getGenScopes(), nullptr);
     ASSERT_EQ(gsa->getGenScopes()->size(), 1u);
     const hldb::GenScope *const scope = gsa->getGenScopes()->at(0);
-    const hldb::Module *const good = hldb::findByName<hldb::Module>("good", scope->getModules());
+    const hldb::Module *const good = hldb::findByDefName<hldb::Module>("good", scope->getModules());
     ASSERT_NE(good, nullptr) << "genblk1 holds the instance 'good'";
     EXPECT_EQ(good->getDefName(), "GOOD");
   }

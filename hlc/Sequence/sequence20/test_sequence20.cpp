@@ -49,7 +49,6 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/range.h>
@@ -57,6 +56,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sequence_decl.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/variable.h>
 
 #include <string>
 
@@ -69,7 +69,7 @@ class Sequence20Test : public Test {
 
  protected:
   static const hldb::Module *getTb(const hldb::Design *d) {
-    return hldb::findByName<hldb::Module>("tb", d->getAllModules());
+    return hldb::findByDefName<hldb::Module>("tb", d->getAllModules());
   }
 
   static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *mod,

@@ -90,7 +90,7 @@ class ParallelBlockJoinTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("parallel_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("parallel_tb", m_design->getAllModules());
   }
 
   static const hldb::Variable *getVariable(std::string_view name) {

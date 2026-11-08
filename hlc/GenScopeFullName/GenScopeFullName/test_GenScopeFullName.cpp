@@ -58,8 +58,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -77,7 +77,7 @@ class GenScopeFullNameTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   static const hldb::GenFor *findGenFor(const hldb::Module *m) {
@@ -133,7 +133,7 @@ TEST_F(GenScopeFullNameTest, ModuleInGenscopeDeclaredInsideGenFor) {
   const hldb::GenFor *const gf = findGenFor(getModule("dut"));
   ASSERT_NE(gf, nullptr);
   // ASSERT_NE(gf->getModules(), nullptr) << "'gen_modules' should carry the 'module_in_genscope' instance";
-  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("module_in_genscope", gf->getModules());
+  // const hldb::Module *const inst = hldb::findByDefName<hldb::Module>("module_in_genscope", gf->getModules());
   // ASSERT_NE(inst, nullptr);
   // EXPECT_EQ(inst->getDefName(), std::string_view("ibex_counter"));
   // Unelaborated model: the instance is a RefInstance item of the

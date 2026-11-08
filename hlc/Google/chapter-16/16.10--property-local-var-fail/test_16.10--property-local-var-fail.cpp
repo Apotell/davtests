@@ -201,13 +201,13 @@ class PropertyLocalVarFailTest : public Test {
 // ... All tests belonging to PropertyLocalVarFailTest go here!
 
 TEST_F(PropertyLocalVarFailTest, ModuleClkGenAndTopExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
       << "module 'clk_gen' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
 }
 
 TEST_F(PropertyLocalVarFailTest, PropertyPropDeclaredWithLocalVariableX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr) << "property 'prop' not found in module top";
@@ -218,7 +218,7 @@ TEST_F(PropertyLocalVarFailTest, PropertyPropDeclaredWithLocalVariableX) {
 }
 
 TEST_F(PropertyLocalVarFailTest, PropertySpecHasPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -234,7 +234,7 @@ TEST_F(PropertyLocalVarFailTest, PropertySpecHasPosedgeClockingEvent) {
 }
 
 TEST_F(PropertyLocalVarFailTest, PropertyExprIsOverlappedImplication) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -251,7 +251,7 @@ TEST_F(PropertyLocalVarFailTest, PropertyExprIsOverlappedImplication) {
 }
 
 TEST_F(PropertyLocalVarFailTest, ConsequentIsCycleDelayedEqualityWithLocalVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -274,7 +274,7 @@ TEST_F(PropertyLocalVarFailTest, ConsequentIsCycleDelayedEqualityWithLocalVariab
 }
 
 TEST_F(PropertyLocalVarFailTest, AssertPropertyIsReachableAndReferencesProp) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

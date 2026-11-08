@@ -129,8 +129,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -253,7 +253,7 @@ class ParamIndexTest : public Test {
     const hldb::Module *m = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     for (std::string_view name : path) {
       if (m == nullptr) return nullptr;
-      m = hldb::findByName<hldb::Module>(name, m->getModules());
+      m = hldb::findByDefName<hldb::Module>(name, m->getModules());
     }
     return m;
   }

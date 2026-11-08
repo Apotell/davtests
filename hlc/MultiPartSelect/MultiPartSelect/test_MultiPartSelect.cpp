@@ -75,6 +75,7 @@
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -88,10 +89,11 @@ class MultiPartSelectTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Struct *getTier1Struct() {
-    const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("tier1", m_design->getTypedefs());
+    if (m_unit == nullptr) return nullptr;
+    const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("tier1", m_unit->getTypedefs());
     if (td == nullptr || td->getAlias() == nullptr) return nullptr;
     const hldb::StructTypespec *const sts = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
     return (sts == nullptr) ? nullptr : sts->getStruct();

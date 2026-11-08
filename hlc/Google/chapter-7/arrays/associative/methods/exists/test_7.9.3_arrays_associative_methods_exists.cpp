@@ -63,11 +63,11 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -81,18 +81,18 @@ class AssociativeArrayExistsTest : public Test {
 // --- module / variable ----
 
 TEST_F(AssociativeArrayExistsTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AssociativeArrayExistsTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(AssociativeArrayExistsTest, VariableMapIsAssociativeArrayOfIntByString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const map = hldb::findByName<hldb::Variable>("map", top->getVariables());
   ASSERT_NE(map, nullptr);
@@ -108,7 +108,7 @@ TEST_F(AssociativeArrayExistsTest, VariableMapIsAssociativeArrayOfIntByString) {
 // --- initial process ----
 
 TEST_F(AssociativeArrayExistsTest, InitialBeginHasFiveStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -121,7 +121,7 @@ TEST_F(AssociativeArrayExistsTest, InitialBeginHasFiveStmts) {
 }
 
 TEST_F(AssociativeArrayExistsTest, FirstAssignmentSetsMapHelloToOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -140,7 +140,7 @@ TEST_F(AssociativeArrayExistsTest, FirstAssignmentSetsMapHelloToOne) {
 }
 
 TEST_F(AssociativeArrayExistsTest, SecondAssignmentSetsMapSadToTwo) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -153,7 +153,7 @@ TEST_F(AssociativeArrayExistsTest, SecondAssignmentSetsMapSadToTwo) {
 }
 
 TEST_F(AssociativeArrayExistsTest, ThirdAssignmentSetsMapWorldToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -168,7 +168,7 @@ TEST_F(AssociativeArrayExistsTest, ThirdAssignmentSetsMapWorldToThree) {
 // --- $display(":assert: (%d == 1)", map.exists("sad")) ----
 
 TEST_F(AssociativeArrayExistsTest, FirstDisplayFormatStringIsExistsAssertOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -185,7 +185,7 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplayFormatStringIsExistsAssertOne) {
 }
 
 TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -215,7 +215,7 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
 // --- $display(":assert: (%d == 0)", map.exists("happy")) ----
 
 TEST_F(AssociativeArrayExistsTest, SecondDisplayFormatStringIsExistsAssertZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -229,7 +229,7 @@ TEST_F(AssociativeArrayExistsTest, SecondDisplayFormatStringIsExistsAssertZero) 
 }
 
 TEST_F(AssociativeArrayExistsTest, SecondDisplaySecondArgIsMapExistsHappy) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -255,7 +255,7 @@ TEST_F(AssociativeArrayExistsTest, SecondDisplaySecondArgIsMapExistsHappy) {
 
 TEST_F(AssociativeArrayExistsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }

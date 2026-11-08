@@ -203,6 +203,7 @@
 #include <hldb/source_file.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -717,8 +718,10 @@ TEST_F(TimescaleModuleTest, NothingElseIsDeclared) {
   EXPECT_EQ(fromSourceFile(m_design->getAllClasses()).size(), 0u);
   EXPECT_EQ(fromSourceFile(m_design->getAllUdps()).size(), 0u);
   EXPECT_EQ(fromSourceFile(m_design->getConfigs()).size(), 0u);
-  EXPECT_EQ(fromSourceFile(m_design->getCheckerDecls()).size(), 0u);
-  EXPECT_EQ(fromSourceFile(m_design->getTypedefs()).size(), 0u);
+
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(fromSourceFile(m_unit->getCheckerDecls()).size(), 0u);
+  EXPECT_EQ(fromSourceFile(m_unit->getTypedefs()).size(), 0u);
 }
 }  // namespace hlc
 

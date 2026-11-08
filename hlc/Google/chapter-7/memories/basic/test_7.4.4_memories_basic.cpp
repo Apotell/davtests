@@ -64,7 +64,7 @@ class MemoriesBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // --- module / variable ----
@@ -122,14 +122,19 @@ TEST_F(MemoriesBasicTest, MemElemLogicTypespecHasPackedRangeSevenToZeroAndIsVect
 
 TEST_F(MemoriesBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MemoriesBasicTest, DesignHasSignedIntTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      if (it->getSigned()) break;
+    }
+  }
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }

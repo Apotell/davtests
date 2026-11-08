@@ -60,13 +60,13 @@
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -80,25 +80,25 @@ class ArrayLocatorFindLastTest : public Test {
 // --- module / variables ----
 
 TEST_F(ArrayLocatorFindLastTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ArrayLocatorFindLastTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableSNameIsS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableQsNameIsQs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const qs = hldb::findByName<hldb::Variable>("qs", top->getVariables());
   ASSERT_NE(qs, nullptr);
@@ -107,7 +107,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableQsNameIsQs) {
 // --- variable "s": dynamic array of string ----
 
 TEST_F(ArrayLocatorFindLastTest, VariableSTypespecIsDynamicArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -117,7 +117,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableSTypespecIsDynamicArray) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableSElemTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -128,7 +128,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableSElemTypespecIsString) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableSInitialValueIsFourElemConcat) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const s = hldb::findByName<hldb::Variable>("s", top->getVariables());
   ASSERT_NE(s, nullptr);
@@ -156,7 +156,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableSInitialValueIsFourElemConcat) {
 TEST_F(ArrayLocatorFindLastTest, VariableQsTypespecIsQueueArray) {
   // Compiler quirk: "string qs[$]" (a queue) is reported as vpiArrayType
   // static(1), not a distinct queue array type.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const qs = hldb::findByName<hldb::Variable>("qs", top->getVariables());
   ASSERT_NE(qs, nullptr);
@@ -166,7 +166,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableQsTypespecIsQueueArray) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableQsRangeLeftIsUnboundedDollar) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const qs = hldb::findByName<hldb::Variable>("qs", top->getVariables());
   ASSERT_NE(qs, nullptr);
@@ -180,7 +180,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableQsRangeLeftIsUnboundedDollar) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableQsElemTypespecIsString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const qs = hldb::findByName<hldb::Variable>("qs", top->getVariables());
   ASSERT_NE(qs, nullptr);
@@ -191,7 +191,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableQsElemTypespecIsString) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, VariableQsHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const qs = hldb::findByName<hldb::Variable>("qs", top->getVariables());
   ASSERT_NE(qs, nullptr);
@@ -201,7 +201,7 @@ TEST_F(ArrayLocatorFindLastTest, VariableQsHasNoInitialValue) {
 // --- initial process: qs = s.find_last with (item == "hello") ----
 
 TEST_F(ArrayLocatorFindLastTest, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -209,7 +209,7 @@ TEST_F(ArrayLocatorFindLastTest, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, InitialBeginHasThreeStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -220,7 +220,7 @@ TEST_F(ArrayLocatorFindLastTest, InitialBeginHasThreeStmts) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, AssignmentIsBlockingToQs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -236,7 +236,7 @@ TEST_F(ArrayLocatorFindLastTest, AssignmentIsBlockingToQs) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, AssignmentRhsIsMethodFuncCallFindLastOnS) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -254,7 +254,7 @@ TEST_F(ArrayLocatorFindLastTest, AssignmentRhsIsMethodFuncCallFindLastOnS) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, MethodFuncCallIsNamedFindLast) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -265,7 +265,7 @@ TEST_F(ArrayLocatorFindLastTest, MethodFuncCallIsNamedFindLast) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, MethodFuncCallWithClauseComparesItemToHello) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -293,7 +293,7 @@ TEST_F(ArrayLocatorFindLastTest, MethodFuncCallWithClauseComparesItemToHello) {
 // --- $display(":assert: (%d == 1)", qs.size) ----
 
 TEST_F(ArrayLocatorFindLastTest, FirstDisplayFormatStringIsSizeAssert) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -310,7 +310,7 @@ TEST_F(ArrayLocatorFindLastTest, FirstDisplayFormatStringIsSizeAssert) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, FirstDisplaySecondArgIsQsDotSize) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -333,7 +333,7 @@ TEST_F(ArrayLocatorFindLastTest, FirstDisplaySecondArgIsQsDotSize) {
 // --- $display(":assert: ('%s' == 'hello')", qs[0]) ----
 
 TEST_F(ArrayLocatorFindLastTest, SecondDisplayFormatStringIsValueAssert) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -348,7 +348,7 @@ TEST_F(ArrayLocatorFindLastTest, SecondDisplayFormatStringIsValueAssert) {
 }
 
 TEST_F(ArrayLocatorFindLastTest, SecondDisplaySecondArgIsQsBitSelectZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
@@ -373,20 +373,24 @@ TEST_F(ArrayLocatorFindLastTest, SecondDisplaySecondArgIsQsBitSelectZero) {
 
 TEST_F(ArrayLocatorFindLastTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(ArrayLocatorFindLastTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(2));
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      if (it->getSigned()) break;
+    }
+  }
   ASSERT_NE(it, nullptr);
-  EXPECT_TRUE(it->getSigned());
 }
 
 TEST_F(ArrayLocatorFindLastTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

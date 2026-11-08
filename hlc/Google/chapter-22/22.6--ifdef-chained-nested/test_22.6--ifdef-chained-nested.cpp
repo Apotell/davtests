@@ -185,6 +185,7 @@
 #include <hldb/tf_call.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -446,19 +447,19 @@ TEST_F(IfdefChainedNestedTest, DisplayArgumentTexts) {
 // declared in the file, and test is the one top-level module (23.3.1).
 TEST_F(IfdefChainedNestedTest, NoOtherDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
   // The five tested names are not declarations.
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 
   // A top-level module is implicitly instantiated once, under its own name
   // (23.3.1). The instance tree only exists after elaboration; the instance

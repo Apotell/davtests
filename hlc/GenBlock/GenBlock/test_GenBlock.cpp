@@ -94,14 +94,14 @@ class GenBlockTest : public Test {
   static const hldb::Module *findGoodInstance(const hldb::Module *m) {
     if (m == nullptr) return nullptr;
     if (m->getModules() != nullptr) {
-      if (const hldb::Module *const good = hldb::findByName<hldb::Module>("good", m->getModules())) return good;
+      if (const hldb::Module *const good = hldb::findByDefName<hldb::Module>("good", m->getModules())) return good;
     }
     if (m->getGenScopeArrays() == nullptr) return nullptr;
     for (const hldb::GenScopeArray *const gsa : *m->getGenScopeArrays()) {
       if (gsa->getGenScopes() == nullptr) continue;
       for (const hldb::GenScope *const gs : *gsa->getGenScopes()) {
         if (gs->getModules() == nullptr) continue;
-        if (const hldb::Module *const good = hldb::findByName<hldb::Module>("good", gs->getModules())) return good;
+        if (const hldb::Module *const good = hldb::findByDefName<hldb::Module>("good", gs->getModules())) return good;
       }
     }
     return nullptr;

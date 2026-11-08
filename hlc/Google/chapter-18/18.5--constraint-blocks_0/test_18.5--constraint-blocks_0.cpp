@@ -80,6 +80,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -91,7 +92,9 @@ class ConstraintBlocks0Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::ClassDefn *getClass() { return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses()); }
+  static const hldb::ClassDefn *getClass() {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
+  }
 
   // "rand int b;"
   static const hldb::Variable *getVar() {
@@ -126,12 +129,14 @@ class ConstraintBlocks0Test : public Test {
 // --- class a; rand int b; ----------------------------------------------------
 
 TEST_F(ConstraintBlocks0Test, ClassExists) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass();
   ASSERT_NE(cls, nullptr);
   EXPECT_EQ(cls->getClassType(), vpiUserDefinedClass);
 }
 
 TEST_F(ConstraintBlocks0Test, ClassHasOneVariable) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass();
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getVariables(), nullptr);
@@ -139,6 +144,7 @@ TEST_F(ConstraintBlocks0Test, ClassHasOneVariable) {
 }
 
 TEST_F(ConstraintBlocks0Test, BIsRandInt) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Variable *const var = getVar();
   ASSERT_NE(var, nullptr) << "'b' should be a Variable of class 'a'";
   ASSERT_NE(var->getTypespec(), nullptr);
@@ -153,6 +159,7 @@ TEST_F(ConstraintBlocks0Test, BIsRandInt) {
 // --- constraint c { b == 0; } ------------------------------------------------
 
 TEST_F(ConstraintBlocks0Test, ClassHasOneConstraint) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass();
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getConstraints(), nullptr);
@@ -161,6 +168,7 @@ TEST_F(ConstraintBlocks0Test, ClassHasOneConstraint) {
 }
 
 TEST_F(ConstraintBlocks0Test, CIsPlainEnabledConstraint) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Constraint *const constraint = getConstraint();
   ASSERT_NE(constraint, nullptr);
   EXPECT_FALSE(constraint->getPure()) << "18.5.1: 'c' is not declared 'pure'";
@@ -169,6 +177,7 @@ TEST_F(ConstraintBlocks0Test, CIsPlainEnabledConstraint) {
 }
 
 TEST_F(ConstraintBlocks0Test, CIsBEquals0) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Constraint *const constraint = getConstraint();
   ASSERT_NE(constraint, nullptr);
   ASSERT_NE(constraint->getConstraintItems(), nullptr);

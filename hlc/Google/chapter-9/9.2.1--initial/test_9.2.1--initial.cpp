@@ -81,7 +81,7 @@ class InitialTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("initial_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("initial_tb", m_design->getAllModules());
   }
 
   static const hldb::Variable *getVariableA() {

@@ -86,7 +86,7 @@ class IfElseTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("if_tb", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("if_tb", m_design->getAllModules()); }
 
   static const hldb::IfElse *getIfElse() {
     const hldb::Module *const top = getTop();

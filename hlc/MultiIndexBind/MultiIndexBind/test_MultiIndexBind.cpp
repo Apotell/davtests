@@ -97,7 +97,7 @@ class MultiIndexBindTest : public Test {
 
  protected:
   static const hldb::Module *getMod() {
-    return hldb::findByName<hldb::Module>("PreDecodeStage", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("PreDecodeStage", m_design->getAllModules());
   }
 
   static const hldb::Typespec *getAliasActual(std::string_view name) {

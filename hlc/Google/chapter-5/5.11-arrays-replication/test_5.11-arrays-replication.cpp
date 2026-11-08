@@ -57,7 +57,7 @@ class ArraysReplication : public Test {
 };
 
 static const hldb::Variable *getVarN(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getVariables()) return nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "n") return v;
@@ -69,7 +69,7 @@ static const hldb::Variable *getVarN(const hldb::Design *design) {
 // Module and variable
 // ----
 TEST_F(ArraysReplication, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(ArraysReplication, VariableNExists) {
@@ -79,7 +79,7 @@ TEST_F(ArraysReplication, VariableNExists) {
 // `n` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must not
 // also appear in the module's net collection.
 TEST_F(ArraysReplication, VariableNIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   if (top->getNets() != nullptr) {

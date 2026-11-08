@@ -47,7 +47,7 @@ class AnsiSecondModuleTest : public Test {
 
  protected:
   static const hldb::Module *getSecond() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_second", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_second", m_design->getAllModules());
   }
 };
 

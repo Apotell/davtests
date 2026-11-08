@@ -192,13 +192,13 @@ class SequenceLocalVarFailTest : public Test {
 // ... All tests belonging to SequenceLocalVarFailTest go here!
 
 TEST_F(SequenceLocalVarFailTest, ModuleClkGenAndTopExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
       << "module 'clk_gen' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
 }
 
 TEST_F(SequenceLocalVarFailTest, SequenceSeqDeclaredWithLocalVariableX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr) << "sequence 'seq' not found in module top";
@@ -209,7 +209,7 @@ TEST_F(SequenceLocalVarFailTest, SequenceSeqDeclaredWithLocalVariableX) {
 }
 
 TEST_F(SequenceLocalVarFailTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -234,7 +234,7 @@ TEST_F(SequenceLocalVarFailTest, SequenceExprIsCycleDelayedEqualityWithLocalVari
   GTEST_SKIP() << "delayOp->getOpType() != vpiUnaryCycleDelayOp for a binary 'expr ##N expr'; may need "
                   "vpiCycleDelayOp instead. Fix pending.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -260,7 +260,7 @@ TEST_F(SequenceLocalVarFailTest, SequenceExprIsCycleDelayedEqualityWithLocalVari
 }
 
 TEST_F(SequenceLocalVarFailTest, AssertPropertyIsReachableAndReferencesSeq) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

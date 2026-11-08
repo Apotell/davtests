@@ -43,7 +43,7 @@ class DefaultNettypeUwireTest : public Test {
 
 TEST_F(DefaultNettypeUwireTest, ImplicitNetExists) {
   const hldb::Module *const mod =
-      hldb::findByName<hldb::Module>("default_nettype_uwire_test", m_design->getAllModules());
+      hldb::findByDefName<hldb::Module>("default_nettype_uwire_test", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("implicit_net_uwire", mod->getNets()), nullptr);
 }

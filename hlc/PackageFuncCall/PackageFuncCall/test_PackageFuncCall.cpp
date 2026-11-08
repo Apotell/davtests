@@ -214,7 +214,7 @@ class PackageFuncCallTest : public Test {
     return hldb::findByName<hldb::Package>("prim_cipher_pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParameter(std::string_view name) {
     const hldb::Package *const pkg = getPkg();

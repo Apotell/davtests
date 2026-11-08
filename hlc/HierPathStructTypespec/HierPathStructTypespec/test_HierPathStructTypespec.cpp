@@ -80,7 +80,7 @@ class HierPathStructTypespecTest : public Test {
     return nullptr;
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::StructTypespec *getHw2regStructTypespec() {
     const hldb::Module *const top = getTop();

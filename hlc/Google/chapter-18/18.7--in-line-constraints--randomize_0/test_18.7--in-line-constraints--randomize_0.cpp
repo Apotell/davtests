@@ -268,6 +268,7 @@
 #include <hldb/tf_call.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -294,7 +295,7 @@ class InLineConstraintsRandomize0Test : public Test {
     if (pkg == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::ClassDefn>(name, pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, pkg->getClassDefns());
   }
 
   static const hldb::Function *getUvmEnvNew() {
@@ -316,7 +317,7 @@ class InLineConstraintsRandomize0Test : public Test {
   // --- class a ------------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassAProperty(std::string_view name) {
@@ -340,7 +341,9 @@ class InLineConstraintsRandomize0Test : public Test {
 
   // --- class env ----------------------------------------------------------
 
-  static const hldb::ClassDefn *getEnv() { return hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()); }
+  static const hldb::ClassDefn *getEnv() {
+    return hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
+  }
 
   static const hldb::Variable *getEnvObj() {
     const hldb::ClassDefn *const env = getEnv();
@@ -418,7 +421,7 @@ class InLineConstraintsRandomize0Test : public Test {
 
   // --- module top ---------------------------------------------------------
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Variable *getEnvironment() {
     const hldb::Module *const top = getTop();
@@ -707,9 +710,10 @@ TEST_F(InLineConstraintsRandomize0Test, UvmPkgProvidesTheNamesTheFileUses) {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize0Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";
@@ -789,9 +793,9 @@ TEST_F(InLineConstraintsRandomize0Test, ConstraintCIsZEqualsXPlusY) {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize0Test, ClassEnvIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "env") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'env' exactly once";

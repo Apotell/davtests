@@ -55,7 +55,7 @@ class AnsiPortsTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_test", m_design->getAllModules());
   }
 };
 

@@ -86,7 +86,7 @@ class FuncNoArgsTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("my_opt_reduce_or", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("my_opt_reduce_or", m_design->getAllModules());
   }
 
   static const hldb::Function *getCountNonconstBits() {

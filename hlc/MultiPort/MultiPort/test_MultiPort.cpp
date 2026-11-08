@@ -91,7 +91,7 @@ class MultiPortTest : public Test {
  protected:
   static const hldb::Package *getPkg() { return hldb::findByName<hldb::Package>("my_pkg", m_design->getAllPackages()); }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Typedef *getTypedef() {
     const hldb::Package *const pkg = getPkg();

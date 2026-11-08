@@ -161,6 +161,7 @@
 #include <hldb/task_func.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -179,7 +180,7 @@ class InLineConstraintsRandomize1Test : public Test {
   // --- class a1 -----------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA1() {
-    return hldb::findByName<hldb::ClassDefn>("a1", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a1", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassA1X() {
@@ -193,7 +194,7 @@ class InLineConstraintsRandomize1Test : public Test {
   // --- class a2 -----------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA2() {
-    return hldb::findByName<hldb::ClassDefn>("a2", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a2", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassA2Property(std::string_view name) {
@@ -373,9 +374,10 @@ class InLineConstraintsRandomize1Test : public Test {
   // Verifies class 'name' is declared once as a plain user-defined class:
   // not virtual, no base class, no parameters and no end label.
   static void ExpectPlainClass(const hldb::ClassDefn *cls, std::string_view name) {
-    ASSERT_NE(m_design->getAllClasses(), nullptr);
+    ASSERT_NE(m_unit, nullptr);
+    ASSERT_NE(m_unit->getClassDefns(), nullptr);
     size_t count = 0;
-    for (const hldb::ClassDefn *const c : *m_design->getAllClasses()) {
+    for (const hldb::ClassDefn *const c : *m_unit->getClassDefns()) {
       if (c->getName() == name) ++count;
     }
     EXPECT_EQ(count, 1u) << "the source declares class '" << name << "' exactly once";

@@ -108,6 +108,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/var_select.h>
 #include <hldb/variable.h>
 
@@ -121,11 +122,11 @@ class ForeachIterativeConstraints1Test : public Test {
 
  protected:
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Variable *findVariable(const hldb::ClassDefn *cls, std::string_view name) {
-    return hldb::findByName<hldb::Variable>(name, cls->getVariables());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Variable>(name, cls->getVariables());
   }
 
   static const hldb::Variable *findB() {
@@ -267,7 +268,7 @@ TEST_F(ForeachIterativeConstraints1Test, EnvExtendsUvmEnvAndHoldsAHandle) {
 }
 
 TEST_F(ForeachIterativeConstraints1Test, TopModuleHoldsEnvHandle) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   const hldb::Variable *const environment = hldb::findByName<hldb::Variable>("environment", top->getVariables());
   ASSERT_NE(environment, nullptr);

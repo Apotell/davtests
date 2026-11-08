@@ -161,6 +161,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 
 #include <hlc/Tests/Test.h>
 
@@ -197,14 +198,16 @@ class AssumePropertyUvmFailTest : public Test {
 // ... All tests belonging to AssumePropertyUvmFailTest go here!
 
 TEST_F(AssumePropertyUvmFailTest, ModuleMemCtrlAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mem_ctrl", m_design->getAllModules()), nullptr)
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mem_ctrl", m_design->getAllModules()), nullptr)
       << "module 'mem_ctrl' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(AssumePropertyUvmFailTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -219,7 +222,7 @@ TEST_F(AssumePropertyUvmFailTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask
 }
 
 TEST_F(AssumePropertyUvmFailTest, AssumePropertyIsReachable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)
@@ -234,7 +237,7 @@ TEST_F(AssumePropertyUvmFailTest, AssumePropertyIsReachable) {
 }
 
 TEST_F(AssumePropertyUvmFailTest, PropertySpecHasPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assume *const assumeProp = any_cast<hldb::Assume>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assumeProp, nullptr);
@@ -253,7 +256,7 @@ TEST_F(AssumePropertyUvmFailTest, PropertySpecHasPosedgeClockingEvent) {
 }
 
 TEST_F(AssumePropertyUvmFailTest, PropertyExprIsNegatedBitwiseAndOfReadAndWrite) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assume *const assumeProp = any_cast<hldb::Assume>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assumeProp, nullptr);

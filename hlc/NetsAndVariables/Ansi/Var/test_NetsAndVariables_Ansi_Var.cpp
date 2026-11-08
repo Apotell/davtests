@@ -70,7 +70,7 @@ class AnsiVarTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("var_keyword_test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("var_keyword_test", m_design->getAllModules());
   }
 
   // Asserts 'name' is a hldb::Variable in top->getVariables() and that no

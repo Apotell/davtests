@@ -52,7 +52,7 @@ class TimescaleResetallTest : public Test {
 
  protected:
   static const hldb::Module *findModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
   static const hldb::SourceFile *findSourceFile(std::string_view name) {
     return hldb::findByName<hldb::SourceFile>(name, m_design->getSourceFiles());

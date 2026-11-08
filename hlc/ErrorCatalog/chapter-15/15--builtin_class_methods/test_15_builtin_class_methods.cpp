@@ -47,10 +47,10 @@
 #include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/named_event.h>
-#include <hldb/tf_call.h>
 #include <hldb/ref_obj.h>
 #include <hldb/subroutine_call.h>
 #include <hldb/task_func.h>
+#include <hldb/tf_call.h>
 
 #include <string_view>
 
@@ -104,7 +104,7 @@ class BuiltinClassMethodsTest : public Test {
 };
 
 TEST_F(BuiltinClassMethodsTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------

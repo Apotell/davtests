@@ -95,12 +95,12 @@ class StatementLabelsParTest : public Test {
 // ... All tests belonging to StatementLabelsParTest go here!
 
 TEST_F(StatementLabelsParTest, ModuleBlockTbExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'block_tb' not found";
 }
 
 TEST_F(StatementLabelsParTest, LeadingStatementLabelProducesSameForkStmtNameAsBlockNamingForm) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

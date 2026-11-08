@@ -109,7 +109,7 @@ class FuncReturnRangeTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("func_width_scope_top", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("func_width_scope_top", m_design->getAllModules());
   }
 
   static const hldb::Function *getFunc1() {

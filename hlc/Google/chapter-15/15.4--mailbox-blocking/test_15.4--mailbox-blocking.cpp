@@ -109,14 +109,14 @@ class MailboxBlockingTest : public Test {
 // ... All tests belonging to MailboxBlockingTest go here!
 
 TEST_F(MailboxBlockingTest, ModuleTopShouldExistButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' should exist -- 'mailbox m;' is legal per IEEE 1800-2023 "
                               "Sec 15.4, but HLC's parser currently rejects it with a syntax error "
                               "(see file header), so no module in this design ends up named 'top'.";
 }
 
 TEST_F(MailboxBlockingTest, MailboxVariableShouldHaveMailboxClassTypeButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const m = hldb::findByName<hldb::Variable>("m", top->getVariables());
@@ -133,7 +133,7 @@ TEST_F(MailboxBlockingTest, MailboxVariableShouldHaveMailboxClassTypeButDoesNot)
 }
 
 TEST_F(MailboxBlockingTest, ConstructionAssignmentShouldExistButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module top should have exactly one process (the initial block)";
@@ -167,7 +167,7 @@ TEST_F(MailboxBlockingTest, ConstructionAssignmentShouldExistButDoesNot) {
 }
 
 TEST_F(MailboxBlockingTest, LocalStringVariablesShouldExistButDoNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -183,7 +183,7 @@ TEST_F(MailboxBlockingTest, LocalStringVariablesShouldExistButDoNot) {
 }
 
 TEST_F(MailboxBlockingTest, PutShouldBeBlockingMethodTaskCallWithOneArgumentButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -212,7 +212,7 @@ TEST_F(MailboxBlockingTest, PutShouldBeBlockingMethodTaskCallWithOneArgumentButD
 }
 
 TEST_F(MailboxBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgumentButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -244,7 +244,7 @@ TEST_F(MailboxBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgumentBut
 }
 
 TEST_F(MailboxBlockingTest, GetShouldBeBlockingMethodTaskCallWithOneArgumentButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -274,7 +274,7 @@ TEST_F(MailboxBlockingTest, GetShouldBeBlockingMethodTaskCallWithOneArgumentButD
 }
 
 TEST_F(MailboxBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentButDoesNot) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

@@ -99,7 +99,7 @@ class ExpectStmtTest : public Test {
 
  protected:
   static const hldb::ExpectStmt *getExpectStmt() {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) {
       return nullptr;
     }
@@ -117,12 +117,12 @@ class ExpectStmtTest : public Test {
 // ... All tests belonging to ExpectStmtTest go here!
 
 TEST_F(ExpectStmtTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(ExpectStmtTest, InitialBeginWrapsSingleExpectStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module top has exactly one process (the initial block)";

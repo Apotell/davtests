@@ -180,6 +180,7 @@
 #include <hldb/task.h>
 #include <hldb/task_call.h>
 #include <hldb/tf_call.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -192,7 +193,7 @@ class GlobalConstraints1Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getVar(std::string_view className, std::string_view varName) {
@@ -251,7 +252,7 @@ class GlobalConstraints1Test : public Test {
     return any_cast<hldb::Begin>(body->getStmts()->at(1));
   }
 
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getModule() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   // "initial begin environment = new("env"); run_test(); end"
   static const hldb::Begin *getInitialBody() {

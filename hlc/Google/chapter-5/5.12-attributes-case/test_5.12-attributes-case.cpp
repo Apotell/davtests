@@ -57,7 +57,7 @@ class AttributesCase : public Test {
 // Helpers ----
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("top", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getInitialBegin(const hldb::Module *top) {

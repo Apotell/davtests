@@ -349,7 +349,7 @@ TEST_F(ParamFileTest, ElaboratedMemInitFileIsEmptyString) {
   if (m_design->getElaborated()) {
     const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("dut", m_design->getTopModules());
     ASSERT_NE(dut, nullptr) << "the elaborated dut not found";
-    const hldb::Module *const ram = hldb::findByName<hldb::Module>("u_ram", dut->getModules());
+    const hldb::Module *const ram = hldb::findByDefName<hldb::Module>("u_ram", dut->getModules());
     ASSERT_NE(ram, nullptr) << "the instance u_ram is elaborated";
     const hldb::Parameter *const pa = getParameter(ram, "MemInitFile");
     ASSERT_NE(pa, nullptr);

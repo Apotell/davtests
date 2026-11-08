@@ -367,7 +367,7 @@ TEST_F(ParamConcatTest, UMstatusCsrReceivesResetValueOne) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const csr = hldb::findByName<hldb::Module>("u_mstatus_csr", top->getModules());
+    const hldb::Module *const csr = hldb::findByDefName<hldb::Module>("u_mstatus_csr", top->getModules());
     ASSERT_NE(csr, nullptr) << "the instance u_mstatus_csr is elaborated";
     ExpectElabParam(csr, "ResetValue", 1, "23.10.2.2: '{MSTATUS_RST_VAL}' = 2'b01");
   }

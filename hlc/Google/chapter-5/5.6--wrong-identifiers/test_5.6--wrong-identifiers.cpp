@@ -59,7 +59,7 @@ TEST_F(WrongIdentifiers, Compiler_ReportsSyntaxErrors) {
 // The module name 'identifiers' was never captured due to parse failure.
 // ----
 TEST_F(WrongIdentifiers, NoModuleNamedIdentifiers) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("identifiers", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByDefName<hldb::Module>("identifiers", m_design->getAllModules()), nullptr)
       << "'identifiers' should not exist -- parse failure swallowed the name";
 }
 

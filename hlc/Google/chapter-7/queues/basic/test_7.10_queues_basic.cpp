@@ -77,18 +77,18 @@ class QueuesBasicTest : public Test {
 // --- module / variable ----
 
 TEST_F(QueuesBasicTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(QueuesBasicTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(QueuesBasicTest, VariableQExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Variable>("q", top->getVariables()), nullptr);
 }
@@ -96,7 +96,7 @@ TEST_F(QueuesBasicTest, VariableQExists) {
 // `q` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must not
 // also appear in the module's net collection.
 TEST_F(QueuesBasicTest, VariableQIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   if (top->getNets() != nullptr) {
     EXPECT_EQ(hldb::findByName<hldb::Net>("q", top->getNets()), nullptr)
@@ -107,7 +107,7 @@ TEST_F(QueuesBasicTest, VariableQIsNotDuplicatedAsNet) {
 // --- variable "q": unbounded queue of int ----
 
 TEST_F(QueuesBasicTest, VariableQTypespecIsArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -117,7 +117,7 @@ TEST_F(QueuesBasicTest, VariableQTypespecIsArrayTypespec) {
 }
 
 TEST_F(QueuesBasicTest, VariableQArrayTypeIsQueue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -127,7 +127,7 @@ TEST_F(QueuesBasicTest, VariableQArrayTypeIsQueue) {
 }
 
 TEST_F(QueuesBasicTest, VariableQArrayIsNotPacked) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -137,7 +137,7 @@ TEST_F(QueuesBasicTest, VariableQArrayIsNotPacked) {
 }
 
 TEST_F(QueuesBasicTest, VariableQRangeLeftIsUnboundedDollar) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -153,7 +153,7 @@ TEST_F(QueuesBasicTest, VariableQRangeLeftIsUnboundedDollar) {
 }
 
 TEST_F(QueuesBasicTest, VariableQRangeHasNoRightExpr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -165,7 +165,7 @@ TEST_F(QueuesBasicTest, VariableQRangeHasNoRightExpr) {
 }
 
 TEST_F(QueuesBasicTest, VariableQElemTypespecIsIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -178,7 +178,7 @@ TEST_F(QueuesBasicTest, VariableQElemTypespecIsIntTypespec) {
 }
 
 TEST_F(QueuesBasicTest, VariableQHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const q = hldb::findByName<hldb::Variable>("q", top->getVariables());
   ASSERT_NE(q, nullptr);
@@ -188,13 +188,13 @@ TEST_F(QueuesBasicTest, VariableQHasNoInitialValue) {
 // --- module structural completeness ----
 
 TEST_F(QueuesBasicTest, ModuleHasNoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr) << "basic.sv has no initial/always blocks";
 }
 
 TEST_F(QueuesBasicTest, ModuleHasNoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr) << "basic.sv has no continuous assignments";
 }

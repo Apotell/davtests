@@ -29,10 +29,11 @@
 #include <hldb/checker_inst.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/gen_if.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_if.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
+#include <hldb/unit.h>
 
 #include <gtest/gtest.h>
 
@@ -66,17 +67,15 @@ class BindTest : public Test {
   static std::vector<const hldb::BindDirective *> genScopeBinds(const hldb::Module *mod) {
     std::vector<const hldb::BindDirective *> result;
     if (mod == nullptr) return result;
-    const auto *genStmts = mod->getGenStmts();
+    const hldb::AnyCollection *const genStmts = mod->getGenStmts();
     if (genStmts == nullptr) return result;
     for (const hldb::Any *genStmt : *genStmts) {
-      if (const auto *genIf = any_cast<hldb::GenIf>(genStmt)) {
-        const auto *block = genIf->getStmt<hldb::GenBlock>();
+      if (const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(genStmt)) {
+        const hldb::GenBlock *const block = genIf->getStmt<hldb::GenBlock>();
         if (block == nullptr) continue;
-        const auto *bds = block->getBindDirectives();
+        const hldb::BindDirectiveCollection *const bds = block->getBindDirectives();
         if (bds == nullptr) continue;
-        for (const hldb::BindDirective *bd : *bds) {
-          result.push_back(bd);
-        }
+        result.insert(result.end(), bds->cbegin(), bds->cend());
       }
     }
     return result;
@@ -86,32 +85,34 @@ class BindTest : public Test {
 // --- Counts ---
 
 TEST_F(BindTest, DesignLevelCount) {
-  const auto *bds = m_design->getBindDirectives();
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirectiveCollection *bds = m_unit->getBindDirectives();
   ASSERT_NE(bds, nullptr);
   EXPECT_EQ(bds->size(), 16u) << "Expected T1-T16 as top-level bind directives";
 }
 
 TEST_F(BindTest, ModuleLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_module_binds not found";
-  const auto *bds = mod->getBindDirectives();
+  const hldb::BindDirectiveCollection *bds = mod->getBindDirectives();
   ASSERT_NE(bds, nullptr);
   EXPECT_EQ(bds->size(), 5u) << "Expected M1-M5 inside top_module_binds";
 }
 
 TEST_F(BindTest, GenerateLevelCount) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr) << "Module top_generate_binds not found";
-  const auto bds = genScopeBinds(mod);
+  const std::vector<const hldb::BindDirective *> bds = genScopeBinds(mod);
   EXPECT_EQ(bds.size(), 3u) << "Expected G1-G3 across generate blocks";
 }
 
 // --- T1-T6: Form 1, scope-only (no instance list) ---
 
 TEST_F(BindTest, T1_ScopeOnly_NamedPorts) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t1");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t1");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -120,9 +121,10 @@ TEST_F(BindTest, T1_ScopeOnly_NamedPorts) {
 }
 
 TEST_F(BindTest, T2_ScopeOnly_OrderedPorts) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t2");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t2");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -130,9 +132,10 @@ TEST_F(BindTest, T2_ScopeOnly_OrderedPorts) {
 }
 
 TEST_F(BindTest, T3_ScopeOnly_DotStar) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t3");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t3");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -140,9 +143,10 @@ TEST_F(BindTest, T3_ScopeOnly_DotStar) {
 }
 
 TEST_F(BindTest, T4_ScopeOnly_NoPorts) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t4");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t4");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -150,9 +154,10 @@ TEST_F(BindTest, T4_ScopeOnly_NoPorts) {
 }
 
 TEST_F(BindTest, T5_ScopeOnly_ParamOverride) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t5");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t5");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -162,9 +167,10 @@ TEST_F(BindTest, T5_ScopeOnly_ParamOverride) {
 // T6: checker_instantiation -- grammar parses as module_instantiation at parse
 // time; elaboration must reclassify to CheckerInst.
 TEST_F(BindTest, T6_ScopeOnly_CheckerBind) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t6");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t6");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -175,120 +181,126 @@ TEST_F(BindTest, T6_ScopeOnly_CheckerBind) {
 // --- T7-T12: Form 1, explicit instance lists ---
 
 TEST_F(BindTest, T7_OneInstance) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t7");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t7");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 1u);
-  const auto *ro = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro, nullptr);
   EXPECT_EQ(ro->getName(), "u0");
 }
 
 TEST_F(BindTest, T8_TwoInstances) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t8");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t8");
   ASSERT_NE(bd, nullptr);
-  const auto *target = bd->getBindTargetScope();
+  const hldb::Any *const target = bd->getBindTargetScope();
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(target->getName(), "TargetMod");
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 2u);
-  const auto *ro0 = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro0, nullptr);
   EXPECT_EQ(ro0->getName(), "u0");
-  const auto *ro1 = any_cast<hldb::RefObj>((*insts)[1]);
+  const hldb::RefObj *const ro1 = any_cast<hldb::RefObj>((*insts)[1]);
   ASSERT_NE(ro1, nullptr);
   EXPECT_EQ(ro1->getName(), "u1");
 }
 
 TEST_F(BindTest, T9_BitSelectSingle) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t9");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t9");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 1u);
   // u_arr[0]
-  const auto *bs = any_cast<hldb::BitSelect>((*insts)[0]);
+  const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>((*insts)[0]);
   ASSERT_NE(bs, nullptr);
   ASSERT_NE(any_cast<hldb::Constant>(bs->getIndex()), nullptr);
-  const auto *pfx = bs->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx = bs->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx, nullptr);
   EXPECT_EQ(pfx->getName(), "u_arr");
 }
 
 TEST_F(BindTest, T10_TwoBitSelects) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t10");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t10");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 2u);
   // u_arr[0]
-  const auto *bs0 = any_cast<hldb::BitSelect>((*insts)[0]);
+  const hldb::BitSelect *const bs0 = any_cast<hldb::BitSelect>((*insts)[0]);
   ASSERT_NE(bs0, nullptr);
-  const auto *idx0 = any_cast<hldb::Constant>(bs0->getIndex());
+  const hldb::Constant *const idx0 = bs0->getIndex<hldb::Constant>();
   ASSERT_NE(idx0, nullptr);
   EXPECT_EQ(idx0->getDecompile(), "0");
-  const auto *pfx0 = bs0->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx0 = bs0->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx0, nullptr);
   EXPECT_EQ(pfx0->getName(), "u_arr");
   // u_arr[1]
-  const auto *bs1 = any_cast<hldb::BitSelect>((*insts)[1]);
+  const hldb::BitSelect *const bs1 = any_cast<hldb::BitSelect>((*insts)[1]);
   ASSERT_NE(bs1, nullptr);
-  const auto *idx1 = any_cast<hldb::Constant>(bs1->getIndex());
+  const hldb::Constant *const idx1 = bs1->getIndex<hldb::Constant>();
   ASSERT_NE(idx1, nullptr);
   EXPECT_EQ(idx1->getDecompile(), "1");
-  const auto *pfx1 = bs1->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx1 = bs1->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx1, nullptr);
   EXPECT_EQ(pfx1->getName(), "u_arr");
 }
 
 TEST_F(BindTest, T11_2DBitSelect) {
+  ASSERT_NE(m_unit, nullptr);
   // u_arr[1][0]  ->  BitSelect{0, prefix=BitSelect{1, prefix=RefObj"u_arr"}}
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t11");
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t11");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 1u);
-  const auto *outer = any_cast<hldb::BitSelect>((*insts)[0]);
+  const hldb::BitSelect *const outer = any_cast<hldb::BitSelect>((*insts)[0]);
   ASSERT_NE(outer, nullptr);
-  const auto *outerIdx = any_cast<hldb::Constant>(outer->getIndex());
+  const hldb::Constant *const outerIdx = outer->getIndex<hldb::Constant>();
   ASSERT_NE(outerIdx, nullptr);
   EXPECT_EQ(outerIdx->getDecompile(), "0");
-  const auto *inner = outer->getPrefix<hldb::BitSelect>();
+  const hldb::BitSelect *inner = outer->getPrefix<hldb::BitSelect>();
   ASSERT_NE(inner, nullptr);
-  const auto *innerIdx = any_cast<hldb::Constant>(inner->getIndex());
+  const hldb::Constant *const innerIdx = inner->getIndex<hldb::Constant>();
   ASSERT_NE(innerIdx, nullptr);
   EXPECT_EQ(innerIdx->getDecompile(), "1");
-  const auto *base = inner->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const base = inner->getPrefix<hldb::RefObj>();
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "u_arr");
 }
 
 TEST_F(BindTest, T12_MixedList) {
+  ASSERT_NE(m_unit, nullptr);
   // u0, u_arr[0], u_arr[1]
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t12");
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t12");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 3u);
   // [0] = RefObj "u0"
-  const auto *ro = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro, nullptr);
   EXPECT_EQ(ro->getName(), "u0");
   // [1] = BitSelect u_arr[0]
-  const auto *bs0 = any_cast<hldb::BitSelect>((*insts)[1]);
+  const hldb::BitSelect *const bs0 = any_cast<hldb::BitSelect>((*insts)[1]);
   ASSERT_NE(bs0, nullptr);
-  const auto *pfx0 = bs0->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx0 = bs0->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx0, nullptr);
   EXPECT_EQ(pfx0->getName(), "u_arr");
   // [2] = BitSelect u_arr[1]
-  const auto *bs1 = any_cast<hldb::BitSelect>((*insts)[2]);
+  const hldb::BitSelect *const bs1 = any_cast<hldb::BitSelect>((*insts)[2]);
   ASSERT_NE(bs1, nullptr);
-  const auto *pfx1 = bs1->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx1 = bs1->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx1, nullptr);
   EXPECT_EQ(pfx1->getName(), "u_arr");
 }
@@ -296,15 +308,16 @@ TEST_F(BindTest, T12_MixedList) {
 // --- T13-T14: checker_instantiation with instance lists ---
 
 TEST_F(BindTest, T13_CheckerWithOneInstance) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t13");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t13");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 1u);
-  const auto *ro = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro, nullptr);
   EXPECT_EQ(ro->getName(), "u0");
   ASSERT_NE(bd->getBindSourceInstance(), nullptr);
@@ -312,9 +325,10 @@ TEST_F(BindTest, T13_CheckerWithOneInstance) {
 }
 
 TEST_F(BindTest, T14_CheckerWithBitSelects) {
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t14");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t14");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 2u);
   ASSERT_NE(any_cast<hldb::BitSelect>((*insts)[0]), nullptr);
@@ -326,10 +340,11 @@ TEST_F(BindTest, T14_CheckerWithBitSelects) {
 // --- T15: Form 1/2 ambiguous -- single identifier, no COLON ---
 
 TEST_F(BindTest, T15_Ambiguous_SingleIdentifier) {
+  ASSERT_NE(m_unit, nullptr);
   // At parse time: scope="u0", no instances. Elaboration resolves Form 1 vs 2.
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t15");
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t15");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "u0");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -343,9 +358,10 @@ TEST_F(BindTest, T16_HierarchicalForm2) {
   // bind top_instances.u0 AsrtMod bd_t16(...)
   // Grammar: bind_target_instance -> hierarchical_identifier constant_bit_select
   // elaboration resolves the full path top_instances.u0 to a specific instance.
-  const auto *bd = findBD(m_design->getBindDirectives(), "bd_t16");
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::BindDirective *const bd = findBD(m_unit->getBindDirectives(), "bd_t16");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope<hldb::RefObj>();
+  const hldb::RefObj *const scope = bd->getBindTargetScope<hldb::RefObj>();
   ASSERT_NE(scope, nullptr) << "Hierarchical Form 2 path";
   ASSERT_NE(scope->getPathElems(), nullptr);
   ASSERT_EQ(scope->getPathElems()->size(), 2u);
@@ -359,11 +375,11 @@ TEST_F(BindTest, T16_HierarchicalForm2) {
 // --- M1-M5: module-level bind directives ---
 
 TEST_F(BindTest, M1_FormOneAllInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto *bd = findBD(mod->getBindDirectives(), "bd_m1");
+  const hldb::BindDirective *const bd = findBD(mod->getBindDirectives(), "bd_m1");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -372,47 +388,47 @@ TEST_F(BindTest, M1_FormOneAllInstances) {
 }
 
 TEST_F(BindTest, M2_TwoNamedInstances) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto *bd = findBD(mod->getBindDirectives(), "bd_m2");
+  const hldb::BindDirective *const bd = findBD(mod->getBindDirectives(), "bd_m2");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 2u);
-  const auto *ro0 = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro0, nullptr);
   EXPECT_EQ(ro0->getName(), "ma0");
-  const auto *ro1 = any_cast<hldb::RefObj>((*insts)[1]);
+  const hldb::RefObj *const ro1 = any_cast<hldb::RefObj>((*insts)[1]);
   ASSERT_NE(ro1, nullptr);
   EXPECT_EQ(ro1->getName(), "ma1");
 }
 
 TEST_F(BindTest, M3_BitSelectInstance) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto *bd = findBD(mod->getBindDirectives(), "bd_m3");
+  const hldb::BindDirective *const bd = findBD(mod->getBindDirectives(), "bd_m3");
   ASSERT_NE(bd, nullptr);
-  const auto *insts = bd->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = bd->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 1u);
   // ma_arr[0]
-  const auto *bs = any_cast<hldb::BitSelect>((*insts)[0]);
+  const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>((*insts)[0]);
   ASSERT_NE(bs, nullptr);
   ASSERT_NE(any_cast<hldb::Constant>(bs->getIndex()), nullptr);
-  const auto *pfx = bs->getPrefix<hldb::RefObj>();
+  const hldb::RefObj *const pfx = bs->getPrefix<hldb::RefObj>();
   ASSERT_NE(pfx, nullptr);
   EXPECT_EQ(pfx->getName(), "ma_arr");
 }
 
 TEST_F(BindTest, M4_CheckerBind) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto *bd = findBD(mod->getBindDirectives(), "bd_m4");
+  const hldb::BindDirective *const bd = findBD(mod->getBindDirectives(), "bd_m4");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -421,11 +437,11 @@ TEST_F(BindTest, M4_CheckerBind) {
 }
 
 TEST_F(BindTest, M5_ParamOverride) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_module_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_module_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto *bd = findBD(mod->getBindDirectives(), "bd_m5");
+  const hldb::BindDirective *const bd = findBD(mod->getBindDirectives(), "bd_m5");
   ASSERT_NE(bd, nullptr);
-  const auto *scope = bd->getBindTargetScope();
+  const hldb::Any *const scope = bd->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
   EXPECT_EQ(bd->getBindTargetInstances(), nullptr);
@@ -436,53 +452,53 @@ TEST_F(BindTest, M5_ParamOverride) {
 // --- G1-G3: bind directives inside generate blocks ---
 
 TEST_F(BindTest, G1_FormOneInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto bds = genScopeBinds(mod);
+  const std::vector<const hldb::BindDirective *> bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
-    const auto *src = bd->getBindSourceInstance();
+    const hldb::Any *const src = bd->getBindSourceInstance();
     return src && src->getName() == "bd_g1";
   });
   ASSERT_NE(it, bds.end());
-  const auto *scope = (*it)->getBindTargetScope();
+  const hldb::Any *const scope = (*it)->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
   EXPECT_TRUE((*it)->getBindTargetInstances() == nullptr);
 }
 
 TEST_F(BindTest, G2_InstanceListInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto bds = genScopeBinds(mod);
+  const std::vector<const hldb::BindDirective *> bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
-    const auto *src = bd->getBindSourceInstance();
+    const hldb::Any *const src = bd->getBindSourceInstance();
     return src && src->getName() == "bd_g2";
   });
   ASSERT_NE(it, bds.end());
-  const auto *scope = (*it)->getBindTargetScope();
+  const hldb::Any *const scope = (*it)->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
-  const auto *insts = (*it)->getBindTargetInstances();
+  const hldb::AnyCollection *const insts = (*it)->getBindTargetInstances();
   ASSERT_NE(insts, nullptr);
   ASSERT_EQ(insts->size(), 2u);
-  const auto *ro0 = any_cast<hldb::RefObj>((*insts)[0]);
+  const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>((*insts)[0]);
   ASSERT_NE(ro0, nullptr);
   EXPECT_EQ(ro0->getName(), "gb0");
-  const auto *ro1 = any_cast<hldb::RefObj>((*insts)[1]);
+  const hldb::RefObj *const ro1 = any_cast<hldb::RefObj>((*insts)[1]);
   ASSERT_NE(ro1, nullptr);
   EXPECT_EQ(ro1->getName(), "gb1");
 }
 
 TEST_F(BindTest, G3_CheckerInGenerateIf) {
-  const auto *mod = hldb::findByName<hldb::Module>("top_generate_binds", m_design->getAllModules());
+  const hldb::Module *const mod = hldb::findByDefName<hldb::Module>("top_generate_binds", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
-  const auto bds = genScopeBinds(mod);
+  const std::vector<const hldb::BindDirective *> bds = genScopeBinds(mod);
   const auto it = std::find_if(bds.begin(), bds.end(), [](const hldb::BindDirective *bd) {
-    const auto *src = bd->getBindSourceInstance();
+    const hldb::Any *const src = bd->getBindSourceInstance();
     return src && src->getName() == "bd_g3";
   });
   ASSERT_NE(it, bds.end());
-  const auto *scope = (*it)->getBindTargetScope();
+  const hldb::Any *const scope = (*it)->getBindTargetScope();
   ASSERT_NE(scope, nullptr);
   EXPECT_EQ(scope->getName(), "TargetMod");
   EXPECT_TRUE((*it)->getBindTargetInstances() == nullptr);

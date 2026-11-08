@@ -86,6 +86,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
 #include <hldb/var_select.h>
 #include <hldb/variable.h>
 
@@ -99,7 +100,7 @@ class ForeachIterativeConstraints0Test : public Test {
 
  protected:
   static const hldb::ClassDefn *findClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *findB() {
@@ -238,7 +239,7 @@ TEST_F(ForeachIterativeConstraints0Test, ConstraintsShouldBeEnabledByDefaultButA
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.
   for (std::string_view className : {"a", "a2"}) {
-    const hldb::ClassDefn *const cls = hldb::findByName<hldb::ClassDefn>(className, m_design->getAllClasses());
+    const hldb::ClassDefn *const cls = hldb::findByDefName<hldb::ClassDefn>(className, m_unit->getClassDefns());
     if (cls == nullptr || cls->getConstraints() == nullptr) continue;
     for (const hldb::Constraint *const cons : *cls->getConstraints()) {
       if (cons->getPure()) continue;

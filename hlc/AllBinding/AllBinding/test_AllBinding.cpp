@@ -70,6 +70,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -81,10 +82,10 @@ class AllBindingTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getModule() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Typedef *getCrossFileTypedef() {
-    return hldb::findByName<hldb::Typedef>("type_scr1_mem_resp_e", m_design->getTypedefs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Typedef>("type_scr1_mem_resp_e", m_unit->getTypedefs());
   }
 
   static const hldb::EnumTypespec *getCrossFileEnumTypespec() {
@@ -138,6 +139,7 @@ TEST_F(AllBindingTest, InternalVariableResolvesToCrossFileEnumTypedef) {
 // --- type_scr1_mem_resp_e itself --------------------------------------------
 
 TEST_F(AllBindingTest, TypedefAliasesLogicBackedEnum) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = getCrossFileTypedef();
   ASSERT_NE(td, nullptr) << "design should hold 'type_scr1_mem_resp_e' as a $unit-scope Typedef";
   ASSERT_NE(td->getAlias(), nullptr);
@@ -163,6 +165,7 @@ TEST_F(AllBindingTest, TypedefAliasesLogicBackedEnum) {
 }
 
 TEST_F(AllBindingTest, EnumHasThreeConstsInDeclarationOrder) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::EnumTypespec *const enumTypespec = getCrossFileEnumTypespec();
   ASSERT_NE(enumTypespec, nullptr);
   const hldb::Enum *const e = enumTypespec->getEnum();

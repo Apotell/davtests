@@ -73,16 +73,16 @@ class DollarRootTest : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(DollarRootTest, ModuleTopExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
 }
 
 TEST_F(DollarRootTest, ModuleTestProgramExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("test_program", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("test_program", m_design->getAllModules()), nullptr)
       << "module 'test_program' not found";
 }
 
 TEST_F(DollarRootTest, ModuleTestProgram1Exists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("test_program1", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("test_program1", m_design->getAllModules()), nullptr)
       << "module 'test_program1' not found";
 }
 
@@ -93,7 +93,7 @@ TEST_F(DollarRootTest, ModuleTestProgram1Exists) {
 // ---------------------------------------------------------------------------
 
 TEST_F(DollarRootTest, TopHasOneContAssign) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr) << "'assign $root.top.a = b;' must produce a continuous assignment";
   EXPECT_EQ(top->getContAssigns()->size(), 1u);
@@ -107,7 +107,7 @@ TEST_F(DollarRootTest, TopContAssignLhsResolvesToPortA) {
   // targeting port "a" -- either the bare port name or a dotted hierarchical
   // form ending in ".a", both of which are consistent with IEEE 1800-2023
   // Sec 23.8 resolving '$root.top.a' down to module "top"'s port "a".
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 1u);
@@ -125,7 +125,7 @@ TEST_F(DollarRootTest, TopContAssignLhsResolvesToPortA) {
 }
 
 TEST_F(DollarRootTest, TopPortAAndBExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   // "input logic b" / "output logic a" carry no net-type keyword; per IEEE
   // 1800-2023 Sec 6.7/6.8 whether HLC models them as Net or Variable is not

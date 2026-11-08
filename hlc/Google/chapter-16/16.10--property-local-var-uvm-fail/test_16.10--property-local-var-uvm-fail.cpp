@@ -188,6 +188,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <hlc/Tests/Test.h>
@@ -239,14 +240,16 @@ class PropertyLocalVarUvmFailTest : public Test {
 // ... All tests belonging to PropertyLocalVarUvmFailTest go here!
 
 TEST_F(PropertyLocalVarUvmFailTest, ModuleClkGenAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
       << "module 'clk_gen' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -261,7 +264,7 @@ TEST_F(PropertyLocalVarUvmFailTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTa
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, PropertyPropDeclaredWithLocalVariableX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr) << "property 'prop' not found in module top";
@@ -272,7 +275,7 @@ TEST_F(PropertyLocalVarUvmFailTest, PropertyPropDeclaredWithLocalVariableX) {
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, PropertySpecHasPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -288,7 +291,7 @@ TEST_F(PropertyLocalVarUvmFailTest, PropertySpecHasPosedgeClockingEvent) {
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, PropertyExprIsOverlappedImplication) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -305,7 +308,7 @@ TEST_F(PropertyLocalVarUvmFailTest, PropertyExprIsOverlappedImplication) {
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, ConsequentIsCycleDelayedEqualityWithLocalVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::PropertyDecl *const prop = hldb::findByName<hldb::PropertyDecl>("prop", top->getPropertyDecls());
   ASSERT_NE(prop, nullptr);
@@ -329,7 +332,7 @@ TEST_F(PropertyLocalVarUvmFailTest, ConsequentIsCycleDelayedEqualityWithLocalVar
 }
 
 TEST_F(PropertyLocalVarUvmFailTest, AssertPropertyIsReachableAndReferencesProp) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

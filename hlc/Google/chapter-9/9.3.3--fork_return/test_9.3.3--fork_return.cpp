@@ -101,12 +101,12 @@ class ForkReturnTest : public Test {
 // ... All tests belonging to ForkReturnTest go here!
 
 TEST_F(ForkReturnTest, ModuleBlockTbExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'block_tb' not found";
 }
 
 TEST_F(ForkReturnTest, TaskForkTestExistsAndIsATask) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTaskFuncs(), nullptr);
   ASSERT_EQ(top->getTaskFuncs()->size(), 1u) << "module block_tb declares exactly one task/function: fork_test";
@@ -119,7 +119,7 @@ TEST_F(ForkReturnTest, TaskForkTestExistsAndIsATask) {
 }
 
 TEST_F(ForkReturnTest, ForkTestBodyIsJoinNoneForkWithDelayAndReturn) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const forkTest = any_cast<hldb::Task>(top->getTaskFuncs()->front());
   ASSERT_NE(forkTest, nullptr);

@@ -135,12 +135,12 @@ class BlockStartFinishTest : public Test {
 // ... All tests belonging to BlockStartFinishTest go here!
 
 TEST_F(BlockStartFinishTest, ModuleBlockTbExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'block_tb' not found";
 }
 
 TEST_F(BlockStartFinishTest, InitialBeginWrapsTwoForkJoinBlocks) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module block_tb has exactly one process (the initial block)";
@@ -164,7 +164,7 @@ TEST_F(BlockStartFinishTest, InitialBeginWrapsTwoForkJoinBlocks) {
 }
 
 TEST_F(BlockStartFinishTest, FirstForkJoinHasPlainJoinAndFourDelayedAssignments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -186,7 +186,7 @@ TEST_F(BlockStartFinishTest, FirstForkJoinHasPlainJoinAndFourDelayedAssignments)
 }
 
 TEST_F(BlockStartFinishTest, SecondForkJoinHasPlainJoinAndFourDelayedAssignments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

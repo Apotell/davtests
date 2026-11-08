@@ -88,7 +88,7 @@ static const hldb::Package *getPkg(const hldb::Design *d) {
 }
 
 static const hldb::Module *getModule(const hldb::Design *d, std::string_view name) {
-  return hldb::findByName<hldb::Module>(name, d->getAllModules());
+  return hldb::findByDefName<hldb::Module>(name, d->getAllModules());
 }
 
 static const hldb::Parameter *getPkgParameter(const hldb::Design *d, std::string_view name) {

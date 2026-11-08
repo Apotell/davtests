@@ -77,12 +77,12 @@ class EventConditionalTest : public Test {
 };
 
 TEST_F(EventConditionalTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventConditionalTest, ClkEnAAreNetsYIsVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   for (const char *const name : {"clk", "en", "a"}) {
@@ -96,7 +96,7 @@ TEST_F(EventConditionalTest, ClkEnAAreNetsYIsVariable) {
 }
 
 TEST_F(EventConditionalTest, ExactlyOnePlainAlwaysProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -111,7 +111,7 @@ TEST_F(EventConditionalTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventConditionalTest, IffGatesPosedgeClkWithEnEqualsOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -155,7 +155,7 @@ TEST_F(EventConditionalTest, IffGatesPosedgeClkWithEnEqualsOne) {
 }
 
 TEST_F(EventConditionalTest, ControlledStatementIsNonblockingYAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;

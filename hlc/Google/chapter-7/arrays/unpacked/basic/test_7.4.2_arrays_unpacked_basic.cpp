@@ -79,12 +79,12 @@ class UnpackedBasicTest : public Test {
 // --- module / nets ----
 
 TEST_F(UnpackedBasicTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasThreeVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 3u)
@@ -92,20 +92,20 @@ TEST_F(UnpackedBasicTest, ModuleHasThreeVariables) {
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasNoNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getNets(), nullptr) << "no net-type keyword is present in basic.sv";
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasFiveTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 5u);
 }
 
 TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const bit = hldb::findByName<hldb::Variable>("_bit", top->getVariables());
   ASSERT_NE(bit, nullptr);
@@ -119,7 +119,7 @@ TEST_F(UnpackedBasicTest, BitNetIsArrayOfBitTypespecRangeSevenToZero) {
 }
 
 TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const logic = hldb::findByName<hldb::Variable>("_logic", top->getVariables());
   ASSERT_NE(logic, nullptr);
@@ -129,7 +129,7 @@ TEST_F(UnpackedBasicTest, LogicNetIsArrayOfLogicTypespec) {
 }
 
 TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const logic = hldb::findByName<hldb::Variable>("_logic", top->getVariables());
   const hldb::Variable *const reg = hldb::findByName<hldb::Variable>("_reg", top->getVariables());
@@ -152,20 +152,25 @@ TEST_F(UnpackedBasicTest, RegNetMapsToSameLogicTypespecAsLogicNet) {
 
 TEST_F(UnpackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(UnpackedBasicTest, DesignHasSignedIntTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      if (it->getSigned()) break;
+    }
+  }
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
 
 TEST_F(UnpackedBasicTest, ModuleHasNoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
@@ -180,7 +185,7 @@ TEST_F(UnpackedBasicTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(UnpackedBasicTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

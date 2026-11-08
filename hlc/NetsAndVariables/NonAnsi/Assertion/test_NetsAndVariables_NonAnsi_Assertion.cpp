@@ -48,7 +48,7 @@ class NonAnsiAssertionTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_assertion_nonansi", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_assertion_nonansi", m_design->getAllModules());
   }
 };
 

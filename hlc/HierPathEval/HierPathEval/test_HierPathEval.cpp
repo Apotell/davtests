@@ -67,8 +67,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_if.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -88,7 +88,7 @@ class HierPathEvalTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   // Returns the ModuleTypespec of a RefInstance (which carries the instance's
   // parameter overrides), or nullptr.
@@ -109,9 +109,9 @@ class HierPathEvalTest : public Test {
 
 TEST_F(HierPathEvalTest, ModulesExist) {
   EXPECT_NE(getTop(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Module>("prim_pad_attr", m_design->getAllModules()), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Module>("prim_generic_pad_attr", m_design->getAllModules()), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("prim_pad_attr", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("prim_generic_pad_attr", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(HierPathEvalTest, PadAttrInstanceParamOverrideIsHierPathToDioPadType) {
@@ -149,7 +149,7 @@ TEST_F(HierPathEvalTest, GenericPadAttrInstanceParamOverrideIsPlainRefToPadType)
   // const hldb::Module *const top = getTop();
   // ASSERT_NE(top, nullptr);
   // ASSERT_NE(top->getModules(), nullptr);
-  // const hldb::Module *const padAttrInst = hldb::findByName<hldb::Module>("u_prim_pad_attr", top->getModules());
+  // const hldb::Module *const padAttrInst = hldb::findByDefName<hldb::Module>("u_prim_pad_attr", top->getModules());
   // ASSERT_NE(padAttrInst, nullptr);
   // ASSERT_NE(padAttrInst->getModules(), nullptr);
   const hldb::Module *const padAttr = hldb::findByDefName<hldb::Module>("prim_pad_attr", m_design->getAllModules());

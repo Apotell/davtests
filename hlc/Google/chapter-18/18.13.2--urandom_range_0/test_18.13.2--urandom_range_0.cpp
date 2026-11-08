@@ -141,8 +141,8 @@
 //   - The license and metadata comments are comments, not design objects.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -161,6 +161,7 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -177,7 +178,7 @@ class UrandomRange0Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getDoUrandomRange() {
@@ -315,9 +316,10 @@ class UrandomRange0Test : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(UrandomRange0Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";

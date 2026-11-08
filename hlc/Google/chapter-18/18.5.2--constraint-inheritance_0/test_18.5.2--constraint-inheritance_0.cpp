@@ -77,6 +77,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <string_view>
@@ -89,7 +90,7 @@ class ConstraintInheritance0Test : public Test {
 
  protected:
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Constraint *findConstraint(const hldb::ClassDefn *cls, std::string_view name) {
@@ -185,7 +186,7 @@ TEST_F(ConstraintInheritance0Test, BaseShouldListDerivedClassButDoesNot) {
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a2, nullptr);
   ASSERT_NE(a->getDerivedClasses(), nullptr) << "'a' should list its derived class 'a2'";
-  const hldb::ClassDefn *const derived = hldb::findByName<hldb::ClassDefn>("a2", a->getDerivedClasses());
+  const hldb::ClassDefn *const derived = hldb::findByDefName<hldb::ClassDefn>("a2", a->getDerivedClasses());
   EXPECT_EQ(derived, a2) << "'a' must list 'a2' as a derived class";
 }
 
@@ -232,7 +233,7 @@ TEST_F(ConstraintInheritance0Test, ConstraintsShouldBeEnabledByDefaultButAreNot)
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.
   for (std::string_view className : {"a", "a2"}) {
-    const hldb::ClassDefn *const cls = hldb::findByName<hldb::ClassDefn>(className, m_design->getAllClasses());
+    const hldb::ClassDefn *const cls = hldb::findByDefName<hldb::ClassDefn>(className, m_unit->getClassDefns());
     if (cls == nullptr || cls->getConstraints() == nullptr) continue;
     for (const hldb::Constraint *const cons : *cls->getConstraints()) {
       if (cons->getPure()) continue;

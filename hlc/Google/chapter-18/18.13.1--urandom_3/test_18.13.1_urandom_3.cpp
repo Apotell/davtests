@@ -87,15 +87,16 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 #include <hldb/class_defn.h>
-#include <hldb/variable.h>
-#include <hldb/function.h>
-#include <hldb/task.h>
-#include <hldb/io_decl.h>
-#include <hldb/int_typespec.h>
+#include <hldb/design.h>
 #include <hldb/extends.h>
+#include <hldb/function.h>
+#include <hldb/int_typespec.h>
+#include <hldb/io_decl.h>
+#include <hldb/module.h>
+#include <hldb/task.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -106,7 +107,8 @@ class Urandom3Test : public Test {
 };
 
 TEST_F(Urandom3Test, ClassAStillHasDoUrandomWithSeedArgument) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_urandom", a->getMethods());
@@ -122,7 +124,8 @@ TEST_F(Urandom3Test, ClassAStillHasDoUrandomWithSeedArgument) {
 }
 
 TEST_F(Urandom3Test, ClassEnvExtendsUvmEnvAndHasRet1Ret2SeedAndRunPhase) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   EXPECT_NE(env->getExtends(), nullptr) << "Sec 8.13: 'class env extends uvm_env;' should record its base class";
 
@@ -148,7 +151,7 @@ TEST_F(Urandom3Test, ClassEnvExtendsUvmEnvAndHasRet1Ret2SeedAndRunPhase) {
 }
 
 TEST_F(Urandom3Test, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 

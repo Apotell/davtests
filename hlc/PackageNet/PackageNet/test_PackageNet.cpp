@@ -153,7 +153,7 @@ class PackageNetTest : public Test {
     return hldb::findByName<hldb::Variable>("v", pkg->getVariables());
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("test", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBlock() {
     const hldb::Module *const top = getTop();

@@ -64,8 +64,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/for_stmt.h>
 #include <hldb/func_call.h>
@@ -89,7 +89,7 @@ class FuncArgDirectionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Function *getFn() {
     const hldb::Module *const top = getDut();

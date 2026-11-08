@@ -115,12 +115,12 @@ class EventOrderTest : public Test {
 // ... All tests belonging to EventOrderTest go here!
 
 TEST_F(EventOrderTest, ModuleBlockTbExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'block_tb' not found";
 }
 
 TEST_F(EventOrderTest, ModuleScopeEventDeclarationShouldBeNamedEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const ev = hldb::findByName<hldb::NamedEvent>("ev", top->getNamedEvents());
   EXPECT_NE(ev, nullptr) << "'event ev;' should be a NamedEvent per IEEE 1800-2023 Sec 6.7.1; HLC currently "
@@ -129,7 +129,7 @@ TEST_F(EventOrderTest, ModuleScopeEventDeclarationShouldBeNamedEvent) {
 }
 
 TEST_F(EventOrderTest, InitialForkBindsDirectlyWithPlainJoinAndTwoBeginBlocks) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -150,7 +150,7 @@ TEST_F(EventOrderTest, InitialForkBindsDirectlyWithPlainJoinAndTwoBeginBlocks) {
 }
 
 TEST_F(EventOrderTest, FirstBranchAssignsDelaysThenTriggersEvNonBlocking) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -188,7 +188,7 @@ TEST_F(EventOrderTest, FirstBranchAssignsDelaysThenTriggersEvNonBlocking) {
 }
 
 TEST_F(EventOrderTest, SecondBranchWaitsOnEvThenAssignsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

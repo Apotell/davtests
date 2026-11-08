@@ -79,7 +79,7 @@ class DefaultPatternModuleTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getModule(const hldb::Design *d, std::string_view name) {
-  return hldb::findByName<hldb::Module>(name, d->getAllModules());
+  return hldb::findByDefName<hldb::Module>(name, d->getAllModules());
 }
 
 static const hldb::Parameter *getTopParameter(const hldb::Design *d, std::string_view name) {

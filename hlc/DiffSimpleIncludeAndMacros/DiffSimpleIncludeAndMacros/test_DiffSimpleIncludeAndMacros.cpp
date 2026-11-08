@@ -30,9 +30,10 @@
 // Key behaviors tested:
 //   1. Design carries at least 5 top-level SourceFile entries.
 //   2. top.v direct macro definitions and includes.
-//   3. my_incl.vh has exactly one direct macro definition (_my_incl_vh_) and exactly one
-//      synthetic child SourceFile (fake.sv) from the `line 200 "fake.sv" 0 directive.
-//   4. fake.sv carries 8 macro definitions: M, INCLUSION_FILES, xyz, single, MACRO1, msg,
+//   3. my_incl.vh records `line 200 "fake.sv" 0 as a directive; no SourceFile is created
+//      for fake.sv (22.12: `line includes nothing).
+//   4. my_incl.vh carries the guard _my_incl_vh_ plus 8 macro definitions reported as
+//      fake.sv at the remapped lines: M, INCLUSION_FILES, xyz, single, MACRO1, msg,
 //      WB_DUT_U_ASSIGN, DUT_PATH.
 //   5. mode.vh carries 6 macro definitions: BLOB, macro_with_args, D, MACRO1, MACRO2, MACRO3.
 //   6. Macro instances resolve to their correct definitions via getPreprocMacroDefinition().
@@ -44,6 +45,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/generic_directive.h>
 #include <hldb/hldb_vpi_user.h>
 #include <hldb/identifier.h>
 #include <hldb/preproc_macro_condition.h>
@@ -201,13 +203,12 @@ static size_t countMacroInsts(const hldb::SourceFile *sf, std::string_view name)
   return n;
 }
 
-// Convenience: get fake.sv as child of my_incl.vh from top.v.
-static const hldb::SourceFile *getFakeSv(const hldb::Design *d) {
+// Convenience: get my_incl.vh as child of top.v. The macros it defines after
+// `line 200 "fake.sv" 0 stay on it, reported as fake.sv (22.12).
+static const hldb::SourceFile *getMyInclVh(const hldb::Design *d) {
   const hldb::SourceFile *const sf = findTopLevelSF(d, "top.v");
   if (sf == nullptr) return nullptr;
-  const hldb::SourceFile *const myIncl = findChildSF(sf, "my_incl.vh");
-  if (myIncl == nullptr) return nullptr;
-  return findChildSF(myIncl, "fake.sv");
+  return findChildSF(sf, "my_incl.vh");
 }
 
 // Convenience: find mode.vh anywhere in top.v's include tree.
@@ -450,126 +451,105 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, TopVHasTOPInstance) {
 // 5. my_incl.vh SourceFile structure
 // ---------------------------------------------------------------------------
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhHasExactlyOneDirectMacroDef) {
-  // After `line 200 "fake.sv" 0 (line 6), all subsequent macro definitions in
-  // my_incl.vh get m_fileId = fake.sv. Only `define _my_incl_vh_ (line 5) belongs
-  // to my_incl.vh directly.
-  const hldb::SourceFile *const sf = findTopLevelSF(m_design, "top.v");
-  ASSERT_NE(sf, nullptr);
-  const hldb::SourceFile *const myIncl = findChildSF(sf, "my_incl.vh");
-  ASSERT_NE(myIncl, nullptr) << "my_incl.vh SourceFile not found in top.v includes";
-  EXPECT_EQ(macroDefCount(myIncl), 1u) << "my_incl.vh should have exactly 1 direct macro definition (_my_incl_vh_); "
-                                          "all others belong to fake.sv after the `line directive";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhExists) {
+  ASSERT_NE(getMyInclVh(m_design), nullptr) << "my_incl.vh SourceFile not found in top.v includes";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDirectMacroIsGuard) {
-  const hldb::SourceFile *const sf = findTopLevelSF(m_design, "top.v");
-  ASSERT_NE(sf, nullptr);
-  const hldb::SourceFile *const myIncl = findChildSF(sf, "my_incl.vh");
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhHasNineMacroDefs) {
+  // `line (22.12) only changes the reported file and line; it includes nothing,
+  // so every `define of my_incl.vh -- the guard before the `line, and the 8 after
+  // it -- belongs to my_incl.vh.
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
   ASSERT_NE(myIncl, nullptr);
-  EXPECT_NE(findMacroDef(myIncl, "_my_incl_vh_"), nullptr)
-      << "macro '_my_incl_vh_' not found in my_incl.vh direct definitions";
-}
-
-TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhHasFakeSvAsChild) {
-  // The `line 200 "fake.sv" 0 directive creates a synthetic child SourceFile
-  // named fake.sv inside my_incl.vh's include tree.
-  const hldb::SourceFile *const sf = findTopLevelSF(m_design, "top.v");
-  ASSERT_NE(sf, nullptr);
-  const hldb::SourceFile *const myIncl = findChildSF(sf, "my_incl.vh");
-  ASSERT_NE(myIncl, nullptr);
-  EXPECT_NE(findChildSF(myIncl, "fake.sv"), nullptr)
-      << "fake.sv not found as a child of my_incl.vh; "
-         "DirectivesListener should create a synthetic SourceFile for the `line directive region";
-}
-
-TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhHasExactlyOneSyntheticChild) {
-  // There is exactly one `line directive switching to a different file (fake.sv),
-  // so my_incl.vh should have exactly one synthetic child SourceFile.
-  const hldb::SourceFile *const sf = findTopLevelSF(m_design, "top.v");
-  ASSERT_NE(sf, nullptr);
-  const hldb::SourceFile *const myIncl = findChildSF(sf, "my_incl.vh");
-  ASSERT_NE(myIncl, nullptr);
-  ASSERT_NE(myIncl->getIncludes(), nullptr) << "my_incl.vh has no includes collection";
-  EXPECT_EQ(myIncl->getIncludes()->size(), 1u) << "my_incl.vh should have exactly 1 child SourceFile (fake.sv)";
-}
-
-// ---------------------------------------------------------------------------
-// 6. fake.sv SourceFile (child of my_incl.vh) -- 8 macro definitions
-// ---------------------------------------------------------------------------
-
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvExists) {
-  ASSERT_NE(getFakeSv(m_design), nullptr) << "fake.sv not reachable via top.v -> my_incl.vh";
-}
-
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvHasEightMacroDefs) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  EXPECT_EQ(macroDefCount(fakeSv), 8u) << "fake.sv should have exactly 8 macro definitions: "
+  EXPECT_EQ(macroDefCount(myIncl), 9u) << "my_incl.vh should have exactly 9 macro definitions: _my_incl_vh_, "
                                           "M, INCLUSION_FILES, xyz, single, MACRO1, msg, WB_DUT_U_ASSIGN, DUT_PATH";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesM) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "M");
-  ASSERT_NE(md, nullptr) << "macro 'M' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesGuard) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  EXPECT_NE(findMacroDef(myIncl, "_my_incl_vh_"), nullptr) << "macro '_my_incl_vh_' not found in my_incl.vh";
+}
+
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhRecordsLineDirective) {
+  // 22.12: `line 200 "fake.sv" 0 (my_incl.vh line 6) is recorded as a directive
+  // of my_incl.vh; no SourceFile is created for fake.sv.
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  EXPECT_EQ(findSFRecursive(myIncl, "fake.sv"), nullptr) << "`line must not create a SourceFile";
+  ASSERT_NE(myIncl->getDirectives(), nullptr);
+  ASSERT_EQ(myIncl->getDirectives()->size(), 1u);
+  const hldb::GenericDirective *const gd = any_cast<hldb::GenericDirective>(myIncl->getDirectives()->front());
+  ASSERT_NE(gd, nullptr);
+  EXPECT_EQ(gd->getDirectiveType(), vpiDirectiveTypeLine);
+  EXPECT_EQ(gd->getStartLine(), 6u);
+}
+
+// ---------------------------------------------------------------------------
+// 6. my_incl.vh macros defined after `line 200 "fake.sv" 0
+// ---------------------------------------------------------------------------
+
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesM) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "M");
+  ASSERT_NE(md, nullptr) << "macro 'M' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "M body is (`N << 2); bodyStartColumn must be > 0";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesINCLUSION_FILES) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "INCLUSION_FILES");
-  ASSERT_NE(md, nullptr) << "macro 'INCLUSION_FILES' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesINCLUSION_FILES) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "INCLUSION_FILES");
+  ASSERT_NE(md, nullptr) << "macro 'INCLUSION_FILES' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "INCLUSION_FILES body is `include \"mode.vh\"; bodyStartColumn must be > 0";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesXyz) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
-  ASSERT_NE(md, nullptr) << "macro 'xyz' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesXyz) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
+  ASSERT_NE(md, nullptr) << "macro 'xyz' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "xyz must have a body";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesSingle) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "single");
-  ASSERT_NE(md, nullptr) << "macro 'single' (value 30) not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesSingle) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "single");
+  ASSERT_NE(md, nullptr) << "macro 'single' (value 30) not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "single must have a body";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesMACRO1) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "MACRO1");
-  ASSERT_NE(md, nullptr) << "macro 'MACRO1' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesMACRO1) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "MACRO1");
+  ASSERT_NE(md, nullptr) << "macro 'MACRO1' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "MACRO1 must have a body";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesMsg) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "msg");
-  ASSERT_NE(md, nullptr) << "macro 'msg' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesMsg) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "msg");
+  ASSERT_NE(md, nullptr) << "macro 'msg' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "msg must have a body";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesWB_DUT_U_ASSIGN) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "WB_DUT_U_ASSIGN");
-  ASSERT_NE(md, nullptr) << "macro 'WB_DUT_U_ASSIGN' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesWB_DUT_U_ASSIGN) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "WB_DUT_U_ASSIGN");
+  ASSERT_NE(md, nullptr) << "macro 'WB_DUT_U_ASSIGN' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "WB_DUT_U_ASSIGN must have a body";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvDefinesDUT_PATH) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "DUT_PATH");
-  ASSERT_NE(md, nullptr) << "macro 'DUT_PATH' not found in fake.sv";
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhDefinesDUT_PATH) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "DUT_PATH");
+  ASSERT_NE(md, nullptr) << "macro 'DUT_PATH' not found in my_incl.vh";
   EXPECT_NE(md->getTokens(), nullptr) << "DUT_PATH body is $root; bodyStartColumn must be > 0";
 }
 
@@ -694,14 +674,14 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, MACRO1InstanceResolvesToModeVhDef) {
 }
 
 // ---------------------------------------------------------------------------
-// 9. single macro -- two definitions (fake.sv=30 then top.v=11); both present.
+// 9. single macro -- two definitions (my_incl.vh=30 then top.v=11); both present.
 // ---------------------------------------------------------------------------
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, SingleDefinedInBothFakeSvAndTopV) {
-  // `single is defined in fake.sv as 30, then redefined in top.v as 11.
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  EXPECT_EQ(countMacroDefs(fakeSv, "single"), 1u) << "fake.sv should define 'single' exactly once (value 30)";
+TEST_F(DiffSimpleIncludeAndMacrosTest, SingleDefinedInBothMyInclVhAndTopV) {
+  // `single is defined in my_incl.vh (reported as fake.sv) as 30, then redefined in top.v as 11.
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  EXPECT_EQ(countMacroDefs(myIncl, "single"), 1u) << "my_incl.vh should define 'single' exactly once (value 30)";
 
   const hldb::SourceFile *const sf = findTopLevelSF(m_design, "top.v");
   ASSERT_NE(sf, nullptr);
@@ -802,14 +782,14 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, GuardMacroStartLineIsFive) {
 // getFile()/getStartLine() return the remapped source location: fake.sv:203.
 // getPpFile()/getPpStartLine() return the physical PP output location: my_incl.vh:10.
 TEST_F(DiffSimpleIncludeAndMacrosTest, MReportedFileIsFakeSv) {
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "M");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "M");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(md->getFile().find("fake.sv"), std::string_view::npos)
       << "M reported file should be fake.sv (from `line directive); got: " << md->getFile();
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, MReportedLineIs203) {
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "M");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "M");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(md->getStartLine(), 203u) << "`define M is on my_incl.vh physical line 10; "
                                          "`line 200 \"fake.sv\" 0 maps it to fake.sv:203";
@@ -817,7 +797,7 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, MReportedLineIs203) {
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, MFileIsMyInclVh) {
   // getPpFile() returns the physical preprocessed-output file (my_incl.vh), not the remapped name.
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "M");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "M");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(md->getFile().find("fake.sv"), std::string_view::npos)
       << "M file should be \"fake.sv\" (physical); got: " << md->getFile();
@@ -825,7 +805,7 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, MFileIsMyInclVh) {
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, MStartLineIs203) {
   // getPpStartLine() returns the physical line in the PP output (my_incl.vh:10).
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "M");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "M");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(md->getStartLine(), 203u) << "`define M is on physical fake.sv:203";
 }
@@ -833,7 +813,7 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, MStartLineIs203) {
 // DUT_PATH is the last macro in fake.sv.
 // my_incl.vh:28 maps to fake.sv:221  (200 + (28 - 7) = 221).
 TEST_F(DiffSimpleIncludeAndMacrosTest, DUT_PATHReportedLineIs221) {
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "DUT_PATH");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "DUT_PATH");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(md->getStartLine(), 221u) << "`define DUT_PATH maps to fake.sv:221 via `line directive";
 }
@@ -842,14 +822,14 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, DUT_PATHReportedLineIs221) {
 // Spot-check two intermediate fake.sv macros.
 // INCLUSION_FILES: physical 12 -> fake.sv:205.
 TEST_F(DiffSimpleIncludeAndMacrosTest, INCLUSION_FILESReportedLineIs205) {
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "INCLUSION_FILES");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "INCLUSION_FILES");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(md->getStartLine(), 205u) << "`define INCLUSION_FILES maps to fake.sv:205";
 }
 
 // WB_DUT_U_ASSIGN: physical 25 -> fake.sv:218.
 TEST_F(DiffSimpleIncludeAndMacrosTest, WB_DUT_U_ASSIGNReportedLineIs218) {
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(getFakeSv(m_design), "WB_DUT_U_ASSIGN");
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(getMyInclVh(m_design), "WB_DUT_U_ASSIGN");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(md->getStartLine(), 218u) << "`define WB_DUT_U_ASSIGN maps to fake.sv:218";
 }
@@ -1072,34 +1052,34 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, NoArgMacro_BLOB_HasNullOrEmptyArgs) {
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzHasTwoFormalArgs) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(argCount(md->getArguments()), 2u) << "xyz(I, R = DEFAULT) must have 2 formal arguments";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzFormalArgIPresent) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(findArg(md->getArguments(), "I"), nullptr) << "formal argument 'I' not found in xyz";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzFormalArgRPresent) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(findArg(md->getArguments(), "R"), nullptr) << "formal argument 'R' not found in xyz";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzArgRHasDefault) {
   // xyz(I, R = DEFAULT): R carries a default value.
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   const hldb::Identifier *const argR = findArg(md->getArguments(), "R");
   ASSERT_NE(argR, nullptr) << "formal argument 'R' not found in xyz";
@@ -1107,38 +1087,38 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, XyzArgRHasDefault) {
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzArgIHasNoDefault) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   const hldb::Identifier *const argI = findArg(md->getArguments(), "I");
   ASSERT_NE(argI, nullptr) << "formal argument 'I' not found in xyz";
   EXPECT_EQ(argI->getBuddy(), nullptr) << "xyz argument I has no default value";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvMACRO1HasThreeFormalArgs) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "MACRO1");
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhMACRO1HasThreeFormalArgs) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "MACRO1");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(argCount(md->getArguments()), 3u) << "MACRO1(a=5, b=\"B\", c) must have 3 formal arguments";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvMACRO1ArgCHasNoDefault) {
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhMACRO1ArgCHasNoDefault) {
   // c has no default; MACRO1(a=5,b="B",c) -- c is required.
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "MACRO1");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "MACRO1");
   ASSERT_NE(md, nullptr);
   const hldb::Identifier *const argC = findArg(md->getArguments(), "c");
   ASSERT_NE(argC, nullptr) << "formal argument 'c' not found in MACRO1";
   EXPECT_EQ(argC->getBuddy(), nullptr) << "MACRO1 argument 'c' has no default";
 }
 
-TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvMACRO1ArgAHasDefault) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "MACRO1");
+TEST_F(DiffSimpleIncludeAndMacrosTest, MyInclVhMACRO1ArgAHasDefault) {
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "MACRO1");
   ASSERT_NE(md, nullptr);
   const hldb::Identifier *const argA = findArg(md->getArguments(), "a");
   ASSERT_NE(argA, nullptr) << "formal argument 'a' not found in MACRO1";
@@ -1146,34 +1126,34 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, FakeSvMACRO1ArgAHasDefault) {
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, MsgHasTwoFormalArgs) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "msg");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "msg");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(argCount(md->getArguments()), 2u) << "msg(x, y) must have 2 formal arguments";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, MsgFormalArgNames) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "msg");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "msg");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(findArg(md->getArguments(), "x"), nullptr) << "formal argument 'x' not found in msg";
   EXPECT_NE(findArg(md->getArguments(), "y"), nullptr) << "formal argument 'y' not found in msg";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, WB_DUT_U_ASSIGNHasTwoFormalArgs) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "WB_DUT_U_ASSIGN");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "WB_DUT_U_ASSIGN");
   ASSERT_NE(md, nullptr);
   EXPECT_EQ(argCount(md->getArguments()), 2u) << "WB_DUT_U_ASSIGN(phy_i, idx) must have 2 formal arguments";
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, WB_DUT_U_ASSIGNFormalArgNames) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "WB_DUT_U_ASSIGN");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "WB_DUT_U_ASSIGN");
   ASSERT_NE(md, nullptr);
   EXPECT_NE(findArg(md->getArguments(), "phy_i"), nullptr) << "formal argument 'phy_i' not found in WB_DUT_U_ASSIGN";
   EXPECT_NE(findArg(md->getArguments(), "idx"), nullptr) << "formal argument 'idx' not found in WB_DUT_U_ASSIGN";
@@ -1272,9 +1252,9 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, UndefMultiplHasNoTokens) {
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, XyzMacroHasTokens) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "xyz");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "xyz");
   ASSERT_NE(md, nullptr);
   ASSERT_NE(md->getTokens(), nullptr) << "xyz must have body tokens";
   EXPECT_GT(md->getTokens()->size(), 0u) << "xyz body token list must be non-empty";
@@ -1290,9 +1270,9 @@ TEST_F(DiffSimpleIncludeAndMacrosTest, BLOBMacroHasTokens) {
 }
 
 TEST_F(DiffSimpleIncludeAndMacrosTest, WB_DUT_U_ASSIGNMacroHasTokens) {
-  const hldb::SourceFile *const fakeSv = getFakeSv(m_design);
-  ASSERT_NE(fakeSv, nullptr);
-  const hldb::PreprocMacroDefinition *const md = findMacroDef(fakeSv, "WB_DUT_U_ASSIGN");
+  const hldb::SourceFile *const myIncl = getMyInclVh(m_design);
+  ASSERT_NE(myIncl, nullptr);
+  const hldb::PreprocMacroDefinition *const md = findMacroDef(myIncl, "WB_DUT_U_ASSIGN");
   ASSERT_NE(md, nullptr);
   ASSERT_NE(md->getTokens(), nullptr) << "WB_DUT_U_ASSIGN must have body tokens";
   EXPECT_GT(md->getTokens()->size(), 0u) << "WB_DUT_U_ASSIGN body token list must be non-empty";

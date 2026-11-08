@@ -88,6 +88,7 @@
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -103,7 +104,9 @@ class NameCollisionBindTest : public Test {
     return hldb::findByName<hldb::Interface>("PerformanceCounterIF", m_design->getAllInterfaces());
   }
 
-  static const hldb::Module *getMod() { return hldb::findByName<hldb::Module>("CSR_Unit", m_design->getAllModules()); }
+  static const hldb::Module *getMod() {
+    return hldb::findByDefName<hldb::Module>("CSR_Unit", m_design->getAllModules());
+  }
 
   static const hldb::Variable *getIfaceVar() {
     const hldb::Interface *const i = getIface();
@@ -116,7 +119,8 @@ class NameCollisionBindTest : public Test {
   }
 
   static const hldb::Struct *getPerfStruct() {
-    const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("PerfCounterPath", m_design->getTypedefs());
+    if (m_unit == nullptr) return nullptr;
+    const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("PerfCounterPath", m_unit->getTypedefs());
     if (td == nullptr || td->getAlias() == nullptr) return nullptr;
     const hldb::StructTypespec *const sts = any_cast<hldb::StructTypespec>(td->getAlias()->getActual());
     return (sts == nullptr) ? nullptr : sts->getStruct();
@@ -147,7 +151,8 @@ class NameCollisionBindTest : public Test {
 // ===========================================================================
 
 TEST_F(NameCollisionBindTest, DataPathAliasesInt) {
-  const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("DataPath", m_design->getTypedefs());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("DataPath", m_unit->getTypedefs());
   ASSERT_NE(td, nullptr);
   ASSERT_NE(td->getAlias(), nullptr);
   ASSERT_NE(td->getAlias()->getActual(), nullptr);

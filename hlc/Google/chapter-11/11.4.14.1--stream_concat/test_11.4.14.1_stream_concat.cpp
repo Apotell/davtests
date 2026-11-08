@@ -94,7 +94,7 @@ class StreamConcatTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static void expectFourCharConcat(const hldb::Variable *variable, const char *const chars[4]) {
     ASSERT_NE(variable, nullptr);
     EXPECT_NE(variable->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);

@@ -61,9 +61,9 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if.h>
-#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -83,7 +83,7 @@ class GenerateBlock2Test : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // Sec 27.3: a generate region ('generate ... endgenerate') is a GenRegion

@@ -99,7 +99,7 @@ class FuncBinding2Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("vend", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("vend", m_design->getAllModules()); }
 
   static const hldb::Function *getFsmFunction(const hldb::Module *m) {
     return (m == nullptr) ? nullptr : hldb::findByName<hldb::Function>("fsm", m->getTaskFuncs());

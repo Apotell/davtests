@@ -67,8 +67,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -79,8 +79,8 @@
 #include <hldb/struct.h>
 #include <hldb/struct_typespec.h>
 #include <hldb/sys_func_call.h>
-#include <hldb/typespec_member.h>
 #include <hldb/typedef.h>
+#include <hldb/typespec_member.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -92,7 +92,7 @@ class DollarBitsUnaryTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 };
 
 // ---------------------------------------------------------------------------

@@ -121,7 +121,7 @@ class BlankPortTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getMain() { return hldb::findByName<hldb::Module>("main", m_design->getAllModules()); }
+  static const hldb::Module *getMain() { return hldb::findByDefName<hldb::Module>("main", m_design->getAllModules()); }
 
   static const hldb::RefInstance *findInst(std::string_view instName) {
     const hldb::Module *const main = getMain();
@@ -135,11 +135,11 @@ class BlankPortTest : public Test {
 TEST_F(BlankPortTest, NoneHasNoPortsAndEmptyHasNullPort) {
   // Sec 23.2.2.1: an omitted port list and an explicit, empty ANSI port list
   // both declare a module with no ports.
-  const hldb::Module *const nonce = hldb::findByName<hldb::Module>("nonce", m_design->getAllModules());
+  const hldb::Module *const nonce = hldb::findByDefName<hldb::Module>("nonce", m_design->getAllModules());
   ASSERT_NE(nonce, nullptr);
   EXPECT_EQ(nonce->getPorts(), nullptr);
 
-  const hldb::Module *const empty = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
+  const hldb::Module *const empty = hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(empty, nullptr);
   ASSERT_NE(empty->getPorts(), nullptr);
   EXPECT_EQ(empty->getPorts()->size(), 1u);
@@ -150,20 +150,20 @@ TEST_F(BlankPortTest, NoneHasNoPortsAndEmptyHasNullPort) {
 }
 
 TEST_F(BlankPortTest, OneTwoThreeHaveExpectedPortCountsAndNames) {
-  const hldb::Module *const one = hldb::findByName<hldb::Module>("one", m_design->getAllModules());
+  const hldb::Module *const one = hldb::findByDefName<hldb::Module>("one", m_design->getAllModules());
   ASSERT_NE(one, nullptr);
   ASSERT_NE(one->getPorts(), nullptr);
   ASSERT_EQ(one->getPorts()->size(), 1u);
   EXPECT_EQ(one->getPorts()->at(0)->getName(), "a");
 
-  const hldb::Module *const two = hldb::findByName<hldb::Module>("two", m_design->getAllModules());
+  const hldb::Module *const two = hldb::findByDefName<hldb::Module>("two", m_design->getAllModules());
   ASSERT_NE(two, nullptr);
   ASSERT_NE(two->getPorts(), nullptr);
   ASSERT_EQ(two->getPorts()->size(), 2u);
   EXPECT_EQ(two->getPorts()->at(0)->getName(), "a");
   EXPECT_EQ(two->getPorts()->at(1)->getName(), "b");
 
-  const hldb::Module *const three = hldb::findByName<hldb::Module>("three", m_design->getAllModules());
+  const hldb::Module *const three = hldb::findByDefName<hldb::Module>("three", m_design->getAllModules());
   ASSERT_NE(three, nullptr);
   ASSERT_NE(three->getPorts(), nullptr);
   ASSERT_EQ(three->getPorts()->size(), 3u);
@@ -176,7 +176,7 @@ TEST_F(BlankPortTest, OneTwoThreePortsAreScalarInputNets) {
   // Sec 23.2.2.3: a bare "input a;" with neither a net-type keyword nor an
   // explicit data type still defaults to a (scalar) net.
   for (const char *const moduleName : {"one", "two", "three"}) {
-    const hldb::Module *const mod = hldb::findByName<hldb::Module>(moduleName, m_design->getAllModules());
+    const hldb::Module *const mod = hldb::findByDefName<hldb::Module>(moduleName, m_design->getAllModules());
     ASSERT_NE(mod, nullptr) << moduleName;
     ASSERT_NE(mod->getPorts(), nullptr) << moduleName;
     for (const hldb::Port *const port : *mod->getPorts()) {

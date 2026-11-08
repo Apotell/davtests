@@ -74,7 +74,7 @@ class LocalScopeAssignTest : public Test {
 
  protected:
   static const hldb::Module *getMod() {
-    return hldb::findByName<hldb::Module>("module_scope_Example", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("module_scope_Example", m_design->getAllModules());
   }
 
   static const hldb::ContAssign *getAssign() {

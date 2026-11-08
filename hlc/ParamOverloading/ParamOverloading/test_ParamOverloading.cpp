@@ -445,10 +445,10 @@ TEST_F(ParamOverloadingTest, ValueEightReachesBothLevels) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
     ExpectElabParam(top, "CTRL_RESET", 8u, "10.9.2: '{v1, v2} = {2'b01, 3'b000} = 5'b01000");
-    const hldb::Module *const shadow = hldb::findByName<hldb::Module>("u_ctrl_reg_shadowed", top->getModules());
+    const hldb::Module *const shadow = hldb::findByDefName<hldb::Module>("u_ctrl_reg_shadowed", top->getModules());
     ASSERT_NE(shadow, nullptr) << "the instance u_ctrl_reg_shadowed is elaborated";
     ExpectElabParam(shadow, "RESVAL", 8u, "6.22.3: the same 5 bits in prim_subreg_shadow's struct_ab");
-    const hldb::Module *const staged = hldb::findByName<hldb::Module>("staged_reg", shadow->getModules());
+    const hldb::Module *const staged = hldb::findByDefName<hldb::Module>("staged_reg", shadow->getModules());
     ASSERT_NE(staged, nullptr) << "the instance staged_reg is elaborated";
     ExpectElabParam(staged, "RESVAL", 8u, "6.22.3: the same 5 bits as logic [4:0]");
   }

@@ -76,13 +76,13 @@ class ForeachClassParentTest : public Test {
   static const hldb::ClassDefn *getRoot() {
     const hldb::Package *const uvm = getUvm();
     if (uvm == nullptr || uvm->getClassDefns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("root", uvm->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("root", uvm->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmPhase() {
     const hldb::Package *const uvm = getUvm();
     if (uvm == nullptr || uvm->getClassDefns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_phase", uvm->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_phase", uvm->getClassDefns());
   }
 
   static const hldb::Function *getGetAdjacentPredecessorNodes() {

@@ -106,12 +106,12 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/for_stmt.h>
+#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/gen_if.h>
 #include <hldb/if_stmt.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
-#include <hldb/func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/operation.h>
@@ -134,10 +134,12 @@ class ArrayExprFuncArgTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTopModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTopModule() {
+    return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
+  }
 
   static const hldb::Module *getMainModule() {
-    return hldb::findByName<hldb::Module>("main", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("main", m_design->getAllModules());
   }
 
   static const hldb::Parameter *getTopParameter(std::string_view name) {

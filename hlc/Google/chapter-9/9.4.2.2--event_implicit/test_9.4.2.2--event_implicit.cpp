@@ -76,12 +76,12 @@ class EventImplicitTest : public Test {
 };
 
 TEST_F(EventImplicitTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventImplicitTest, ABCDAreNetsOutIsVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   for (const char *const name : {"a", "b", "c", "d"}) {
@@ -95,7 +95,7 @@ TEST_F(EventImplicitTest, ABCDAreNetsOutIsVariable) {
 }
 
 TEST_F(EventImplicitTest, ExactlyOnePlainAlwaysProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -110,7 +110,7 @@ TEST_F(EventImplicitTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventImplicitTest, StarExpandsToEventOrOfExactlyTheReadSignals) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -158,7 +158,7 @@ TEST_F(EventImplicitTest, StarExpandsToEventOrOfExactlyTheReadSignals) {
 }
 
 TEST_F(EventImplicitTest, ControlledStatementIsOutAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;

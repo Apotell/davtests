@@ -120,9 +120,9 @@ class PrintTimescaleHierTaskTest : public Test {
     return arg->getHighConn<T>();
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
-  static const hldb::Module *getMod0() { return hldb::findByName<hldb::Module>("mod0", m_design->getAllModules()); }
-  static const hldb::Module *getMod1() { return hldb::findByName<hldb::Module>("mod1", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getMod0() { return hldb::findByDefName<hldb::Module>("mod0", m_design->getAllModules()); }
+  static const hldb::Module *getMod1() { return hldb::findByDefName<hldb::Module>("mod1", m_design->getAllModules()); }
 
   static const hldb::SysTaskCall *getInitialSysTaskCall(const hldb::Module *mod) {
     if (mod == nullptr || mod->getProcesses() == nullptr || mod->getProcesses()->empty()) {

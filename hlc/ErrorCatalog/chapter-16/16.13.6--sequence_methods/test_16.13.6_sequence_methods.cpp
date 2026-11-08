@@ -91,11 +91,11 @@ class SequenceMethodsTest : public Test {
 };
 
 TEST_F(SequenceMethodsTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(SequenceMethodsTest, BothSequencesExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getSequenceDecls(), nullptr);
   EXPECT_EQ(top->getSequenceDecls()->size(), 2u) << "s1 and s2";

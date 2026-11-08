@@ -63,8 +63,8 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -77,14 +77,14 @@ class ArrayAssociativeClassTest : public Test {
 // --- module ----
 
 TEST_F(ArrayAssociativeClassTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- class C definition ----
 
 TEST_F(ArrayAssociativeClassTest, ModuleHasOneClassDefn) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   EXPECT_EQ(top->getClassDefns()->size(), 1u);
@@ -92,7 +92,7 @@ TEST_F(ArrayAssociativeClassTest, ModuleHasOneClassDefn) {
 
 TEST_F(ArrayAssociativeClassTest, ClassDefnNameIsC) {
   // getName() returns the simple identifier stored by HLC.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
@@ -101,7 +101,7 @@ TEST_F(ArrayAssociativeClassTest, ClassDefnNameIsC) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ClassDefnHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -110,7 +110,7 @@ TEST_F(ArrayAssociativeClassTest, ClassDefnHasOneVariable) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ClassVariableNameIsX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -119,7 +119,7 @@ TEST_F(ArrayAssociativeClassTest, ClassVariableNameIsX) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ClassVariableXHasIntTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ClassDefn *const cls = top->getClassDefns()->at(0);
   ASSERT_NE(cls, nullptr);
@@ -133,21 +133,21 @@ TEST_F(ArrayAssociativeClassTest, ClassVariableXHasIntTypespec) {
 // --- variable arr (spec 7.8.3 requires an associative array with a class-typed index) ----
 
 TEST_F(ArrayAssociativeClassTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ArrayAssociativeClassTest, VariableNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), "arr");
 }
 
 TEST_F(ArrayAssociativeClassTest, VariableHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
   ASSERT_NE(variable, nullptr);
@@ -157,7 +157,7 @@ TEST_F(ArrayAssociativeClassTest, VariableHasArrayTypespec) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ArrayTypespecIsAssociativePerSpec783) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -166,7 +166,7 @@ TEST_F(ArrayAssociativeClassTest, ArrayTypespecIsAssociativePerSpec783) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ArrayTypespecElemTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -176,7 +176,7 @@ TEST_F(ArrayAssociativeClassTest, ArrayTypespecElemTypeIsInt) {
 }
 
 TEST_F(ArrayAssociativeClassTest, ArrayTypespecIndexTypespecResolvesToClassC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -188,13 +188,13 @@ TEST_F(ArrayAssociativeClassTest, ArrayTypespecIndexTypespecResolvesToClassC) {
 }
 
 TEST_F(ArrayAssociativeClassTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(ArrayAssociativeClassTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

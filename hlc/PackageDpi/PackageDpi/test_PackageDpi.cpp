@@ -174,7 +174,7 @@ class PackageDpiTest : public Test {
   static const hldb::ClassDefn *getToto() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("toto", pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("toto", pkg->getClassDefns());
   }
 };
 

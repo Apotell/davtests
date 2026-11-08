@@ -60,12 +60,12 @@ TEST_F(CompilerDirectivesCelldefine, TwoModulesExist) {
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("cd", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("cd", m_design->getAllModules()), nullptr)
       << "module 'cd' (inside `celldefine) not found";
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("ncd", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("ncd", m_design->getAllModules()), nullptr)
       << "module 'ncd' (outside `celldefine) not found";
 }
 
@@ -73,25 +73,25 @@ TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleExists) {
 // Both modules are empty -- no nets, no processes
 // ----
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoNets) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoNets) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, CelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("cd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("cd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }
 
 TEST_F(CompilerDirectivesCelldefine, NoncelldefineModuleHasNoProcesses) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("ncd", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("ncd", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());
 }

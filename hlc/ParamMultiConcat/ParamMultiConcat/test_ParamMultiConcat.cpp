@@ -356,7 +356,7 @@ TEST_F(ParamMultiConcatTest, UDutWidthIsNineteen) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
-    const hldb::Module *const dut = hldb::findByName<hldb::Module>("u_dut", top->getModules());
+    const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("u_dut", top->getModules());
     ASSERT_NE(dut, nullptr) << "the instance u_dut is elaborated";
     ExpectElabParam(dut, "Width", 19u, "23.10.2.2: '.Width(Width + EccWidth)' = 16 + 3");
   }
@@ -366,7 +366,7 @@ TEST_F(ParamMultiConcatTest, UDutWmaskIsEighteenToZero) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const dut = hldb::findByName<hldb::Module>("u_dut", top->getModules());
+    const hldb::Module *const dut = hldb::findByDefName<hldb::Module>("u_dut", top->getModules());
     ASSERT_NE(dut, nullptr);
     ASSERT_NE(dut->getPorts(), nullptr);
     ASSERT_EQ(dut->getPorts()->size(), 1u);

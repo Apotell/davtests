@@ -59,8 +59,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -76,9 +76,7 @@ class DelayAssignTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("SimDTM", m_design->getAllModules());
-  }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("SimDTM", m_design->getAllModules()); }
 
   static const hldb::ContAssign *findContAssignFor(const hldb::Module *top, std::string_view lhsName) {
     if (top == nullptr || top->getContAssigns() == nullptr) return nullptr;

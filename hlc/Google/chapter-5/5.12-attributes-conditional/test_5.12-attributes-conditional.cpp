@@ -55,7 +55,7 @@ class AttributesConditional : public Test {
 
 // Helper: the one Assignment inside initial begin.
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
@@ -73,11 +73,11 @@ static const hldb::Assignment *getAssignment(const hldb::Design *design) {
 // Module and variables
 // ----
 TEST_F(AttributesConditional, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesConditional, FourBitVariablesExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 4u) << "expected 4 variables: a, b, c, d";
@@ -98,7 +98,7 @@ TEST_F(AttributesConditional, FourBitVariablesExist) {
 // `bit a, b, c, d;` has no net-type keyword, so per IEEE 1800-2023 Sec
 // 6.7/6.8 none of these must also appear as a Net.
 TEST_F(AttributesConditional, VariablesAreNotDuplicatedAsNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   if (top->getNets() != nullptr) {
     EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);

@@ -45,7 +45,7 @@ class NonAnsiVariablesTest : public Test {
 
  protected:
   static const hldb::Module *getMod() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_nonansi", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_nonansi", m_design->getAllModules());
   }
 
   // Asserts 'name' is a hldb::Variable in mod->getVariables() and that no

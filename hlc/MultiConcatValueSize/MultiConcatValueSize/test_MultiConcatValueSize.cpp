@@ -145,7 +145,7 @@ class MultiConcatValueSizeTest : public Test {
   }
 
   static const hldb::Module *getMod(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   static const hldb::Parameter *findParam(const hldb::Scope *s, std::string_view name) {

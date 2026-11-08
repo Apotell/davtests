@@ -192,6 +192,7 @@
 #include <hldb/sequence_decl.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <hlc/Tests/Test.h>
@@ -205,14 +206,16 @@ class SequenceSubroutineUvmTest : public Test {
 // ... All tests belonging to SequenceSubroutineUvmTest go here!
 
 TEST_F(SequenceSubroutineUvmTest, ModuleClkGenAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("clk_gen", m_design->getAllModules()), nullptr)
       << "module 'clk_gen' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(SequenceSubroutineUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -227,7 +230,7 @@ TEST_F(SequenceSubroutineUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask
 }
 
 TEST_F(SequenceSubroutineUvmTest, SequenceSeqDeclaredWithLocalVariableX) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr) << "sequence 'seq' not found in module top";
@@ -238,7 +241,7 @@ TEST_F(SequenceSubroutineUvmTest, SequenceSeqDeclaredWithLocalVariableX) {
 }
 
 TEST_F(SequenceSubroutineUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -256,7 +259,7 @@ TEST_F(SequenceSubroutineUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEve
 }
 
 TEST_F(SequenceSubroutineUvmTest, SequenceExprIsPresent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -271,7 +274,7 @@ TEST_F(SequenceSubroutineUvmTest, SequenceExprIsPresent) {
 }
 
 TEST_F(SequenceSubroutineUvmTest, AssertPropertyIsReachableAndReferencesSeq) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

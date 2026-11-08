@@ -63,6 +63,7 @@
 #include <hldb/design.h>
 #include <hldb/extends.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/unit.h>
 
 #include <string_view>
 
@@ -74,7 +75,7 @@ class PureConstraint2Test : public Test {
 
  protected:
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   // Base class named by 'extends', or nullptr.

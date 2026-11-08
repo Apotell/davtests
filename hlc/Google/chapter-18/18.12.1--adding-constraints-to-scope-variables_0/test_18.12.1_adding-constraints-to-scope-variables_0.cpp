@@ -76,13 +76,14 @@
 #include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/class_defn.h>
-#include <hldb/function.h>
-#include <hldb/io_decl.h>
-#include <hldb/variable.h>
-#include <hldb/int_typespec.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
+#include <hldb/design.h>
+#include <hldb/function.h>
+#include <hldb/int_typespec.h>
+#include <hldb/io_decl.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -93,7 +94,8 @@ class AddingConstraintsToScopeVariables0Test : public Test {
 };
 
 TEST_F(AddingConstraintsToScopeVariables0Test, MethodDoRandomizeExistsWithIntReturnAndArgY) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_randomize", a->getMethods());
@@ -115,7 +117,8 @@ TEST_F(AddingConstraintsToScopeVariables0Test, MethodDoRandomizeExistsWithIntRet
 }
 
 TEST_F(AddingConstraintsToScopeVariables0Test, LocalVariablesXAndSuccessExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_randomize", a->getMethods());
   ASSERT_NE(fn, nullptr);

@@ -157,12 +157,12 @@ class ProcessClsSelfTest : public Test {
 };
 
 TEST_F(ProcessClsSelfTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(ProcessClsSelfTest, TaskTestIsAutomaticWithOneInputPortN) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getTaskFuncs(), nullptr);
@@ -179,7 +179,7 @@ TEST_F(ProcessClsSelfTest, TaskTestIsAutomaticWithOneInputPortN) {
 }
 
 TEST_F(ProcessClsSelfTest, JobIsAProcessClassVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const test = hldb::findByName<hldb::Task>("test", top->getTaskFuncs());
   ASSERT_NE(test, nullptr);
@@ -190,7 +190,7 @@ TEST_F(ProcessClsSelfTest, JobIsAProcessClassVariable) {
 }
 
 TEST_F(ProcessClsSelfTest, FirstStatementIsForeachOverJobWithForkJoinNone) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const test = hldb::findByName<hldb::Task>("test", top->getTaskFuncs());
   ASSERT_NE(test, nullptr);
@@ -212,7 +212,7 @@ TEST_F(ProcessClsSelfTest, FirstStatementIsForeachOverJobWithForkJoinNone) {
 }
 
 TEST_F(ProcessClsSelfTest, InitialCallsTestWithArgumentEight) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

@@ -199,7 +199,7 @@ class ProcessClsAwaitTest : public Test {
  protected:
   // clang-format off
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   }
 
   static const hldb::Task *getTestTask() {
@@ -370,7 +370,7 @@ TEST_F(ProcessClsAwaitTest, TaskScopeHasExactlyOneVariableJob) {
 }
 
 TEST_F(ProcessClsAwaitTest, ProcessClassExists) {
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("process", m_design->getAllClasses()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("process", m_design->getAllClasses()), nullptr)
       << "the built-in 'process' class should be modeled as a real ClassDefn";
 }
 

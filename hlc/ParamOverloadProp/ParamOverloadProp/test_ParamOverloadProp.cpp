@@ -114,7 +114,7 @@ class ParamOverloadPropTest : public Test {
   static const hldb::Module *getElabFlop() {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Module>("u_prim_flop", top->getModules());
+    return hldb::findByDefName<hldb::Module>("u_prim_flop", top->getModules());
   }
 
   // Integer value of a Constant, from its decompiled text or from a sized or

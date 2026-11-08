@@ -111,7 +111,7 @@
 //
 // ----------------------------------------------------------------------------
 // CHECKED (this file):
-//   - class "env" exists (Design::getAllClasses()), with methods
+//   - class "env" exists (Design::getClassDefns()), with methods
 //     "connect_phase" (a Function) and "run_phase" (a Task).
 //   - "connect_phase" contains a plain ImmediateAssert (getIsDeferred() ==
 //     false, getIsFinal() == false).
@@ -162,6 +162,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 
 #include <hlc/Tests/Test.h>
 
@@ -198,12 +199,14 @@ class Assert0UvmTest : public Test {
 // ... All tests belonging to Assert0UvmTest go here!
 
 TEST_F(Assert0UvmTest, ClassEnvExists) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr) << "class 'env' not found";
 }
 
 TEST_F(Assert0UvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -218,7 +221,8 @@ TEST_F(Assert0UvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
 }
 
 TEST_F(Assert0UvmTest, ConnectPhaseContainsPlainImmediateAssert) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   const hldb::TaskFunc *const connectPhase = hldb::findByName<hldb::TaskFunc>("connect_phase", env->getMethods());
   ASSERT_NE(connectPhase, nullptr);
@@ -232,7 +236,8 @@ TEST_F(Assert0UvmTest, ConnectPhaseContainsPlainImmediateAssert) {
 }
 
 TEST_F(Assert0UvmTest, RunPhaseContainsZeroDeferredImmediateAssert) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   const hldb::TaskFunc *const runPhase = hldb::findByName<hldb::TaskFunc>("run_phase", env->getMethods());
   ASSERT_NE(runPhase, nullptr);
@@ -249,7 +254,8 @@ TEST_F(Assert0UvmTest, RunPhaseContainsZeroDeferredImmediateAssert) {
 }
 
 TEST_F(Assert0UvmTest, RunPhaseAssertConditionIsNotEqualComparison) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   const hldb::TaskFunc *const runPhase = hldb::findByName<hldb::TaskFunc>("run_phase", env->getMethods());
   ASSERT_NE(runPhase, nullptr);

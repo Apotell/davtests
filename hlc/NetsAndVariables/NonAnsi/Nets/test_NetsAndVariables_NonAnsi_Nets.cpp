@@ -49,7 +49,7 @@ class NonAnsiNetsTest : public Test {
 
  protected:
   static const hldb::Module *getMod() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_nonansi", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_nonansi", m_design->getAllModules());
   }
 
   // Asserts 'name' is a hldb::Net in mod->getNets() with the given

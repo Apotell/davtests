@@ -86,7 +86,7 @@ class LargeConstTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   // Continuous assignment whose LHS is named 'lhsName', or nullptr.
   static const hldb::ContAssign *getAssign(std::string_view lhsName) {

@@ -78,7 +78,7 @@ class GenerateUnnamedTest : public Test {
 
  protected:
   static const hldb::Module *getTest2Module() {
-    return hldb::findByName<hldb::Module>("test2", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("test2", m_design->getAllModules());
   }
 
   // Sec 27.5: p == 2 (default), so "else if (p == 2) begin : pp2 ... end"

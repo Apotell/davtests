@@ -92,7 +92,7 @@ class AssumeFinalTest : public Test {
 // ... All tests belonging to AssumeFinalTest go here!
 
 TEST_F(AssumeFinalTest, ModuleTopHasOneInputPortNamedA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   ASSERT_NE(top->getPorts(), nullptr);
   ASSERT_EQ(top->getPorts()->size(), 1u) << "'module top(input logic a);' declares exactly one port";
@@ -100,7 +100,7 @@ TEST_F(AssumeFinalTest, ModuleTopHasOneInputPortNamedA) {
 }
 
 TEST_F(AssumeFinalTest, AssumeIsReachableAsModuleItemNotProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getAssertions(), nullptr)
@@ -113,7 +113,7 @@ TEST_F(AssumeFinalTest, AssumeIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(AssumeFinalTest, AssumeIsFinalDeferredImmediateAssume) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);
   ASSERT_EQ(top->getAssertions()->size(), 1u);
@@ -129,7 +129,7 @@ TEST_F(AssumeFinalTest, AssumeIsFinalDeferredImmediateAssume) {
 }
 
 TEST_F(AssumeFinalTest, AssumeConditionIsNotEqualComparison) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateAssume *const assumeStmt = any_cast<hldb::ImmediateAssume>(top->getAssertions()->at(0));
   ASSERT_NE(assumeStmt, nullptr);
@@ -147,7 +147,7 @@ TEST_F(AssumeFinalTest, AssumeConditionIsNotEqualComparison) {
 }
 
 TEST_F(AssumeFinalTest, AssumeHasNoPassStmtAndNoElseStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateAssume *const assumeStmt = any_cast<hldb::ImmediateAssume>(top->getAssertions()->at(0));
   ASSERT_NE(assumeStmt, nullptr);

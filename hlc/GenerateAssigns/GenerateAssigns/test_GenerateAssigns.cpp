@@ -86,7 +86,7 @@ class GenerateAssignsTest : public Test {
 
  protected:
   static const hldb::Module *getTopModule() {
-    return hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules());
   }
 
   // Finds the first elaborated GenScope of the GenScopeArray named 'name'

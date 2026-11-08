@@ -52,6 +52,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/vpi_user.h>
 
 #include <string>
@@ -66,14 +67,14 @@ class FileParamTest : public Test {
 
  protected:
   static const hldb::Parameter *findUnitParam(std::string_view name) {
-    return hldb::findByName<hldb::Parameter>(name, m_design->getParameters());
+    return hldb::findByName<hldb::Parameter>(name, m_unit->getParameters());
   }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::EnumTypespec *getBitsEnum() {
-    if (m_design->getTypedefs() == nullptr) return nullptr;
+    if (m_unit->getTypedefs() == nullptr) return nullptr;
     const hldb::Typedef *const td =
-        hldb::findByName<hldb::Typedef>("type_scr1_scu_sysctrl_dr_bits_e", m_design->getTypedefs());
+        hldb::findByName<hldb::Typedef>("type_scr1_scu_sysctrl_dr_bits_e", m_unit->getTypedefs());
     if (td == nullptr || td->getAlias() == nullptr) return nullptr;
     return td->getAlias()->getActual<hldb::EnumTypespec>();
   }
@@ -83,6 +84,7 @@ TEST_F(FileParamTest, ModuleTopExists) { ASSERT_NE(getTop(), nullptr) << "module
 
 // 'localparam P1 = 1;'
 TEST_F(FileParamTest, P1IsUnitScopedLocalParamWithValueOne) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Parameter *const p1 = findUnitParam("P1");
   ASSERT_NE(p1, nullptr) << "'P1' not found at compilation-unit scope";
   EXPECT_TRUE(p1->getLocalParam()) << "6.20.4: 'localparam P1' must not be overridable";
@@ -95,6 +97,7 @@ TEST_F(FileParamTest, P1IsUnitScopedLocalParamWithValueOne) {
 // 'localparam P2 = P1 + 2;' -- references the earlier compilation-unit
 // scoped constant 'P1'.
 TEST_F(FileParamTest, P2IsUnitScopedLocalParamReferencingP1) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Parameter *const p2 = findUnitParam("P2");
   ASSERT_NE(p2, nullptr) << "'P2' not found at compilation-unit scope";
   EXPECT_TRUE(p2->getLocalParam());
@@ -111,6 +114,7 @@ TEST_F(FileParamTest, P2IsUnitScopedLocalParamReferencingP1) {
 
 // 6.19: the enum has exactly two members, in declaration order.
 TEST_F(FileParamTest, BitsEnumHasTwoMembersInOrder) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::EnumTypespec *const enumTs = getBitsEnum();
   ASSERT_NE(enumTs, nullptr) << "'type_scr1_scu_sysctrl_dr_bits_e' should resolve to an EnumTypespec";
   const hldb::Enum *const e = enumTs->getEnum();
@@ -125,6 +129,7 @@ TEST_F(FileParamTest, BitsEnumHasTwoMembersInOrder) {
 // scoped 'P2', proving cross-scope constant resolution reaches into an enum
 // value expression too.
 TEST_F(FileParamTest, SecondEnumMemberReferencesP2) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::EnumTypespec *const enumTs = getBitsEnum();
   ASSERT_NE(enumTs, nullptr);
   const hldb::Enum *const e = enumTs->getEnum();

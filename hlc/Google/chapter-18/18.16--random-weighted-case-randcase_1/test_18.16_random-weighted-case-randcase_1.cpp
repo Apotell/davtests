@@ -137,6 +137,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -245,7 +246,7 @@ class RandomWeightedCaseRandcase1Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
   const hldb::Task *getRunPhase() const {
     const hldb::ClassDefn *const env = getClass("env");
@@ -253,7 +254,8 @@ class RandomWeightedCaseRandcase1Test : public Test {
   }
   // A subroutine declared at compilation-unit scope (design level or the $unit package).
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
-    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_design->getTaskFuncs())) return tf;
+    if (m_unit == nullptr) return nullptr;
+    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
     if (m_design->getAllPackages() != nullptr) {
       for (const hldb::Package *const pkg : *m_design->getAllPackages()) {
         if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, pkg->getTaskFuncs())) return tf;
@@ -388,11 +390,11 @@ TEST_F(RandomWeightedCaseRandcase1Test, RunPhaseAssignsXFromCallOfF) {
 
 // Check: module top declares 'env environment'.
 TEST_F(RandomWeightedCaseRandcase1Test, TopDeclaresEnvironmentHandle) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   if (m_design->getElaborated()) {
     // IEEE 1800-2023 Sec 23.3.1: a top-level module is implicitly instantiated once, under its own name.
-    EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getTopModules()), nullptr)
+    EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getTopModules()), nullptr)
         << "top-level instance 'top' not found";
   }
   const hldb::Variable *const environment = hldb::findByName<hldb::Variable>("environment", top->getVariables());

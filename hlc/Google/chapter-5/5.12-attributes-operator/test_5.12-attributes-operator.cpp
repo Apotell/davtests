@@ -45,9 +45,9 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -58,7 +58,7 @@ class AttributesOperator : public Test {
 };
 
 static const hldb::Assignment *getAssignment(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) {
@@ -82,11 +82,11 @@ static const hldb::Operation *getAddOp(const hldb::Design *design) {
 // Module and variables
 // ----
 TEST_F(AttributesOperator, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesOperator, ThreeVariablesExist) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 3u);
@@ -105,7 +105,7 @@ TEST_F(AttributesOperator, ThreeVariablesExist) {
 // `logic [7:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8
 // none of a, b, c must also appear as a Net.
 TEST_F(AttributesOperator, VariablesAreNotDuplicatedAsNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   if (top->getNets() != nullptr) {
     EXPECT_EQ(hldb::findByName<hldb::Net>("a", top->getNets()), nullptr);

@@ -60,7 +60,7 @@ class RealConstantsIllegal : public Test {
 // that the spec forbids.
 // ----
 TEST_F(RealConstantsIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
       << "Sec 5.7.2: forms without a digit on both sides of the decimal point "
          "must be rejected -- 'top' must not exist";
 }

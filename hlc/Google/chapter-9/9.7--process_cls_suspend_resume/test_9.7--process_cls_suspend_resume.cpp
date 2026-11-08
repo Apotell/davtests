@@ -160,12 +160,12 @@ class ProcessClsSuspendResumeTest : public Test {
 };
 
 TEST_F(ProcessClsSuspendResumeTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(ProcessClsSuspendResumeTest, TaskTestIsAutomaticWithOneInputPortN) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getTaskFuncs(), nullptr);
@@ -182,7 +182,7 @@ TEST_F(ProcessClsSuspendResumeTest, TaskTestIsAutomaticWithOneInputPortN) {
 }
 
 TEST_F(ProcessClsSuspendResumeTest, JobIsAProcessClassVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const test = hldb::findByName<hldb::Task>("test", top->getTaskFuncs());
   ASSERT_NE(test, nullptr);
@@ -198,7 +198,7 @@ TEST_F(ProcessClsSuspendResumeTest, FiveTopLevelStatementsForkWaitResumeAwaitCon
                   "lead distinguishes the possibilities, so this is left open rather than guessed a "
                   "third time.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const test = hldb::findByName<hldb::Task>("test", top->getTaskFuncs());
   ASSERT_NE(test, nullptr);
@@ -241,7 +241,7 @@ TEST_F(ProcessClsSuspendResumeTest, FiveTopLevelStatementsForkWaitResumeAwaitCon
 }
 
 TEST_F(ProcessClsSuspendResumeTest, InitialCallsTestWithArgumentEight) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

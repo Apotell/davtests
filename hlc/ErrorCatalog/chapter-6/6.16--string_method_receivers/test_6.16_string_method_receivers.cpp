@@ -125,7 +125,7 @@ class StringMethodReceiversTest : public Test {
 };
 
 TEST_F(StringMethodReceiversTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------

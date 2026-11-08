@@ -83,12 +83,12 @@ class EventCommaOpTest : public Test {
 };
 
 TEST_F(EventCommaOpTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventCommaOpTest, ABCDAreNetsOutIsVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   for (const char *const name : {"a", "b", "c", "d"}) {
@@ -102,7 +102,7 @@ TEST_F(EventCommaOpTest, ABCDAreNetsOutIsVariable) {
 }
 
 TEST_F(EventCommaOpTest, AInitializerIsPreserved) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
@@ -125,7 +125,7 @@ TEST_F(EventCommaOpTest, AInitializerIsPreserved) {
 }
 
 TEST_F(EventCommaOpTest, ExactlyOnePlainAlwaysProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -140,7 +140,7 @@ TEST_F(EventCommaOpTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventCommaOpTest, CommaSeparatedEventListIsEventOrOfFourOperands) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -173,7 +173,7 @@ TEST_F(EventCommaOpTest, CommaSeparatedEventListIsEventOrOfFourOperands) {
 }
 
 TEST_F(EventCommaOpTest, ControlledStatementIsOutAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;

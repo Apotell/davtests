@@ -116,12 +116,12 @@ class PropertyDisableIffTest : public Test {
 // ... All tests belonging to PropertyDisableIffTest go here!
 
 TEST_F(PropertyDisableIffTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(PropertyDisableIffTest, AssertPropertyIsReachable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)
@@ -136,7 +136,7 @@ TEST_F(PropertyDisableIffTest, AssertPropertyIsReachable) {
 }
 
 TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCondition) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
@@ -164,7 +164,7 @@ TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCond
 }
 
 TEST_F(PropertyDisableIffTest, PropertyExprIsOverlappedImplicationOfBAndC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);

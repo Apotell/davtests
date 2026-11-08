@@ -65,7 +65,7 @@ class LoopParamTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getFoo() { return hldb::findByName<hldb::Module>("Foo", m_design->getAllModules()); }
+  static const hldb::Module *getFoo() { return hldb::findByDefName<hldb::Module>("Foo", m_design->getAllModules()); }
 };
 
 TEST_F(LoopParamTest, ModuleFooExists) { EXPECT_NE(getFoo(), nullptr); }

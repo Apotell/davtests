@@ -79,7 +79,9 @@ class LocalVarTypespecTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getShift() { return hldb::findByName<hldb::Module>("shift", m_design->getAllModules()); }
+  static const hldb::Module *getShift() {
+    return hldb::findByDefName<hldb::Module>("shift", m_design->getAllModules());
+  }
 
   static const hldb::Function *getFunc() {
     const hldb::Module *const m = getShift();

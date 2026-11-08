@@ -58,7 +58,7 @@ class CompilerDirectiveDefaultsTest : public Test {
 
  protected:
   const hldb::Module *findModule(std::string_view name) const {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   const hldb::SourceFile *getSourceFile() const {

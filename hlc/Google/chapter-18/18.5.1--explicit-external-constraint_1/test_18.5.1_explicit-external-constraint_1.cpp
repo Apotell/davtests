@@ -64,8 +64,9 @@
 #include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
 #include <hldb/class_defn.h>
+#include <hldb/design.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -77,7 +78,8 @@ class ExplicitExternalConstraint1Test : public Test {
 };
 
 TEST_F(ExplicitExternalConstraint1Test, ClassAndPropertyExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
   ASSERT_NE(b, nullptr);

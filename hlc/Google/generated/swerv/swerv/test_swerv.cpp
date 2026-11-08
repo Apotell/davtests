@@ -111,7 +111,7 @@ TEST_F(SwervTest, DesignHasNoModules) {
 }
 
 TEST_F(SwervTest, TopModuleMetadataIsNotADeclaration) {
-  EXPECT_EQ(hldb::findByName<hldb::Module>("swerv_wrapper", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByDefName<hldb::Module>("swerv_wrapper", m_design->getAllModules()), nullptr)
       << "':top_module: swerv_wrapper' is comment text, not a module declaration";
 }
 

@@ -34,7 +34,7 @@ class AaFirstTest : public Test {
 };
 
 TEST_F(AaFirstTest, default) {
-  const hldb::Module *const module = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const module = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
   const hldb::Port *const port = hldb::findByName<hldb::Port>("a", module->getPorts());

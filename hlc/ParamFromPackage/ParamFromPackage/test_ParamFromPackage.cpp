@@ -333,7 +333,7 @@ TEST_F(ParamFromPackageTest, InstanceKeepsPackageValueForP) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
-    const hldb::Module *const core = hldb::findByName<hldb::Module>("u_aes_cipher_core", top->getModules());
+    const hldb::Module *const core = hldb::findByDefName<hldb::Module>("u_aes_cipher_core", top->getModules());
     ASSERT_NE(core, nullptr) << "the instance u_aes_cipher_core is elaborated";
     ExpectElabParam(core, "P", 0xabcdu, "26.4: P keeps its default, aes_pkg::X = 32'habcd");
     ExpectElabParam(core, "Z", 1u, "23.10.2.2: '.Z(1)'");

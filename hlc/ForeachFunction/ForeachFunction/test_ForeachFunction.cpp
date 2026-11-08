@@ -65,7 +65,7 @@ class ForeachFunctionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Function *getGetExpectedCommand() {
     const hldb::Module *const dut = getDut();

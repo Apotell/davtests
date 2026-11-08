@@ -171,6 +171,7 @@
 #include <hldb/task.h>
 #include <hldb/task_call.h>
 #include <hldb/tf_call.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -183,7 +184,7 @@ class ConstraintBlocks1Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getVar(std::string_view className, std::string_view varName) {
@@ -242,7 +243,7 @@ class ConstraintBlocks1Test : public Test {
     return any_cast<hldb::Begin>(body->getStmts()->at(1));
   }
 
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getModule() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   // "initial begin environment = new("env"); run_test(); end"
   static const hldb::Begin *getInitialBody() {
@@ -297,12 +298,14 @@ class ConstraintBlocks1Test : public Test {
 // --- class a; rand int b; ----------------------------------------------------
 
 TEST_F(ConstraintBlocks1Test, ClassAExists) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass("a");
   ASSERT_NE(cls, nullptr);
   EXPECT_EQ(cls->getClassType(), vpiUserDefinedClass);
 }
 
 TEST_F(ConstraintBlocks1Test, ClassAHasOneVariable) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass("a");
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getVariables(), nullptr);
@@ -310,6 +313,7 @@ TEST_F(ConstraintBlocks1Test, ClassAHasOneVariable) {
 }
 
 TEST_F(ConstraintBlocks1Test, BIsRandInt) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Variable *const var = getVar("a", "b");
   ASSERT_NE(var, nullptr) << "'b' should be a Variable of class 'a'";
   ASSERT_NE(var->getTypespec(), nullptr);
@@ -324,6 +328,7 @@ TEST_F(ConstraintBlocks1Test, BIsRandInt) {
 // --- constraint c { b == 5; } ------------------------------------------------
 
 TEST_F(ConstraintBlocks1Test, ClassAHasOneConstraint) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls = getClass("a");
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getConstraints(), nullptr);
@@ -332,6 +337,7 @@ TEST_F(ConstraintBlocks1Test, ClassAHasOneConstraint) {
 }
 
 TEST_F(ConstraintBlocks1Test, CIsPlainEnabledConstraint) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Constraint *const constraint = getConstraint();
   ASSERT_NE(constraint, nullptr);
   EXPECT_FALSE(constraint->getPure()) << "18.5.1: 'c' is not declared 'pure'";
@@ -340,6 +346,7 @@ TEST_F(ConstraintBlocks1Test, CIsPlainEnabledConstraint) {
 }
 
 TEST_F(ConstraintBlocks1Test, CIsBEquals5) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Constraint *const constraint = getConstraint();
   ASSERT_NE(constraint, nullptr);
   ASSERT_NE(constraint->getConstraintItems(), nullptr);
@@ -360,6 +367,7 @@ TEST_F(ConstraintBlocks1Test, CIsBEquals5) {
 // --- class env extends uvm_env; ----------------------------------------------
 
 TEST_F(ConstraintBlocks1Test, EnvExtendsUvmEnv) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const env = getClass("env");
   ASSERT_NE(env, nullptr);
   const hldb::Extends *const extends = env->getExtends();
@@ -373,6 +381,7 @@ TEST_F(ConstraintBlocks1Test, EnvExtendsUvmEnv) {
 }
 
 TEST_F(ConstraintBlocks1Test, EnvObjIsClassAWithNew) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Variable *const obj = getVar("env", "obj");
   ASSERT_NE(obj, nullptr) << "'a obj = new;' should be a Variable of class 'env'";
   ASSERT_NE(getClass("a"), nullptr);
@@ -388,6 +397,7 @@ TEST_F(ConstraintBlocks1Test, EnvObjIsClassAWithNew) {
 // --- function new(string name, uvm_component parent = null); -----------------
 
 TEST_F(ConstraintBlocks1Test, EnvNewHasNameAndParentInputs) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Function *const func = getEnvMethod<hldb::Function>("new");
   ASSERT_NE(func, nullptr) << "'function new(...)' should be a Function method of class 'env'";
   ASSERT_NE(func->getIODecls(), nullptr);
@@ -414,6 +424,7 @@ TEST_F(ConstraintBlocks1Test, EnvNewHasNameAndParentInputs) {
 }
 
 TEST_F(ConstraintBlocks1Test, EnvNewCallsSuperNew) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Function *const func = getEnvMethod<hldb::Function>("new");
   ASSERT_NE(func, nullptr);
 
@@ -440,6 +451,7 @@ TEST_F(ConstraintBlocks1Test, EnvNewCallsSuperNew) {
 // --- task run_phase(uvm_phase phase); ... endtask: run_phase -----------------
 
 TEST_F(ConstraintBlocks1Test, EnvRunPhaseHasPhaseInput) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Task *const task = getEnvMethod<hldb::Task>("run_phase");
   ASSERT_NE(task, nullptr) << "'task run_phase(...)' should be a Task method of class 'env'";
   ASSERT_NE(task->getEndLabelObj(), nullptr) << "'endtask: run_phase' has an end label";
@@ -457,17 +469,25 @@ TEST_F(ConstraintBlocks1Test, EnvRunPhaseHasPhaseInput) {
 }
 
 TEST_F(ConstraintBlocks1Test, RunPhaseBodyHasThreeStmts) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Begin *const body = getRunPhaseBody();
   ASSERT_NE(body, nullptr) << "the three statements of run_phase should be held in a Begin";
   ASSERT_NE(body->getStmts(), nullptr);
   EXPECT_EQ(body->getStmts()->size(), 3u) << "raise_objection, begin ... end, drop_objection";
 }
 
-TEST_F(ConstraintBlocks1Test, RunPhaseRaisesObjection) { expectObjectionCall(0, "raise_objection"); }
+TEST_F(ConstraintBlocks1Test, RunPhaseRaisesObjection) {
+  ASSERT_NE(m_unit, nullptr);
+  expectObjectionCall(0, "raise_objection");
+}
 
-TEST_F(ConstraintBlocks1Test, RunPhaseDropsObjection) { expectObjectionCall(2, "drop_objection"); }
+TEST_F(ConstraintBlocks1Test, RunPhaseDropsObjection) {
+  ASSERT_NE(m_unit, nullptr);
+  expectObjectionCall(2, "drop_objection");
+}
 
 TEST_F(ConstraintBlocks1Test, RunPhaseInnerBeginRandomizesObj) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Begin *const inner = getRunPhaseInnerBegin();
   ASSERT_NE(inner, nullptr) << "the explicit 'begin ... end' should be a Begin";
   ASSERT_NE(inner->getStmts(), nullptr);
@@ -484,6 +504,7 @@ TEST_F(ConstraintBlocks1Test, RunPhaseInnerBeginRandomizesObj) {
 }
 
 TEST_F(ConstraintBlocks1Test, RunPhaseIfObjBEquals5) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Begin *const inner = getRunPhaseInnerBegin();
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getStmts(), nullptr);
@@ -516,6 +537,7 @@ TEST_F(ConstraintBlocks1Test, RunPhaseIfObjBEquals5) {
 // --- module top ----------------------------------------------------------------
 
 TEST_F(ConstraintBlocks1Test, TopHasEnvironmentVariable) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
   const hldb::Variable *const environment = hldb::findByName<hldb::Variable>("environment", mod->getVariables());

@@ -53,6 +53,7 @@
 #include <hldb/process_stmt.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -65,15 +66,16 @@ class NonAnsiCheckerTest : public Test {
 };
 
 TEST_F(NonAnsiCheckerTest, CheckerExists) {
-  ASSERT_NE(m_design->getCheckerDecls(), nullptr);
-  EXPECT_NE(
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_design->getCheckerDecls()),
-      nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getCheckerDecls(), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_unit->getCheckerDecls()),
+            nullptr);
 }
 
 TEST_F(NonAnsiCheckerTest, CheckerHasTwoInputPorts) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getPorts(), nullptr);
   ASSERT_EQ(checker->getPorts()->size(), 2u);
@@ -87,8 +89,9 @@ TEST_F(NonAnsiCheckerTest, CheckerHasTwoInputPorts) {
 }
 
 TEST_F(NonAnsiCheckerTest, CheckerHasLogicVariablesNoNetDuplicate) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getVariables(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::Variable>("ck_logic", checker->getVariables()), nullptr);
@@ -101,8 +104,9 @@ TEST_F(NonAnsiCheckerTest, CheckerHasLogicVariablesNoNetDuplicate) {
 
 TEST_F(NonAnsiCheckerTest, CkVecIsVectorOneToZero) {
   // 'logic [1:0] ck_vec;' has an explicit packed dimension.
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("ck_vec", checker->getVariables());
   ASSERT_NE(v, nullptr);
@@ -118,8 +122,9 @@ TEST_F(NonAnsiCheckerTest, CkVecIsVectorOneToZero) {
 }
 
 TEST_F(NonAnsiCheckerTest, CheckerHasOneProcess) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::CheckerDecl *const checker =
-      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_design->getCheckerDecls());
+      hldb::findByName<hldb::CheckerDecl>("nets_and_variables_checker_nonansi", m_unit->getCheckerDecls());
   ASSERT_NE(checker, nullptr);
   ASSERT_NE(checker->getProcesses(), nullptr);
   ASSERT_EQ(checker->getProcesses()->size(), 1u);

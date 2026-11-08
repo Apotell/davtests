@@ -80,9 +80,7 @@ class ForeachSquareTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() {
-    return hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
-  }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitial() {
     const hldb::Module *const dut = getDut();

@@ -156,6 +156,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -167,7 +168,7 @@ class WriteBohTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
@@ -307,8 +308,21 @@ TEST_F(WriteBohTest, DesignHasTwoTypespecsModuleAndSignedInt) {
   ASSERT_EQ(m_design->getTypespecs()->size(), 2u)
       << "one ModuleTypespec for 'top' and one IntTypespec; no StringTypespec, because this file "
          "contains no string literal -- the $write calls pass 'val' directly, with no format string";
-  EXPECT_NE(any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0)), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+
+  const hldb::ModuleTypespec *mt = nullptr;
+  const hldb::IntTypespec *it = nullptr;
+  for (const hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if (mt == nullptr) {
+      mt = any_cast<hldb::ModuleTypespec>(ts);
+    }
+    if (it == nullptr) {
+      it = any_cast<hldb::IntTypespec>(ts);
+      if ((it != nullptr) && !it->getSigned()) it = nullptr;
+    }
+  }
+
+  EXPECT_NE(mt, nullptr);
+
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned()) << "IEEE 1800-2017 Sec 6.11.1: 'int' is signed";
 }

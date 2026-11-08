@@ -65,7 +65,7 @@ class StringBasics : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("top", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Begin *getBegin(const hldb::Design *d) {

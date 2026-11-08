@@ -104,13 +104,13 @@ class ConstTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("top", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::ClassDefn *getClassDefn(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
   if (!m || !m->getClassDefns()) return nullptr;
-  return hldb::findByName<hldb::ClassDefn>(name, m->getClassDefns());
+  return hldb::findByDefName<hldb::ClassDefn>(name, m->getClassDefns());
 }
 
 static const hldb::Variable *getVar(const hldb::Design *d, std::string_view name) {

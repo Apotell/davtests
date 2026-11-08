@@ -114,12 +114,12 @@ class DelayControlTest : public Test {
 // ... All tests belonging to DelayControlTest go here!
 
 TEST_F(DelayControlTest, ModuleBlockTbExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'block_tb' not found";
 }
 
 TEST_F(DelayControlTest, InitialBeginWrapsFourTenUnitDelayedAssignments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

@@ -115,7 +115,7 @@ class ForElabTest : public Test {
 
  protected:
   static const hldb::Module *getTopModule() {
-    return hldb::findByName<hldb::Module>("tlul_socket_m1", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("tlul_socket_m1", m_design->getAllModules());
   }
 
   // Sec 27.5: find the elaborated instance 'u_reqarb' (of module
@@ -128,7 +128,7 @@ class ForElabTest : public Test {
       if (gsa->getGenScopes() == nullptr) continue;
       for (const hldb::GenScope *const gs : *gsa->getGenScopes()) {
         if (gs->getModules() == nullptr) continue;
-        if (const hldb::Module *const m = hldb::findByName<hldb::Module>("u_reqarb", gs->getModules())) return m;
+        if (const hldb::Module *const m = hldb::findByDefName<hldb::Module>("u_reqarb", gs->getModules())) return m;
       }
     }
     return nullptr;

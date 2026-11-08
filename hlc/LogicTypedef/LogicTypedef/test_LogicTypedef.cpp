@@ -74,7 +74,7 @@ class LogicTypedefTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTest() { return hldb::findByName<hldb::Module>("test", m_design->getAllModules()); }
+  static const hldb::Module *getTest() { return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()); }
 
   static const hldb::Typedef *findTypedef(std::string_view name) {
     const hldb::Module *const m = getTest();

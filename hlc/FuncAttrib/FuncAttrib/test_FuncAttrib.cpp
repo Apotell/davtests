@@ -96,6 +96,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -107,11 +108,10 @@ class FuncAttribTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getFoo() { return hldb::findByName<hldb::Module>("foo", m_design->getAllModules()); }
+  static const hldb::Module *getFoo() { return hldb::findByDefName<hldb::Module>("foo", m_design->getAllModules()); }
 
   static const hldb::Function *getDoAdd() {
-    if (m_design->getTaskFuncs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Function>("do_add", m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Function>("do_add", m_unit->getTaskFuncs());
   }
 
   // Walks foo's single always process down to the else-branch's

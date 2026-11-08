@@ -104,12 +104,12 @@ class PropertyPrecTest : public Test {
 // ... All tests belonging to PropertyPrecTest go here!
 
 TEST_F(PropertyPrecTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(PropertyPrecTest, AssertPropertyIsReachable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)
@@ -124,7 +124,7 @@ TEST_F(PropertyPrecTest, AssertPropertyIsReachable) {
 }
 
 TEST_F(PropertyPrecTest, PropertySpecHasPosedgeClockingEventAndNoDisableCondition) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
@@ -143,7 +143,7 @@ TEST_F(PropertyPrecTest, PropertySpecHasPosedgeClockingEventAndNoDisableConditio
 }
 
 TEST_F(PropertyPrecTest, PropertyExprIsOverlappedImplicationOfAAndB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);

@@ -153,12 +153,12 @@ class EventSequenceTest : public Test {
 };
 
 TEST_F(EventSequenceTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("seq_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("seq_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventSequenceTest, ABCYClkAreNets) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("seq_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("seq_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   for (const char *const name : {"a", "b", "c", "y", "clk"}) {
@@ -168,7 +168,7 @@ TEST_F(EventSequenceTest, ABCYClkAreNets) {
 }
 
 TEST_F(EventSequenceTest, SequenceDeclSeqExistsAndReferencesClkAndABC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("seq_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("seq_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getSequenceDecls(), nullptr);
@@ -194,7 +194,7 @@ TEST_F(EventSequenceTest, SequenceDeclSeqExistsAndReferencesClkAndABC) {
 }
 
 TEST_F(EventSequenceTest, AtSeqEventControlResolvesToTheSequenceDecl) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("seq_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("seq_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::SequenceDecl *seq = nullptr;

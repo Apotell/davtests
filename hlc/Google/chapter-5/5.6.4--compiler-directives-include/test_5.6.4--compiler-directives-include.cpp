@@ -57,12 +57,12 @@ static const hldb::SourceFile *getSourceFile(const hldb::Design *d) {
 // Module -- empty, unaffected by the included file
 // ----
 TEST_F(CompilerDirectivesInclude, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("empty", m_design->getAllModules()), nullptr)
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules()), nullptr)
       << "module 'empty' not found";
 }
 
 TEST_F(CompilerDirectivesInclude, ModuleIsEmpty) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty());
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty());

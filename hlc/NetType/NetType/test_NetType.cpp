@@ -95,6 +95,7 @@
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -108,13 +109,13 @@ class NetTypeTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   // Returns all compilation-unit Typedefs named 'name' (in source order).
   static std::vector<const hldb::Typedef *> getTypedefs(std::string_view name) {
     std::vector<const hldb::Typedef *> result;
-    if (m_design == nullptr || m_design->getTypedefs() == nullptr) return result;
-    for (const hldb::Typedef *const td : *m_design->getTypedefs()) {
+    if (m_unit == nullptr || m_unit->getTypedefs() == nullptr) return result;
+    for (const hldb::Typedef *const td : *m_unit->getTypedefs()) {
       if (td->getName() == name) result.emplace_back(td);
     }
     return result;
@@ -126,8 +127,7 @@ class NetTypeTest : public Test {
   }
 
   static const hldb::Function *getFunction(std::string_view name) {
-    if (m_design == nullptr || m_design->getTaskFuncs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Function>(name, m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Function>(name, m_unit->getTaskFuncs());
   }
 };
 

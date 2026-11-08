@@ -87,12 +87,12 @@ class EventNonblockingAssignmentEventTest : public Test {
 };
 
 TEST_F(EventNonblockingAssignmentEventTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventNonblockingAssignmentEventTest, AAndBAreVariablesClkIsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -104,7 +104,7 @@ TEST_F(EventNonblockingAssignmentEventTest, AAndBAreVariablesClkIsNet) {
 }
 
 TEST_F(EventNonblockingAssignmentEventTest, AssignmentIsActuallyBlockingWithInlineEventControl) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

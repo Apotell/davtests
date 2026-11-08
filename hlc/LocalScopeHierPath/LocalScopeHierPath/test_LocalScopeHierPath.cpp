@@ -116,7 +116,7 @@ class LocalScopeHierPathTest : public Test {
   static const hldb::ClassDefn *getClass(std::string_view name) {
     const hldb::Package *const pkg = getPack();
     if (pkg == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, pkg->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, pkg->getClassDefns());
   }
 
   static const hldb::Function *getCheckReg() {

@@ -76,8 +76,8 @@
 //   require a simulator, which is out of scope for this harness.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -94,7 +94,6 @@
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/range.h>
@@ -102,6 +101,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -115,12 +115,12 @@ class PackedVariableSliceZeroTest : public Test {
 // --- module / variables ----
 
 TEST_F(PackedVariableSliceZeroTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(PackedVariableSliceZeroTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
@@ -129,7 +129,7 @@ TEST_F(PackedVariableSliceZeroTest, ModuleHasTwoVariables) {
 // --- parameter c = 0 (the zero part-width under test) ----
 
 TEST_F(PackedVariableSliceZeroTest, ModuleHasOneParameterNamedCEqualsZero) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParameters(), nullptr);
   ASSERT_EQ(top->getParameters()->size(), 1u);
@@ -151,7 +151,7 @@ TEST_F(PackedVariableSliceZeroTest, ModuleHasOneParameterNamedCEqualsZero) {
 // --- initial process ----
 
 TEST_F(PackedVariableSliceZeroTest, InitialBeginHasFiveStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -164,7 +164,7 @@ TEST_F(PackedVariableSliceZeroTest, InitialBeginHasFiveStmts) {
 }
 
 TEST_F(PackedVariableSliceZeroTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -179,7 +179,7 @@ TEST_F(PackedVariableSliceZeroTest, FirstAndSecondAssignmentsSetArrAAndArrB) {
 }
 
 TEST_F(PackedVariableSliceZeroTest, FirstDisplayHasThreeArguments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -197,7 +197,7 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
   // a variable-width part-select whose width parameter "c" is 0. HLC's
   // parse/elaborate-only pass still builds the same IndexedPartSelect shape
   // as variable-slice.sv; it does not reject the zero width (see file header).
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -226,7 +226,7 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
 }
 
 TEST_F(PackedVariableSliceZeroTest, SecondDisplayAssertsAllZeroBitPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -257,7 +257,7 @@ TEST_F(PackedVariableSliceZeroTest, CompilerReportsZeroErrorsAtParseElaborateSta
 }
 
 TEST_F(PackedVariableSliceZeroTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -288,7 +288,7 @@ TEST_F(PackedVariableSliceZeroTest, RuntimeValueRequiresSimulation) {
   //                 "actual runtime bit pattern of arr_b. variable-slice-zero.sv's own $display "
   //                 "format string documents the value a permissive simulator would produce.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

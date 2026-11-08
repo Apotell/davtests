@@ -92,7 +92,7 @@ class NamedEventHierPathTest : public Test {
 
   static const hldb::ClassDefn *getClass() {
     const hldb::Package *const p = getPack();
-    return (p == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("uvm_event_base", p->getClassDefns());
+    return (p == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("uvm_event_base", p->getClassDefns());
   }
 
   static const hldb::NamedEvent *getEvent() {

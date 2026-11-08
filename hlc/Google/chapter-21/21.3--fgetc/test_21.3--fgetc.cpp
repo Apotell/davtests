@@ -172,7 +172,7 @@ class FgetcTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   // IEEE 1800-2023 Sec 6.21: both declarations sit at module scope here,
   // outside the begin-end block.

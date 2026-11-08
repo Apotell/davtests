@@ -94,11 +94,11 @@ class FuncParamTest : public Test {
 
  protected:
   static const hldb::Module *getPrimLfsr() {
-    return hldb::findByName<hldb::Module>("prim_lfsr", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("prim_lfsr", m_design->getAllModules());
   }
 
   static const hldb::Module *getAesPrng() {
-    return hldb::findByName<hldb::Module>("aes_prng", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("aes_prng", m_design->getAllModules());
   }
 
   static const hldb::Function *getCompute() {

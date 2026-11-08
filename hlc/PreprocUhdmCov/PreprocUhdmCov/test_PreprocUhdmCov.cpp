@@ -226,7 +226,7 @@ TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError_ViaFindError) {
 }
 
 TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' must still compile despite the end-label error";
   EXPECT_EQ(top->getEndLabel(), "toto") << "the (mismatched) end label text must still be recorded verbatim";
 }

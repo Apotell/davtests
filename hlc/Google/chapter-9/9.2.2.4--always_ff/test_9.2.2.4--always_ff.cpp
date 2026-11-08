@@ -95,7 +95,7 @@ class AlwaysFfTest : public Test {
 
  protected:
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("always_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("always_tb", m_design->getAllModules());
   }
 
   static const hldb::Net *getNet(std::string_view name) {

@@ -46,23 +46,23 @@ class Coments : public Test {
 TEST_F(Coments, ModuleExists) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   ASSERT_EQ(m_design->getAllModules()->size(), 1u);
-  EXPECT_NE(hldb::findByName<hldb::Module>("empty", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Coments, ModuleHasNoNets) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "empty module should have no nets";
 }
 
 TEST_F(Coments, ModuleHasNoProcesses) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty()) << "empty module should have no processes";
 }
 
 TEST_F(Coments, ModuleHasNoAttributes) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(!m->getAttributes() || m->getAttributes()->empty()) << "empty module should have no attributes";
 }

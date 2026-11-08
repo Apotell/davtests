@@ -65,8 +65,8 @@ class FileLineTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getAaa() { return hldb::findByName<hldb::Module>("aaa", m_design->getAllModules()); }
-  static const hldb::Module *getBbb() { return hldb::findByName<hldb::Module>("bbb", m_design->getAllModules()); }
+  static const hldb::Module *getAaa() { return hldb::findByDefName<hldb::Module>("aaa", m_design->getAllModules()); }
+  static const hldb::Module *getBbb() { return hldb::findByDefName<hldb::Module>("bbb", m_design->getAllModules()); }
 };
 
 TEST_F(FileLineTest, ModuleAaaExists) { ASSERT_NE(getAaa(), nullptr) << "module 'aaa' not found"; }

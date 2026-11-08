@@ -81,7 +81,7 @@ class ForeverTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("foreach_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("foreach_tb", m_design->getAllModules());
   }
 
   static const hldb::ForeverStmt *getForeverStmt() {

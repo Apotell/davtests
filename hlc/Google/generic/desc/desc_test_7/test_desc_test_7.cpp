@@ -117,6 +117,7 @@
 #include <hldb/task_func.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -315,6 +316,7 @@ TEST_F(DescTest7Test, ModuleMymodDifferentIsNotDeclared) {
 // ignored), so the file declares no design element (3.2-3.12, A.1.2).
 TEST_F(DescTest7Test, NoDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
@@ -323,19 +325,20 @@ TEST_F(DescTest7Test, NoDesignElementsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) survives preprocessing either: the
 // tested name DEBUGGER is not a declaration.
 TEST_F(DescTest7Test, NoCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // With no module left in the file there is nothing to instantiate

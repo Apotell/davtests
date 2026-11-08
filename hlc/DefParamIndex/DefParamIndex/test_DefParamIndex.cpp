@@ -95,7 +95,7 @@ class DefParamIndexTest : public Test {
 };
 
 static const hldb::Module *getModule(const hldb::Design *d, std::string_view name) {
-  return hldb::findByName<hldb::Module>(name, d->getAllModules());
+  return hldb::findByDefName<hldb::Module>(name, d->getAllModules());
 }
 
 static const hldb::DefParam *getDefParam(const hldb::Design *d, size_t index) {

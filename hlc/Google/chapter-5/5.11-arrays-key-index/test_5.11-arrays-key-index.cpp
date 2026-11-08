@@ -48,7 +48,7 @@ class ArraysKeyIndex : public Test {
 
 // Helper: return Variable "b" from top.
 static const hldb::Variable *getVarB(const hldb::Design *design) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", design->getAllModules());
   if (!top || !top->getVariables()) return nullptr;
   for (const hldb::Variable *const v : *top->getVariables()) {
     if (v->getName() == "b") return v;
@@ -60,14 +60,14 @@ static const hldb::Variable *getVarB(const hldb::Design *design) {
 // Module
 // ----
 TEST_F(ArraysKeyIndex, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ----
 // Typedef triple = int [1:3]
 // ----
 TEST_F(ArraysKeyIndex, TypedefTripleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -84,7 +84,7 @@ TEST_F(ArraysKeyIndex, TypedefTripleExists) {
 }
 
 TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -108,7 +108,7 @@ TEST_F(ArraysKeyIndex, TripleAliasesIntArray) {
 }
 
 TEST_F(ArraysKeyIndex, TripleArrayHasRangeOneToThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -148,7 +148,7 @@ TEST_F(ArraysKeyIndex, VariableBExists) {
 // `triple b` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
 // must not also appear in the module's net collection.
 TEST_F(ArraysKeyIndex, VariableBIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   if (top->getNets() != nullptr) {
     EXPECT_EQ(hldb::findByName<hldb::Net>("b", top->getNets()), nullptr)

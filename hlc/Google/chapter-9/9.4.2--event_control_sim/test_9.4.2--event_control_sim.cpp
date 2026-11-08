@@ -115,12 +115,12 @@ class EventControlSimTest : public Test {
 };
 
 TEST_F(EventControlSimTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventControlSimTest, NamedEventEExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getNamedEvents(), nullptr);
@@ -129,7 +129,7 @@ TEST_F(EventControlSimTest, NamedEventEExists) {
 }
 
 TEST_F(EventControlSimTest, IIsVariableWithZeroInitializer) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const i = hldb::findByName<hldb::Variable>("i", top->getVariables());
@@ -141,7 +141,7 @@ TEST_F(EventControlSimTest, IIsVariableWithZeroInitializer) {
 }
 
 TEST_F(EventControlSimTest, EventTriggerStatementTargetsE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   ASSERT_NE(e, nullptr);
@@ -182,7 +182,7 @@ TEST_F(EventControlSimTest, EventTriggerStatementTargetsE) {
 }
 
 TEST_F(EventControlSimTest, DelayControlsAndFinishArePresentInOrder) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Initial *initial = nullptr;
@@ -212,7 +212,7 @@ TEST_F(EventControlSimTest, DelayControlsAndFinishArePresentInOrder) {
 }
 
 TEST_F(EventControlSimTest, AlwaysBlockIsSensitiveToE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   ASSERT_NE(e, nullptr);
@@ -247,7 +247,7 @@ TEST_F(EventControlSimTest, IFinalValueShouldBeThreeButHlcCannotSimulate) {
                   ":assert: checks (i reaching 1, 2, then 3, and $time reaching 5, 10, 12, 15) "
                   "cannot be observed on the compiled UHDM graph.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const i = hldb::findByName<hldb::Variable>("i", top->getVariables());
   ASSERT_NE(i, nullptr);

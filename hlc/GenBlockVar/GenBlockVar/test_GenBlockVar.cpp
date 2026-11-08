@@ -54,8 +54,8 @@
 #include <hldb/Utils.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
-#include <hldb/gen_if_else.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_if_else.h>
 #include <hldb/gen_scope.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -75,7 +75,7 @@ class GenBlockVarTest : public Test {
  protected:
   // Module definitions are looked up by defName: a parameterized module's
   // getName() is "top #(.AsyncOn(1'b0))", its getDefName() is "top".
-  // static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  // static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {

@@ -128,6 +128,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
@@ -145,7 +146,7 @@ class PreRandomizeMethod0Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getProperty(std::string_view name) {
@@ -218,9 +219,10 @@ class PreRandomizeMethod0Test : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(PreRandomizeMethod0Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";

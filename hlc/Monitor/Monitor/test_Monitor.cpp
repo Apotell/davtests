@@ -106,6 +106,7 @@
 #include <hldb/ref_instance.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/task.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -123,8 +124,16 @@ class MonitorTest : public Test {
     return hldb::findByName<hldb::Interface>("my_interface", m_design->getAllInterfaces());
   }
 
+  // Compiled with -fileunit: each file is its own compilation unit (IEEE 3.12.1), so a class
+  // declared in design.sv or testbench.sv is in that file's unit.
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    if (m_design->getUnits() == nullptr) return nullptr;
+    for (const hldb::Unit *const unit : *m_design->getUnits()) {
+      if (const hldb::ClassDefn *const c = hldb::findByDefName<hldb::ClassDefn>(name, unit->getClassDefns())) {
+        return c;
+      }
+    }
+    return nullptr;
   }
 
   static const hldb::ClockingBlock *getCb() {
@@ -259,7 +268,7 @@ TEST_F(MonitorTest, MockScoreboardMembers) {
 // ===========================================================================
 
 TEST_F(MonitorTest, UnitTestModuleVariablesAndInterfaceInstance) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("my_monitor_unit_test", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("my_monitor_unit_test", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   for (std::string_view name : {"clock", "select", "data"}) {
     EXPECT_NE(hldb::findByName<hldb::Variable>(name, m->getVariables()), nullptr)

@@ -471,7 +471,7 @@ TEST_F(ParamArraySelectTest, ElaboratedLciGetsNumLcOtpWords28AndNoBadBlock) {
     ASSERT_EQ(m_design->getTopModules()->size(), 1u) << "23.3.1: otp_ctrl_lci is instantiated, top is not";
     const hldb::Module *const top = getElabTop();
     ASSERT_NE(top, nullptr);
-    const hldb::Module *const lci = hldb::findByName<hldb::Module>("u_otp_ctrl_lci", top->getModules());
+    const hldb::Module *const lci = hldb::findByDefName<hldb::Module>("u_otp_ctrl_lci", top->getModules());
     ASSERT_NE(lci, nullptr) << "the instance u_otp_ctrl_lci is elaborated";
     ExpectElabParam(lci, "NumLcOtpWords", 28, "Info = PartInfo[LifeCycleIdx] = '{56, 200}, and 56 >> 1 = 28");
     size_t scopes = 0;

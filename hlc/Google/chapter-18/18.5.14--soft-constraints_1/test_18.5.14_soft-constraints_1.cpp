@@ -115,6 +115,7 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/task.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -204,7 +205,7 @@ class SoftConstraints1Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 
@@ -305,11 +306,11 @@ TEST_F(SoftConstraints1Test, RunPhaseRandomizesObj) {
 
 // Check 7: module top declares 'env environment'.
 TEST_F(SoftConstraints1Test, TopDeclaresEnvironmentHandle) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   if (m_design->getElaborated()) {
     // IEEE 1800-2023 Sec 23.3.1: a top-level module is implicitly instantiated once, under its own name.
-    EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getTopModules()), nullptr)
+    EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getTopModules()), nullptr)
         << "top-level instance 'top' not found";
   }
   const hldb::Variable *const environment = hldb::findByName<hldb::Variable>("environment", top->getVariables());

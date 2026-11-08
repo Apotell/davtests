@@ -40,6 +40,7 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -51,12 +52,15 @@ class AnsiClassTest : public Test {
 
  protected:
   static const hldb::ClassDefn *getCls() {
-    return hldb::findByName<hldb::ClassDefn>("nets_and_variables_class", m_design->getAllClasses());
+    return (m_unit == nullptr)
+               ? nullptr
+               : hldb::findByDefName<hldb::ClassDefn>("nets_and_variables_class", m_unit->getClassDefns());
   }
 };
 
 TEST_F(AnsiClassTest, ClassExists) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   ASSERT_NE(getCls(), nullptr);
 }
 
@@ -99,9 +103,9 @@ TEST_F(AnsiClassTest, ClsBitsIsBitTypespecVectorFour) {
 }
 
 TEST_F(AnsiClassTest, ClassHasRandVariables) {
-
+  ASSERT_NE(m_unit, nullptr);
   const hldb::ClassDefn *const cls =
-      hldb::findByName<hldb::ClassDefn>("nets_and_variables_class", m_design->getAllClasses());
+      hldb::findByDefName<hldb::ClassDefn>("nets_and_variables_class", m_unit->getClassDefns());
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getVariables(), nullptr);
 

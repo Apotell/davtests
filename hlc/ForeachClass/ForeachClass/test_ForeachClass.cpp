@@ -74,7 +74,7 @@ class ForeachClassTest : public Test {
   static const hldb::ClassDefn *getUvmRegMap() {
     const hldb::Package *const uvm = getUvm();
     if (uvm == nullptr || uvm->getClassDefns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_reg_map", uvm->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_reg_map", uvm->getClassDefns());
   }
 
   static const hldb::Function *getF1() {

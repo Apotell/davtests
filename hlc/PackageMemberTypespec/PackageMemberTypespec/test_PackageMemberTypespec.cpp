@@ -226,7 +226,7 @@ TEST_F(PackageMemberTypespecTest, BothPackagesExistWithEndLabels) {
 
 TEST_F(PackageMemberTypespecTest, CommentedOutDeclarationsDoNotExist) {
   EXPECT_EQ(getPkg("fooes"), nullptr) << "5.4: package 'fooes' is inside a block comment";
-  EXPECT_EQ(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr)
+  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
       << "5.4: module 'top' is inside a block comment";
 }
 

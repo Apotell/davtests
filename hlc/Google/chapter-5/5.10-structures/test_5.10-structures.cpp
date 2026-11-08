@@ -74,11 +74,11 @@ static const hldb::Assignment *getNthAssignment(const hldb::Begin *blk, size_t n
 // Module and typedef
 // ----
 TEST_F(Structure, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(Structure, TypedefMsTExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -87,7 +87,7 @@ TEST_F(Structure, TypedefMsTExists) {
 }
 
 TEST_F(Structure, StructHasTwoMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -115,7 +115,7 @@ TEST_F(Structure, StructHasTwoMembers) {
 // `ms_t ms;` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it is
 // a variable_declaration, not a net_declaration.
 TEST_F(Structure, VariableMsExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
@@ -124,7 +124,7 @@ TEST_F(Structure, VariableMsExists) {
 }
 
 TEST_F(Structure, VariableMsIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   if (top->getNets() != nullptr) {
@@ -137,7 +137,7 @@ TEST_F(Structure, VariableMsIsNotDuplicatedAsNet) {
 // Initial block -- three assignments
 // ----
 TEST_F(Structure, InitialBlockHasThreeAssignments) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -154,7 +154,7 @@ TEST_F(Structure, InitialBlockHasThreeAssignments) {
 // Assignment 1: ms = '{0, 1} -- positional pattern, 2 Constants
 // ----
 TEST_F(Structure, FirstAssignmentIsPositionalPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -169,7 +169,7 @@ TEST_F(Structure, FirstAssignmentIsPositionalPattern) {
 }
 
 TEST_F(Structure, FirstAssignmentOperandsAreConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -191,7 +191,7 @@ TEST_F(Structure, FirstAssignmentOperandsAreConstants) {
 // Assignment 2: ms = '{default:1, int:1} -- keyed with default and type tags
 // ----
 TEST_F(Structure, SecondAssignmentIsKeyedPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -206,7 +206,7 @@ TEST_F(Structure, SecondAssignmentIsKeyedPattern) {
 }
 
 TEST_F(Structure, SecondAssignmentOperandsAreTaggedPatterns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -224,7 +224,7 @@ TEST_F(Structure, SecondAssignmentOperandsAreTaggedPatterns) {
 }
 
 TEST_F(Structure, SecondAssignmentFirstTagIsDefault) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -244,7 +244,7 @@ TEST_F(Structure, SecondAssignmentFirstTagIsDefault) {
 }
 
 TEST_F(Structure, SecondAssignmentSecondTagIsTypeRef) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);
@@ -265,7 +265,7 @@ TEST_F(Structure, SecondAssignmentSecondTagIsTypeRef) {
 // Assignment 3: ms = '{int:0, int:1} -- both operands keyed by type
 // ----
 TEST_F(Structure, ThirdAssignmentBothTagsAreTypeRefs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Begin *const blk = getInitialBegin(top);

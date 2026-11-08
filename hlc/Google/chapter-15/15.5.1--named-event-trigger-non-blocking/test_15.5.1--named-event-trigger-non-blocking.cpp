@@ -106,6 +106,7 @@
 #include <hldb/process_stmt.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <hlc/Tests/Test.h>
@@ -119,22 +120,23 @@ class NamedEventTriggerNonBlockingTest : public Test {
 // ... All tests belonging to NamedEventTriggerNonBlockingTest go here!
 
 TEST_F(NamedEventTriggerNonBlockingTest, ModuleInnerExists) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr) << "module 'inner' not found";
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, ClassFooExists) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr) << "class 'foo' not found";
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, TopEventDeclarationShouldBeNamedEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::NamedEvent *const e = hldb::findByName<hldb::NamedEvent>("e", top->getNamedEvents());
   EXPECT_NE(e, nullptr) << "event 'e' should be a NamedEvent per IEEE 1800-2023 Sec 6.7; HLC currently "
@@ -142,7 +144,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, TopEventDeclarationShouldBeNamedEvent) 
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, InnerInitialHasNoBeginWrapper) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(inner->getProcesses(), nullptr);
   ASSERT_EQ(inner->getProcesses()->size(), 1u);
@@ -158,9 +160,9 @@ TEST_F(NamedEventTriggerNonBlockingTest, InnerInitialHasNoBeginWrapper) {
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, InnerTriggerShouldBeNonBlockingEventStmtTargetingTopsEvent) {
-  const hldb::Module *const inner = hldb::findByName<hldb::Module>("inner", m_design->getAllModules());
+  const hldb::Module *const inner = hldb::findByDefName<hldb::Module>("inner", m_design->getAllModules());
   ASSERT_NE(inner, nullptr);
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Initial *const init = any_cast<hldb::Initial>(inner->getProcesses()->front());
@@ -182,7 +184,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, InnerTriggerShouldBeNonBlockingEventStm
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, TopInitialBeginHasOneStatement) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -198,7 +200,7 @@ TEST_F(NamedEventTriggerNonBlockingTest, TopInitialBeginHasOneStatement) {
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, TopTriggerShouldBeNonBlockingEventStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -218,7 +220,8 @@ TEST_F(NamedEventTriggerNonBlockingTest, TopTriggerShouldBeNonBlockingEventStmt)
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, ClassFooHasExactlyOneMethodNamedWaitE) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr);
   ASSERT_NE(foo->getMethods(), nullptr);
   ASSERT_EQ(foo->getMethods()->size(), 1u);
@@ -226,7 +229,8 @@ TEST_F(NamedEventTriggerNonBlockingTest, ClassFooHasExactlyOneMethodNamedWaitE) 
 }
 
 TEST_F(NamedEventTriggerNonBlockingTest, ClassFooTaskTriggerShouldBeNonBlockingEventStmtTargetingOwnEvent) {
-  const hldb::ClassDefn *const foo = hldb::findByName<hldb::ClassDefn>("foo", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const foo = hldb::findByDefName<hldb::ClassDefn>("foo", m_unit->getClassDefns());
   ASSERT_NE(foo, nullptr);
   ASSERT_NE(foo->getMethods(), nullptr);
   ASSERT_EQ(foo->getMethods()->size(), 1u);

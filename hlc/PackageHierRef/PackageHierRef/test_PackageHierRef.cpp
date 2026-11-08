@@ -268,7 +268,7 @@ class PackageHierRefTest : public Test {
     return hldb::findByName<hldb::Variable>("x", body->getVariables());
   }
 
-  static const hldb::Module *getM() { return hldb::findByName<hldb::Module>("m", m_design->getAllModules()); }
+  static const hldb::Module *getM() { return hldb::findByDefName<hldb::Module>("m", m_design->getAllModules()); }
 
   static const hldb::GenIf *getGenIf() {
     const hldb::Module *const m = getM();
@@ -560,7 +560,7 @@ TEST_F(PackageHierRefTest, DottedName4F2XBindsToNothing) {
 
 TEST_F(PackageHierRefTest, IfGenerateInstantiatesSB1) {
   if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("m", m_design->getTopModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("m", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "m is the only module, so it is the top-level instance";
     const hldb::GenScopeArray *const sB1 = hldb::findByName<hldb::GenScopeArray>("sB1", top->getGenScopeArrays());
     ASSERT_NE(sB1, nullptr) << "27.5: package_param is 1, so the if-generate instantiates its block sB1";

@@ -82,7 +82,7 @@ class FuncDefTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("mulAddRecFNToRaw_preMul", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("mulAddRecFNToRaw_preMul", m_design->getAllModules());
   }
 
   static const hldb::Function *getClog2() {

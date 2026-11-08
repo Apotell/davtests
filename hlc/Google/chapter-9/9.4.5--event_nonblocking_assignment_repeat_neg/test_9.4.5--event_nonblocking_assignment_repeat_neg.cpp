@@ -90,12 +90,12 @@ class EventNonblockingAssignmentRepeatNegTest : public Test {
 };
 
 TEST_F(EventNonblockingAssignmentRepeatNegTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventNonblockingAssignmentRepeatNegTest, AAndBAreVariablesClkIsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -107,7 +107,7 @@ TEST_F(EventNonblockingAssignmentRepeatNegTest, AAndBAreVariablesClkIsNet) {
 }
 
 TEST_F(EventNonblockingAssignmentRepeatNegTest, AssignmentCarriesRepeatControlWithLiteralNegativeThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);

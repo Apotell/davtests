@@ -58,6 +58,7 @@
 #include <hldb/return_stmt.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/vpi_user.h>
 
 #include <string_view>
@@ -72,8 +73,8 @@ class FilePackageImportTest : public Test {
  protected:
   static const hldb::Package *getPkgB() { return hldb::findByName<hldb::Package>("pkg_b", m_design->getAllPackages()); }
   static const hldb::Function *getFunc() {
-    if (m_design->getTaskFuncs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Function>("TreeLRU_CalcWriteEnable", m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr
+                               : hldb::findByName<hldb::Function>("TreeLRU_CalcWriteEnable", m_unit->getTaskFuncs());
   }
 };
 
@@ -92,9 +93,10 @@ TEST_F(FilePackageImportTest, PkgBDeclaresDCacheWayPathTypedef) {
 // 26.3: 'import pkg_b::*;' at compilation-unit scope must make 'pkg_b's
 // members reachable in the same compilation unit.
 TEST_F(FilePackageImportTest, WildcardImportOfPkgBExists) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr) << "no compilation-unit-scope typespecs recorded";
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getTypespecs(), nullptr) << "no compilation-unit-scope typespecs recorded";
   const hldb::ImportTypespec *imp = nullptr;
-  for (const hldb::Typespec *const t : *m_design->getTypespecs()) {
+  for (const hldb::Typespec *const t : *m_unit->getTypespecs()) {
     if (const hldb::ImportTypespec *const it = any_cast<hldb::ImportTypespec>(t)) {
       if (it->getName() == std::string_view{"pkg_b"}) {
         imp = it;

@@ -87,7 +87,7 @@ class NoParamSubsTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   static const hldb::Parameter *getParameter(std::string_view mod, std::string_view name) {

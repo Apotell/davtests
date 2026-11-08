@@ -90,7 +90,7 @@ class EnumVarTest : public Test {
     return hldb::findByName<hldb::Package>("pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::TypedefTypespec *getPkgTypedef(std::string_view name) {
     const hldb::Package *const pkg = getPkg();

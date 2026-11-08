@@ -58,8 +58,8 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/function.h>
-#include <hldb/gen_if.h>
 #include <hldb/gen_block.h>
+#include <hldb/gen_if.h>
 #include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/io_decl.h>
@@ -82,7 +82,7 @@ class GenScopeFuncTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // 'generate ... endgenerate' is a generate region (Sec 27.3), so the
@@ -137,7 +137,7 @@ TEST_F(GenScopeFuncTest, TopInstantiatesModAsC) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
   // ASSERT_NE(top->getModules(), nullptr);
-  // const hldb::Module *const c = hldb::findByName<hldb::Module>("c", top->getModules());
+  // const hldb::Module *const c = hldb::findByDefName<hldb::Module>("c", top->getModules());
   // ASSERT_NE(c, nullptr);
   // EXPECT_EQ(c->getDefName(), std::string_view("mod"));
   // Unelaborated model: 'mod c ();' is a RefInstance; its module is reached

@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -41,7 +41,7 @@ class Sky130MacroSparecellFunctionalTest : public Test {
 // 22.4, an unresolvable `include shall be reported as a compile error.
 TEST_F(Sky130MacroSparecellFunctionalTest, ModuleCompiles) {
   const hldb::Module *const module =
-      hldb::findByName<hldb::Module>("sky130_fd_sc_hd__macro_sparecell", m_design->getAllModules());
+      hldb::findByDefName<hldb::Module>("sky130_fd_sc_hd__macro_sparecell", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "sky130_fd_sc_hd__macro_sparecell module must still parse";
 }
 

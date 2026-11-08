@@ -70,12 +70,13 @@
 #include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/class_defn.h>
-#include <hldb/function.h>
-#include <hldb/variable.h>
-#include <hldb/int_typespec.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
+#include <hldb/design.h>
+#include <hldb/function.h>
+#include <hldb/int_typespec.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 class RandomizationOfScopeVariables0Test : public Test {
@@ -85,7 +86,8 @@ class RandomizationOfScopeVariables0Test : public Test {
 };
 
 TEST_F(RandomizationOfScopeVariables0Test, MethodDoRandomizeExistsWithIntReturnAndNoArguments) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
 
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_randomize", a->getMethods());
@@ -99,7 +101,8 @@ TEST_F(RandomizationOfScopeVariables0Test, MethodDoRandomizeExistsWithIntReturnA
 }
 
 TEST_F(RandomizationOfScopeVariables0Test, LocalVariablesXAndSuccessExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_randomize", a->getMethods());
   ASSERT_NE(fn, nullptr);

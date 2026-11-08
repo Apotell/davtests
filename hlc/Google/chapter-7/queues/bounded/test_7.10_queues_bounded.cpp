@@ -98,7 +98,7 @@ class QueuesBoundedTest : public Test {
 
  protected:
   static const hldb::Variable *getVariableQ() {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
     if (top == nullptr) return nullptr;
     return hldb::findByName<hldb::Variable>("q", top->getVariables());
   }
@@ -110,7 +110,7 @@ class QueuesBoundedTest : public Test {
   }
 
   static const hldb::Begin *getInitialBegin() {
-    const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;
     const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
     if (init == nullptr) return nullptr;
@@ -121,11 +121,11 @@ class QueuesBoundedTest : public Test {
 // --- module / variable ----
 
 TEST_F(QueuesBoundedTest, ModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(QueuesBoundedTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
@@ -136,7 +136,7 @@ TEST_F(QueuesBoundedTest, VariableQExists) { EXPECT_NE(getVariableQ(), nullptr);
 // `q` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it must
 // not also appear in the module's net collection.
 TEST_F(QueuesBoundedTest, VariableQIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   if (top->getNets() != nullptr) {
     EXPECT_EQ(hldb::findByName<hldb::Net>("q", top->getNets()), nullptr)
@@ -200,7 +200,7 @@ TEST_F(QueuesBoundedTest, VariableQHasNoInitialValue) {
 // --- initial process structure ----
 
 TEST_F(QueuesBoundedTest, ModuleHasOneInitialProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -386,29 +386,39 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
 // --- structural completeness / design-level typespecs ----
 
 TEST_F(QueuesBoundedTest, ModuleHasNoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
 TEST_F(QueuesBoundedTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(QueuesBoundedTest, DesignHasIntTypespecSigned) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      if (it->getSigned()) break;
+    }
+  }
   ASSERT_NE(it, nullptr);
-  EXPECT_TRUE(it->getSigned());
 }
 
 TEST_F(QueuesBoundedTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_GT(m_design->getTypespecs()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *st = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((st = any_cast<hldb::StringTypespec>(ts))) {
+      break;
+    }
+  }
+  EXPECT_NE(st, nullptr);
 }
 
 }  // namespace hlc

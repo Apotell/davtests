@@ -77,6 +77,7 @@
 #include <hldb/source_file.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -90,7 +91,7 @@ class LowMemPkgTest : public Test {
   static const hldb::Package *getPkg() {
     return hldb::findByName<hldb::Package>("wddr_pkg", m_design->getAllPackages());
   }
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Typedef *getMyLogic() {
     const hldb::Package *const pkg = getPkg();
     if (pkg == nullptr) return nullptr;
@@ -124,7 +125,8 @@ TEST_F(LowMemPkgTest, IncludeFileIsRecordedUnderDut) {
 
 // 3.12.1 / 26.3: the wildcard import lives in the compilation-unit scope.
 TEST_F(LowMemPkgTest, WildcardImportIsInCompilationUnitScope) {
-  const hldb::ImportTypespec *const imp = hldb::findByName<hldb::ImportTypespec>("wddr_pkg", m_design->getTypespecs());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ImportTypespec *const imp = hldb::findByName<hldb::ImportTypespec>("wddr_pkg", m_unit->getTypespecs());
   ASSERT_NE(imp, nullptr) << "'import wddr_pkg::*;' is outside any module/package (compilation-unit scope)";
   const hldb::Constant *const item = imp->getItem();
   ASSERT_NE(item, nullptr);

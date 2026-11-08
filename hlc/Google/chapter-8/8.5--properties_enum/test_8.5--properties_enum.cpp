@@ -90,12 +90,12 @@
 #include <hldb/initial.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -107,13 +107,13 @@ class ClassPropertiesEnumTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("class_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("class_tb", m_design->getAllModules());
   }
 
   static const hldb::ClassDefn *getTestClsDefn() {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("test_cls", top->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("test_cls", top->getClassDefns());
   }
 
   static const hldb::Variable *getVariableTestObj() {

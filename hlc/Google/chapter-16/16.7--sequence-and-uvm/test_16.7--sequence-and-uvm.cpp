@@ -242,6 +242,7 @@
 #include <hldb/sequence_decl.h>
 #include <hldb/task.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 
 #include <hlc/Tests/Test.h>
 
@@ -316,13 +317,15 @@ class SequenceAndUvmTest : public Test {
 // ... All tests belonging to SequenceAndUvmTest go here!
 
 TEST_F(SequenceAndUvmTest, ModuleModAndTopAndClassEnvExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("mod", m_design->getAllModules()), nullptr) << "module 'mod' not found";
-  EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses()), nullptr) << "class 'env' not found";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("mod", m_design->getAllModules()), nullptr) << "module 'mod' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr) << "module 'top' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns()), nullptr) << "class 'env' not found";
 }
 
 TEST_F(SequenceAndUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
-  const hldb::ClassDefn *const env = hldb::findByName<hldb::ClassDefn>("env", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const env = hldb::findByDefName<hldb::ClassDefn>("env", m_unit->getClassDefns());
   ASSERT_NE(env, nullptr);
   ASSERT_NE(env->getMethods(), nullptr);
 
@@ -337,14 +340,14 @@ TEST_F(SequenceAndUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseTask) {
 }
 
 TEST_F(SequenceAndUvmTest, SequenceSeqDeclaredInModuleTop) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr) << "sequence 'seq' not found in module top";
 }
 
 TEST_F(SequenceAndUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -361,7 +364,7 @@ TEST_F(SequenceAndUvmTest, SequenceExprIsClockedSeqWithPosedgeClockingEvent) {
 }
 
 TEST_F(SequenceAndUvmTest, SequenceExprOutermostOperatorIsZeroCycleDelay) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -390,7 +393,7 @@ TEST_F(SequenceAndUvmTest, SequenceExprContainsAndOfTwoCycleDelaySubsequences) {
                   "SequenceExprOutermostOperatorIsZeroCycleDelay -- needs the actual opType value to "
                   "resolve.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SequenceDecl *const seq = hldb::findByName<hldb::SequenceDecl>("seq", top->getSequenceDecls());
   ASSERT_NE(seq, nullptr);
@@ -424,7 +427,7 @@ TEST_F(SequenceAndUvmTest, SequenceExprContainsAndOfTwoCycleDelaySubsequences) {
 }
 
 TEST_F(SequenceAndUvmTest, AssertPropertyIsReachableAndReferencesSeq) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getConcurrentAssertions(), nullptr)

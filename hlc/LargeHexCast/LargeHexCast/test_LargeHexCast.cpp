@@ -219,7 +219,7 @@ TEST_F(LargeHexCastTest, APrefixIsUnarySizeCast) {
 }
 
 TEST_F(LargeHexCastTest, ModuleKmacEntropyImportsPackage) {
-  const hldb::Module *const m = hldb::findByName<hldb::Module>("kmac_entropy", m_design->getAllModules());
+  const hldb::Module *const m = hldb::findByDefName<hldb::Module>("kmac_entropy", m_design->getAllModules());
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getEndLabel(), "kmac_entropy");
   const hldb::ImportTypespec *imp = nullptr;

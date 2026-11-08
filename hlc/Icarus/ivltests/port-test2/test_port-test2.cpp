@@ -112,10 +112,10 @@ class PortTest2Test : public Test {
 
  protected:
   static const hldb::Module *getPort3() {
-    return hldb::findByName<hldb::Module>("port_3", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("port_3", m_design->getAllModules());
   }
   static const hldb::Module *getPortTest() {
-    return hldb::findByName<hldb::Module>("port_test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("port_test", m_design->getAllModules());
   }
 };
 

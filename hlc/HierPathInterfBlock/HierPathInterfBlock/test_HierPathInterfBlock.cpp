@@ -69,8 +69,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_block.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_if.h>
 #include <hldb/gen_scope_array.h>
 #include <hldb/interface.h>
@@ -88,7 +88,7 @@ class HierPathInterfBlockTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Interface *getIntf() {
     return hldb::findByName<hldb::Interface>("intf", m_design->getAllInterfaces());
   }

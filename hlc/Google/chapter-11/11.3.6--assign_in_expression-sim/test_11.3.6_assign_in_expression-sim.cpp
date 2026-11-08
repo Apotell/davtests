@@ -84,8 +84,8 @@
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sys_task_call.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/sys_task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -97,7 +97,7 @@ class AssignInExpressionSimTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) return nullptr;

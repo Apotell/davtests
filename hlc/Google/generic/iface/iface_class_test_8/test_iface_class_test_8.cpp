@@ -166,6 +166,7 @@
 #include <hldb/type_parameter.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -307,10 +308,7 @@ class IfaceClassTest8Test : public Test {
 
   // The interface class base_ic, or nullptr.
   static const hldb::ClassDefn *getBaseIc() {
-    if (m_design == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ClassDefn>("base_ic", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("base_ic", m_unit->getClassDefns());
   }
 
   static const hldb::Parameter *getParameter(std::string_view name) {
@@ -376,8 +374,8 @@ TEST_F(IfaceClassTest8Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // in the source, so it is user-defined (37.29 vpiClassType), and the
 // 'interface' keyword makes it an interface class (8.26).
 TEST_F(IfaceClassTest8Test, BaseIcIsUserDefinedInterfaceClass) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countNamed(m_design->getAllClasses(), "base_ic"), 1u) << "base_ic is declared exactly once";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countNamed(m_unit->getClassDefns(), "base_ic"), 1u) << "base_ic is declared exactly once";
 
   const hldb::ClassDefn *const baseIc = getBaseIc();
   ASSERT_NE(baseIc, nullptr);
@@ -480,15 +478,17 @@ TEST_F(IfaceClassTest8Test, PackageBhgAndFunctionFAreNotDeclared) {
 // other design element -- in particular no package.
 TEST_F(IfaceClassTest8Test, NoOtherDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u) << "base_ic is the only class";
+  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u) << "base_ic is the only class";
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u) << "the file declares no module";
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u) << "the file declares no package";
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) other than base_ic is declared: N, T
@@ -496,12 +496,13 @@ TEST_F(IfaceClassTest8Test, NoOtherDesignElementsDeclared) {
 // variable or typedef.
 TEST_F(IfaceClassTest8Test, NoCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u) << "N, T and M are parameters of base_ic";
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u) << "N, T and M are parameters of base_ic";
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // With no module in the file there is nothing to instantiate implicitly as

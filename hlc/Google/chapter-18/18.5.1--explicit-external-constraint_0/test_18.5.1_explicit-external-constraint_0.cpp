@@ -70,15 +70,16 @@
 #include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
-#include <hldb/design.h>
 #include <hldb/class_defn.h>
-#include <hldb/variable.h>
+#include <hldb/constant.h>
 #include <hldb/constraint.h>
+#include <hldb/design.h>
 #include <hldb/distribution.h>
-#include <hldb/ref_typespec.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
-#include <hldb/constant.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/unit.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -89,7 +90,8 @@ class ExplicitExternalConstraint0Test : public Test {
 };
 
 TEST_F(ExplicitExternalConstraint0Test, ClassAndPropertyExist) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
   ASSERT_NE(b, nullptr);
@@ -97,7 +99,8 @@ TEST_F(ExplicitExternalConstraint0Test, ClassAndPropertyExist) {
 }
 
 TEST_F(ExplicitExternalConstraint0Test, OutOfClassConstraintIsRegisteredAtDesignLevelWithPrefixToClassA) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a->getConstraints(), nullptr) << "out-of-class constraint bodies are nested under the class";
 
@@ -110,7 +113,8 @@ TEST_F(ExplicitExternalConstraint0Test, OutOfClassConstraintIsRegisteredAtDesign
 }
 
 TEST_F(ExplicitExternalConstraint0Test, ConstraintBodyIsSingleEqualityExpressionBEqualsZero) {
-  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(m_unit, nullptr);
+  const hldb::ClassDefn *const a = hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a->getConstraints(), nullptr) << "out-of-class constraint bodies are nested under the class";
 

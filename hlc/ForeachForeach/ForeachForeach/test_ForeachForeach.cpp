@@ -69,7 +69,7 @@ class ForeachForeachTest : public Test {
   static const hldb::ClassDefn *getUvmPhase() {
     const hldb::Package *const uvm = getUvm();
     if (uvm == nullptr || uvm->getClassDefns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>("uvm_phase", uvm->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("uvm_phase", uvm->getClassDefns());
   }
 
   static const hldb::Function *getGetAdjacentPredecessorNodes() {

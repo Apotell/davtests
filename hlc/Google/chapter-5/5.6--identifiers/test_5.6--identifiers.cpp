@@ -45,7 +45,7 @@ class Identifiers : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("identifiers", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("identifiers", d->getAllModules());
 }
 
 static bool hasVariable(const hldb::Module *m, std::string_view name) {

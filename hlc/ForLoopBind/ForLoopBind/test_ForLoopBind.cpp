@@ -122,7 +122,7 @@ class ForLoopBindTest : public Test {
   static const hldb::ClassDefn *getClass(std::string_view name) {
     const hldb::Package *const uvm = getUvm();
     if (uvm == nullptr || uvm->getClassDefns() == nullptr) return nullptr;
-    return hldb::findByName<hldb::ClassDefn>(name, uvm->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>(name, uvm->getClassDefns());
   }
 
   static const hldb::ClassDefn *getUvmVreg() { return getClass("uvm_vreg"); }

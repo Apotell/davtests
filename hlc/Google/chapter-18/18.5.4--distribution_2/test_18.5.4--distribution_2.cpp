@@ -63,6 +63,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -73,7 +74,7 @@ class Distribution2Test : public Test {
 
  protected:
   static const hldb::ClassDefn *findClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 };
 

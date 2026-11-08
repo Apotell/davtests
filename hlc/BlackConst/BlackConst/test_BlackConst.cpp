@@ -112,8 +112,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/gen_scope.h>
 #include <hldb/gen_scope_array.h>
@@ -144,7 +144,7 @@ class BlackConstTest : public Test {
 // ---------------------------------------------------------------------------
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("top", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("top", d->getAllModules());
 }
 
 static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view name) {
@@ -171,8 +171,7 @@ static const hldb::Typedef *getTypedef(const hldb::Design *d, std::string_view n
 TEST_F(BlackConstTest, ModuleTopExists) { ASSERT_NE(getTop(m_design), nullptr) << "module 'top' not found"; }
 
 TEST_F(BlackConstTest, ModuleGoodExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr)
-      << "module 'GOOD' not found";
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr) << "module 'GOOD' not found";
 }
 
 // ===========================================================================
@@ -374,7 +373,7 @@ TEST_F(BlackConstTest, GenerateIf_ElaboratesGoodInstance) {
     if (gsa->getGenScopes() == nullptr) continue;
     for (const hldb::GenScope *const gs : *gsa->getGenScopes()) {
       if (gs->getModules() == nullptr) continue;
-      if (const hldb::Module *const g = hldb::findByName<hldb::Module>("good", gs->getModules())) {
+      if (const hldb::Module *const g = hldb::findByDefName<hldb::Module>("good", gs->getModules())) {
         good = g;
         break;
       }

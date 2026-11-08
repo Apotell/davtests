@@ -372,10 +372,10 @@ TEST_F(ParamConstTest, ResetValueReachesBothInstances) {
     const hldb::Module *const top = m_design->getTopModules()->at(0);
     ASSERT_NE(top, nullptr);
     EXPECT_EQ(top->getDefName(), "top");
-    const hldb::Module *const regs = hldb::findByName<hldb::Module>("state_regs", top->getModules());
+    const hldb::Module *const regs = hldb::findByDefName<hldb::Module>("state_regs", top->getModules());
     ASSERT_NE(regs, nullptr) << "the instance state_regs is elaborated";
     ExpectElabParam(regs, "ResetValue", kResetValue, "6.24.1: 4'(LcStScrap) = 4'({2'b10, 2'b01}) = 9");
-    const hldb::Module *const generic = hldb::findByName<hldb::Module>("impl_generic", regs->getModules());
+    const hldb::Module *const generic = hldb::findByDefName<hldb::Module>("impl_generic", regs->getModules());
     ASSERT_NE(generic, nullptr) << "the instance impl_generic is elaborated";
     ExpectElabParam(generic, "ResetValue", kResetValue, "23.10.2.2: prim_flop passes its ResetValue, 9");
   }

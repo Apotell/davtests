@@ -121,6 +121,7 @@
 #include <hldb/typedef.h>
 #include <hldb/typespec.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -273,8 +274,9 @@ TEST_F(EnumTest0Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // constant exists, in any Enum or enum typespec from this file.
 TEST_F(EnumTest0Test, NoEnumerationConstantsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
-  if (const hldb::EnumCollection *const enums = m_design->getEnums()) {
+  if (const hldb::EnumCollection *const enums = m_unit->getEnums()) {
     for (const hldb::Enum *enumeration : *enums) {
       if (!endsWith(enumeration->getFile(), kSourceFileName)) continue;
       EXPECT_EQ(enumConstCount(enumeration), 0u) << "no enumeration body is written";
@@ -294,6 +296,7 @@ TEST_F(EnumTest0Test, NoEnumerationConstantsDeclared) {
 // declares no design element (3.2-3.12).
 TEST_F(EnumTest0Test, NoDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
@@ -302,7 +305,7 @@ TEST_F(EnumTest0Test, NoDesignElementsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // Apart from the forward typedef, no compilation-unit item (3.12.1) is
@@ -310,11 +313,12 @@ TEST_F(EnumTest0Test, NoDesignElementsDeclared) {
 // variable of type myenum_fwd.
 TEST_F(EnumTest0Test, NoOtherCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // With no module in the file there is nothing to instantiate implicitly as

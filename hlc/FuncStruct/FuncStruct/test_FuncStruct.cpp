@@ -112,7 +112,7 @@ class FuncStructTest : public Test {
     return hldb::findByName<hldb::Package>("hmac_pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Typedef *getShaWordT() {
     const hldb::Package *const pkg = getPkg();

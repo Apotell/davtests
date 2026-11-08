@@ -330,7 +330,7 @@ TEST_F(EvalFuncNamedTest, MyParam2ValueEvaluatesNamedCallOrRemainsUnfoldedFuncCa
 // ===========================================================================
 
 TEST_F(EvalFuncNamedTest, ModuleTExistsWithNoLocalFunctions) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("t", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("t", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 't' not found";
   EXPECT_TRUE(top->getTaskFuncs() == nullptr || top->getTaskFuncs()->empty())
       << "module 't' declares no functions of its own -- simple_minus/simple_func live in package 'my_funcs'";

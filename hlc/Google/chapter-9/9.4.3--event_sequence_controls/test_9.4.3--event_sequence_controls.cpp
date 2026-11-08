@@ -103,12 +103,12 @@ class EventSequenceControlsTest : public Test {
 };
 
 TEST_F(EventSequenceControlsTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventSequenceControlsTest, BIsNetAAndEnableAreVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Net *const b = hldb::findByName<hldb::Net>("b", top->getNets());
@@ -128,7 +128,7 @@ TEST_F(EventSequenceControlsTest, BIsNetAAndEnableAreVariables) {
 }
 
 TEST_F(EventSequenceControlsTest, ExactlyTwoInitialProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
 
@@ -140,7 +140,7 @@ TEST_F(EventSequenceControlsTest, ExactlyTwoInitialProcesses) {
 }
 
 TEST_F(EventSequenceControlsTest, FirstInitialDelaysThenAssignsEnable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Initial *first = nullptr;
@@ -175,7 +175,7 @@ TEST_F(EventSequenceControlsTest, FirstInitialDelaysThenAssignsEnable) {
 }
 
 TEST_F(EventSequenceControlsTest, SecondInitialWaitsOnEnableThenDelaysThenAssignsA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Initial *second = nullptr;

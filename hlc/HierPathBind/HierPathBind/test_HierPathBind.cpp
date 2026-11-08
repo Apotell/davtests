@@ -68,7 +68,7 @@ class HierPathBindTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static void checkHierPathToPingP(const hldb::RefObj *const rhs) {
     ASSERT_NE(rhs, nullptr) << "expected a RefObj hierarchical path";
@@ -87,7 +87,7 @@ class HierPathBindTest : public Test {
 
 TEST_F(HierPathBindTest, ModulesExist) {
   EXPECT_NE(getTop(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Module>("dut", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(HierPathBindTest, AlertRxIIsAStructVariableNotNet) {

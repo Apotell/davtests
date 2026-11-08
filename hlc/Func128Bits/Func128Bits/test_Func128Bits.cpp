@@ -98,7 +98,7 @@ class Func128BitsTest : public Test {
 
  protected:
   static const hldb::Module *getScratchPad() {
-    return hldb::findByName<hldb::Module>("ScratchPad", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("ScratchPad", m_design->getAllModules());
   }
 
   static const hldb::Function *getCalcBaseAddrs() {
@@ -109,7 +109,7 @@ class Func128BitsTest : public Test {
 };
 
 TEST_F(Func128BitsTest, BothModulesExist) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr);
   EXPECT_NE(getScratchPad(), nullptr);
 }
 

@@ -48,14 +48,14 @@ class StructuredArraysIllegal : public Test {
 };
 
 TEST_F(StructuredArraysIllegal, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 // ----
 // Typedef and struct -- same structure as the legal variant
 // ----
 TEST_F(StructuredArraysIllegal, TypedefMsTExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr) << "module has no typespecs";
 
@@ -72,7 +72,7 @@ TEST_F(StructuredArraysIllegal, TypedefMsTExists) {
 }
 
 TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
 
@@ -105,7 +105,7 @@ TEST_F(StructuredArraysIllegal, StructHasTwoMembers) {
 // is a variable_declaration, not a net_declaration.
 // ----
 TEST_F(StructuredArraysIllegal, VariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr) << "module has no variables";
 
@@ -114,7 +114,7 @@ TEST_F(StructuredArraysIllegal, VariableExists) {
 }
 
 TEST_F(StructuredArraysIllegal, VariableIsNotDuplicatedAsNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   if (top->getNets() != nullptr) {
@@ -124,7 +124,7 @@ TEST_F(StructuredArraysIllegal, VariableIsNotDuplicatedAsNet) {
 }
 
 TEST_F(StructuredArraysIllegal, ArrayVariableTypespecIsArray) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
@@ -142,7 +142,7 @@ TEST_F(StructuredArraysIllegal, ArrayVariableTypespecIsArray) {
 // not 2 nested patterns. No inner '{} per struct element.
 // ----
 TEST_F(StructuredArraysIllegal, InitializerIsFlatAssignPattern) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
@@ -156,7 +156,7 @@ TEST_F(StructuredArraysIllegal, InitializerIsFlatAssignPattern) {
 }
 
 TEST_F(StructuredArraysIllegal, InitializerHasFourOperands) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
@@ -171,7 +171,7 @@ TEST_F(StructuredArraysIllegal, InitializerHasFourOperands) {
 }
 
 TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 
@@ -190,7 +190,7 @@ TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
 }
 
 TEST_F(StructuredArraysIllegal, NoNestedAssignPatterns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
 

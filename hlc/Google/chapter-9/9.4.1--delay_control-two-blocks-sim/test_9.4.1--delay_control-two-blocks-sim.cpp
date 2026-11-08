@@ -149,14 +149,14 @@ class DelayControlTwoBlocksSimTest : public Test {
 // ... All tests belonging to DelayControlTwoBlocksSimTest go here!
 
 TEST_F(DelayControlTwoBlocksSimTest, ModuleTopExistsWithTwoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   ASSERT_NE(top->getProcesses(), nullptr);
   EXPECT_EQ(top->getProcesses()->size(), 2u) << "module top has exactly two processes: the two initial blocks";
 }
 
 TEST_F(DelayControlTwoBlocksSimTest, FirstInitialHasFourDisplaysThreeDelaysAndFinishInOrder) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 2u);
@@ -186,7 +186,7 @@ TEST_F(DelayControlTwoBlocksSimTest, FirstInitialHasFourDisplaysThreeDelaysAndFi
 }
 
 TEST_F(DelayControlTwoBlocksSimTest, SecondInitialIsThreeBareDelaysOnly) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 2u);

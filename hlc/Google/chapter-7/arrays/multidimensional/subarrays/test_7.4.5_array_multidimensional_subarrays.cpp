@@ -85,13 +85,13 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -105,19 +105,19 @@ class MultiDimSubarraysTest : public Test {
 // --- module / variables ----
 
 TEST_F(MultiDimSubarraysTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(MultiDimSubarraysTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(MultiDimSubarraysTest, ModuleHasSixTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 6u);
@@ -126,7 +126,7 @@ TEST_F(MultiDimSubarraysTest, ModuleHasSixTypespecs) {
 // --- variable A: int A[2][3][4] -- 3-level nested ArrayTypespec chain ----
 
 TEST_F(MultiDimSubarraysTest, VariableAIsThreeLevelArrayOfInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -163,7 +163,7 @@ TEST_F(MultiDimSubarraysTest, VariableAIsThreeLevelArrayOfInt) {
 // --- variable B: int B[2][3][4] -- distinct 3-level nested ArrayTypespec chain ---
 
 TEST_F(MultiDimSubarraysTest, VariableBIsThreeLevelArrayOfInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("B", top->getVariables());
   ASSERT_NE(b, nullptr);
@@ -179,7 +179,7 @@ TEST_F(MultiDimSubarraysTest, VariableBIsThreeLevelArrayOfInt) {
 }
 
 TEST_F(MultiDimSubarraysTest, VariableAAndVariableBHaveDistinctTypespecChains) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("B", top->getVariables());
@@ -195,7 +195,7 @@ TEST_F(MultiDimSubarraysTest, VariableAAndVariableBHaveDistinctTypespecChains) {
 TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoLeftExpr) {
   // COMPILER BEHAVIOR: for "int A[2][3][4]" the implicit lower bound 0 is
   // never materialized as a node -- only vpiLeftRange (size-1) is populated.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
   ASSERT_NE(a, nullptr);
@@ -209,7 +209,7 @@ TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoLeftExpr) {
 // --- initial process ----
 
 TEST_F(MultiDimSubarraysTest, InitialBeginHasSixStmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
@@ -224,7 +224,7 @@ TEST_F(MultiDimSubarraysTest, InitialBeginHasSixStmts) {
 // --- Stmt[0]: A[0][2][0] = 5 (full 3-level nested BitSelect check) ----
 
 TEST_F(MultiDimSubarraysTest, FirstAssignmentSetsAZeroTwoZeroToFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -260,7 +260,7 @@ TEST_F(MultiDimSubarraysTest, FirstAssignmentSetsAZeroTwoZeroToFive) {
 // --- Stmt[1..3]: A[0][2][1..3] = 6/7/8 ----
 
 TEST_F(MultiDimSubarraysTest, SecondThirdFourthAssignmentsSetAZeroTwoOneThroughThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -288,7 +288,7 @@ TEST_F(MultiDimSubarraysTest, SecondThirdFourthAssignmentsSetAZeroTwoOneThroughT
 // --- Stmt[4]: B[1][1] = A[0][2] (2-level subarray copy) ----
 
 TEST_F(MultiDimSubarraysTest, FifthAssignmentCopiesAZeroTwoIntoBOneOne) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -326,7 +326,7 @@ TEST_F(MultiDimSubarraysTest, FifthAssignmentCopiesAZeroTwoIntoBOneOne) {
 // --- Stmt[5]: $display with 4 triple-nested BitSelect args ----
 
 TEST_F(MultiDimSubarraysTest, DisplayHasFiveArgumentsAndCorrectFormatString) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -343,7 +343,7 @@ TEST_F(MultiDimSubarraysTest, DisplayHasFiveArgumentsAndCorrectFormatString) {
 }
 
 TEST_F(MultiDimSubarraysTest, DisplayArgumentsAreBOneOneZeroThroughThree) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
@@ -377,14 +377,20 @@ TEST_F(MultiDimSubarraysTest, DisplayArgumentsAreBOneOneZeroThroughThree) {
 
 TEST_F(MultiDimSubarraysTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MultiDimSubarraysTest, DesignHasStringTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
+  const hldb::StringTypespec *st = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((st = any_cast<hldb::StringTypespec>(ts))) {
+      break;
+    }
+  }
+  EXPECT_NE(st, nullptr);
 }
 
 TEST_F(MultiDimSubarraysTest, CompilerReportsZeroErrors) {
@@ -397,7 +403,7 @@ TEST_F(MultiDimSubarraysTest, CompilerReportsZeroErrors) {
 }
 
 TEST_F(MultiDimSubarraysTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
@@ -410,7 +416,7 @@ TEST_F(MultiDimSubarraysTest, RuntimeValuesRequireSimulation) {
                   "observed here. subarrays.sv's own $display format string documents the expected "
                   "values instead.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);

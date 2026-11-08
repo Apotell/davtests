@@ -82,7 +82,7 @@ class DatQuery01Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTb() { return hldb::findByName<hldb::Module>("tb", m_design->getAllModules()); }
+  static const hldb::Module *getTb() { return hldb::findByDefName<hldb::Module>("tb", m_design->getAllModules()); }
 
   static const hldb::Begin *getBegin() {
     const hldb::Module *const m = getTb();

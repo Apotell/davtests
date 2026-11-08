@@ -105,6 +105,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -116,7 +117,7 @@ class DisplayBohTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Begin *getInitialBody() {
     const hldb::Module *const top = getTop();
@@ -300,13 +301,23 @@ TEST_F(DisplayBohTest, DesignHasModuleAndIntTypespecsOnly) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   ASSERT_EQ(m_design->getTypespecs()->size(), 2u);
 
-  const hldb::ModuleTypespec *const moduleTypespec = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
-  ASSERT_NE(moduleTypespec, nullptr);
-  EXPECT_EQ(moduleTypespec->getName(), "top");
+  const hldb::ModuleTypespec *mt = nullptr;
+  const hldb::IntTypespec *it = nullptr;
+  for (const hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if (mt == nullptr) {
+      mt = any_cast<hldb::ModuleTypespec>(ts);
+    }
+    if (it == nullptr) {
+      it = any_cast<hldb::IntTypespec>(ts);
+      if ((it != nullptr) && !it->getSigned()) it = nullptr;
+    }
+  }
 
-  const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
-  ASSERT_NE(intTypespec, nullptr);
-  EXPECT_TRUE(intTypespec->getSigned());
+  ASSERT_NE(mt, nullptr);
+  EXPECT_EQ(mt->getName(), "top");
+
+  ASSERT_NE(it, nullptr);
+  EXPECT_TRUE(it->getSigned());
 }
 
 TEST_F(DisplayBohTest, CompilerReportsZeroErrors) {

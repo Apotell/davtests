@@ -46,7 +46,7 @@ class SystemFunctions : public Test {
 };
 
 static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("systemfn", d->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("systemfn", d->getAllModules());
   if (!top || !top->getProcesses()) return nullptr;
   for (const hldb::Process *const p : *top->getProcesses()) {
     if (const hldb::Initial *const i = any_cast<hldb::Initial>(p)) return i->getStmt<hldb::SysTaskCall>();
@@ -58,7 +58,7 @@ static const hldb::SysTaskCall *getDisplay(const hldb::Design *d) {
 // Module
 // ----
 TEST_F(SystemFunctions, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("systemfn", m_design->getAllModules()), nullptr)
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("systemfn", m_design->getAllModules()), nullptr)
       << "module 'systemfn' not found";
 }
 

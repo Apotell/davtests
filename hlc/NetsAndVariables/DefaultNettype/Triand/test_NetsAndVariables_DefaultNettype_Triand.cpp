@@ -43,7 +43,7 @@ class DefaultNettypeTriandTest : public Test {
 
 TEST_F(DefaultNettypeTriandTest, ImplicitNetExists) {
   const hldb::Module *const mod =
-      hldb::findByName<hldb::Module>("default_nettype_triand_test", m_design->getAllModules());
+      hldb::findByDefName<hldb::Module>("default_nettype_triand_test", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("implicit_net_triand", mod->getNets()), nullptr);
 }

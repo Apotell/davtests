@@ -119,12 +119,12 @@ class ExpectTest : public Test {
 // ... All tests belonging to ExpectTest go here!
 
 TEST_F(ExpectTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(ExpectTest, InitialBeginWrapsSingleExpectStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module top has exactly one process (the initial block)";
@@ -147,7 +147,7 @@ TEST_F(ExpectTest, InitialBeginWrapsSingleExpectStmt) {
 }
 
 TEST_F(ExpectTest, ExpectStmtPropertySpecHasPosedgeClockingEvent) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -170,7 +170,7 @@ TEST_F(ExpectTest, ExpectStmtPropertySpecHasPosedgeClockingEvent) {
 }
 
 TEST_F(ExpectTest, PropertyExprIsCycleDelayOfAAndB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -194,7 +194,7 @@ TEST_F(ExpectTest, PropertyExprIsCycleDelayOfAAndB) {
 }
 
 TEST_F(ExpectTest, ExpectStmtHasNoPassStmtAndNoElseStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

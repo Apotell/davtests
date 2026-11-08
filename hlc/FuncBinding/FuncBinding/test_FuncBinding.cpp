@@ -84,7 +84,7 @@ class FuncBindingTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("fsm_using_function", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("fsm_using_function", m_design->getAllModules());
   }
 
   static const hldb::Function *getFsmFunction(const hldb::Module *m) {

@@ -81,12 +81,12 @@ class EventOrOpTest : public Test {
 };
 
 TEST_F(EventOrOpTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventOrOpTest, ABCDAreNetsOutIsVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   for (const char *const name : {"a", "b", "c", "d"}) {
@@ -100,7 +100,7 @@ TEST_F(EventOrOpTest, ABCDAreNetsOutIsVariable) {
 }
 
 TEST_F(EventOrOpTest, AInitializerIsPreserved) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Net *const a = hldb::findByName<hldb::Net>("a", top->getNets());
@@ -123,7 +123,7 @@ TEST_F(EventOrOpTest, AInitializerIsPreserved) {
 }
 
 TEST_F(EventOrOpTest, ExactlyOnePlainAlwaysProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -138,7 +138,7 @@ TEST_F(EventOrOpTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventOrOpTest, OrSeparatedEventListIsEventOrOfFourOperands) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -170,7 +170,7 @@ TEST_F(EventOrOpTest, OrSeparatedEventListIsEventOrOfFourOperands) {
 }
 
 TEST_F(EventOrOpTest, ControlledStatementIsOutAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;

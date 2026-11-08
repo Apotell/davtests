@@ -59,10 +59,10 @@
 #include <hldb/int_typespec.h>
 #include <hldb/method_func_call.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -75,14 +75,14 @@ class Nonexistent : public Test {
 // --- module ----
 
 TEST_F(Nonexistent, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable declarations ----
 
 TEST_F(Nonexistent, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
@@ -90,7 +90,7 @@ TEST_F(Nonexistent, ModuleHasTwoVariables) {
 
 TEST_F(Nonexistent, ArrVariableHasAssociativeArrayTypespec) {
   // int arr[int] -> ArrayTypespec associative(3)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arr = top->getVariables()->at(0);
   ASSERT_NE(arr, nullptr);
@@ -103,7 +103,7 @@ TEST_F(Nonexistent, ArrVariableHasAssociativeArrayTypespec) {
 }
 
 TEST_F(Nonexistent, AssocArrayKeyTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -114,7 +114,7 @@ TEST_F(Nonexistent, AssocArrayKeyTypeIsInt) {
 
 TEST_F(Nonexistent, AssocArrayValueTypeIsInt) {
   // element type is IntTypespec (from `int arr[int]`)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -125,7 +125,7 @@ TEST_F(Nonexistent, AssocArrayValueTypeIsInt) {
 
 TEST_F(Nonexistent, RVariableHasIntTypespec) {
   // int r; -> Variable "r" -> RefTypespec -> IntTypespec
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const r = top->getVariables()->at(1);
   ASSERT_NE(r, nullptr);
@@ -138,7 +138,7 @@ TEST_F(Nonexistent, RVariableHasIntTypespec) {
 // --- initial block ----
 
 TEST_F(Nonexistent, InitialBodyIsBeginWith5Stmts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -151,7 +151,7 @@ TEST_F(Nonexistent, InitialBodyIsBeginWith5Stmts) {
 
 TEST_F(Nonexistent, FirstStmtAssignsArr10To10) {
   // arr[10] = 10
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -170,7 +170,7 @@ TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   // $display(":assert: (%d == 1)", arr.size)
   // "arr.size" (no parentheses, 13.5.5) is a MethodFuncCall "size" whose
   // vpiPrefix is the receiver RefObj "arr" (IEEE 1800-2023 37.42 detail 2).
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -194,7 +194,7 @@ TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
 
 TEST_F(Nonexistent, ThirdStmtIsDisplayBeginMarker) {
   // $display(":re: BEGIN:ARRAY_NONEXISTENT")
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -212,7 +212,7 @@ TEST_F(Nonexistent, ThirdStmtIsDisplayBeginMarker) {
 
 TEST_F(Nonexistent, FourthStmtAssignsRFromArr9) {
   // r = arr[9] ? reading a nonexistent key; lhs is RefObj, rhs is BitSelect
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -229,7 +229,7 @@ TEST_F(Nonexistent, FourthStmtAssignsRFromArr9) {
 
 TEST_F(Nonexistent, FifthStmtIsDisplayEndMarker) {
   // $display(":re: END")
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
@@ -248,7 +248,7 @@ TEST_F(Nonexistent, FifthStmtIsDisplayEndMarker) {
 // --- structural completeness ----
 
 TEST_F(Nonexistent, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

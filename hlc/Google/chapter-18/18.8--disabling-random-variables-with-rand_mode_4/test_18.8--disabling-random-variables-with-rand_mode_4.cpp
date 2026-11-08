@@ -115,6 +115,7 @@
 #include <hldb/return_stmt.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/task_func.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -135,7 +136,7 @@ class DisablingRandomVariablesWithRandMode4Test : public Test {
   // --- class a1 -----------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA1() {
-    return hldb::findByName<hldb::ClassDefn>("a1", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a1", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassA1X() {
@@ -226,9 +227,10 @@ class DisablingRandomVariablesWithRandMode4Test : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(DisablingRandomVariablesWithRandMode4Test, ClassA1IsPlainUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const c : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const c : *m_unit->getClassDefns()) {
     if (c->getName() == "a1") {
       ++count;
     }

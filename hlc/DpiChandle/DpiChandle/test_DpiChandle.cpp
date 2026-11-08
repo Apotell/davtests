@@ -80,7 +80,7 @@ class DpiChandleTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::FunctionDecl *findDecl(const hldb::Module *const top, const std::string &name) {
     if (top == nullptr || top->getTaskFuncDecls() == nullptr) return nullptr;

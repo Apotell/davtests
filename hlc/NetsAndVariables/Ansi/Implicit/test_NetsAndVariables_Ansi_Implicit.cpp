@@ -57,7 +57,7 @@ class AnsiImplicitTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("nets_and_variables_test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("nets_and_variables_test", m_design->getAllModules());
   }
 
   // Find a ContAssign in mod whose LHS is a RefObj with the given name.

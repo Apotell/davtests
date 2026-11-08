@@ -43,10 +43,11 @@
 #include <hldb/design.h>
 #include <hldb/function.h>
 #include <hldb/io_decl.h>
+#include <hldb/real_typespec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/real_typespec.h>
 #include <hldb/typedef.h>
+#include <hldb/unit.h>
 #include <hldb/vpi_user.h>
 
 #include <string_view>
@@ -60,22 +61,23 @@ class FileResolutionFunctionTest : public Test {
 
  protected:
   static const hldb::Typedef *getMyReal() {
-    if (m_design->getTypedefs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Typedef>("my_real", m_design->getTypedefs());
+    if (m_unit->getTypedefs() == nullptr) return nullptr;
+    return hldb::findByName<hldb::Typedef>("my_real", m_unit->getTypedefs());
   }
   static const hldb::Function *getMyFunction2() {
-    if (m_design->getTaskFuncs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Function>("my_function2", m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Function>("my_function2", m_unit->getTaskFuncs());
   }
 };
 
 TEST_F(FileResolutionFunctionTest, NettypeMyRealExists) {
+  ASSERT_NE(m_unit, nullptr);
   ASSERT_NE(getMyReal(), nullptr) << "'nettype real my_real with my_function2;' not found";
 }
 
 // 6.6.9: this Typedef must be flagged as a nettype declaration, not a plain
 // typedef.
 TEST_F(FileResolutionFunctionTest, MyRealIsFlaggedAsNettype) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = getMyReal();
   ASSERT_NE(td, nullptr);
   EXPECT_TRUE(td->getIsNettype()) << "6.6.9: 'nettype ...' must set getIsNettype()";
@@ -83,6 +85,7 @@ TEST_F(FileResolutionFunctionTest, MyRealIsFlaggedAsNettype) {
 
 // 6.6.9: the nettype's base type is 'real'.
 TEST_F(FileResolutionFunctionTest, MyRealBaseTypeIsReal) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = getMyReal();
   ASSERT_NE(td, nullptr);
   ASSERT_NE(td->getAlias(), nullptr) << "nettype base type reference must be non-null";
@@ -92,6 +95,7 @@ TEST_F(FileResolutionFunctionTest, MyRealBaseTypeIsReal) {
 
 // 6.6.9: 'with my_function2' -- the resolution function reference.
 TEST_F(FileResolutionFunctionTest, MyRealResolutionFuncIsMyFunction2) {
+  ASSERT_NE(m_unit, nullptr);
   const hldb::Typedef *const td = getMyReal();
   ASSERT_NE(td, nullptr);
   ASSERT_NE(td->getResolutionFunc(), nullptr) << "6.6.9: 'with my_function2' must populate getResolutionFunc()";

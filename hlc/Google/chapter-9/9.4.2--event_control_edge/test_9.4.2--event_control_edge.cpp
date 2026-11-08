@@ -87,12 +87,12 @@ class EventControlEdgeTest : public Test {
 };
 
 TEST_F(EventControlEdgeTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 }
 
 TEST_F(EventControlEdgeTest, ClkIsNetNotVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Net *const clk = hldb::findByName<hldb::Net>("clk", top->getNets());
@@ -100,7 +100,7 @@ TEST_F(EventControlEdgeTest, ClkIsNetNotVariable) {
 }
 
 TEST_F(EventControlEdgeTest, AIsVariableNotNet) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
@@ -115,7 +115,7 @@ TEST_F(EventControlEdgeTest, AIsVariableNotNet) {
 }
 
 TEST_F(EventControlEdgeTest, ExactlyOnePlainAlwaysProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::ProcessCollection *const processes = top->getProcesses();
@@ -133,7 +133,7 @@ TEST_F(EventControlEdgeTest, ExactlyOnePlainAlwaysProcess) {
 }
 
 TEST_F(EventControlEdgeTest, EdgeEventControlConditionReferencesClk) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -168,7 +168,7 @@ TEST_F(EventControlEdgeTest, EdgeEventControlConditionReferencesClk) {
 }
 
 TEST_F(EventControlEdgeTest, ControlledStatementIsBlockingBitNegAssignment) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   const hldb::Always *always = nullptr;
@@ -206,7 +206,7 @@ TEST_F(EventControlEdgeTest, RuntimeToggleShouldFlipAButHlcCannotSimulate) {
                   "transition toggling 'a' via '~a' can only be observed at runtime, not on "
                   "the elaborated UHDM graph.";
 
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);

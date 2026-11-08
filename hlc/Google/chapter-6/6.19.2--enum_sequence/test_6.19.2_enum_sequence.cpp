@@ -46,8 +46,8 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -59,11 +59,11 @@ class EnumSequenceTest : public Test {
 };
 
 TEST_F(EnumSequenceTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumSequenceTest, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
@@ -73,7 +73,7 @@ TEST_F(EnumSequenceTest, OneVariableExists) {
 // Variable 'e' -- typespec RefTypespec -> EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceTest, EVariableTypespecIsEnum) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(e, nullptr);
@@ -85,7 +85,7 @@ TEST_F(EnumSequenceTest, EVariableTypespecIsEnum) {
 // EnumTypespec -- 2 consts: "start" (value=10) and "step" (sequence base)
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceTest, EnumHasTwoConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -98,7 +98,7 @@ TEST_F(EnumSequenceTest, EnumHasTwoConsts) {
 }
 
 TEST_F(EnumSequenceTest, FirstConstIsStart) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -112,7 +112,7 @@ TEST_F(EnumSequenceTest, FirstConstIsStart) {
 }
 
 TEST_F(EnumSequenceTest, StartConstValueIs10) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -129,7 +129,7 @@ TEST_F(EnumSequenceTest, StartConstValueIs10) {
 }
 
 TEST_F(EnumSequenceTest, SecondConstIsStep) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -143,13 +143,13 @@ TEST_F(EnumSequenceTest, SecondConstIsStep) {
 }
 
 TEST_F(EnumSequenceTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(EnumSequenceTest, StepConstHasNoExplicitValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);

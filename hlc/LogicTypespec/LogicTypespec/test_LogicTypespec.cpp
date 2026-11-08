@@ -81,7 +81,7 @@ class LogicTypespecTest : public Test {
   }
 
   static const hldb::Module *getMod() {
-    return hldb::findByName<hldb::Module>("logic_typespec", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("logic_typespec", m_design->getAllModules());
   }
 
   static const hldb::Variable *getMyInstance() {

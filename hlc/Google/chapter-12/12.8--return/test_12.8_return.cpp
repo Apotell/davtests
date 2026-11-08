@@ -114,7 +114,7 @@ class ReturnTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("jump_tb", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("jump_tb", m_design->getAllModules());
   }
 
   static const hldb::Function *getFun() {

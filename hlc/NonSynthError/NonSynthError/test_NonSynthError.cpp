@@ -75,7 +75,7 @@ class NonSynthErrorTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
+  static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 };
 
 TEST_F(NonSynthErrorTest, ModuleDutExists) { ASSERT_NE(getDut(), nullptr) << "module 'dut' not found"; }

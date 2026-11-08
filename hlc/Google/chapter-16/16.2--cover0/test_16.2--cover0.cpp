@@ -90,19 +90,19 @@ class Cover0Test : public Test {
 // ... All tests belonging to Cover0Test go here!
 
 TEST_F(Cover0Test, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(Cover0Test, VariableADeclared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   EXPECT_NE(a, nullptr) << "'logic a = 1;' should declare a Variable named 'a'";
 }
 
 TEST_F(Cover0Test, CoverIsReachableAsModuleItemNotProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getAssertions(), nullptr)
@@ -115,7 +115,7 @@ TEST_F(Cover0Test, CoverIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(Cover0Test, CoverIsZeroDeferredImmediateCover) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);
   ASSERT_EQ(top->getAssertions()->size(), 1u);
@@ -131,7 +131,7 @@ TEST_F(Cover0Test, CoverIsZeroDeferredImmediateCover) {
 }
 
 TEST_F(Cover0Test, CoverConditionIsNotEqualComparison) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateCover *const coverStmt = any_cast<hldb::ImmediateCover>(top->getAssertions()->at(0));
   ASSERT_NE(coverStmt, nullptr);
@@ -149,7 +149,7 @@ TEST_F(Cover0Test, CoverConditionIsNotEqualComparison) {
 }
 
 TEST_F(Cover0Test, CoverHasNoPassStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateCover *const coverStmt = any_cast<hldb::ImmediateCover>(top->getAssertions()->at(0));
   ASSERT_NE(coverStmt, nullptr);

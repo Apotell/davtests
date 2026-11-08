@@ -52,10 +52,10 @@
 #include <hldb/enum_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/scope.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -66,11 +66,11 @@ class EnumTypedefTest : public Test {
 };
 
 TEST_F(EnumTypedefTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumTypedefTest, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
@@ -80,7 +80,7 @@ TEST_F(EnumTypedefTest, OneVariableExists) {
 // Variable 'val' -- typespec RefTypespec named "e" resolves to LogicTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedefTest, ValVariableTypespecNameIsE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
@@ -90,7 +90,7 @@ TEST_F(EnumTypedefTest, ValVariableTypespecNameIsE) {
 }
 
 TEST_F(EnumTypedefTest, ValVariableTypespecActualIsLogic) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
@@ -101,7 +101,7 @@ TEST_F(EnumTypedefTest, ValVariableTypespecActualIsLogic) {
 // Module typespec -- TypedefTypespec named "e" whose alias -> EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedefTest, ModuleHasTypedefTypespecE) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(td, nullptr) << "module should own a TypedefTypespec named 'e'";
@@ -109,7 +109,7 @@ TEST_F(EnumTypedefTest, ModuleHasTypedefTypespecE) {
 }
 
 TEST_F(EnumTypedefTest, TypedefEAliasIsEnumTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -124,7 +124,7 @@ TEST_F(EnumTypedefTest, TypedefEAliasIsEnumTypespec) {
 // EnumTypespec -- 3 constants: a, b, c
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedefTest, EnumHasThreeConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -139,7 +139,7 @@ TEST_F(EnumTypedefTest, EnumHasThreeConsts) {
 }
 
 TEST_F(EnumTypedefTest, EnumConstsAreABC) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -158,7 +158,7 @@ TEST_F(EnumTypedefTest, EnumConstsAreABC) {
 }
 
 TEST_F(EnumTypedefTest, ValVariableHasNoInitialValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const val = hldb::findByName<hldb::Variable>("val", top->getVariables());
   ASSERT_NE(val, nullptr);
@@ -169,7 +169,7 @@ TEST_F(EnumTypedefTest, ValVariableHasNoInitialValue) {
 // Enum consts a, b, c have no stored implicit default value (0, 1, 2)
 // ---------------------------------------------------------------------------
 TEST_F(EnumTypedefTest, EnumConstsHaveNoImplicitDefaultValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("e", top->getTypespecs());
   ASSERT_NE(tt, nullptr);

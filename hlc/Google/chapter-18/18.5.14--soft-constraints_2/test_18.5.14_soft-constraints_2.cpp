@@ -76,6 +76,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -115,7 +116,9 @@ class SoftConstraints2Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  const hldb::ClassDefn *getClassA() const { return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses()); }
+  const hldb::ClassDefn *getClassA() const {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
+  }
 };
 
 // Check 1 (coarse): soft constraints on a randc variable must produce a diagnostic.

@@ -276,7 +276,7 @@ class PackageValueTest : public Test {
   }
 
   static const hldb::Module *getModule() {
-    return hldb::findByName<hldb::Module>("prim_diff_decode", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("prim_diff_decode", m_design->getAllModules());
   }
 
   static const hldb::Parameter *getImpl() {

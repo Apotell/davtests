@@ -48,7 +48,7 @@ class NonAnsiInstantiationTest : public Test {
 
  protected:
   static const hldb::Module *getTopNonansi() {
-    return hldb::findByName<hldb::Module>("top_nonansi", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("top_nonansi", m_design->getAllModules());
   }
 };
 

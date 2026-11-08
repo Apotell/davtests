@@ -104,9 +104,9 @@
 #include <hldb/case_item.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_case.h>
 #include <hldb/gen_if_else.h>
-#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -126,7 +126,7 @@ class MultContAssignTest : public Test {
 
  protected:
   static const hldb::Module *getModule(std::string_view name) {
-    return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
   // Returns the module-level continuous assignment of 'module' starting on

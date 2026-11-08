@@ -77,7 +77,7 @@ class GenCaseTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParameter(const hldb::Module *m, std::string_view name) {
     return (m == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, m->getParameters());

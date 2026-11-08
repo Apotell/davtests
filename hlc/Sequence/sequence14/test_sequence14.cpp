@@ -118,12 +118,12 @@
 #include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/operation.h>
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sequence_decl.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -139,7 +139,7 @@ class Sequence14Test : public Test {
 // ----
 
 static const hldb::Module *getTb(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("tb", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("tb", d->getAllModules());
 }
 
 static const hldb::SequenceDecl *getSeqDecl(const hldb::Module *m, std::string_view name) {

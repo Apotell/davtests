@@ -114,9 +114,9 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
-#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/if_stmt.h>
 #include <hldb/module.h>
@@ -138,7 +138,7 @@ class ExponTimeIfElseGenTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("Foo", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("Foo", m_design->getAllModules()); }
 
   static const hldb::GenFor *getGenFor() {
     const hldb::Module *const top = getTop();

@@ -61,9 +61,9 @@
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
-#include <hldb/variable.h>
 #include <hldb/range.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -77,26 +77,26 @@ class MultiDimMultiDeclarationTest : public Test {
 // --- module / variables ----
 
 TEST_F(MultiDimMultiDeclarationTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, ModuleHasTwoVariables) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 2u);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, ModuleHasFourTypespecs) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   EXPECT_EQ(top->getTypespecs()->size(), 4u);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrANameIsArrA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
@@ -104,7 +104,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrANameIsArrA) {
 }
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrBNameIsArrB) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
@@ -114,7 +114,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrBNameIsArrB) {
 // --- variable arr_a: [7:0][31:0] arr_a [1:5][1:10] ----
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrAOuterDimIsOneToFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
@@ -129,7 +129,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrAOuterDimIsOneToFive) {
 }
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrAInnerDimIsOneToTen) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
@@ -144,7 +144,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrAInnerDimIsOneToTen) {
 }
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrAElemIsBitTypespecWithPackedRanges7And31) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   ASSERT_NE(arrA, nullptr);
@@ -165,7 +165,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrAElemIsBitTypespecWithPackedRang
 // --- variable arr_b: [7:0][31:0] arr_b [0:255] ----
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrBDimIsZeroToTwoFiveFive) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
@@ -178,7 +178,7 @@ TEST_F(MultiDimMultiDeclarationTest, VariableArrBDimIsZeroToTwoFiveFive) {
 }
 
 TEST_F(MultiDimMultiDeclarationTest, VariableArrBElemIsBitTypespecWithPackedRanges7And31) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
   ASSERT_NE(arrB, nullptr);
@@ -205,7 +205,7 @@ TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreSharedInstance) 
   // arr_a's and arr_b's identical [7:0][31:0] BitTypespec end up as the
   // SAME shared instance, matching ModuleHasFourTypespecs's count of 4
   // above (1 BitTypespec, not 2).
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const arrA = hldb::findByName<hldb::Variable>("arr_a", top->getVariables());
   const hldb::Variable *const arrB = hldb::findByName<hldb::Variable>("arr_b", top->getVariables());
@@ -225,26 +225,31 @@ TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreSharedInstance) 
 
 TEST_F(MultiDimMultiDeclarationTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }
 
 TEST_F(MultiDimMultiDeclarationTest, DesignHasSignedIntTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::IntTypespec *const it = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
+  const hldb::IntTypespec *it = nullptr;
+  for (hldb::Typespec *ts : *m_design->getTypespecs()) {
+    if ((it = any_cast<hldb::IntTypespec>(ts))) {
+      if (it->getSigned()) break;
+    }
+  }
   ASSERT_NE(it, nullptr);
   EXPECT_TRUE(it->getSigned());
 }
 
 TEST_F(MultiDimMultiDeclarationTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
 
 TEST_F(MultiDimMultiDeclarationTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }

@@ -96,19 +96,19 @@ class AssertFinalTest : public Test {
 // ... All tests belonging to AssertFinalTest go here!
 
 TEST_F(AssertFinalTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(AssertFinalTest, VariableADeclared) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   EXPECT_NE(a, nullptr) << "'logic a = 1;' should declare a Variable named 'a'";
 }
 
 TEST_F(AssertFinalTest, AssertIsReachableAsModuleItemNotProcess) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
   ASSERT_NE(top->getAssertions(), nullptr)
@@ -121,7 +121,7 @@ TEST_F(AssertFinalTest, AssertIsReachableAsModuleItemNotProcess) {
 }
 
 TEST_F(AssertFinalTest, AssertIsFinalDeferredImmediateAssert) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getAssertions(), nullptr);
   ASSERT_EQ(top->getAssertions()->size(), 1u);
@@ -137,7 +137,7 @@ TEST_F(AssertFinalTest, AssertIsFinalDeferredImmediateAssert) {
 }
 
 TEST_F(AssertFinalTest, AssertConditionIsNotEqualComparison) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateAssert *const assertStmt = any_cast<hldb::ImmediateAssert>(top->getAssertions()->at(0));
   ASSERT_NE(assertStmt, nullptr);
@@ -155,7 +155,7 @@ TEST_F(AssertFinalTest, AssertConditionIsNotEqualComparison) {
 }
 
 TEST_F(AssertFinalTest, AssertHasNoPassStmtAndNoElseStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ImmediateAssert *const assertStmt = any_cast<hldb::ImmediateAssert>(top->getAssertions()->at(0));
   ASSERT_NE(assertStmt, nullptr);

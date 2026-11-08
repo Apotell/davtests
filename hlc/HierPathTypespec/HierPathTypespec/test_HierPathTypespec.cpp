@@ -77,7 +77,7 @@ class HierPathTypespecTest : public Test {
     return nullptr;
   }
 
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::ArrayTypespec *getVariableCArrayTypespec() {
     const hldb::Module *const top = getTop();

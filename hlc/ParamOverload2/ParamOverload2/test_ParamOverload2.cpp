@@ -330,7 +330,7 @@ TEST_F(ParamOverload2Test, UKeymgrReceivesOne) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
-    const hldb::Module *const keymgr = hldb::findByName<hldb::Module>("u_keymgr", top->getModules());
+    const hldb::Module *const keymgr = hldb::findByDefName<hldb::Module>("u_keymgr", top->getModules());
     ASSERT_NE(keymgr, nullptr) << "the instance u_keymgr is elaborated";
     const hldb::Parameter *const pa = getParameter(keymgr, "RndCnstLfsrPerm");
     ASSERT_NE(pa, nullptr);

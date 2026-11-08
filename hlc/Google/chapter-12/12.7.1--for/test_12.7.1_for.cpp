@@ -91,7 +91,7 @@ class ForTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("for_tb", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("for_tb", m_design->getAllModules()); }
 
   static const hldb::ForStmt *getForStmt() {
     const hldb::Module *const top = getTop();

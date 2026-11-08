@@ -50,7 +50,7 @@ class CompilerDirectivesBeginKeywords : public Test {
 };
 
 static const hldb::Module *getTop(const hldb::Design *d) {
-  return hldb::findByName<hldb::Module>("b_kw", d->getAllModules());
+  return hldb::findByDefName<hldb::Module>("b_kw", d->getAllModules());
 }
 
 // ----

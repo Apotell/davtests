@@ -73,11 +73,11 @@
 #include <hldb/design.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/struct_typespec.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
+#include <hldb/variable.h>
 
 namespace hlc {
 
@@ -90,28 +90,28 @@ class ArrayAssociativeOtherTest : public Test {
 // --- module ----
 
 TEST_F(ArrayAssociativeOtherTest, ModuleExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_NE(top, nullptr);
 }
 
 // --- variable arr (spec 7.8.5 requires an associative array with a typedef-typed index) ----
 
 TEST_F(ArrayAssociativeOtherTest, ModuleHasOneVariable) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
 TEST_F(ArrayAssociativeOtherTest, VariableNameIsArr) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->at(0)->getName(), std::string_view("arr"));
 }
 
 TEST_F(ArrayAssociativeOtherTest, VariableHasArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const variable = top->getVariables()->at(0);
   ASSERT_NE(variable, nullptr);
@@ -121,7 +121,7 @@ TEST_F(ArrayAssociativeOtherTest, VariableHasArrayTypespec) {
 }
 
 TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIsAssociativePerSpec785) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -130,7 +130,7 @@ TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIsAssociativePerSpec785) {
 }
 
 TEST_F(ArrayAssociativeOtherTest, ArrayTypespecElemTypeIsInt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -140,7 +140,7 @@ TEST_F(ArrayAssociativeOtherTest, ArrayTypespecElemTypeIsInt) {
 }
 
 TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIndexTypespecResolvesToUnpktTypedef) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayTypespec *const at =
       top->getVariables()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
@@ -152,7 +152,7 @@ TEST_F(ArrayAssociativeOtherTest, ArrayTypespecIndexTypespecResolvesToUnpktTyped
 }
 
 TEST_F(ArrayAssociativeOtherTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getProcesses(), nullptr);
 }
@@ -162,7 +162,7 @@ TEST_F(ArrayAssociativeOtherTest, NoProcesses) {
 TEST_F(ArrayAssociativeOtherTest, ModuleHasTypedefUnpkt) {
   // typedef struct { ... } Unpkt creates a TypedefTypespec named "Unpkt"
   // accessible via module typespecs (not through the variable)
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
   const hldb::TypedefTypespec *const td = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
@@ -172,7 +172,7 @@ TEST_F(ArrayAssociativeOtherTest, ModuleHasTypedefUnpkt) {
 TEST_F(ArrayAssociativeOtherTest, UnpktStructHasTwoMembers) {
   // typedef struct { byte B; int I[*]; } Unpkt -- the underlying StructTypespec
   // should have exactly 2 members: B and I.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -188,7 +188,7 @@ TEST_F(ArrayAssociativeOtherTest, UnpktStructHasTwoMembers) {
 }
 
 TEST_F(ArrayAssociativeOtherTest, UnpktMemberBIsByteTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -207,7 +207,7 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberBIsByteTypespec) {
 }
 
 TEST_F(ArrayAssociativeOtherTest, UnpktMemberIIsWildcardArrayTypespec) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -232,7 +232,7 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberIWildcardIndexHasNoConcreteType) {
   // I[*] (7.8.1): the wildcard index typespec is present but resolves to no
   // concrete type at all -- mirrors the check in
   // wildcard.cpp's IndexTypespecActualIsNull.
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("Unpkt", top->getTypespecs());
   ASSERT_NE(tt, nullptr);
@@ -256,7 +256,7 @@ TEST_F(ArrayAssociativeOtherTest, UnpktMemberIWildcardIndexHasNoConcreteType) {
 // --- structural completeness ----
 
 TEST_F(ArrayAssociativeOtherTest, NoContAssigns) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }

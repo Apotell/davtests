@@ -88,7 +88,7 @@ class VectorVectoredInvTest : public Test {
 
 TEST_F(VectorVectoredInvTest, NoModuleNamedTop) {
   // Parse failure: no properly named top module in the UHDM graph
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   EXPECT_EQ(top, nullptr);
 }
 

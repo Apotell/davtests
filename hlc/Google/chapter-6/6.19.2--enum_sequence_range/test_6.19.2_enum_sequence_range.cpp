@@ -49,8 +49,8 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/module.h>
-#include <hldb/variable.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -62,11 +62,11 @@ class EnumSequenceRangeTest : public Test {
 };
 
 TEST_F(EnumSequenceRangeTest, ModuleExists) {
-  ASSERT_NE(hldb::findByName<hldb::Module>("top", m_design->getAllModules()), nullptr);
+  ASSERT_NE(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(EnumSequenceRangeTest, OneVariableExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getVariables(), nullptr);
   EXPECT_EQ(top->getVariables()->size(), 1u);
@@ -76,7 +76,7 @@ TEST_F(EnumSequenceRangeTest, OneVariableExists) {
 // Variable 'e' -- typespec RefTypespec -> EnumTypespec
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceRangeTest, EVariableTypespecIsEnum) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const e = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(e, nullptr);
@@ -88,7 +88,7 @@ TEST_F(EnumSequenceRangeTest, EVariableTypespecIsEnum) {
 // EnumTypespec -- 2 consts: "start" (value=10) and "stop" (range base)
 // ---------------------------------------------------------------------------
 TEST_F(EnumSequenceRangeTest, EnumHasTwoConsts) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -101,7 +101,7 @@ TEST_F(EnumSequenceRangeTest, EnumHasTwoConsts) {
 }
 
 TEST_F(EnumSequenceRangeTest, FirstConstIsStart) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -115,7 +115,7 @@ TEST_F(EnumSequenceRangeTest, FirstConstIsStart) {
 }
 
 TEST_F(EnumSequenceRangeTest, StartConstValueIs10) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -132,7 +132,7 @@ TEST_F(EnumSequenceRangeTest, StartConstValueIs10) {
 }
 
 TEST_F(EnumSequenceRangeTest, SecondConstIsStop) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);
@@ -146,13 +146,13 @@ TEST_F(EnumSequenceRangeTest, SecondConstIsStop) {
 }
 
 TEST_F(EnumSequenceRangeTest, NoProcesses) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getProcesses() == nullptr || top->getProcesses()->empty());
 }
 
 TEST_F(EnumSequenceRangeTest, StopConstHasNoExplicitValue) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const v = hldb::findByName<hldb::Variable>("e", top->getVariables());
   ASSERT_NE(v, nullptr);

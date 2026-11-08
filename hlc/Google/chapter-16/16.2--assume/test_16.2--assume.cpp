@@ -94,12 +94,12 @@ class AssumeTest : public Test {
 // ... All tests belonging to AssumeTest go here!
 
 TEST_F(AssumeTest, ModuleTopExists) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
 TEST_F(AssumeTest, ModuleTopHasOneInputPortNamedA) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);
   ASSERT_EQ(top->getPorts()->size(), 1u) << "'module top(input logic a);' declares exactly one port";
@@ -107,7 +107,7 @@ TEST_F(AssumeTest, ModuleTopHasOneInputPortNamedA) {
 }
 
 TEST_F(AssumeTest, InitialBindsAssumeDirectlyWithNoBeginWrapper) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u) << "module top has exactly one process (the initial block)";
@@ -124,7 +124,7 @@ TEST_F(AssumeTest, InitialBindsAssumeDirectlyWithNoBeginWrapper) {
 }
 
 TEST_F(AssumeTest, AssumeIsPlainImmediateAssume) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -137,7 +137,7 @@ TEST_F(AssumeTest, AssumeIsPlainImmediateAssume) {
 }
 
 TEST_F(AssumeTest, AssumeConditionIsNotEqualComparison) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);
@@ -157,7 +157,7 @@ TEST_F(AssumeTest, AssumeConditionIsNotEqualComparison) {
 }
 
 TEST_F(AssumeTest, AssumeHasNoPassStmtAndNoElseStmt) {
-  const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->front());
   ASSERT_NE(init, nullptr);

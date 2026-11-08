@@ -58,22 +58,22 @@ TEST_F(AttributesModule, ThreeModulesExist) {
 }
 
 TEST_F(AttributesModule, TopaExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("topa", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("topa", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesModule, TopbExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("topb", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("topb", m_design->getAllModules()), nullptr);
 }
 
 TEST_F(AttributesModule, TopcExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("topc", m_design->getAllModules()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("topc", m_design->getAllModules()), nullptr);
 }
 
 // ----
 // (* optimize_power *) -- flag attribute, no value
 // ----
 TEST_F(AttributesModule, TopaHasOptimizePowerAttribute) {
-  const hldb::Module *const topa = hldb::findByName<hldb::Module>("topa", m_design->getAllModules());
+  const hldb::Module *const topa = hldb::findByDefName<hldb::Module>("topa", m_design->getAllModules());
   ASSERT_NE(topa, nullptr);
   ASSERT_NE(topa->getAttributes(), nullptr);
   ASSERT_EQ(topa->getAttributes()->size(), 1u);
@@ -81,7 +81,7 @@ TEST_F(AttributesModule, TopaHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
-  const hldb::Module *const topa = hldb::findByName<hldb::Module>("topa", m_design->getAllModules());
+  const hldb::Module *const topa = hldb::findByDefName<hldb::Module>("topa", m_design->getAllModules());
   ASSERT_NE(topa, nullptr);
 
   const hldb::Attribute *const attr = findAttr(topa, "optimize_power");
@@ -95,7 +95,7 @@ TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
 // (* optimize_power=0 *) -- valued attribute, Constant "0"
 // ----
 TEST_F(AttributesModule, TopbHasOptimizePowerAttribute) {
-  const hldb::Module *const topb = hldb::findByName<hldb::Module>("topb", m_design->getAllModules());
+  const hldb::Module *const topb = hldb::findByDefName<hldb::Module>("topb", m_design->getAllModules());
   ASSERT_NE(topb, nullptr);
   ASSERT_NE(topb->getAttributes(), nullptr);
   ASSERT_EQ(topb->getAttributes()->size(), 1u);
@@ -103,7 +103,7 @@ TEST_F(AttributesModule, TopbHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopbOptimizePowerValueIsZero) {
-  const hldb::Module *const topb = hldb::findByName<hldb::Module>("topb", m_design->getAllModules());
+  const hldb::Module *const topb = hldb::findByDefName<hldb::Module>("topb", m_design->getAllModules());
   ASSERT_NE(topb, nullptr);
 
   const hldb::Attribute *const attr = findAttr(topb, "optimize_power");
@@ -118,7 +118,7 @@ TEST_F(AttributesModule, TopbOptimizePowerValueIsZero) {
 // (* optimize_power=1 *) -- valued attribute, Constant "1"
 // ----
 TEST_F(AttributesModule, TopcHasOptimizePowerAttribute) {
-  const hldb::Module *const topc = hldb::findByName<hldb::Module>("topc", m_design->getAllModules());
+  const hldb::Module *const topc = hldb::findByDefName<hldb::Module>("topc", m_design->getAllModules());
   ASSERT_NE(topc, nullptr);
   ASSERT_NE(topc->getAttributes(), nullptr);
   ASSERT_EQ(topc->getAttributes()->size(), 1u);
@@ -126,7 +126,7 @@ TEST_F(AttributesModule, TopcHasOptimizePowerAttribute) {
 }
 
 TEST_F(AttributesModule, TopcOptimizePowerValueIsOne) {
-  const hldb::Module *const topc = hldb::findByName<hldb::Module>("topc", m_design->getAllModules());
+  const hldb::Module *const topc = hldb::findByDefName<hldb::Module>("topc", m_design->getAllModules());
   ASSERT_NE(topc, nullptr);
 
   const hldb::Attribute *const attr = findAttr(topc, "optimize_power");

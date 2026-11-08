@@ -482,7 +482,7 @@ TEST_F(ParamArrayTest, ElaboratedTopHoldsOtpCtrlLci) {
     const hldb::Module *const top = m_design->getTopModules()->at(0);
     ASSERT_NE(top, nullptr);
     EXPECT_EQ(top->getDefName(), "top");
-    EXPECT_NE(hldb::findByName<hldb::Module>("u_otp_ctrl_lci", top->getModules()), nullptr);
+    EXPECT_NE(hldb::findByDefName<hldb::Module>("u_otp_ctrl_lci", top->getModules()), nullptr);
   }
 }
 

@@ -157,6 +157,7 @@
 #include <hldb/task_func.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -174,7 +175,7 @@ class InLineConstraintsRandomize5Test : public Test {
   // --- class a ------------------------------------------------------------
 
   static const hldb::ClassDefn *getClassA() {
-    return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getClassAProperty(std::string_view name) {
@@ -190,10 +191,7 @@ class InLineConstraintsRandomize5Test : public Test {
   // --- function F ---------------------------------------------------------
 
   static const hldb::Function *getF() {
-    if (m_design->getTaskFuncs() == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::Function>("F", m_design->getTaskFuncs());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::Function>("F", m_unit->getTaskFuncs());
   }
 
   // 37.15: a reference to a formal resolves to the Variable holding it,
@@ -323,9 +321,10 @@ class InLineConstraintsRandomize5Test : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize5Test, ClassAIsDeclaredOnceAsUserDefinedClass) {
-  ASSERT_NE(m_design->getAllClasses(), nullptr);
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getClassDefns(), nullptr);
   size_t count = 0;
-  for (const hldb::ClassDefn *const cls : *m_design->getAllClasses()) {
+  for (const hldb::ClassDefn *const cls : *m_unit->getClassDefns()) {
     if (cls->getName() == "a") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares class 'a' exactly once";
@@ -388,9 +387,10 @@ TEST_F(InLineConstraintsRandomize5Test, ClassAYIsNotRandAndInitializedToMinusOne
 // ---------------------------------------------------------------------------
 
 TEST_F(InLineConstraintsRandomize5Test, FIsCompilationUnitFunctionReturningInt) {
-  ASSERT_NE(m_design->getTaskFuncs(), nullptr) << "3.12.1: F is declared in the compilation unit";
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getTaskFuncs(), nullptr) << "3.12.1: F is declared in the compilation unit";
   size_t count = 0;
-  for (const hldb::TaskFunc *const tf : *m_design->getTaskFuncs()) {
+  for (const hldb::TaskFunc *const tf : *m_unit->getTaskFuncs()) {
     if (tf->getName() == "F") ++count;
   }
   EXPECT_EQ(count, 1u) << "the source declares function 'F' exactly once";
