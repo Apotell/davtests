@@ -615,6 +615,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:58:15: Port "intf" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:59:12: Port "intf_no_mp" definition missing its direction (input, output, inout).
+[INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:36:16: Failed to bind "FOO".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "FOO".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:58:12: Failed to bind "mp".
@@ -624,7 +625,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "FOO".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:75:46: Failed to bind "intf".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "FOO".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/t_interface_parameter_access.v:36:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
@@ -634,6 +634,62 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_interface_parameter_access.v
       vpiPreprocFile: "$Output/lib/work/t_interface_parameter_access.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_interface_parameter_access.v:
+      vpiTaskFunc (1 items):
+        Function name:identity start:25:1 end:27:12:
+          vpiParent: Unit
+          vpiName Identifier name:identity start:25:18 end:25:26:
+          vpiFullName: identity
+          vpiVariable (2 items):
+            Variable name:x start:25:42 end:25:43:
+              vpiParent: Function name:identity
+              vpiName: x
+              vpiFullName: identity.x
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:25:34 end:25:41:
+                vpiParent: Variable name:x
+                vpiFullName: identity.x
+                vpiActual: IntegerTypespec
+            Variable name:identity start:25:18 end:25:26:
+              vpiParent: Function name:identity
+              vpiName: identity
+              vpiFullName: identity.identity
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:25:10 end:25:17:
+                vpiParent: Variable name:identity
+                vpiFullName: identity.identity
+                vpiActual: IntegerTypespec
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:identity
+              vpiSigned: true
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:x start:25:42 end:25:43:
+              vpiParent: Function name:identity
+              vpiName: x
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:25:34 end:25:41:
+                vpiParent: IODecl name:x
+                vpiFullName: identity.x
+                vpiActual: IntegerTypespec
+          vpiStmt ReturnStmt start:26:4 end:26:13:
+            vpiParent: Function name:identity
+            vpiCondition RefObj name:x start:26:11 end:26:12:
+              vpiParent: ReturnStmt
+              vpiName: x
+              vpiFullName: identity.x
+              vpiActual: Variable name:x
+          vpiReturn RefTypespec start:25:10 end:25:17:
+            vpiParent: Function name:identity
+            vpiFullName: identity
+            vpiActual: IntegerTypespec
   vpiAllInterfaces (1 items):
     Interface name:test_if #(.FOO(1)) file:$Source01/t_interface_parameter_access.v start:8:1 end:23:13:
       vpiParent: Design name:unnamed
@@ -680,6 +736,8 @@ Design name:unnamed:
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_parameter_access.v"
       vpiDefLineNo: 8
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:11 end:8:18:
         vpiParent: Interface name:test_if #(.FOO(1))
@@ -719,6 +777,7 @@ Design name:unnamed:
             vpiParent: Function name:getFoo
             vpiFullName: test_if #(.FOO(1)).getFoo
             vpiActual: IntegerTypespec
+      vpiUnit: Unit
       vpiModport (1 items):
         Modport name:mp start:14:12 end:14:14:
           vpiParent: Interface name:test_if #(.FOO(1))
@@ -819,6 +878,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_interface_parameter_access.v"
       vpiDefLineNo: 30
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:30:8 end:30:9:
         vpiParent: Module name:t
@@ -837,6 +898,7 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:clk start:32:4 end:32:7:
           vpiParent: Module name:t
@@ -1031,6 +1093,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_interface_parameter_access.v"
       vpiDefLineNo: 55
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:55:8 end:55:15:
         vpiParent: Module name:testmod
@@ -1060,6 +1124,7 @@ Design name:unnamed:
             vpiName: test_if
             vpiFullName: testmod.intf_no_mp.test_if
             vpiActual: InterfaceTypespec name:test_if
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:clk start:57:10 end:57:13:
           vpiParent: Module name:testmod
@@ -1432,57 +1497,6 @@ Design name:unnamed:
       vpiName Identifier name:testmod start:55:8 end:55:15:
       vpiDefName: testmod
       vpiModule: Module name:testmod
-  vpiTaskFunc (1 items):
-    Function name:identity start:25:1 end:27:12:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:identity start:25:18 end:25:26:
-      vpiFullName: identity
-      vpiVariable (2 items):
-        Variable name:x start:25:42 end:25:43:
-          vpiParent: Function name:identity
-          vpiName: x
-          vpiFullName: identity.x
-          vpiRandType: (1)
-          vpiVisibility: public (1)
-          vpiTypespec RefTypespec start:25:34 end:25:41:
-            vpiParent: Variable name:x
-            vpiFullName: identity.x
-            vpiActual: IntegerTypespec
-        Variable name:identity start:25:18 end:25:26:
-          vpiParent: Function name:identity
-          vpiName: identity
-          vpiFullName: identity.identity
-          vpiRandType: (1)
-          vpiVisibility: public (1)
-          vpiTypespec RefTypespec start:25:10 end:25:17:
-            vpiParent: Variable name:identity
-            vpiFullName: identity.identity
-            vpiActual: IntegerTypespec
-      vpiTypespec (1 items):
-        IntegerTypespec:
-          vpiParent: Function name:identity
-          vpiSigned: true
-      vpiVisibility: public (1)
-      vpiIODecl (1 items):
-        IODecl name:x start:25:42 end:25:43:
-          vpiParent: Function name:identity
-          vpiName: x
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:25:34 end:25:41:
-            vpiParent: IODecl name:x
-            vpiFullName: identity.x
-            vpiActual: IntegerTypespec
-      vpiStmt ReturnStmt start:26:4 end:26:13:
-        vpiParent: Function name:identity
-        vpiCondition RefObj name:x start:26:11 end:26:12:
-          vpiParent: ReturnStmt
-          vpiName: x
-          vpiFullName: identity.x
-          vpiActual: Variable name:x
-      vpiReturn RefTypespec start:25:10 end:25:17:
-        vpiParent: Function name:identity
-        vpiFullName: identity
-        vpiActual: IntegerTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

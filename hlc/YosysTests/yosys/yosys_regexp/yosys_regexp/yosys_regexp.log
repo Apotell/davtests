@@ -355,7 +355,6 @@ n<$Source01/top.v> u<341> t<Top_level_rule> c<1> l<6:1> el<48:1>
         n<> u<337> t<ENDMODULE> p<338> l<47:1> el<47:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:8:1: Compile module "top".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -364,6 +363,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
+      vpiDirective (1 items):
+        GenericDirective start:6:1 end:6:20:
+          vpiParent: SourceFile name:top.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:6:1 end:6:20:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 8
+            vpiDecompile: "1ns/10ps"
+            vpiValue: "1ns/10ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.v
+              vpiActual: StringTypespec
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:top file:$Source01/top.v start:8:1 end:47:10:
       vpiParent: Design name:unnamed
@@ -455,6 +475,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiFullName: top.a
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:x start:9:5 end:9:6:
           vpiParent: Module name:top
@@ -827,7 +848,9 @@ Design name:unnamed:
                                       vpiFullName: top.DESIGN_PROCESSOR
                                       vpiActual: IntTypespec
           vpiAlwaysType: always (1)
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:8:8 end:8:11:
@@ -861,25 +884,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/yosys/yosys_regexp/yosys_regexp/mounts.json
 
 
-{'result': {'coverage': 94.22,
+{'result': {'coverage': 99.71,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 20,
+            'files': {'$Output/lib/work/top.v': {'post_len': 1,
                                                  'pre_len': 346}},
-            'post_len': 20,
+            'post_len': 1,
             'pre_len': 346,
             'test_name': 'YosysTests/yosys/yosys_regexp/yosys_regexp'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      346 |        20 |
+| $Output/lib/work/top.v |      346 |         1 |
 +========================+==========+===========+
-|                        |      346 |        20 |
+|                        |      346 |         1 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.22
+[COVERAGE] : 99.71
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -890,7 +913,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/yosys/yosys_regexp/yosys_regexp/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   109     109       0         0
+                                   113     113       0         0
 ===================== END REDUCTION RESULT =====================

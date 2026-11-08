@@ -336,13 +336,13 @@ n<$Source01/bind_checker.sv> u<322> t<Top_level_rule> c<1> l<1:1> el<33:10>
         n<> u<318> t<ENDMODULE> p<319> l<33:1> el<33:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/bind_checker.sv:1:1: Compile module "dut".
+[WRN:PA5506] $Source01/bind_checker.sv:1:1: No timescale set for "dut".
 [INF:CP5808] $Source01/bind_checker.sv:9:9: Compile checker "bind_chk".
 [INF:CP5804] $Source01/bind_checker.sv:17:1: Compile module "tb8".
+[WRN:PA5506] $Source01/bind_checker.sv:17:1: No timescale set for "tb8".
 [WRN:CP5851] $Source01/bind_checker.sv:11:30: Failed to bind "clk".
 [WRN:CP5851] $Source01/bind_checker.sv:11:35: Failed to bind "req".
 [WRN:CP5851] $Source01/bind_checker.sv:11:47: Failed to bind "gnt".
-[WRN:PA5506] $Source01/bind_checker.sv:1:1: No timescale set for "dut".
-[WRN:PA5506] $Source01/bind_checker.sv:17:1: No timescale set for "tb8".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -351,6 +351,117 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: bind_checker.sv
       vpiPreprocFile: "$Output/lib/work/bind_checker.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:bind_checker.sv:
+      vpiTypespec (1 items):
+        CheckerTypespec name:bind_chk start:25:12 end:25:20:
+          vpiParent: Unit
+          vpiName: bind_chk
+          vpiCheckerDecl: CheckerDecl name:bind_chk
+      vpiCheckerDecl (1 items):
+        CheckerDecl name:bind_chk start:9:1 end:14:11:
+          vpiParent: Unit
+          vpiName Identifier name:bind_chk start:9:9 end:9:17:
+          vpiFullName: bind_chk
+          vpiConcurrentAssertions (1 items):
+            Assert start:11:3 end:12:32:
+              vpiParent: CheckerDecl name:bind_chk
+              vpiProperty PropertySpec start:11:20 end:11:50:
+                vpiParent: Assert
+                vpiClockingEvent Operation start:11:22 end:11:33:
+                  vpiParent: PropertySpec
+                  vpiOpType: posedge (39)
+                  vpiOperand (1 items):
+                    RefObj name:clk start:11:30 end:11:33:
+                      vpiParent: Operation
+                      vpiName: clk
+                      vpiFullName: bind_chk.clk
+                vpiPropertyExpr Operation start:11:35 end:11:50:
+                  vpiParent: PropertySpec
+                  vpiOpType: overlap imply (52)
+                  vpiOperand (2 items):
+                    RefObj name:req start:11:35 end:11:38:
+                      vpiParent: Operation
+                      vpiName: req
+                      vpiFullName: bind_chk.req
+                    Operation start:11:43 end:11:50:
+                      vpiParent: Operation
+                      vpiOpType: unary cycle delay (70)
+                      vpiOperand (2 items):
+                        RefObj name:gnt start:11:47 end:11:50:
+                          vpiParent: Operation
+                          vpiName: gnt
+                          vpiFullName: bind_chk.gnt
+                        Constant start:11:45 end:11:46:
+                          vpiParent: Operation
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: bind_chk
+                            vpiActual: IntTypespec
+              vpiElseStmt SysTaskCall name:$error start:12:10 end:12:31:
+                vpiParent: Assert
+                vpiName Identifier name:$error start:12:10 end:12:16:
+                vpiArgument (1 items):
+                  NamedArgument start:12:17 end:12:30:
+                    vpiParent: SysTaskCall name:$error
+                    vpiHighConn Constant start:12:17 end:12:30:
+                      vpiParent: NamedArgument
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"Bind failed\""
+                      vpiValue: Bind failed
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: bind_chk
+                        vpiActual: StringTypespec
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: CheckerDecl name:bind_chk
+              vpiScalar: true
+          vpiDefName: bind_chk
+          vpiDefNetType: wire (1)
+          vpiLibrary RefObj name:work start:9:9 end:9:17:
+            vpiParent: CheckerDecl name:bind_chk
+            vpiName: work
+            vpiFullName: bind_chk.work
+            vpiActual: Library name:work
+          vpiCell: bind_chk
+          vpiUnit: Unit
+          vpiPort (3 items):
+            CheckerPort name:clk start:9:18 end:9:33:
+              vpiParent: CheckerDecl name:bind_chk
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:9:24 end:9:29:
+                vpiParent: CheckerPort name:clk
+                vpiFullName: bind_chk.clk
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:req start:9:35 end:9:38:
+              vpiParent: CheckerDecl name:bind_chk
+              vpiName: req
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec:
+                vpiParent: CheckerPort name:req
+                vpiFullName: bind_chk.req
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
+            CheckerPort name:gnt start:9:40 end:9:43:
+              vpiParent: CheckerDecl name:bind_chk
+              vpiName: gnt
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec:
+                vpiParent: CheckerPort name:gnt
+                vpiFullName: bind_chk.gnt
+                vpiActual: LogicTypespec
+              vpiFormalType: data (1)
   vpiAllModules (2 items):
     Module name:dut file:$Source01/bind_checker.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
@@ -404,6 +515,7 @@ Design name:unnamed:
             vpiParent: Net name:req
             vpiFullName: dut.req
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:clk start:1:24 end:1:27:
           vpiParent: Module name:dut
@@ -540,6 +652,7 @@ Design name:unnamed:
         vpiFullName: tb8.work
         vpiActual: Library name:work
       vpiCell: tb8
+      vpiUnit: Unit
       vpiProcess (2 items):
         Always start:21:3 end:21:24:
           vpiParent: Module name:tb8
@@ -737,7 +850,7 @@ Design name:unnamed:
                       vpiName: gnt
                       vpiFullName: tb8.chk_inst.gnt
                       vpiActual: Variable name:gnt
-  vpiTypespec (5 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
@@ -753,114 +866,10 @@ Design name:unnamed:
       vpiName Identifier name:tb8 start:17:8 end:17:11:
       vpiDefName: tb8
       vpiModule: Module name:tb8
-    CheckerTypespec name:bind_chk start:25:12 end:25:20:
-      vpiParent: Design name:unnamed
-      vpiName: bind_chk
-      vpiCheckerDecl: CheckerDecl name:bind_chk
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
       vpiName: work
-  vpiCheckerDecl (1 items):
-    CheckerDecl name:bind_chk start:9:1 end:14:11:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:bind_chk start:9:9 end:9:17:
-      vpiFullName: bind_chk
-      vpiConcurrentAssertions (1 items):
-        Assert start:11:3 end:12:32:
-          vpiParent: CheckerDecl name:bind_chk
-          vpiProperty PropertySpec start:11:20 end:11:50:
-            vpiParent: Assert
-            vpiClockingEvent Operation start:11:22 end:11:33:
-              vpiParent: PropertySpec
-              vpiOpType: posedge (39)
-              vpiOperand (1 items):
-                RefObj name:clk start:11:30 end:11:33:
-                  vpiParent: Operation
-                  vpiName: clk
-                  vpiFullName: bind_chk.clk
-            vpiPropertyExpr Operation start:11:35 end:11:50:
-              vpiParent: PropertySpec
-              vpiOpType: overlap imply (52)
-              vpiOperand (2 items):
-                RefObj name:req start:11:35 end:11:38:
-                  vpiParent: Operation
-                  vpiName: req
-                  vpiFullName: bind_chk.req
-                Operation start:11:43 end:11:50:
-                  vpiParent: Operation
-                  vpiOpType: unary cycle delay (70)
-                  vpiOperand (2 items):
-                    RefObj name:gnt start:11:47 end:11:50:
-                      vpiParent: Operation
-                      vpiName: gnt
-                      vpiFullName: bind_chk.gnt
-                    Constant start:11:45 end:11:46:
-                      vpiParent: Operation
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: bind_chk
-                        vpiActual: IntTypespec
-          vpiElseStmt SysTaskCall name:$error start:12:10 end:12:31:
-            vpiParent: Assert
-            vpiName Identifier name:$error start:12:10 end:12:16:
-            vpiArgument (1 items):
-              NamedArgument start:12:17 end:12:30:
-                vpiParent: SysTaskCall name:$error
-                vpiHighConn Constant start:12:17 end:12:30:
-                  vpiParent: NamedArgument
-                  vpiConstType: string (6)
-                  vpiSize: 88
-                  vpiDecompile: "\"Bind failed\""
-                  vpiValue: Bind failed
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: bind_chk
-                    vpiActual: StringTypespec
-      vpiTypespec (1 items):
-        LogicTypespec:
-          vpiParent: CheckerDecl name:bind_chk
-          vpiScalar: true
-      vpiDefName: bind_chk
-      vpiDefNetType: wire (1)
-      vpiLibrary RefObj name:work start:9:9 end:9:17:
-        vpiParent: CheckerDecl name:bind_chk
-        vpiName: work
-        vpiFullName: bind_chk.work
-        vpiActual: Library name:work
-      vpiCell: bind_chk
-      vpiPort (3 items):
-        CheckerPort name:clk start:9:18 end:9:33:
-          vpiParent: CheckerDecl name:bind_chk
-          vpiName: clk
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec start:9:24 end:9:29:
-            vpiParent: CheckerPort name:clk
-            vpiFullName: bind_chk.clk
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:req start:9:35 end:9:38:
-          vpiParent: CheckerDecl name:bind_chk
-          vpiName: req
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec:
-            vpiParent: CheckerPort name:req
-            vpiFullName: bind_chk.req
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
-        CheckerPort name:gnt start:9:40 end:9:43:
-          vpiParent: CheckerDecl name:bind_chk
-          vpiName: gnt
-          vpiDirection: input (1)
-          vpiTypespec RefTypespec:
-            vpiParent: CheckerPort name:gnt
-            vpiFullName: bind_chk.gnt
-            vpiActual: LogicTypespec
-          vpiFormalType: data (1)
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0

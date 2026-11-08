@@ -1039,19 +1039,19 @@ n<$Source01/top.sv> u<123> t<Top_level_rule> c<1> l<1:1> el<10:1>
         n<top> u<118> t<SIMPLE_IDENTIFIER> p<120> l<9:13> el<9:16>
 AST_DEBUG_END
 [INF:CP5804] $Source01/cmp.sv:2:1: Compile module "cmp".
+[WRN:PA5506] $Source01/cmp.sv:2:1: No timescale set for "cmp #(.hyst(0.65))".
 [INF:CP5804] $Source01/cmp.svr:2:1: Compile module "cmp".
 [INF:CP5804] $Source01/driver.sv:2:1: Compile module "driver".
 [INF:CP5804] $Source01/driver.svr:1:1: Compile module "driver".
 [INF:CP5802] $Source01/nets.pkg:1:1: Compile package "NetsPkg".
+[WRN:PA5506] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
 [INF:CP5804] $Source01/top.sv:1:1: Compile module "top".
+[WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "top".
 [ERR:CP5835] Colliding compilation unit name: "cmp #(.hyst(0.65))".
 [ERR:CP5835] Colliding compilation unit name: "driver #(.delay(30), .iterations(256))".
 [WRN:CP5851] $Source01/cmp.svr:12:2: Failed to bind "realNet".
 [WRN:CP5851] $Source01/driver.svr:5:16: Failed to bind "realNet".
 [WRN:CP5851] $Source01/top.sv:7:24: Failed to bind "rst".
-[WRN:PA5506] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
-[WRN:PA5506] $Source01/cmp.sv:2:1: No timescale set for "cmp #(.hyst(0.65))".
-[WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1080,6 +1080,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/logicLib/top.sv"
+  vpiUnit (7 items):
+    Unit:
+      vpiParent: Design name:unnamed
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:cmp.sv:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:cmp.svr:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:driver.sv:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:driver.svr:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:nets.pkg:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.sv:
   vpiAllPackages (1 items):
     Package name:NetsPkg file:$Source01/nets.pkg start:1:1 end:5:21:
       vpiParent: Design name:unnamed
@@ -1104,6 +1131,7 @@ Design name:unnamed:
         vpiFullName: NetsPkg::work
         vpiActual: Library name:work
       vpiCell: NetsPkg
+      vpiUnit: Unit
       vpiEndLabel Identifier name:NetsPkg start:5:14 end:5:21:
   vpiAllModules (5 items):
     Module name:cmp #(.hyst(0.65)) file:$Source01/cmp.sv start:2:1 end:24:7:
@@ -1205,6 +1233,7 @@ Design name:unnamed:
             vpiParent: Net name:rst
             vpiFullName: cmp #(.hyst(0.65)).rst
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:inA start:4:25 end:4:28:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -1547,6 +1576,7 @@ Design name:unnamed:
             vpiParent: Net name:rst
             vpiFullName: cmp #(.hyst(0.65)).rst
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:inA start:12:16 end:12:19:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -1922,6 +1952,7 @@ Design name:unnamed:
             vpiParent: Net name:out
             vpiFullName: driver #(.delay(30), .iterations(256)).out
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:out start:13:8 end:13:11:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -2208,6 +2239,7 @@ Design name:unnamed:
         vpiFullName: driver #(.delay(30), .iterations(256)).realLib
         vpiActual: Library name:realLib
       vpiCell: driver
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -2622,6 +2654,7 @@ Design name:unnamed:
             vpiParent: Net name:aBus
             vpiFullName: top.aBus
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:1:11 end:1:13:
           vpiParent: Module name:top
@@ -2887,7 +2920,7 @@ COMMAND: ${HLC_DIR}/regression/LibraryIntercon/LibraryIntercon/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2267    2267       0         0
+Others                            2266    2266       0         0
 ----------------------------------------------------------------
-                                  2267    2267       0         0
+                                  2266    2266       0         0
 ===================== END REDUCTION RESULT =====================

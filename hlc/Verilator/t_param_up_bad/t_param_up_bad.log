@@ -149,9 +149,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_up_bad.v:12:1: Compile module "child".
 [INF:CP5804] $Source01/t_param_up_bad.v:18:1: Compile module "parent".
 [INF:CP5804] $Source01/t_param_up_bad.v:28:1: Compile module "t".
+[INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:CP5851] $Source01/t_param_up_bad.v:15:19: Failed to bind "bar".
 [WRN:CP5851] $Source01/t_param_up_bad.v:15:23: Failed to bind "foo".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -160,6 +160,43 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_param_up_bad.v
       vpiPreprocFile: "$Output/lib/work/t_param_up_bad.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_param_up_bad.v:
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Unit
+          vpiScalar: true
+        StructTypespec start:8:9 end:10:2:
+          vpiParent: Unit
+          vpiStruct: Struct
+        TypedefTypespec name:some_struct_t start:8:1 end:10:17:
+          vpiParent: Unit
+          vpiName Identifier name:some_struct_t start:10:3 end:10:16:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:some_struct_t
+      vpiStruct (1 items):
+        Struct start:8:9 end:10:2:
+          vpiParent: Unit
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:foo start:9:16 end:9:19:
+              vpiParent: Struct
+              vpiName: foo
+              vpiTypespec RefTypespec start:9:4 end:9:9:
+                vpiParent: TypespecMember name:foo
+                vpiFullName: foo
+                vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:some_struct_t start:8:1 end:10:17:
+          vpiParent: Unit
+          vpiName Identifier name:some_struct_t start:10:3 end:10:16:
+          vpiTypedefAlias RefTypespec start:8:9 end:10:2:
+            vpiParent: Typedef name:some_struct_t
+            vpiFullName: some_struct_t
+            vpiActual: StructTypespec
   vpiAllModules (3 items):
     Module name:child file:$Source01/t_param_up_bad.v start:12:1 end:16:10:
       vpiParent: Design name:unnamed
@@ -185,6 +222,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_param_up_bad.v"
       vpiDefLineNo: 12
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:12:8 end:12:13:
         vpiParent: Module name:child
@@ -192,6 +231,7 @@ Design name:unnamed:
         vpiFullName: child.work
         vpiActual: Library name:work
       vpiCell: child
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:12:14 end:12:16:
           vpiParent: Module name:child
@@ -265,6 +305,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_param_up_bad.v"
       vpiDefLineNo: 18
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:18:8 end:18:14:
         vpiParent: Module name:parent #(.PARAM(0))
@@ -272,6 +314,7 @@ Design name:unnamed:
         vpiFullName: parent #(.PARAM(0)).work
         vpiActual: Library name:work
       vpiCell: parent
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:22:4 end:23:6:
           vpiParent: Module name:parent #(.PARAM(0))
@@ -297,6 +340,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_param_up_bad.v"
       vpiDefLineNo: 28
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:28:8 end:28:9:
         vpiParent: Module name:t
@@ -304,6 +349,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:28:10 end:28:12:
           vpiParent: Module name:t
@@ -318,18 +364,7 @@ Design name:unnamed:
             vpiName: parent
             vpiFullName: t.p.parent
             vpiActual: ModuleTypespec name:parent #(.PARAM(1))
-  vpiTypespec (8 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiScalar: true
-    StructTypespec start:8:9 end:10:2:
-      vpiParent: Design name:unnamed
-      vpiStruct: Struct
-    TypedefTypespec name:some_struct_t start:8:1 end:10:17:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_struct_t start:10:3 end:10:16:
-      vpiTypedefKind: struct (4)
-      vpiTypedef: Typedef name:some_struct_t
+  vpiTypespec (5 items):
     ModuleTypespec name:child:
       vpiParent: Design name:unnamed
       vpiName Identifier name:child start:12:8 end:12:13:
@@ -371,26 +406,6 @@ Design name:unnamed:
               vpiFullName: parent #(.PARAM(1))
               vpiActual: IntTypespec
       vpiModule: Module name:parent #(.PARAM(0))
-  vpiStruct (1 items):
-    Struct start:8:9 end:10:2:
-      vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:foo start:9:16 end:9:19:
-          vpiParent: Struct
-          vpiName: foo
-          vpiTypespec RefTypespec start:9:4 end:9:9:
-            vpiParent: TypespecMember name:foo
-            vpiFullName: foo
-            vpiActual: LogicTypespec
-  vpiTypedef (1 items):
-    Typedef name:some_struct_t start:8:1 end:10:17:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_struct_t start:10:3 end:10:16:
-      vpiTypedefAlias RefTypespec start:8:9 end:10:2:
-        vpiParent: Typedef name:some_struct_t
-        vpiFullName: some_struct_t
-        vpiActual: StructTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

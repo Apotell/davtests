@@ -640,18 +640,18 @@ n<$Source01/top.v> u<616> t<Top_level_rule> c<1> l<3:1> el<69:1>
         n<> u<612> t<ENDMODULE> p<613> l<67:1> el<67:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:3:1: Compile module "tb_operators".
+[WRN:PA5506] $Source01/top.v:3:1: No timescale set for "tb_operators".
 [INF:CP5804] $Source01/top.v:40:1: Compile module "top".
 [NTE:CP5810] $Source01/top.v:40:29: Implicit port type (wire) for "o".
+[WRN:PA5506] $Source01/top.v:40:1: No timescale set for "top".
 [INF:CP5805] $Source01/top.v:47:1: Compile interface "mem_if".
+[WRN:PA5506] $Source01/top.v:47:1: No timescale set for "mem_if".
 [INF:CP5804] $Source01/top.v:57:1: Compile module "memory_ctrl1".
 [WRN:CP5811] $Source01/top.v:57:29: Port "sif1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/top.v:57:49: Port "sif2" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
 [WRN:CP5851] $Source01/top.v:57:42: Failed to bind "system".
 [WRN:CP5851] $Source01/top.v:59:1: Failed to bind "DD1".
-[WRN:PA5506] $Source01/top.v:3:1: No timescale set for "tb_operators".
-[WRN:PA5506] $Source01/top.v:40:1: No timescale set for "top".
-[WRN:PA5506] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
-[WRN:PA5506] $Source01/top.v:47:1: No timescale set for "mem_if".
 [ERR:DL2507] $Source01/top.v:11:5: Illegal lhs of type wire "shifter".
 [ERR:DL2516] $Source01/top.v:11:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/top.v:13:5: Illegal lhs of type wire "result".
@@ -680,20 +680,31 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-  vpiAllClasses (1 items):
-    ClassDefn name:DD2 file:$Source01/top.v start:54:1 end:55:9:
+  vpiUnit (1 items):
+    Unit:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:DD2 start:54:7 end:54:10:
-      vpiFullName: DD2
-      vpiDefName: DD2
-      vpiAutomatic: true
-      vpiClassType: userdefined class (3)
-      vpiLibrary RefObj name:work start:54:7 end:54:10:
-        vpiParent: ClassDefn name:DD2
-        vpiName: work
-        vpiFullName: DD2::work
-        vpiActual: Library name:work
-      vpiCell: DD2
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+      vpiTypespec (1 items):
+        ClassTypespec name:DD2 start:54:7 end:54:10:
+          vpiParent: Unit
+          vpiName Identifier name:DD2:
+          vpiDefName: DD2
+          vpiClassDefn: ClassDefn name:DD2
+      vpiClassDefn (1 items):
+        ClassDefn name:DD2 file:$Source01/top.v start:54:1 end:55:9:
+          vpiParent: Unit
+          vpiName Identifier name:DD2 start:54:7 end:54:10:
+          vpiFullName: DD2
+          vpiDefName: DD2
+          vpiAutomatic: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work start:54:7 end:54:10:
+            vpiParent: ClassDefn name:DD2
+            vpiName: work
+            vpiFullName: DD2::work
+            vpiActual: Library name:work
+          vpiCell: DD2
   vpiAllInterfaces (1 items):
     Interface name:mem_if file:$Source01/top.v start:47:1 end:52:13:
       vpiParent: Design name:unnamed
@@ -725,6 +736,7 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiModport (2 items):
         Modport name:system start:49:12 end:49:18:
           vpiParent: Interface name:mem_if
@@ -852,6 +864,7 @@ Design name:unnamed:
             vpiParent: Net name:result
             vpiFullName: tb_operators.result
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiProcess (1 items):
         Initial start:8:1 end:34:14:
           vpiParent: Module name:tb_operators
@@ -1368,6 +1381,7 @@ Design name:unnamed:
             vpiParent: Net name:o
             vpiFullName: top.o
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:i start:40:19 end:40:20:
           vpiParent: Module name:top
@@ -1489,6 +1503,7 @@ Design name:unnamed:
             vpiParent: Net name:i1
             vpiFullName: memory_ctrl1.i1
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:sif1 start:57:29 end:57:33:
           vpiParent: Module name:memory_ctrl1
@@ -1529,7 +1544,7 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::system
                 vpiName: system
                 vpiFullName: memory_ctrl1.sif2.mem_if::system.system
-  vpiTypespec (8 items):
+  vpiTypespec (7 items):
     ModuleTypespec name:tb_operators:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tb_operators start:3:8 end:3:20:
@@ -1552,11 +1567,6 @@ Design name:unnamed:
       vpiName Identifier name:mem_if start:47:11 end:47:17:
       vpiDefName: mem_if
       vpiInterface: Interface name:mem_if
-    ClassTypespec name:DD2 start:54:7 end:54:10:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:DD2:
-      vpiDefName: DD2
-      vpiClassDefn: ClassDefn name:DD2
     ModuleTypespec name:memory_ctrl1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl1 start:57:8 end:57:20:

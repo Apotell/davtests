@@ -693,6 +693,7 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_mod_interface_array2.v:29:19: Implicit port type (wire) for "a_out".
 [WRN:CP5811] $Source01/t_mod_interface_array2.v:30:14: Port "i_intf_sink" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_mod_interface_array2.v:39:1: Compile module "t".
+[INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:18:9: Failed to bind "source".
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:22:27: Failed to bind "long_name".
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:22:10: Failed to bind "i_intf_source".
@@ -700,7 +701,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:34:36: Failed to bind "long_name".
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:34:21: Failed to bind "i_intf_sink".
 [WRN:CP5851] $Source01/t_mod_interface_array2.v:47:12: Failed to bind "PARAM".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/t_mod_interface_array2.v:47:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
@@ -710,6 +710,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_mod_interface_array2.v
       vpiPreprocFile: "$Output/lib/work/t_mod_interface_array2.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_mod_interface_array2.v:
+      vpiParameter (1 items):
+        Parameter name:N start:6:11 end:6:12:
+          vpiParent: Unit
+          vpiName: N
+          vpiFullName: N
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:N
+            vpiFullName: N
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:6:15 end:6:16:
+            vpiParent: Parameter name:N
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: N
+              vpiActual: IntTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Unit
+          vpiScalar: true
   vpiAllInterfaces (1 items):
     Interface name:a_if #(.PARAM(0)) file:$Source01/t_mod_interface_array2.v start:9:1 end:13:13:
       vpiParent: Design name:unnamed
@@ -753,6 +782,8 @@ Design name:unnamed:
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
       vpiDefLineNo: 9
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:9:11 end:9:15:
         vpiParent: Interface name:a_if #(.PARAM(0))
@@ -760,6 +791,7 @@ Design name:unnamed:
         vpiFullName: a_if #(.PARAM(0)).work
         vpiActual: Library name:work
       vpiCell: a_if
+      vpiUnit: Unit
       vpiModport (2 items):
         Modport name:source start:11:12 end:11:18:
           vpiParent: Interface name:a_if #(.PARAM(0))
@@ -878,6 +910,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
       vpiDefLineNo: 15
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:19:
         vpiParent: Module name:intf_source
@@ -896,6 +930,7 @@ Design name:unnamed:
             vpiParent: Net name:intf_input
             vpiFullName: intf_source.intf_input
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:intf_input start:17:24 end:17:34:
           vpiParent: Module name:intf_source
@@ -1117,6 +1152,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
       vpiDefLineNo: 27
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:27:8 end:27:17:
         vpiParent: Module name:intf_sink
@@ -1135,6 +1172,7 @@ Design name:unnamed:
             vpiParent: Net name:a_out
             vpiFullName: intf_sink.a_out
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a_out start:29:19 end:29:24:
           vpiParent: Module name:intf_sink
@@ -1491,6 +1529,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
       vpiDefLineNo: 39
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:39:8 end:39:9:
         vpiParent: Module name:t
@@ -1509,6 +1549,7 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:clk start:41:4 end:41:7:
           vpiParent: Module name:t
@@ -1841,13 +1882,10 @@ Design name:unnamed:
                 vpiName: tl_intf
                 vpiFullName: t.sink.tl_intf
                 vpiActual: RefInstance name:tl_intf
-  vpiTypespec (7 items):
+  vpiTypespec (6 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiScalar: true
     InterfaceTypespec name:a_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a_if start:9:11 end:9:15:
@@ -1870,26 +1908,6 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiParameter (1 items):
-    Parameter name:N start:6:11 end:6:12:
-      vpiParent: Design name:unnamed
-      vpiName: N
-      vpiFullName: N
-      vpiLocalParam: true
-      vpiTypespec RefTypespec:
-        vpiParent: Parameter name:N
-        vpiFullName: N
-        vpiActual: LogicTypespec
-      vpiExpr Constant start:6:15 end:6:16:
-        vpiParent: Parameter name:N
-        vpiConstType: int (7)
-        vpiSize: 32
-        vpiDecompile: "4"
-        vpiValue: 4
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiFullName: N
-          vpiActual: IntTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

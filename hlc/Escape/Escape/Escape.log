@@ -449,11 +449,14 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:2:1: Compile module "top".
 [INF:CP5804] $Source01/top.v:17:1: Compile module "bottom1".
 [INF:CP5804] $Source01/top.v:27:1: Compile module "bottom2".
+[WRN:PA5506] $Source01/top.v:27:1: No timescale set for "bottom2".
 [INF:CP5804] $Source01/top.v:60:1: Compile module "bottom3".
 [INF:CP5805] $Source01/top1.v:2:1: Compile interface "my_interface".
+[WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
 [INF:CP5804] $Source01/top1.v:15:1: Compile module "top".
 [INF:CP5804] $Source01/top1.v:21:1: Compile module "bottom1".
 [INF:CP5804] $Source01/top1.v:26:1: Compile module "bottom2".
+[WRN:PA5506] $Source01/top1.v:26:1: No timescale set for "bottom2".
 [INF:CP5804] $Source01/top1.v:32:1: Compile module "middle".
 [INF:CP5804] $Source01/top1.v:36:3: Compile module "nested".
 [INF:CP5804] $Source01/top1.v:46:1: Compile module "bottom3".
@@ -470,12 +473,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:13:95: Failed to bind "m_if".
 [WRN:CP5851] $Source01/top.v:64:17: Failed to bind "capture".
 [WRN:CP5851] $Source01/top.v:65:13: Failed to bind "clk".
-[WRN:PA5506] $Source01/top.v:27:1: No timescale set for "bottom2".
-[WRN:PA5506] $Source01/top1.v:26:1: No timescale set for "bottom2".
-[WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN7705] $Source01/top.v:13:50: Null Actual: id:336, type:SubroutineCall, name:read_by_name, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top.v:13:64: Null Actual: id:326, type:SubroutineCall, name:get_full_name, relation:vpiHighConn.
-[ERR:LN7701] Invalid name: id:379, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7705] $Source01/top.v:13:50: Null Actual: id:335, type:SubroutineCall, name:read_by_name, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:13:64: Null Actual: id:325, type:SubroutineCall, name:get_full_name, relation:vpiHighConn.
+[ERR:LN7701] Invalid name: id:378, type:RefObj, name:, relation:vpiLowConn.
 [ERR:DL2510] $Source01/top.v:62:2: Unsupported typespec "ddr".
 ====== HLDB =======
 Design name:unnamed:
@@ -730,110 +730,157 @@ Design name:unnamed:
             "Identifier name:\\\n start:54:9 end:55:1":
             "Identifier name:   start:55:1 end:55:3":
             Identifier name:end start:55:3 end:55:6:
+      vpiDirective (1 items):
+        GenericDirective start:58:1 end:58:22:
+          vpiParent: SourceFile name:top.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:58:1 end:58:22:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 10
+            vpiDecompile: "100ps/10ps"
+            vpiValue: "100ps/10ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.v
+              vpiActual: StringTypespec
     SourceFile name:top1.v file:$Source01/top1.v:
       vpiParent: Design name:unnamed
       vpiName: top1.v
       vpiPreprocFile: "$Output/lib/work/top1.v"
-  vpiAllClasses (1 items):
-    ClassDefn name:env file:$Source01/top.v start:8:1 end:15:10:
+      vpiDirective (1 items):
+        GenericDirective start:43:1 end:43:22:
+          vpiParent: SourceFile name:top1.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:43:1 end:43:22:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 10
+            vpiDecompile: "100ps/10ps"
+            vpiValue: "100ps/10ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top1.v
+              vpiActual: StringTypespec
+  vpiUnit (2 items):
+    Unit:
       vpiParent: Design name:unnamed
-      vpiName Identifier name:env start:8:7 end:8:10:
-      vpiFullName: env
-      vpiDefName: env
-      vpiAutomatic: true
-      vpiClassType: userdefined class (3)
-      vpiExtends Extends start:8:11 end:8:18:
-        vpiParent: ClassDefn name:env
-        vpiClassTypespec (1 items):
-          RefTypespec name:uvm_env start:8:19 end:8:26:
-            vpiParent: Extends
-            vpiName: uvm_env
-            vpiFullName: env::uvm_env
-      vpiLibrary RefObj name:work start:8:7 end:8:10:
-        vpiParent: ClassDefn name:env
-        vpiName: work
-        vpiFullName: env::work
-        vpiActual: Library name:work
-      vpiCell: env
-      vpiMethod (1 items):
-        Function name:connect_phase start:11:3 end:14:14:
-          vpiParent: ClassDefn name:env
-          vpiName Identifier name:connect_phase start:11:17 end:11:30:
-          vpiFullName: env::connect_phase
-          vpiVariable (1 items):
-            Variable name:phase start:11:41 end:11:46:
-              vpiParent: Function name:connect_phase
-              vpiName: phase
-              vpiFullName: env::connect_phase::phase
-              vpiRandType: (1)
-              vpiVisibility: public (1)
-              vpiTypespec RefTypespec name:uvm_phase start:11:31 end:11:40:
-                vpiParent: Variable name:phase
-                vpiName: uvm_phase
-                vpiFullName: env::connect_phase::phase::uvm_phase
-          vpiMethod: true
-          vpiVisibility: public (1)
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+      vpiDirective (1 items):
+        GenericDirective:
+      vpiTypespec (1 items):
+        ClassTypespec name:env start:8:7 end:8:10:
+          vpiParent: Unit
+          vpiName Identifier name:env:
+          vpiDefName: env
+          vpiClassDefn: ClassDefn name:env
+      vpiClassDefn (1 items):
+        ClassDefn name:env file:$Source01/top.v start:8:1 end:15:10:
+          vpiParent: Unit
+          vpiName Identifier name:env start:8:7 end:8:10:
+          vpiFullName: env
+          vpiDefName: env
           vpiAutomatic: true
-          vpiIODecl (1 items):
-            IODecl name:phase start:11:41 end:11:46:
-              vpiParent: Function name:connect_phase
-              vpiName: phase
-              vpiDirection: input (1)
-              vpiTypespec RefTypespec name:uvm_phase start:11:31 end:11:40:
-                vpiParent: IODecl name:phase
-                vpiName: uvm_phase
-                vpiFullName: env::connect_phase::phase::uvm_phase
-          vpiStmt ImmediateAssert start:13:5 end:13:102:
-            vpiParent: Function name:connect_phase
-            "vpiExpr RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:100":
-              vpiParent: ImmediateAssert
-              vpiName: uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
-              vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
-              vpiPathElem (2 items):
-                RefObj name:uvm_resource_db start:13:12 end:13:48:
-                  vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
-                  vpiName: uvm_resource_db
-                  vpiFullName: env::connect_phase::uvm_resource_db
-                  vpiParamAssign (1 items):
-                    ParamAssign start:13:29 end:13:47:
-                      vpiParent: RefObj name:uvm_resource_db
-                      vpiRhs RefTypespec name:add_sub_if start:13:37 end:13:47:
-                        vpiParent: ParamAssign
-                        vpiName: add_sub_if
-                        vpiFullName: env::connect_phase::uvm_resource_db::add_sub_if
-                SubroutineCall name:read_by_name start:13:50 end:13:100:
-                  vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
-                  vpiName Identifier name:read_by_name start:13:50 end:13:62:
-                  vpiArgument (3 items):
-                    NamedArgument start:13:64 end:13:79:
-                      vpiParent: SubroutineCall name:read_by_name
-                      vpiHighConn SubroutineCall name:get_full_name start:13:64 end:13:79:
-                        vpiParent: NamedArgument
-                        vpiName Identifier name:get_full_name start:13:64 end:13:77:
-                    NamedArgument start:13:81 end:13:93:
-                      vpiParent: SubroutineCall name:read_by_name
-                      vpiHighConn Constant start:13:81 end:13:93:
-                        vpiParent: NamedArgument
-                        vpiConstType: string (6)
-                        vpiSize: 80
-                        vpiDecompile: "\"add_sub_if\""
-                        vpiValue: add_sub_if
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
-                          vpiActual: StringTypespec
-                    NamedArgument start:13:95 end:13:99:
-                      vpiParent: SubroutineCall name:read_by_name
-                      vpiHighConn RefObj name:m_if start:13:95 end:13:99:
-                        vpiParent: NamedArgument
-                        vpiName: m_if
-                        vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
-            vpiStmt NullStmt:
-              vpiParent: ImmediateAssert
-          vpiReturn RefTypespec start:11:12 end:11:16:
-            vpiParent: Function name:connect_phase
-            vpiFullName: env::connect_phase
-            vpiActual: VoidTypespec
+          vpiClassType: userdefined class (3)
+          vpiExtends Extends start:8:11 end:8:18:
+            vpiParent: ClassDefn name:env
+            vpiClassTypespec (1 items):
+              RefTypespec name:uvm_env start:8:19 end:8:26:
+                vpiParent: Extends
+                vpiName: uvm_env
+                vpiFullName: env::uvm_env
+          vpiLibrary RefObj name:work start:8:7 end:8:10:
+            vpiParent: ClassDefn name:env
+            vpiName: work
+            vpiFullName: env::work
+            vpiActual: Library name:work
+          vpiCell: env
+          vpiMethod (1 items):
+            Function name:connect_phase start:11:3 end:14:14:
+              vpiParent: ClassDefn name:env
+              vpiName Identifier name:connect_phase start:11:17 end:11:30:
+              vpiFullName: env::connect_phase
+              vpiVariable (1 items):
+                Variable name:phase start:11:41 end:11:46:
+                  vpiParent: Function name:connect_phase
+                  vpiName: phase
+                  vpiFullName: env::connect_phase::phase
+                  vpiRandType: (1)
+                  vpiVisibility: public (1)
+                  vpiTypespec RefTypespec name:uvm_phase start:11:31 end:11:40:
+                    vpiParent: Variable name:phase
+                    vpiName: uvm_phase
+                    vpiFullName: env::connect_phase::phase::uvm_phase
+              vpiMethod: true
+              vpiVisibility: public (1)
+              vpiAutomatic: true
+              vpiIODecl (1 items):
+                IODecl name:phase start:11:41 end:11:46:
+                  vpiParent: Function name:connect_phase
+                  vpiName: phase
+                  vpiDirection: input (1)
+                  vpiTypespec RefTypespec name:uvm_phase start:11:31 end:11:40:
+                    vpiParent: IODecl name:phase
+                    vpiName: uvm_phase
+                    vpiFullName: env::connect_phase::phase::uvm_phase
+              vpiStmt ImmediateAssert start:13:5 end:13:102:
+                vpiParent: Function name:connect_phase
+                "vpiExpr RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if) start:13:12 end:13:100":
+                  vpiParent: ImmediateAssert
+                  vpiName: uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
+                  vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
+                  vpiPathElem (2 items):
+                    RefObj name:uvm_resource_db start:13:12 end:13:48:
+                      vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
+                      vpiName: uvm_resource_db
+                      vpiFullName: env::connect_phase::uvm_resource_db
+                      vpiParamAssign (1 items):
+                        ParamAssign start:13:29 end:13:47:
+                          vpiParent: RefObj name:uvm_resource_db
+                          vpiRhs RefTypespec name:add_sub_if start:13:37 end:13:47:
+                            vpiParent: ParamAssign
+                            vpiName: add_sub_if
+                            vpiFullName: env::connect_phase::uvm_resource_db::add_sub_if
+                    SubroutineCall name:read_by_name start:13:50 end:13:100:
+                      vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
+                      vpiName Identifier name:read_by_name start:13:50 end:13:62:
+                      vpiArgument (3 items):
+                        NamedArgument start:13:64 end:13:79:
+                          vpiParent: SubroutineCall name:read_by_name
+                          vpiHighConn SubroutineCall name:get_full_name start:13:64 end:13:79:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:get_full_name start:13:64 end:13:77:
+                        NamedArgument start:13:81 end:13:93:
+                          vpiParent: SubroutineCall name:read_by_name
+                          vpiHighConn Constant start:13:81 end:13:93:
+                            vpiParent: NamedArgument
+                            vpiConstType: string (6)
+                            vpiSize: 80
+                            vpiDecompile: "\"add_sub_if\""
+                            vpiValue: add_sub_if
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)
+                              vpiActual: StringTypespec
+                        NamedArgument start:13:95 end:13:99:
+                          vpiParent: SubroutineCall name:read_by_name
+                          vpiHighConn RefObj name:m_if start:13:95 end:13:99:
+                            vpiParent: NamedArgument
+                            vpiName: m_if
+                            vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::m_if
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
+              vpiReturn RefTypespec start:11:12 end:11:16:
+                vpiParent: Function name:connect_phase
+                vpiFullName: env::connect_phase
+                vpiActual: VoidTypespec
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top1.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllInterfaces (1 items):
     Interface name:my_interface file:$Source01/top1.v start:2:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -915,6 +962,7 @@ Design name:unnamed:
             vpiParent: Net name:data
             vpiFullName: my_interface.data
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:7:3 end:9:14:
           vpiParent: Interface name:my_interface
@@ -1004,6 +1052,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:2:12 end:2:14:
           vpiParent: Module name:top
@@ -1054,6 +1103,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom1.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:17:23 end:17:24:
           vpiParent: Module name:bottom1
@@ -1232,6 +1282,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom2.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:27:23 end:27:24:
           vpiParent: Module name:bottom2
@@ -1310,6 +1361,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:60:16 end:60:18:
           vpiParent: Module name:bottom3
@@ -1365,6 +1417,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:15:12 end:15:14:
           vpiParent: Module name:top
@@ -1388,6 +1441,7 @@ Design name:unnamed:
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:21:16 end:21:18:
           vpiParent: Module name:bottom1
@@ -1409,6 +1463,7 @@ Design name:unnamed:
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:26:16 end:26:18:
           vpiParent: Module name:bottom2
@@ -1475,6 +1530,7 @@ Design name:unnamed:
             vpiParent: Net name:c
             vpiFullName: middle.c
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:32:15 end:32:17:
           vpiParent: Module name:middle
@@ -1499,6 +1555,7 @@ Design name:unnamed:
             vpiFullName: middle.nested.work
             vpiActual: Library name:work
           vpiCell: nested
+          vpiUnit: Unit
           vpiContAssign (1 items):
             ContAssign start:37:12 end:37:21:
               vpiParent: Module name:nested
@@ -1541,22 +1598,18 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:46:16 end:46:18:
           vpiParent: Module name:bottom3
           vpiPortType: port (44)
           vpiDirection: no direction (5)
-  vpiTypespec (18 items):
+  vpiTypespec (17 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:2:8 end:2:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ClassTypespec name:env start:8:7 end:8:10:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:env:
-      vpiDefName: env
-      vpiClassDefn: ClassDefn name:env
     VoidTypespec:
       vpiParent: Design name:unnamed
     StringTypespec:
@@ -1640,28 +1693,28 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Escape/Escape/mounts.json
 
 
-{'result': {'coverage': 92.09,
+{'result': {'coverage': 96.3,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/top.v': {'post_len': 36,
+            'files': {'$Output/lib/work/top.v': {'post_len': 15,
                                                  'pre_len': 557},
-                      '$Output/lib/work/top1.v': {'post_len': 43,
+                      '$Output/lib/work/top1.v': {'post_len': 22,
                                                   'pre_len': 442}},
-            'post_len': 79,
+            'post_len': 37,
             'pre_len': 999,
             'test_name': 'Escape/Escape'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.v  |      557 |        36 |
-| $Output/lib/work/top1.v |      442 |        43 |
+| $Output/lib/work/top.v  |      557 |        15 |
+| $Output/lib/work/top1.v |      442 |        22 |
 +=========================+==========+===========+
-|                         |      999 |        79 |
+|                         |      999 |        37 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 92.09
+[COVERAGE] : 96.3
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1672,7 +1725,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2305    2305       0         0
+Others                            2310    2310       0         0
 ----------------------------------------------------------------
-                                  2305    2305       0         0
+                                  2310    2310       0         0
 ===================== END REDUCTION RESULT =====================

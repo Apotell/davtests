@@ -1384,7 +1384,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/specify1.v:92:26: Failed to bind "td".
 [WRN:CP5851] $Source01/specify1.v:92:30: Failed to bind "th".
 [WRN:CP5851] $Source01/specify1.v:92:37: Failed to bind "th".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1393,13 +1392,35 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: specify1.v
       vpiPreprocFile: "$Output/lib/work/specify1.v"
-      vpiDirective (2 items):
+      vpiDirective (3 items):
+        GenericDirective start:14:1 end:14:24:
+          vpiParent: SourceFile name:specify1.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:14:1 end:14:24:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 8
+            vpiDecompile: "1ns/10ps"
+            vpiValue: "1ns/10ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: specify1.v
+              vpiActual: StringTypespec
         GenericDirective start:15:1 end:15:12:
           vpiParent: SourceFile name:specify1.v
           vpiDirectiveType: celldefine (4)
         GenericDirective start:97:1 end:97:15:
           vpiParent: SourceFile name:specify1.v
           vpiDirectiveType: endcelldefine (14)
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:specify1.v:
+      vpiDirective (3 items):
+        GenericDirective:
+        GenericDirective:
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:MULT_8x8_f file:$Source01/specify1.v start:17:1 end:96:10:
       vpiParent: Design name:unnamed
@@ -1938,6 +1959,7 @@ Design name:unnamed:
             vpiParent: Net name:PI
             vpiFullName: MULT_8x8_f.PI
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:P start:17:20 end:17:21:
           vpiParent: Module name:MULT_8x8_f
@@ -3883,7 +3905,9 @@ Design name:unnamed:
                     vpiFullName: MULT_8x8_f
                     vpiActual: IntTypespec
               vpiPolarity: unknown (3)
-  vpiTypespec (4 items):
+  vpiTypespec (5 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:MULT_8x8_f:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MULT_8x8_f start:17:8 end:17:18:
@@ -3919,25 +3943,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/specify1/mounts.json
 
 
-{'result': {'coverage': 98.4,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/specify1.v': {'post_len': 19,
+            'files': {'$Output/lib/work/specify1.v': {'post_len': 0,
                                                       'pre_len': 1186}},
-            'post_len': 19,
+            'post_len': 0,
             'pre_len': 1186,
             'test_name': 'Icarus/ivltests/specify1'}}
 
 +-----------------------------+----------+-----------+
 | INPUT                       |   PRELEN |   POSTLEN |
 +=============================+==========+===========+
-| $Output/lib/work/specify1.v |     1186 |        19 |
+| $Output/lib/work/specify1.v |     1186 |         0 |
 +=============================+==========+===========+
-|                             |     1186 |        19 |
+|                             |     1186 |         0 |
 +-----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.4
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3947,12 +3971,12 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/specify1/design.hldb ${HLC_DIR}/r
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            92      92       9         9
+Constant                            93      93       9         9
 Operation                            9       0       0         9
 RefObj                              89      80       0         9
-RefTypespec                        111     111       9         9
+RefTypespec                        112     112       9         9
 ----------------------------------------------------------------
-Others                             257     257       0         0
+Others                             259     259       0         0
 ----------------------------------------------------------------
-                                   558     540      18        36
+                                   562     544      18        36
 ===================== END REDUCTION RESULT =====================

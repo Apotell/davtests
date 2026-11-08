@@ -276,8 +276,11 @@ n<$Source01/top.v> u<259> t<Top_level_rule> c<1> l<2:1> el<55:1>
         n<> u<255> t<ENDPACKAGE> p<256> l<52:1> el<52:11>
 AST_DEBUG_END
 [INF:CP5802] $Source01/top.v:8:1: Compile package "p1".
+[WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [INF:CP5802] $Source01/top.v:26:1: Compile package "p3".
+[WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [INF:CP5802] $Source01/top.v:31:1: Compile package "p2".
+[WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
 [WRN:CP5851] $Source01/top.v:13:10: Failed to bind "new".
 [WRN:CP5851] $Source01/top.v:13:37: Failed to bind "uvm_component".
 [WRN:CP5851] $Source01/top.v:36:30: Failed to bind "uvm_action".
@@ -287,9 +290,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id".
 [WRN:CP5851] $Source01/top.v:44:25: Failed to bind "action".
 [WRN:CP5851] $Source01/top.v:46:21: Failed to bind "len1".
-[WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
-[WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
-[WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
 [ERR:LN7705] $Source01/top.v:44:5: Null Actual: id:166, type:SubroutineCall, name:addq, relation:vpiStmt.
 [ERR:LN7705] $Source01/top.v Null Actual: id:177, type:SubroutineCall, name:len1, relation:vpiStmt.
 ====== HLDB =======
@@ -300,6 +300,59 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+      vpiTypespec (1 items):
+        ClassTypespec name:uvm_pool start:2:7 end:2:15:
+          vpiParent: Unit
+          vpiName Identifier name:uvm_pool:
+          vpiDefName: uvm_pool
+          vpiClassDefn: ClassDefn name:uvm_pool
+      vpiClassDefn (1 items):
+        ClassDefn name:uvm_pool file:$Source01/top.v start:2:1 end:6:9:
+          vpiParent: Unit
+          vpiName Identifier name:uvm_pool start:2:7 end:2:15:
+          vpiFullName: uvm_pool
+          vpiDefName: uvm_pool
+          vpiAutomatic: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work start:2:7 end:2:15:
+            vpiParent: ClassDefn name:uvm_pool
+            vpiName: work
+            vpiFullName: uvm_pool::work
+            vpiActual: Library name:work
+          vpiCell: uvm_pool
+          vpiMethod (1 items):
+            Function name:add start:3:3 end:4:14:
+              vpiParent: ClassDefn name:uvm_pool
+              vpiName Identifier name:add start:3:12 end:3:15:
+              vpiFullName: uvm_pool::add
+              vpiVariable (1 items):
+                Variable name:add start:3:12 end:3:15:
+                  vpiParent: Function name:add
+                  vpiName: add
+                  vpiFullName: uvm_pool::add::add
+                  vpiAutomatic: true
+                  vpiRandType: (1)
+                  vpiVisibility: public (1)
+                  vpiTypespec RefTypespec start:3:12 end:3:12:
+                    vpiParent: Variable name:add
+                    vpiFullName: uvm_pool::add::add
+                    vpiActual: LogicTypespec
+              vpiTypespec (1 items):
+                LogicTypespec start:3:12 end:3:12:
+                  vpiParent: Function name:add
+                  vpiScalar: true
+              vpiMethod: true
+              vpiVisibility: public (1)
+              vpiAutomatic: true
+              vpiReturn RefTypespec start:3:12 end:3:12:
+                vpiParent: Function name:add
+                vpiFullName: uvm_pool::add
+                vpiActual: LogicTypespec
   vpiAllPackages (3 items):
     Package name:p1 file:$Source01/top.v start:8:1 end:24:11:
       vpiParent: Design name:unnamed
@@ -448,6 +501,7 @@ Design name:unnamed:
                 vpiActual: ClassTypespec name:c1
           vpiDerivedClasses (1 items):
             ClassDefn name:c2:
+      vpiUnit: Unit
     Package name:p3 file:$Source01/top.v start:26:1 end:29:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p3 start:26:9 end:26:11:
@@ -482,6 +536,7 @@ Design name:unnamed:
             vpiFullName: p3::c33::work
             vpiActual: Library name:work
           vpiCell: c33
+      vpiUnit: Unit
     Package name:p2 file:$Source01/top.v start:31:1 end:52:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p2 start:31:9 end:31:11:
@@ -767,54 +822,8 @@ Design name:unnamed:
                 vpiName: c2
                 vpiFullName: p2::c2::new::c2
                 vpiActual: ClassTypespec name:c2
-  vpiAllClasses (1 items):
-    ClassDefn name:uvm_pool file:$Source01/top.v start:2:1 end:6:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_pool start:2:7 end:2:15:
-      vpiFullName: uvm_pool
-      vpiDefName: uvm_pool
-      vpiAutomatic: true
-      vpiClassType: userdefined class (3)
-      vpiLibrary RefObj name:work start:2:7 end:2:15:
-        vpiParent: ClassDefn name:uvm_pool
-        vpiName: work
-        vpiFullName: uvm_pool::work
-        vpiActual: Library name:work
-      vpiCell: uvm_pool
-      vpiMethod (1 items):
-        Function name:add start:3:3 end:4:14:
-          vpiParent: ClassDefn name:uvm_pool
-          vpiName Identifier name:add start:3:12 end:3:15:
-          vpiFullName: uvm_pool::add
-          vpiVariable (1 items):
-            Variable name:add start:3:12 end:3:15:
-              vpiParent: Function name:add
-              vpiName: add
-              vpiFullName: uvm_pool::add::add
-              vpiAutomatic: true
-              vpiRandType: (1)
-              vpiVisibility: public (1)
-              vpiTypespec RefTypespec start:3:12 end:3:12:
-                vpiParent: Variable name:add
-                vpiFullName: uvm_pool::add::add
-                vpiActual: LogicTypespec
-          vpiTypespec (1 items):
-            LogicTypespec start:3:12 end:3:12:
-              vpiParent: Function name:add
-              vpiScalar: true
-          vpiMethod: true
-          vpiVisibility: public (1)
-          vpiAutomatic: true
-          vpiReturn RefTypespec start:3:12 end:3:12:
-            vpiParent: Function name:add
-            vpiFullName: uvm_pool::add
-            vpiActual: LogicTypespec
-  vpiTypespec (8 items):
-    ClassTypespec name:uvm_pool start:2:7 end:2:15:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:uvm_pool:
-      vpiDefName: uvm_pool
-      vpiClassDefn: ClassDefn name:uvm_pool
+      vpiUnit: Unit
+  vpiTypespec (7 items):
     StringTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:

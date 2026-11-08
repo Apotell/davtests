@@ -659,12 +659,6 @@ n<$Source01/relong/functions.sv> u<644> t<Top_level_rule> c<1> l<1:1> el<80:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/relong/functions.sv:10:1: Compile module "Example".
 [NTE:CP5810] $Source01/relong/functions.sv:13:26: Implicit port type (wire) for "check2".
-[WRN:CP5851] $Source01/relong/functions.sv:27:13: Failed to bind "FOO".
-[WRN:CP5851] $Source01/relong/functions.sv:27:25: Failed to bind "BAR".
-[WRN:CP5851] $Source01/relong/functions.sv:28:13: Failed to bind "BAR".
-[WRN:CP5851] $Source01/relong/functions.sv:28:25: Failed to bind "FOO".
-[WRN:CP5851] $Source01/relong/functions.sv:36:22: Failed to bind "FOO".
-[WRN:CP5851] $Source01/relong/functions.sv:65:37: Failed to bind "FOO".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -685,6 +679,101 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: functions.sv
               vpiActual: IntTypespec
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:functions.sv:
+      vpiDirective (1 items):
+        GenericDirective:
+      vpiTypespec (6 items):
+        IntTypespec:
+          vpiParent: Unit
+        EnumTypespec start:3:9 end:3:24:
+          vpiParent: Unit
+          vpiEnum: Enum
+        TypedefTypespec name:State_t start:3:1 end:3:33:
+          vpiParent: Unit
+          vpiName Identifier name:State_t start:3:25 end:3:32:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:State_t
+        LogicTypespec:
+          vpiParent: Unit
+          vpiRange (1 items):
+            Range start:7:11 end:7:17:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:7:12 end:7:14:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "31"
+                vpiValue: 31
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:7:15 end:7:16:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+          vpiVector: true
+        StructTypespec start:5:9 end:8:2:
+          vpiParent: Unit
+          vpiStruct: Struct
+        TypedefTypespec name:MyStruct_t start:5:1 end:8:14:
+          vpiParent: Unit
+          vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:MyStruct_t
+      vpiEnum (1 items):
+        Enum start:3:9 end:3:24:
+          vpiParent: Unit
+          vpiEnumConst (2 items):
+            EnumConst name:FOO start:3:15 end:3:18:
+              vpiParent: Enum
+              vpiName Identifier name:FOO start:3:15 end:3:18:
+            EnumConst name:BAR start:3:20 end:3:23:
+              vpiParent: Enum
+              vpiName Identifier name:BAR start:3:20 end:3:23:
+      vpiStruct (1 items):
+        Struct start:5:9 end:8:2:
+          vpiParent: Unit
+          vpiPacked: true
+          vpiTypespecMember (2 items):
+            TypespecMember name:state start:6:13 end:6:18:
+              vpiParent: Struct
+              vpiName: state
+              vpiTypespec RefTypespec name:State_t start:6:5 end:6:12:
+                vpiParent: TypespecMember name:state
+                vpiName: State_t
+                vpiFullName: state.State_t
+                vpiActual: TypedefTypespec name:State_t
+            TypespecMember name:data start:7:18 end:7:22:
+              vpiParent: Struct
+              vpiName: data
+              vpiTypespec RefTypespec start:7:5 end:7:17:
+                vpiParent: TypespecMember name:data
+                vpiFullName: data
+                vpiActual: LogicTypespec
+      vpiTypedef (2 items):
+        Typedef name:State_t start:3:1 end:3:33:
+          vpiParent: Unit
+          vpiName Identifier name:State_t start:3:25 end:3:32:
+          vpiTypedefAlias RefTypespec start:3:9 end:3:24:
+            vpiParent: Typedef name:State_t
+            vpiFullName: State_t
+            vpiActual: EnumTypespec
+        Typedef name:MyStruct_t start:5:1 end:8:14:
+          vpiParent: Unit
+          vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
+          vpiTypedefAlias RefTypespec start:5:9 end:8:2:
+            vpiParent: Typedef name:MyStruct_t
+            vpiFullName: MyStruct_t
+            vpiActual: StructTypespec
   vpiAllModules (1 items):
     Module name:Example file:$Source01/relong/functions.sv start:10:1 end:80:10:
       vpiParent: Design name:unnamed
@@ -881,6 +970,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/relong/functions.sv"
       vpiDefLineNo: 10
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:10:8 end:10:15:
         vpiParent: Module name:Example
@@ -946,12 +1037,14 @@ Design name:unnamed:
                     vpiParent: CaseItem
                     vpiName: FOO
                     vpiFullName: Example.swapState.FOO
+                    vpiActual: EnumConst name:FOO
                 vpiStmt ReturnStmt start:27:18 end:27:29:
                   vpiParent: CaseItem
                   vpiCondition RefObj name:BAR start:27:25 end:27:28:
                     vpiParent: ReturnStmt
                     vpiName: BAR
                     vpiFullName: Example.swapState.BAR
+                    vpiActual: EnumConst name:BAR
               CaseItem start:28:13 end:28:29:
                 vpiParent: CaseStmt
                 vpiExpr (1 items):
@@ -959,12 +1052,14 @@ Design name:unnamed:
                     vpiParent: CaseItem
                     vpiName: BAR
                     vpiFullName: Example.swapState.BAR
+                    vpiActual: EnumConst name:BAR
                 vpiStmt ReturnStmt start:28:18 end:28:29:
                   vpiParent: CaseItem
                   vpiCondition RefObj name:FOO start:28:25 end:28:28:
                     vpiParent: ReturnStmt
                     vpiName: FOO
                     vpiFullName: Example.swapState.FOO
+                    vpiActual: EnumConst name:FOO
           vpiEndLabel Identifier name:swapState start:30:19 end:30:28:
           vpiReturn RefTypespec name:State_t start:20:24 end:20:31:
             vpiParent: Function name:swapState
@@ -1266,11 +1361,13 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: FOO
                   vpiFullName: Example.doCheck.FOO
+                  vpiActual: EnumConst name:FOO
           vpiEndLabel Identifier name:doCheck start:66:19 end:66:26:
           vpiReturn RefTypespec start:64:24 end:64:29:
             vpiParent: Function name:doCheck
             vpiFullName: Example.doCheck
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (6 items):
         Port name:clock start:11:17 end:11:22:
           vpiParent: Module name:Example
@@ -1394,6 +1491,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: FOO
                   vpiFullName: Example.FOO
+                  vpiActual: EnumConst name:FOO
               vpiElseStmt Assignment start:38:13 end:38:38:
                 vpiParent: IfElse
                 vpiOpType: assignment (96)
@@ -1596,102 +1694,17 @@ Design name:unnamed:
                     vpiFullName: Example.data
                     vpiActual: TypespecMember name:data
                 vpiActual: TypespecMember name:data
-  vpiTypespec (8 items):
-    IntTypespec:
-      vpiParent: Design name:unnamed
-    EnumTypespec start:3:9 end:3:24:
-      vpiParent: Design name:unnamed
-      vpiEnum: Enum
-    TypedefTypespec name:State_t start:3:1 end:3:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:State_t start:3:25 end:3:32:
-      vpiTypedefKind: enum (2)
-      vpiTypedef: Typedef name:State_t
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiRange (1 items):
-        Range start:7:11 end:7:17:
-          vpiParent: LogicTypespec
-          vpiLeftRange Constant start:7:12 end:7:14:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "31"
-            vpiValue: 31
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-          vpiRightRange Constant start:7:15 end:7:16:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-      vpiVector: true
+  vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    StructTypespec start:5:9 end:8:2:
-      vpiParent: Design name:unnamed
-      vpiStruct: Struct
-    TypedefTypespec name:MyStruct_t start:5:1 end:8:14:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
-      vpiTypedefKind: struct (4)
-      vpiTypedef: Typedef name:MyStruct_t
     ModuleTypespec name:Example:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Example start:10:8 end:10:15:
       vpiDefName: Example
       vpiModule: Module name:Example
-  vpiEnum (1 items):
-    Enum start:3:9 end:3:24:
+    IntTypespec:
       vpiParent: Design name:unnamed
-      vpiEnumConst (2 items):
-        EnumConst name:FOO start:3:15 end:3:18:
-          vpiParent: Enum
-          vpiName Identifier name:FOO start:3:15 end:3:18:
-        EnumConst name:BAR start:3:20 end:3:23:
-          vpiParent: Enum
-          vpiName Identifier name:BAR start:3:20 end:3:23:
-  vpiStruct (1 items):
-    Struct start:5:9 end:8:2:
-      vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (2 items):
-        TypespecMember name:state start:6:13 end:6:18:
-          vpiParent: Struct
-          vpiName: state
-          vpiTypespec RefTypespec name:State_t start:6:5 end:6:12:
-            vpiParent: TypespecMember name:state
-            vpiName: State_t
-            vpiFullName: state.State_t
-            vpiActual: TypedefTypespec name:State_t
-        TypespecMember name:data start:7:18 end:7:22:
-          vpiParent: Struct
-          vpiName: data
-          vpiTypespec RefTypespec start:7:5 end:7:17:
-            vpiParent: TypespecMember name:data
-            vpiFullName: data
-            vpiActual: LogicTypespec
-  vpiTypedef (2 items):
-    Typedef name:State_t start:3:1 end:3:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:State_t start:3:25 end:3:32:
-      vpiTypedefAlias RefTypespec start:3:9 end:3:24:
-        vpiParent: Typedef name:State_t
-        vpiFullName: State_t
-        vpiActual: EnumTypespec
-    Typedef name:MyStruct_t start:5:1 end:8:14:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:MyStruct_t start:8:3 end:8:13:
-      vpiTypedefAlias RefTypespec start:5:9 end:8:2:
-        vpiParent: Typedef name:MyStruct_t
-        vpiFullName: MyStruct_t
-        vpiActual: StructTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1700,7 +1713,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1744,7 +1757,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/functions_sv/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             249     249       0         0
+Others                             250     250       0         0
 ----------------------------------------------------------------
-                                   249     249       0         0
+                                   250     250       0         0
 ===================== END REDUCTION RESULT =====================

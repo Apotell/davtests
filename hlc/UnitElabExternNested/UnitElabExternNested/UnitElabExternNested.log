@@ -476,17 +476,17 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/top.v:6:2: Implicit port type (wire) for "q".
 [NTE:CP5810] $Source01/top.v:6:5: Implicit port type (wire) for "nq".
 [INF:CP5804] $Source01/top.v:9:1: Compile module "ff1".
-[INF:CP5804] $Source01/top.v:18:1: Compile module "ff2".
-[INF:CP5804] $Source01/top.v:28:1: Compile module "ff3".
-[INF:CP5804] $Source01/middle.v:2:1: Compile module "m".
-[INF:CP5804] $Source01/middle.v:3:1: Compile module "a".
-[INF:CP5804] $Source01/middle.v:18:1: Compile module "top".
-[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "dff_nested".
 [WRN:PA5506] $Source01/top.v:9:1: No timescale set for "ff1".
+[INF:CP5804] $Source01/top.v:18:1: Compile module "ff2".
 [WRN:PA5506] $Source01/top.v:18:1: No timescale set for "ff2".
+[INF:CP5804] $Source01/top.v:28:1: Compile module "ff3".
 [WRN:PA5506] $Source01/top.v:28:1: No timescale set for "ff3".
+[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "dff_nested".
+[INF:CP5804] $Source01/middle.v:2:1: Compile module "m".
 [WRN:PA5506] $Source01/middle.v:2:1: No timescale set for "m".
+[INF:CP5804] $Source01/middle.v:3:1: Compile module "a".
 [WRN:PA5506] $Source01/middle.v:3:1: No timescale set for "a #(.size(8), .TP(logic [7:0]))".
+[INF:CP5804] $Source01/middle.v:18:1: Compile module "top".
 [WRN:PA5506] $Source01/middle.v:18:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -500,6 +500,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: middle.v
       vpiPreprocFile: "$Output/lib/work/middle.v"
+  vpiUnit (2 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:middle.v:
   vpiAllModules (4 items):
     Module name:dff_nested file:$Source01/top.v start:1:1 end:36:10:
       vpiParent: Design name:unnamed
@@ -630,6 +639,7 @@ Design name:unnamed:
             vpiParent: Net name:nq2
             vpiFullName: dff_nested.nq2
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (6 items):
         Port name:d start:4:2 end:4:3:
           vpiParent: Module name:dff_nested
@@ -737,6 +747,7 @@ Design name:unnamed:
             vpiFullName: dff_nested.ff1.work
             vpiActual: Library name:work
           vpiCell: ff1
+          vpiUnit: Unit
           vpiPrimitive (2 items):
             Gate name:g1b start:12:2 end:12:5:
               vpiParent: Module name:ff1
@@ -858,6 +869,7 @@ Design name:unnamed:
                 vpiParent: Net name:q2
                 vpiFullName: dff_nested.ff2.q2
                 vpiActual: LogicTypespec
+          vpiUnit: Unit
           vpiPrimitive (2 items):
             Gate name:g2b start:23:2 end:23:5:
               vpiParent: Module name:ff2
@@ -963,6 +975,7 @@ Design name:unnamed:
             vpiFullName: dff_nested.ff3.work
             vpiActual: Library name:work
           vpiCell: ff3
+          vpiUnit: Unit
           vpiPrimitive (2 items):
             Gate name:g3a start:31:2 end:31:5:
               vpiParent: Module name:ff3
@@ -1093,6 +1106,7 @@ Design name:unnamed:
         vpiFullName: m.work
         vpiActual: Library name:work
       vpiCell: m
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:a start:2:18 end:2:19:
           vpiParent: Module name:m
@@ -1235,6 +1249,7 @@ Design name:unnamed:
             vpiParent: Net name:a
             vpiFullName: a #(.size(8), .TP(logic [7:0])).a
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:13:11 end:13:12:
           vpiParent: Module name:a #(.size(8), .TP(logic [7:0]))
@@ -1385,6 +1400,7 @@ Design name:unnamed:
             vpiParent: Net name:d
             vpiFullName: top.d
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:18:12 end:18:14:
           vpiParent: Module name:top
@@ -1512,7 +1528,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2072    2072       0         0
+Others                            2071    2071       0         0
 ----------------------------------------------------------------
-                                  2072    2072       0         0
+                                  2071    2071       0         0
 ===================== END REDUCTION RESULT =====================

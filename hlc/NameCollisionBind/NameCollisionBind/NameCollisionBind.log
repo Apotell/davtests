@@ -105,14 +105,14 @@ n<$Source01/dut.sv> u<91> t<Top_level_rule> c<1> l<2:1> el<28:1>
         n<> u<87> t<ENDMODULE> p<88> l<27:1> el<27:10>
 AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:11:1: Compile interface "PerformanceCounterIF".
+[WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "PerformanceCounterIF".
 [INF:CP5804] $Source01/dut.sv:20:1: Compile module "CSR_Unit".
 [WRN:CP5811] $Source01/dut.sv:21:30: Port "perfCounter" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "CSR_Unit".
 [WRN:CP5851] $Source01/dut.sv:21:26: Failed to bind "CSR".
 [WRN:CP5851] $Source01/dut.sv:25:18: Failed to bind "perfCounter".
 [WRN:CP5851] $Source01/dut.sv:25:30: Failed to bind "perfCounter".
 [WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "numLoadMiss".
-[WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "CSR_Unit".
-[WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "PerformanceCounterIF".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -121,6 +121,52 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
+      vpiTypespec (3 items):
+        TypedefTypespec name:DataPath start:2:1 end:2:22:
+          vpiParent: Unit
+          vpiName Identifier name:DataPath start:2:13 end:2:21:
+          vpiTypedef: Typedef name:DataPath
+        StructTypespec start:4:9 end:8:2:
+          vpiParent: Unit
+          vpiStruct: Struct
+        TypedefTypespec name:PerfCounterPath start:4:1 end:8:19:
+          vpiParent: Unit
+          vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:PerfCounterPath
+      vpiStruct (1 items):
+        Struct start:4:9 end:8:2:
+          vpiParent: Unit
+          vpiPacked: true
+          vpiTypespecMember (1 items):
+            TypespecMember name:numLoadMiss start:6:10 end:6:21:
+              vpiParent: Struct
+              vpiName: numLoadMiss
+              vpiTypespec RefTypespec name:DataPath start:6:1 end:6:9:
+                vpiParent: TypespecMember name:numLoadMiss
+                vpiName: DataPath
+                vpiFullName: numLoadMiss.DataPath
+                vpiActual: TypedefTypespec name:DataPath
+      vpiTypedef (2 items):
+        Typedef name:DataPath start:2:1 end:2:22:
+          vpiParent: Unit
+          vpiName Identifier name:DataPath start:2:13 end:2:21:
+          vpiTypedefAlias RefTypespec start:2:9 end:2:12:
+            vpiParent: Typedef name:DataPath
+            vpiFullName: DataPath
+            vpiActual: IntTypespec
+        Typedef name:PerfCounterPath start:4:1 end:8:19:
+          vpiParent: Unit
+          vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
+          vpiTypedefAlias RefTypespec start:4:9 end:8:2:
+            vpiParent: Typedef name:PerfCounterPath
+            vpiFullName: PerfCounterPath
+            vpiActual: StructTypespec
   vpiAllInterfaces (1 items):
     Interface name:PerformanceCounterIF file:$Source01/dut.sv start:11:1 end:18:13:
       vpiParent: Design name:unnamed
@@ -149,6 +195,7 @@ Design name:unnamed:
         vpiFullName: PerformanceCounterIF.work
         vpiActual: Library name:work
       vpiCell: PerformanceCounterIF
+      vpiUnit: Unit
       vpiModport (1 items):
         Modport name:CSR start:14:13 end:14:16:
           vpiParent: Interface name:PerformanceCounterIF
@@ -181,6 +228,7 @@ Design name:unnamed:
         vpiFullName: CSR_Unit.work
         vpiActual: Library name:work
       vpiCell: CSR_Unit
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:perfCounter start:21:30 end:21:41:
           vpiParent: Module name:CSR_Unit
@@ -231,22 +279,10 @@ Design name:unnamed:
                 vpiParent: RefObj name:perfCounter.perfCounter.numLoadMiss
                 vpiName: numLoadMiss
                 vpiFullName: CSR_Unit.numLoadMiss
-  vpiTypespec (6 items):
+  vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    TypedefTypespec name:DataPath start:2:1 end:2:22:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:DataPath start:2:13 end:2:21:
-      vpiTypedef: Typedef name:DataPath
-    StructTypespec start:4:9 end:8:2:
-      vpiParent: Design name:unnamed
-      vpiStruct: Struct
-    TypedefTypespec name:PerfCounterPath start:4:1 end:8:19:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
-      vpiTypedefKind: struct (4)
-      vpiTypedef: Typedef name:PerfCounterPath
     InterfaceTypespec name:PerformanceCounterIF:
       vpiParent: Design name:unnamed
       vpiName Identifier name:PerformanceCounterIF start:11:11 end:11:31:
@@ -257,34 +293,6 @@ Design name:unnamed:
       vpiName Identifier name:CSR_Unit start:20:8 end:20:16:
       vpiDefName: CSR_Unit
       vpiModule: Module name:CSR_Unit
-  vpiStruct (1 items):
-    Struct start:4:9 end:8:2:
-      vpiParent: Design name:unnamed
-      vpiPacked: true
-      vpiTypespecMember (1 items):
-        TypespecMember name:numLoadMiss start:6:10 end:6:21:
-          vpiParent: Struct
-          vpiName: numLoadMiss
-          vpiTypespec RefTypespec name:DataPath start:6:1 end:6:9:
-            vpiParent: TypespecMember name:numLoadMiss
-            vpiName: DataPath
-            vpiFullName: numLoadMiss.DataPath
-            vpiActual: TypedefTypespec name:DataPath
-  vpiTypedef (2 items):
-    Typedef name:DataPath start:2:1 end:2:22:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:DataPath start:2:13 end:2:21:
-      vpiTypedefAlias RefTypespec start:2:9 end:2:12:
-        vpiParent: Typedef name:DataPath
-        vpiFullName: DataPath
-        vpiActual: IntTypespec
-    Typedef name:PerfCounterPath start:4:1 end:8:19:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:PerfCounterPath start:8:3 end:8:18:
-      vpiTypedefAlias RefTypespec start:4:9 end:8:2:
-        vpiParent: Typedef name:PerfCounterPath
-        vpiFullName: PerfCounterPath
-        vpiActual: StructTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

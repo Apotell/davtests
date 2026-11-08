@@ -571,13 +571,6 @@ n<$Source01/t_enum_func.v> u<556> t<Top_level_rule> c<1> l<6:1> el<66:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum_func.v:10:1: Compile module "t".
 [INF:CP5804] $Source01/t_enum_func.v:59:1: Compile module "sub".
-[WRN:CP5851] $Source01/t_enum_func.v:41:11: Failed to bind "EN_ZERO".
-[WRN:CP5851] $Source01/t_enum_func.v:44:11: Failed to bind "EN_ONE".
-[WRN:CP5851] $Source01/t_enum_func.v:45:15: Failed to bind "EN_ONE".
-[WRN:CP5851] $Source01/t_enum_func.v:48:15: Failed to bind "EN_ZERO".
-[WRN:CP5851] $Source01/t_enum_func.v:60:22: Failed to bind "EN_ONE".
-[WRN:CP5851] $Source01/t_enum_func.v:60:32: Failed to bind "EN_ZERO".
-[WRN:CP5851] $Source01/t_enum_func.v:60:42: Failed to bind "EN_ONE".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -587,6 +580,38 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_enum_func.v
       vpiPreprocFile: "$Output/lib/work/t_enum_func.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_enum_func.v:
+      vpiTypespec (2 items):
+        EnumTypespec start:6:9 end:8:10:
+          vpiParent: Unit
+          vpiEnum: Enum
+        TypedefTypespec name:En_t start:6:1 end:8:16:
+          vpiParent: Unit
+          vpiName Identifier name:En_t start:8:11 end:8:15:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:En_t
+      vpiEnum (1 items):
+        Enum start:6:9 end:8:10:
+          vpiParent: Unit
+          vpiEnumConst (2 items):
+            EnumConst name:EN_ZERO start:6:16 end:6:23:
+              vpiParent: Enum
+              vpiName Identifier name:EN_ZERO start:6:16 end:6:23:
+            EnumConst name:EN_ONE start:7:9 end:7:15:
+              vpiParent: Enum
+              vpiName Identifier name:EN_ONE start:7:9 end:7:15:
+      vpiTypedef (1 items):
+        Typedef name:En_t start:6:1 end:8:16:
+          vpiParent: Unit
+          vpiName Identifier name:En_t start:8:11 end:8:15:
+          vpiTypedefAlias RefTypespec start:6:9 end:8:10:
+            vpiParent: Typedef name:En_t
+            vpiFullName: En_t
+            vpiActual: EnumTypespec
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_enum_func.v start:10:1 end:57:10:
       vpiParent: Design name:unnamed
@@ -638,6 +663,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_enum_func.v"
       vpiDefLineNo: 10
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:10:8 end:10:9:
         vpiParent: Module name:t
@@ -803,6 +830,7 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:clk start:12:4 end:12:7:
           vpiParent: Module name:t
@@ -1026,6 +1054,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: EN_ZERO
                                 vpiFullName: t.EN_ZERO
+                                vpiActual: EnumConst name:EN_ZERO
                       IfStmt start:43:3 end:46:6:
                         vpiParent: Begin
                         vpiCondition Operation start:43:7 end:43:13:
@@ -1063,6 +1092,7 @@ Design name:unnamed:
                                 vpiParent: Assignment
                                 vpiName: EN_ONE
                                 vpiFullName: t.EN_ONE
+                                vpiActual: EnumConst name:EN_ONE
                             IfStmt start:45:6 end:45:29:
                               vpiParent: Begin
                               vpiCondition Operation start:45:10 end:45:21:
@@ -1078,6 +1108,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: EN_ONE
                                     vpiFullName: t.EN_ONE
+                                    vpiActual: EnumConst name:EN_ONE
                               vpiStmt SysTaskCall name:$stop start:45:23 end:45:28:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:45:23 end:45:28:
@@ -1122,6 +1153,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: EN_ZERO
                                     vpiFullName: t.EN_ZERO
+                                    vpiActual: EnumConst name:EN_ZERO
                               vpiStmt SysTaskCall name:$stop start:48:24 end:48:29:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:$stop start:48:24 end:48:29:
@@ -1236,6 +1268,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_enum_func.v"
       vpiDefLineNo: 59
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:59:8 end:59:11:
         vpiParent: Module name:sub
@@ -1255,6 +1289,7 @@ Design name:unnamed:
             vpiName: En_t
             vpiFullName: sub.a.En_t
             vpiActual: TypedefTypespec name:En_t
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:59:24 end:59:25:
           vpiParent: Module name:sub
@@ -1318,25 +1353,20 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: EN_ONE
                         vpiFullName: sub.EN_ONE
+                        vpiActual: EnumConst name:EN_ONE
                   RefObj name:EN_ZERO start:60:32 end:60:39:
                     vpiParent: Operation
                     vpiName: EN_ZERO
                     vpiFullName: sub.EN_ZERO
+                    vpiActual: EnumConst name:EN_ZERO
                   RefObj name:EN_ONE start:60:42 end:60:48:
                     vpiParent: Operation
                     vpiName: EN_ONE
                     vpiFullName: sub.EN_ONE
+                    vpiActual: EnumConst name:EN_ONE
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
-  vpiTypespec (6 items):
-    EnumTypespec start:6:9 end:8:10:
-      vpiParent: Design name:unnamed
-      vpiEnum: Enum
-    TypedefTypespec name:En_t start:6:1 end:8:16:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:En_t start:8:11 end:8:15:
-      vpiTypedefKind: enum (2)
-      vpiTypedef: Typedef name:En_t
+  vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:10:8 end:10:9:
@@ -1352,24 +1382,6 @@ Design name:unnamed:
       vpiName Identifier name:sub start:59:8 end:59:11:
       vpiDefName: sub
       vpiModule: Module name:sub
-  vpiEnum (1 items):
-    Enum start:6:9 end:8:10:
-      vpiParent: Design name:unnamed
-      vpiEnumConst (2 items):
-        EnumConst name:EN_ZERO start:6:16 end:6:23:
-          vpiParent: Enum
-          vpiName Identifier name:EN_ZERO start:6:16 end:6:23:
-        EnumConst name:EN_ONE start:7:9 end:7:15:
-          vpiParent: Enum
-          vpiName Identifier name:EN_ONE start:7:9 end:7:15:
-  vpiTypedef (1 items):
-    Typedef name:En_t start:6:1 end:8:16:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:En_t start:8:11 end:8:15:
-      vpiTypedefAlias RefTypespec start:6:9 end:8:10:
-        vpiParent: Typedef name:En_t
-        vpiFullName: En_t
-        vpiActual: EnumTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1378,7 +1390,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

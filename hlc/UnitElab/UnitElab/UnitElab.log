@@ -1085,11 +1085,17 @@ n<$Source01/top.v> u<727> t<Top_level_rule> c<1> l<1:1> el<115:1>
         n<> u<723> t<ENDMODULE> p<724> l<76:1> el<76:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:1:1: Compile module "bottom1".
+[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "bottom1".
 [INF:CP5804] $Source01/top.v:6:1: Compile module "bottom2".
+[WRN:PA5506] $Source01/top.v:6:1: No timescale set for "bottom2".
 [INF:CP5804] $Source01/top.v:11:1: Compile module "bottom4".
+[WRN:PA5506] $Source01/top.v:11:1: No timescale set for "bottom4".
 [INF:CP5804] $Source01/top.v:16:1: Compile module "bottom5".
+[WRN:PA5506] $Source01/top.v:16:1: No timescale set for "bottom5".
 [INF:CP5804] $Source01/top.v:20:1: Compile module "my_module".
+[WRN:PA5506] $Source01/top.v:20:1: No timescale set for "my_module".
 [INF:CP5804] $Source01/top.v:26:1: Compile module "top".
+[WRN:PA5506] $Source01/top.v:26:1: No timescale set for "top".
 [INF:CP5804] $Source01/top.v:35:1: Compile module "test".
 [INF:CP5836] $Source01/top.v:41:26: Compile generate block "g1".
 [INF:CP5836] $Source01/top.v:43:38: Compile generate block "g1".
@@ -1099,25 +1105,19 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/top.v:63:26: Compile generate block "u1".
 [INF:CP5836] $Source01/top.v:66:20: Compile generate block "u1".
 [INF:CP5836] $Source01/top.v:69:26: Compile generate block "u1".
+[WRN:PA5506] $Source01/top.v:35:1: No timescale set for "test".
 [INF:CP5804] $Source01/small.v:1:1: Compile module "small_top".
+[WRN:PA5506] $Source01/small.v:1:1: No timescale set for "small_top".
 [INF:CP5804] $Source01/small.v:5:1: Compile module "small_test".
 [INF:CP5836] $Source01/small.v:18:2: Compile generate block "B1".
 [INF:CP5836] $Source01/small.v:25:2: Compile generate block "B2".
 [INF:CP5836] $Source01/small.v:32:2: Compile generate block "B3".
 [INF:CP5836] $Source01/small.v:40:2: Compile generate block "B4".
 [INF:CP5836] $Source01/small.v:45:2: Compile generate block "B5".
-[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "bottom1".
-[WRN:PA5506] $Source01/top.v:6:1: No timescale set for "bottom2".
-[WRN:PA5506] $Source01/top.v:11:1: No timescale set for "bottom4".
-[WRN:PA5506] $Source01/top.v:16:1: No timescale set for "bottom5".
-[WRN:PA5506] $Source01/top.v:20:1: No timescale set for "my_module".
-[WRN:PA5506] $Source01/top.v:26:1: No timescale set for "top".
-[WRN:PA5506] $Source01/top.v:35:1: No timescale set for "test".
-[WRN:PA5506] $Source01/small.v:1:1: No timescale set for "small_top".
 [WRN:PA5506] $Source01/small.v:5:1: No timescale set for "small_test".
 [ERR:DL2510] $Source01/top.v:3:2: Unsupported typespec "bottom3".
-[ERR:LN7701] Invalid name: id:89, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:92, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:88, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:91, type:RefObj, name:, relation:vpiLowConn.
 [ERR:DL2510] $Source01/small.v:20:1: Unsupported typespec "M1".
 [ERR:DL2510] $Source01/small.v:26:1: Unsupported typespec "M2".
 [ERR:DL2510] $Source01/small.v:33:1: Unsupported typespec "M3".
@@ -1134,6 +1134,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: small.v
       vpiPreprocFile: "$Output/lib/work/small.v"
+  vpiUnit (2 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:small.v:
   vpiAllModules (9 items):
     Module name:bottom1 file:$Source01/top.v start:1:1 end:4:10:
       vpiParent: Design name:unnamed
@@ -1180,6 +1189,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom1.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:1:23 end:1:24:
           vpiParent: Module name:bottom1
@@ -1315,6 +1325,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom2.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:6:23 end:6:24:
           vpiParent: Module name:bottom2
@@ -1421,6 +1432,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom4.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:11:23 end:11:24:
           vpiParent: Module name:bottom4
@@ -1526,6 +1538,7 @@ Design name:unnamed:
             vpiParent: Net name:b
             vpiFullName: bottom5.b
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:16:23 end:16:24:
           vpiParent: Module name:bottom5
@@ -1607,6 +1620,7 @@ Design name:unnamed:
             vpiParent: Net name:c
             vpiFullName: my_module.c
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:a start:20:19 end:20:20:
           vpiParent: Module name:my_module
@@ -1865,6 +1879,7 @@ Design name:unnamed:
             vpiParent: Net name:c
             vpiFullName: top.c
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:a start:26:13 end:26:14:
           vpiParent: Module name:top
@@ -2058,6 +2073,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:a start:35:13 end:35:14:
           vpiParent: Module name:test
@@ -2537,6 +2553,7 @@ Design name:unnamed:
         vpiFullName: small_top.work
         vpiActual: Library name:work
       vpiCell: small_top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:1:17 end:1:19:
           vpiParent: Module name:small_top
@@ -2678,6 +2695,7 @@ Design name:unnamed:
         vpiFullName: small_test.work
         vpiActual: Library name:work
       vpiCell: small_test
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:5:18 end:5:20:
           vpiParent: Module name:small_test
@@ -3203,7 +3221,7 @@ Operation                           15      10       0         5
 RefObj                             104      99       0         5
 RefTypespec                        699     699       5         5
 ----------------------------------------------------------------
-Others                            1467    1467       0         0
+Others                            1466    1466       0         0
 ----------------------------------------------------------------
-                                  2336    2326      10        20
+                                  2335    2325      10        20
 ===================== END REDUCTION RESULT =====================

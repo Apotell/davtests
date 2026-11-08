@@ -120,8 +120,8 @@ n<$Source01/dut.sv> u<106> t<Top_level_rule> c<1> l<1:1> el<20:1>
         n<> u<102> t<ENDMODULE> p<103> l<19:1> el<19:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:7:1: Compile module "GOOD".
-[INF:CP5804] $Source01/dut.sv:11:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:7:1: No timescale set for "GOOD".
+[INF:CP5804] $Source01/dut.sv:11:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -131,6 +131,73 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
+      vpiParameter (2 items):
+        Parameter name:AWIDTH start:1:25 end:1:31:
+          vpiParent: Unit
+          vpiName: AWIDTH
+          vpiFullName: AWIDTH
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:AWIDTH
+            vpiFullName: AWIDTH
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:1:56 end:1:58:
+            vpiParent: Parameter name:AWIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: AWIDTH
+              vpiActual: IntTypespec
+        Parameter name:MAP start:3:23 end:3:26:
+          vpiParent: Unit
+          vpiName: MAP
+          vpiFullName: MAP
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:3:12 end:3:22:
+            vpiParent: Parameter name:MAP
+            vpiFullName: MAP
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:3:33 end:5:48:
+            vpiParent: Parameter name:MAP
+            vpiOpType: concatenation (33)
+            vpiOperand (1 items):
+              RefObj name:AWIDTH start:4:3 end:4:9:
+                vpiParent: Operation
+                vpiName: AWIDTH
+                vpiFullName: MAP.AWIDTH
+                vpiActual: Parameter name:AWIDTH
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Unit
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Unit
+          vpiRange (1 items):
+            Range start:3:12 end:3:22:
+              vpiParent: LogicTypespec
+              vpiLeftRange RefObj name:AWIDTH start:3:13 end:3:19:
+                vpiParent: Range
+                vpiName: AWIDTH
+                vpiFullName: AWIDTH
+                vpiActual: Parameter name:AWIDTH
+              vpiRightRange Constant start:3:20 end:3:21:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+          vpiVector: true
   vpiAllModules (2 items):
     Module name:GOOD file:$Source01/dut.sv start:7:1 end:9:10:
       vpiParent: Design name:unnamed
@@ -148,6 +215,7 @@ Design name:unnamed:
         vpiFullName: GOOD.work
         vpiActual: Library name:work
       vpiCell: GOOD
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:7:12 end:7:14:
           vpiParent: Module name:GOOD
@@ -187,6 +255,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:11:11 end:11:13:
           vpiParent: Module name:top
@@ -229,33 +298,10 @@ Design name:unnamed:
                   vpiName: GOOD
                   vpiFullName: top.good.GOOD
                   vpiActual: ModuleTypespec name:GOOD
-  vpiTypespec (6 items):
+  vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiScalar: true
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiRange (1 items):
-        Range start:3:12 end:3:22:
-          vpiParent: LogicTypespec
-          vpiLeftRange RefObj name:AWIDTH start:3:13 end:3:19:
-            vpiParent: Range
-            vpiName: AWIDTH
-            vpiFullName: AWIDTH
-            vpiActual: Parameter name:AWIDTH
-          vpiRightRange Constant start:3:20 end:3:21:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-      vpiVector: true
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed
       vpiName Identifier name:GOOD start:7:8 end:7:12:
@@ -268,44 +314,6 @@ Design name:unnamed:
       vpiModule: Module name:top
     LogicTypespec:
       vpiParent: Design name:unnamed
-  vpiParameter (2 items):
-    Parameter name:AWIDTH start:1:25 end:1:31:
-      vpiParent: Design name:unnamed
-      vpiName: AWIDTH
-      vpiFullName: AWIDTH
-      vpiLocalParam: true
-      vpiTypespec RefTypespec:
-        vpiParent: Parameter name:AWIDTH
-        vpiFullName: AWIDTH
-        vpiActual: LogicTypespec
-      vpiExpr Constant start:1:56 end:1:58:
-        vpiParent: Parameter name:AWIDTH
-        vpiConstType: int (7)
-        vpiSize: 32
-        vpiDecompile: "16"
-        vpiValue: 16
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiFullName: AWIDTH
-          vpiActual: IntTypespec
-    Parameter name:MAP start:3:23 end:3:26:
-      vpiParent: Design name:unnamed
-      vpiName: MAP
-      vpiFullName: MAP
-      vpiLocalParam: true
-      vpiTypespec RefTypespec start:3:12 end:3:22:
-        vpiParent: Parameter name:MAP
-        vpiFullName: MAP
-        vpiActual: LogicTypespec
-      vpiExpr Operation start:3:33 end:5:48:
-        vpiParent: Parameter name:MAP
-        vpiOpType: concatenation (33)
-        vpiOperand (1 items):
-          RefObj name:AWIDTH start:4:3 end:4:9:
-            vpiParent: Operation
-            vpiName: AWIDTH
-            vpiFullName: MAP.AWIDTH
-            vpiActual: Parameter name:AWIDTH
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

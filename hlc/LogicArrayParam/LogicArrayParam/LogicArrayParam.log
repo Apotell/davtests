@@ -223,13 +223,13 @@ n<$Source01/dut.sv> u<209> t<Top_level_rule> c<1> l<1:1> el<108:3>
   n</*\n\n\nmodule rggen_or_reducer #(\n  parameter int WIDTH = 2,\n  parameter int N     = 4\n)(\n // input   logic [N-1:0][WIDTH-1:0]  i_data,\n//  output  logic [WIDTH-1:0]         o_result\n);\n\n  function automatic bit [N-1:0][15:0] get_sub_n_list(int n);\n    bit [N-1:0][15:0] list;\n    int               list_index;\n    bit [15:0]        current_n;\n    bit [15:0]        half_n;\n\n    list        = '0;\n    list_index  = 0;\n    current_n   = 16'(n);\n    while (current_n > 0) begin\n      half_n  = current_n / 2;\n      if ((current_n > 4) && (half_n <= 4)) begin\n        list[list_index]  = half_n;\n      end\n      else if (current_n >= 4) begin\n        list[list_index]  = 4;\n      end\n      else begin\n        list[list_index]  = current_n;\n      end\n\n      current_n   -= list[list_index];\n      list_index  += 1;\n    end\n\n    return list;\n  endfunction\n\n\n  function automatic bit [N-1:0][15:0] get_offset_list(bit [N-1:0][15:0] sub_n_list);\n    bit [N-1:0][15:0] list;\n\n    for (int i = 0;i < N;++i) begin\n      if (i == 0) begin\n        list[i] = 0;\n      end\n      else begin\n        list[i] = sub_n_list[i-1] + list[i-1];\n      end\n    end\n\n    return list;\n  endfunction\n\n  function automatic int get_next_n(bit [N-1:0][15:0] sub_n_list);\n    int next_n;\n\n    next_n  = 0;\n    for (int i = 0;i < N;++i) begin\n      next_n  += ((sub_n_list[i] != 0) ? 1 : 0);\n    end\n\n    return next_n;\n  endfunction\n\n  localparam  bit [N-1:0][15:0] SUB_N_LIST_P  = get_sub_n_list(N);\n  localparam  bit [N-1:0][15:0] OFFSET_LIST = get_offset_list(SUB_N_LIST_P);\n  localparam  int               NEXT_N      = get_next_n(OFFSET_LIST);\n\n  logic [NEXT_N-1:0][WIDTH-1:0] next_data;\n\nendmodule\n*/> u<208> t<BLOCK_COMMENT> p<209> l<1:1> el<32:10>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "alert_handler_reg_pkg".
+[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "alert_handler_reg_pkg".
 [INF:CP5802] $Source01/dut.sv:9:1: Compile package "alert_pkg".
+[WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "alert_pkg".
 [INF:CP5804] $Source01/dut.sv:17:1: Compile module "M".
+[WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "M".
 [INF:CP5804] $Source01/dut.sv:20:1: Compile module "alert_handler".
 [INF:CP5836] $Source01/dut.sv:25:50: Compile generate block "gen_alerts".
-[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "alert_handler_reg_pkg".
-[WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "alert_pkg".
-[WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "M".
 [WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "alert_handler".
 ====== HLDB =======
 Design name:unnamed:
@@ -239,6 +239,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
   vpiAllPackages (2 items):
     Package name:alert_handler_reg_pkg file:$Source01/dut.sv start:1:1 end:6:11:
       vpiParent: Design name:unnamed
@@ -329,6 +334,7 @@ Design name:unnamed:
         vpiFullName: alert_handler_reg_pkg::work
         vpiActual: Library name:work
       vpiCell: alert_handler_reg_pkg
+      vpiUnit: Unit
     Package name:alert_pkg file:$Source01/dut.sv start:9:1 end:15:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:alert_pkg start:9:9 end:9:18:
@@ -430,6 +436,7 @@ Design name:unnamed:
         vpiFullName: alert_pkg::work
         vpiActual: Library name:work
       vpiCell: alert_pkg
+      vpiUnit: Unit
   vpiAllModules (2 items):
     Module name:M file:$Source01/dut.sv start:17:1 end:18:10:
       vpiParent: Design name:unnamed
@@ -447,6 +454,7 @@ Design name:unnamed:
         vpiFullName: M.work
         vpiActual: Library name:work
       vpiCell: M
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:17:9 end:17:11:
           vpiParent: Module name:M
@@ -482,6 +490,7 @@ Design name:unnamed:
         vpiFullName: alert_handler.work
         vpiActual: Library name:work
       vpiCell: alert_handler
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:22:5 end:22:7:
           vpiParent: Module name:alert_handler

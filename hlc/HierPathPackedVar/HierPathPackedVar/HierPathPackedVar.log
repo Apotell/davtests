@@ -268,7 +268,9 @@ n<$Source01/dut.sv> u<254> t<Top_level_rule> c<1> l<1:1> el<27:1>
         n<> u<250> t<ENDMODULE> p<251> l<26:1> el<26:10>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "std_cache_pkg".
+[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "std_cache_pkg".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "axi_adapter_arbiter".
+[WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))".
 [WRN:CP5851] $Source01/dut.sv:4:5: Failed to bind "ariane_axi".
 [WRN:CP5851] $Source01/dut.sv:4:17: Failed to bind "ad_req_t".
 [WRN:CP5851] $Source01/dut.sv:5:5: Failed to bind "ariane_pkg".
@@ -276,8 +278,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:22:21: Failed to bind "req".
 [WRN:CP5851] $Source01/dut.sv:22:18: Failed to bind "i".
 [WRN:CP5851] $Source01/dut.sv:23:21: Failed to bind "SERVING".
-[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "std_cache_pkg".
-[WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -286,6 +286,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
   vpiAllPackages (1 items):
     Package name:std_cache_pkg file:$Source01/dut.sv start:1:1 end:14:11:
       vpiParent: Design name:unnamed
@@ -537,6 +542,7 @@ Design name:unnamed:
         vpiFullName: std_cache_pkg::work
         vpiActual: Library name:work
       vpiCell: std_cache_pkg
+      vpiUnit: Unit
   vpiAllModules (1 items):
     Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)) file:$Source01/dut.sv start:16:1 end:26:10:
       vpiParent: Design name:unnamed
@@ -661,6 +667,7 @@ Design name:unnamed:
             vpiName: req_t [NR_PORTS-1:0]
             vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_t [NR_PORTS-1:0]
             vpiActual: ArrayTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:req_i start:19:34 end:19:39:
           vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))

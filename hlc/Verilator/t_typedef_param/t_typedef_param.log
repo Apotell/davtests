@@ -977,6 +977,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_typedef_param.v:8:1: Compile module "t".
 [INF:CP5804] $Source01/t_typedef_param.v:76:1: Compile module "TestNonAnsi".
 [INF:CP5804] $Source01/t_typedef_param.v:93:1: Compile module "TestAnsi".
+[INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:CP5851] $Source01/t_typedef_param.v:21:15: Failed to bind "type".
 [WRN:CP5851] $Source01/t_typedef_param.v:23:4: Failed to bind "three_t".
 [WRN:CP5851] $Source01/t_typedef_param.v:24:4: Failed to bind "three_t".
@@ -986,7 +987,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_typedef_param.v:94:16: Failed to bind "type".
 [WRN:CP5851] $Source01/t_typedef_param.v:97:11: Failed to bind "p_t".
 [WRN:CP5851] $Source01/t_typedef_param.v:98:12: Failed to bind "p_t".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:LN7701] $Source01/t_typedef_param.v:26:25: Invalid name: id:403, type:RefObj, name:, relation:vpiRhs.
 [ERR:LN7701] $Source01/t_typedef_param.v:34:22: Invalid name: id:404, type:RefObj, name:, relation:vpiRhs.
 ====== HLDB =======
@@ -1010,6 +1010,48 @@ Design name:unnamed:
           vpiName Identifier name:EXPECTED_SUM start:68:15 end:68:28:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:EXPECTED_SUM
           "vpiPMIBody Identifier name:64'h018decfea0a8828a start:67:22 end:67:42":
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_typedef_param.v:
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Unit
+          vpiRange (1 items):
+            Range start:6:13 end:6:18:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:6:14 end:6:15:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "2"
+                vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:6:16 end:6:17:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+          vpiVector: true
+        TypedefTypespec name:threeansi_t start:6:1 end:6:31:
+          vpiParent: Unit
+          vpiName Identifier name:threeansi_t start:6:19 end:6:30:
+          vpiTypedef: Typedef name:threeansi_t
+      vpiTypedef (1 items):
+        Typedef name:threeansi_t start:6:1 end:6:31:
+          vpiParent: Unit
+          vpiName Identifier name:threeansi_t start:6:19 end:6:30:
+          vpiTypedefAlias RefTypespec start:6:9 end:6:18:
+            vpiParent: Typedef name:threeansi_t
+            vpiFullName: threeansi_t
+            vpiActual: LogicTypespec
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_typedef_param.v start:8:1 end:74:10:
       vpiParent: Design name:unnamed
@@ -1288,6 +1330,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_typedef_param.v"
       vpiDefLineNo: 8
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:8 end:8:9:
         vpiParent: Module name:t
@@ -1393,6 +1437,7 @@ Design name:unnamed:
                 vpiName: outa
                 vpiFullName: t.result.outa
                 vpiActual: Variable name:outa
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
@@ -2137,6 +2182,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_typedef_param.v"
       vpiDefLineNo: 76
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:76:8 end:76:19:
         vpiParent: Module name:TestNonAnsi
@@ -2165,6 +2212,7 @@ Design name:unnamed:
             vpiParent: Net name:in
             vpiName: p_t
             vpiFullName: TestNonAnsi.in.p_t
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:out start:78:4 end:78:7:
           vpiParent: Module name:TestNonAnsi
@@ -2283,6 +2331,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_typedef_param.v"
       vpiDefLineNo: 93
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:93:8 end:93:16:
         vpiParent: Module name:TestAnsi #(.p_t(shortint))
@@ -2311,6 +2361,7 @@ Design name:unnamed:
             vpiParent: Net name:in
             vpiName: p_t
             vpiFullName: TestAnsi #(.p_t(shortint)).in.p_t
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:clk start:96:11 end:96:14:
           vpiParent: Module name:TestAnsi #(.p_t(shortint))
@@ -2392,38 +2443,10 @@ Design name:unnamed:
                         vpiFullName: TestAnsi #(.p_t(shortint)).in
                         vpiActual: Net name:in
           vpiAlwaysType: always (1)
-  vpiTypespec (12 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiRange (1 items):
-        Range start:6:13 end:6:18:
-          vpiParent: LogicTypespec
-          vpiLeftRange Constant start:6:14 end:6:15:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "2"
-            vpiValue: 2
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-          vpiRightRange Constant start:6:16 end:6:17:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-      vpiVector: true
+  vpiTypespec (10 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    TypedefTypespec name:threeansi_t start:6:1 end:6:31:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:threeansi_t start:6:19 end:6:30:
-      vpiTypedef: Typedef name:threeansi_t
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
@@ -2482,14 +2505,6 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiFullName: TestNonAnsi #(.p_t())
       vpiModule: Module name:TestNonAnsi
-  vpiTypedef (1 items):
-    Typedef name:threeansi_t start:6:1 end:6:31:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:threeansi_t start:6:19 end:6:30:
-      vpiTypedefAlias RefTypespec start:6:9 end:6:18:
-        vpiParent: Typedef name:threeansi_t
-        vpiFullName: threeansi_t
-        vpiActual: LogicTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

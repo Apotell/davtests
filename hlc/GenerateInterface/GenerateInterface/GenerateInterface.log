@@ -453,20 +453,20 @@ n<$Source01/top.sv> u<434> t<Top_level_rule> c<1> l<1:1> el<44:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/top.sv:1:1: Compile interface "abc_if".
 [INF:CP5836] $Source01/top.sv:6:42: Compile generate block "block".
+[WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "abc_if #(.NO_Input(3))".
 [INF:CP5804] $Source01/top.sv:16:1: Compile module "top".
+[WRN:PA5506] $Source01/top.sv:16:1: No timescale set for "top".
 [INF:CP5805] $Source01/top.sv:22:1: Compile interface "pins_if".
+[WRN:PA5506] $Source01/top.sv:22:1: No timescale set for "pins_if #(.Width(1))".
 [INF:CP5804] $Source01/top.sv:34:1: Compile module "top2".
 [NTE:CP5810] $Source01/top.sv:34:61: Implicit port type (wire) for "pins".
 [INF:CP5836] $Source01/top.sv:38:48: Compile generate block "each_pin".
+[WRN:PA5506] $Source01/top.sv:34:1: No timescale set for "top2 #(.Width(2))".
 [WRN:CP5851] $Source01/top.sv:29:24: Failed to bind "pins_oe".
 [WRN:CP5851] $Source01/top.sv:39:24: Failed to bind "pins_oe".
 [WRN:CP5851] $Source01/top.sv:39:37: Failed to bind "pins_o".
-[WRN:PA5506] $Source01/top.sv:16:1: No timescale set for "top".
-[WRN:PA5506] $Source01/top.sv:34:1: No timescale set for "top2 #(.Width(2))".
-[WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "abc_if #(.NO_Input(3))".
-[WRN:PA5506] $Source01/top.sv:22:1: No timescale set for "pins_if #(.Width(1))".
 [ERR:DL2510] $Source01/top.sv:35:1: Unsupported typespec "".
-[ERR:LN7701] Invalid name: id:214, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:213, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -475,6 +475,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/work/top.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.sv:
   vpiAllInterfaces (2 items):
     Interface name:abc_if #(.NO_Input(3)) file:$Source01/top.sv start:1:1 end:13:13:
       vpiParent: Design name:unnamed
@@ -602,6 +607,7 @@ Design name:unnamed:
         vpiFullName: abc_if #(.NO_Input(3)).work
         vpiActual: Library name:work
       vpiCell: abc_if
+      vpiUnit: Unit
       vpiGenStmt (1 items):
         GenFor start:6:4 end:10:15:
           vpiParent: Interface name:abc_if #(.NO_Input(3))
@@ -814,6 +820,7 @@ Design name:unnamed:
             vpiParent: Net name:pins
             vpiFullName: pins_if #(.Width(1)).pins
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:pins start:23:21 end:23:25:
           vpiParent: Interface name:pins_if #(.Width(1))
@@ -963,6 +970,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:16:12 end:16:14:
           vpiParent: Module name:top
@@ -1088,6 +1096,7 @@ Design name:unnamed:
             vpiParent: Net name:pins
             vpiFullName: top2 #(.Width(2)).pins
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:pins start:34:61 end:34:65:
           vpiParent: Module name:top2 #(.Width(2))
@@ -1332,7 +1341,7 @@ Operation                           14       9       0         5
 RefObj                              40      35       0         5
 RefTypespec                        645     645       5         5
 ----------------------------------------------------------------
-Others                            1313    1313       0         0
+Others                            1312    1312       0         0
 ----------------------------------------------------------------
-                                  2044    2034      10        20
+                                  2043    2033      10        20
 ===================== END REDUCTION RESULT =====================

@@ -702,28 +702,28 @@ n<$Source01/top.v> u<360> t<Top_level_rule> c<1> l<1:1> el<62:1>
         n<> u<356> t<ENDMODULE> p<357> l<60:1> el<60:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:1:1: Compile module "top_def".
+[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "top_def".
 [INF:CP5804] $Source01/top.v:7:1: Compile module "small_top".
+[WRN:PA5506] $Source01/top.v:7:1: No timescale set for "small_top".
 [INF:CP5804] $Source01/top.v:11:1: Compile module "small_test".
 [INF:CP5836] $Source01/top.v:24:2: Compile generate block "B1".
 [INF:CP5836] $Source01/top.v:31:2: Compile generate block "B2".
 [INF:CP5836] $Source01/top.v:38:2: Compile generate block "B3".
 [INF:CP5836] $Source01/top.v:46:2: Compile generate block "B4".
 [INF:CP5836] $Source01/top.v:51:2: Compile generate block "B5".
+[WRN:PA5506] $Source01/top.v:11:1: No timescale set for "small_test".
 [INF:CP5804] $Source01/def.v:2:1: Compile module "def".
+[WRN:PA5506] $Source01/def.v:2:1: No timescale set for "def".
 [INF:CP5804] $Source01/small.v:2:1: Compile module "secret_number".
 [INF:CP5836] $Source01/small.v:6:43: Compile generate block "B1".
+[WRN:PA5506] $Source01/small.v:2:1: No timescale set for "secret_number".
 [INF:CP5804] $Source01/small.v:14:1: Compile module "defparam_example".
+[WRN:PA5506] $Source01/small.v:14:1: No timescale set for "defparam_example".
 [WRN:CP5851] $Source01/small.v:24:15: Failed to bind "SIZE".
 [WRN:CP5851] $Source01/small.v:25:12: Failed to bind "NO_MATCH".
 [WRN:CP5851] $Source01/small.v:25:21: Failed to bind "SIZE1".
 [WRN:CP5851] $Source01/small.v:26:29: Failed to bind "NO_MATCH".
 [WRN:CP5851] $Source01/small.v:26:38: Failed to bind "SIZE2".
-[WRN:PA5506] $Source01/top.v:1:1: No timescale set for "top_def".
-[WRN:PA5506] $Source01/top.v:7:1: No timescale set for "small_top".
-[WRN:PA5506] $Source01/top.v:11:1: No timescale set for "small_test".
-[WRN:PA5506] $Source01/def.v:2:1: No timescale set for "def".
-[WRN:PA5506] $Source01/small.v:2:1: No timescale set for "secret_number".
-[WRN:PA5506] $Source01/small.v:14:1: No timescale set for "defparam_example".
 [ERR:DL2510] $Source01/top.v:26:1: Unsupported typespec "M1".
 [ERR:DL2510] $Source01/top.v:32:1: Unsupported typespec "M2".
 [ERR:DL2510] $Source01/top.v:39:1: Unsupported typespec "M3".
@@ -746,6 +746,19 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: small.v
       vpiPreprocFile: "$Output/lib/work/small.v"
+  vpiUnit (3 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.v:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:def.v:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:small.v:
   vpiAllModules (6 items):
     Module name:top_def file:$Source01/top.v start:1:1 end:5:10:
       vpiParent: Design name:unnamed
@@ -763,6 +776,7 @@ Design name:unnamed:
         vpiFullName: top_def.work
         vpiActual: Library name:work
       vpiCell: top_def
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:1:16 end:1:18:
           vpiParent: Module name:top_def
@@ -795,6 +809,7 @@ Design name:unnamed:
         vpiFullName: small_top.work
         vpiActual: Library name:work
       vpiCell: small_top
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:7:17 end:7:19:
           vpiParent: Module name:small_top
@@ -936,6 +951,7 @@ Design name:unnamed:
         vpiFullName: small_test.work
         vpiActual: Library name:work
       vpiCell: small_test
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:11:18 end:11:20:
           vpiParent: Module name:small_test
@@ -1338,6 +1354,7 @@ Design name:unnamed:
         vpiFullName: def.work
         vpiActual: Library name:work
       vpiCell: def
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:2:12 end:2:14:
           vpiParent: Module name:def
@@ -1451,6 +1468,7 @@ Design name:unnamed:
         vpiFullName: secret_number.work
         vpiActual: Library name:work
       vpiCell: secret_number
+      vpiUnit: Unit
       vpiGenStmt (1 items):
         GenRegion start:6:2 end:10:13:
           vpiParent: Module name:secret_number
@@ -1558,6 +1576,7 @@ Design name:unnamed:
         vpiFullName: defparam_example.work
         vpiActual: Library name:work
       vpiCell: defparam_example
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:14:24 end:14:26:
           vpiParent: Module name:defparam_example
@@ -1948,7 +1967,7 @@ COMMAND: ${HLC_DIR}/regression/UnitDefParam/UnitDefParam/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2133    2133       0         0
+Others                            2132    2132       0         0
 ----------------------------------------------------------------
-                                  2133    2133       0         0
+                                  2132    2132       0         0
 ===================== END REDUCTION RESULT =====================

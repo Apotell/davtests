@@ -206,17 +206,12 @@ COMMAND: -wd ../../../tests/SimpleIncludeAndMacros -d ast -d db top.v top_1.v to
 [INF:PA5502] Parsing source file "$Source01/top_4.v".
 [INF:PA5502] Parsing source file "$Scratch/builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/lib.v".
-[SNT:PA5508] $Source01/top_3.v:5: Syntax error: mismatched input '1' expecting <EOF>,
-             1 + 1 + 42 + 100 + c
-             ^-- $Source01/top_3.v:5:0:,
-             In expansion of macro "TOP" at $Source01/top_3.v:4:18,
-             In expansion of macro "TOP" at $Source01/top_3.v:5:1.
 [SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
              initial $display("start", "msg1" , "msg2", "end");
              ^-- $Source01/mode.vh:26:0:,
              In expansion of macro "D" at $Source01/mode.vh:26:1,
              In file included from the body of macro "INCLUSION_FILES" defined at $Source01/fake.sv:205,
-             In expansion of macro "INCLUSION_FILES" at $Source01/top_1.v:8:1.
+             In expansion of macro "INCLUSION_FILES" at $Source01/top.v:8:1.
 [SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
              initial $display("start", "msg1" , "msg2", "end");
              ^-- $Source01/mode.vh:26:0:,
@@ -229,14 +224,19 @@ COMMAND: -wd ../../../tests/SimpleIncludeAndMacros -d ast -d db top.v top_1.v to
              ^-- $Source01/mode.vh:26:0:,
              In expansion of macro "D" at $Source01/mode.vh:26:1,
              In file included from the body of macro "INCLUSION_FILES" defined at $Source01/fake.sv:205,
-             In expansion of macro "INCLUSION_FILES" at $Source01/top.v:8:1.
+             In expansion of macro "INCLUSION_FILES" at $Source01/top_2.v:8:1.
+[WRN:PA5516] Invalid VObject location.
 [SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
              initial $display("start", "msg1" , "msg2", "end");
              ^-- $Source01/mode.vh:26:0:,
              In expansion of macro "D" at $Source01/mode.vh:26:1,
              In file included from the body of macro "INCLUSION_FILES" defined at $Source01/fake.sv:205,
-             In expansion of macro "INCLUSION_FILES" at $Source01/top_2.v:8:1.
-[WRN:PA5516] Invalid VObject location.
+             In expansion of macro "INCLUSION_FILES" at $Source01/top_1.v:8:1.
+[SNT:PA5508] $Source01/top_3.v:5: Syntax error: mismatched input '1' expecting <EOF>,
+             1 + 1 + 42 + 100 + c
+             ^-- $Source01/top_3.v:5:0:,
+             In expansion of macro "TOP" at $Source01/top_3.v:4:18,
+             In expansion of macro "TOP" at $Source01/top_3.v:5:1.
 AST_DEBUG_BEGIN
 Count: 467
 LIB: work
@@ -731,8 +731,8 @@ n<$Source01/top.v> u<49> t<Top_level_rule> c<1> l<3:1> el<47:5>
   n<// my_incl.vh> u<13> t<LINE_COMMENT> p<49> s<14> f<3> l<1:1> el<4:14>
   n<// If we have not included file before,> u<14> t<LINE_COMMENT> p<49> s<15> f<3> l<2:1> el<2:40>
   n<// this symbol _my_incl_vh_ is not defined.> u<15> t<LINE_COMMENT> p<49> s<16> f<3> l<3:1> el<3:44>
-  n<// Start of include contents> u<16> t<LINE_COMMENT> p<49> s<17> f<1> l<201:1> el<201:29>
-  n<// Use parentheses to mitigate any undesired operator precedence issues> u<17> t<LINE_COMMENT> p<49> s<18> f<1> l<203:1> el<203:72>
+  n<// Start of include contents> u<16> t<LINE_COMMENT> p<49> s<17> f<1> l<200:1> el<200:29>
+  n<// Use parentheses to mitigate any undesired operator precedence issues> u<17> t<LINE_COMMENT> p<49> s<18> f<1> l<202:1> el<202:72>
   n</*\nBar.vh\n*/> u<18> t<BLOCK_COMMENT> p<49> s<19> l<3:1> el<3:21>
   n</*\n   mode.vh\n*/> u<19> t<BLOCK_COMMENT> p<49> s<20> l<3:1> el<3:21>
   n<// expands to 'initial $display("start", "msg1" , "msg2", "end");'> u<20> t<LINE_COMMENT> p<49> s<21> f<2> l<27:1> el<70:67>
@@ -959,13 +959,6 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/lib.v:17:35: Implicit port type (wire) for "OUT".
 [INF:CP5804] $Source01/lib.v:20:1: Compile module "FAKELIB_DFF".
 [INF:CP5806] $Source01/lib.v:25:11: Compile udp "FAKELIB_DFF_PRIMITIVE".
-[WRN:PA5506] $Source01/lib.v:2:1: No timescale set for "FAKELIB_NAND2".
-[WRN:PA5506] $Source01/lib.v:5:1: No timescale set for "FAKELIB_NAND4".
-[WRN:PA5506] $Source01/lib.v:8:1: No timescale set for "FAKELIB_NOR2".
-[WRN:PA5506] $Source01/lib.v:11:1: No timescale set for "FAKELIB_INV".
-[WRN:PA5506] $Source01/lib.v:14:1: No timescale set for "FAKELIB_BUF".
-[WRN:PA5506] $Source01/lib.v:17:1: No timescale set for "FAKELIB_BUF_BIGLOAD".
-[WRN:PA5506] $Source01/lib.v:20:1: No timescale set for "FAKELIB_DFF".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -978,150 +971,159 @@ Design name:unnamed:
         SourceFile name:my_incl.vh file:$Source01/my_incl.vh start:4:1 end:4:22:
           vpiParent: SourceFile name:top.v
           vpiName: my_incl.vh
-          vpiIncludes (1 items):
-            SourceFile name:fake.sv file:$Source01/fake.sv start:7:0:
-              vpiParent: SourceFile name:my_incl.vh
-              vpiName: fake.sv
-              vpiPreprocMacroDefinition (8 items):
-                PreprocMacroDefinition name:M start:203:1 end:203:20:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:M start:203:9 end:203:10:
-                  vpiPMDType: define (1)
-                  vpiPMDToken (8 items):
-                    Identifier name:( start:203:11 end:203:12:
-                    Identifier name:`N start:203:12 end:203:14:
-                    "Identifier name:  start:203:14 end:203:15":
-                    Identifier name:< start:203:15 end:203:16:
-                    Identifier name:< start:203:16 end:203:17:
-                    "Identifier name:  start:203:17 end:203:18":
-                    Identifier name:2 start:203:18 end:203:19:
-                    Identifier name:) start:203:19 end:203:20:
-                PreprocMacroDefinition name:INCLUSION_FILES start:205:1 end:206:21:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:INCLUSION_FILES start:205:9 end:205:24:
-                  vpiPMDType: define (1)
-                  vpiPMDToken (5 items):
-                    "Identifier name:\\\n start:205:25 end:206:1":
-                    "Identifier name:   start:206:1 end:206:3":
-                    Identifier name:`include start:206:3 end:206:11:
-                    "Identifier name:  start:206:11 end:206:12":
-                    "Identifier name:\"mode.vh\" start:206:12 end:206:21":
-                PreprocMacroDefinition name:xyz start:208:1 end:209:37:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:xyz start:208:9 end:208:12:
-                  vpiPMDType: define (1)
-                  vpiArgument (2 items):
-                    Identifier name:I start:208:13 end:208:14:
-                    Identifier name:R start:208:15 end:208:16:
-                      vpiParent: PreprocMacroDefinition name:xyz
-                      vpiName: R
-                      vpiBuddy Identifier name:DEFAULT start:208:19 end:208:26:
-                  vpiPMDToken (18 items):
-                    "Identifier name:\\\n start:208:28 end:209:1":
-                    Identifier name:assign start:209:1 end:209:7:
-                    "Identifier name:  start:209:7 end:209:8":
-                    Identifier name:abc start:209:8 end:209:11:
-                    Identifier name:[ start:209:11 end:209:12:
-                    Identifier name:I start:209:12 end:209:13:
-                    Identifier name:] start:209:13 end:209:14:
-                    Identifier name:. start:209:14 end:209:15:
-                    Identifier name:clk start:209:15 end:209:18:
-                    "Identifier name:  start:209:18 end:209:19":
-                    Identifier name:= start:209:19 end:209:20:
-                    "Identifier name:  start:209:20 end:209:21":
-                    Identifier name:R start:209:21 end:209:22:
-                    Identifier name:. start:209:22 end:209:23:
-                    Identifier name:du start:209:23 end:209:25:
-                    Identifier name:``I`` start:209:25 end:209:30:
-                    Identifier name:_clk_x start:209:30 end:209:36:
-                    Identifier name:; start:209:36 end:209:37:
-                PreprocMacroDefinition name:single start:212:1 end:212:18:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:single start:212:9 end:212:15:
-                  vpiPMDType: define (1)
-                  vpiPMDToken (1 items):
-                    Identifier name:30 start:212:16 end:212:18:
-                PreprocMacroDefinition name:MACRO1 start:214:1 end:214:47:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:MACRO1 start:214:9 end:214:15:
-                  vpiPMDType: define (1)
-                  vpiArgument (3 items):
-                    Identifier name:a start:214:16 end:214:17:
-                      vpiParent: PreprocMacroDefinition name:MACRO1
-                      vpiName: a
-                      vpiBuddy Identifier name:5 start:214:18 end:214:19:
-                    Identifier name:b start:214:20 end:214:21:
-                      vpiParent: PreprocMacroDefinition name:MACRO1
-                      vpiName: b
-                      "vpiBuddy Identifier name:\"B\" start:214:22 end:214:25":
-                    Identifier name:c start:214:26 end:214:27:
-                  vpiPMDToken (12 items):
-                    Identifier name:$ start:214:29 end:214:30:
-                    Identifier name:display start:214:30 end:214:37:
-                    Identifier name:( start:214:37 end:214:38:
-                    Identifier name:a start:214:38 end:214:39:
-                    Identifier name:, start:214:39 end:214:40:
-                    Identifier name:, start:214:40 end:214:41:
-                    Identifier name:b start:214:41 end:214:42:
-                    Identifier name:, start:214:42 end:214:43:
-                    Identifier name:, start:214:43 end:214:44:
-                    Identifier name:c start:214:44 end:214:45:
-                    Identifier name:) start:214:45 end:214:46:
-                    Identifier name:; start:214:46 end:214:47:
-                PreprocMacroDefinition name:msg start:216:1 end:216:34:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:msg start:216:9 end:216:12:
-                  vpiPMDType: define (1)
-                  vpiArgument (2 items):
-                    Identifier name:x start:216:13 end:216:14:
-                    Identifier name:y start:216:15 end:216:16:
-                  vpiPMDToken (8 items):
-                    "Identifier name:`\" start:216:18 end:216:20":
-                    Identifier name:x start:216:20 end:216:21:
-                    "Identifier name:: start:216:21 end:216:22":
-                    "Identifier name:  start:216:22 end:216:23":
-                    "Identifier name:`\\`\" start:216:23 end:216:27":
-                    Identifier name:y start:216:27 end:216:28:
-                    "Identifier name:`\\`\" start:216:28 end:216:32":
-                    "Identifier name:`\" start:216:32 end:216:34":
-                PreprocMacroDefinition name:WB_DUT_U_ASSIGN start:218:1 end:220:1:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:WB_DUT_U_ASSIGN start:218:9 end:218:24:
-                  vpiPMDType: define (1)
-                  vpiArgument (2 items):
-                    Identifier name:phy_i start:218:25 end:218:30:
-                    Identifier name:idx start:218:31 end:218:34:
-                  vpiPMDToken (18 items):
-                    "Identifier name:\\\n start:218:35 end:219:1":
-                    Identifier name:assign start:219:1 end:219:7:
-                    "Identifier name:  start:219:7 end:219:8":
-                    Identifier name:b start:219:8 end:219:9:
-                    Identifier name:[ start:219:9 end:219:10:
-                    Identifier name:phy_i start:219:10 end:219:15:
-                    Identifier name:] start:219:15 end:219:16:
-                    "Identifier name:  start:219:16 end:219:17":
-                    Identifier name:= start:219:17 end:219:18:
-                    "Identifier name:  start:219:18 end:219:19":
-                    Identifier name:`DUT_PATH start:219:19 end:219:28:
-                    Identifier name:. start:219:28 end:219:29:
-                    Identifier name:Ilane start:219:29 end:219:34:
-                    Identifier name:``idx`` start:219:34 end:219:41:
-                    Identifier name:. start:219:41 end:219:42:
-                    Identifier name:a start:219:42 end:219:43:
-                    Identifier name:; start:219:43 end:219:44:
-                    "Identifier name:\\\n start:219:44 end:220:1":
-                PreprocMacroDefinition name:DUT_PATH start:221:1 end:221:23:
-                  vpiParent: SourceFile name:fake.sv
-                  vpiName Identifier name:DUT_PATH start:221:9 end:221:17:
-                  vpiPMDType: define (1)
-                  vpiPMDToken (2 items):
-                    Identifier name:$ start:221:18 end:221:19:
-                    Identifier name:root start:221:19 end:221:23:
-          vpiPreprocMacroDefinition (1 items):
+          vpiPreprocMacroDefinition (9 items):
             PreprocMacroDefinition name:_my_incl_vh_ start:5:1 end:6:1:
               vpiParent: SourceFile name:my_incl.vh
               vpiName Identifier name:_my_incl_vh_ start:5:9 end:5:21:
               vpiPMDType: define (1)
+            PreprocMacroDefinition name:M start:203:1 end:203:20:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:M start:203:9 end:203:10:
+              vpiPMDType: define (1)
+              vpiPMDToken (8 items):
+                Identifier name:( start:203:11 end:203:12:
+                Identifier name:`N start:203:12 end:203:14:
+                "Identifier name:  start:203:14 end:203:15":
+                Identifier name:< start:203:15 end:203:16:
+                Identifier name:< start:203:16 end:203:17:
+                "Identifier name:  start:203:17 end:203:18":
+                Identifier name:2 start:203:18 end:203:19:
+                Identifier name:) start:203:19 end:203:20:
+            PreprocMacroDefinition name:INCLUSION_FILES start:205:1 end:206:21:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:INCLUSION_FILES start:205:9 end:205:24:
+              vpiPMDType: define (1)
+              vpiPMDToken (5 items):
+                "Identifier name:\\\n start:205:25 end:206:1":
+                "Identifier name:   start:206:1 end:206:3":
+                Identifier name:`include start:206:3 end:206:11:
+                "Identifier name:  start:206:11 end:206:12":
+                "Identifier name:\"mode.vh\" start:206:12 end:206:21":
+            PreprocMacroDefinition name:xyz start:208:1 end:209:37:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:xyz start:208:9 end:208:12:
+              vpiPMDType: define (1)
+              vpiArgument (2 items):
+                Identifier name:I start:208:13 end:208:14:
+                Identifier name:R start:208:15 end:208:16:
+                  vpiParent: PreprocMacroDefinition name:xyz
+                  vpiName: R
+                  vpiBuddy Identifier name:DEFAULT start:208:19 end:208:26:
+              vpiPMDToken (18 items):
+                "Identifier name:\\\n start:208:28 end:209:1":
+                Identifier name:assign start:209:1 end:209:7:
+                "Identifier name:  start:209:7 end:209:8":
+                Identifier name:abc start:209:8 end:209:11:
+                Identifier name:[ start:209:11 end:209:12:
+                Identifier name:I start:209:12 end:209:13:
+                Identifier name:] start:209:13 end:209:14:
+                Identifier name:. start:209:14 end:209:15:
+                Identifier name:clk start:209:15 end:209:18:
+                "Identifier name:  start:209:18 end:209:19":
+                Identifier name:= start:209:19 end:209:20:
+                "Identifier name:  start:209:20 end:209:21":
+                Identifier name:R start:209:21 end:209:22:
+                Identifier name:. start:209:22 end:209:23:
+                Identifier name:du start:209:23 end:209:25:
+                Identifier name:``I`` start:209:25 end:209:30:
+                Identifier name:_clk_x start:209:30 end:209:36:
+                Identifier name:; start:209:36 end:209:37:
+            PreprocMacroDefinition name:single start:212:1 end:212:18:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:single start:212:9 end:212:15:
+              vpiPMDType: define (1)
+              vpiPMDToken (1 items):
+                Identifier name:30 start:212:16 end:212:18:
+            PreprocMacroDefinition name:MACRO1 start:214:1 end:214:47:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:MACRO1 start:214:9 end:214:15:
+              vpiPMDType: define (1)
+              vpiArgument (3 items):
+                Identifier name:a start:214:16 end:214:17:
+                  vpiParent: PreprocMacroDefinition name:MACRO1
+                  vpiName: a
+                  vpiBuddy Identifier name:5 start:214:18 end:214:19:
+                Identifier name:b start:214:20 end:214:21:
+                  vpiParent: PreprocMacroDefinition name:MACRO1
+                  vpiName: b
+                  "vpiBuddy Identifier name:\"B\" start:214:22 end:214:25":
+                Identifier name:c start:214:26 end:214:27:
+              vpiPMDToken (12 items):
+                Identifier name:$ start:214:29 end:214:30:
+                Identifier name:display start:214:30 end:214:37:
+                Identifier name:( start:214:37 end:214:38:
+                Identifier name:a start:214:38 end:214:39:
+                Identifier name:, start:214:39 end:214:40:
+                Identifier name:, start:214:40 end:214:41:
+                Identifier name:b start:214:41 end:214:42:
+                Identifier name:, start:214:42 end:214:43:
+                Identifier name:, start:214:43 end:214:44:
+                Identifier name:c start:214:44 end:214:45:
+                Identifier name:) start:214:45 end:214:46:
+                Identifier name:; start:214:46 end:214:47:
+            PreprocMacroDefinition name:msg start:216:1 end:216:34:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:msg start:216:9 end:216:12:
+              vpiPMDType: define (1)
+              vpiArgument (2 items):
+                Identifier name:x start:216:13 end:216:14:
+                Identifier name:y start:216:15 end:216:16:
+              vpiPMDToken (8 items):
+                "Identifier name:`\" start:216:18 end:216:20":
+                Identifier name:x start:216:20 end:216:21:
+                "Identifier name:: start:216:21 end:216:22":
+                "Identifier name:  start:216:22 end:216:23":
+                "Identifier name:`\\`\" start:216:23 end:216:27":
+                Identifier name:y start:216:27 end:216:28:
+                "Identifier name:`\\`\" start:216:28 end:216:32":
+                "Identifier name:`\" start:216:32 end:216:34":
+            PreprocMacroDefinition name:WB_DUT_U_ASSIGN start:218:1 end:220:1:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:WB_DUT_U_ASSIGN start:218:9 end:218:24:
+              vpiPMDType: define (1)
+              vpiArgument (2 items):
+                Identifier name:phy_i start:218:25 end:218:30:
+                Identifier name:idx start:218:31 end:218:34:
+              vpiPMDToken (18 items):
+                "Identifier name:\\\n start:218:35 end:219:1":
+                Identifier name:assign start:219:1 end:219:7:
+                "Identifier name:  start:219:7 end:219:8":
+                Identifier name:b start:219:8 end:219:9:
+                Identifier name:[ start:219:9 end:219:10:
+                Identifier name:phy_i start:219:10 end:219:15:
+                Identifier name:] start:219:15 end:219:16:
+                "Identifier name:  start:219:16 end:219:17":
+                Identifier name:= start:219:17 end:219:18:
+                "Identifier name:  start:219:18 end:219:19":
+                Identifier name:`DUT_PATH start:219:19 end:219:28:
+                Identifier name:. start:219:28 end:219:29:
+                Identifier name:Ilane start:219:29 end:219:34:
+                Identifier name:``idx`` start:219:34 end:219:41:
+                Identifier name:. start:219:41 end:219:42:
+                Identifier name:a start:219:42 end:219:43:
+                Identifier name:; start:219:43 end:219:44:
+                "Identifier name:\\\n start:219:44 end:220:1":
+            PreprocMacroDefinition name:DUT_PATH start:221:1 end:221:23:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiName Identifier name:DUT_PATH start:221:9 end:221:17:
+              vpiPMDType: define (1)
+              vpiPMDToken (2 items):
+                Identifier name:$ start:221:18 end:221:19:
+                Identifier name:root start:221:19 end:221:23:
+          vpiDirective (1 items):
+            GenericDirective start:6:1 end:6:22:
+              vpiParent: SourceFile name:my_incl.vh
+              vpiDirectiveType: line (19)
+              vpiValue Constant start:6:1 end:6:22:
+                vpiParent: GenericDirective
+                vpiConstType: string (6)
+                vpiSize: 15
+                vpiDecompile: "200 \"fake.sv\" 0"
+                vpiValue: "200 \"fake.sv\" 0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.v.my_incl.vh
+                  vpiActual: StringTypespec
         SourceFile name:bar.vh file:$Source01/foo/bar.vh start:6:1 end:6:18:
           vpiParent: SourceFile name:top.v
           vpiName: bar.vh
@@ -1173,7 +1175,7 @@ Design name:unnamed:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           "vpiPMIBody Identifier name:\n  \n/*\n   mode.vh\n*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninitial $display(\"start\", \"msg1\" , \"msg2\", \"end\");\n// expands to 'initial $display(\"start\", \"msg1\" , \"msg2\", \"end\");'\ninitial $display(\"start\", \" msg1\" , , \"end\");\n// expands to 'initial $display(\"start\", \" msg1\" , , \"end\");'\ninitial $display(\"start\",  , \"msg2 \", \"end\");\n// expands to 'initial $display(\"start\", , \"msg2 \", \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\n`D(\"msg1\")\n// illegal, only one argument\n`D()\n// illegal, only one empty argument\n`D(,,)\n// illegal, more actual than formal arguments\n\n$display(5,,2,,3); // argument a omitted, replaced by default\n // expands to '$display(5,,2,,3);'\n$display(1,,\"B\",,3); // argument b omitted, replaced by default\n // expands to '$display(1,,\"B\",,3);'\n$display(5,,2,,); // argument c omitted, replaced by nothing\n // expands to '$display(5,,2,,);'\n`MACRO1 ( 1 ) // ILLEGAL: b and c omitted, no default for c\n\n$display(1,,,,3); // argument b omitted, replaced by nothing\n // expands to '$display(1,,,,3);'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n\n$display(1,,0,,\"C\"); // b and c omitted, replaced by defaults\n // expands to '$display(1,,0,,\"C\");'\n$display(5,,0,,\"C\"); // all arguments replaced by defaults\n // expands to '$display(5,,0,,\"C\");'\n$display(5,,0,,\"C\"); // ILLEGAL: parentheses required\n    start:205:25 end:206:4":
           vpiPMIItem (1 items):
-            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21:
+            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21 ppstart:44:3 ppend:106:4:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
               vpiName: mode.vh
               vpiPreprocMacroDefinition (6 items):
@@ -1555,7 +1557,7 @@ Design name:unnamed:
             PreprocMacroCondition start:12:6 end:12:11:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiPMCType: else (4)
-            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25:
+            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25 ppstart:128:7 ppend:131:1:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiName: wire.vh
             PreprocMacroCondition start:17:6 end:17:12:
@@ -1635,6 +1637,20 @@ Design name:unnamed:
                   vpiName Identifier name:BOTTOM start:46:17 end:46:24:
                   vpiPreprocMacroDefinition: PreprocMacroDefinition name:BOTTOM
                   vpiPMIBody Identifier name:`TOP start:44:16 end:44:20:
+      vpiDirective (1 items):
+        GenericDirective start:3:1 end:3:21:
+          vpiParent: SourceFile name:top.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:3:1 end:3:21:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 9
+            vpiDecompile: "10ns/10ps"
+            vpiValue: "10ns/10ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.v
+              vpiActual: StringTypespec
     SourceFile name:top_1.v file:$Source01/top_1.v:
       vpiParent: Design name:unnamed
       vpiName: top_1.v
@@ -1719,7 +1735,7 @@ Design name:unnamed:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           "vpiPMIBody Identifier name:\n  \n/*\n   mode.vh\n*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninitial $display(\"start\", \"msg1\" , \"msg2\", \"end\");\n// expands to 'initial $display(\"start\", \"msg1\" , \"msg2\", \"end\");'\ninitial $display(\"start\", \" msg1\" , , \"end\");\n// expands to 'initial $display(\"start\", \" msg1\" , , \"end\");'\ninitial $display(\"start\",  , \"msg2 \", \"end\");\n// expands to 'initial $display(\"start\", , \"msg2 \", \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\n`D(\"msg1\")\n// illegal, only one argument\n`D()\n// illegal, only one empty argument\n`D(,,)\n// illegal, more actual than formal arguments\n\n$display(5,,2,,3); // argument a omitted, replaced by default\n // expands to '$display(5,,2,,3);'\n$display(1,,\"B\",,3); // argument b omitted, replaced by default\n // expands to '$display(1,,\"B\",,3);'\n$display(5,,2,,); // argument c omitted, replaced by nothing\n // expands to '$display(5,,2,,);'\n`MACRO1 ( 1 ) // ILLEGAL: b and c omitted, no default for c\n\n$display(1,,,,3); // argument b omitted, replaced by nothing\n // expands to '$display(1,,,,3);'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n\n$display(1,,0,,\"C\"); // b and c omitted, replaced by defaults\n // expands to '$display(1,,0,,\"C\");'\n$display(5,,0,,\"C\"); // all arguments replaced by defaults\n // expands to '$display(5,,0,,\"C\");'\n$display(5,,0,,\"C\"); // ILLEGAL: parentheses required\n    start:205:25 end:206:4":
           vpiPMIItem (1 items):
-            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21:
+            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21 ppstart:44:3 ppend:106:4:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
               vpiName: mode.vh
               vpiPreprocMacroDefinition (6 items):
@@ -2101,7 +2117,7 @@ Design name:unnamed:
             PreprocMacroCondition start:12:6 end:12:11:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiPMCType: else (4)
-            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25:
+            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25 ppstart:128:7 ppend:131:1:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiName: wire.vh
             PreprocMacroCondition start:17:6 end:17:12:
@@ -2259,7 +2275,7 @@ Design name:unnamed:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           "vpiPMIBody Identifier name:\n  \n/*\n   mode.vh\n*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninitial $display(\"start\", \"msg1\" , \"msg2\", \"end\");\n// expands to 'initial $display(\"start\", \"msg1\" , \"msg2\", \"end\");'\ninitial $display(\"start\", \" msg1\" , , \"end\");\n// expands to 'initial $display(\"start\", \" msg1\" , , \"end\");'\ninitial $display(\"start\",  , \"msg2 \", \"end\");\n// expands to 'initial $display(\"start\", , \"msg2 \", \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\n`D(\"msg1\")\n// illegal, only one argument\n`D()\n// illegal, only one empty argument\n`D(,,)\n// illegal, more actual than formal arguments\n\n$display(5,,2,,3); // argument a omitted, replaced by default\n // expands to '$display(5,,2,,3);'\n$display(1,,\"B\",,3); // argument b omitted, replaced by default\n // expands to '$display(1,,\"B\",,3);'\n$display(5,,2,,); // argument c omitted, replaced by nothing\n // expands to '$display(5,,2,,);'\n`MACRO1 ( 1 ) // ILLEGAL: b and c omitted, no default for c\n\n$display(1,,,,3); // argument b omitted, replaced by nothing\n // expands to '$display(1,,,,3);'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n\n$display(1,,0,,\"C\"); // b and c omitted, replaced by defaults\n // expands to '$display(1,,0,,\"C\");'\n$display(5,,0,,\"C\"); // all arguments replaced by defaults\n // expands to '$display(5,,0,,\"C\");'\n$display(5,,0,,\"C\"); // ILLEGAL: parentheses required\n    start:205:25 end:206:4":
           vpiPMIItem (1 items):
-            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21:
+            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21 ppstart:44:3 ppend:106:4:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
               vpiName: mode.vh
               vpiPreprocMacroDefinition (6 items):
@@ -2641,7 +2657,7 @@ Design name:unnamed:
             PreprocMacroCondition start:12:6 end:12:11:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiPMCType: else (4)
-            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25:
+            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25 ppstart:128:7 ppend:131:1:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiName: wire.vh
             PreprocMacroCondition start:17:6 end:17:12:
@@ -2812,7 +2828,7 @@ Design name:unnamed:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           "vpiPMIBody Identifier name:\n  \n/*\n   mode.vh\n*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninitial $display(\"start\", \"msg1\" , \"msg2\", \"end\");\n// expands to 'initial $display(\"start\", \"msg1\" , \"msg2\", \"end\");'\ninitial $display(\"start\", \" msg1\" , , \"end\");\n// expands to 'initial $display(\"start\", \" msg1\" , , \"end\");'\ninitial $display(\"start\",  , \"msg2 \", \"end\");\n// expands to 'initial $display(\"start\", , \"msg2 \", \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\n`D(\"msg1\")\n// illegal, only one argument\n`D()\n// illegal, only one empty argument\n`D(,,)\n// illegal, more actual than formal arguments\n\n$display(5,,2,,3); // argument a omitted, replaced by default\n // expands to '$display(5,,2,,3);'\n$display(1,,\"B\",,3); // argument b omitted, replaced by default\n // expands to '$display(1,,\"B\",,3);'\n$display(5,,2,,); // argument c omitted, replaced by nothing\n // expands to '$display(5,,2,,);'\n`MACRO1 ( 1 ) // ILLEGAL: b and c omitted, no default for c\n\n$display(1,,,,3); // argument b omitted, replaced by nothing\n // expands to '$display(1,,,,3);'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n\n$display(1,,0,,\"C\"); // b and c omitted, replaced by defaults\n // expands to '$display(1,,0,,\"C\");'\n$display(5,,0,,\"C\"); // all arguments replaced by defaults\n // expands to '$display(5,,0,,\"C\");'\n$display(5,,0,,\"C\"); // ILLEGAL: parentheses required\n    start:205:25 end:206:4":
           vpiPMIItem (1 items):
-            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21:
+            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21 ppstart:47:3 ppend:109:4:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
               vpiName: mode.vh
               vpiPreprocMacroDefinition (6 items):
@@ -3194,7 +3210,7 @@ Design name:unnamed:
             PreprocMacroCondition start:12:6 end:12:11:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiPMCType: else (4)
-            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25:
+            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25 ppstart:131:7 ppend:134:1:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiName: wire.vh
             PreprocMacroCondition start:17:6 end:17:12:
@@ -3387,7 +3403,7 @@ Design name:unnamed:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:INCLUSION_FILES
           "vpiPMIBody Identifier name:\n  \n/*\n   mode.vh\n*/\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninitial $display(\"start\", \"msg1\" , \"msg2\", \"end\");\n// expands to 'initial $display(\"start\", \"msg1\" , \"msg2\", \"end\");'\ninitial $display(\"start\", \" msg1\" , , \"end\");\n// expands to 'initial $display(\"start\", \" msg1\" , , \"end\");'\ninitial $display(\"start\",  , \"msg2 \", \"end\");\n// expands to 'initial $display(\"start\", , \"msg2 \", \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\ninitial $display(\"start\",  , , \"end\");\n// expands to 'initial $display(\"start\", , , \"end\");'\n`D(\"msg1\")\n// illegal, only one argument\n`D()\n// illegal, only one empty argument\n`D(,,)\n// illegal, more actual than formal arguments\n\n$display(5,,2,,3); // argument a omitted, replaced by default\n // expands to '$display(5,,2,,3);'\n$display(1,,\"B\",,3); // argument b omitted, replaced by default\n // expands to '$display(1,,\"B\",,3);'\n$display(5,,2,,); // argument c omitted, replaced by nothing\n // expands to '$display(5,,2,,);'\n`MACRO1 ( 1 ) // ILLEGAL: b and c omitted, no default for c\n\n$display(1,,,,3); // argument b omitted, replaced by nothing\n // expands to '$display(1,,,,3);'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n$display(5,,2,,\"C\"); // a and c omitted, replaced by defaults\n // expands to '$display(5,,2,,\"C\");'\n\n$display(1,,0,,\"C\"); // b and c omitted, replaced by defaults\n // expands to '$display(1,,0,,\"C\");'\n$display(5,,0,,\"C\"); // all arguments replaced by defaults\n // expands to '$display(5,,0,,\"C\");'\n$display(5,,0,,\"C\"); // ILLEGAL: parentheses required\n    start:205:25 end:206:4":
           vpiPMIItem (1 items):
-            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21:
+            SourceFile name:mode.vh file:$Source01/mode.vh start:2:3 end:2:21 ppstart:44:3 ppend:106:4:
               vpiParent: PreprocMacroInstance name:INCLUSION_FILES
               vpiName: mode.vh
               vpiPreprocMacroDefinition (6 items):
@@ -3784,7 +3800,7 @@ Design name:unnamed:
             PreprocMacroCondition start:12:6 end:12:11:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiPMCType: else (4)
-            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25:
+            SourceFile name:wire.vh file:$Source01/wire.vh start:9:7 end:9:25 ppstart:143:7 ppend:146:1:
               vpiParent: PreprocMacroInstance name:BLOB
               vpiName: wire.vh
             PreprocMacroCondition start:17:6 end:17:12:
@@ -3869,6 +3885,20 @@ Design name:unnamed:
         GenericDirective start:24:1 end:24:15:
           vpiParent: SourceFile name:lib.v
           vpiDirectiveType: endcelldefine (14)
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (6 items):
+        SourceFile name:top.v:
+        SourceFile name:top_1.v:
+        SourceFile name:top_2.v:
+        SourceFile name:top_3.v:
+        SourceFile name:top_4.v:
+        SourceFile name:lib.v:
+      vpiDirective (3 items):
+        GenericDirective:
+        GenericDirective:
+        GenericDirective:
   vpiAllUdps (1 items):
     UdpDefn name:FAKELIB_DFF_PRIMITIVE start:25:1 end:35:13:
       vpiParent: Design name:unnamed
@@ -4015,6 +4045,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 2
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:2:8 end:2:21:
         vpiParent: Module name:FAKELIB_NAND2
@@ -4053,6 +4085,7 @@ Design name:unnamed:
             vpiParent: Net name:IN1
             vpiFullName: FAKELIB_NAND2.IN1
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:OUT start:2:29 end:2:32:
           vpiParent: Module name:FAKELIB_NAND2
@@ -4140,6 +4173,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 5
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:5:8 end:5:21:
         vpiParent: Module name:FAKELIB_NAND4
@@ -4198,6 +4233,7 @@ Design name:unnamed:
             vpiParent: Net name:IN3
             vpiFullName: FAKELIB_NAND4.IN3
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (5 items):
         Port name:OUT start:5:29 end:5:32:
           vpiParent: Module name:FAKELIB_NAND4
@@ -4333,6 +4369,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 8
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:8 end:8:20:
         vpiParent: Module name:FAKELIB_NOR2
@@ -4371,6 +4409,7 @@ Design name:unnamed:
             vpiParent: Net name:IN1
             vpiFullName: FAKELIB_NOR2.IN1
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:OUT start:8:28 end:8:31:
           vpiParent: Module name:FAKELIB_NOR2
@@ -4458,6 +4497,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 11
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:11:8 end:11:19:
         vpiParent: Module name:FAKELIB_INV
@@ -4486,6 +4527,7 @@ Design name:unnamed:
             vpiParent: Net name:IN
             vpiFullName: FAKELIB_INV.IN
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:OUT start:11:27 end:11:30:
           vpiParent: Module name:FAKELIB_INV
@@ -4549,6 +4591,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 14
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:14:8 end:14:19:
         vpiParent: Module name:FAKELIB_BUF
@@ -4577,6 +4621,7 @@ Design name:unnamed:
             vpiParent: Net name:IN
             vpiFullName: FAKELIB_BUF.IN
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:OUT start:14:27 end:14:30:
           vpiParent: Module name:FAKELIB_BUF
@@ -4636,6 +4681,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 17
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:17:8 end:17:27:
         vpiParent: Module name:FAKELIB_BUF_BIGLOAD
@@ -4664,6 +4711,7 @@ Design name:unnamed:
             vpiParent: Net name:IN
             vpiFullName: FAKELIB_BUF_BIGLOAD.IN
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:OUT start:17:35 end:17:38:
           vpiParent: Module name:FAKELIB_BUF_BIGLOAD
@@ -4738,6 +4786,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/lib.v"
       vpiDefLineNo: 20
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:20:8 end:20:19:
         vpiParent: Module name:FAKELIB_DFF
@@ -4786,6 +4836,7 @@ Design name:unnamed:
             vpiParent: Net name:D
             vpiFullName: FAKELIB_DFF.D
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (5 items):
         Port name:Q start:20:31 end:20:32:
           vpiParent: Module name:FAKELIB_DFF
@@ -4915,12 +4966,12 @@ Design name:unnamed:
                 vpiFullName: FAKELIB_DFF.dff.D
                 vpiActual: Net name:D
   vpiTypespec (15 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     VoidTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -4977,7 +5028,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 6
 [  ERROR] : 41
-[WARNING] : 19
+[WARNING] : 12
 [   NOTE] : 23
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -4992,11 +5043,11 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/mounts.json
 
 
-{'result': {'coverage': 39.25,
+{'result': {'coverage': 39.57,
             'error_count': 0,
             'file_count': 6,
             'files': {'$Output/lib/work/lib.v': {'post_len': 0, 'pre_len': 880},
-                      '$Output/lib/work/top.v': {'post_len': 684,
+                      '$Output/lib/work/top.v': {'post_len': 664,
                                                  'pre_len': 975},
                       '$Output/lib/work/top_1.v': {'post_len': 664,
                                                    'pre_len': 950},
@@ -5006,25 +5057,25 @@ mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMa
                                                    'pre_len': 1082},
                       '$Output/lib/work/top_4.v': {'post_len': 764,
                                                    'pre_len': 1082}},
-            'post_len': 3738,
+            'post_len': 3718,
             'pre_len': 6153,
             'test_name': 'SimpleIncludeAndMacros/SimpleIncludeAndMacros'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/top.v   |      975 |       684 |
+| $Output/lib/work/top.v   |      975 |       664 |
 | $Output/lib/work/top_1.v |      950 |       664 |
 | $Output/lib/work/top_2.v |     1184 |       856 |
 | $Output/lib/work/top_3.v |     1082 |       770 |
 | $Output/lib/work/top_4.v |     1082 |       764 |
 | $Output/lib/work/lib.v   |      880 |         0 |
 +==========================+==========+===========+
-|                          |     6153 |      3738 |
+|                          |     6153 |      3718 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 39.25
+[COVERAGE] : 39.57
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5035,7 +5086,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            4076    4076       0         0
+Others                            4081    4081       0         0
 ----------------------------------------------------------------
-                                  4076    4076       0         0
+                                  4081    4081       0         0
 ===================== END REDUCTION RESULT =====================

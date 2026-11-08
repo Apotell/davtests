@@ -775,13 +775,13 @@ n<$Source01/simple_pkg.sv> u<262> t<Top_level_rule> c<1> l<5:1> el<31:1>
         n<> u<258> t<ENDMODULE> p<259> l<30:1> el<30:10>
 AST_DEBUG_END
 [INF:CP5802] $Source01/definesPkg.pkg:4:1: Compile package "definesPkg".
+[WRN:PA5506] $Source01/definesPkg.pkg:4:1: No timescale set for "definesPkg".
 [INF:CP5802] $Source01/msgPkg.pkg:4:1: Compile package "msgPkg".
+[WRN:PA5506] $Source01/msgPkg.pkg:4:1: No timescale set for "msgPkg".
 [INF:CP5804] $Source01/simple_pkg.sv:11:1: Compile module "simple_package".
 [INF:CP5836] $Source01/simple_pkg.sv:15:23: Compile generate block "inst".
-[WRN:CP5851] $Source01/simple_pkg.sv:15:5: Failed to bind "SIZE".
-[WRN:PA5506] $Source01/definesPkg.pkg:4:1: No timescale set for "definesPkg".
-[WRN:PA5506] $Source01/msgPkg.pkg:4:1: No timescale set for "msgPkg".
 [WRN:PA5506] $Source01/simple_pkg.sv:11:1: No timescale set for "simple_package".
+[WRN:CP5851] $Source01/simple_pkg.sv:15:5: Failed to bind "SIZE".
 [ERR:DL2510] $Source01/simple_pkg.sv:16:4: Unsupported typespec "M1".
 ====== HLDB =======
 Design name:unnamed:
@@ -799,6 +799,46 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: simple_pkg.sv
       vpiPreprocFile: "$Output/lib/work/simple_pkg.sv"
+  vpiUnit (3 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:definesPkg.pkg:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:msgPkg.pkg:
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:simple_pkg.sv:
+      vpiTypespec (2 items):
+        ImportTypespec name:msgPkg start:5:8 end:5:17:
+          vpiParent: Unit
+          vpiName Identifier name:msgPkg start:5:8 end:5:14:
+          vpiImportTypespecItem Constant start:5:16 end:5:17:
+            vpiParent: ImportTypespec name:msgPkg
+            vpiConstType: string (6)
+            vpiSize: 8
+            vpiDecompile: "*"
+            vpiValue: "*"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: msgPkg
+              vpiActual: StringTypespec
+        ImportTypespec name:definesPkg start:6:8 end:6:24:
+          vpiParent: Unit
+          vpiName Identifier name:definesPkg start:6:8 end:6:18:
+          vpiImportTypespecItem Constant start:6:20 end:6:24:
+            vpiParent: ImportTypespec name:definesPkg
+            vpiConstType: string (6)
+            vpiSize: 32
+            vpiDecompile: bool
+            vpiValue: bool
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: definesPkg
+              vpiActual: StringTypespec
   vpiAllPackages (2 items):
     Package name:definesPkg file:$Source01/definesPkg.pkg start:4:1 end:17:11:
       vpiParent: Design name:unnamed
@@ -959,6 +999,7 @@ Design name:unnamed:
         vpiFullName: definesPkg::work
         vpiActual: Library name:work
       vpiCell: definesPkg
+      vpiUnit: Unit
     Package name:msgPkg file:$Source01/msgPkg.pkg start:4:1 end:57:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:msgPkg start:4:9 end:4:15:
@@ -1512,6 +1553,7 @@ Design name:unnamed:
             vpiParent: Function name:getWarnCnt
             vpiFullName: msgPkg::getWarnCnt
             vpiActual: IntegerTypespec
+      vpiUnit: Unit
   vpiAllModules (1 items):
     Module name:simple_package file:$Source01/simple_pkg.sv start:11:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -1557,6 +1599,7 @@ Design name:unnamed:
         vpiFullName: simple_package.work
         vpiActual: Library name:work
       vpiCell: simple_package
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:11:22 end:11:24:
           vpiParent: Module name:simple_package
@@ -1847,38 +1890,12 @@ Design name:unnamed:
                   vpiName: M1
                   vpiFullName: simple_package.inst.u1.M1
                   vpiActual: UnsupportedTypespec name:M1
-  vpiTypespec (10 items):
+  vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
-    ImportTypespec name:msgPkg start:5:8 end:5:17:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:msgPkg start:5:8 end:5:14:
-      vpiImportTypespecItem Constant start:5:16 end:5:17:
-        vpiParent: ImportTypespec name:msgPkg
-        vpiConstType: string (6)
-        vpiSize: 8
-        vpiDecompile: "*"
-        vpiValue: "*"
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiFullName: msgPkg
-          vpiActual: StringTypespec
-    ImportTypespec name:definesPkg start:6:8 end:6:24:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:definesPkg start:6:8 end:6:18:
-      vpiImportTypespecItem Constant start:6:20 end:6:24:
-        vpiParent: ImportTypespec name:definesPkg
-        vpiConstType: string (6)
-        vpiSize: 32
-        vpiDecompile: bool
-        vpiValue: bool
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiFullName: definesPkg
-          vpiActual: StringTypespec
     ModuleTypespec name:simple_package:
       vpiParent: Design name:unnamed
       vpiName Identifier name:simple_package start:11:8 end:11:22:
@@ -1956,7 +1973,7 @@ Operation                            4       2       0         2
 RefObj                              38      36       0         2
 RefTypespec                        669     671       2         0
 ----------------------------------------------------------------
-Others                            1404    1404       0         0
+Others                            1403    1403       0         0
 ----------------------------------------------------------------
-                                  2155    2155       4         4
+                                  2154    2154       4         4
 ===================== END REDUCTION RESULT =====================

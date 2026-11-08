@@ -632,7 +632,6 @@ n<$Source01/io_cpx_reqdata_ff.v> u<615> t<Top_level_rule> c<1> f<2> l<34:1> el<9
   n<// io_cpxdata_cq2> u<614> t<LINE_COMMENT> p<615> l<77:11> el<77:28>
 AST_DEBUG_END
 [INF:CP5804] $Source01/io_cpx_reqdata_ff.v:36:1: Compile module "io_cpx_reqdata_ff".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/io_cpx_reqdata_ff.v:57:4: Unsupported typespec "dff_s".
 [ERR:DL2510] $Source01/io_cpx_reqdata_ff.v:68:7: Unsupported typespec "dff_s".
 ====== HLDB =======
@@ -1552,6 +1551,20 @@ Design name:unnamed:
               vpiPMDType: define (1)
               vpiPMDToken (1 items):
                 "Identifier name:64'h000007f7c0000000 start:278:33 end:278:53":
+          vpiDirective (1 items):
+            GenericDirective start:34:1 end:34:19:
+              vpiParent: SourceFile name:sys.h
+              vpiDirectiveType: timescale (34)
+              vpiValue Constant start:34:1 end:34:19:
+                vpiParent: GenericDirective
+                vpiConstType: string (6)
+                vpiSize: 7
+                vpiDecompile: "1ps/1ps"
+                vpiValue: "1ps/1ps"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: io_cpx_reqdata_ff.v.sys.h
+                  vpiActual: StringTypespec
         SourceFile name:iop.h file:$Source01/iop.h start:28:1 end:28:17:
           vpiParent: SourceFile name:io_cpx_reqdata_ff.v
           vpiName: iop.h
@@ -4717,6 +4730,13 @@ Design name:unnamed:
           vpiName Identifier name:CPX_WIDTH start:62:22 end:62:32:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:CPX_WIDTH
           vpiPMIBody Identifier name:145 start:78:19 end:78:22:
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:io_cpx_reqdata_ff.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:io_cpx_reqdata_ff file:$Source01/io_cpx_reqdata_ff.v start:36:1 end:77:10:
       vpiParent: Design name:unnamed
@@ -4985,6 +5005,7 @@ Design name:unnamed:
             vpiParent: Net name:se
             vpiFullName: io_cpx_reqdata_ff.se
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (8 items):
         Port name:io_cpx_data_ca2 start:38:4 end:38:19:
           vpiParent: Module name:io_cpx_reqdata_ff
@@ -5400,7 +5421,9 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: so
                 vpiFullName: io_cpx_reqdata_ff.dff_cpx_datardy_io.so
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:io_cpx_reqdata_ff:
       vpiParent: Design name:unnamed
       vpiName Identifier name:io_cpx_reqdata_ff start:36:8 end:36:25:
@@ -5432,25 +5455,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UtdSV/io_cpx_reqdata_ff.v/mounts.json
 
 
-{'result': {'coverage': 97.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/io_cpx_reqdata_ff.v': {'post_len': 18,
+            'files': {'$Output/lib/work/io_cpx_reqdata_ff.v': {'post_len': 0,
                                                                'pre_len': 707}},
-            'post_len': 18,
+            'post_len': 0,
             'pre_len': 707,
             'test_name': 'UtdSV/io_cpx_reqdata_ff.v'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/io_cpx_reqdata_ff.v |      707 |        18 |
+| $Output/lib/work/io_cpx_reqdata_ff.v |      707 |         0 |
 +======================================+==========+===========+
-|                                      |      707 |        18 |
+|                                      |      707 |         0 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5460,11 +5483,11 @@ COMMAND: ${HLC_DIR}/regression/UtdSV/io_cpx_reqdata_ff.v/design.hldb ${HLC_DIR}/
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            24      20       4         8
+Constant                            25      21       4         8
 Operation                            4       0       0         4
-RefTypespec                         42      38       4         8
+RefTypespec                         43      39       4         8
 ----------------------------------------------------------------
-Others                            2144    2144       0         0
+Others                            2146    2146       0         0
 ----------------------------------------------------------------
-                                  2214    2202       8        20
+                                  2218    2206       8        20
 ===================== END REDUCTION RESULT =====================

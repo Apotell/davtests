@@ -1102,6 +1102,7 @@ n<$Source01/t_enum.v> u<1088> t<Top_level_rule> c<1> l<6:1> el<82:1>
         n<> u<1084> t<ENDMODULE> p<1085> l<81:1> el<81:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum.v:13:1: Compile module "t".
+[INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:CP5851] $Source01/t_enum.v:46:11: Failed to bind "e10_0".
 [WRN:CP5851] $Source01/t_enum.v:47:11: Failed to bind "e10_1".
 [WRN:CP5851] $Source01/t_enum.v:49:11: Failed to bind "e20_5".
@@ -1110,10 +1111,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_enum.v:53:11: Failed to bind "e30_7".
 [WRN:CP5851] $Source01/t_enum.v:54:11: Failed to bind "e30_6".
 [WRN:CP5851] $Source01/t_enum.v:55:11: Failed to bind "e30_5".
-[WRN:CP5851] $Source01/t_enum.v:65:16: Failed to bind "BIT0".
-[WRN:CP5851] $Source01/t_enum.v:66:16: Failed to bind "BIT1".
-[WRN:CP5851] $Source01/t_enum.v:67:16: Failed to bind "BIT2".
-[INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7722] $Source01/t_enum.v:65:11: Select name "FIVE[BIT0]" does not match pretty-printed name FIVE[BIT0 = 5'd0].
+[ERR:LN7722] $Source01/t_enum.v:66:11: Select name "FIVE[BIT1]" does not match pretty-printed name FIVE[BIT1 = 5'd1].
+[ERR:LN7722] $Source01/t_enum.v:67:11: Select name "FIVE[BIT2]" does not match pretty-printed name FIVE[BIT2 = 5'd2].
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1122,6 +1122,100 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_enum.v
       vpiPreprocFile: "$Output/lib/work/t_enum.v"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_enum.v:
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Unit
+          vpiRange (1 items):
+            Range start:6:20 end:6:25:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:6:21 end:6:22:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "4"
+                vpiValue: 4
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:6:23 end:6:24:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiActual: IntTypespec
+          vpiVector: true
+        EnumTypespec start:6:9 end:11:8:
+          vpiParent: Unit
+          vpiEnum: Enum
+        TypedefTypespec name:three_t start:6:1 end:11:17:
+          vpiParent: Unit
+          vpiName Identifier name:three_t start:11:9 end:11:16:
+          vpiTypedefKind: enum (2)
+          vpiTypedef: Typedef name:three_t
+      vpiEnum (1 items):
+        Enum start:6:9 end:11:8:
+          vpiParent: Unit
+          vpiBaseTypespec RefTypespec name:logic [4:0] start:6:14 end:6:25:
+            vpiParent: Enum
+            vpiName: logic [4:0]
+            vpiFullName: logic [4:0]
+            vpiActual: LogicTypespec
+          vpiEnumConst (3 items):
+            EnumConst name:BIT0 start:8:7 end:8:18:
+              vpiParent: Enum
+              vpiName Identifier name:BIT0 start:8:7 end:8:11:
+              vpiValue Constant start:8:14 end:8:18:
+                vpiParent: EnumConst name:BIT0
+                vpiConstType: decimal (1)
+                vpiSize: 5
+                vpiDecompile: "5'd0"
+                vpiValue: "0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: BIT0
+                  vpiActual: LogicTypespec
+            EnumConst name:BIT1 start:9:7 end:9:18:
+              vpiParent: Enum
+              vpiName Identifier name:BIT1 start:9:7 end:9:11:
+              vpiValue Constant start:9:14 end:9:18:
+                vpiParent: EnumConst name:BIT1
+                vpiConstType: decimal (1)
+                vpiSize: 5
+                vpiDecompile: "5'd1"
+                vpiValue: "1"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: BIT1
+                  vpiActual: LogicTypespec
+            EnumConst name:BIT2 start:10:7 end:10:18:
+              vpiParent: Enum
+              vpiName Identifier name:BIT2 start:10:7 end:10:11:
+              vpiValue Constant start:10:14 end:10:18:
+                vpiParent: EnumConst name:BIT2
+                vpiConstType: decimal (1)
+                vpiSize: 5
+                vpiDecompile: "5'd2"
+                vpiValue: "2"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: BIT2
+                  vpiActual: LogicTypespec
+      vpiTypedef (1 items):
+        Typedef name:three_t start:6:1 end:11:17:
+          vpiParent: Unit
+          vpiName Identifier name:three_t start:11:9 end:11:16:
+          vpiTypedefAlias RefTypespec start:6:9 end:11:8:
+            vpiParent: Typedef name:three_t
+            vpiFullName: three_t
+            vpiActual: EnumTypespec
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_enum.v start:13:1 end:81:10:
       vpiParent: Design name:unnamed
@@ -1563,6 +1657,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/t_enum.v"
       vpiDefLineNo: 13
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:13:8 end:13:9:
         vpiParent: Module name:t
@@ -1570,6 +1666,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiUnit: Unit
       vpiPort (1 items):
         Port start:13:10 end:13:23:
           vpiParent: Module name:t
@@ -2083,6 +2180,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:FIVE[BIT0]
                         vpiName: BIT0
                         vpiFullName: t.BIT0
+                        vpiActual: EnumConst name:BIT0
                     Constant start:65:25 end:65:29:
                       vpiParent: Operation
                       vpiConstType: binary (3)
@@ -2116,6 +2214,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:FIVE[BIT1]
                         vpiName: BIT1
                         vpiFullName: t.BIT1
+                        vpiActual: EnumConst name:BIT1
                     Constant start:66:25 end:66:29:
                       vpiParent: Operation
                       vpiConstType: binary (3)
@@ -2149,6 +2248,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:FIVE[BIT2]
                         vpiName: BIT2
                         vpiFullName: t.BIT2
+                        vpiActual: EnumConst name:BIT2
                     Constant start:67:25 end:67:29:
                       vpiParent: Operation
                       vpiConstType: binary (3)
@@ -2392,42 +2492,10 @@ Design name:unnamed:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (8 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
-      vpiRange (1 items):
-        Range start:6:20 end:6:25:
-          vpiParent: LogicTypespec
-          vpiLeftRange Constant start:6:21 end:6:22:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "4"
-            vpiValue: 4
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-          vpiRightRange Constant start:6:23 end:6:24:
-            vpiParent: Range
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "0"
-            vpiValue: 0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiActual: IntTypespec
-      vpiVector: true
+  vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    EnumTypespec start:6:9 end:11:8:
-      vpiParent: Design name:unnamed
-      vpiEnum: Enum
-    TypedefTypespec name:three_t start:6:1 end:11:17:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:three_t start:11:9 end:11:16:
-      vpiTypedefKind: enum (2)
-      vpiTypedef: Typedef name:three_t
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:13:8 end:13:9:
@@ -2439,62 +2507,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
-  vpiEnum (1 items):
-    Enum start:6:9 end:11:8:
-      vpiParent: Design name:unnamed
-      vpiBaseTypespec RefTypespec name:logic [4:0] start:6:14 end:6:25:
-        vpiParent: Enum
-        vpiName: logic [4:0]
-        vpiFullName: logic [4:0]
-        vpiActual: LogicTypespec
-      vpiEnumConst (3 items):
-        EnumConst name:BIT0 start:8:7 end:8:18:
-          vpiParent: Enum
-          vpiName Identifier name:BIT0 start:8:7 end:8:11:
-          vpiValue Constant start:8:14 end:8:18:
-            vpiParent: EnumConst name:BIT0
-            vpiConstType: decimal (1)
-            vpiSize: 5
-            vpiDecompile: "5'd0"
-            vpiValue: "0"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: BIT0
-              vpiActual: LogicTypespec
-        EnumConst name:BIT1 start:9:7 end:9:18:
-          vpiParent: Enum
-          vpiName Identifier name:BIT1 start:9:7 end:9:11:
-          vpiValue Constant start:9:14 end:9:18:
-            vpiParent: EnumConst name:BIT1
-            vpiConstType: decimal (1)
-            vpiSize: 5
-            vpiDecompile: "5'd1"
-            vpiValue: "1"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: BIT1
-              vpiActual: LogicTypespec
-        EnumConst name:BIT2 start:10:7 end:10:18:
-          vpiParent: Enum
-          vpiName Identifier name:BIT2 start:10:7 end:10:11:
-          vpiValue Constant start:10:14 end:10:18:
-            vpiParent: EnumConst name:BIT2
-            vpiConstType: decimal (1)
-            vpiSize: 5
-            vpiDecompile: "5'd2"
-            vpiValue: "2"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: BIT2
-              vpiActual: LogicTypespec
-  vpiTypedef (1 items):
-    Typedef name:three_t start:6:1 end:11:17:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:three_t start:11:9 end:11:16:
-      vpiTypedefAlias RefTypespec start:6:9 end:11:8:
-        vpiParent: Typedef name:three_t
-        vpiFullName: three_t
-        vpiActual: EnumTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2502,8 +2514,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 11
+[  ERROR] : 3
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

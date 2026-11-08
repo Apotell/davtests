@@ -254,31 +254,31 @@ n<$Source01/dut.sv> u<239> t<Top_level_rule> c<1> l<1:1> el<48:1>
         n<> u<235> t<ENDMODULE> p<236> l<46:1> el<46:10>
 AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:1:1: Compile interface "MyInterface".
+[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "MyInterface".
 [INF:CP5804] $Source01/dut.sv:9:1: Compile module "range_itf_port".
 [WRN:CP5811] $Source01/dut.sv:10:27: Port "my_port1" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "range_itf_port".
 [INF:CP5805] $Source01/dut.sv:17:1: Compile interface "mem_if".
+[WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "mem_if".
 [INF:CP5804] $Source01/dut.sv:25:1: Compile module "memory_ctrl1".
 [WRN:CP5811] $Source01/dut.sv:25:29: Port "sif1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/dut.sv:25:49: Port "sif2" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/dut.sv:25:1: No timescale set for "memory_ctrl1".
 [INF:CP5805] $Source01/dut.sv:32:1: Compile interface "ConnectTB".
+[WRN:PA5506] $Source01/dut.sv:32:1: No timescale set for "ConnectTB".
 [INF:CP5804] $Source01/dut.sv:35:1: Compile module "middle".
 [WRN:CP5811] $Source01/dut.sv:35:26: Port "conn1" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/dut.sv:35:1: No timescale set for "middle".
 [INF:CP5804] $Source01/dut.sv:39:1: Compile module "range_itf_port2".
 [WRN:CP5811] $Source01/dut.sv:40:27: Port "my_port1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/dut.sv:41:27: Port "my_port2" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/dut.sv:42:18: Port "my_port3" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/dut.sv:43:18: Port "my_port4" definition missing its direction (input, output, inout).
+[WRN:PA5506] $Source01/dut.sv:39:1: No timescale set for "range_itf_port2".
 [WRN:CP5851] $Source01/dut.sv:10:17: Failed to bind "MyModPort".
 [WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "system".
 [WRN:CP5851] $Source01/dut.sv:40:17: Failed to bind "MyModPort".
 [WRN:CP5851] $Source01/dut.sv:41:17: Failed to bind "MyModPort".
-[WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "range_itf_port".
-[WRN:PA5506] $Source01/dut.sv:25:1: No timescale set for "memory_ctrl1".
-[WRN:PA5506] $Source01/dut.sv:35:1: No timescale set for "middle".
-[WRN:PA5506] $Source01/dut.sv:39:1: No timescale set for "range_itf_port2".
-[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "MyInterface".
-[WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "mem_if".
-[WRN:PA5506] $Source01/dut.sv:32:1: No timescale set for "ConnectTB".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -287,6 +287,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
   vpiAllInterfaces (3 items):
     Interface name:MyInterface file:$Source01/dut.sv start:1:1 end:7:13:
       vpiParent: Design name:unnamed
@@ -318,6 +323,7 @@ Design name:unnamed:
         vpiFullName: MyInterface.work
         vpiActual: Library name:work
       vpiCell: MyInterface
+      vpiUnit: Unit
       vpiModport (1 items):
         Modport name:MyModPort start:3:12 end:3:21:
           vpiParent: Interface name:MyInterface
@@ -358,6 +364,7 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiModport (2 items):
         Modport name:system start:19:12 end:19:18:
           vpiParent: Interface name:mem_if
@@ -445,6 +452,7 @@ Design name:unnamed:
             vpiParent: Net name:con_i
             vpiFullName: ConnectTB.con_i
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:con_i start:32:40 end:32:45:
           vpiParent: Interface name:ConnectTB
@@ -561,6 +569,7 @@ Design name:unnamed:
             vpiName: logic [1:0]
             vpiFullName: range_itf_port.my_port2.logic [1:0]
             vpiActual: ArrayTypespec
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:my_port1 start:10:27 end:10:35:
           vpiParent: Module name:range_itf_port
@@ -620,6 +629,7 @@ Design name:unnamed:
             vpiName: mem_if
             vpiFullName: memory_ctrl1.sif1.mem_if
             vpiActual: InterfaceTypespec name:mem_if
+      vpiUnit: Unit
       vpiPort (2 items):
         Port name:sif1 start:25:29 end:25:33:
           vpiParent: Module name:memory_ctrl1
@@ -719,6 +729,7 @@ Design name:unnamed:
             vpiName: ConnectTB [1:0]
             vpiFullName: middle.conn1.ConnectTB [1:0]
             vpiActual: ArrayTypespec
+      vpiUnit: Unit
       vpiPort (1 items):
         Port name:conn1 start:35:26 end:35:31:
           vpiParent: Module name:middle
@@ -844,6 +855,7 @@ Design name:unnamed:
             vpiName: MyInterface [1:0]
             vpiFullName: range_itf_port2.my_port4.MyInterface [1:0]
             vpiActual: ArrayTypespec
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:my_port1 start:40:27 end:40:35:
           vpiParent: Module name:range_itf_port2

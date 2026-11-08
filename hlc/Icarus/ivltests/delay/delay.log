@@ -992,7 +992,6 @@ n<$Source01/delay.v> u<978> t<Top_level_rule> c<1> l<1:1> el<78:1>
         n<> u<974> t<ENDMODULE> p<975> l<77:1> el<77:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/delay.v:3:1: Compile module "assign_test".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1001,6 +1000,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: delay.v
       vpiPreprocFile: "$Output/lib/work/delay.v"
+      vpiDirective (1 items):
+        GenericDirective start:1:1 end:1:21:
+          vpiParent: SourceFile name:delay.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:1:1 end:1:21:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 9
+            vpiDecompile: "1ns/100ps"
+            vpiValue: "1ns/100ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: delay.v
+              vpiActual: StringTypespec
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:delay.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:assign_test file:$Source01/delay.v start:3:1 end:77:10:
       vpiParent: Design name:unnamed
@@ -1155,6 +1175,7 @@ Design name:unnamed:
         vpiFullName: assign_test.work
         vpiActual: Library name:work
       vpiCell: assign_test
+      vpiUnit: Unit
       vpiProcess (15 items):
         Initial start:21:1 end:24:4:
           vpiParent: Module name:assign_test
@@ -2154,6 +2175,8 @@ Design name:unnamed:
         SysFuncCall name:$time:
         SysTaskCall name:$write:
   vpiTypespec (3 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:assign_test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assign_test start:3:8 end:3:19:
@@ -2162,8 +2185,6 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    StringTypespec:
-      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2187,25 +2208,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Icarus/ivltests/delay/mounts.json
 
 
-{'result': {'coverage': 98.34,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/delay.v': {'post_len': 20,
+            'files': {'$Output/lib/work/delay.v': {'post_len': 0,
                                                    'pre_len': 1207}},
-            'post_len': 20,
+            'post_len': 0,
             'pre_len': 1207,
             'test_name': 'Icarus/ivltests/delay'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/delay.v |     1207 |        20 |
+| $Output/lib/work/delay.v |     1207 |         0 |
 +==========================+==========+===========+
-|                          |     1207 |        20 |
+|                          |     1207 |         0 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.34
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2216,7 +2237,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/delay/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             312     312       0         0
+Others                             315     315       0         0
 ----------------------------------------------------------------
-                                   312     312       0         0
+                                   315     315       0         0
 ===================== END REDUCTION RESULT =====================

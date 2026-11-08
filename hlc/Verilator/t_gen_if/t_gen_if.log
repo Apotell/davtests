@@ -242,7 +242,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_gen_if.v:9:1: Compile module "t".
 [INF:CP5836] $Source01/t_gen_if.v:18:34: Compile generate block "general_case".
 [INF:CP5836] $Source01/t_gen_if.v:25:20: Compile generate block "special_case".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -251,6 +250,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_gen_if.v
       vpiPreprocFile: "$Output/lib/work/t_gen_if.v"
+      vpiDirective (1 items):
+        GenericDirective start:7:1 end:7:21:
+          vpiParent: SourceFile name:t_gen_if.v
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:7:1 end:7:21:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 7
+            vpiDecompile: "1ns/1ps"
+            vpiValue: "1ns/1ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t_gen_if.v
+              vpiActual: StringTypespec
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:t_gen_if.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_gen_if.v start:9:1 end:32:10:
       vpiParent: Design name:unnamed
@@ -385,6 +405,7 @@ Design name:unnamed:
             vpiParent: Net name:single
             vpiFullName: t.single
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (3 items):
         Port name:data_i start:9:10 end:9:16:
           vpiParent: Module name:t
@@ -563,7 +584,9 @@ Design name:unnamed:
                       vpiName: single
                       vpiFullName: t.special_case.single
                       vpiActual: Net name:single
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:9:8 end:9:9:
@@ -595,25 +618,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_gen_if/mounts.json
 
 
-{'result': {'coverage': 94.8,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_gen_if.v': {'post_len': 18,
+            'files': {'$Output/lib/work/t_gen_if.v': {'post_len': 0,
                                                       'pre_len': 346}},
-            'post_len': 18,
+            'post_len': 0,
             'pre_len': 346,
             'test_name': 'Verilator/t_gen_if'}}
 
 +-----------------------------+----------+-----------+
 | INPUT                       |   PRELEN |   POSTLEN |
 +=============================+==========+===========+
-| $Output/lib/work/t_gen_if.v |      346 |        18 |
+| $Output/lib/work/t_gen_if.v |      346 |         0 |
 +=============================+==========+===========+
-|                             |      346 |        18 |
+|                             |      346 |         0 |
 +-----------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.8
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -623,12 +646,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_if/design.hldb ${HLC_DIR}/regress
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             8       7       3         4
+Constant                             9       8       3         4
 Operation                            6       1       0         5
 RefObj                              15      12       0         3
-RefTypespec                         15      13       2         4
+RefTypespec                         16      14       2         4
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    76      65       5        16
+                                    80      69       5        16
 ===================== END REDUCTION RESULT =====================

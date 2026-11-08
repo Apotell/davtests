@@ -653,13 +653,20 @@ n<$Source01/test_attributes.sv> u<249> t<Top_level_rule> c<1> l<2:1> el<59:1>
         n<> u<245> t<ENDINTERFACE> p<246> l<57:1> el<57:13>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "bar".
+[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "bar".
 [INF:CP5804] $Source01/dut.sv:13:1: Compile module "foo".
+[WRN:PA5506] $Source01/dut.sv:13:1: No timescale set for "foo".
 [INF:CP5802] $Source01/test_attributes.sv:2:1: Compile package "myPackage".
+[WRN:PA5506] $Source01/test_attributes.sv:2:1: No timescale set for "myPackage".
 [INF:CP5806] $Source01/test_attributes.sv:7:31: Compile udp "multiplexer".
 [INF:CP5804] $Source01/test_attributes.sv:31:1: Compile module "top".
 [INF:CP5804] $Source01/test_attributes.sv:34:3: Compile module "top2".
+[WRN:PA5506] $Source01/test_attributes.sv:34:3: No timescale set for "top2".
+[WRN:PA5506] $Source01/test_attributes.sv:31:1: No timescale set for "top".
 [INF:CP5805] $Source01/test_attributes.sv:52:1: Compile interface "itf".
 [INF:CP5805] $Source01/test_attributes.sv:54:3: Compile interface "itf2".
+[WRN:PA5506] $Source01/test_attributes.sv:54:3: No timescale set for "itf2".
+[WRN:PA5506] $Source01/test_attributes.sv:52:1: No timescale set for "itf".
 [WRN:CP5851] $Source01/dut.sv:22:18: Failed to bind "pieces0".
 [WRN:CP5851] $Source01/dut.sv:22:61: Failed to bind "b".
 [WRN:CP5851] $Source01/dut.sv:24:24: Failed to bind "empty2".
@@ -667,13 +674,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:31:9: Failed to bind "b".
 [WRN:CP5851] $Source01/dut.sv:33:9: Failed to bind "b".
 [WRN:CP5851] $Source01/dut.sv:35:9: Failed to bind "b".
-[WRN:PA5506] $Source01/test_attributes.sv:2:1: No timescale set for "myPackage".
-[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "bar".
-[WRN:PA5506] $Source01/dut.sv:13:1: No timescale set for "foo".
-[WRN:PA5506] $Source01/test_attributes.sv:31:1: No timescale set for "top".
-[WRN:PA5506] $Source01/test_attributes.sv:34:3: No timescale set for "top2".
-[WRN:PA5506] $Source01/test_attributes.sv:52:1: No timescale set for "itf".
-[WRN:PA5506] $Source01/test_attributes.sv:54:3: No timescale set for "itf2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -686,6 +686,80 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: test_attributes.sv
       vpiPreprocFile: "$Output/lib/work/test_attributes.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (2 items):
+        SourceFile name:dut.sv:
+        SourceFile name:test_attributes.sv:
+      vpiTypespec (1 items):
+        ClassTypespec name:toto start:42:29 end:42:33:
+          vpiParent: Unit
+          vpiName Identifier name:toto:
+          vpiDefName: toto
+          vpiClassDefn: ClassDefn name:toto
+      vpiClassDefn (1 items):
+        ClassDefn name:toto file:$Source01/test_attributes.sv start:42:23 end:49:9:
+          vpiParent: Unit
+          vpiName Identifier name:toto start:42:29 end:42:33:
+          vpiFullName: toto
+          vpiTypespec (1 items):
+            ClassTypespec name:tata start:45:31 end:45:35:
+              vpiParent: ClassDefn name:toto
+              vpiName Identifier name:tata:
+              vpiDefName: tata
+              vpiClassDefn: ClassDefn name:tata
+          vpiAttribute (1 items):
+            Attribute name:class_attribute start:42:4 end:42:19:
+              vpiParent: ClassDefn name:toto
+              vpiName: class_attribute
+              vpiValue Constant start:42:4 end:42:19:
+                vpiParent: Attribute name:class_attribute
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: toto::class_attribute
+                  vpiActual: IntTypespec
+          vpiDefName: toto
+          vpiAutomatic: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work start:42:29 end:42:33:
+            vpiParent: ClassDefn name:toto
+            vpiName: work
+            vpiFullName: toto::work
+            vpiActual: Library name:work
+          vpiCell: toto
+          vpiClassDefn (1 items):
+            ClassDefn name:tata file:$Source01/test_attributes.sv start:45:25 end:46:11:
+              vpiParent: ClassDefn name:toto
+              vpiName Identifier name:tata start:45:31 end:45:35:
+              vpiFullName: toto::tata
+              vpiAttribute (1 items):
+                Attribute name:class_attribute2 start:45:6 end:45:22:
+                  vpiParent: ClassDefn name:tata
+                  vpiName: class_attribute2
+                  vpiValue Constant start:45:6 end:45:22:
+                    vpiParent: Attribute name:class_attribute2
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: toto::tata::class_attribute2
+                      vpiActual: IntTypespec
+              vpiDefName: tata
+              vpiAutomatic: true
+              vpiClassType: userdefined class (3)
+              vpiLibrary RefObj name:work start:45:31 end:45:35:
+                vpiParent: ClassDefn name:tata
+                vpiName: work
+                vpiFullName: toto::tata::work
+                vpiActual: Library name:work
+              vpiCell: tata
   vpiAllPackages (1 items):
     Package name:myPackage file:$Source01/test_attributes.sv start:2:1 end:4:11:
       vpiParent: Design name:unnamed
@@ -715,68 +789,7 @@ Design name:unnamed:
         vpiFullName: myPackage::work
         vpiActual: Library name:work
       vpiCell: myPackage
-  vpiAllClasses (1 items):
-    ClassDefn name:toto file:$Source01/test_attributes.sv start:42:23 end:49:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:toto start:42:29 end:42:33:
-      vpiFullName: toto
-      vpiTypespec (1 items):
-        ClassTypespec name:tata start:45:31 end:45:35:
-          vpiParent: ClassDefn name:toto
-          vpiName Identifier name:tata:
-          vpiDefName: tata
-          vpiClassDefn: ClassDefn name:tata
-      vpiAttribute (1 items):
-        Attribute name:class_attribute start:42:4 end:42:19:
-          vpiParent: ClassDefn name:toto
-          vpiName: class_attribute
-          vpiValue Constant start:42:4 end:42:19:
-            vpiParent: Attribute name:class_attribute
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "1"
-            vpiValue: 1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: toto::class_attribute
-              vpiActual: IntTypespec
-      vpiDefName: toto
-      vpiAutomatic: true
-      vpiClassType: userdefined class (3)
-      vpiLibrary RefObj name:work start:42:29 end:42:33:
-        vpiParent: ClassDefn name:toto
-        vpiName: work
-        vpiFullName: toto::work
-        vpiActual: Library name:work
-      vpiCell: toto
-      vpiClassDefn (1 items):
-        ClassDefn name:tata file:$Source01/test_attributes.sv start:45:25 end:46:11:
-          vpiParent: ClassDefn name:toto
-          vpiName Identifier name:tata start:45:31 end:45:35:
-          vpiFullName: toto::tata
-          vpiAttribute (1 items):
-            Attribute name:class_attribute2 start:45:6 end:45:22:
-              vpiParent: ClassDefn name:tata
-              vpiName: class_attribute2
-              vpiValue Constant start:45:6 end:45:22:
-                vpiParent: Attribute name:class_attribute2
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: toto::tata::class_attribute2
-                  vpiActual: IntTypespec
-          vpiDefName: tata
-          vpiAutomatic: true
-          vpiClassType: userdefined class (3)
-          vpiLibrary RefObj name:work start:45:31 end:45:35:
-            vpiParent: ClassDefn name:tata
-            vpiName: work
-            vpiFullName: toto::tata::work
-            vpiActual: Library name:work
-          vpiCell: tata
+      vpiUnit: Unit
   vpiAllInterfaces (1 items):
     Interface name:itf file:$Source01/test_attributes.sv start:52:1 end:57:13:
       vpiParent: Design name:unnamed
@@ -813,6 +826,7 @@ Design name:unnamed:
         vpiFullName: itf.work
         vpiActual: Library name:work
       vpiCell: itf
+      vpiUnit: Unit
       vpiInterface (1 items):
         Interface name:itf2 file:$Source01/test_attributes.sv start:54:3 end:55:15:
           vpiParent: Interface name:itf
@@ -843,6 +857,7 @@ Design name:unnamed:
             vpiFullName: itf.itf2.work
             vpiActual: Library name:work
           vpiCell: itf2
+          vpiUnit: Unit
   vpiAllUdps (1 items):
     UdpDefn name:multiplexer start:7:1 end:27:13:
       vpiParent: Design name:unnamed
@@ -1137,6 +1152,7 @@ Design name:unnamed:
             vpiParent: Net name:inp
             vpiFullName: bar.inp
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:clk start:1:12 end:1:15:
           vpiParent: Module name:bar
@@ -1318,6 +1334,7 @@ Design name:unnamed:
             vpiParent: Net name:out
             vpiFullName: foo.out
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:clk start:13:12 end:13:15:
           vpiParent: Module name:foo
@@ -1711,6 +1728,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiUnit: Unit
       vpiModule (1 items):
         Module name:top2 file:$Source01/test_attributes.sv start:34:3 end:36:12:
           vpiParent: Module name:top
@@ -1742,7 +1760,8 @@ Design name:unnamed:
             vpiFullName: top.top2.work
             vpiActual: Library name:work
           vpiCell: top2
-  vpiTypespec (15 items):
+          vpiUnit: Unit
+  vpiTypespec (14 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -1771,11 +1790,6 @@ Design name:unnamed:
       vpiName Identifier name:top start:32:8 end:32:11:
       vpiDefName: top
       vpiModule: Module name:top
-    ClassTypespec name:toto start:42:29 end:42:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:toto:
-      vpiDefName: toto
-      vpiClassDefn: ClassDefn name:toto
     InterfaceTypespec name:itf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:itf start:52:32 end:52:35:

@@ -634,7 +634,6 @@ n<$Source01/cpx_datacx2_ff.v> u<617> t<Top_level_rule> c<1> f<2> l<34:1> el<92:1
   n<// cpx_grant_ff> u<616> t<LINE_COMMENT> p<617> l<81:11> el<81:26>
 AST_DEBUG_END
 [INF:CP5804] $Source01/cpx_datacx2_ff.v:36:1: Compile module "cpx_datacx2_ff".
-[INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DL2510] $Source01/cpx_datacx2_ff.v:58:4: Unsupported typespec "dff_s".
 [ERR:DL2510] $Source01/cpx_datacx2_ff.v:72:7: Unsupported typespec "dff_s".
 ====== HLDB =======
@@ -1554,6 +1553,20 @@ Design name:unnamed:
               vpiPMDType: define (1)
               vpiPMDToken (1 items):
                 "Identifier name:64'h000007f7c0000000 start:278:33 end:278:53":
+          vpiDirective (1 items):
+            GenericDirective start:34:1 end:34:19:
+              vpiParent: SourceFile name:sys.h
+              vpiDirectiveType: timescale (34)
+              vpiValue Constant start:34:1 end:34:19:
+                vpiParent: GenericDirective
+                vpiConstType: string (6)
+                vpiSize: 7
+                vpiDecompile: "1ps/1ps"
+                vpiValue: "1ps/1ps"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: cpx_datacx2_ff.v.sys.h
+                  vpiActual: StringTypespec
         SourceFile name:iop.h file:$Source01/iop.h start:28:1 end:28:17:
           vpiParent: SourceFile name:cpx_datacx2_ff.v
           vpiName: iop.h
@@ -4724,6 +4737,13 @@ Design name:unnamed:
           vpiName Identifier name:CPX_WIDTH start:63:22 end:63:32:
           vpiPreprocMacroDefinition: PreprocMacroDefinition name:CPX_WIDTH
           vpiPMIBody Identifier name:145 start:78:19 end:78:22:
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:cpx_datacx2_ff.v:
+      vpiDirective (1 items):
+        GenericDirective:
   vpiAllModules (1 items):
     Module name:cpx_datacx2_ff file:$Source01/cpx_datacx2_ff.v start:36:1 end:81:10:
       vpiParent: Design name:unnamed
@@ -4993,6 +5013,7 @@ Design name:unnamed:
             vpiParent: Net name:cpx_spc_data_cx2_l
             vpiFullName: cpx_datacx2_ff.cpx_spc_data_cx2_l
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (8 items):
         Port name:cpx_spc_data_cx2 start:38:4 end:38:20:
           vpiParent: Module name:cpx_datacx2_ff
@@ -5385,7 +5406,9 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: so
                 vpiFullName: cpx_datacx2_ff.dff_ccx_datardy_spc.so
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:cpx_datacx2_ff:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cpx_datacx2_ff start:36:8 end:36:22:
@@ -5417,25 +5440,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UtdSV/cpx_datacx2_ff.v/mounts.json
 
 
-{'result': {'coverage': 97.75,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/cpx_datacx2_ff.v': {'post_len': 18,
+            'files': {'$Output/lib/work/cpx_datacx2_ff.v': {'post_len': 0,
                                                             'pre_len': 799}},
-            'post_len': 18,
+            'post_len': 0,
             'pre_len': 799,
             'test_name': 'UtdSV/cpx_datacx2_ff.v'}}
 
 +-----------------------------------+----------+-----------+
 | INPUT                             |   PRELEN |   POSTLEN |
 +===================================+==========+===========+
-| $Output/lib/work/cpx_datacx2_ff.v |      799 |        18 |
+| $Output/lib/work/cpx_datacx2_ff.v |      799 |         0 |
 +===================================+==========+===========+
-|                                   |      799 |        18 |
+|                                   |      799 |         0 |
 +-----------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.75
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5445,11 +5468,11 @@ COMMAND: ${HLC_DIR}/regression/UtdSV/cpx_datacx2_ff.v/design.hldb ${HLC_DIR}/reg
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            21      16       5        10
+Constant                            22      17       5        10
 Operation                            6       1       0         5
-RefTypespec                         40      35       5        10
+RefTypespec                         41      36       5        10
 ----------------------------------------------------------------
-Others                            2144    2144       0         0
+Others                            2146    2146       0         0
 ----------------------------------------------------------------
-                                  2211    2196      10        25
+                                  2215    2200      10        25
 ===================== END REDUCTION RESULT =====================

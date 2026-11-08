@@ -42,8 +42,8 @@ n<$Source01/typedef_test_8__bad.sv> u<28> t<Top_level_rule> c<1> l<18:1> el<22:1
         n<> u<24> t<ENDMODULE> p<25> l<21:1> el<21:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/typedef_test_8__bad.sv:20:1: Compile module "test".
-[WRN:CP5851] $Source01/typedef_test_8__bad.sv:18:9: Failed to bind "some_other_type".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:CP5851] $Source01/typedef_test_8__bad.sv:18:9: Failed to bind "some_other_type".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -52,6 +52,24 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: typedef_test_8__bad.sv
       vpiPreprocFile: "$Output/lib/work/typedef_test_8__bad.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:typedef_test_8__bad.sv:
+      vpiTypespec (1 items):
+        TypedefTypespec name:myalias start:18:1 end:18:33:
+          vpiParent: Unit
+          vpiName Identifier name:myalias start:18:25 end:18:32:
+          vpiTypedef: Typedef name:myalias
+      vpiTypedef (1 items):
+        Typedef name:myalias start:18:1 end:18:33:
+          vpiParent: Unit
+          vpiName Identifier name:myalias start:18:25 end:18:32:
+          vpiTypedefAlias RefTypespec name:some_other_type start:18:9 end:18:24:
+            vpiParent: Typedef name:myalias
+            vpiName: some_other_type
+            vpiFullName: myalias.some_other_type
   vpiAllModules (1 items):
     Module name:test file:$Source01/typedef_test_8__bad.sv start:20:1 end:21:10:
       vpiParent: Design name:unnamed
@@ -62,6 +80,8 @@ Design name:unnamed:
       vpiDefFile: "$Source01/typedef_test_8__bad.sv"
       vpiDefLineNo: 20
       vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:20:8 end:20:12:
         vpiParent: Module name:test
@@ -69,24 +89,13 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
-  vpiTypespec (2 items):
-    TypedefTypespec name:myalias start:18:1 end:18:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:myalias start:18:25 end:18:32:
-      vpiTypedef: Typedef name:myalias
+      vpiUnit: Unit
+  vpiTypespec (1 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:20:8 end:20:12:
       vpiDefName: test
       vpiModule: Module name:test
-  vpiTypedef (1 items):
-    Typedef name:myalias start:18:1 end:18:33:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:myalias start:18:25 end:18:32:
-      vpiTypedefAlias RefTypespec name:some_other_type start:18:9 end:18:24:
-        vpiParent: Typedef name:myalias
-        vpiName: some_other_type
-        vpiFullName: myalias.some_other_type
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

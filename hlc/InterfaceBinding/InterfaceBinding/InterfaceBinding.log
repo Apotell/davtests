@@ -313,14 +313,14 @@ n<$Source01/dut.sv> u<299> t<Top_level_rule> c<1> l<1:1> el<42:3>
                   n<> u<290> t<CLOSE_PARENS> p<291> l<41:18> el<41:19>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "ADD_SUB".
+[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "ADD_SUB".
 [INF:CP5805] $Source01/dut.sv:19:1: Compile interface "add_sub_if".
+[WRN:PA5506] $Source01/dut.sv:19:1: No timescale set for "add_sub_if".
 [WRN:CP5851] $Source01/dut.sv:37:8: Failed to bind "clk".
 [WRN:CP5851] $Source01/dut.sv:38:6: Failed to bind "a0".
 [WRN:CP5851] $Source01/dut.sv:39:6: Failed to bind "b0".
 [WRN:CP5851] $Source01/dut.sv:40:10: Failed to bind "doAdd0".
 [WRN:CP5851] $Source01/dut.sv:41:11: Failed to bind "result0".
-[WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "ADD_SUB".
-[WRN:PA5506] $Source01/dut.sv:19:1: No timescale set for "add_sub_if".
 [ERR:CP5867] $Source01/dut.sv:20:13: Illegal data type for net clk.
 ====== HLDB =======
 Design name:unnamed:
@@ -330,6 +330,88 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:dut.sv:
+      vpiBindDirective (1 items):
+        BindDirective start:36:1 end:42:3:
+          vpiParent: Unit
+          vpiBindTargetScope RefObj name:ADD_SUB start:36:6 end:36:13:
+            vpiParent: BindDirective
+            vpiName: ADD_SUB
+            vpiFullName: ADD_SUB
+            vpiActual: Module name:ADD_SUB
+          vpiBindSourceInstance RefInstance name:add_sub_if0 start:36:25 end:36:36:
+            vpiParent: BindDirective
+            vpiName: add_sub_if0
+            vpiTypespec RefTypespec name:add_sub_if start:36:14 end:36:24:
+              vpiParent: RefInstance name:add_sub_if0
+              vpiName: add_sub_if
+              vpiFullName: add_sub_if0.add_sub_if
+              vpiActual: InterfaceTypespec name:add_sub_if
+            vpiArgument (5 items):
+              NamedArgument start:37:3 end:37:12:
+                vpiParent: RefInstance name:add_sub_if0
+                vpiConnByName: true
+                vpiLowConn RefObj name:clk start:37:4 end:37:7:
+                  vpiParent: NamedArgument
+                  vpiName: clk
+                  vpiFullName: add_sub_if0.clk
+                  vpiActual: Port name:clk
+                vpiHighConn RefObj name:clk start:37:8 end:37:11:
+                  vpiParent: NamedArgument
+                  vpiName: clk
+                  vpiFullName: add_sub_if0.clk
+              NamedArgument start:38:3 end:38:9:
+                vpiParent: RefInstance name:add_sub_if0
+                vpiConnByName: true
+                vpiLowConn RefObj name:a start:38:4 end:38:5:
+                  vpiParent: NamedArgument
+                  vpiName: a
+                  vpiFullName: add_sub_if0.a
+                  vpiActual: Port name:a
+                vpiHighConn RefObj name:a0 start:38:6 end:38:8:
+                  vpiParent: NamedArgument
+                  vpiName: a0
+                  vpiFullName: add_sub_if0.a0
+              NamedArgument start:39:3 end:39:9:
+                vpiParent: RefInstance name:add_sub_if0
+                vpiConnByName: true
+                vpiLowConn RefObj name:b start:39:4 end:39:5:
+                  vpiParent: NamedArgument
+                  vpiName: b
+                  vpiFullName: add_sub_if0.b
+                  vpiActual: Port name:b
+                vpiHighConn RefObj name:b0 start:39:6 end:39:8:
+                  vpiParent: NamedArgument
+                  vpiName: b0
+                  vpiFullName: add_sub_if0.b0
+              NamedArgument start:40:3 end:40:17:
+                vpiParent: RefInstance name:add_sub_if0
+                vpiConnByName: true
+                vpiLowConn RefObj name:doAdd start:40:4 end:40:9:
+                  vpiParent: NamedArgument
+                  vpiName: doAdd
+                  vpiFullName: add_sub_if0.doAdd
+                  vpiActual: Port name:doAdd
+                vpiHighConn RefObj name:doAdd0 start:40:10 end:40:16:
+                  vpiParent: NamedArgument
+                  vpiName: doAdd0
+                  vpiFullName: add_sub_if0.doAdd0
+              NamedArgument start:41:3 end:41:19:
+                vpiParent: RefInstance name:add_sub_if0
+                vpiConnByName: true
+                vpiLowConn RefObj name:result start:41:4 end:41:10:
+                  vpiParent: NamedArgument
+                  vpiName: result
+                  vpiFullName: add_sub_if0.result
+                  vpiActual: Port name:result
+                vpiHighConn RefObj name:result0 start:41:11 end:41:18:
+                  vpiParent: NamedArgument
+                  vpiName: result0
+                  vpiFullName: add_sub_if0.result0
   vpiAllInterfaces (1 items):
     Interface name:add_sub_if file:$Source01/dut.sv start:19:1 end:34:25:
       vpiParent: Design name:unnamed
@@ -486,6 +568,7 @@ Design name:unnamed:
             vpiParent: Net name:result
             vpiFullName: add_sub_if.result
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:27:3 end:32:14:
           vpiParent: Interface name:add_sub_if
@@ -746,6 +829,7 @@ Design name:unnamed:
             vpiParent: Net name:doAdd0
             vpiFullName: ADD_SUB.doAdd0
             vpiActual: LogicTypespec
+      vpiUnit: Unit
       vpiPort (5 items):
         Port name:clk start:2:20 end:2:23:
           vpiParent: Module name:ADD_SUB
@@ -906,83 +990,6 @@ Design name:unnamed:
       vpiName Identifier name:add_sub_if start:19:11 end:19:21:
       vpiDefName: add_sub_if
       vpiInterface: Interface name:add_sub_if
-  vpiBindDirective (1 items):
-    BindDirective start:36:1 end:42:3:
-      vpiParent: Design name:unnamed
-      vpiBindTargetScope RefObj name:ADD_SUB start:36:6 end:36:13:
-        vpiParent: BindDirective
-        vpiName: ADD_SUB
-        vpiFullName: ADD_SUB
-        vpiActual: Module name:ADD_SUB
-      vpiBindSourceInstance RefInstance name:add_sub_if0 start:36:25 end:36:36:
-        vpiParent: BindDirective
-        vpiName: add_sub_if0
-        vpiTypespec RefTypespec name:add_sub_if start:36:14 end:36:24:
-          vpiParent: RefInstance name:add_sub_if0
-          vpiName: add_sub_if
-          vpiFullName: add_sub_if0.add_sub_if
-          vpiActual: InterfaceTypespec name:add_sub_if
-        vpiArgument (5 items):
-          NamedArgument start:37:3 end:37:12:
-            vpiParent: RefInstance name:add_sub_if0
-            vpiConnByName: true
-            vpiLowConn RefObj name:clk start:37:4 end:37:7:
-              vpiParent: NamedArgument
-              vpiName: clk
-              vpiFullName: add_sub_if0.clk
-              vpiActual: Port name:clk
-            vpiHighConn RefObj name:clk start:37:8 end:37:11:
-              vpiParent: NamedArgument
-              vpiName: clk
-              vpiFullName: add_sub_if0.clk
-          NamedArgument start:38:3 end:38:9:
-            vpiParent: RefInstance name:add_sub_if0
-            vpiConnByName: true
-            vpiLowConn RefObj name:a start:38:4 end:38:5:
-              vpiParent: NamedArgument
-              vpiName: a
-              vpiFullName: add_sub_if0.a
-              vpiActual: Port name:a
-            vpiHighConn RefObj name:a0 start:38:6 end:38:8:
-              vpiParent: NamedArgument
-              vpiName: a0
-              vpiFullName: add_sub_if0.a0
-          NamedArgument start:39:3 end:39:9:
-            vpiParent: RefInstance name:add_sub_if0
-            vpiConnByName: true
-            vpiLowConn RefObj name:b start:39:4 end:39:5:
-              vpiParent: NamedArgument
-              vpiName: b
-              vpiFullName: add_sub_if0.b
-              vpiActual: Port name:b
-            vpiHighConn RefObj name:b0 start:39:6 end:39:8:
-              vpiParent: NamedArgument
-              vpiName: b0
-              vpiFullName: add_sub_if0.b0
-          NamedArgument start:40:3 end:40:17:
-            vpiParent: RefInstance name:add_sub_if0
-            vpiConnByName: true
-            vpiLowConn RefObj name:doAdd start:40:4 end:40:9:
-              vpiParent: NamedArgument
-              vpiName: doAdd
-              vpiFullName: add_sub_if0.doAdd
-              vpiActual: Port name:doAdd
-            vpiHighConn RefObj name:doAdd0 start:40:10 end:40:16:
-              vpiParent: NamedArgument
-              vpiName: doAdd0
-              vpiFullName: add_sub_if0.doAdd0
-          NamedArgument start:41:3 end:41:19:
-            vpiParent: RefInstance name:add_sub_if0
-            vpiConnByName: true
-            vpiLowConn RefObj name:result start:41:4 end:41:10:
-              vpiParent: NamedArgument
-              vpiName: result
-              vpiFullName: add_sub_if0.result
-              vpiActual: Port name:result
-            vpiHighConn RefObj name:result0 start:41:11 end:41:18:
-              vpiParent: NamedArgument
-              vpiName: result0
-              vpiFullName: add_sub_if0.result0
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed

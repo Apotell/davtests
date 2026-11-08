@@ -720,10 +720,71 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.sv
       vpiPreprocFile: "$Output/lib/work/top.sv"
-      vpiDirective (1 items):
+      vpiDirective (7 items):
+        GenericDirective start:1:1 end:1:21:
+          vpiParent: SourceFile name:top.sv
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:1:1 end:1:21:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 7
+            vpiDecompile: "1ns/1ps"
+            vpiValue: "1ns/1ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.sv
+              vpiActual: StringTypespec
+        PragmaDirective name:protect start:9:1 end:9:22:
+          vpiParent: SourceFile name:top.sv
+          vpiName Identifier name:protect start:9:9 end:9:16:
+        PragmaDirective name:protect start:49:1 end:49:20:
+          vpiParent: SourceFile name:top.sv
+          vpiName Identifier name:protect start:49:9 end:49:16:
         GenericDirective start:70:1 end:70:14:
           vpiParent: SourceFile name:top.sv
           vpiDirectiveType: endprotected (17)
+        GenericDirective start:73:1 end:73:21:
+          vpiParent: SourceFile name:top.sv
+          vpiDirectiveType: timescale (34)
+          vpiValue Constant start:73:1 end:73:21:
+            vpiParent: GenericDirective
+            vpiConstType: string (6)
+            vpiSize: 7
+            vpiDecompile: "1ns/1ps"
+            vpiValue: "1ns/1ps"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.sv
+              vpiActual: StringTypespec
+        PragmaDirective name:protect start:100:1 end:100:30:
+          vpiParent: SourceFile name:top.sv
+          vpiName Identifier name:protect start:100:9 end:100:16:
+          vpiExpr (1 items):
+            RefObj name:end_protected start:100:17 end:100:30:
+              vpiParent: PragmaDirective name:protect
+              vpiName: end_protected
+              vpiFullName: top.sv.protect.end_protected
+        PragmaDirective name:reset start:101:1 end:101:22:
+          vpiParent: SourceFile name:top.sv
+          vpiName Identifier name:reset start:101:9 end:101:14:
+          vpiExpr (1 items):
+            RefObj name:protect start:101:15 end:101:22:
+              vpiParent: PragmaDirective name:reset
+              vpiName: protect
+              vpiFullName: top.sv.reset.protect
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:top.sv:
+      vpiDirective (7 items):
+        GenericDirective:
+        PragmaDirective name:protect:
+        PragmaDirective name:protect:
+        GenericDirective:
+        GenericDirective:
+        PragmaDirective name:protect:
+        PragmaDirective name:reset:
   vpiAllModules (2 items):
     Module name:sram file:$Source01/top.sv start:2:1 end:50:10:
       vpiParent: Design name:unnamed
@@ -962,13 +1023,7 @@ Design name:unnamed:
             vpiName: DBUS_driver
             vpiFullName: sram.DBUS.DBUS_driver
             vpiActual: Variable name:DBUS_driver
-      vpiDirective (2 items):
-        PragmaDirective name:protect start:9:1 end:9:22:
-          vpiParent: Module name:sram
-          vpiName Identifier name:protect start:9:9 end:9:16:
-        PragmaDirective name:protect start:49:1 end:49:20:
-          vpiParent: Module name:sram
-          vpiName Identifier name:protect start:49:9 end:49:16:
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:CSB start:2:13 end:2:16:
           vpiParent: Module name:sram
@@ -1610,23 +1665,7 @@ Design name:unnamed:
           vpiFullName: sram.DBUS
           vpiConstantSelect: true
           vpiNetType: wire (1)
-      vpiDirective (2 items):
-        PragmaDirective name:protect start:100:1 end:100:30:
-          vpiParent: Module name:sram
-          vpiName Identifier name:protect start:100:9 end:100:16:
-          vpiExpr (1 items):
-            RefObj name:end_protected start:100:17 end:100:30:
-              vpiParent: PragmaDirective name:protect
-              vpiName: end_protected
-              vpiFullName: sram.protect.end_protected
-        PragmaDirective name:reset start:101:1 end:101:22:
-          vpiParent: Module name:sram
-          vpiName Identifier name:reset start:101:9 end:101:14:
-          vpiExpr (1 items):
-            RefObj name:protect start:101:15 end:101:22:
-              vpiParent: PragmaDirective name:reset
-              vpiName: protect
-              vpiFullName: sram.reset.protect
+      vpiUnit: Unit
       vpiPort (4 items):
         Port name:CSB start:74:13 end:74:16:
           vpiParent: Module name:sram
@@ -1684,6 +1723,8 @@ Design name:unnamed:
             vpiFullName: sram.DBUS.DBUS
             vpiActual: Net name:DBUS
   vpiTypespec (10 items):
+    StringTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:sram:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sram start:2:8 end:2:12:
@@ -1693,8 +1734,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     LogicTypespec:
-      vpiParent: Design name:unnamed
-    StringTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:sram:
       vpiParent: Design name:unnamed
@@ -1734,25 +1773,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/mounts.json
 
 
-{'result': {'coverage': 94.61,
+{'result': {'coverage': 98.92,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 50,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 10,
                                                   'pre_len': 928}},
-            'post_len': 50,
+            'post_len': 10,
             'pre_len': 928,
             'test_name': 'PragmaProtect/PragmaProtect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      928 |        50 |
+| $Output/lib/work/top.sv |      928 |        10 |
 +=========================+==========+===========+
-|                         |      928 |        50 |
+|                         |      928 |        10 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 94.61
+[COVERAGE] : 98.92
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1763,7 +1802,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2094    2094       0         0
+Others                            2100    2100       0         0
 ----------------------------------------------------------------
-                                  2094    2094       0         0
+                                  2100    2100       0         0
 ===================== END REDUCTION RESULT =====================
