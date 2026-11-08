@@ -483,9 +483,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/Instantiation.sv:38:1: No timescale set for "nets_and_variables_if_nonansi".
 [INF:CP5804] $Source01/Instantiation.sv:56:1: Compile module "top_nonansi".
 [WRN:PA5506] $Source01/Instantiation.sv:56:1: No timescale set for "top_nonansi".
-[ERR:LN7701] Invalid name: id:163, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:166, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:169, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1005,10 +1002,7 @@ Design name:unnamed:
           vpiParent: Module name:top_nonansi
           vpiScalar: true
         ModuleTypespec name:nets_and_variables_nonansi:
-        ProgramTypespec name:nets_and_variables_program start:64:3 end:64:29:
-          vpiParent: Module name:top_nonansi
-          vpiName Identifier name:nets_and_variables_program start:64:3 end:64:29:
-          vpiDefName: nets_and_variables_program
+        ProgramTypespec name:nets_and_variables_program:
       vpiDefName: top_nonansi
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/Instantiation.sv"
@@ -1177,9 +1171,11 @@ Design name:unnamed:
           vpiArgument (3 items):
             NamedArgument start:64:40 end:64:41:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:a:
                 vpiParent: NamedArgument
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: a
+                vpiFullName: top_nonansi.prog_inst.a
+                vpiActual: Port name:a
               vpiHighConn RefObj name:a start:64:40 end:64:41:
                 vpiParent: NamedArgument
                 vpiName: a
@@ -1187,9 +1183,11 @@ Design name:unnamed:
                 vpiActual: Net name:a
             NamedArgument start:64:43 end:64:44:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:b:
                 vpiParent: NamedArgument
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: b
+                vpiFullName: top_nonansi.prog_inst.b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:64:43 end:64:44:
                 vpiParent: NamedArgument
                 vpiName: b
@@ -1197,9 +1195,11 @@ Design name:unnamed:
                 vpiActual: Net name:b
             NamedArgument start:64:46 end:64:48:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:y:
                 vpiParent: NamedArgument
-                vpiFullName: top_nonansi.prog_inst
+                vpiName: y
+                vpiFullName: top_nonansi.prog_inst.y
+                vpiActual: Port name:y
               vpiHighConn RefObj name:y2 start:64:46 end:64:48:
                 vpiParent: NamedArgument
                 vpiName: y2
@@ -1246,7 +1246,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
@@ -1291,7 +1291,7 @@ COMMAND: ${HLC_DIR}/regression/NetsAndVariables/NonAnsi/Instantiation/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             171     171       0         0
+Others                             169     169       0         0
 ----------------------------------------------------------------
-                                   171     171       0         0
+                                   169     169       0         0
 ===================== END REDUCTION RESULT =====================

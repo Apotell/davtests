@@ -2162,18 +2162,7 @@ Design name:unnamed:
                   vpiFullName: TOP
                   vpiActual: IntTypespec
           vpiVector: true
-        ProgramTypespec name:TESTBENCH start:22:3 end:22:12:
-          vpiParent: Module name:TOP
-          vpiName Identifier name:TESTBENCH start:22:3 end:22:12:
-          vpiDefName: TESTBENCH
-          vpiParamAssign (1 items):
-            ParamAssign start:22:15 end:22:20:
-              vpiParent: ProgramTypespec name:TESTBENCH
-              vpiRhs RefObj name:width start:22:15 end:22:20:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: TOP.TESTBENCH.width
-                vpiActual: Parameter name:width
+        ProgramTypespec name:TESTBENCH #(.width(width)):
       vpiDefName: TOP
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/tb.v"
@@ -2315,7 +2304,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:tb
             vpiName: TESTBENCH
             vpiFullName: TOP.tb.TESTBENCH
-            vpiActual: ProgramTypespec name:TESTBENCH
+            vpiActual: ProgramTypespec name:TESTBENCH #(.width(width))
           vpiArgument (2 items):
             NamedArgument start:22:25 end:22:47:
               vpiParent: RefInstance name:tb
@@ -2324,6 +2313,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: observe
                 vpiFullName: TOP.tb.observe
+                vpiActual: Port name:observe
               vpiHighConn RefObj name:conntb.con_o start:22:34 end:22:46:
                 vpiParent: NamedArgument
                 vpiName: conntb.con_o
@@ -2347,6 +2337,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: drive
                 vpiFullName: TOP.tb.drive
+                vpiActual: Port name:drive
               vpiHighConn RefObj name:conntb.con_i start:22:55 end:22:67:
                 vpiParent: NamedArgument
                 vpiName: conntb.con_i
@@ -2363,7 +2354,7 @@ Design name:unnamed:
                     vpiFullName: TOP.tb.con_i
                     vpiActual: Net name:con_i
                 vpiActual: Net name:con_i
-  vpiTypespec (10 items):
+  vpiTypespec (11 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:2:8 end:2:11:
@@ -2437,6 +2428,24 @@ Design name:unnamed:
             vpiFullName: middle #(.width(width)).width
             vpiActual: Parameter name:width
       vpiModule: Module name:middle #(.width(1))
+    ProgramTypespec name:TESTBENCH #(.width(width)) start:22:3 end:22:12:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:TESTBENCH #(.width(width)) start:22:3 end:22:12:
+      vpiDefName: TESTBENCH
+      vpiParamAssign (1 items):
+        ParamAssign start:22:15 end:22:20:
+          vpiParent: ProgramTypespec name:TESTBENCH #(.width(width))
+          vpiLhs RefObj name:width start:1:31 end:1:36:
+            vpiParent: ParamAssign
+            vpiName: width
+            vpiFullName: TESTBENCH #(.width(width)).width
+            vpiActual: Parameter name:width
+          vpiRhs RefObj name:width start:22:15 end:22:20:
+            vpiParent: ParamAssign
+            vpiName: width
+            vpiFullName: TESTBENCH #(.width(width)).width
+            vpiActual: Parameter name:width
+      vpiProgram: Program name:TESTBENCH #(.width(1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -2492,10 +2501,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      40      10        10
 Operation                           12       2       0        10
-RefObj                              78      68       0        10
+RefObj                              79      69       0        10
 RefTypespec                         72      72      10        10
 ----------------------------------------------------------------
 Others                             154     154       0         0
 ----------------------------------------------------------------
-                                   356     336      20        40
+                                   357     337      20        40
 ===================== END REDUCTION RESULT =====================

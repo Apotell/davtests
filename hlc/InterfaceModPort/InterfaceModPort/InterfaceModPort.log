@@ -925,33 +925,32 @@ AST_DEBUG_END
 [WRN:CP5815] $Source01/top.v:99:9: Using programs is discouraged "test", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/top.v:112:1: Compile module "interface_modports".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:CP5851] $Source01/top.v:62:29: Failed to bind "memory".
-[WRN:CP5851] $Source01/top.v:69:19: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:69:23: Failed to bind "clk".
-[WRN:CP5851] $Source01/top.v:70:6: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:70:10: Failed to bind "ce_mem".
-[WRN:CP5851] $Source01/top.v:70:20: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:70:24: Failed to bind "we_mem".
-[WRN:CP5851] $Source01/top.v:71:8: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:71:12: Failed to bind "addr_mem".
-[WRN:CP5851] $Source01/top.v:71:25: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:71:29: Failed to bind "datai_mem".
-[WRN:CP5851] $Source01/top.v:77:19: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:77:23: Failed to bind "clk".
-[WRN:CP5851] $Source01/top.v:78:6: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:78:10: Failed to bind "ce_mem".
-[WRN:CP5851] $Source01/top.v:78:21: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:78:25: Failed to bind "we_mem".
-[WRN:CP5851] $Source01/top.v:79:4: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:79:8: Failed to bind "datao_mem".
-[WRN:CP5851] $Source01/top.v:79:25: Failed to bind "mif".
-[WRN:CP5851] $Source01/top.v:79:29: Failed to bind "addr_mem".
-[WRN:CP5851] $Source01/top.v:87:28: Failed to bind "system".
-[WRN:CP5851] $Source01/top.v:99:21: Failed to bind "tb".
-[WRN:CP5851] $Source01/top.v:102:7: Failed to bind "tif".
-[WRN:CP5851] $Source01/top.v:102:11: Failed to bind "reset".
+[WRN:DV8514] $Source01/top.v:62:29: Failed to bind "memory".
+[WRN:DV8514] $Source01/top.v:69:19: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:69:23: Failed to bind "clk".
+[WRN:DV8514] $Source01/top.v:70:6: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:70:10: Failed to bind "ce_mem".
+[WRN:DV8514] $Source01/top.v:70:20: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:70:24: Failed to bind "we_mem".
+[WRN:DV8514] $Source01/top.v:71:8: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:71:12: Failed to bind "addr_mem".
+[WRN:DV8514] $Source01/top.v:71:25: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:71:29: Failed to bind "datai_mem".
+[WRN:DV8514] $Source01/top.v:77:19: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:77:23: Failed to bind "clk".
+[WRN:DV8514] $Source01/top.v:78:6: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:78:10: Failed to bind "ce_mem".
+[WRN:DV8514] $Source01/top.v:78:21: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:78:25: Failed to bind "we_mem".
+[WRN:DV8514] $Source01/top.v:79:4: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:79:8: Failed to bind "datao_mem".
+[WRN:DV8514] $Source01/top.v:79:25: Failed to bind "mif".
+[WRN:DV8514] $Source01/top.v:79:29: Failed to bind "addr_mem".
+[WRN:DV8514] $Source01/top.v:87:28: Failed to bind "system".
+[WRN:DV8514] $Source01/top.v:99:21: Failed to bind "tb".
+[WRN:DV8514] $Source01/top.v:102:7: Failed to bind "tif".
+[WRN:DV8514] $Source01/top.v:102:11: Failed to bind "reset".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
-[ERR:LN7701] Invalid name: id:386, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2149,10 +2148,7 @@ Design name:unnamed:
           vpiScalar: true
         ModuleTypespec name:memory_ctrl:
         ModuleTypespec name:memory_model:
-        ProgramTypespec name:test start:122:1 end:122:5:
-          vpiParent: Module name:interface_modports
-          vpiName Identifier name:test start:122:1 end:122:5:
-          vpiDefName: test
+        ProgramTypespec name:test:
       vpiDefName: interface_modports
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -2274,9 +2270,11 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:122:15 end:122:19:
               vpiParent: RefInstance name:U_test
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:tif:
                 vpiParent: NamedArgument
-                vpiFullName: interface_modports.U_test
+                vpiName: tif
+                vpiFullName: interface_modports.U_test.tif
+                vpiActual: Port name:tif
               vpiHighConn RefObj name:miff start:122:15 end:122:19:
                 vpiParent: NamedArgument
                 vpiName: miff
@@ -2335,7 +2333,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 28
 [   NOTE] : 2
 ********************************************************************************
@@ -2384,7 +2382,7 @@ Operation                            7       6       0         1
 RefObj                              61      60       0         1
 RefTypespec                        675     676       1         0
 ----------------------------------------------------------------
-Others                            1406    1406       0         0
+Others                            1404    1404       0         0
 ----------------------------------------------------------------
-                                  2187    2187       2         2
+                                  2185    2185       2         2
 ===================== END REDUCTION RESULT =====================

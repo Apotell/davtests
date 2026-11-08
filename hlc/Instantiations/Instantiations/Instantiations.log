@@ -992,8 +992,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:143:1: Compile module "gen_top".
 [INF:CP5836] $Source01/dut.sv:146:37: Compile generate block "gen_lane".
 [WRN:PA5506] $Source01/dut.sv:143:1: No timescale set for "gen_top #(.N(2))".
-[WRN:CP5851] $Source01/dut.sv:75:20: Failed to bind "p".
-[WRN:CP5851] $Source01/dut.sv:76:19: Failed to bind "s".
 [ERR:DL2510] $Source01/dut.sv:124:3: Unsupported typespec "black_box".
 ====== HLDB =======
 Design name:unnamed:
@@ -1086,6 +1084,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: p
                   vpiFullName: my_checker.p
+                  vpiActual: CheckerPort name:p
             Cover start:76:3 end:76:22:
               vpiParent: CheckerDecl name:my_checker
               vpiStmt NullStmt:
@@ -1096,6 +1095,7 @@ Design name:unnamed:
                   vpiParent: PropertySpec
                   vpiName: s
                   vpiFullName: my_checker.s
+                  vpiActual: CheckerPort name:s
           vpiDefName: my_checker
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:74:9 end:74:19:
@@ -1938,10 +1938,7 @@ Design name:unnamed:
           vpiVector: true
         ModuleTypespec name:passthru:
         ModuleTypespec name:adder #(.W(8)):
-        ProgramTypespec name:my_prog start:111:3 end:111:10:
-          vpiParent: Module name:top
-          vpiName Identifier name:my_prog start:111:3 end:111:10:
-          vpiDefName: my_prog
+        ProgramTypespec name:my_prog:
         CheckerTypespec name:my_checker:
         UdpDefnTypespec name:my_udp start:120:3 end:120:9:
           vpiParent: Module name:top
@@ -2258,6 +2255,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.u_prog.clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:111:23 end:111:26:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2628,7 +2626,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 11
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2676,7 +2674,7 @@ Operation                           12       8       0         4
 RefObj                              78      74       0         4
 RefTypespec                         60      60       4         4
 ----------------------------------------------------------------
-Others                             221     221       0         0
+Others                             219     219       0         0
 ----------------------------------------------------------------
-                                   392     384       8        16
+                                   390     382       8        16
 ===================== END REDUCTION RESULT =====================
