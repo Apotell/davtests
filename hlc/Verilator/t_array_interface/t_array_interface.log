@@ -591,7 +591,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_array_interface.v:15:13: Port "intf_inst" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_array_interface.v:24:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_array_interface.v:15:6: Failed to bind "source".
 [WRN:DV8514] $Source01/t_array_interface.v:17:8: Failed to bind "intf_inst".
 [WRN:DV8514] $Source01/t_array_interface.v:17:18: Failed to bind "logic_in_intf".
 ====== HLDB =======
@@ -660,10 +659,22 @@ Design name:unnamed:
             vpiParent: Variable name:logic_in_intf
             vpiFullName: intf.logic_in_intf
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:intf
           vpiScalar: true
+        InterfaceTypespec name:source start:8:13 end:8:19:
+          vpiParent: Interface name:intf
+          vpiName Identifier name:source start:8:13 end:8:19:
+          vpiDefName: intf
+          vpiModport: Modport name:source
+          vpiInterface: Interface name:intf
+        InterfaceTypespec name:sink start:9:13 end:9:17:
+          vpiParent: Interface name:intf
+          vpiName Identifier name:sink start:9:13 end:9:17:
+          vpiDefName: intf
+          vpiModport: Modport name:sink
+          vpiInterface: Interface name:intf
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_array_interface.v"
@@ -771,6 +782,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:intf::source
                 vpiName: source
                 vpiFullName: modify_interface.intf_inst.intf::source.source
+                vpiActual: InterfaceTypespec name:source
+            vpiActual: InterfaceTypespec name:source
       vpiContAssign (1 items):
         ContAssign start:17:8 end:17:39:
           vpiParent: Module name:modify_interface
@@ -1202,6 +1215,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: data[4]
                 vpiFullName: t #(.N(6)).m4.data[4]
+                vpiConstantSelect: true
                 vpiPrefix RefObj name:data start:43:13 end:43:17:
                   vpiParent: BitSelect name:data[4]
                   vpiName: data
@@ -1415,6 +1429,7 @@ Design name:unnamed:
                       vpiParent: ContAssign
                       vpiName: data[i]
                       vpiFullName: t #(.N(6)).data[i]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:data start:35:44 end:35:48:
                         vpiParent: BitSelect name:data[i]
                         vpiName: data
@@ -1534,6 +1549,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: data[j]
                                 vpiFullName: t #(.N(6)).data[j]
+                                vpiConstantSelect: true
                                 vpiPrefix RefObj name:data start:54:44 end:54:48:
                                   vpiParent: BitSelect name:data[j]
                                   vpiName: data
@@ -1577,7 +1593,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1625,7 +1641,7 @@ Operation                           12       8       0         4
 RefObj                              52      49       0         3
 RefTypespec                         37      31       3         9
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                             102     102       0         0
 ----------------------------------------------------------------
-                                   222     204       7        25
+                                   226     208       7        25
 ===================== END REDUCTION RESULT =====================

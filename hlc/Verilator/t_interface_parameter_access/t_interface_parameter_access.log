@@ -618,7 +618,6 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/t_interface_parameter_access.v:36:16: Failed to bind "FOO".
 [WRN:DV8514] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "FOO".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:58:12: Failed to bind "mp".
 [WRN:DV8514] $Source01/t_interface_parameter_access.v:62:25: Failed to bind "intf".
 [WRN:DV8514] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "FOO".
 [WRN:DV8514] $Source01/t_interface_parameter_access.v:74:11: Failed to bind "intf".
@@ -725,13 +724,19 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: test_if #(.FOO(1)).FOO
               vpiActual: IntTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         IntegerTypespec:
           vpiParent: Interface name:test_if #(.FOO(1))
           vpiSigned: true
         LogicTypespec:
           vpiParent: Interface name:test_if #(.FOO(1))
           vpiScalar: true
+        InterfaceTypespec name:mp start:14:12 end:14:14:
+          vpiParent: Interface name:test_if #(.FOO(1))
+          vpiName Identifier name:mp start:14:12 end:14:14:
+          vpiDefName: test_if #(.FOO(1))
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:test_if #(.FOO(1))
       vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_parameter_access.v"
@@ -1164,6 +1169,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:test_if #(.FOO(1))::mp
                 vpiName: mp
                 vpiFullName: testmod.intf.test_if #(.FOO(1))::mp.mp
+                vpiActual: InterfaceTypespec name:mp
+            vpiActual: InterfaceTypespec name:mp
         Port name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiName: intf_no_mp
@@ -1505,7 +1512,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 11
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1549,7 +1556,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             214     214       0         0
+Others                             216     216       0         0
 ----------------------------------------------------------------
-                                   214     214       0         0
+                                   216     216       0         0
 ===================== END REDUCTION RESULT =====================

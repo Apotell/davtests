@@ -244,8 +244,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_lint_unused_iface.v:26:19: Port "dummy_out" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_lint_unused_iface.v:34:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_lint_unused_iface.v:25:13: Failed to bind "master".
-[WRN:DV8514] $Source01/t_lint_unused_iface.v:26:13: Failed to bind "slave".
 [WRN:DV8514] $Source01/t_lint_unused_iface.v:29:11: Failed to bind "dummy_in".
 [WRN:DV8514] $Source01/t_lint_unused_iface.v:29:20: Failed to bind "signal".
 [WRN:DV8514] $Source01/t_lint_unused_iface.v:30:22: Failed to bind "dummy_out".
@@ -279,10 +277,22 @@ Design name:unnamed:
             vpiParent: Variable name:signal
             vpiFullName: dummy_if.signal
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:dummy_if
           vpiScalar: true
+        InterfaceTypespec name:slave start:9:12 end:9:17:
+          vpiParent: Interface name:dummy_if
+          vpiName Identifier name:slave start:9:12 end:9:17:
+          vpiDefName: dummy_if
+          vpiModport: Modport name:slave
+          vpiInterface: Interface name:dummy_if
+        InterfaceTypespec name:master start:14:12 end:14:18:
+          vpiParent: Interface name:dummy_if
+          vpiName Identifier name:master start:14:12 end:14:18:
+          vpiDefName: dummy_if
+          vpiModport: Modport name:master
+          vpiInterface: Interface name:dummy_if
       vpiDefName: dummy_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_lint_unused_iface.v"
@@ -421,6 +431,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:dummy_if::master
                 vpiName: master
                 vpiFullName: sub.dummy_in.dummy_if::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Port name:dummy_out start:26:19 end:26:28:
           vpiParent: Module name:sub
           vpiName: dummy_out
@@ -445,6 +457,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:dummy_if::slave
                 vpiName: slave
                 vpiFullName: sub.dummy_out.dummy_if::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
       vpiContAssign (2 items):
         ContAssign start:29:11 end:29:37:
           vpiParent: Module name:sub
@@ -667,7 +681,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 6
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -711,7 +725,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              90      90       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                    90      90       0         0
+                                    94      94       0         0
 ===================== END REDUCTION RESULT =====================

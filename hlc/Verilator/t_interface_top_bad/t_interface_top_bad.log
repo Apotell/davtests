@@ -131,7 +131,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_top_bad.v:13:1: Compile module "t".
 [WRN:CP5811] $Source01/t_interface_top_bad.v:16:19: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_top_bad.v:16:8: Failed to bind "counter_mp".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -171,7 +170,7 @@ Design name:unnamed:
             vpiParent: Variable name:reset
             vpiFullName: ifc.reset
             vpiActual: LogicTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Interface name:ifc
           vpiRange (1 items):
@@ -201,6 +200,18 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:ifc
           vpiScalar: true
+        InterfaceTypespec name:counter_mp start:9:12 end:9:22:
+          vpiParent: Interface name:ifc
+          vpiName Identifier name:counter_mp start:9:12 end:9:22:
+          vpiDefName: ifc
+          vpiModport: Modport name:counter_mp
+          vpiInterface: Interface name:ifc
+        InterfaceTypespec name:core_mp start:10:12 end:10:19:
+          vpiParent: Interface name:ifc
+          vpiName Identifier name:core_mp start:10:12 end:10:19:
+          vpiDefName: ifc
+          vpiModport: Modport name:core_mp
+          vpiInterface: Interface name:ifc
       vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_top_bad.v"
@@ -340,6 +351,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:ifc::counter_mp
                 vpiName: counter_mp
                 vpiFullName: t.c_data.ifc::counter_mp.counter_mp
+                vpiActual: InterfaceTypespec name:counter_mp
+            vpiActual: InterfaceTypespec name:counter_mp
   vpiTypespec (3 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -362,7 +375,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -406,7 +419,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              54      54       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    54      54       0         0
 ===================== END REDUCTION RESULT =====================

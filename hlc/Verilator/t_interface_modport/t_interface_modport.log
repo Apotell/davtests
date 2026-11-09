@@ -1289,17 +1289,12 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_modport.v:109:26: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_modport.v:120:1: Compile module "counter_nansi_m".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_modport.v:109:15: Failed to bind "counter_mp".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:7: Failed to bind "c_data".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:14: Failed to bind "value".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:23: Failed to bind "c_data".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:30: Failed to bind "reset".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:48: Failed to bind "c_data".
 [WRN:DV8514] $Source01/t_interface_modport.v:114:55: Failed to bind "value".
-[WRN:DV8514] $Source01/t_interface_modport.v:124:15: Failed to bind "counter_mp".
-[WRN:DV8514] $Source01/t_interface_modport.v:128:14: Failed to bind "value".
-[WRN:DV8514] $Source01/t_interface_modport.v:128:30: Failed to bind "reset".
-[WRN:DV8514] $Source01/t_interface_modport.v:128:55: Failed to bind "value".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1339,7 +1334,7 @@ Design name:unnamed:
             vpiParent: Variable name:reset
             vpiFullName: counter_if.reset
             vpiActual: LogicTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Interface name:counter_if
           vpiRange (1 items):
@@ -1369,6 +1364,18 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Interface name:counter_if
           vpiScalar: true
+        InterfaceTypespec name:counter_mp start:9:12 end:9:22:
+          vpiParent: Interface name:counter_if
+          vpiName Identifier name:counter_mp start:9:12 end:9:22:
+          vpiDefName: counter_if
+          vpiModport: Modport name:counter_mp
+          vpiInterface: Interface name:counter_if
+        InterfaceTypespec name:core_mp start:10:12 end:10:19:
+          vpiParent: Interface name:counter_if
+          vpiName Identifier name:core_mp start:10:12 end:10:19:
+          vpiDefName: counter_if
+          vpiModport: Modport name:core_mp
+          vpiInterface: Interface name:counter_if
       vpiDefName: counter_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_modport.v"
@@ -3126,6 +3133,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:counter_if::counter_mp
                 vpiName: counter_mp
                 vpiFullName: counter_ansi_m.c_data.counter_if::counter_mp.counter_mp
+                vpiActual: InterfaceTypespec name:counter_mp
+            vpiActual: InterfaceTypespec name:counter_mp
         Port name:i_value start:110:22 end:110:29:
           vpiParent: Module name:counter_ansi_m
           vpiName: i_value
@@ -3251,6 +3260,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:counter_if::counter_mp
                 vpiName: counter_mp
                 vpiFullName: counter_nansi_m.c_data.counter_if::counter_mp.counter_mp
+                vpiActual: InterfaceTypespec name:counter_mp
+            vpiActual: InterfaceTypespec name:counter_mp
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:counter_nansi_m
@@ -3393,6 +3404,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:c_data.value
                         vpiName: value
                         vpiFullName: counter_nansi_m.value
+                        vpiActual: Variable name:value
+                    vpiActual: Variable name:value
                   vpiRhs Operation start:128:23 end:128:64:
                     vpiParent: Assignment
                     vpiOpType: condition (32)
@@ -3411,6 +3424,8 @@ Design name:unnamed:
                             vpiParent: RefObj name:c_data.reset
                             vpiName: reset
                             vpiFullName: counter_nansi_m.reset
+                            vpiActual: Variable name:reset
+                        vpiActual: Variable name:reset
                       RefObj name:i_value start:128:38 end:128:45:
                         vpiParent: Operation
                         vpiName: i_value
@@ -3434,6 +3449,8 @@ Design name:unnamed:
                                 vpiParent: RefObj name:c_data.value
                                 vpiName: value
                                 vpiFullName: counter_nansi_m.value
+                                vpiActual: Variable name:value
+                            vpiActual: Variable name:value
                           Constant start:128:63 end:128:64:
                             vpiParent: Operation
                             vpiConstType: int (7)
@@ -3492,7 +3509,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 13
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3540,7 +3557,7 @@ Operation                           21      17       0         4
 RefObj                             168     164       0         4
 RefTypespec                         77      77       4         4
 ----------------------------------------------------------------
-Others                             180     180       0         0
+Others                             184     184       0         0
 ----------------------------------------------------------------
-                                   487     479       8        16
+                                   491     483       8        16
 ===================== END REDUCTION RESULT =====================

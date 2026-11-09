@@ -1500,7 +1500,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/issue_01145/top.sv:12:18: Failed to bind "WIDTH".
 [WRN:DV8514] $Source01/issue_01145/top.sv:22:40: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/issue_01145/top.sv:25:30: Failed to bind "setting".
-[WRN:DV8514] $Source01/issue_01145/top.sv:62:17: Failed to bind "submodule1".
 [WRN:DV8514] $Source01/issue_01145/top.sv:70:7: Failed to bind "u_MyInterface".
 [WRN:DV8514] $Source01/issue_01145/top.sv:70:21: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/issue_01145/top.sv:72:10: Failed to bind "u_MyInterface".
@@ -1514,8 +1513,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/issue_01145/top.sv:87:48: Failed to bind "other_setting".
 [WRN:DV8514] $Source01/issue_01145/top.sv:89:37: Failed to bind "setting".
 [WRN:DV8514] $Source01/issue_01145/top.sv:90:37: Failed to bind "mysig_out".
-[WRN:DV8514] $Source01/issue_01145/top.sv:98:17: Failed to bind "submodule2".
-[WRN:DV8514] $Source01/issue_01145/top.sv:99:17: Failed to bind "submodule2".
 [WRN:DV8514] $Source01/issue_01145/top.sv:104:11: Failed to bind "u_MyInterfaceInSub3".
 [WRN:DV8514] $Source01/issue_01145/top.sv:104:31: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/issue_01145/top.sv:105:9: Failed to bind "u_MyInterfaceInSub3".
@@ -1619,7 +1616,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: MyInterface #(.WIDTH(3)).WIDTH
               vpiActual: IntTypespec
-      vpiTypespec (4 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Interface name:MyInterface #(.WIDTH(3))
           vpiScalar: true
@@ -1710,6 +1707,18 @@ Design name:unnamed:
                   vpiFullName: MyInterface #(.WIDTH(3))
                   vpiActual: IntTypespec
           vpiVector: true
+        InterfaceTypespec name:submodule1 start:42:13 end:42:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(3))
+          vpiName Identifier name:submodule1 start:42:13 end:42:23:
+          vpiDefName: MyInterface #(.WIDTH(3))
+          vpiModport: Modport name:submodule1
+          vpiInterface: Interface name:MyInterface #(.WIDTH(3))
+        InterfaceTypespec name:submodule2 start:49:13 end:49:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(3))
+          vpiName Identifier name:submodule2 start:49:13 end:49:23:
+          vpiDefName: MyInterface #(.WIDTH(3))
+          vpiModport: Modport name:submodule2
+          vpiInterface: Interface name:MyInterface #(.WIDTH(3))
       vpiDefName: MyInterface
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_01145/top.sv"
@@ -3385,6 +3394,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule1
                 vpiName: submodule1
                 vpiFullName: SubModule1.u_MyInterface.MyInterface #(.WIDTH(3))::submodule1.submodule1
+                vpiActual: InterfaceTypespec name:submodule1
+            vpiActual: InterfaceTypespec name:submodule1
         Port name:sig start:63:23 end:63:26:
           vpiParent: Module name:SubModule1
           vpiName: sig
@@ -3782,6 +3793,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule2
                 vpiName: submodule2
                 vpiFullName: SubModule2.u_MyInterfaceInSub2.MyInterface #(.WIDTH(3))::submodule2.submodule2
+                vpiActual: InterfaceTypespec name:submodule2
+            vpiActual: InterfaceTypespec name:submodule2
         Port name:u_MyInterfaceInSub3 start:99:28 end:99:47:
           vpiParent: Module name:SubModule2
           vpiName: u_MyInterfaceInSub3
@@ -3806,6 +3819,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule2
                 vpiName: submodule2
                 vpiFullName: SubModule2.u_MyInterfaceInSub3.MyInterface #(.WIDTH(3))::submodule2.submodule2
+                vpiActual: InterfaceTypespec name:submodule2
+            vpiActual: InterfaceTypespec name:submodule2
       vpiProcess (1 items):
         Always start:103:4 end:112:7:
           vpiParent: Module name:SubModule2
@@ -4281,7 +4296,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 40
+[WARNING] : 37
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -4332,7 +4347,7 @@ Operation                           17      16       0         1
 RefObj                             148     147       0         1
 RefTypespec                        126     126       1         1
 ----------------------------------------------------------------
-Others                             279     279       0         0
+Others                             283     283       0         0
 ----------------------------------------------------------------
-                                   631     629       2         4
+                                   635     633       2         4
 ===================== END REDUCTION RESULT =====================

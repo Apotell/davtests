@@ -1675,14 +1675,14 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/cpu.sv:18:22: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/cpu.sv:18:3: Failed to bind "genbus_if".
-[WRN:DV8514] $Source01/cpu.sv:18:13: Failed to bind "master".
 [WRN:DV8514] $Source01/cpu.sv:80:26: Failed to bind "rom".
 [WRN:DV8514] $Source01/cpu.sv:81:23: Failed to bind "rom".
 [WRN:DV8514] $Source01/cpu.sv:205:7: Failed to bind "dbus".
 [WRN:DV8514] $Source01/cpu.sv:205:12: Failed to bind "mConnect".
-[WRN:DV8514] $Source01/cpu.sv:223:3: Failed to bind "mPreAdrDecode_resp".
 [WRN:DV8514] $Source01/cpu.sv:227:21: Failed to bind "dbus".
 [WRN:DV8514] $Source01/cpu.sv:227:26: Failed to bind "mPreAdrDecode".
+[ERR:CP5818] $Source01/cpu.sv:223:3: Undefined type "mPreAdrDecode_resp".
+[ERR:CP5818] $Source01/cpu.sv:18:3: Undefined type "genbus_if::master".
 [ERR:DL2516] $Source01/cpu.sv:205:7: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
 [ERR:DV8504] $Source01/cpu.sv:205:12: Null Actual: id:606, type:SubroutineCall, name:mConnect, relation:vpiPathElem.
 [ERR:DV8504] $Source01/cpu.sv:227:26: Null Actual: id:648, type:SubroutineCall, name:mPreAdrDecode, relation:vpiPathElem.
@@ -2514,6 +2514,7 @@ Design name:unnamed:
                     vpiParent: BitSelect name:irom[pc[7:0]]
                     vpiName: pc[7:0]
                     vpiFullName: cpu #(.ID(1)).ROM.irom[pc[7:0]].pc[7:0]
+                    vpiConstantSelect: true
                     vpiPrefix RefObj name:pc start:86:22 end:86:24:
                       vpiParent: PartSelect name:pc[7:0]
                       vpiName: pc
@@ -2715,6 +2716,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiName: i[3:0]
                                     vpiFullName: cpu #(.ID(1)).RegFile.i[3:0]
+                                    vpiConstantSelect: true
                                     vpiPrefix RefObj name:i start:105:46 end:105:47:
                                       vpiParent: PartSelect name:i[3:0]
                                       vpiName: i
@@ -3161,6 +3163,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[7:0]
                             vpiFullName: cpu #(.ID(1)).ir[7:0]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:165:27 end:165:29:
                               vpiParent: PartSelect name:ir[7:0]
                               vpiName: ir
@@ -3240,6 +3243,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[8+:4]
                             vpiFullName: cpu #(.ID(1)).ir[8+:4]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:171:28 end:171:30:
                               vpiParent: IndexedPartSelect name:ir[8+:4]
                               vpiName: ir
@@ -3300,6 +3304,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[0+:8]
                             vpiFullName: cpu #(.ID(1)).ir[0+:8]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:173:28 end:173:30:
                               vpiParent: IndexedPartSelect name:ir[0+:8]
                               vpiName: ir
@@ -3361,6 +3366,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[0+:8]
                             vpiFullName: cpu #(.ID(1)).ir[0+:8]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:178:28 end:178:30:
                               vpiParent: IndexedPartSelect name:ir[0+:8]
                               vpiName: ir
@@ -3421,6 +3427,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[8+:4]
                             vpiFullName: cpu #(.ID(1)).ir[8+:4]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:180:28 end:180:30:
                               vpiParent: IndexedPartSelect name:ir[8+:4]
                               vpiName: ir
@@ -3482,6 +3489,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[0+:8]
                             vpiFullName: cpu #(.ID(1)).ir[0+:8]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:185:28 end:185:30:
                               vpiParent: IndexedPartSelect name:ir[0+:8]
                               vpiName: ir
@@ -3542,6 +3550,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: ir[8+:4]
                             vpiFullName: cpu #(.ID(1)).ir[8+:4]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:ir start:187:28 end:187:30:
                               vpiParent: IndexedPartSelect name:ir[8+:4]
                               vpiName: ir
@@ -3602,6 +3611,7 @@ Design name:unnamed:
                             vpiParent: Assignment
                             vpiName: mem_data[0+:8]
                             vpiFullName: cpu #(.ID(1)).mem_data[0+:8]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:mem_data start:189:28 end:189:36:
                               vpiParent: IndexedPartSelect name:mem_data[0+:8]
                               vpiName: mem_data
@@ -3766,6 +3776,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: idec_mem_adr[7:1]
                               vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[7:1]"
+                              vpiConstantSelect: true
                               vpiPrefix RefObj name:idec_mem_adr start:211:19 end:211:31:
                                 vpiParent: PartSelect name:idec_mem_adr[7:1]
                                 vpiName: idec_mem_adr
@@ -3817,6 +3828,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: idec_mem_adr[0]
                                   vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
+                                  vpiConstantSelect: true
                                   vpiPrefix RefObj name:idec_mem_adr start:213:12 end:213:24:
                                     vpiParent: BitSelect name:idec_mem_adr[0]
                                     vpiName: idec_mem_adr
@@ -3840,6 +3852,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiName: idec_mem_adr[0]
                                       vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
+                                      vpiConstantSelect: true
                                       vpiPrefix RefObj name:idec_mem_adr start:213:29 end:213:41:
                                         vpiParent: BitSelect name:idec_mem_adr[0]
                                         vpiName: idec_mem_adr
@@ -3892,6 +3905,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: idec_mem_adr[0]
                                   vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
+                                  vpiConstantSelect: true
                                   vpiPrefix RefObj name:idec_mem_adr start:215:12 end:215:24:
                                     vpiParent: BitSelect name:idec_mem_adr[0]
                                     vpiName: idec_mem_adr
@@ -3915,6 +3929,7 @@ Design name:unnamed:
                                       vpiParent: Operation
                                       vpiName: idec_mem_adr[0]
                                       vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
+                                      vpiConstantSelect: true
                                       vpiPrefix RefObj name:idec_mem_adr start:215:29 end:215:41:
                                         vpiParent: BitSelect name:idec_mem_adr[0]
                                         vpiName: idec_mem_adr
@@ -3970,6 +3985,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: idec_mem_adr[0]
                       vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:idec_mem_adr start:219:20 end:219:32:
                         vpiParent: BitSelect name:idec_mem_adr[0]
                         vpiName: idec_mem_adr
@@ -3989,6 +4005,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: sdata16[15:8]
                       vpiFullName: cpu #(.ID(1)).Conntect.sdata16[15:8]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:sdata16 start:219:40 end:219:47:
                         vpiParent: PartSelect name:sdata16[15:8]
                         vpiName: sdata16
@@ -4020,6 +4037,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: sdata16[7:0]
                       vpiFullName: cpu #(.ID(1)).Conntect.sdata16[7:0]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:sdata16 start:219:56 end:219:63:
                         vpiParent: PartSelect name:sdata16[7:0]
                         vpiName: sdata16
@@ -4117,8 +4135,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 10
+[  ERROR] : 5
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

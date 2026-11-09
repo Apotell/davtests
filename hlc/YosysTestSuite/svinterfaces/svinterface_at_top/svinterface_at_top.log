@@ -1013,13 +1013,10 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/svinterface_at_top.sv:104:28: Port "u_MyInterfaceFromTopDown" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/svinterface_at_top.sv:105:28: Port "u_MyInterfaceInSub3" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:10:17: Failed to bind "submodule1".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:13:18: Failed to bind "WIDTH".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:19:27: Failed to bind "interfaceInstanceAtTop".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:24:40: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:27:30: Failed to bind "setting".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:64:17: Failed to bind "submodule1".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:65:17: Failed to bind "submodule1".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:74:7: Failed to bind "u_MyInterface".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:74:21: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:76:10: Failed to bind "u_MyInterface".
@@ -1034,9 +1031,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/svinterface_at_top.sv:92:48: Failed to bind "other_setting".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:94:37: Failed to bind "setting".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:95:37: Failed to bind "mysig_out".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:103:17: Failed to bind "submodule2".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:104:17: Failed to bind "submodule1".
-[WRN:DV8514] $Source01/svinterface_at_top.sv:105:17: Failed to bind "submodule2".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:109:10: Failed to bind "u_MyInterfaceFromTopDown".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:109:35: Failed to bind "mysig_out".
 [WRN:DV8514] $Source01/svinterface_at_top.sv:109:47: Failed to bind "u_MyInterfaceFromTop".
@@ -1139,7 +1133,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: MyInterface #(.WIDTH(3)).WIDTH
               vpiActual: IntTypespec
-      vpiTypespec (4 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Interface name:MyInterface #(.WIDTH(3))
           vpiScalar: true
@@ -1230,6 +1224,18 @@ Design name:unnamed:
                   vpiFullName: MyInterface #(.WIDTH(3))
                   vpiActual: IntTypespec
           vpiVector: true
+        InterfaceTypespec name:submodule1 start:44:13 end:44:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(3))
+          vpiName Identifier name:submodule1 start:44:13 end:44:23:
+          vpiDefName: MyInterface #(.WIDTH(3))
+          vpiModport: Modport name:submodule1
+          vpiInterface: Interface name:MyInterface #(.WIDTH(3))
+        InterfaceTypespec name:submodule2 start:51:13 end:51:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(3))
+          vpiName Identifier name:submodule2 start:51:13 end:51:23:
+          vpiDefName: MyInterface #(.WIDTH(3))
+          vpiModport: Modport name:submodule2
+          vpiInterface: Interface name:MyInterface #(.WIDTH(3))
       vpiDefName: MyInterface
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/svinterface_at_top.sv"
@@ -1644,6 +1650,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface::submodule1
                 vpiName: submodule1
                 vpiFullName: TopModule.interfaceInstanceAtTop.MyInterface::submodule1.submodule1
+                vpiActual: InterfaceTypespec name:submodule1
+            vpiActual: InterfaceTypespec name:submodule1
         Port name:passThrough start:11:25 end:11:36:
           vpiParent: Module name:TopModule
           vpiName: passThrough
@@ -2034,6 +2042,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule1
                 vpiName: submodule1
                 vpiFullName: SubModule1.u_MyInterface.MyInterface #(.WIDTH(3))::submodule1.submodule1
+                vpiActual: InterfaceTypespec name:submodule1
+            vpiActual: InterfaceTypespec name:submodule1
         Port name:u_MyInterfaceFromTop start:65:28 end:65:48:
           vpiParent: Module name:SubModule1
           vpiName: u_MyInterfaceFromTop
@@ -2058,6 +2068,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule1
                 vpiName: submodule1
                 vpiFullName: SubModule1.u_MyInterfaceFromTop.MyInterface #(.WIDTH(3))::submodule1.submodule1
+                vpiActual: InterfaceTypespec name:submodule1
+            vpiActual: InterfaceTypespec name:submodule1
         Port name:sig start:66:23 end:66:26:
           vpiParent: Module name:SubModule1
           vpiName: sig
@@ -2467,6 +2479,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule2
                 vpiName: submodule2
                 vpiFullName: SubModule2.u_MyInterfaceInSub2.MyInterface #(.WIDTH(3))::submodule2.submodule2
+                vpiActual: InterfaceTypespec name:submodule2
+            vpiActual: InterfaceTypespec name:submodule2
         Port name:u_MyInterfaceFromTopDown start:104:28 end:104:52:
           vpiParent: Module name:SubModule2
           vpiName: u_MyInterfaceFromTopDown
@@ -2491,6 +2505,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule1
                 vpiName: submodule1
                 vpiFullName: SubModule2.u_MyInterfaceFromTopDown.MyInterface #(.WIDTH(3))::submodule1.submodule1
+                vpiActual: InterfaceTypespec name:submodule1
+            vpiActual: InterfaceTypespec name:submodule1
         Port name:u_MyInterfaceInSub3 start:105:28 end:105:47:
           vpiParent: Module name:SubModule2
           vpiName: u_MyInterfaceInSub3
@@ -2515,6 +2531,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:MyInterface #(.WIDTH(3))::submodule2
                 vpiName: submodule2
                 vpiFullName: SubModule2.u_MyInterfaceInSub3.MyInterface #(.WIDTH(3))::submodule2.submodule2
+                vpiActual: InterfaceTypespec name:submodule2
+            vpiActual: InterfaceTypespec name:submodule2
       vpiProcess (1 items):
         Always start:111:4 end:120:7:
           vpiParent: Module name:SubModule2
@@ -3017,7 +3035,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 52
+[WARNING] : 46
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3065,7 +3083,7 @@ Operation                            9       8       0         1
 RefObj                             129     128       0         1
 RefTypespec                         95      95       1         1
 ----------------------------------------------------------------
-Others                             153     153       0         0
+Others                             157     157       0         0
 ----------------------------------------------------------------
-                                   434     432       2         4
+                                   438     436       2         4
 ===================== END REDUCTION RESULT =====================

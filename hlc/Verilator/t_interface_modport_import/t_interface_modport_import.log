@@ -291,12 +291,11 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_modport_import.v:42:1: Compile module "testmod".
 [WRN:CP5811] $Source01/t_interface_modport_import.v:45:16: Port "i" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_modport_import.v:45:12: Failed to bind "mp".
 [WRN:DV8514] $Source01/t_interface_modport_import.v:49:7: Failed to bind "i".
 [WRN:DV8514] $Source01/t_interface_modport_import.v:49:9: Failed to bind "data".
 [WRN:DV8514] $Source01/t_interface_modport_import.v:50:11: Failed to bind "i".
 [WRN:DV8514] $Source01/t_interface_modport_import.v:50:13: Failed to bind "myfunc".
-[ERR:DV8504] $Source01/t_interface_modport_import.v:50:13: Null Actual: id:96, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
+[ERR:DV8504] $Source01/t_interface_modport_import.v:50:13: Null Actual: id:98, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -326,10 +325,16 @@ Design name:unnamed:
             vpiParent: Variable name:data
             vpiFullName: test_if.data
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:test_if
           vpiScalar: true
+        InterfaceTypespec name:mp start:14:12 end:14:14:
+          vpiParent: Interface name:test_if
+          vpiName Identifier name:mp start:14:12 end:14:14:
+          vpiDefName: test_if
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:test_if
       vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_modport_import.v"
@@ -614,6 +619,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:test_if::mp
                 vpiName: mp
                 vpiFullName: testmod.i.test_if::mp.mp
+                vpiActual: InterfaceTypespec name:mp
+            vpiActual: InterfaceTypespec name:mp
       vpiProcess (1 items):
         Always start:48:4 end:57:7:
           vpiParent: Module name:testmod
@@ -752,7 +759,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 6
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -796,7 +803,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                   106     106       0         0
 ===================== END REDUCTION RESULT =====================

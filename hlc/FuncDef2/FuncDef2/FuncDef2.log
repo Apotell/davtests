@@ -3825,11 +3825,8 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:422:43: Compile generate block "g".
 [INF:CP5836] $Source01/dut.sv:427:18: Compile generate block "g".
 [WRN:PA5506] $Source01/dut.sv:404:1: No timescale set for "tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels))".
-[WRN:DV8514] $Source01/dut.sv:411:3: Failed to bind "tnoc_types".
 [WRN:DV8514] $Source01/dut.sv:412:3: Failed to bind "tnoc_flit_if".
-[WRN:DV8514] $Source01/dut.sv:412:16: Failed to bind "receiver".
 [WRN:DV8514] $Source01/dut.sv:413:3: Failed to bind "tnoc_flit_if".
-[WRN:DV8514] $Source01/dut.sv:413:16: Failed to bind "sender".
 [WRN:DV8514] $Source01/dut.sv:417:20: Failed to bind "valid".
 [WRN:DV8514] $Source01/dut.sv:417:7: Failed to bind "sender_if".
 [WRN:DV8514] $Source01/dut.sv:417:33: Failed to bind "receiver_if".
@@ -3850,6 +3847,8 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/dut.sv:429:9: Failed to bind "sender_if".
 [WRN:DV8514] $Source01/dut.sv:429:29: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:429:41: Failed to bind "flit".
+[ERR:CP5818] $Source01/dut.sv:411:3: Undefined type "tnoc_types".
+[ERR:CP5818] $Source01/dut.sv:412:3: Undefined type "tnoc_flit_if::receiver".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -6366,6 +6365,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
                       vpiFullName: tnoc_pkg::is_request_packet_type::packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:packet_type start:204:52 end:204:63:
                         vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
                         vpiName: packet_type
@@ -6445,6 +6445,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
                   vpiFullName: tnoc_pkg::is_response_packet_type::packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:packet_type start:208:50 end:208:61:
                     vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_RESPONSE_BIT]
                     vpiName: packet_type
@@ -6524,6 +6525,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
                   vpiFullName: tnoc_pkg::is_packet_with_payload_type::packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:packet_type start:212:50 end:212:61:
                     vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
                     vpiName: packet_type
@@ -6607,6 +6609,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
                       vpiFullName: tnoc_pkg::is_header_only_packet_type::packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:packet_type start:216:52 end:216:63:
                         vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_PAYLOAD_BIT]
                         vpiName: packet_type
@@ -6690,6 +6693,7 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
                       vpiFullName: tnoc_pkg::is_posted_request_packet_type::packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:packet_type start:220:54 end:220:65:
                         vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
                         vpiName: packet_type
@@ -6769,6 +6773,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
                   vpiFullName: tnoc_pkg::is_non_posted_request_packet_type::packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:packet_type start:224:52 end:224:63:
                     vpiParent: BitSelect name:packet_type[TNOC_PACKET_TYPE_NON_POSTED_BIT]
                     vpiName: packet_type
@@ -9669,8 +9674,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 30
+[  ERROR] : 2
+[WARNING] : 27
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

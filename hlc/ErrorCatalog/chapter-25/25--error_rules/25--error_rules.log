@@ -250,7 +250,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/25--error_rules.sv:34:1: Compile module "r912_dtype".
 [WRN:CP5811] $Source01/25--error_rules.sv:34:34: Port "ch" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/25--error_rules.sv:34:1: No timescale set for "r912_dtype".
-[WRN:DV8514] $Source01/25--error_rules.sv:34:29: Failed to bind "flop".
 [WRN:DV8514] $Source01/25--error_rules.sv:36:14: Failed to bind "ch".
 [WRN:DV8514] $Source01/25--error_rules.sv:36:17: Failed to bind "c".
 [WRN:DV8514] $Source01/25--error_rules.sv:36:23: Failed to bind "ch".
@@ -342,10 +341,16 @@ Design name:unnamed:
             vpiParent: Variable name:d
             vpiFullName: r912_itf.d
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:r912_itf
           vpiScalar: true
+        InterfaceTypespec name:flop start:32:11 end:32:15:
+          vpiParent: Interface name:r912_itf
+          vpiName Identifier name:flop start:32:11 end:32:15:
+          vpiDefName: r912_itf
+          vpiModport: Modport name:flop
+          vpiInterface: Interface name:r912_itf
       vpiDefName: r912_itf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/25--error_rules.sv"
@@ -549,6 +554,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:r912_itf::flop
                 vpiName: flop
                 vpiFullName: r912_dtype.ch.r912_itf::flop.flop
+                vpiActual: InterfaceTypespec name:flop
+            vpiActual: InterfaceTypespec name:flop
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:35:3 end:38:13:
           vpiParent: Module name:r912_dtype
@@ -710,7 +717,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 18
+[WARNING] : 17
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -754,7 +761,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-25/25--error_rules/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                             102     102       0         0
 ----------------------------------------------------------------
-                                   100     100       0         0
+                                   102     102       0         0
 ===================== END REDUCTION RESULT =====================

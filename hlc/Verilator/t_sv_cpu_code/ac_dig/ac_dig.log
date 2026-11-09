@@ -815,9 +815,9 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/ac_dig.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/ac_dig.sv:17:3: Failed to bind "genbus_if".
-[WRN:DV8514] $Source01/ac_dig.sv:17:13: Failed to bind "slave".
 [WRN:DV8514] $Source01/ac_dig.sv:81:7: Failed to bind "dbus".
 [WRN:DV8514] $Source01/ac_dig.sv:81:12: Failed to bind "sConnect".
+[ERR:CP5818] $Source01/ac_dig.sv:17:3: Undefined type "genbus_if::slave".
 [ERR:DL2516] $Source01/ac_dig.sv:81:7: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
 [ERR:DV8504] $Source01/ac_dig.sv:81:12: Null Actual: id:186, type:SubroutineCall, name:sConnect, relation:vpiPathElem.
 ====== HLDB =======
@@ -1427,6 +1427,7 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: adr[1:0]
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).adr[1:0]
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:adr start:81:86 end:81:89:
                             vpiParent: PartSelect name:adr[1:0]
                             vpiName: adr
@@ -1533,6 +1534,7 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: adr[1:0]
                               vpiFullName: ac_dig #(.ID(1)).adr[1:0]
+                              vpiConstantSelect: true
                               vpiPrefix RefObj name:adr start:97:18 end:97:21:
                                 vpiParent: PartSelect name:adr[1:0]
                                 vpiName: adr
@@ -1574,6 +1576,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: we[0]
                           vpiFullName: ac_dig #(.ID(1)).we[0]
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:we start:97:39 end:97:41:
                             vpiParent: BitSelect name:we[0]
                             vpiName: we
@@ -1601,6 +1604,7 @@ Design name:unnamed:
                         vpiParent: Assignment
                         vpiName: mdata[7:0]
                         vpiFullName: ac_dig #(.ID(1)).mdata[7:0]
+                        vpiConstantSelect: true
                         vpiPrefix RefObj name:mdata start:98:20 end:98:25:
                           vpiParent: PartSelect name:mdata[7:0]
                           vpiName: mdata
@@ -1785,6 +1789,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:data[adr[1:0]]
                         vpiName: adr[1:0]
                         vpiFullName: ac_dig #(.ID(1)).RegisterRead.data[adr[1:0]].adr[1:0]
+                        vpiConstantSelect: true
                         vpiPrefix RefObj name:adr start:115:30 end:115:33:
                           vpiParent: PartSelect name:adr[1:0]
                           vpiName: adr
@@ -1908,6 +1913,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: sync[0]
                             vpiFullName: ac_dig #(.ID(1)).sync[0]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:sync start:131:18 end:131:22:
                               vpiParent: BitSelect name:sync[0]
                               vpiName: sync
@@ -2000,6 +2006,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: sync[1]
                   vpiFullName: ac_dig #(.ID(1)).sync[1]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:sync start:140:22 end:140:26:
                     vpiParent: BitSelect name:sync[1]
                     vpiName: sync
@@ -2064,8 +2071,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 5
+[  ERROR] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

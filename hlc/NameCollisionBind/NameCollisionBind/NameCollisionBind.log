@@ -109,7 +109,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:20:1: Compile module "CSR_Unit".
 [WRN:CP5811] $Source01/dut.sv:21:30: Port "perfCounter" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "CSR_Unit".
-[WRN:DV8514] $Source01/dut.sv:21:26: Failed to bind "CSR".
 [WRN:DV8514] $Source01/dut.sv:25:18: Failed to bind "perfCounter".
 [WRN:DV8514] $Source01/dut.sv:25:30: Failed to bind "perfCounter".
 [WRN:DV8514] $Source01/dut.sv:25:42: Failed to bind "numLoadMiss".
@@ -184,6 +183,13 @@ Design name:unnamed:
             vpiName: PerfCounterPath
             vpiFullName: PerformanceCounterIF.perfCounter.PerfCounterPath
             vpiActual: TypedefTypespec name:PerfCounterPath
+      vpiTypespec (1 items):
+        InterfaceTypespec name:CSR start:14:13 end:14:16:
+          vpiParent: Interface name:PerformanceCounterIF
+          vpiName Identifier name:CSR start:14:13 end:14:16:
+          vpiDefName: PerformanceCounterIF
+          vpiModport: Modport name:CSR
+          vpiInterface: Interface name:PerformanceCounterIF
       vpiDefName: PerformanceCounterIF
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -253,6 +259,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:PerformanceCounterIF::CSR
                 vpiName: CSR
                 vpiFullName: CSR_Unit.perfCounter.PerformanceCounterIF::CSR.CSR
+                vpiActual: InterfaceTypespec name:CSR
+            vpiActual: InterfaceTypespec name:CSR
       vpiContAssign (1 items):
         ContAssign start:25:9 end:25:53:
           vpiParent: Module name:CSR_Unit
@@ -301,7 +309,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -345,7 +353,7 @@ COMMAND: ${HLC_DIR}/regression/NameCollisionBind/NameCollisionBind/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

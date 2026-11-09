@@ -217,7 +217,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_array_modport.v:15:15: Port "bars" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_array_modport.v:19:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_array_modport.v:15:13: Failed to bind "m".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -247,10 +246,16 @@ Design name:unnamed:
             vpiParent: Variable name:a
             vpiFullName: foo_intf.a
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:foo_intf
           vpiScalar: true
+        InterfaceTypespec name:m start:9:12 end:9:13:
+          vpiParent: Interface name:foo_intf
+          vpiName Identifier name:m start:9:12 end:9:13:
+          vpiDefName: foo_intf
+          vpiModport: Modport name:m
+          vpiInterface: Interface name:foo_intf
       vpiDefName: foo_intf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_array_modport.v"
@@ -314,6 +319,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:foo_intf::m
                 vpiName: m
                 vpiFullName: foo_mod.foo_intf::m.m
+                vpiActual: InterfaceTypespec name:m
+            vpiActual: InterfaceTypespec name:m
       vpiDefName: foo_mod
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_array_modport.v"
@@ -604,7 +611,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -653,7 +660,7 @@ Operation                            3       0       0         3
 RefObj                              12      10       0         2
 RefTypespec                         18      19       3         2
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    87      85       7         9
+                                    89      87       7         9
 ===================== END REDUCTION RESULT =====================

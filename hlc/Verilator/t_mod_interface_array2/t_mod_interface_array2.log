@@ -694,10 +694,8 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_mod_interface_array2.v:30:14: Port "i_intf_sink" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_mod_interface_array2.v:39:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:18:9: Failed to bind "source".
 [WRN:DV8514] $Source01/t_mod_interface_array2.v:22:27: Failed to bind "long_name".
 [WRN:DV8514] $Source01/t_mod_interface_array2.v:22:10: Failed to bind "i_intf_source".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:30:9: Failed to bind "sink".
 [WRN:DV8514] $Source01/t_mod_interface_array2.v:34:36: Failed to bind "long_name".
 [WRN:DV8514] $Source01/t_mod_interface_array2.v:34:21: Failed to bind "i_intf_sink".
 [WRN:DV8514] $Source01/t_mod_interface_array2.v:47:12: Failed to bind "PARAM".
@@ -774,10 +772,22 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: a_if #(.PARAM(0)).PARAM
               vpiActual: IntTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:a_if #(.PARAM(0))
           vpiScalar: true
+        InterfaceTypespec name:source start:11:12 end:11:18:
+          vpiParent: Interface name:a_if #(.PARAM(0))
+          vpiName Identifier name:source start:11:12 end:11:18:
+          vpiDefName: a_if #(.PARAM(0))
+          vpiModport: Modport name:source
+          vpiInterface: Interface name:a_if #(.PARAM(0))
+        InterfaceTypespec name:sink start:12:12 end:12:16:
+          vpiParent: Interface name:a_if #(.PARAM(0))
+          vpiName Identifier name:sink start:12:12 end:12:16:
+          vpiDefName: a_if #(.PARAM(0))
+          vpiModport: Modport name:sink
+          vpiInterface: Interface name:a_if #(.PARAM(0))
       vpiDefName: a_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
@@ -905,6 +915,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:a_if #(.PARAM(0))::source
                 vpiName: source
                 vpiFullName: intf_source.a_if #(.PARAM(0))::source.source
+                vpiActual: InterfaceTypespec name:source
+            vpiActual: InterfaceTypespec name:source
       vpiDefName: intf_source
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
@@ -1049,6 +1061,7 @@ Design name:unnamed:
                       vpiParent: ContAssign
                       vpiName: intf_input[i]
                       vpiFullName: intf_source.intf_input[i]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:intf_input start:22:39 end:22:49:
                         vpiParent: BitSelect name:intf_input[i]
                         vpiName: intf_input
@@ -1147,6 +1160,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:a_if #(.PARAM(0))::sink
                 vpiName: sink
                 vpiFullName: intf_sink.a_if #(.PARAM(0))::sink.sink
+                vpiActual: InterfaceTypespec name:sink
+            vpiActual: InterfaceTypespec name:sink
       vpiDefName: intf_sink
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_mod_interface_array2.v"
@@ -1269,6 +1284,7 @@ Design name:unnamed:
                       vpiParent: ContAssign
                       vpiName: a_out[i]
                       vpiFullName: intf_sink.a_out[i]
+                      vpiConstantSelect: true
                       vpiPrefix RefObj name:a_out start:34:10 end:34:15:
                         vpiParent: BitSelect name:a_out[i]
                         vpiName: a_out
@@ -1916,7 +1932,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 9
+[WARNING] : 7
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1964,7 +1980,7 @@ Operation                           25       9       0        16
 RefObj                              58      48       0        10
 RefTypespec                         52      46       8        14
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             112     112       0         0
 ----------------------------------------------------------------
-                                   273     237      18        54
+                                   277     241      18        54
 ===================== END REDUCTION RESULT =====================

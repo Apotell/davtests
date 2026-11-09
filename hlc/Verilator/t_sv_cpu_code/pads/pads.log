@@ -454,11 +454,8 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/pads.sv:10:22: Failed to bind "pinout".
 [WRN:DV8514] $Source01/pads.sv:18:3: Failed to bind "pads_if".
-[WRN:DV8514] $Source01/pads.sv:18:11: Failed to bind "mp_pads".
-[WRN:DV8514] $Source01/pads.sv:50:18: Failed to bind "t_padtype".
 [WRN:DV8514] $Source01/pads.sv:50:47: Failed to bind "padtype".
 [WRN:DV8514] $Source01/pads.sv:50:37: Failed to bind "pinout".
-[WRN:DV8514] $Source01/pads.sv:51:18: Failed to bind "t_pinid".
 [WRN:DV8514] $Source01/pads.sv:51:47: Failed to bind "id".
 [WRN:DV8514] $Source01/pads.sv:51:37: Failed to bind "pinout".
 [WRN:DV8514] $Source01/pads.sv:55:9: Failed to bind "PADTYPE_GPIO".
@@ -483,6 +480,9 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/pads.sv:78:25: Failed to bind "ID".
 [WRN:DV8514] $Source01/pads.sv:85:9: Failed to bind "PADTYPE_GND".
 [WRN:DV8514] $Source01/pads.sv:87:25: Failed to bind "ID".
+[ERR:CP5818] $Source01/pads.sv:18:3: Undefined type "pads_if::mp_pads".
+[ERR:CP5818] $Source01/pads.sv:50:18: Undefined type "t_padtype".
+[ERR:CP5818] $Source01/pads.sv:51:18: Undefined type "t_pinid".
 [ERR:DL2510] $Source01/pads.sv:56:11: Unsupported typespec "pad_gpio".
 [ERR:DL2516] $Source01/pads.sv:56:28: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
 [ERR:DL2510] $Source01/pads.sv:78:13: Unsupported typespec "pad_vdd".
@@ -851,6 +851,7 @@ Design name:unnamed:
                                 vpiParent: NamedArgument
                                 vpiName: pad[i]
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pad[i]
+                                vpiConstantSelect: true
                                 vpiPrefix RefObj name:pad start:58:28 end:58:31:
                                   vpiParent: BitSelect name:pad[i]
                                   vpiName: pad
@@ -1142,6 +1143,7 @@ Design name:unnamed:
                                 vpiParent: NamedArgument
                                 vpiName: pad[i]
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_vdd.pad[i]
+                                vpiConstantSelect: true
                                 vpiPrefix RefObj name:pad start:80:21 end:80:24:
                                   vpiParent: BitSelect name:pad[i]
                                   vpiName: pad
@@ -1201,6 +1203,7 @@ Design name:unnamed:
                                 vpiParent: NamedArgument
                                 vpiName: pad[i]
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gnd.pad[i]
+                                vpiConstantSelect: true
                                 vpiPrefix RefObj name:pad start:88:42 end:88:45:
                                   vpiParent: BitSelect name:pad[i]
                                   vpiName: pad
@@ -1227,8 +1230,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 32
+[  ERROR] : 9
+[WARNING] : 29
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

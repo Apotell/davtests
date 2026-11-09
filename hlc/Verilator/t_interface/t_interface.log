@@ -1419,14 +1419,12 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface.v:141:1: Compile module "drain".
 [WRN:CP5811] $Source01/t_interface.v:149:19: Port "inf" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface.v:117:14: Failed to bind "src".
 [WRN:DV8514] $Source01/t_interface.v:132:35: Failed to bind "inf".
 [WRN:DV8514] $Source01/t_interface.v:132:39: Failed to bind "req".
 [WRN:DV8514] $Source01/t_interface.v:132:45: Failed to bind "inf".
 [WRN:DV8514] $Source01/t_interface.v:132:49: Failed to bind "grt".
 [WRN:DV8514] $Source01/t_interface.v:135:11: Failed to bind "inf".
 [WRN:DV8514] $Source01/t_interface.v:135:15: Failed to bind "req".
-[WRN:DV8514] $Source01/t_interface.v:149:14: Failed to bind "drn".
 [WRN:DV8514] $Source01/t_interface.v:164:35: Failed to bind "inf".
 [WRN:DV8514] $Source01/t_interface.v:164:39: Failed to bind "req".
 [WRN:DV8514] $Source01/t_interface.v:164:45: Failed to bind "inf".
@@ -1511,13 +1509,25 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: handshake #(.WC(32)).WC
               vpiActual: IntTypespec
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Interface name:handshake #(.WC(32))
           vpiScalar: true
         IntegerTypespec:
           vpiParent: Interface name:handshake #(.WC(32))
           vpiSigned: true
+        InterfaceTypespec name:src start:86:12 end:86:15:
+          vpiParent: Interface name:handshake #(.WC(32))
+          vpiName Identifier name:src start:86:12 end:86:15:
+          vpiDefName: handshake #(.WC(32))
+          vpiModport: Modport name:src
+          vpiInterface: Interface name:handshake #(.WC(32))
+        InterfaceTypespec name:drn start:92:12 end:92:15:
+          vpiParent: Interface name:handshake #(.WC(32))
+          vpiName Identifier name:drn start:92:12 end:92:15:
+          vpiDefName: handshake #(.WC(32))
+          vpiModport: Modport name:drn
+          vpiInterface: Interface name:handshake #(.WC(32))
         BitTypespec:
           vpiParent: Interface name:handshake #(.WC(32))
       vpiDefName: handshake
@@ -2490,6 +2500,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:handshake #(.WC(32))::src
                 vpiName: src
                 vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::src.src"
+                vpiActual: InterfaceTypespec name:src
+            vpiActual: InterfaceTypespec name:src
         Port name:cnt start:118:19 end:118:22:
           vpiParent: "Module name:source #(.RW(1), .RP('0), .RR('1))"
           vpiName: cnt
@@ -2572,6 +2584,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: rnd[0]
                           vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:rnd start:127:21 end:127:24:
                             vpiParent: BitSelect name:rnd[0]
                             vpiName: rnd
@@ -2591,6 +2604,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: rnd[RW-1:1]
                           vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).rnd[RW-1:1]"
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:rnd start:127:29 end:127:32:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiName: rnd
@@ -2648,6 +2662,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: rnd[0]
                                   vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+                                  vpiConstantSelect: true
                                   vpiPrefix RefObj name:rnd start:127:49 end:127:52:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiName: rnd
@@ -2804,6 +2819,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: rnd[0]
             vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+            vpiConstantSelect: true
             vpiPrefix RefObj name:rnd start:135:21 end:135:24:
               vpiParent: BitSelect name:rnd[0]
               vpiName: rnd
@@ -3104,6 +3120,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:handshake #(.WC(32))::drn
                 vpiName: drn
                 vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::drn.drn"
+                vpiActual: InterfaceTypespec name:drn
+            vpiActual: InterfaceTypespec name:drn
         Port name:cnt start:150:19 end:150:22:
           vpiParent: "Module name:drain #(.RW(1), .RP('0), .RR('1))"
           vpiName: cnt
@@ -3186,6 +3204,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: rnd[0]
                           vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:rnd start:159:21 end:159:24:
                             vpiParent: BitSelect name:rnd[0]
                             vpiName: rnd
@@ -3205,6 +3224,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: rnd[RW-1:1]
                           vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).rnd[RW-1:1]"
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:rnd start:159:29 end:159:32:
                             vpiParent: PartSelect name:rnd[RW-1:1]
                             vpiName: rnd
@@ -3262,6 +3282,7 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: rnd[0]
                                   vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+                                  vpiConstantSelect: true
                                   vpiPrefix RefObj name:rnd start:159:49 end:159:52:
                                     vpiParent: BitSelect name:rnd[0]
                                     vpiName: rnd
@@ -3418,6 +3439,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: rnd[0]
             vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).rnd[0]"
+            vpiConstantSelect: true
             vpiPrefix RefObj name:rnd start:167:21 end:167:24:
               vpiParent: BitSelect name:rnd[0]
               vpiName: rnd
@@ -3556,7 +3578,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 16
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3604,7 +3626,7 @@ Operation                           50      39       0        11
 RefObj                             126     116       0        10
 RefTypespec                         89      88      11        12
 ----------------------------------------------------------------
-Others                             172     172       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   483     460      22        45
+                                   487     464      22        45
 ===================== END REDUCTION RESULT =====================

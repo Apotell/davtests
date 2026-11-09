@@ -607,7 +607,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/dut.v:23:22: Failed to bind "drive".
 [WRN:DV8514] $Source01/dut.v:23:35: Failed to bind "intf".
 [WRN:DV8514] $Source01/dut.v:23:40: Failed to bind "observe".
-[WRN:DV8514] $Source01/tb.v:1:31: Failed to bind "tb".
 [WRN:DV8514] $Source01/tb.v:5:46: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:5:51: Failed to bind "drive".
 [WRN:DV8514] $Source01/tb.v:5:58: Failed to bind "intf".
@@ -671,10 +670,22 @@ Design name:unnamed:
             vpiParent: Variable name:observe
             vpiFullName: ConnectTB.observe
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:ConnectTB
           vpiScalar: true
+        InterfaceTypespec name:dut start:12:11 end:12:14:
+          vpiParent: Interface name:ConnectTB
+          vpiName Identifier name:dut start:12:11 end:12:14:
+          vpiDefName: ConnectTB
+          vpiModport: Modport name:dut
+          vpiInterface: Interface name:ConnectTB
+        InterfaceTypespec name:tb start:16:11 end:16:13:
+          vpiParent: Interface name:ConnectTB
+          vpiName Identifier name:tb start:16:11 end:16:13:
+          vpiDefName: ConnectTB
+          vpiModport: Modport name:tb
+          vpiInterface: Interface name:ConnectTB
       vpiDefName: ConnectTB
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.v"
@@ -1094,6 +1105,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:ConnectTB::tb
                 vpiName: tb
                 vpiFullName: TESTBENCH.intf.ConnectTB::tb.tb
+                vpiActual: InterfaceTypespec name:tb
+            vpiActual: InterfaceTypespec name:tb
   vpiAllModules (4 items):
     Module name:dut file:$Source01/dut.v start:2:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -1293,8 +1306,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:ConnectTB::dut
                 vpiName: dut
                 vpiFullName: middle.intf.ConnectTB::dut.dut
-                vpiActual: ModuleTypespec name:dut
-            vpiActual: ModuleTypespec name:dut
+                vpiActual: InterfaceTypespec name:dut
+            vpiActual: InterfaceTypespec name:dut
       vpiRefInstance (1 items):
         RefInstance name:sub1 start:23:7 end:23:11:
           vpiParent: Module name:middle
@@ -1588,7 +1601,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 29
+[WARNING] : 28
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1633,7 +1646,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPort/OneNetModPort/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

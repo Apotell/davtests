@@ -12,6 +12,12 @@ COMMAND: -wd ../../../../../tests/YosysTests/backends -writepp -nobuiltin -times
 [INF:PA5502] Parsing source file "$Source01/common.v".
 [INF:PA5502] Parsing source file "$Source01/write_blif/top.v".
 [INF:PA5502] Parsing source file "$Source01/write_blif/testbench.v".
+[SNT:PA5508] $Source01/write_blif/testbench.v:40:39: Syntax error: mismatched input '~&' expecting ';',
+                         patt_out <=  patt_out|in[1]~&in[2];
+                                                    ^-- $Source01/write_blif/testbench.v:40:39:.
+[SNT:PA5508] $Source01/write_blif/testbench.v:44:52: Syntax error: mismatched input '~|' expecting ';',
+                         patt_carry_out <=  patt_carry_out1&in[2]~|in[1];
+                                                                 ^-- $Source01/write_blif/testbench.v:44:52:.
 [SNT:PA5508] $Source01/write_blif/top.v:28:18: Syntax error: no viable alternative at input 'y~&',
                      A <=  A1|y~&cin;
                                ^-- $Source01/write_blif/top.v:28:18:.
@@ -24,12 +30,6 @@ COMMAND: -wd ../../../../../tests/YosysTests/backends -writepp -nobuiltin -times
 [SNT:PA5508] $Source01/write_blif/top.v:33: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
              end
              ^-- $Source01/write_blif/top.v:33:0:.
-[SNT:PA5508] $Source01/write_blif/testbench.v:40:39: Syntax error: mismatched input '~&' expecting ';',
-                         patt_out <=  patt_out|in[1]~&in[2];
-                                                    ^-- $Source01/write_blif/testbench.v:40:39:.
-[SNT:PA5508] $Source01/write_blif/testbench.v:44:52: Syntax error: mismatched input '~|' expecting ';',
-                         patt_carry_out <=  patt_carry_out1&in[2]~|in[1];
-                                                                 ^-- $Source01/write_blif/testbench.v:44:52:.
 AST_DEBUG_BEGIN
 Count: 557
 LIB: work
@@ -3465,6 +3465,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: in[0]
                   vpiFullName: testbench.in[0]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:in start:31:22 end:31:24:
                     vpiParent: BitSelect name:in[0]
                     vpiName: in
@@ -3504,6 +3505,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: in[1]
                             vpiFullName: testbench.in[1]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:in start:32:20 end:32:22:
                               vpiParent: BitSelect name:in[1]
                               vpiName: in
@@ -3527,6 +3529,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: in[2]
                             vpiFullName: testbench.in[2]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:in start:32:29 end:32:31:
                               vpiParent: BitSelect name:in[2]
                               vpiName: in
@@ -3555,6 +3558,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: in[0]
                   vpiFullName: testbench.in[0]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:in start:34:22 end:34:24:
                     vpiParent: BitSelect name:in[0]
                     vpiName: in
@@ -3590,6 +3594,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: in[2]
                         vpiFullName: testbench.in[2]
+                        vpiConstantSelect: true
                         vpiPrefix RefObj name:in start:35:28 end:35:30:
                           vpiParent: BitSelect name:in[2]
                           vpiName: in
@@ -3613,6 +3618,7 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: in[1]
                             vpiFullName: testbench.in[1]
+                            vpiConstantSelect: true
                             vpiPrefix RefObj name:in start:35:37 end:35:39:
                               vpiParent: BitSelect name:in[1]
                               vpiName: in
@@ -3648,6 +3654,7 @@ Design name:unnamed:
                     vpiParent: IfStmt
                     vpiName: in[0]
                     vpiFullName: testbench.in[0]
+                    vpiConstantSelect: true
                     vpiPrefix RefObj name:in start:39:13 end:39:15:
                       vpiParent: BitSelect name:in[0]
                       vpiName: in
@@ -3684,6 +3691,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: in[1]
                           vpiFullName: testbench.in[1]
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:in start:40:35 end:40:37:
                             vpiParent: BitSelect name:in[1]
                             vpiName: in
@@ -3703,6 +3711,7 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName: in[2]
                   vpiFullName: testbench.in[2]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:in start:40:42 end:40:44:
                     vpiParent: BitSelect name:in[2]
                     vpiName: in
@@ -3738,6 +3747,7 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: in[0]
                         vpiFullName: testbench.in[0]
+                        vpiConstantSelect: true
                         vpiPrefix RefObj name:in start:43:14 end:43:16:
                           vpiParent: BitSelect name:in[0]
                           vpiName: in
@@ -3774,6 +3784,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: in[2]
                           vpiFullName: testbench.in[2]
+                          vpiConstantSelect: true
                           vpiPrefix RefObj name:in start:44:48 end:44:50:
                             vpiParent: BitSelect name:in[2]
                             vpiName: in
@@ -3793,6 +3804,7 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName: in[1]
                   vpiFullName: testbench.in[1]
+                  vpiConstantSelect: true
                   vpiPrefix RefObj name:in start:44:55 end:44:57:
                     vpiParent: BitSelect name:in[1]
                     vpiName: in
@@ -3834,6 +3846,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in[0]
                 vpiFullName: testbench.uut.in[0]
+                vpiConstantSelect: true
                 vpiPrefix RefObj name:in start:24:5 end:24:7:
                   vpiParent: BitSelect name:in[0]
                   vpiName: in
@@ -3861,6 +3874,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in[1]
                 vpiFullName: testbench.uut.in[1]
+                vpiConstantSelect: true
                 vpiPrefix RefObj name:in start:25:5 end:25:7:
                   vpiParent: BitSelect name:in[1]
                   vpiName: in
@@ -3888,6 +3902,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in[2]
                 vpiFullName: testbench.uut.in[2]
+                vpiConstantSelect: true
                 vpiPrefix RefObj name:in start:26:7 end:26:9:
                   vpiParent: BitSelect name:in[2]
                   vpiName: in

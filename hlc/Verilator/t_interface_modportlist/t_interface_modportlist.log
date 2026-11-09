@@ -193,7 +193,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_modportlist.v:13:50: Port "iface" definition missing its direction (input, output, inout).
 [INF:CP5805] $Source01/t_interface_modportlist.v:20:1: Compile interface "my_interface".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:13:42: Failed to bind "my_port".
 [WRN:DV8514] $Source01/t_interface_modportlist.v:15:7: Failed to bind "iface".
 [WRN:DV8514] $Source01/t_interface_modportlist.v:15:13: Failed to bind "b".
 [WRN:DV8514] $Source01/t_interface_modportlist.v:15:18: Failed to bind "iface".
@@ -251,10 +250,16 @@ Design name:unnamed:
             vpiParent: Variable name:c
             vpiFullName: my_interface.c
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:my_interface
           vpiScalar: true
+        InterfaceTypespec name:my_port start:22:12 end:22:19:
+          vpiParent: Interface name:my_interface
+          vpiName Identifier name:my_port start:22:12 end:22:19:
+          vpiDefName: my_interface
+          vpiModport: Modport name:my_port
+          vpiInterface: Interface name:my_interface
       vpiDefName: my_interface
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_modportlist.v"
@@ -419,6 +424,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:my_interface::my_port
                 vpiName: my_port
                 vpiFullName: my_module.iface.my_interface::my_port.my_port
+                vpiActual: InterfaceTypespec name:my_port
+            vpiActual: InterfaceTypespec name:my_port
       vpiProcess (1 items):
         Always start:14:4 end:17:7:
           vpiParent: Module name:my_module
@@ -520,7 +527,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
-[WARNING] : 10
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -564,7 +571,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

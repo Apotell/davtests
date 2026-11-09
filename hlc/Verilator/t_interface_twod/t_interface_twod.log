@@ -382,10 +382,10 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_twod.v:40:10: Port "isuba" definition missing its direction (input, output, inout).
 [NTE:CP5810] $Source01/t_interface_twod.v:40:17: Implicit port type (wire) for "isubb".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_twod.v:40:8: Failed to bind "i".
 [WRN:DV8514] $Source01/t_interface_twod.v:44:7: Failed to bind "isuba".
 [WRN:DV8514] $Source01/t_interface_twod.v:44:13: Failed to bind "value".
 [WRN:DV8514] $Source01/t_interface_twod.v:45:13: Failed to bind "value".
+[ERR:CP5818] Undefined type "ifc::i".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -415,10 +415,22 @@ Design name:unnamed:
             vpiParent: Variable name:value
             vpiFullName: ifc.value
             vpiActual: IntegerTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         IntegerTypespec:
           vpiParent: Interface name:ifc
           vpiSigned: true
+        InterfaceTypespec name:i start:8:12 end:8:13:
+          vpiParent: Interface name:ifc
+          vpiName Identifier name:i start:8:12 end:8:13:
+          vpiDefName: ifc
+          vpiModport: Modport name:i
+          vpiInterface: Interface name:ifc
+        InterfaceTypespec name:o start:9:12 end:9:13:
+          vpiParent: Interface name:ifc
+          vpiName Identifier name:o start:9:12 end:9:13:
+          vpiDefName: ifc
+          vpiModport: Modport name:o
+          vpiInterface: Interface name:ifc
       vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_twod.v"
@@ -862,6 +874,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:ifc::i
                 vpiName: i
                 vpiFullName: wrapper.isuba.ifc::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
         Port name:isubb start:40:17 end:40:22:
           vpiParent: Module name:wrapper
           vpiName: isubb
@@ -991,8 +1005,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 5
+[  ERROR] : 1
+[WARNING] : 4
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1040,7 +1054,7 @@ Operation                            5       3       0         2
 RefObj                              33      31       0         2
 RefTypespec                         23      23       2         2
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   137     133       4         8
+                                   141     137       4         8
 ===================== END REDUCTION RESULT =====================

@@ -287,10 +287,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:45:1: Compile module "memory_ctrl2".
 [WRN:CP5811] $Source01/top.v:45:36: Port "sif" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/top.v:45:1: No timescale set for "memory_ctrl2".
-[WRN:DV8514] $Source01/top.v:14:3: Failed to bind "id_t1".
-[WRN:DV8514] $Source01/top.v:36:29: Failed to bind "system1".
-[WRN:DV8514] $Source01/top.v:45:29: Failed to bind "system".
-[WRN:DV8514] $Source01/top.v:51:1: Failed to bind "DD".
+[ERR:CP5818] $Source01/top.v:14:3: Undefined type "id_t1".
+[ERR:CP5818] $Source01/top.v:36:22: Undefined type "mem_if::system1".
+[ERR:CP5818] $Source01/top.v:51:1: Undefined type "DD".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -362,7 +361,7 @@ Design name:unnamed:
                   vpiParent: Constant
                   vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).AXI_ID_WIDTH
                   vpiActual: IntTypespec
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
           vpiScalar: true
@@ -405,6 +404,18 @@ Design name:unnamed:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
           vpiName Identifier name:id_t start:12:38 end:12:42:
           vpiTypedef: Typedef name:id_t
+        InterfaceTypespec name:Master start:16:11 end:16:17:
+          vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
+          vpiName Identifier name:Master start:16:11 end:16:17:
+          vpiDefName: AXI_BUS #(.AXI_ID_WIDTH(-1))
+          vpiModport: Modport name:Master
+          vpiInterface: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
+        InterfaceTypespec name:Slave start:22:11 end:22:16:
+          vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
+          vpiName Identifier name:Slave start:22:11 end:22:16:
+          vpiDefName: AXI_BUS #(.AXI_ID_WIDTH(-1))
+          vpiModport: Modport name:Slave
+          vpiInterface: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
       vpiDefName: AXI_BUS
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -440,10 +451,22 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mem_if start:29:11 end:29:17:
       vpiFullName: mem_if
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:mem_if
           vpiScalar: true
+        InterfaceTypespec name:system start:31:12 end:31:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:system start:31:12 end:31:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:system
+          vpiInterface: Interface name:mem_if
+        InterfaceTypespec name:memory start:32:12 end:32:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:memory start:32:12 end:32:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:memory
+          vpiInterface: Interface name:mem_if
       vpiDefName: mem_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -751,6 +774,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::system
                 vpiName: system
                 vpiFullName: memory_ctrl2.sif.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
   vpiTypespec (6 items):
     ModuleTypespec name:dff0_test:
       vpiParent: Design name:unnamed
@@ -787,8 +812,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 11
+[  ERROR] : 4
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -836,7 +861,7 @@ Operation                            2       0       0         2
 RefObj                              12      11       0         1
 RefTypespec                         21      21       2         2
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   127     124       4         7
+                                   135     132       4         7
 ===================== END REDUCTION RESULT =====================

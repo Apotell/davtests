@@ -925,7 +925,6 @@ AST_DEBUG_END
 [WRN:CP5815] $Source01/top.v:99:9: Using programs is discouraged "test", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/top.v:112:1: Compile module "interface_modports".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/top.v:62:29: Failed to bind "memory".
 [WRN:DV8514] $Source01/top.v:69:19: Failed to bind "mif".
 [WRN:DV8514] $Source01/top.v:69:23: Failed to bind "clk".
 [WRN:DV8514] $Source01/top.v:70:6: Failed to bind "mif".
@@ -946,8 +945,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/top.v:79:8: Failed to bind "datao_mem".
 [WRN:DV8514] $Source01/top.v:79:25: Failed to bind "mif".
 [WRN:DV8514] $Source01/top.v:79:29: Failed to bind "addr_mem".
-[WRN:DV8514] $Source01/top.v:87:28: Failed to bind "system".
-[WRN:DV8514] $Source01/top.v:99:21: Failed to bind "tb".
 [WRN:DV8514] $Source01/top.v:102:7: Failed to bind "tif".
 [WRN:DV8514] $Source01/top.v:102:11: Failed to bind "reset".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
@@ -1006,7 +1003,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: mem_interface.hold_time
               vpiActual: IntTypespec
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         BitTypespec:
           vpiParent: Interface name:mem_interface
           vpiScalar: true
@@ -1069,6 +1066,12 @@ Design name:unnamed:
           vpiParent: Interface name:mem_interface
           vpiName: cb
           vpiClockingBlock: ClockingBlock name:cb
+        InterfaceTypespec name:MEM start:19:12 end:19:15:
+          vpiParent: Interface name:mem_interface
+          vpiName Identifier name:MEM start:19:12 end:19:15:
+          vpiDefName: mem_interface
+          vpiModport: Modport name:MEM
+          vpiInterface: Interface name:mem_interface
       vpiDefName: mem_interface
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -1332,7 +1335,7 @@ Design name:unnamed:
             vpiParent: Variable name:addr_mem
             vpiFullName: mem_if.addr_mem
             vpiActual: LogicTypespec
-      vpiTypespec (6 items):
+      vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Interface name:mem_if
           vpiScalar: true
@@ -1466,6 +1469,24 @@ Design name:unnamed:
                   vpiFullName: mem_if
                   vpiActual: IntTypespec
           vpiVector: true
+        InterfaceTypespec name:system start:41:12 end:41:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:system start:41:12 end:41:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:system
+          vpiInterface: Interface name:mem_if
+        InterfaceTypespec name:memory start:48:12 end:48:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:memory start:48:12 end:48:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:memory
+          vpiInterface: Interface name:mem_if
+        InterfaceTypespec name:tb start:53:12 end:53:14:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:tb start:53:12 end:53:14:
+          vpiDefName: mem_if
+          vpiModport: Modport name:tb
+          vpiInterface: Interface name:mem_if
       vpiDefName: mem_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -1720,6 +1741,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::tb
                 vpiName: tb
                 vpiFullName: test.tif.mem_if::tb.tb
+                vpiActual: InterfaceTypespec name:tb
+            vpiActual: InterfaceTypespec name:tb
   vpiAllModules (3 items):
     Module name:memory_model file:$Source01/top.v start:62:1 end:82:10:
       vpiParent: Design name:unnamed
@@ -1832,6 +1855,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::memory
                 vpiName: memory
                 vpiFullName: memory_model.mif.mem_if::memory.memory
+                vpiActual: InterfaceTypespec name:memory
+            vpiActual: InterfaceTypespec name:memory
       vpiProcess (2 items):
         Always start:69:1 end:72:5:
           vpiParent: Module name:memory_model
@@ -2117,6 +2142,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::system
                 vpiName: system
                 vpiFullName: memory_ctrl.sif.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
     Module name:interface_modports file:$Source01/top.v start:112:1 end:124:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:interface_modports start:112:8 end:112:26:
@@ -2334,7 +2361,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 28
+[WARNING] : 25
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2382,7 +2409,7 @@ Operation                            7       6       0         1
 RefObj                              61      60       0         1
 RefTypespec                        675     676       1         0
 ----------------------------------------------------------------
-Others                            1404    1404       0         0
+Others                            1412    1412       0         0
 ----------------------------------------------------------------
-                                  2185    2185       2         2
+                                  2193    2193       2         2
 ===================== END REDUCTION RESULT =====================

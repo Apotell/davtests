@@ -919,8 +919,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_arraymux.v:52:16: Port "thing_out" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_arraymux.v:82:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_arraymux.v:39:14: Failed to bind "i".
-[WRN:DV8514] $Source01/t_interface_arraymux.v:52:14: Failed to bind "i".
 [ERR:DL2510] $Source01/t_interface_arraymux.v:55:4: Unsupported typespec "".
 [ERR:DL2510] $Source01/t_interface_arraymux.v:56:4: Unsupported typespec "".
 [ERR:DL2510] $Source01/t_interface_arraymux.v:57:4: Unsupported typespec "".
@@ -1130,7 +1128,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: the_intf #(.M(5)).M
               vpiActual: IntTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
           vpiScalar: true
@@ -1174,6 +1172,18 @@ Design name:unnamed:
             vpiName: outer_thing_t
             vpiFullName: the_intf #(.M(5)).outer_thing_t
             vpiActual: TypedefTypespec name:outer_thing_t
+        InterfaceTypespec name:i start:24:13 end:24:14:
+          vpiParent: Interface name:the_intf #(.M(5))
+          vpiName Identifier name:i start:24:13 end:24:14:
+          vpiDefName: the_intf #(.M(5))
+          vpiModport: Modport name:i
+          vpiInterface: Interface name:the_intf #(.M(5))
+        InterfaceTypespec name:t start:27:13 end:27:14:
+          vpiParent: Interface name:the_intf #(.M(5))
+          vpiName Identifier name:t start:27:13 end:27:14:
+          vpiDefName: the_intf #(.M(5))
+          vpiModport: Modport name:t
+          vpiInterface: Interface name:the_intf #(.M(5))
       vpiDefName: the_intf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_arraymux.v"
@@ -1344,8 +1354,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
                 vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf #(.M(5))::t.t
-                vpiActual: ModuleTypespec name:t
-            vpiActual: ModuleTypespec name:t
+                vpiActual: InterfaceTypespec name:t
+            vpiActual: InterfaceTypespec name:t
       vpiDefName: ThingMuxOH
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_arraymux.v"
@@ -1426,6 +1436,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
                 vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf #(.M(5))::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
     Module name:Thinker #(.M(5), .N(2)) file:$Source01/t_interface_arraymux.v start:43:1 end:80:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Thinker #(.M(5), .N(2)) start:43:8 end:43:15:
@@ -1866,8 +1878,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
                 vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf #(.M(5))::t.t
-                vpiActual: ModuleTypespec name:t
-            vpiActual: ModuleTypespec name:t
+                vpiActual: InterfaceTypespec name:t
+            vpiActual: InterfaceTypespec name:t
         Port name:thing_out start:52:16 end:52:25:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: thing_out
@@ -1892,6 +1904,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
                 vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf #(.M(5))::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
       vpiRefInstance (6 items):
         RefInstance name:curr_things start:55:22 end:55:33:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
@@ -2627,7 +2641,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 12
-[WARNING] : 6
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2675,7 +2689,7 @@ Operation                            8       0       0         8
 RefObj                             103      95       0         8
 RefTypespec                         83      83       8         8
 ----------------------------------------------------------------
-Others                             167     167       0         0
+Others                             171     171       0         0
 ----------------------------------------------------------------
-                                   388     372      16        32
+                                   392     376      16        32
 ===================== END REDUCTION RESULT =====================

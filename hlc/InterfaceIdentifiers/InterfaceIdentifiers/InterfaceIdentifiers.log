@@ -2360,24 +2360,8 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:362:1: No timescale set for "mod_specify_paths".
 [INF:CP5804] $Source01/dut.sv:405:1: Compile module "mod_intf_id_extended_forms".
 [WRN:PA5506] $Source01/dut.sv:405:1: No timescale set for "mod_intf_id_extended_forms".
-[WRN:DV8514] $Source01/dut.sv:65:11: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:66:11: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:94:11: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:95:11: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:128:11: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:129:11: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:135:11: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:136:11: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:148:11: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:175:19: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:176:19: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:179:29: Failed to bind "master".
-[WRN:DV8514] $Source01/dut.sv:180:29: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:201:19: Failed to bind "master".
 [WRN:DV8514] $Source01/dut.sv:320:14: Failed to bind "W".
 [WRN:DV8514] $Source01/dut.sv:333:14: Failed to bind "W".
-[WRN:DV8514] $Source01/dut.sv:363:11: Failed to bind "slave".
-[WRN:DV8514] $Source01/dut.sv:364:11: Failed to bind "master".
 [WRN:DV8514] $Source01/dut.sv:367:12: Failed to bind "out_bus".
 [WRN:DV8514] $Source01/dut.sv:367:20: Failed to bind "data".
 [WRN:DV8514] $Source01/dut.sv:367:28: Failed to bind "in_bus".
@@ -2405,10 +2389,10 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/dut.sv:382:28: Failed to bind "out_bus".
 [WRN:DV8514] $Source01/dut.sv:382:36: Failed to bind "data".
 [WRN:DV8514] $Source01/dut.sv:418:19: Failed to bind "BusIf".
-[WRN:DV8514] $Source01/dut.sv:418:25: Failed to bind "master".
 [ERR:DL2510] $Source01/dut.sv:320:5: Unsupported typespec "".
 [ERR:DL2510] $Source01/dut.sv:323:5: Unsupported typespec "".
 [ERR:DL2510] $Source01/dut.sv:333:5: Unsupported typespec "".
+[ERR:CP5818] $Source01/dut.sv:418:13: Undefined type "$root::BusIf::master".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2477,7 +2461,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: BusIf #(.W(8)).W
               vpiActual: IntTypespec
-      vpiTypespec (4 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Interface name:BusIf #(.W(8))
           vpiScalar: true
@@ -2516,6 +2500,18 @@ Design name:unnamed:
                   vpiFullName: BusIf #(.W(8))
                   vpiActual: IntTypespec
           vpiVector: true
+        InterfaceTypespec name:master start:27:13 end:27:19:
+          vpiParent: Interface name:BusIf #(.W(8))
+          vpiName Identifier name:master start:27:13 end:27:19:
+          vpiDefName: BusIf #(.W(8))
+          vpiModport: Modport name:master
+          vpiInterface: Interface name:BusIf #(.W(8))
+        InterfaceTypespec name:slave start:28:13 end:28:18:
+          vpiParent: Interface name:BusIf #(.W(8))
+          vpiName Identifier name:slave start:28:13 end:28:18:
+          vpiDefName: BusIf #(.W(8))
+          vpiModport: Modport name:slave
+          vpiInterface: Interface name:BusIf #(.W(8))
         LogicTypespec:
           vpiParent: Interface name:BusIf #(.W(8))
           vpiRange (1 items):
@@ -3371,10 +3367,22 @@ Design name:unnamed:
             vpiParent: Variable name:sig
             vpiFullName: SubIf.sig
             vpiActual: LogicTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:SubIf
           vpiScalar: true
+        InterfaceTypespec name:src start:40:13 end:40:16:
+          vpiParent: Interface name:SubIf
+          vpiName Identifier name:src start:40:13 end:40:16:
+          vpiDefName: SubIf
+          vpiModport: Modport name:src
+          vpiInterface: Interface name:SubIf
+        InterfaceTypespec name:dst start:41:13 end:41:16:
+          vpiParent: Interface name:SubIf
+          vpiName Identifier name:dst start:41:13 end:41:16:
+          vpiDefName: SubIf
+          vpiModport: Modport name:dst
+          vpiInterface: Interface name:SubIf
       vpiDefName: SubIf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -3537,6 +3545,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_ansi_modport_port.mst.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Port name:slv start:66:18 end:66:21:
           vpiParent: Module name:mod_ansi_modport_port
           vpiName: slv
@@ -3561,6 +3571,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_ansi_modport_port.slv.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
         Port name:clk start:67:18 end:67:21:
           vpiParent: Module name:mod_ansi_modport_port
           vpiName: clk
@@ -3840,6 +3852,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_ansi_modport_array_port.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         ArrayTypespec:
           vpiParent: Module name:mod_ansi_modport_array_port
           vpiArrayType: static (1)
@@ -3873,6 +3887,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_ansi_modport_array_port.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
         LogicTypespec:
           vpiParent: Module name:mod_ansi_modport_array_port
           vpiScalar: true
@@ -4132,6 +4148,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_nonansi_modport.mst.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Variable name:slv start:129:18 end:129:21:
           vpiParent: Module name:mod_nonansi_modport
           vpiName: slv
@@ -4152,6 +4170,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_nonansi_modport.slv.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:mod_nonansi_modport
@@ -4242,6 +4262,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_nonansi_modport_multi.mstA.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Variable name:mstB start:135:24 end:135:28:
           vpiParent: Module name:mod_nonansi_modport_multi
           vpiName: mstB
@@ -4262,6 +4284,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_nonansi_modport_multi.mstB.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Variable name:slv0 start:136:18 end:136:22:
           vpiParent: Module name:mod_nonansi_modport_multi
           vpiName: slv0
@@ -4282,6 +4306,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_nonansi_modport_multi.slv0.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:mod_nonansi_modport_multi
@@ -4502,6 +4528,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_nonansi_modport_array.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         LogicTypespec:
           vpiParent: Module name:mod_nonansi_modport_array
           vpiScalar: true
@@ -4602,6 +4630,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_virtual_ifs.vif_mst.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Variable name:vif_slv start:176:38 end:176:45:
           vpiParent: Module name:mod_virtual_ifs
           vpiName: vif_slv
@@ -4622,6 +4652,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_virtual_ifs.vif_slv.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
         Variable name:vif_kw_mst start:179:38 end:179:48:
           vpiParent: Module name:mod_virtual_ifs
           vpiName: vif_kw_mst
@@ -4642,6 +4674,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_virtual_ifs.vif_kw_mst.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Variable name:vif_kw_slv start:180:38 end:180:48:
           vpiParent: Module name:mod_virtual_ifs
           vpiName: vif_kw_slv
@@ -4662,6 +4696,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_virtual_ifs.vif_kw_slv.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
         Variable name:vif_param_named start:183:38 end:183:53:
           vpiParent: Module name:mod_virtual_ifs
           vpiName: vif_param_named
@@ -4808,6 +4844,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_virtual_ifs.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         ArrayTypespec:
           vpiParent: Module name:mod_virtual_ifs
           vpiArrayType: static (1)
@@ -5508,6 +5546,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::slave
                 vpiName: slave
                 vpiFullName: mod_specify_paths.in_bus.BusIf #(.W(8))::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
         Port name:out_bus start:364:18 end:364:25:
           vpiParent: Module name:mod_specify_paths
           vpiName: out_bus
@@ -5532,6 +5572,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:BusIf #(.W(8))::master
                 vpiName: master
                 vpiFullName: mod_specify_paths.out_bus.BusIf #(.W(8))::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
         Port name:clk start:365:18 end:365:21:
           vpiParent: Module name:mod_specify_paths
           vpiName: clk
@@ -6299,8 +6341,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 74
+[  ERROR] : 4
+[WARNING] : 57
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -6349,7 +6391,7 @@ Operation                           18       1       0        17
 RefObj                             203     197       0         6
 RefTypespec                        203     203      17        17
 ----------------------------------------------------------------
-Others                             386     386       0         0
+Others                             394     394       0         0
 ----------------------------------------------------------------
-                                   866     844      35        57
+                                   874     852      35        57
 ===================== END REDUCTION RESULT =====================

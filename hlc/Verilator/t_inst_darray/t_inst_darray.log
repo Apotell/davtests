@@ -652,9 +652,7 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_inst_darray.v:48:16: Port "dst" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_inst_darray.v:53:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_inst_darray.v:32:14: Failed to bind "i".
 [WRN:DV8514] $Source01/t_inst_darray.v:41:15: Failed to bind "out".
-[WRN:DV8514] $Source01/t_inst_darray.v:48:14: Failed to bind "i".
 [ERR:DL2510] $Source01/t_inst_darray.v:35:4: Unsupported typespec "".
 [ERR:DL2510] $Source01/t_inst_darray.v:62:4: Unsupported typespec "".
 [ERR:DL2520] $Source01/t_inst_darray.v:62:15: Cannot override a local parameter "M",
@@ -804,7 +802,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: the_intf #(.M(5)).M
               vpiActual: IntTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
           vpiScalar: true
@@ -848,6 +846,18 @@ Design name:unnamed:
             vpiName: value_t
             vpiFullName: the_intf #(.M(5)).value_t
             vpiActual: TypedefTypespec name:value_t
+        InterfaceTypespec name:i start:14:12 end:14:13:
+          vpiParent: Interface name:the_intf #(.M(5))
+          vpiName Identifier name:i start:14:12 end:14:13:
+          vpiDefName: the_intf #(.M(5))
+          vpiModport: Modport name:i
+          vpiInterface: Interface name:the_intf #(.M(5))
+        InterfaceTypespec name:t start:19:12 end:19:13:
+          vpiParent: Interface name:the_intf #(.M(5))
+          vpiName Identifier name:t start:19:12 end:19:13:
+          vpiDefName: the_intf #(.M(5))
+          vpiModport: Modport name:t
+          vpiInterface: Interface name:the_intf #(.M(5))
       vpiDefName: the_intf
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_darray.v"
@@ -1009,6 +1019,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
                 vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf #(.M(5))::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
         ArrayTypespec:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
           vpiArrayType: static (1)
@@ -1251,8 +1263,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
                 vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::t.t
-                vpiActual: ModuleTypespec name:t
-            vpiActual: ModuleTypespec name:t
+                vpiActual: InterfaceTypespec name:t
+            vpiActual: InterfaceTypespec name:t
         ArrayTypespec:
           vpiParent: Module name:DeepThought #(.N(1))
           vpiArrayType: static (1)
@@ -1301,6 +1313,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
                 vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
       vpiDefName: DeepThought
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_inst_darray.v"
@@ -1840,7 +1854,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
-[WARNING] : 6
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1888,7 +1902,7 @@ Operation                            7       0       0         7
 RefObj                              55      48       0         7
 RefTypespec                         63      63       7         7
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             124     124       0         0
 ----------------------------------------------------------------
-                                   273     259      14        28
+                                   277     263      14        28
 ===================== END REDUCTION RESULT =====================

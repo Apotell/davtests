@@ -650,8 +650,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/top.v:57:29: Port "sif1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/top.v:57:49: Port "sif2" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
-[WRN:DV8514] $Source01/top.v:57:42: Failed to bind "system".
-[WRN:DV8514] $Source01/top.v:59:1: Failed to bind "DD1".
 [ERR:DL2507] $Source01/top.v:11:5: Illegal lhs of type wire "shifter".
 [ERR:DL2516] $Source01/top.v:11:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/top.v:13:5: Illegal lhs of type wire "result".
@@ -672,6 +670,7 @@ AST_DEBUG_END
 [ERR:DL2516] $Source01/top.v:32:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/top.v:34:5: Illegal lhs of type wire "shifter".
 [ERR:DL2516] $Source01/top.v:34:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
+[ERR:CP5818] $Source01/top.v:59:1: Undefined type "DD1".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -710,10 +709,22 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mem_if start:47:11 end:47:17:
       vpiFullName: mem_if
-      vpiTypespec (1 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:mem_if
           vpiScalar: true
+        InterfaceTypespec name:system start:49:12 end:49:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:system start:49:12 end:49:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:system
+          vpiInterface: Interface name:mem_if
+        InterfaceTypespec name:memory start:50:12 end:50:18:
+          vpiParent: Interface name:mem_if
+          vpiName Identifier name:memory start:50:12 end:50:18:
+          vpiDefName: mem_if
+          vpiModport: Modport name:memory
+          vpiInterface: Interface name:mem_if
       vpiDefName: mem_if
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -1544,6 +1555,8 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:mem_if::system
                 vpiName: system
                 vpiFullName: memory_ctrl1.sif2.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
   vpiTypespec (7 items):
     ModuleTypespec name:tb_operators:
       vpiParent: Design name:unnamed
@@ -1579,8 +1592,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 20
-[WARNING] : 8
+[  ERROR] : 21
+[WARNING] : 6
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1627,7 +1640,7 @@ Constant                            20      16       2         6
 Operation                           14      10       0         4
 RefTypespec                         37      33       2         6
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             138     138       0         0
 ----------------------------------------------------------------
-                                   205     193       4        16
+                                   209     197       4        16
 ===================== END REDUCTION RESULT =====================
