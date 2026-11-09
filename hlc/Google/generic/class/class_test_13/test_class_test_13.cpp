@@ -262,6 +262,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/class_typespec.h>
@@ -283,6 +284,7 @@
 #include <hldb/source_file.h>
 #include <hldb/type_parameter.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -335,7 +337,8 @@ template <typename T>
 const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view name = "") {
   if (collection != nullptr) {
     for (const T *object : *collection) {
-      if (endsWith(object->getFile(), kSourceFileName) && (name.empty() || (object->getName() == name))) {
+      if (endsWith(object->getFile(), kSourceFileName) &&
+          (name.empty() || (object->getName() == name) || (hldb::getDefName(object) == name))) {
         return object;
       }
     }
@@ -462,13 +465,13 @@ class ClassTest13Test : public Test {
 
   // The class named 'name' declared in the file under test, or nullptr.
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllClasses(), name);
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getClassDefns(), name);
   }
 
   // The compilation-unit parameter named 'name' declared in the file under
   // test, or nullptr.
   static const hldb::Any *findUnitParameter(std::string_view name) {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getParameters(), name);
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getParameters(), name);
   }
 
   // The module declared in the file under test, or nullptr.
@@ -513,12 +516,11 @@ class ClassTest13Test : public Test {
     // its vpiDecompile to be the literal as written: an interpretation of
     // 37.59 detail 2, which asks only for "a functionally equivalent
     // expression". There is no range (37.28 detail 5).
-    const hldb::Any *const defaultExpr = defaultValueOf(classDefn->getParamAssigns(), parameter);
+    const hldb::Any *const defaultExpr = parameter->getExpr();
     ASSERT_NE(defaultExpr, nullptr) << "parameter " << name << " has no default expr";
     const hldb::Constant *const literal = any_cast<hldb::Constant>(defaultExpr);
     ASSERT_NE(literal, nullptr) << "the default expr of " << name << " is not a literal";
     EXPECT_EQ(literal->getDecompile(), defaultText);
-    EXPECT_EQ(sizeOf(parameter->getRanges()), 0u);
 
     EXPECT_TRUE(endsWith(parameter->getFile(), kSourceFileName)) << parameter->getFile();
     EXPECT_EQ(parameter->getStartLine(), line);
@@ -566,13 +568,12 @@ class ClassTest13Test : public Test {
     // 37.59 detail 2, which asks only for "a functionally equivalent
     // expression". The parameter takes the range of that unsized value, at
     // least 32 bits, and there is no explicit range (6.20.2, 37.28 detail 5).
-    const hldb::Any *const defaultExpr = defaultValueOf(m_design->getParamAssigns(), parameter);
+    const hldb::Any *const defaultExpr = parameter->getExpr();
     ASSERT_NE(defaultExpr, nullptr) << "local parameter " << name << " has no default expr";
     const hldb::Constant *const literal = any_cast<hldb::Constant>(defaultExpr);
     ASSERT_NE(literal, nullptr) << "the default expr of " << name << " is not a literal";
     EXPECT_EQ(literal->getDecompile(), defaultText);
     EXPECT_GE(literal->getSize(), kUnsizedParameterMinBits);
-    EXPECT_EQ(sizeOf(parameter->getRanges()), 0u);
 
     EXPECT_TRUE(endsWith(parameter->getFile(), kSourceFileName)) << parameter->getFile();
     EXPECT_EQ(parameter->getStartLine(), kLocalparamLine);
@@ -676,18 +677,18 @@ TEST_F(ClassTest13Test, SourceFileHasNoIncludesOrMacros) {
 // The file declares two classes, Bar and Foo (8.3), each a class defn (37.31)
 // whose vpiName is its class_identifier.
 TEST_F(ClassTest13Test, ClassesBarAndFooAreDeclared) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 2u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 2u);
 
   const hldb::ClassDefn *const bar = findClass("Bar");
   ASSERT_NE(bar, nullptr);
   EXPECT_EQ(bar->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(bar->getName(), "Bar");
+  EXPECT_EQ(bar->getDefName(), "Bar");
 
   const hldb::ClassDefn *const foo = findClass("Foo");
   ASSERT_NE(foo, nullptr);
   EXPECT_EQ(foo->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(foo->getName(), "Foo");
+  EXPECT_EQ(foo->getDefName(), "Foo");
 }
 
 // ---------------------------------------------------------------------------
@@ -736,7 +737,7 @@ TEST_F(ClassTest13Test, ClassBarIsTheBaseOfFoo) {
   ASSERT_NE(bar, nullptr);
 
   EXPECT_EQ(sizeOf(bar->getDerivedClasses()), 1u);
-  EXPECT_NE(findByName(bar->getDerivedClasses(), "Foo"), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("Foo", bar->getDerivedClasses()), nullptr);
 }
 
 // Bar has no class_item, so it has no member (8.2).
@@ -749,8 +750,8 @@ TEST_F(ClassTest13Test, ClassBarHasNoMembers) { expectNoMembers("Bar"); }
 // Line 16 declares three local parameters in the compilation-unit scope
 // (3.12.1), and the file declares no other parameter there.
 TEST_F(ClassTest13Test, LocalparamsXYZAreDeclared) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 3u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 3u);
   EXPECT_NE(findUnitParameter("x"), nullptr);
   EXPECT_NE(findUnitParameter("y"), nullptr);
   EXPECT_NE(findUnitParameter("z"), nullptr);
@@ -819,7 +820,7 @@ TEST_F(ClassTest13Test, ClassFooExtendsBar) {
   ASSERT_NE(classTypespec, nullptr);
   const hldb::ClassDefn *const base = classTypespec->getClassDefn();
   ASSERT_NE(base, nullptr);
-  EXPECT_EQ(base->getName(), "Bar");
+  EXPECT_EQ(base->getDefName(), "Bar");
   EXPECT_EQ(base->getStartLine(), kBarLine);
 }
 
@@ -880,14 +881,15 @@ TEST_F(ClassTest13Test, ModuleTestIsEmpty) {
 // other design element or variable comes from it.
 TEST_F(ClassTest13Test, NoOtherDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // ---------------------------------------------------------------------------

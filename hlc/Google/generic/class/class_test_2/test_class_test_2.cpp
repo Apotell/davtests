@@ -170,6 +170,7 @@
 #include <hldb/program.h>
 #include <hldb/source_file.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -376,14 +377,15 @@ TEST_F(ClassTest2Test, SourceFileHasNoMacros) {
 // WHAT IS NOT CHECKED).
 TEST_F(ClassTest2Test, NoDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTopModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 }  // namespace hlc
 

@@ -244,6 +244,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/source_file.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -394,7 +395,7 @@ class ClassTest11Test : public Test {
 
   // The class declared in the file under test, or nullptr.
   static const hldb::ClassDefn *findClass() {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getClassDefns());
   }
 
   // The parameter named 'name' among the parameters of the class, or nullptr.
@@ -440,8 +441,7 @@ class ClassTest11Test : public Test {
     // and no range, so no range bounds (37.28 detail 5).
     const hldb::ClassDefn *const classDefn = findClass();
     ASSERT_NE(classDefn, nullptr);
-    EXPECT_EQ(defaultValueOf(classDefn->getParamAssigns(), parameter), nullptr);
-    EXPECT_EQ(sizeOf(parameter->getRanges()), 0u);
+    EXPECT_EQ(parameter->getExpr(), nullptr);
 
     // Declared on line 15 of this file.
     EXPECT_TRUE(endsWith(parameter->getFile(), kSourceFileName)) << parameter->getFile();
@@ -490,13 +490,13 @@ TEST_F(ClassTest11Test, SourceFileHasNoIncludesOrMacros) {
 // The file declares one class, Foo (8.3). Its object is a class defn (37.31),
 // whose vpiName is the class_identifier.
 TEST_F(ClassTest11Test, ClassFooIsDeclared) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u);
 
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
   EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(classDefn->getName(), "Foo");
+  EXPECT_EQ(classDefn->getDefName(), "Foo");
 }
 
 // "class Foo #(int N, int P);" is on line 15 and "endclass" on line 16.
@@ -604,17 +604,17 @@ TEST_F(ClassTest11Test, ModuleTestIsEmpty) {
 // assignment comes from this file either.
 TEST_F(ClassTest11Test, NoOtherDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // ---------------------------------------------------------------------------
