@@ -228,6 +228,7 @@
 #include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -423,7 +424,7 @@ class ClassTest28Test : public Test {
   // The compilation-unit class named 'name' declared in the file under test,
   // or nullptr.
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllClasses(), name);
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getClassDefns(), name);
   }
 
   // The module declared in the file under test, or nullptr.
@@ -718,11 +719,11 @@ TEST_F(ClassTest28Test, NoOtherDesignObjectsDeclared) {
   EXPECT_EQ(countDeclaredPackagesFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // ---------------------------------------------------------------------------

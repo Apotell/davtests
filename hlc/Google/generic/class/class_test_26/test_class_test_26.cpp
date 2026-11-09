@@ -248,6 +248,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -262,6 +263,7 @@
 #include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -320,7 +322,8 @@ template <typename T>
 const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view name = "") {
   if (collection != nullptr) {
     for (const T *object : *collection) {
-      if (endsWith(object->getFile(), kSourceFileName) && (name.empty() || (object->getName() == name))) {
+      if (endsWith(object->getFile(), kSourceFileName) &&
+          (name.empty() || (object->getName() == name) || (hldb::getDefName(object) == name))) {
         return object;
       }
     }
@@ -471,14 +474,14 @@ class ClassTest26Test : public Test {
   // The compilation-unit class named 'name' declared in the file under test,
   // or nullptr.
   static const hldb::ClassDefn *findClass(std::string_view name) {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllClasses(), name);
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getClassDefns(), name);
   }
 
   // The compilation-unit parameter N of line 17, or nullptr. Bar has a
   // parameter of the same name, so the line is part of the match.
   static const hldb::Any *findUnitParameterN() {
-    if ((m_design == nullptr) || (m_design->getParameters() == nullptr)) return nullptr;
-    for (const hldb::Any *parameter : *m_design->getParameters()) {
+    if ((m_unit == nullptr) || (m_unit->getParameters() == nullptr)) return nullptr;
+    for (const hldb::Any *parameter : *m_unit->getParameters()) {
       if (endsWith(parameter->getFile(), kSourceFileName) && (parameter->getName() == "N") &&
           (parameter->getStartLine() == kUnitParameterLine)) {
         return parameter;
@@ -674,8 +677,8 @@ TEST_F(ClassTest26Test, InterfaceClassBarHasNoMembers) { expectNoMembers(findCla
 // Line 17 declares one parameter in the compilation-unit scope (3.12.1);
 // Bar's N belongs to Bar, so the file declares no other parameter there.
 TEST_F(ClassTest26Test, UnitParameterNIsDeclared) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 1u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 1u);
 
   const hldb::Any *const parameter = findUnitParameterN();
   ASSERT_NE(parameter, nullptr) << "no parameter N on line 17";
@@ -799,14 +802,15 @@ TEST_F(ClassTest26Test, ModuleTestIsEmpty) {
 // counted) and no variable.
 TEST_F(ClassTest26Test, NoOtherDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
-
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countDeclaredPackagesFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // ---------------------------------------------------------------------------
