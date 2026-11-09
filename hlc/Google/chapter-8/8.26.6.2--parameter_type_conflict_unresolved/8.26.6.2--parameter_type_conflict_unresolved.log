@@ -138,14 +138,6 @@ n<$Source01/8.26.6.2--parameter_type_conflict_unresolved.sv> u<123> t<Top_level_
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:17:1: Compile module "class_tb".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:55: Failed to bind "TYPE".
-[WRN:DV8514] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:67: Failed to bind "TYPE".
-[ERR:DL2510] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:50: Unsupported typespec "".
-[ERR:DL2510] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:62: Unsupported typespec "".
-[ERR:DL2516] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:50: Model property "Extends/vpiClassTypespec" has an invalid value of type "RefTypespec".
-[ERR:DL2516] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:62: Model property "Extends/vpiClassTypespec" has an invalid value of type "RefTypespec".
-[ERR:CP5818] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:50: Undefined type "ic1::".
-[ERR:CP5818] $Source01/8.26.6.2--parameter_type_conflict_unresolved.sv:26:62: Undefined type "ic2::".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -164,7 +156,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:17:8 end:17:16:
       vpiFullName: class_tb
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         ClassTypespec name:ic1 start:18:18 end:18:21:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ic1:
@@ -180,6 +172,42 @@ Design name:unnamed:
           vpiName Identifier name:ic3:
           vpiDefName: ic3
           vpiClassDefn: ClassDefn name:ic3 #(.TYPE(logic))
+        ClassTypespec name:ic1 #(.T(TYPE)) start:26:50 end:26:60:
+          vpiParent: Module name:class_tb
+          vpiName Identifier name:ic1 #(.T(TYPE)) start:26:50 end:26:53:
+          vpiDefName: ic1
+          vpiParamAssign (1 items):
+            ParamAssign start:26:55 end:26:59:
+              vpiParent: ClassTypespec name:ic1 #(.T(TYPE))
+              vpiLhs RefTypespec name:T start:18:28 end:18:29:
+                vpiParent: ParamAssign
+                vpiName: T
+                vpiFullName: class_tb.ic1 #(.T(TYPE)).T
+                vpiActual: TypeParameter name:T
+              vpiRhs RefTypespec name:TYPE start:26:55 end:26:59:
+                vpiParent: ParamAssign
+                vpiName: TYPE
+                vpiFullName: class_tb.ic1 #(.T(TYPE)).TYPE
+                vpiActual: TypeParameter name:TYPE
+          vpiClassDefn: ClassDefn name:ic1 #(.T(logic))
+        ClassTypespec name:ic2 #(.T(TYPE)) start:26:62 end:26:72:
+          vpiParent: Module name:class_tb
+          vpiName Identifier name:ic2 #(.T(TYPE)) start:26:62 end:26:65:
+          vpiDefName: ic2
+          vpiParamAssign (1 items):
+            ParamAssign start:26:67 end:26:71:
+              vpiParent: ClassTypespec name:ic2 #(.T(TYPE))
+              vpiLhs RefTypespec name:T start:22:28 end:22:29:
+                vpiParent: ParamAssign
+                vpiName: T
+                vpiFullName: class_tb.ic2 #(.T(TYPE)).T
+                vpiActual: TypeParameter name:T
+              vpiRhs RefTypespec name:TYPE start:26:67 end:26:71:
+                vpiParent: ParamAssign
+                vpiName: TYPE
+                vpiFullName: class_tb.ic2 #(.T(TYPE)).TYPE
+                vpiActual: TypeParameter name:TYPE
+          vpiClassDefn: ClassDefn name:ic2 #(.T(logic))
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/8.26.6.2--parameter_type_conflict_unresolved.sv"
@@ -245,6 +273,8 @@ Design name:unnamed:
                 vpiParent: FunctionDecl name:fn1
                 vpiFullName: class_tb::ic1 #(.T(logic))::fn1
                 vpiActual: VoidTypespec
+          vpiDerivedClasses (1 items):
+            ClassDefn name:ic3 #(.TYPE(logic)):
         ClassDefn name:ic2 #(.T(logic)) file:$Source01/8.26.6.2--parameter_type_conflict_unresolved.sv start:22:2 end:24:10:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ic2 #(.T(logic)) start:22:18 end:22:21:
@@ -295,6 +325,8 @@ Design name:unnamed:
                 vpiParent: FunctionDecl name:fn2
                 vpiFullName: class_tb::ic2 #(.T(logic))::fn2
                 vpiActual: VoidTypespec
+          vpiDerivedClasses (1 items):
+            ClassDefn name:ic3 #(.TYPE(logic)):
         ClassDefn name:ic3 #(.TYPE(logic)) file:$Source01/8.26.6.2--parameter_type_conflict_unresolved.sv start:26:2 end:27:10:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ic3 #(.TYPE(logic)) start:26:18 end:26:21:
@@ -313,24 +345,8 @@ Design name:unnamed:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
               vpiScalar: true
             TypeParameter name:TYPE:
-            UnsupportedTypespec start:26:50 end:26:60:
-              vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
-              vpiParamAssign (1 items):
-                ParamAssign start:26:55 end:26:59:
-                  vpiParent: UnsupportedTypespec
-                  vpiRhs RefObj name:TYPE start:26:55 end:26:59:
-                    vpiParent: ParamAssign
-                    vpiName: TYPE
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::TYPE
-            UnsupportedTypespec start:26:62 end:26:72:
-              vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
-              vpiParamAssign (1 items):
-                ParamAssign start:26:67 end:26:71:
-                  vpiParent: UnsupportedTypespec
-                  vpiRhs RefObj name:TYPE start:26:67 end:26:71:
-                    vpiParent: ParamAssign
-                    vpiName: TYPE
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::TYPE
+            ClassTypespec name:ic1 #(.T(TYPE)):
+            ClassTypespec name:ic2 #(.T(TYPE)):
           vpiDefName: ic3
           vpiVirtual: true
           vpiIsInterfaceClass: true
@@ -338,36 +354,16 @@ Design name:unnamed:
           vpiExtends Extends start:26:42 end:26:49:
             vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
             vpiClassTypespec (2 items):
-              "RefTypespec name:ic1:: start:26:50 end:26:60":
+              RefTypespec name:ic1 start:26:50 end:26:53:
                 vpiParent: Extends
-                vpiName: ic1::
+                vpiName: ic1
                 vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1
-                vpiPathElem (2 items):
-                  RefTypespec name:ic1 start:26:50 end:26:53:
-                    vpiParent: RefTypespec name:ic1::
-                    vpiName: ic1
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1::::ic1
-                    vpiActual: ClassTypespec name:ic1
-                  RefTypespec start:26:50 end:26:60:
-                    vpiParent: RefTypespec name:ic1::
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1
-                    vpiActual: UnsupportedTypespec
-                vpiActual: UnsupportedTypespec
-              "RefTypespec name:ic2:: start:26:62 end:26:72":
+                vpiActual: ClassTypespec name:ic1 #(.T(TYPE))
+              RefTypespec name:ic2 start:26:62 end:26:65:
                 vpiParent: Extends
-                vpiName: ic2::
+                vpiName: ic2
                 vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2
-                vpiPathElem (2 items):
-                  RefTypespec name:ic2 start:26:62 end:26:65:
-                    vpiParent: RefTypespec name:ic2::
-                    vpiName: ic2
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2::::ic2
-                    vpiActual: ClassTypespec name:ic2
-                  RefTypespec start:26:62 end:26:72:
-                    vpiParent: RefTypespec name:ic2::
-                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2
-                    vpiActual: UnsupportedTypespec
-                vpiActual: UnsupportedTypespec
+                vpiActual: ClassTypespec name:ic2 #(.T(TYPE))
           vpiLibrary RefObj name:work start:26:18 end:26:21:
             vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
             vpiName: work
@@ -395,8 +391,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
