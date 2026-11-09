@@ -203,10 +203,11 @@
 //     InterfaceClassBazIsDeclared.
 //   - The object HLDB returns for the class typespec relation of the extends
 //     object (37.31 detail 6). The LRM draws it as a direct relation to a
-//     typespec; HLDB may instead return an object of its own type that refers
-//     to the typespec. That indirection is an HLDB model convention the LRM
-//     does not define, so its type is not asserted; the test follows it
-//     through vpiActual to the typespec it refers to. Nearest assertion:
+//     typespec; HLDB returns it as an iteration (an interface class may extend
+//     several, 8.26.1) of objects of its own type that refer to the typespec.
+//     That indirection is an HLDB model convention the LRM does not define, so
+//     its type is not asserted; the test follows it through vpiActual to the
+//     typespec it refers to. Nearest assertion:
 //     ClassFooExtendsBase (vpiClassTypespec on that typespec).
 //   - The implicit constructors. A class without an explicit new gets one, but
 //     "the iteration over vpiMethods shall not include built-in methods for
@@ -330,17 +331,6 @@ const std::vector<const hldb::Any *> *relationObjects(const hldb::Any *object, i
 // vpi_handle() would return it (37.3), or nullptr.
 const hldb::Any *relationObject(const hldb::Any *object, int32_t relation) {
   return std::get<1>(object->getByVpiType(relation));
-}
-
-// The typespec 'object' has in the VPI relation 'relation', or nullptr. HLDB
-// may return an object of its own type that refers to the typespec through
-// vpiActual; that reference is followed. A typespec itself has no vpiActual
-// relation, so a direct typespec is returned as is.
-const hldb::Any *typespecOf(const hldb::Any *object, int32_t relation) {
-  const hldb::Any *const typespec = relationObject(object, relation);
-  if (typespec == nullptr) return nullptr;
-  const hldb::Any *const referenced = relationObject(typespec, vpiActual);
-  return (referenced != nullptr) ? referenced : typespec;
 }
 
 // Number of objects 'object' has in the VPI relation 'relation'; 0 when the
@@ -738,7 +728,9 @@ TEST_F(ClassTest29Test, ClassFooIsOnLine23) {
 // and Baz are implemented, not extended (8.26.2), so they add none. No
 // argument list follows the base class type, so the extends object has no
 // constructor argument, and its class typespec is of the class defn Base of
-// line 20.
+// line 20. The extends object is shared with interface classes, which may
+// name several bases ("extends interface_class_type { , interface_class_type
+// }", 8.26.1), so its class typespecs are read as an iteration; Foo names one.
 TEST_F(ClassTest29Test, ClassFooExtendsBase) {
   const hldb::ClassDefn *const foo = findClass("Foo");
   ASSERT_NE(foo, nullptr);
@@ -747,8 +739,12 @@ TEST_F(ClassTest29Test, ClassFooExtendsBase) {
   ASSERT_NE(extendsObject, nullptr);
   EXPECT_EQ(relationSize(extendsObject, vpiArgument), 0u);
 
-  const hldb::Any *const typespec = typespecOf(extendsObject, vpiClassTypespec);
+  const std::vector<const hldb::Any *> *const typespecs = relationObjects(extendsObject, vpiClassTypespec);
+  ASSERT_NE(typespecs, nullptr);
+  ASSERT_EQ(typespecs->size(), 1u);
+  const hldb::Any *typespec = typespecs->front();
   ASSERT_NE(typespec, nullptr);
+  if (const hldb::Any *const referenced = relationObject(typespec, vpiActual)) typespec = referenced;
   EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiClassTypespec));
   const hldb::Any *const base = relationObject(typespec, vpiClassDefn);
   ASSERT_NE(base, nullptr);
