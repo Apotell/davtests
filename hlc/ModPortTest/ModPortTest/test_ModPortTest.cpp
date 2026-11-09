@@ -257,16 +257,13 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 }
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "system1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "id_t1", 14), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "mem_if::system1", 36), nullptr)
       << "25.5: mem_if has no modport named system1";
-}
-
-TEST_F(ModPortTestTest, ExistingModportInPortHeaderBinds) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "DD", 51), nullptr);
 }
 
 TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Module *const m = getModule("memory_ctrl2");
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr);

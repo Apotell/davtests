@@ -267,8 +267,8 @@ TEST_F(ExtendClassMemberTest, ParamBaseExtendsUnresolvedSequencerBase) {
   EXPECT_EQ(ref->getActual(), nullptr) << "'uvm_sequencer_base' is never declared, so it must not resolve";
 }
 
-TEST_F(ExtendClassMemberTest, CompilerReportsFailedToBindForSequencerBase) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequencer_base"), nullptr)
+TEST_F(ExtendClassMemberTest, CompilerReportsUndefinedTypeForSequencerBase) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "uvm_sequencer_base", 13), nullptr)
       << "Sec 8.13/6.3: 'uvm_sequencer_base' is used as a base class but never declared";
 }
 
@@ -336,9 +336,9 @@ TEST_F(ExtendClassMemberTest, OutOfBlockNewMemberAccessResolution) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExtendClassMemberTest, CompilerReportsAtLeastOneError) {
-  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequence_item", 9), nullptr);
-  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequence_item", 12), nullptr);
-  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequencer_base", 13), nullptr);
+  ASSERT_NE(findEvent(EventType::CompUndefinedType, "uvm_sequence_item", 9), nullptr);
+  ASSERT_NE(findEvent(EventType::CompUndefinedType, "uvm_sequence_item", 12), nullptr);
+  ASSERT_NE(findEvent(EventType::CompUndefinedType, "uvm_sequencer_base", 13), nullptr);
 }
 
 }  // namespace hlc
