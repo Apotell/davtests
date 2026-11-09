@@ -187,6 +187,7 @@
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
 #include <hldb/design.h>
+#include <hldb/hldb_vpi_user.h>
 #include <hldb/interface.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
@@ -221,6 +222,9 @@ constexpr int32_t kVpiVariables = vpiVariable;
 // declaration.
 constexpr uint32_t kClassFirstLine = 15;
 constexpr uint32_t kClassLastLine = 17;
+
+// The line of "`undef EVIL_MACRO" inside the class body.
+constexpr uint32_t kUndefLine = 16;
 constexpr uint32_t kModuleFirstLine = 19;
 constexpr uint32_t kModuleLastLine = 20;
 
@@ -443,15 +447,24 @@ TEST_F(ClassTest48Test, ReportsNoDesignHierarchyDiagnostics) {
 
 // The file is read once (run configuration). It has no `include (22.4) and no
 // `define (22.5.1), so no macro definition; `undef is a directive (22.5.2),
-// not a macro usage, so no macro instance either.
+// not a macro usage, so no macro instance either. HLDB records a `define and
+// an `undef alike as a PreprocMacroDefinition and tells them apart by its type
+// (vpiPMDDefine, vpiPMDUndef; see 22.5.2--undef-basic), so the one entry is the
+// `undef of EVIL_MACRO on line 16, and none is a `define.
 TEST_F(ClassTest48Test, SourceFileHasNoIncludesOrMacros) {
   const std::vector<const hldb::SourceFile *> sourceFiles = findSourceFiles();
   ASSERT_EQ(sourceFiles.size(), 1u);
   const hldb::SourceFile *const sourceFile = sourceFiles.front();
 
   EXPECT_EQ(sizeOf(sourceFile->getIncludes()), 0u);
-  EXPECT_EQ(sizeOf(sourceFile->getPreprocMacroDefinitions()), 0u);
   EXPECT_EQ(sizeOf(sourceFile->getPreprocMacroInstances()), 0u);
+
+  ASSERT_EQ(sizeOf(sourceFile->getPreprocMacroDefinitions()), 1u);
+  const hldb::PreprocMacroDefinition *const undef = sourceFile->getPreprocMacroDefinitions()->front();
+  ASSERT_NE(undef, nullptr);
+  EXPECT_EQ(undef->getType(), vpiPMDUndef);
+  EXPECT_EQ(undef->getName(), std::string_view("EVIL_MACRO"));
+  EXPECT_EQ(undef->getStartLine(), kUndefLine);
 }
 
 // ---------------------------------------------------------------------------
