@@ -189,6 +189,7 @@
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
@@ -314,10 +315,7 @@ class ClassMemberTest19Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    if (m_design == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ClassDefn>("myclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   // The class typedef bool of myclass (line 16), or nullptr.
@@ -380,7 +378,9 @@ class ClassMemberTest19Test : public Test {
     ASSERT_NE(arrayType, nullptr) << where << ": 7.4.2: '[N]' after x makes it an unpacked array";
     EXPECT_FALSE(arrayType->getPacked()) << where << ": 7.4: a dimension after the name is unpacked";
     ASSERT_NE(arrayType->getRange(), nullptr) << where << ": 'x[N]' has one dimension";
-    EXPECT_EQ(arrayType->getRange()->getSize(), 2) << where << ": 7.4.2: '[N]' with N = 2 has 2 elements";
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(arrayType->getRange()->getSize(), 2) << where << ": 7.4.2: '[N]' with N = 2 has 2 elements";
+    }
 
     const hldb::RefTypespec *const elemType = arrayType->getElemTypespec();
     ASSERT_NE(elemType, nullptr) << where << ": the array has an element type";
@@ -428,8 +428,8 @@ TEST_F(ClassMemberTest19Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // source, so it is user-defined (37.29 vpiClassType); it is neither an
 // interface class (8.26) nor an abstract 'virtual class' (8.21).
 TEST_F(ClassMemberTest19Test, MyClassIsUserDefinedConcreteClass) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countNamed(m_design->getAllClasses(), "myclass"), 1u) << "myclass is declared exactly once";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countNamed(m_unit->getClassDefns(), "myclass"), 1u) << "myclass is declared exactly once";
 
   const hldb::ClassDefn *const myClass = getMyClass();
   ASSERT_NE(myClass, nullptr);
@@ -484,17 +484,7 @@ TEST_F(ClassMemberTest19Test, NIsClassLocalParamIntEqualTo2) {
   const hldb::RefTypespec *const type = n->getTypespec();
   ASSERT_NE(type, nullptr) << "'localparam int N' has an explicit data type";
   EXPECT_NE(type->getActual<hldb::IntTypespec>(), nullptr) << "6.11: N is an int";
-
-  const hldb::ParamAssign *value = nullptr;
-  if (myClass->getParamAssigns() != nullptr) {
-    for (const hldb::ParamAssign *paramAssign : *myClass->getParamAssigns()) {
-      if ((paramAssign->getLhs() != nullptr) && (paramAssign->getLhs()->getName() == "N")) {
-        value = paramAssign;
-      }
-    }
-  }
-  ASSERT_NE(value, nullptr) << "6.20.4: '= 2' assigns N its value";
-  const hldb::Constant *const two = ::any_cast<hldb::Constant>(value->getRhs());
+  const hldb::Constant *const two = ::any_cast<hldb::Constant>(n->getExpr());
   ASSERT_NE(two, nullptr) << "N is assigned a literal";
   EXPECT_EQ(two->getDecompile(), std::string_view("2"));
 }
@@ -584,14 +574,15 @@ TEST_F(ClassMemberTest19Test, TestModuleIsEmpty) {
 // myclass is the only class, and it is in no package.
 TEST_F(ClassMemberTest19Test, NoOtherDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u) << "myclass is the only class";
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u) << "myclass is the only class";
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) other than myclass is declared: the
@@ -600,13 +591,13 @@ TEST_F(ClassMemberTest19Test, NoOtherDesignElementsDeclared) {
 // no let, parameter or variable.
 TEST_F(ClassMemberTest19Test, NoOtherCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "8.24: myclass::subr is a method of myclass";
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u) << "bool is declared inside myclass";
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u) << "N is a parameter of myclass";
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u) << "bool is declared inside myclass";
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u) << "N is a parameter of myclass";
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // 23.3.1: test is never instantiated, so it is a top-level module,

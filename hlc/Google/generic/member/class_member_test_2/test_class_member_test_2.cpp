@@ -147,6 +147,7 @@
 #include <hldb/task_func_decl.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -277,10 +278,7 @@ class ClassMemberTest2Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    if (m_design == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ClassDefn>("myclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   // The extern prototype subtask of myclass (line 16), or nullptr.
@@ -345,8 +343,8 @@ TEST_F(ClassMemberTest2Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // source, so it is user-defined (37.29 vpiClassType); it is neither an
 // interface class (8.26) nor an abstract 'virtual class' (8.21).
 TEST_F(ClassMemberTest2Test, MyClassIsUserDefinedConcreteClass) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countNamed(m_design->getAllClasses(), "myclass"), 1u) << "myclass is declared exactly once";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countNamed(m_unit->getClassDefns(), "myclass"), 1u) << "myclass is declared exactly once";
 
   const hldb::ClassDefn *const myClass = getMyClass();
   ASSERT_NE(myClass, nullptr);
@@ -450,14 +448,15 @@ TEST_F(ClassMemberTest2Test, TestModuleIsEmpty) {
 // myclass is the only class, and it is in no package.
 TEST_F(ClassMemberTest2Test, NoOtherDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u) << "myclass is the only class";
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u) << "myclass is the only class";
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) other than myclass is declared: the
@@ -466,13 +465,13 @@ TEST_F(ClassMemberTest2Test, NoOtherDesignElementsDeclared) {
 // or typedef.
 TEST_F(ClassMemberTest2Test, NoOtherCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "8.24: myclass::subtask is a method of myclass";
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // 23.3.1: test is never instantiated, so it is a top-level module,

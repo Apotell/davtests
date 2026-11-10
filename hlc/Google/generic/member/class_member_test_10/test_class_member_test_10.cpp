@@ -134,6 +134,7 @@
 #include <hldb/task_func_decl.h>
 #include <hldb/typedef.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -269,10 +270,7 @@ class ClassMemberTest10Test : public Test {
 
   // The compilation-unit class outerclass (line 15), or nullptr.
   static const hldb::ClassDefn *getOuterClass() {
-    if (m_design == nullptr) {
-      return nullptr;
-    }
-    return hldb::findByName<hldb::ClassDefn>("outerclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("outerclass", m_unit->getClassDefns());
   }
 
   // The class innerclass nested in outerclass (line 16), or nullptr.
@@ -345,8 +343,8 @@ TEST_F(ClassMemberTest10Test, SourceFileHasNoIncludesDirectivesOrMacros) {
 // compilation-unit class. Its only item is the nested class innerclass
 // (lines 16-21), so it has no method of its own.
 TEST_F(ClassMemberTest10Test, OuterClassHoldsOnlyInnerClass) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countNamed(m_design->getAllClasses(), "outerclass"), 1u) << "outerclass is declared exactly once";
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countNamed(m_unit->getClassDefns(), "outerclass"), 1u) << "outerclass is declared exactly once";
 
   const hldb::ClassDefn *const outerClass = getOuterClass();
   ASSERT_NE(outerClass, nullptr);
@@ -439,13 +437,14 @@ TEST_F(ClassMemberTest10Test, TestModuleIsEmpty) {
 // (3.2-3.12): no interface, program, package, primitive, config or checker.
 TEST_F(ClassMemberTest10Test, NoOtherDesignElementsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getAllInterfaces()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllPackages()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
 }
 
 // No compilation-unit item (3.12.1) other than outerclass is declared:
@@ -453,13 +452,13 @@ TEST_F(ClassMemberTest10Test, NoOtherDesignElementsDeclared) {
 // parameter, variable or typedef.
 TEST_F(ClassMemberTest10Test, NoOtherCompilationUnitDeclarations) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getTaskFuncs()), 0u) << "subtask is a method of reallyinnerclass";
-  EXPECT_EQ(countFromSourceFile(m_design->getLetDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getLetDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 
 // 23.3.1: test is never instantiated, so it is a top-level module,
