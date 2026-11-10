@@ -156,7 +156,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -203,31 +203,12 @@ class ParamTypespecTest : public Test {
 
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
-  static const hldb::Parameter *getPartInvDefault() { return getParam(getPkg(), "PartInvDefault"); }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
-  }
-
-  // The Parameter a ParamAssign assigns: its LHS itself, or what a RefObj
-  // LHS is bound to.
-  static const hldb::Any *getLhsTarget(const hldb::ParamAssign *pa) {
-    const hldb::RefObj *const ref = pa->getLhs<hldb::RefObj>();
-    return (ref != nullptr) ? ref->getActual() : pa->getLhs();
-  }
+  static const hldb::Parameter *getPartInvDefault() { return getParameter(getPkg(), "PartInvDefault"); }
 
   static const hldb::Variable *getVar(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
@@ -337,11 +318,9 @@ TEST_F(ParamTypespecTest, PartInvDefaultIsLocalLogic2To0) {
 }
 
 TEST_F(ParamTypespecTest, PartInvDefaultIsNestedSizeCastOf3h1) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "PartInvDefault");
-  ASSERT_NE(pa, nullptr) << "the ParamAssign of 'PartInvDefault' not found";
-  ASSERT_NE(getPartInvDefault(), nullptr);
-  EXPECT_EQ(getLhsTarget(pa), getPartInvDefault()) << "the LHS is the package's PartInvDefault";
-  const hldb::Operation *const outer = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = getParameter(getPkg(), "PartInvDefault");
+  ASSERT_NE(p, nullptr) << "the Parameter of 'PartInvDefault' not found";
+  const hldb::Operation *const outer = p->getExpr<hldb::Operation>();
   ASSERT_NE(outer, nullptr) << "unreduced, the value 3'({...}) is an Operation";
   const hldb::Any *const outerItem = expectSize3CastOfConcat(outer, "outer cast");
   ASSERT_NE(outerItem, nullptr);
@@ -419,13 +398,10 @@ TEST_F(ParamTypespecTest, PIsOverridableAndValuedByImportedPartInvDefault) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParameters(), nullptr);
   EXPECT_EQ(top->getParameters()->size(), 1u) << "top declares exactly one parameter";
-  const hldb::Parameter *const p = getParam(top, "P");
+  const hldb::Parameter *const p = getParameter(top, "P");
   ASSERT_NE(p, nullptr) << "parameter 'P' not found";
   EXPECT_FALSE(p->getLocalParam()) << "6.20.1: top has no parameter port list, so 'parameter P' is overridable";
-  const hldb::ParamAssign *const pa = getParamAssign(top, "P");
-  ASSERT_NE(pa, nullptr);
-  EXPECT_EQ(getLhsTarget(pa), p) << "the LHS is top's P";
-  const hldb::RefObj *const value = pa->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const value = p->getExpr<hldb::RefObj>();
   ASSERT_NE(value, nullptr) << "unreduced, the value is the name 'PartInvDefault'";
   EXPECT_EQ(value->getName(), "PartInvDefault");
   ASSERT_NE(getPartInvDefault(), nullptr);
@@ -529,9 +505,9 @@ TEST_F(ParamTypespecTest, ElaboratedPartInvDefaultIsThreeBitOne) {
   if (m_design->getElaborated()) {
     const hldb::Package *const pkg = hldb::findByName<hldb::Package>("otp_ctrl_part_pkg", m_design->getTopPackages());
     ASSERT_NE(pkg, nullptr) << "the elaborated otp_ctrl_part_pkg not found";
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, "PartInvDefault");
-    ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const p = getParameter(pkg, "PartInvDefault");
+    ASSERT_NE(p, nullptr);
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: the value should be reduced to a Constant";
     EXPECT_EQ(c->getSize(), 3) << "6.24.1: padded or truncated to the size specified, 3";
     uint64_t v = 0;
@@ -544,7 +520,7 @@ TEST_F(ParamTypespecTest, ElaboratedPIsLogic2To0EqualToOne) {
   if (m_design->getElaborated()) {
     const hldb::Module *const top = getElabTop();
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
-    const hldb::Parameter *const p = getParam(top, "P");
+    const hldb::Parameter *const p = getParameter(top, "P");
     ASSERT_NE(p, nullptr) << "the elaborated parameter 'P' not found";
     ASSERT_NE(p->getTypespec(), nullptr) << "6.20.2: P has the type of its final value";
     const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -554,9 +530,7 @@ TEST_F(ParamTypespecTest, ElaboratedPIsLogic2To0EqualToOne) {
     ASSERT_EQ(lt->getRanges()->size(), 1u);
     expectIntConstant(lt->getRanges()->at(0)->getLeftExpr(), 2, "6.20.2: MSB is size-1 = 2");
     expectIntConstant(lt->getRanges()->at(0)->getRightExpr(), 0, "6.20.2: LSB is 0");
-    const hldb::ParamAssign *const pa = getParamAssign(top, "P");
-    ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: the value should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -589,11 +563,11 @@ TEST_F(ParamTypespecTest, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamTypespecTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

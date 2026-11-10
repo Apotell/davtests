@@ -70,7 +70,7 @@
 //     suite elaborates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -143,9 +143,7 @@ class PAssignTypeTest : public Test {
     ExpectConstant(lt->getRanges()->at(0)->getLeftExpr(), "31", "left bound");
     ExpectConstant(lt->getRanges()->at(0)->getRightExpr(), "0", "right bound");
     const hldb::Module *const m = getModule(module);
-    ASSERT_NE(m->getParamAssigns(), nullptr);
-    ASSERT_EQ(m->getParamAssigns()->size(), 1u);
-    ExpectConstant(m->getParamAssigns()->at(0)->getRhs<hldb::Expr>(), "'0", "the default value");
+    ExpectConstant(p->getExpr(), "'0", "the default value");
   }
 };
 
@@ -200,11 +198,11 @@ TEST_F(PAssignTypeTest, CtrlQIsImportedTypedef) {
 }
 
 TEST_F(PAssignTypeTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

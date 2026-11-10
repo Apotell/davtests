@@ -155,7 +155,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -211,24 +211,12 @@ class ParamTypespec2Test : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
-  static const hldb::Parameter *getEscTxDefault() { return getParam(getPkg(), "ESC_TX_DEFAULT"); }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
-  }
+  static const hldb::Parameter *getEscTxDefault() { return getParameter(getPkg(), "ESC_TX_DEFAULT"); }
 
   static const hldb::Typedef *getEscTxT() {
     const hldb::Package *const pkg = getPkg();
@@ -427,12 +415,9 @@ TEST_F(ParamTypespec2Test, EscTxDefaultIsLocalEscTxT) {
 }
 
 TEST_F(ParamTypespec2Test, EscTxDefaultIsPatternOfZeroAndOne) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "ESC_TX_DEFAULT");
-  ASSERT_NE(pa, nullptr) << "no ParamAssign for 'ESC_TX_DEFAULT'";
-  EXPECT_EQ(pa->getLhs<hldb::RefObj>() != nullptr ? pa->getLhs<hldb::RefObj>()->getActual() : pa->getLhs(),
-            getEscTxDefault())
-      << "the assignment sets the package's parameter";
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = getParameter(getPkg(), "ESC_TX_DEFAULT");
+  ASSERT_NE(p, nullptr) << "no ParamAssign for 'ESC_TX_DEFAULT'";
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9.2: a structure assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -659,9 +644,9 @@ TEST_F(ParamTypespec2Test, EscTxDefaultReducesToOne) {
   if (m_design->getElaborated()) {
     const hldb::Package *const pkg = hldb::findByName<hldb::Package>("prim_esc_pkg", m_design->getTopPackages());
     ASSERT_NE(pkg, nullptr) << "the elaborated prim_esc_pkg not found";
-    const hldb::ParamAssign *const pa = getParamAssign(pkg, "ESC_TX_DEFAULT");
-    ASSERT_NE(pa, nullptr);
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const p = getParameter(pkg, "ESC_TX_DEFAULT");
+    ASSERT_NE(p, nullptr);
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: the value should be reduced to a Constant";
     EXPECT_EQ(c->getSize(), 2) << "7.2.1: esc_tx_t packs two 1-bit members";
     uint64_t v = 0;
@@ -684,11 +669,11 @@ TEST_F(ParamTypespec2Test, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamTypespec2Test, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

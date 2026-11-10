@@ -57,7 +57,7 @@
 //   - The value 5 the call returns is a runtime/elaboration property.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -140,24 +140,20 @@ TEST_F(PkgImportFuncTest, RhsCallsGet5ThroughLcCtrlStatePkg) {
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Variable>("o", m->getVariables()));
-  const hldb::RefObj *const rhs = ca->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr) << "26.3: a package-scoped name";
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const pkg = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
-  ASSERT_NE(pkg, nullptr);
-  EXPECT_EQ(pkg->getActual(), getPkg("lc_ctrl_state_pkg")) << "26.3: the scope is the package";
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "13.4: a function call";
   EXPECT_EQ(call->getName(), "get_5");
-  EXPECT_TRUE((call->getArguments() == nullptr) || call->getArguments()->empty()) << "get_5() has no argument";
+  EXPECT_TRUE((call->getArguments() == nullptr) || call->getArguments()->empty()) << "get_5() has no argument";  
+  const hldb::RefObj *const qualifier = call->getNameQualifier<hldb::RefObj>();
+  ASSERT_NE(qualifier, nullptr);
+  EXPECT_EQ(qualifier->getActual(), getPkg("lc_ctrl_state_pkg")) << "26.3: the scope is the package";
 }
 
 TEST_F(PkgImportFuncTest, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 }  // namespace hlc

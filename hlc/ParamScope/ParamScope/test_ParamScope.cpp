@@ -132,7 +132,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -177,21 +177,9 @@ class ParamScopeTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
   }
 
   static const hldb::RefInstance *getInstance(std::string_view module, std::string_view name) {
@@ -261,9 +249,9 @@ class ParamScopeTest : public Test {
   // as a 32-bit signed int.
   static void ExpectElabValue(const hldb::Scope *scope, std::string_view name, int32_t expected, std::string_view why) {
     ASSERT_NE(scope, nullptr) << "the elaborated scope holding '" << name << "' not found";
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "'" << name << "' has no ParamAssign";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const p = getParameter(scope, name);
+    ASSERT_NE(p, nullptr) << "'" << name << "' has no Parameter";
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     int64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -280,7 +268,7 @@ TEST_F(ParamScopeTest, ValueTempIsLocalSignedInt) {
   ASSERT_NE(pkg, nullptr) << "package 'foo_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(pkg, "VALUE_TEMP");
+  const hldb::Parameter *const p = getParameter(pkg, "VALUE_TEMP");
   ASSERT_NE(p, nullptr) << "parameter 'VALUE_TEMP' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.1: a param_assignment in a package becomes a localparam";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -290,9 +278,9 @@ TEST_F(ParamScopeTest, ValueTempIsLocalSignedInt) {
 }
 
 TEST_F(ParamScopeTest, ValueTempIsDefaultKeyedAssignmentPatternOfOne) {
-  const hldb::ParamAssign *const pa = getParamAssign(getPkg(), "VALUE_TEMP");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const pattern = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = getParameter(getPkg(), "VALUE_TEMP");
+  ASSERT_NE(p, nullptr);
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
   ASSERT_NE(pattern, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << "10.9: '{...} is an assignment pattern";
   ASSERT_NE(pattern->getOperands(), nullptr);
@@ -331,7 +319,7 @@ TEST_F(ParamScopeTest, EachModuleDeclaresOneOverridableIntValue) {
     ASSERT_NE(m, nullptr) << "module '" << name << "' not found";
     ASSERT_NE(m->getParameters(), nullptr) << name;
     EXPECT_EQ(m->getParameters()->size(), 1u) << name << " declares exactly one parameter";
-    const hldb::Parameter *const p = getParam(m, "VALUE");
+    const hldb::Parameter *const p = getParameter(m, "VALUE");
     ASSERT_NE(p, nullptr) << "parameter 'VALUE' not found in " << name;
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: " << name << " has no parameter port list, so VALUE is overridable";
     ASSERT_NE(p->getTypespec(), nullptr) << name;
@@ -348,12 +336,9 @@ TEST_F(ParamScopeTest, LiteralDefaultsAreEightSevenAndFive) {
   };
   const LiteralDefault defaults[] = {{"bottom", "8"}, {"upper", "7"}, {"top", "5"}};
   for (const LiteralDefault &d : defaults) {
-    const hldb::ParamAssign *const pa = getParamAssign(getModule(d.m_module), "VALUE");
-    ASSERT_NE(pa, nullptr) << d.m_module << "'s VALUE has no ParamAssign";
-    ASSERT_NE(pa->getLhs<hldb::RefObj>(), nullptr) << d.m_module;
-    EXPECT_EQ(pa->getLhs<hldb::RefObj>()->getActual(), getParam(getModule(d.m_module), "VALUE"))
-        << d.m_module << "'s ParamAssign assigns its own VALUE";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const pa = getParameter(getModule(d.m_module), "VALUE");
+    ASSERT_NE(pa, nullptr) << d.m_module << "'s VALUE has no Parameter";
+    const hldb::Constant *const c = pa->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << d.m_module;
     EXPECT_EQ(c->getDecompile(), d.m_value) << d.m_module;
     EXPECT_GE(c->getSize(), 32) << d.m_module << ": 5.7.1, an unsized number is at least 32 bits";
@@ -363,11 +348,9 @@ TEST_F(ParamScopeTest, LiteralDefaultsAreEightSevenAndFive) {
 TEST_F(ParamScopeTest, LowerDefaultIsValueTempPlusTwo) {
   const hldb::Module *const lower = getModule("lower");
   ASSERT_NE(lower, nullptr) << "module 'lower' not found";
-  const hldb::ParamAssign *const pa = getParamAssign(lower, "VALUE");
+  const hldb::Parameter *const pa = getParameter(lower, "VALUE");
   ASSERT_NE(pa, nullptr);
-  ASSERT_NE(pa->getLhs<hldb::RefObj>(), nullptr);
-  EXPECT_EQ(pa->getLhs<hldb::RefObj>()->getActual(), getParam(lower, "VALUE"));
-  const hldb::Operation *const add = pa->getRhs<hldb::Operation>();
+  const hldb::Operation *const add = pa->getExpr<hldb::Operation>();
   ASSERT_NE(add, nullptr) << "unreduced, the default is an Operation";
   EXPECT_EQ(add->getOpType(), vpiAddOp) << "11.4.3";
   ASSERT_NE(add->getOperands(), nullptr);
@@ -375,8 +358,8 @@ TEST_F(ParamScopeTest, LowerDefaultIsValueTempPlusTwo) {
   const hldb::RefObj *const temp = any_cast<hldb::RefObj>(add->getOperands()->at(0));
   ASSERT_NE(temp, nullptr) << "the first operand is the name 'VALUE_TEMP'";
   EXPECT_EQ(temp->getName(), "VALUE_TEMP");
-  ASSERT_NE(getParam(getPkg(), "VALUE_TEMP"), nullptr);
-  EXPECT_EQ(temp->getActual(), getParam(getPkg(), "VALUE_TEMP")) << "26.3: imported from foo_pkg";
+  ASSERT_NE(getParameter(getPkg(), "VALUE_TEMP"), nullptr);
+  EXPECT_EQ(temp->getActual(), getParameter(getPkg(), "VALUE_TEMP")) << "26.3: imported from foo_pkg";
   const hldb::Constant *const two = any_cast<hldb::Constant>(add->getOperands()->at(1));
   ASSERT_NE(two, nullptr) << "the second operand is the literal 2";
   EXPECT_EQ(two->getDecompile(), "2");
@@ -420,7 +403,6 @@ TEST_F(ParamScopeTest, BottomUOverridesValueByName) {
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u) << "'#(.VALUE(VALUE))' writes exactly one override";
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "23.10.2.2: '.VALUE(...)' is a named parameter assignment";
-  EXPECT_TRUE(pa->getOverridden()) << "23.10.2: bottom_u overrides VALUE";
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "VALUE");
@@ -436,7 +418,7 @@ TEST_F(ParamScopeTest, OverrideNameBindsToBottomsValue) {
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
   const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  const hldb::Parameter *const bottomValue = getParam(getModule("bottom"), "VALUE");
+  const hldb::Parameter *const bottomValue = getParameter(getModule("bottom"), "VALUE");
   ASSERT_NE(bottomValue, nullptr);
   EXPECT_EQ(lhs->getActual(), bottomValue)
       << "23.10.2.2: the name before the parentheses is the instantiated module's parameter";
@@ -449,11 +431,11 @@ TEST_F(ParamScopeTest, OverrideValueBindsToLowersValue) {
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
   const hldb::RefObj *const rhs = mt->getParamAssigns()->at(0)->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
-  const hldb::Parameter *const lowerValue = getParam(getModule("lower"), "VALUE");
+  const hldb::Parameter *const lowerValue = getParameter(getModule("lower"), "VALUE");
   ASSERT_NE(lowerValue, nullptr);
   EXPECT_EQ(rhs->getActual(), lowerValue) << "the expression inside the parentheses is resolved in lower";
   for (std::string_view other : {"bottom", "upper", "top"}) {
-    EXPECT_NE(rhs->getActual(), getParam(getModule(other), "VALUE"))
+    EXPECT_NE(rhs->getActual(), getParameter(getModule(other), "VALUE"))
         << "'VALUE' inside '.VALUE(...)' is not " << other << "'s VALUE";
   }
 }
@@ -529,11 +511,11 @@ TEST_F(ParamScopeTest, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamScopeTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

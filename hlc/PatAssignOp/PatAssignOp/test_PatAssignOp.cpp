@@ -71,8 +71,8 @@
 //     elaborates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -101,31 +101,10 @@ class PatAssignOpTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Whether a diagnostic of error severity names 'symbol'. Which error
-  // identifier HLC picks for it is a tool convention, so any is accepted.
-  bool reportsErrorNaming(std::string_view symbol) {
-    for (const ErrorDefinition::ErrorMap::value_type &entry : ErrorDefinition::getErrorInfoMap()) {
-      if ((entry.second.m_severity == ErrorDefinition::ERROR) && (findError(entry.first, symbol) != nullptr)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
-  static const hldb::Parameter *getParam(std::string_view name) {
+  static const hldb::Parameter *getParameter(std::string_view name) {
     return hldb::findByName<hldb::Parameter>(name, getTop()->getParameters());
-  }
-
-  static const hldb::ParamAssign *getAssign(std::string_view name) {
-    const hldb::Module *const m = getTop();
-    if ((m == nullptr) || (m->getParamAssigns() == nullptr)) return nullptr;
-    for (const hldb::ParamAssign *const pa : *m->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-    }
-    return nullptr;
   }
 
   static void ExpectConstant(const hldb::Any *e, std::string_view text, std::string_view why) {
@@ -137,7 +116,7 @@ class PatAssignOpTest : public Test {
   static void ExpectRef(const hldb::Any *e, std::string_view name) {
     const hldb::RefObj *const r = any_cast<hldb::RefObj>(e);
     ASSERT_NE(r, nullptr) << name << " is a reference";
-    EXPECT_EQ(r->getActual(), getParam(name)) << name << " binds to top's localparam";
+    EXPECT_EQ(r->getActual(), getParameter(name)) << name << " binds to top's localparam";
   }
 
   // Verifies 'e' is the 3-item pattern '{first + second, third, 0}.
@@ -171,18 +150,16 @@ TEST_F(PatAssignOpTest, ScalarLocalparamsHoldTheirLiterals) {
   const char *const names[] = {"coh_noc_dims_p", "coh_noc_trans_p", "coh_noc_x_cord_width_p", "coh_noc_y_cord_width_p"};
   const char *const values[] = {"2", "0", "10", "20"};
   for (size_t i = 0; i < 4; ++i) {
-    const hldb::Parameter *const p = getParam(names[i]);
+    const hldb::Parameter *const p = getParameter(names[i]);
     ASSERT_NE(p, nullptr) << names[i];
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: declared 'localparam'";
-    const hldb::ParamAssign *const pa = getAssign(names[i]);
-    ASSERT_NE(pa, nullptr);
-    ExpectConstant(pa->getRhs(), values[i], names[i]);
+    ExpectConstant(p->getExpr(), values[i], names[i]);
   }
 }
 
 TEST_F(PatAssignOpTest, MarkersIsUnpackedIntArray) {
   ASSERT_NE(getTop(), nullptr);
-  const hldb::Parameter *const p = getParam("coh_noc_cord_markers_pos_p");
+  const hldb::Parameter *const p = getParameter("coh_noc_cord_markers_pos_p");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4";
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -191,9 +168,9 @@ TEST_F(PatAssignOpTest, MarkersIsUnpackedIntArray) {
 
 TEST_F(PatAssignOpTest, MarkersValueChoosesBetweenTwoPatterns) {
   ASSERT_NE(getTop(), nullptr);
-  const hldb::ParamAssign *const pa = getAssign("coh_noc_cord_markers_pos_p");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Operation *const cond = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = getParameter("coh_noc_cord_markers_pos_p");
+  ASSERT_NE(p, nullptr);
+  const hldb::Operation *const cond = p->getExpr<hldb::Operation>();
   ASSERT_NE(cond, nullptr);
   EXPECT_EQ(cond->getOpType(), vpiConditionOp) << "11.4.11: '?:'";
   ASSERT_NE(cond->getOperands(), nullptr);
@@ -207,12 +184,10 @@ TEST_F(PatAssignOpTest, MarkersValueChoosesBetweenTwoPatterns) {
 
 TEST_F(PatAssignOpTest, CordWidthSelectsElementDims) {
   ASSERT_NE(getTop(), nullptr);
-  const hldb::Parameter *const p = getParam("coh_noc_cord_width_p");
+  const hldb::Parameter *const p = getParameter("coh_noc_cord_width_p");
   ASSERT_NE(p, nullptr);
   EXPECT_TRUE(p->getLocalParam()) << "6.20.4";
-  const hldb::ParamAssign *const pa = getAssign("coh_noc_cord_width_p");
-  ASSERT_NE(pa, nullptr);
-  const hldb::BitSelect *const bs = pa->getRhs<hldb::BitSelect>();
+  const hldb::BitSelect *const bs = p->getExpr<hldb::BitSelect>();
   ASSERT_NE(bs, nullptr) << "11.5.1: an element select";
   ExpectRef(bs->getPrefix(), "coh_noc_cord_markers_pos_p");
   ExpectRef(bs->getIndex(), "coh_noc_dims_p");
@@ -249,15 +224,15 @@ TEST_F(PatAssignOpTest, TwoGenerateIfsHoldBadThenGood) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (errors for
 // modules in unselected generate blocks) in the file header.
 TEST_F(PatAssignOpTest, UnselectedBadBlockReportsNoError) {
-  EXPECT_FALSE(reportsErrorNaming("BAD")) << "27.5: the '!= 30' block is not selected, so BAD is not instantiated "
-                                             "into the model";
+  ASSERT_NE(findEvent(EventType::UnsupportedTypespec, "BAD"), nullptr)
+      << "27.5: the '!= 30' block is not selected, so BAD is not instantiated into the model";
 }
 
 TEST_F(PatAssignOpTest, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 }  // namespace hlc

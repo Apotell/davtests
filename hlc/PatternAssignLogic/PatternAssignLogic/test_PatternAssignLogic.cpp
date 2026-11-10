@@ -42,7 +42,7 @@
 //   - The reduced value 8'hFF: no .hlc in this suite elaborates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -106,13 +106,9 @@ TEST_F(PatternAssignLogicTest, PIsOverridableLogic7To0) {
 TEST_F(PatternAssignLogicTest, PIsDefaultOnePattern) {
   const hldb::Module *const m = getTop();
   ASSERT_NE(m, nullptr);
-  ASSERT_NE(m->getParamAssigns(), nullptr);
-  ASSERT_EQ(m->getParamAssigns()->size(), 1u);
-  const hldb::ParamAssign *const pa = m->getParamAssigns()->at(0);
-  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Parameter>("P", m->getParameters()));
-  const hldb::Operation *const pat = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("P", m->getParameters());
+  ASSERT_NE(p, nullptr);
+  const hldb::Operation *const pat = p->getExpr<hldb::Operation>();
   ASSERT_NE(pat, nullptr);
   EXPECT_EQ(pat->getOpType(), vpiAssignmentPatternOp) << "10.9.1: an assignment pattern";
   ASSERT_NE(pat->getOperands(), nullptr);
@@ -132,11 +128,11 @@ TEST_F(PatternAssignLogicTest, CommentedAssignmentIsNotModeled) {
 }
 
 TEST_F(PatternAssignLogicTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

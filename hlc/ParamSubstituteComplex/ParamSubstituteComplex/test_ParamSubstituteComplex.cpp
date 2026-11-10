@@ -207,7 +207,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -266,21 +266,9 @@ class ParamSubstituteComplexTest : public Test {
     return hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
-      if ((lhs != nullptr) && (lhs->getName() == name)) return pa;
-      const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>();
-      if ((p != nullptr) && (p->getName() == name)) return pa;
-    }
-    return nullptr;
   }
 
   static const hldb::Typedef *getTypedef(std::string_view name) {
@@ -320,9 +308,9 @@ class ParamSubstituteComplexTest : public Test {
 
   // The unreduced value of top's parameter 'name'.
   static const hldb::Any *getDefault(std::string_view name) {
-    const hldb::ParamAssign *const pa = getParamAssign(getTop(), name);
-    if (pa == nullptr) return nullptr;
-    return pa->getRhs();
+    const hldb::Parameter *const p = getParameter(getTop(), name);
+    if (p == nullptr) return nullptr;
+    return p->getExpr();
   }
 
   // The keyed item at 'index' of the assignment pattern 'pattern'.
@@ -394,7 +382,7 @@ class ParamSubstituteComplexTest : public Test {
     const hldb::RefObj *const ref = any_cast<hldb::RefObj>(e);
     ASSERT_NE(ref, nullptr) << why << ": expected the name " << name;
     EXPECT_EQ(ref->getName(), name) << why;
-    const hldb::Parameter *const p = getParam(getTop(), name);
+    const hldb::Parameter *const p = getParameter(getTop(), name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_EQ(ref->getActual(), p) << why << ": '" << name << "' is top's parameter";
   }
@@ -594,12 +582,12 @@ TEST_F(ParamSubstituteComplexTest, OnlyFeaturesAndFpFmtMaskAreOverridable) {
   ASSERT_NE(top, nullptr);
   for (std::string_view name : {"RV64D_Xsflt", "XLEN", "IS_XLEN64", "RVF", "RVD", "XF16", "XF16ALT", "XF8", "XFVEC",
                                 "FPU_FEATURES", "DEBUGME"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_TRUE(p->getLocalParam()) << "6.20.4: '" << name << "' is declared with 'localparam'";
   }
   for (std::string_view name : {"Features", "FpFmtMask"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: 'module top();' has no parameter_port_list, so '" << name
                                      << "', declared with 'parameter', is overridable";
@@ -610,38 +598,21 @@ TEST_F(ParamSubstituteComplexTest, TypedParametersHaveTheirDeclaredTypes) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   for (std::string_view name : {"RV64D_Xsflt", "FPU_FEATURES", "Features"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     EXPECT_TRUE(namesTypedef(p->getTypespec(), "fpu_features_t")) << "'" << name << "' is declared 'fpu_features_t'";
   }
-  const hldb::Parameter *const mask = getParam(top, "FpFmtMask");
+  const hldb::Parameter *const mask = getParameter(top, "FpFmtMask");
   ASSERT_NE(mask, nullptr) << "parameter 'FpFmtMask' not found";
   EXPECT_TRUE(namesTypedef(mask->getTypespec(), "fmt_logic_t")) << "'FpFmtMask' is declared 'fmt_logic_t'";
   for (std::string_view name : {"RVF", "RVD", "XF16", "XF16ALT", "XF8", "XFVEC"}) {
-    const hldb::Parameter *const p = getParam(top, name);
+    const hldb::Parameter *const p = getParameter(top, name);
     ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found";
     ASSERT_NE(p->getTypespec(), nullptr) << "'" << name << "' is declared 'bit'";
     const hldb::BitTypespec *const bt = p->getTypespec()->getActual<hldb::BitTypespec>();
     ASSERT_NE(bt, nullptr) << "'" << name << "' is declared 'bit'";
     EXPECT_FALSE(bt->getSigned()) << "6.11.3: bit defaults to unsigned";
     EXPECT_TRUE(bt->getRanges() == nullptr || bt->getRanges()->empty()) << "'" << name << "' has no packed range";
-  }
-}
-
-TEST_F(ParamSubstituteComplexTest, EveryParamAssignLhsBindsToItsParameter) {
-  const hldb::Module *const top = getTop();
-  ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParamAssigns(), nullptr);
-  ASSERT_EQ(top->getParamAssigns()->size(), 13u) << "each of the 13 param_assignments has one ParamAssign";
-  const std::string_view names[] = {"RV64D_Xsflt", "XLEN",      "IS_XLEN64", "RVF",   "RVD",
-                                    "XF16",        "XF16ALT",   "XF8",       "XFVEC", "FPU_FEATURES",
-                                    "Features",    "FpFmtMask", "DEBUGME"};
-  for (size_t i = 0; i < 13; ++i) {
-    const hldb::RefObj *const lhs = top->getParamAssigns()->at(i)->getLhs<hldb::RefObj>();
-    ASSERT_NE(lhs, nullptr) << "ParamAssign " << i;
-    EXPECT_EQ(lhs->getName(), names[i]) << "ParamAssign " << i << " in source order";
-    ASSERT_NE(getParam(top, names[i]), nullptr);
-    EXPECT_EQ(lhs->getActual(), getParam(top, names[i])) << "the LHS of '" << names[i] << "' is its own Parameter";
   }
 }
 
@@ -801,8 +772,8 @@ TEST_F(ParamSubstituteComplexTest, FpFmtMaskIsMemberOfFeatures) {
   const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(ref->getPathElems()->at(0));
   ASSERT_NE(prefix, nullptr);
   EXPECT_EQ(prefix->getName(), "Features");
-  ASSERT_NE(getParam(getTop(), "Features"), nullptr);
-  EXPECT_EQ(prefix->getActual(), getParam(getTop(), "Features")) << "the prefix is top's parameter Features";
+  ASSERT_NE(getParameter(getTop(), "Features"), nullptr);
+  EXPECT_EQ(prefix->getActual(), getParameter(getTop(), "Features")) << "the prefix is top's parameter Features";
   const hldb::RefObj *const member = any_cast<hldb::RefObj>(ref->getPathElems()->at(1));
   ASSERT_NE(member, nullptr);
   EXPECT_EQ(member->getName(), "FpFmtMask");
@@ -864,26 +835,26 @@ TEST_F(ParamSubstituteComplexTest, SecondIfGenerateTestsDebugmeAndHoldsGood2) {
 
 TEST_F(ParamSubstituteComplexTest, IsXlen64ReducesToOne) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa = getParamAssign(getElabTop(), "IS_XLEN64");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'IS_XLEN64' in the elaborated top";
-    ExpectIntConstant(pa->getRhs(), 1u, "11.4.11: 64 == 32 is false, so the value is 1'b1");
+    const hldb::Parameter *const p = getParameter(getElabTop(), "IS_XLEN64");
+    ASSERT_NE(p, nullptr) << "no Parameter for 'IS_XLEN64' in the elaborated top";
+    ExpectIntConstant(p->getExpr(), 1u, "11.4.11: 64 == 32 is false, so the value is 1'b1");
   }
 }
 
 TEST_F(ParamSubstituteComplexTest, FpFmtMaskReducesTo11000) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa = getParamAssign(getElabTop(), "FpFmtMask");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'FpFmtMask' in the elaborated top";
-    ExpectIntConstant(pa->getRhs(), 24u,
+    const hldb::Parameter *const p = getParameter(getElabTop(), "FpFmtMask");
+    ASSERT_NE(p, nullptr) << "no Parameter for 'FpFmtMask' in the elaborated top";
+    ExpectIntConstant(p->getExpr(), 24u,
                       "Features.FpFmtMask = FPU_FEATURES.FpFmtMask = {RVF, RVD, XF16, XF8, XF16ALT} = 5'b11000");
   }
 }
 
 TEST_F(ParamSubstituteComplexTest, DebugmeReducesToOne) {
   if (m_design->getElaborated()) {
-    const hldb::ParamAssign *const pa = getParamAssign(getElabTop(), "DEBUGME");
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for 'DEBUGME' in the elaborated top";
-    ExpectIntConstant(pa->getRhs(), 1u, "6.9.1, 11.5.1: in [0:4], bit 0 is the msb of 5'b11000, which is 1");
+    const hldb::Parameter *const p = getParameter(getElabTop(), "DEBUGME");
+    ASSERT_NE(p, nullptr) << "no Parameter for 'DEBUGME' in the elaborated top";
+    ExpectIntConstant(p->getExpr(), 1u, "6.9.1, 11.5.1: in [0:4], bit 0 is the msb of 5'b11000, which is 1");
   }
 }
 
@@ -892,7 +863,7 @@ TEST_F(ParamSubstituteComplexTest, UntypedParametersTakeTheRangeOfTheirFinalValu
     const hldb::Module *const top = getElabTop();
     ASSERT_NE(top, nullptr) << "the elaborated top not found";
     for (std::string_view name : {"IS_XLEN64", "DEBUGME"}) {
-      const hldb::Parameter *const p = getParam(top, name);
+      const hldb::Parameter *const p = getParameter(top, name);
       ASSERT_NE(p, nullptr) << "parameter '" << name << "' not found in the elaborated top";
       ASSERT_NE(p->getTypespec(), nullptr);
       const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -903,7 +874,7 @@ TEST_F(ParamSubstituteComplexTest, UntypedParametersTakeTheRangeOfTheirFinalValu
                         "6.20.2: the final value of '" + std::string(name) + "' has 1 bit, so the range is [0:0]");
       ExpectIntConstant(lt->getRanges()->at(0)->getRightExpr(), 0u, "6.20.2: the lsb is 0");
     }
-    const hldb::Parameter *const xlen = getParam(top, "XLEN");
+    const hldb::Parameter *const xlen = getParameter(top, "XLEN");
     ASSERT_NE(xlen, nullptr) << "parameter 'XLEN' not found in the elaborated top";
     ASSERT_NE(xlen->getTypespec(), nullptr);
     const hldb::LogicTypespec *const lt = xlen->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -949,11 +920,11 @@ TEST_F(ParamSubstituteComplexTest, TopIsTheOnlyTopLevelInstance) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ParamSubstituteComplexTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

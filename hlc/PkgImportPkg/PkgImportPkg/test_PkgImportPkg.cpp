@@ -61,8 +61,8 @@
 //   - Which error identifier is used, and its wording: tool conventions.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -87,17 +87,6 @@ class PkgImportPkgTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Whether a diagnostic of error severity names 'symbol'. Which error
-  // identifier HLC picks for it is a tool convention, so any is accepted.
-  bool reportsErrorNaming(std::string_view symbol) {
-    for (const ErrorDefinition::ErrorMap::value_type &entry : ErrorDefinition::getErrorInfoMap()) {
-      if ((entry.second.m_severity == ErrorDefinition::ERROR) && (findError(entry.first, symbol) != nullptr)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static const hldb::Package *getPkg(std::string_view name) {
     return hldb::findByName<hldb::Package>(name, m_design->getAllPackages());
   }
@@ -152,16 +141,16 @@ TEST_F(PkgImportPkgTest, OutputTypeBindsThroughHeaderImport) {
 }
 
 TEST_F(PkgImportPkgTest, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type only warned) in the file header.
 TEST_F(PkgImportPkgTest, UndeclaredOtpAstRspTIsAnError) {
-  EXPECT_TRUE(reportsErrorNaming("otp_ast_rsp_t"))
+  ASSERT_NE(findEvent(EventType::CompUndefinedType, "otp_ast_rsp_t"), nullptr)
       << "6.18: The declaration of a user-defined data type shall precede any reference to its type_identifier";
 }
 

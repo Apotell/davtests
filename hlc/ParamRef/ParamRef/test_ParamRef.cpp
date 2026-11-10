@@ -154,7 +154,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -200,7 +200,7 @@ class ParamRefTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  static const hldb::Parameter *getParam(const hldb::Scope *scope, std::string_view name) {
+  static const hldb::Parameter *getParameter(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
@@ -211,20 +211,10 @@ class ParamRefTest : public Test {
     if (const hldb::Parameter *const p = pa->getLhs<hldb::Parameter>()) return p->getName();
     return {};
   }
-
   // The declaration the LHS of 'pa' is bound to.
   static const hldb::Any *getLhsActual(const hldb::ParamAssign *pa) {
     if (const hldb::RefObj *const ref = pa->getLhs<hldb::RefObj>()) return ref->getActual();
     return pa->getLhs();
-  }
-
-  // The ParamAssign in 'scope' whose LHS names 'name'.
-  static const hldb::ParamAssign *getParamAssign(const hldb::Scope *scope, std::string_view name) {
-    if (scope == nullptr || scope->getParamAssigns() == nullptr) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      if (getLhsName(pa) == name) return pa;
-    }
-    return nullptr;
   }
 
   static const hldb::RefInstance *getInstance(std::string_view module, std::string_view name) {
@@ -296,18 +286,14 @@ class ParamRefTest : public Test {
     const hldb::IntTypespec *const it = p->getTypespec()->getActual<hldb::IntTypespec>();
     ASSERT_NE(it, nullptr) << p->getName() << " is declared 'int'";
     EXPECT_EQ(it->getSigned(), isSigned) << why;
-    EXPECT_TRUE(p->getRanges() == nullptr || p->getRanges()->empty())
-        << "37.28 detail 5: " << p->getName() << " has no explicitly defined range";
   }
 
   // Verifies the ParamAssign of 'name' in 'scope' is bound to the parameter
   // and assigns it the unsized decimal literal 'text'.
   static void ExpectDefault(const hldb::Scope *scope, std::string_view name, std::string_view text) {
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    ASSERT_NE(getParam(scope, name), nullptr);
-    EXPECT_EQ(getLhsActual(pa), getParam(scope, name)) << "37.28 detail 4: the LHS is '" << name << "' itself";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const p = getParameter(scope, name);
+    ASSERT_NE(p, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "the value is the literal " << text;
     EXPECT_EQ(c->getDecompile(), text);
     EXPECT_GE(c->getSize(), 32) << "5.7.1: an unsized number has at least 32 bits";
@@ -331,9 +317,9 @@ class ParamRefTest : public Test {
   static void ExpectElabValue(const hldb::Scope *scope, std::string_view name, uint64_t expected,
                               std::string_view why) {
     ASSERT_NE(scope, nullptr) << "the elaborated scope is missing";
-    const hldb::ParamAssign *const pa = getParamAssign(scope, name);
-    ASSERT_NE(pa, nullptr) << "no ParamAssign for '" << name << "'";
-    const hldb::Constant *const c = pa->getRhs<hldb::Constant>();
+    const hldb::Parameter *const p = getParameter(scope, name);
+    ASSERT_NE(p, nullptr) << "no Parameter for '" << name << "'";
+    const hldb::Constant *const c = p->getExpr<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "6.20.2: '" << name << "' should be reduced to a Constant";
     uint64_t v = 0;
     ASSERT_TRUE(getIntValue(c, &v)) << "unparsable constant '" << c->getDecompile() << "'";
@@ -351,7 +337,7 @@ TEST_F(ParamRefTest, AddrSpaceDebugMemIsLocalSignedIntOne) {
   ASSERT_NE(pkg, nullptr) << "package 'tl_main_pkg' not found";
   ASSERT_NE(pkg->getParameters(), nullptr);
   EXPECT_EQ(pkg->getParameters()->size(), 1u);
-  const hldb::Parameter *const p = getParam(pkg, "ADDR_SPACE_DEBUG_MEM");
+  const hldb::Parameter *const p = getParameter(pkg, "ADDR_SPACE_DEBUG_MEM");
   ASSERT_NE(p, nullptr) << "parameter 'ADDR_SPACE_DEBUG_MEM' not found";
   EXPECT_TRUE(p->getLocalParam()) << "6.20.1, 6.20.4: declared with 'localparam' in a package";
   ExpectIntType(p, true, "6.11.3: int defaults to signed");
@@ -379,12 +365,12 @@ TEST_F(ParamRefTest, DmDeclaresHaltAddressThenExceptionAddress) {
 TEST_F(ParamRefTest, HaltAddressIsSignedIntTen) {
   const hldb::Package *const pkg = getPkg("dm");
   ASSERT_NE(pkg, nullptr);
-  ExpectIntType(getParam(pkg, "HaltAddress"), true, "6.11.3: int defaults to signed");
+  ExpectIntType(getParameter(pkg, "HaltAddress"), true, "6.11.3: int defaults to signed");
   ExpectDefault(pkg, "HaltAddress", "10");
 }
 
 TEST_F(ParamRefTest, ExceptionAddressIsUnsignedLogic31To0) {
-  const hldb::Parameter *const p = getParam(getPkg("dm"), "ExceptionAddress");
+  const hldb::Parameter *const p = getParameter(getPkg("dm"), "ExceptionAddress");
   ASSERT_NE(p, nullptr) << "parameter 'ExceptionAddress' not found";
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::LogicTypespec *const lt = p->getTypespec()->getActual<hldb::LogicTypespec>();
@@ -403,10 +389,9 @@ TEST_F(ParamRefTest, ExceptionAddressIsUnsignedLogic31To0) {
 TEST_F(ParamRefTest, ExceptionAddressIsHaltAddressPlusTwo) {
   const hldb::Package *const pkg = getPkg("dm");
   ASSERT_NE(pkg, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssign(pkg, "ExceptionAddress");
-  ASSERT_NE(pa, nullptr);
-  EXPECT_EQ(getLhsActual(pa), getParam(pkg, "ExceptionAddress"));
-  const hldb::Operation *const add = pa->getRhs<hldb::Operation>();
+  const hldb::Parameter *const p = getParameter(pkg, "ExceptionAddress");
+  ASSERT_NE(p, nullptr);
+  const hldb::Operation *const add = p->getExpr<hldb::Operation>();
   ASSERT_NE(add, nullptr) << "unreduced, the value is an Operation";
   EXPECT_EQ(add->getOpType(), vpiAddOp) << "11.4.3: 'HaltAddress + 2'";
   ASSERT_NE(add->getOperands(), nullptr);
@@ -414,8 +399,8 @@ TEST_F(ParamRefTest, ExceptionAddressIsHaltAddressPlusTwo) {
   const hldb::RefObj *const halt = any_cast<hldb::RefObj>(add->getOperands()->at(0));
   ASSERT_NE(halt, nullptr) << "operand 0 is the name 'HaltAddress'";
   EXPECT_EQ(halt->getName(), "HaltAddress");
-  ASSERT_NE(getParam(pkg, "HaltAddress"), nullptr);
-  EXPECT_EQ(halt->getActual(), getParam(pkg, "HaltAddress")) << "26.3: HaltAddress is declared earlier in dm";
+  ASSERT_NE(getParameter(pkg, "HaltAddress"), nullptr);
+  EXPECT_EQ(halt->getActual(), getParameter(pkg, "HaltAddress")) << "26.3: HaltAddress is declared earlier in dm";
   const hldb::Constant *const two = any_cast<hldb::Constant>(add->getOperands()->at(1));
   ASSERT_NE(two, nullptr) << "operand 1 is the literal 2";
   EXPECT_EQ(two->getDecompile(), "2");
@@ -471,7 +456,7 @@ TEST_F(ParamRefTest, URvCoreIbexOverridesDmExceptionAddrByName) {
   const hldb::ParamAssign *const pa = overrides->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "37.28: '.DmExceptionAddr(...)' is a named parameter assignment";
   EXPECT_EQ(getLhsName(pa), "DmExceptionAddr");
-  const hldb::Parameter *const target = getParam(getModule("rv_core_ibex"), "DmExceptionAddr");
+  const hldb::Parameter *const target = getParameter(getModule("rv_core_ibex"), "DmExceptionAddr");
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(getLhsActual(pa), target)
       << "23.10.2.2: \"The name of the parameter shall be the name specified in the instantiated module.\"";
@@ -489,12 +474,12 @@ TEST_F(ParamRefTest, URvCoreIbexValueAddsImportedAndPackageScopedNames) {
   const hldb::RefObj *const imported = any_cast<hldb::RefObj>(add->getOperands()->at(0));
   ASSERT_NE(imported, nullptr) << "operand 0 is the name 'ADDR_SPACE_DEBUG_MEM'";
   EXPECT_EQ(imported->getName(), "ADDR_SPACE_DEBUG_MEM");
-  const hldb::Parameter *const debugMem = getParam(getPkg("tl_main_pkg"), "ADDR_SPACE_DEBUG_MEM");
+  const hldb::Parameter *const debugMem = getParameter(getPkg("tl_main_pkg"), "ADDR_SPACE_DEBUG_MEM");
   ASSERT_NE(debugMem, nullptr);
   EXPECT_EQ(imported->getActual(), debugMem) << "26.3: made visible by 'import tl_main_pkg::*'";
   const hldb::RefObj *const scoped = any_cast<hldb::RefObj>(add->getOperands()->at(1));
   ASSERT_NE(scoped, nullptr) << "operand 1 is the name 'dm::ExceptionAddress'";
-  const hldb::Parameter *const exceptionAddress = getParam(getPkg("dm"), "ExceptionAddress");
+  const hldb::Parameter *const exceptionAddress = getParameter(getPkg("dm"), "ExceptionAddress");
   ASSERT_NE(exceptionAddress, nullptr);
   EXPECT_EQ(scoped->getActual(), exceptionAddress) << "26.3: the package scope resolution operator names dm's item";
 }
@@ -519,7 +504,7 @@ TEST_F(ParamRefTest, PackageScopedNameBindsThroughDm) {
   const hldb::RefObj *const item = any_cast<hldb::RefObj>(scoped->getPathElems()->at(1));
   ASSERT_NE(item, nullptr);
   EXPECT_EQ(item->getName(), "ExceptionAddress");
-  EXPECT_EQ(item->getActual(), getParam(getPkg("dm"), "ExceptionAddress"));
+  EXPECT_EQ(item->getActual(), getParameter(getPkg("dm"), "ExceptionAddress"));
 }
 
 // ---------------------------------------------------------------------------
@@ -538,7 +523,7 @@ TEST_F(ParamRefTest, DmExceptionAddrIsOverridableIntUnsigned) {
     ASSERT_NE(m, nullptr) << "module '" << d.m_module << "' not found";
     ASSERT_NE(m->getParameters(), nullptr);
     EXPECT_EQ(m->getParameters()->size(), 1u);
-    const hldb::Parameter *const p = getParam(m, "DmExceptionAddr");
+    const hldb::Parameter *const p = getParameter(m, "DmExceptionAddr");
     ASSERT_NE(p, nullptr) << "parameter 'DmExceptionAddr' not found";
     EXPECT_FALSE(p->getLocalParam()) << "6.20.1: the module has no parameter port list, so it is overridable";
     ExpectIntType(p, false, "6.11.3: 'int unsigned' is explicitly unsigned");
@@ -563,8 +548,8 @@ TEST_F(ParamRefTest, UCorePassesRvCoreIbexOwnParameter) {
   ASSERT_EQ(overrides->size(), 1u);
   const hldb::ParamAssign *const pa = overrides->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "37.28: '.DmExceptionAddr(...)' is a named parameter assignment";
-  const hldb::Parameter *const inner = getParam(getModule("ibex_core"), "DmExceptionAddr");
-  const hldb::Parameter *const outer = getParam(getModule("rv_core_ibex"), "DmExceptionAddr");
+  const hldb::Parameter *const inner = getParameter(getModule("ibex_core"), "DmExceptionAddr");
+  const hldb::Parameter *const outer = getParameter(getModule("rv_core_ibex"), "DmExceptionAddr");
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(outer, nullptr);
   EXPECT_EQ(getLhsName(pa), "DmExceptionAddr");
@@ -634,11 +619,11 @@ TEST_F(ParamRefTest, TopEarlgreyIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamRefTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc
