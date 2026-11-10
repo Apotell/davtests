@@ -65,6 +65,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/import_typespec.h>
 #include <hldb/module.h>
@@ -106,26 +107,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   if (collection != nullptr) {
     for (const T *object : *collection) {
       if (endsWith(object->getFile(), kSourceFileName)) return object;
-    }
-  }
-  return nullptr;
-}
-
-const hldb::Parameter *findParameterByName(const hldb::AnyCollection *parameters, std::string_view name) {
-  if (parameters == nullptr) return nullptr;
-  for (const hldb::Any *any : *parameters) {
-    if (const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(any)) {
-      if (parameter->getName() == name) return parameter;
-    }
-  }
-  return nullptr;
-}
-
-const hldb::ParamAssign *findParamAssignByLhsName(const hldb::ParamAssignCollection *assigns, std::string_view name) {
-  if (assigns == nullptr) return nullptr;
-  for (const hldb::ParamAssign *assign : *assigns) {
-    if (const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>()) {
-      if (lhs->getName() == name) return assign;
     }
   }
   return nullptr;
@@ -212,7 +193,7 @@ TEST_F(HeaderPackageImportTest, PackagePIsDeclared) {
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
   EXPECT_EQ(package->getName(), "p");
-  EXPECT_NE(findParameterByName(package->getParameters(), "W"), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Parameter>("W", package->getParameters()), nullptr);
 }
 
 TEST_F(HeaderPackageImportTest, ModuleMIsDeclared) {
@@ -239,13 +220,13 @@ TEST_F(HeaderPackageImportTest, LocalparamW2ResolvesThroughTheImport) {
   ASSERT_NE(package, nullptr);
   ASSERT_NE(module, nullptr);
 
-  const hldb::Parameter *const packageW = findParameterByName(package->getParameters(), "W");
+  const hldb::Parameter *const packageW = hldb::findByName<hldb::Parameter>("W", package->getParameters());
   ASSERT_NE(packageW, nullptr);
 
-  const hldb::ParamAssign *const w2Assign = findParamAssignByLhsName(module->getParamAssigns(), "W2");
+  const hldb::Parameter *const w2Assign = hldb::findByName<hldb::Parameter>("W2", module->getParameters());
   ASSERT_NE(w2Assign, nullptr);
 
-  const hldb::RefObj *const rhs = w2Assign->getRhs<hldb::RefObj>();
+  const hldb::RefObj *const rhs = w2Assign->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "W");
 
