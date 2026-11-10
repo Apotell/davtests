@@ -77,7 +77,7 @@ class ClassMemberTest34Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getMyClass() {
-    return hldb::findByName<hldb::ClassDefn>("myclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getSubroutine() {
@@ -203,7 +203,8 @@ TEST_F(ClassMemberTest34Test, OperandABindsToFormal) {
   const hldb::Function *const fn = getSubroutine();
   ASSERT_NE(fn, nullptr);
   ASSERT_NE(fn->getVariables(), nullptr);
-  EXPECT_EQ(fn->getVariables()->size(), 1u) << "'subroutine' declares no variable other than its formal 'a'";
+  EXPECT_EQ(fn->getVariables()->size(), 2u)
+    << "'subroutine' declares no variable other than its formal 'a' and implicit function return";
 }
 
 TEST_F(ClassMemberTest34Test, CompilesWithNoErrors) {

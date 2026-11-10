@@ -61,7 +61,7 @@ class ClassMemberTest39Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getConstructible() {
-    return hldb::findByName<hldb::ClassDefn>("constructible", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("constructible", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getConstructor() {

@@ -65,7 +65,7 @@ class ClassMemberTest26Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getMyClass() {
-    return hldb::findByName<hldb::ClassDefn>("myclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   static const hldb::FunctionDecl *findDecl(std::string_view name) {

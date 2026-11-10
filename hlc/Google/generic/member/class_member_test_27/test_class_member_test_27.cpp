@@ -64,6 +64,7 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typedef.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
@@ -76,7 +77,7 @@ class ClassMemberTest27Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Function *getStarter() {
@@ -113,8 +114,9 @@ TEST_F(ClassMemberTest27Test, ReportServerClassExistsAndIsEmpty) {
 }
 
 TEST_F(ClassMemberTest27Test, TypedefUvmPhaseAliasesInt) {
-  ASSERT_NE(m_design->getTypedefs(), nullptr) << "'typedef int uvm_phase;' is a compilation-unit typedef";
-  const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("uvm_phase", m_design->getTypedefs());
+  ASSERT_NE(m_unit, nullptr);
+  ASSERT_NE(m_unit->getTypedefs(), nullptr) << "'typedef int uvm_phase;' is a compilation-unit typedef";
+  const hldb::Typedef *const td = hldb::findByName<hldb::Typedef>("uvm_phase", m_unit->getTypedefs());
   ASSERT_NE(td, nullptr) << "typedef 'uvm_phase' should exist";
   ASSERT_NE(td->getAlias(), nullptr);
   EXPECT_NE(any_cast<hldb::IntTypespec>(resolve(td->getAlias())), nullptr) << "Sec 6.18: 'uvm_phase' aliases int";

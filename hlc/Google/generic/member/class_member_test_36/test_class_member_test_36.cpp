@@ -70,7 +70,7 @@ class ClassMemberTest36Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getMyClass() {
-    return hldb::findByName<hldb::ClassDefn>("myclass", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getSubroutine() {
