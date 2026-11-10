@@ -193,7 +193,7 @@ TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
 
 TEST_F(MultContAssignTest, UndeclaredRhsIdentifiersFailToBind) {
   for (std::string_view name : {"pu", "pd", "sel", "v0", "v1", "driver_1_en", "driver_1"}) {
-    EXPECT_NE(findEvent(EventType::CompFailedToBind, name), nullptr)
+    EXPECT_NE(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "6.10: '" << name << "' is used on a RHS without being declared";
   }
 }

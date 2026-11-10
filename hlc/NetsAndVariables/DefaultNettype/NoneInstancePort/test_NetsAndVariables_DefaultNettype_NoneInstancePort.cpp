@@ -40,7 +40,7 @@ class NoneInstancePortTest : public Test {
 
 TEST_F(NoneInstancePortTest, UndeclaredInstancePortNetIsRejected) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "undeclared_net"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "undeclared_net"), nullptr)
       << "IEEE 1800-2023 22.8 with 6.10: under default_nettype none no implicit net is "
          "created, so the instance port connection never resolves.";
 }

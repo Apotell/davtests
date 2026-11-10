@@ -229,8 +229,8 @@ TEST_F(ArianeElab2Test, GeneratedBlockInstantiatesUnresolvedFmtSlice) {
 
 // --- compiler diagnostics: the unresolved reference cascades upward ---------
 
-TEST_F(ArianeElab2Test, UnresolvedFmtSliceReportsUnsupportedTypespec) {
-  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "fpnew_opgroup_fmt_slice"), nullptr);
+TEST_F(ArianeElab2Test, UnresolvedFmtSliceReportsNoModuleDefinition) {
+  EXPECT_NE(findEvent(EventType::ElabNoModuleDefinition, "fpnew_opgroup_fmt_slice"), nullptr);
 }
 
 TEST_F(ArianeElab2Test, UnresolvedReferenceCascadesToEveryEnclosingGenerateConstruct) {
