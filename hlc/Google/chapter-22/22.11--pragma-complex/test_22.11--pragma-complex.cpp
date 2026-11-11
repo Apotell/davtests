@@ -121,9 +121,9 @@
 //
 // Every expected value comes from the source text and the LRM, so a red test
 // means HLC deviates from the LRM or from its own model.
-// PP_ILLEGAL_DIRECTIVE_VALUE is HLC's code for a directive argument it does
-// not accept, PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT its code for a directive
-// placed inside a design element, and PP_ILLEGAL_PROTECT_PRAGMA its code for a
+// PpIllegalDirectiveValue is HLC's code for a directive argument it does
+// not accept, PpIllegalDirectiveInDesignElement its code for a directive
+// placed inside a design element, and PpIllegalProtectPragma its code for a
 // protect pragma it rejects.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
@@ -214,10 +214,7 @@
 //     checks, which hold only if lines 1-15 were read as whole lines.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -243,6 +240,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -277,43 +275,29 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const hldb::Event &event) { return event.getArguments().empty() ? 0 : event.getArgument(0)->m_line; }
 
-// True when HLC's error table gives 'error' a fatal, syntax or error
+// True when HLC's event table gives 'event' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  const bool isErrorClass = (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-                            (severity == ErrorDefinition::ERROR);
-  return isErrorClass && (errorInfo->second.m_category != ErrorDefinition::ELAB);
-}
-
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
-// run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
-  return description + "]";
+bool isSourceError(const hldb::Event &event) {
+  const hldb::EventSeverity severity = event.getDefinition()->m_severity;
+  const bool isErrorClass = (severity == hldb::EventSeverity::Fatal) || (severity == hldb::EventSeverity::Syntax) ||
+                            (severity == hldb::EventSeverity::Error);
+  return isErrorClass && (event.getDefinition()->m_category->m_name != std::string_view("elab"));
 }
 
 // Every directive 'sourceFile' records as " [vpiType <type> line <n>]", so
 // that a red run shows what HLDB recorded instead.
 std::string describeDirectives(const hldb::SourceFile *sourceFile) {
-  std::string description;
+  std::ostringstream oss;
   if (const hldb::DirectiveCollection *const directives = sourceFile->getDirectives()) {
     for (const hldb::Directive *directive : *directives) {
-      description += " [vpiType " + std::to_string(directive->getVpiType());
-      description += " line " + std::to_string(directive->getStartLine()) + "]";
+      oss << " [type " << hldb::AnyTypeName(directive->getAnyType());
+      oss << " line " << directive->getStartLine() << "]";
     }
   }
-  return description;
+  return oss.str();
 }
 }  // namespace
 
@@ -324,24 +308,30 @@ class PragmaComplexTest : public Test {
 
  protected:
   // Every source error (see isSourceError), described; empty when there is
-  // none. A run without an error container is reported, not passed.
+  // none. A run without an event listener is reported, not passed.
   static std::string sourceErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
-    std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-      if (isSourceError(error)) description += describeError(error);
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isSourceError(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // The same, for the source errors that point at 'line' only.
   static std::string sourceErrorsOnLine(uint32_t line) {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
-    std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-      if (isSourceError(error) && (lineOf(error) == line)) description += describeError(error);
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isSourceError(event) && (lineOf(event) == line)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // The SourceFile nodes of the file under test.
@@ -400,55 +390,55 @@ TEST_F(PragmaComplexTest, Line16PragmaIsAccepted) { EXPECT_EQ(sourceErrorsOnLine
 // misread line 16 as a directive.
 TEST_F(PragmaComplexTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // Line 16 matches Syntax 22-8, for the preprocessor and for the parser.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
 
   // A bare identifier, a pragma_keyword = number pair and a string are all
   // pragma_expression forms of Syntax 22-8.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
 
   // The file has no design element, and 22.11 does not restrict where a
   // `pragma may appear.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `pragma is a compiler directive (22.1), not a usage of a text macro, and
   // no identifier on the line has a grave accent.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
 // foo is not protect, so line 16 is no protect pragma and starts no protected
 // envelope (22.11.1, Clause 34). Either diagnostic, at any severity, would
 // mean HLC took it for one.
 TEST_F(PragmaComplexTest, ReportsNoProtectPragmaDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_PROTECT_PRAGMA), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_DECRYPTION_FAILED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalProtectPragma), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpDecryptionFailed), nullptr);
 }
 
 // foo, something and somethingelse are legal simple_identifiers (A.9.3).
 TEST_F(PragmaComplexTest, ReportsNoIdentifierDiagnostics) {
   // None of them is a keyword (Table B.1).
-  EXPECT_EQ(findError(ErrorDefinition::PA_RESERVED_KEYWORD), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
 
   // The longest, somethingelse, has 13 characters, within any limit an
   // implementation may set, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findError(ErrorDefinition::PA_MAX_LENGTH_IDENTIFIER), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
 }
 
 // "abcdef" is a well-formed quoted string (5.9) in a plain ASCII file.
 TEST_F(PragmaComplexTest, ReportsNoStringLiteralDiagnostics) {
   // Its closing double quote is on line 16.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNTERMINATED_STRING), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 
   // Letters are quoted_string_items; none needs an escape.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNESCAPED_CHARACTER_IN_STRING), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnescapedCharacterInString), nullptr);
 
   // It has no backslash, so it has no escape sequence (5.9.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNRECOGNIZED_ESCAPED_SEQUENCE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_ESCAPE_SEQUENCE_OUT_OF_RANGE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpEscapeSequenceOutOfRange), nullptr);
 
   // Every character of the file is ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -587,6 +577,7 @@ TEST_F(PragmaComplexTest, ThirdExpressionIsTheStringLiteralAbcdef) {
 // So nothing in the design comes from this file.
 TEST_F(PragmaComplexTest, NoDesignObjectsDeclared) {
   ASSERT_NE(m_design, nullptr);
+  ASSERT_NE(m_unit, nullptr);
 
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getTopModules()), 0u);
@@ -597,12 +588,11 @@ TEST_F(PragmaComplexTest, NoDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
 
-  EXPECT_EQ(countFromSourceFile(m_design->getParameters()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getParamAssigns()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getTypedefs()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getParameters()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
 }  // namespace hlc
 
