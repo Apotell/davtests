@@ -176,33 +176,33 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-// True when HLC's error table gives 'error' a fatal, syntax or error severity,
+// True when HLC's event table gives 'event' a fatal, syntax or error severity,
 // the severities the LRM's "illegal" can map to.
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
 }
 
-// True when 'error' is an error-class diagnostic outside HLC's elaboration
+// True when 'event' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out because a design without a
 // top-level module may draw one (23.3.1).
-bool isSourceError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  return isErrorClass(error) && (errorInfo->m_category->m_name != "Elab");
+bool isSourceError(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  return isErrorClass(event) && (eventDefinition->m_category->m_name != "Elab");
 }
 
 // One diagnostic as " [<code> line <n>: <message template>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
+std::string describeEvent(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
+  description += " line " + std::to_string(lineOf(event));
+  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
   return description + "]";
 }
 }  // namespace
@@ -219,10 +219,10 @@ class UnconnectedDriveInvalid1Test : public Test {
   }
 
   // Every diagnostic of the run, described; for failure messages.
-  static std::string describeAllErrors() {
-    if (getEventListener() == nullptr) return "no error container";
+  static std::string describeAllEvents() {
+    if (getEventListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getEventListener()->getEvents()) description += describeError(error);
+    for (const Event &event : getEventListener()->getEvents()) description += describeEvent(event);
     return description;
   }
 
@@ -230,8 +230,8 @@ class UnconnectedDriveInvalid1Test : public Test {
   static size_t countErrorsOnLine(uint32_t line) {
     if (getEventListener() == nullptr) return 0;
     size_t count = 0;
-    for (const Event &error : getEventListener()->getEvents()) {
-      if (isErrorClass(error) && (lineOf(error) == line)) ++count;
+    for (const Event &event : getEventListener()->getEvents()) {
+      if (isErrorClass(event) && (lineOf(event) == line)) ++count;
     }
     return count;
   }
@@ -240,21 +240,21 @@ class UnconnectedDriveInvalid1Test : public Test {
   // 'lastLine', described; empty when there is none. A run without an error
   // container is reported, not passed.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if (getEventListener() == nullptr) return "no error container";
+    if (getEventListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isSourceError(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : getEventListener()->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isSourceError(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
   // Every source error without a location, described; empty when there is none.
   static std::string describeUnlocatedSourceErrors() {
-    if (getEventListener() == nullptr) return "no error container";
+    if (getEventListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getEventListener()->getEvents()) {
-      if (isSourceError(error) && error.getArguments().empty()) description += describeError(error);
+    for (const Event &event : getEventListener()->getEvents()) {
+      if (isSourceError(event) && event.getArguments().empty()) description += describeEvent(event);
     }
     return description;
   }
@@ -283,7 +283,7 @@ class UnconnectedDriveInvalid1Test : public Test {
 // kind, so any error-class diagnostic on line 17 or 18 satisfies it.
 TEST_F(UnconnectedDriveInvalid1Test, ReportsAnErrorForTheMissingArgument) {
   const size_t errorsOnIllegalLines = countErrorsOnLine(kFirstIllegalLine) + countErrorsOnLine(kLastIllegalLine);
-  EXPECT_GE(errorsOnIllegalLines, 1u) << "no error on line 17 or 18;" << describeAllErrors();
+  EXPECT_GE(errorsOnIllegalLines, 1u) << "no error on line 17 or 18;" << describeAllEvents();
 }
 
 // LRM: lines 1-16 are comments and blank lines, including the

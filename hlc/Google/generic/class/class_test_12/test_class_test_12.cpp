@@ -365,18 +365,18 @@ const hldb::Parameter *boundParameter(const hldb::Any *expression) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) {
-  for (const EventArg &argument : error.getArguments()) {
+uint32_t lineOf(const Event &event) {
+  for (const EventArg &argument : event.getArguments()) {
     if (argument.m_line != 0) return argument.m_line;
   }
   return 0;
 }
 
-// True when HLC's event table gives 'error' a fatal, syntax or error
+// True when HLC's event table gives 'event' a fatal, syntax or error
 // severity. Every category counts: the design has a top-level module, so not
 // even elaboration has an error to report (23.3.1).
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const definition = error.getDefinition();
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const definition = event.getDefinition();
   if (definition == nullptr) return false;
   const EventSeverity severity = definition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
@@ -385,10 +385,10 @@ bool isErrorClass(const Event &error) {
 
 // One diagnostic as " [<code> line <n>: <message>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Event &error) {
-  std::string description = " [" + std::to_string(error.getType());
-  description += " line " + std::to_string(lineOf(error));
-  const std::vector<std::string> message = error.format();
+std::string describeEvent(const Event &event) {
+  std::string description = " [" + std::to_string(event.getType());
+  description += " line " + std::to_string(lineOf(event));
+  const std::vector<std::string> message = event.format();
   if (!message.empty()) description += ": " + message.front();
   return description + "]";
 }
@@ -406,9 +406,9 @@ class ClassTest12Test : public Test {
   static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
     if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
@@ -417,8 +417,8 @@ class ClassTest12Test : public Test {
   static std::string allErrors() {
     if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (isErrorClass(event)) description += describeEvent(event);
     }
     return description;
   }

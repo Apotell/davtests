@@ -84,7 +84,7 @@
 //       top-level instances (Sec 3.12)
 //
 // What is NOT checked, and why:
-//   - Which error code HLC uses for the same-line rule. The catalog has no
+//   - Which event code HLC uses for the same-line rule. The catalog has no
 //     dedicated code and the LRM only requires an error; the diagnostic is
 //     identified by severity and line instead (SameLineIncludeIsAnErrorOnLine8).
 //   - The column of that diagnostic. The violation starts at column 29, but
@@ -163,16 +163,16 @@ class IncludeTwoInOneLineTest : public Test {
   }
 
   // The line of a diagnostic's primary location, or 0 if it has none.
-  static uint32_t lineOf(const Event &error) {
-    return error.getArguments().empty() ? 0u : error.getArguments().front().m_line;
+  static uint32_t lineOf(const Event &event) {
+    return event.getArguments().empty() ? 0u : event.getArguments().front().m_line;
   }
 
   // Every error-class diagnostic, in report order.
   static std::vector<const Event *> errorClassDiagnostics() {
     std::vector<const Event *> result;
     if (m_session->getEventListener() == nullptr) return result;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error.getType())) result.emplace_back(&error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (isErrorClass(event.getType())) result.emplace_back(&event);
     }
     return result;
   }

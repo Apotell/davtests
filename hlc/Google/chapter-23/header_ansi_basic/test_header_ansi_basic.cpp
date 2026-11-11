@@ -108,21 +108,21 @@ const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_
   return nullptr;
 }
 
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
 }
 
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
+std::string describeEvent(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
+  description += " line " + std::to_string(lineOf(event));
+  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
   return description + "]";
 }
 }  // namespace
@@ -134,20 +134,20 @@ class HeaderAnsiBasicTest : public Test {
 
  protected:
   static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
   static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (isErrorClass(event)) description += describeEvent(event);
     }
     return description;
   }

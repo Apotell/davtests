@@ -116,15 +116,15 @@ class TimescaleTest : public Test {
   // 'line' of the file named 'fileName'. The standard says which constructs are errors,
   // not which diagnostic reports them.
   static bool hasErrorAt(std::string_view fileName, uint32_t line) {
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
       if (it == nullptr) continue;
       const EventSeverity severity = it->m_severity;
       if ((severity != EventSeverity::Error) && (severity != EventSeverity::Syntax) &&
           (severity != EventSeverity::Fatal)) {
         continue;
       }
-      for (const EventArg &loc : error.getArguments()) {
+      for (const EventArg &loc : event.getArguments()) {
         if (loc.m_line != line) continue;
         const std::string_view path = loc.m_file;
         if ((path.size() > fileName.size()) && (path.substr(path.size() - fileName.size()) == fileName) &&

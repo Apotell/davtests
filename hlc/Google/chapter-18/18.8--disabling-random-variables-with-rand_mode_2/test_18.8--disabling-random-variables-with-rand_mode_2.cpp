@@ -1304,18 +1304,18 @@ TEST_F(DisablingRandomVariablesWithRandMode2Test, InitialCallsRunTestFromUvmPkg)
 // file header.
 TEST_F(DisablingRandomVariablesWithRandMode2Test, NoErrorIsReportedInThisFile) {
   size_t count = 0;
-  for (const Event &error : m_session->getEventListener()->getEvents()) {
-    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  for (const Event &event : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if (info == nullptr || info->m_severity > EventSeverity::Error) {
       continue;
     }
-    for (const EventArg &loc : error.getArguments()) {
+    for (const EventArg &loc : event.getArguments()) {
       const std::string_view path = loc.m_file;
       if (path.find("18.8--disabling-random-variables-with-rand_mode_2.sv") == std::string_view::npos) {
         continue;
       }
       ++count;
-      ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
+      ADD_FAILURE() << "error " << event.getType() << " reported at " << path << ":" << loc.m_line << ":"
                     << loc.m_column;
     }
   }

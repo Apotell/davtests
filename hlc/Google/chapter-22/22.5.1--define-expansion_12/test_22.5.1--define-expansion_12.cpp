@@ -266,30 +266,30 @@ bool isErrorClass(EventSeverity severity) {
          (severity == EventSeverity::Error);
 }
 
-// True when 'error' has an error-class severity in HLC's error table.
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  return (errorInfo != nullptr) && isErrorClass(errorInfo->m_severity);
+// True when 'event' has an error-class severity in HLC's event table.
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  return (eventDefinition != nullptr) && isErrorClass(eventDefinition->m_severity);
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
+std::string describeEvent(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
+  description += " line " + std::to_string(lineOf(event));
+  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
   return description + "]";
 }
 
-// Every diagnostic, described as by describeError(); for failure messages.
-std::string describeAllErrors(const EventListener *eventListener) {
+// Every diagnostic, described as by describeEvent(); for failure messages.
+std::string describeAllEvents(const EventListener *eventListener) {
   std::string description;
-  for (const Event &error : eventListener->getEvents()) description += describeError(error);
+  for (const Event &event : eventListener->getEvents()) description += describeEvent(event);
   return description;
 }
 }  // namespace
@@ -336,10 +336,10 @@ TEST_F(DefineExpansion12Test, ReportsAnErrorOnTheIllegalLine) {
   ASSERT_NE(eventListener, nullptr);
 
   size_t errorsOnUsageLine = 0;
-  for (const Event &error : eventListener->getEvents()) {
-    if (isErrorClass(error) && (lineOf(error) == kUsageLine)) ++errorsOnUsageLine;
+  for (const Event &event : eventListener->getEvents()) {
+    if (isErrorClass(event) && (lineOf(event) == kUsageLine)) ++errorsOnUsageLine;
   }
-  EXPECT_GE(errorsOnUsageLine, 1u) << "no error on line " << kUsageLine << ";" << describeAllErrors(eventListener);
+  EXPECT_GE(errorsOnUsageLine, 1u) << "no error on line " << kUsageLine << ";" << describeAllEvents(eventListener);
 }
 
 // HLC has a dedicated code for this 22.5.1 rule, PpMacroNoDefaultValue: an
@@ -352,10 +352,10 @@ TEST_F(DefineExpansion12Test, DiagnosesTheMissingDefault) {
 
   // The LRM calls this an error, not a warning; it does not say which kind of
   // error, so any error-class severity is accepted.
-  const EventDefinition *const errorInfo =
+  const EventDefinition *const eventDefinition =
       hldb::findEventDefinition(hlc::getEventTable(), EventType::PpMacroNoDefaultValue);
-  ASSERT_NE(errorInfo, nullptr);
-  EXPECT_TRUE(isErrorClass(errorInfo->m_severity)) << "severity " << errorInfo->m_severity;
+  ASSERT_NE(eventDefinition, nullptr);
+  EXPECT_TRUE(isErrorClass(eventDefinition->m_severity)) << "severity " << eventDefinition->m_severity;
 }
 
 // Line 19 is the one illegal line (22.5.1); the LRM requires an error there
@@ -375,8 +375,8 @@ TEST_F(DefineExpansion12Test, ErrorsOnlyOnTheIllegalLine) {
   ASSERT_NE(eventListener, nullptr);
 
   std::string offLine;
-  for (const Event &error : eventListener->getEvents()) {
-    if (isErrorClass(error) && (lineOf(error) != kUsageLine)) offLine += describeError(error);
+  for (const Event &event : eventListener->getEvents()) {
+    if (isErrorClass(event) && (lineOf(event) != kUsageLine)) offLine += describeEvent(event);
   }
   EXPECT_EQ(offLine, "") << "error-class diagnostics off line " << kUsageLine;
 }

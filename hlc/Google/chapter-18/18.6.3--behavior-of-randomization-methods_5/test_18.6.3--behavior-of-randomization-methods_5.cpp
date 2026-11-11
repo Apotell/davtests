@@ -504,10 +504,10 @@ class BehaviorOfRandomizationMethods5Test : public Test {
   // reported, one entry per diagnostic location.
   static std::vector<uint32_t> getErrorLinesInThisFile() {
     std::vector<uint32_t> lines;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
       if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
-      for (const EventArg &loc : error.getArguments()) {
+      for (const EventArg &loc : event.getArguments()) {
         const std::string_view path = loc.m_file;
         if (path.find("18.6.3--behavior-of-randomization-methods_5.sv") == std::string_view::npos) continue;
         lines.emplace_back(loc.m_line);

@@ -528,15 +528,15 @@ class ControllingConstraintsWithConstraintMode2Test : public Test {
   // error or worse is collected instead.
   static std::vector<uint32_t> getDiagnosticLines(uint32_t type, bool errorsOnly) {
     std::vector<uint32_t> lines;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
       if (errorsOnly) {
-        if (!isErrorSeverity(error.getType())) {
+        if (!isErrorSeverity(event.getType())) {
           continue;
         }
-      } else if (error.getType() != type) {
+      } else if (event.getType() != type) {
         continue;
       }
-      for (const EventArg &loc : error.getArguments()) {
+      for (const EventArg &loc : event.getArguments()) {
         const std::string_view path = loc.m_file;
         if (path.find(kSourceName) == std::string_view::npos) {
           continue;
@@ -1167,16 +1167,16 @@ TEST_F(ControllingConstraintsWithConstraintMode2Test, CompilationReportsAtLeastO
 // Expected to fail -- see KNOWN FAILURE (errors reported on legal lines) in the
 // file header.
 TEST_F(ControllingConstraintsWithConstraintMode2Test, EveryErrorInThisFileIsOnTheConstraintModeDeclaration) {
-  for (const Event &error : m_session->getEventListener()->getEvents()) {
-    if (!isErrorSeverity(error.getType())) {
+  for (const Event &event : m_session->getEventListener()->getEvents()) {
+    if (!isErrorSeverity(event.getType())) {
       continue;
     }
-    for (const EventArg &loc : error.getArguments()) {
+    for (const EventArg &loc : event.getArguments()) {
       if (loc.m_file.find(kSourceName) == std::string_view::npos) {
         continue;
       }
       EXPECT_TRUE(loc.m_line >= 23 && loc.m_line <= 25)
-          << "error " << error.getType() << " at line " << loc.m_line << ":" << loc.m_column
+          << "error " << event.getType() << " at line " << loc.m_line << ":" << loc.m_column
           << ": only the constraint_mode declaration (lines 23-25) is illegal";
     }
   }

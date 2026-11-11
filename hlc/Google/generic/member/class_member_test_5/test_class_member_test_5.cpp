@@ -195,31 +195,26 @@ size_t countNamed(const std::vector<T *> *collection, std::string_view name) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) {
-  if (error.getArguments().empty()) {
+uint32_t lineOf(const Event &event) {
+  if (event.getArguments().empty()) {
     return 0;
   }
-  return error.getArguments().front().m_line;
-}
-
-// The definition (severity, message) of a diagnostic, or nullptr when its code is unknown.
-const EventDefinition *definitionOf(const Event &error) {
-  return hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return event.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
+std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Event &error : eventListener->getEvents()) {
-    const EventDefinition *const errorInfo = definitionOf(error);
-    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) {
+  for (const Event &event : eventListener->getEvents()) {
+    const EventDefinition *const eventDefinition = event.getDefinition();
+    if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) {
       continue;
     }
-    description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
-    description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
+    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
+    description += " line " + std::to_string(lineOf(event));
+    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -289,8 +284,8 @@ TEST_F(ClassMemberTest5Test, NoFatalOrSyntaxErrors) {
   ASSERT_NE(eventListener, nullptr);
 
   const EventListener::Stats stats = eventListener->getStats();
-  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
-  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_fatals, 0) << describeEvents(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeEvents(eventListener, EventSeverity::Syntax);
 }
 
 // 8.21: pure virtual methods may only be declared in an abstract
@@ -306,18 +301,18 @@ TEST_F(ClassMemberTest5Test, PureVirtualInNonVirtualClassIsReported) {
       << "8.21: pure virtual methods can only be declared in virtual classes";
 
   bool errorOnPureMethod = false;
-  for (const Event &error : eventListener->getEvents()) {
-    const EventDefinition *const errorInfo = definitionOf(error);
-    if ((errorInfo == nullptr) || (errorInfo->m_severity != EventSeverity::Error)) {
+  for (const Event &event : eventListener->getEvents()) {
+    const EventDefinition *const eventDefinition = event.getDefinition();
+    if ((eventDefinition == nullptr) || (eventDefinition->m_severity != EventSeverity::Error)) {
       continue;
     }
-    const uint32_t line = lineOf(error);
+    const uint32_t line = lineOf(event);
     if ((line >= 16) && (line <= 18)) {
       errorOnPureMethod = true;
     }
   }
   EXPECT_TRUE(errorOnPureMethod) << "8.21: the error points at myclass or its pure virtual prototypes (lines 16-18);"
-                                 << describeErrors(eventListener, EventSeverity::Error);
+                                 << describeEvents(eventListener, EventSeverity::Error);
 }
 
 TEST_F(ClassMemberTest5Test, SourceFileRecordedOnce) {

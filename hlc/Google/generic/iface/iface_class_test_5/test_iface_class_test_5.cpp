@@ -228,24 +228,24 @@ std::string_view literalOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) {
-  if (error.getArguments().empty()) {
+uint32_t lineOf(const Event &event) {
+  if (event.getArguments().empty()) {
     return 0;
   }
-  return error.getArguments().front().m_line;
+  return event.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
+std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Event &error : eventListener->getEvents()) {
-    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
-    description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
+  for (const Event &event : eventListener->getEvents()) {
+    const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+    if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
+    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
+    description += " line " + std::to_string(lineOf(event));
+    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -315,10 +315,10 @@ TEST_F(IfaceClassTest5Test, ReportsUndefinedPackageAndBaseClass) {
   const bool packageReported = (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr) ||
                                (findEvent(EventType::ElabUndefinedPackage, "pkg1", 6) != nullptr);
   EXPECT_TRUE(packageReported) << "26.3: pkg1 (line 6) names no package;"
-                               << describeErrors(eventListener, EventSeverity::Error);
+                               << describeEvents(eventListener, EventSeverity::Error);
   EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "base2", 6), nullptr)
       << "8.26.3: base2 (line 6) is extended but never declared;"
-      << describeErrors(eventListener, EventSeverity::Error);
+      << describeEvents(eventListener, EventSeverity::Error);
 }
 
 // Lines 6-7 match interface_class_declaration (A.1.9), so the errors above
@@ -329,8 +329,8 @@ TEST_F(IfaceClassTest5Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(eventListener, nullptr);
 
   const EventListener::Stats stats = eventListener->getStats();
-  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
-  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_fatals, 0) << describeEvents(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeEvents(eventListener, EventSeverity::Syntax);
 }
 
 TEST_F(IfaceClassTest5Test, SourceFileRecordedOnce) {

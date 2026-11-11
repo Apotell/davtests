@@ -283,18 +283,18 @@ double realValueOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <message template>]",
 // so that a red run shows what was reported and where.
-std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
+std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Event &error : eventListener->getEvents()) {
-    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
-    description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
+  for (const Event &event : eventListener->getEvents()) {
+    const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+    if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
+    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
+    description += " line " + std::to_string(lineOf(event));
+    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -303,9 +303,9 @@ std::string describeErrors(const EventListener *eventListener, EventSeverity sev
 // about other files, such as the tool's built-in sources, are not counted.
 size_t countInSourceFile(const EventListener *eventListener, uint32_t type) {
   size_t count = 0;
-  for (const Event &error : eventListener->getEvents()) {
-    if (error.getType() != type) continue;
-    for (const EventArg &location : error.getArguments()) {
+  for (const Event &event : eventListener->getEvents()) {
+    if (event.getType() != type) continue;
+    for (const EventArg &location : event.getArguments()) {
       if (endsWith(location.m_file, kSourceFileName)) {
         ++count;
         break;
@@ -400,9 +400,9 @@ TEST_F(TimescaleModuleTest, CompilesWithoutErrors) {
   ASSERT_NE(eventListener, nullptr);
 
   const EventListener::Stats stats = eventListener->getStats();
-  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
-  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
-  EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
+  EXPECT_EQ(stats.m_fatals, 0) << describeEvents(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeEvents(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_errors, 0) << describeEvents(eventListener, EventSeverity::Error);
 }
 
 // 22.7 and 3.14.2.3 b): line 16 gives test a time unit and precision, so no
@@ -415,7 +415,7 @@ TEST_F(TimescaleModuleTest, TestIsNotReportedWithoutATimescale) {
   ASSERT_NE(eventListener, nullptr);
 
   EXPECT_EQ(countInSourceFile(eventListener, EventType::PaNotimescaleInfo), 0u)
-      << describeErrors(eventListener, EventSeverity::Info);
+      << describeEvents(eventListener, EventSeverity::Info);
 }
 
 // ---------------------------------------------------------------------------

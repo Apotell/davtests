@@ -212,44 +212,44 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) {
-  for (const EventArg &argument : error.getArguments()) {
+uint32_t lineOf(const Event &event) {
+  for (const EventArg &argument : event.getArguments()) {
     if (argument.m_line != 0) return argument.m_line;
   }
   return 0;
 }
 
-// True when HLC's event table gives 'error' a fatal, syntax or error severity.
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const definition = error.getDefinition();
+// True when HLC's event table gives 'event' a fatal, syntax or error severity.
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const definition = event.getDefinition();
   if (definition == nullptr) return false;
   const EventSeverity severity = definition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
 }
 
-// True when 'error' can be the error that line 6 requires: an error-class
+// True when 'event' can be the error that line 6 requires: an error-class
 // diagnostic of any category, elaboration included, other than the one for a
 // design without a top-level module (23.3.1).
-bool isRequiredErrorCandidate(const Event &error) {
-  return isErrorClass(error) && (error.getType() != EventType::ElabNoTopLevelModule);
+bool isRequiredErrorCandidate(const Event &event) {
+  return isErrorClass(event) && (event.getType() != EventType::ElabNoTopLevelModule);
 }
 
-// True when 'error' is an error-class diagnostic outside HLC's elaboration
+// True when 'event' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out of the checks for unwanted
 // errors because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Event &error) {
-  if (!isErrorClass(error)) return false;
-  const EventCategory *const category = error.getDefinition()->m_category;
+bool isSourceError(const Event &event) {
+  if (!isErrorClass(event)) return false;
+  const EventCategory *const category = event.getDefinition()->m_category;
   return (category == nullptr) || (category->m_name != std::string_view("Elab"));
 }
 
 // One diagnostic as " [<code> line <n>: <message>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Event &error) {
-  std::string description = " [" + std::to_string(error.getType());
-  description += " line " + std::to_string(lineOf(error));
-  const std::vector<std::string> message = error.format();
+std::string describeEvent(const Event &event) {
+  std::string description = " [" + std::to_string(event.getType());
+  description += " line " + std::to_string(lineOf(event));
+  const std::vector<std::string> message = event.format();
   if (!message.empty()) description += ": " + message.front();
   return description + "]";
 }
@@ -267,10 +267,10 @@ class ClassTest2Test : public Test {
   }
 
   // Every diagnostic of the run, described; for failure messages.
-  static std::string describeAllErrors() {
+  static std::string describeAllEvents() {
     if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getListener()->getEvents()) description += describeError(error);
+    for (const Event &event : getListener()->getEvents()) description += describeEvent(event);
     return description;
   }
 
@@ -279,8 +279,8 @@ class ClassTest2Test : public Test {
   static size_t countRequiredErrorCandidatesOnLine(uint32_t line) {
     if (getListener() == nullptr) return 0;
     size_t count = 0;
-    for (const Event &error : getListener()->getEvents()) {
-      if (isRequiredErrorCandidate(error) && (lineOf(error) == line)) ++count;
+    for (const Event &event : getListener()->getEvents()) {
+      if (isRequiredErrorCandidate(event) && (lineOf(event) == line)) ++count;
     }
     return count;
   }
@@ -291,9 +291,9 @@ class ClassTest2Test : public Test {
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
     if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isSourceError(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : getListener()->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isSourceError(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
@@ -303,8 +303,8 @@ class ClassTest2Test : public Test {
   static std::string describeUnlocatedSourceErrors() {
     if (getListener() == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : getListener()->getEvents()) {
-      if (isSourceError(error) && (lineOf(error) == 0)) description += describeError(error);
+    for (const Event &event : getListener()->getEvents()) {
+      if (isSourceError(event) && (lineOf(event) == 0)) description += describeEvent(event);
     }
     return description;
   }
@@ -333,7 +333,7 @@ class ClassTest2Test : public Test {
 // phase, so any fatal, syntax or error diagnostic on line 6 other than the
 // 23.3.1 one satisfies it.
 TEST_F(ClassTest2Test, ReportsAnErrorForStaticAfterClass) {
-  EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllErrors();
+  EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
 }
 
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would

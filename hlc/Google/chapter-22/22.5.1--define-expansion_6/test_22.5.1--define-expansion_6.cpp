@@ -182,16 +182,16 @@ class DefineExpansion6Test : public Test {
   }
 
   // The line of a diagnostic's primary location, or 0 if it has none.
-  static uint32_t lineOf(const Event &error) {
-    return error.getArguments().empty() ? 0u : error.getArguments().front().m_line;
+  static uint32_t lineOf(const Event &event) {
+    return event.getArguments().empty() ? 0u : event.getArguments().front().m_line;
   }
 
   // Every error-class diagnostic, in report order.
   static std::vector<const Event *> errorClassDiagnostics() {
     std::vector<const Event *> result;
     if (m_session->getEventListener() == nullptr) return result;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error.getType())) result.emplace_back(&error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (isErrorClass(event.getType())) result.emplace_back(&event);
     }
     return result;
   }
@@ -200,8 +200,8 @@ class DefineExpansion6Test : public Test {
   static std::vector<const Event *> errorsOfType(uint32_t type) {
     std::vector<const Event *> result;
     if (m_session->getEventListener() == nullptr) return result;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (error.getType() == type) result.emplace_back(&error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (event.getType() == type) result.emplace_back(&event);
     }
     return result;
   }

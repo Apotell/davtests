@@ -316,14 +316,14 @@ TEST_F(ThreadStability0Test, CompilerReportsNoErrors) {
   EXPECT_EQ(stats.m_syntaxes, 0);
 
   size_t count = 0;
-  for (const Event &error : m_session->getEventListener()->getEvents()) {
-    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  for (const Event &event : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
-    for (const EventArg &loc : error.getArguments()) {
+    for (const EventArg &loc : event.getArguments()) {
       const std::string_view path = loc.m_file;
       if (std::filesystem::path(path).filename() != "18.14.2--thread-stability_0.sv") continue;
       ++count;
-      ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
+      ADD_FAILURE() << "error " << event.getType() << " reported at " << path << ":" << loc.m_line << ":"
                     << loc.m_column;
     }
   }

@@ -192,15 +192,15 @@ class DisablingRandomVariablesWithRandMode4Test : public Test {
   // error or worse is collected instead.
   static std::vector<uint32_t> getDiagnosticLines(uint32_t type, bool errorsOnly) {
     std::vector<uint32_t> lines;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
       if (errorsOnly) {
-        if (!isErrorSeverity(error.getType())) {
+        if (!isErrorSeverity(event.getType())) {
           continue;
         }
-      } else if (error.getType() != type) {
+      } else if (event.getType() != type) {
         continue;
       }
-      for (const EventArg &loc : error.getArguments()) {
+      for (const EventArg &loc : event.getArguments()) {
         const std::string_view path = loc.m_file;
         if (path.find(kSourceName) == std::string_view::npos) {
           continue;

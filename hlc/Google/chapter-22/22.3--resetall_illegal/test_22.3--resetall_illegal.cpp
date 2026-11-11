@@ -147,8 +147,8 @@ class ResetallIllegalTest : public Test {
   static std::vector<const Event *> errorsOfType(uint32_t type) {
     std::vector<const Event *> result;
     if (m_session->getEventListener() == nullptr) return result;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (error.getType() == type) result.emplace_back(&error);
+    for (const Event &event : m_session->getEventListener()->getEvents()) {
+      if (event.getType() == type) result.emplace_back(&event);
     }
     return result;
   }

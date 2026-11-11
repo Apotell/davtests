@@ -184,28 +184,28 @@ bool isErrorClass(EventSeverity severity) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
+std::string describeEvent(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
+  description += " line " + std::to_string(lineOf(event));
+  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every fatal, syntax or error diagnostic outside the elaboration category,
-// described as by describeError(); empty when there is none.
+// described as by describeEvent(); empty when there is none.
 std::string describeSourceErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Event &error : eventListener->getEvents()) {
-    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-    if (errorInfo == nullptr) continue;
-    if (isErrorClass(errorInfo->m_severity) && (errorInfo->m_category->m_name != "Elab")) {
-      description += describeError(error);
+  for (const Event &event : eventListener->getEvents()) {
+    const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+    if (eventDefinition == nullptr) continue;
+    if (isErrorClass(eventDefinition->m_severity) && (eventDefinition->m_category->m_name != "Elab")) {
+      description += describeEvent(event);
     }
   }
   return description;
@@ -272,17 +272,17 @@ TEST_F(UndefNonexistingTest, UndefOfUnknownMacroIsAtMostAWarning) {
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);
 
-  const EventDefinition *const errorInfo =
+  const EventDefinition *const eventDefinition =
       hldb::findEventDefinition(hlc::getEventTable(), EventType::PpUndefUnkownMacro);
-  ASSERT_NE(errorInfo, nullptr);
+  ASSERT_NE(eventDefinition, nullptr);
 
   std::string reportedAsError;
   std::string reportedOffTheUndefLines;
-  for (const Event &error : eventListener->getEvents()) {
-    if (error.getType() != EventType::PpUndefUnkownMacro) continue;
-    if (isErrorClass(errorInfo->m_severity)) reportedAsError += describeError(error);
-    const uint32_t line = lineOf(error);
-    if ((line != 16u) && (line != 17u)) reportedOffTheUndefLines += describeError(error);
+  for (const Event &event : eventListener->getEvents()) {
+    if (event.getType() != EventType::PpUndefUnkownMacro) continue;
+    if (isErrorClass(eventDefinition->m_severity)) reportedAsError += describeEvent(event);
+    const uint32_t line = lineOf(event);
+    if ((line != 16u) && (line != 17u)) reportedOffTheUndefLines += describeEvent(event);
   }
   EXPECT_EQ(reportedAsError, "") << "an `undef of an undefined macro is legal (22.5.2)";
   EXPECT_EQ(reportedOffTheUndefLines, "") << "the `undef lines are 16 and 17";
