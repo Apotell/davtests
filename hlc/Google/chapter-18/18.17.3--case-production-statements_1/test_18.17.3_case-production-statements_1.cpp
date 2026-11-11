@@ -101,8 +101,9 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, case/repeat/rand join controls): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
@@ -113,11 +114,10 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -144,6 +144,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -200,13 +201,13 @@ class CaseProductionStatements1Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
   const hldb::Task *getRunPhase() const {
     const hldb::ClassDefn *const env = getClass("env");
     return (env == nullptr) ? nullptr : hldb::findByName<hldb::Task>("run_phase", env->getMethods());
   }
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
     if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_design->getTaskFuncs())) return tf;
     if (m_design->getAllPackages() != nullptr) {
@@ -224,24 +225,18 @@ class CaseProductionStatements1Test : public Test {
 // HLC reports errors inside the UVM 1800.2-2017 library itself (the same set as
 // BuildUVMPkg), and those are not about this source.
 TEST_F(CaseProductionStatements1Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-  size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
-      if (std::filesystem::path(path).filename() != "18.17.3--case-production-statements_1.sv") continue;
-      ++count;
-      ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
-                    << loc.m_column;
+  for (const hlc::Event &event : m_session->getEventListener()->getEvents()) {
+    if (event.getDefinition()->m_severity > EventSeverity::Error) continue;
+    for (const EventArg &arg : event.getArguments()) {
+      if (std::filesystem::path(arg.m_file).filename() != "18.17.3--case-production-statements_1.sv") continue;
+      ADD_FAILURE() << "error " << event.getType() << " reported at " << std::quoted(arg.m_file) << ":" << arg.m_line << ":"
+                    << arg.m_column;
     }
   }
-  EXPECT_EQ(count, 0u) << "the source is legal SystemVerilog";
 }
 
 // Check: env extends uvm_env and declares its members.
