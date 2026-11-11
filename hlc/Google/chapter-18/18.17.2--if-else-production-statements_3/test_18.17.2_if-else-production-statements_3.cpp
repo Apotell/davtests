@@ -97,8 +97,9 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, if-else productions): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
@@ -112,6 +113,7 @@
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -201,7 +203,7 @@ class IfElseProductionStatements3Test : public Test {
     const hldb::ClassDefn *const env = getClass("env");
     return (env == nullptr) ? nullptr : hldb::findByName<hldb::Task>("run_phase", env->getMethods());
   }
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
     if (m_unit == nullptr) return nullptr;
     if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
@@ -224,7 +226,6 @@ TEST_F(IfElseProductionStatements3Test, CompilerReportsNoErrors) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
 
-  size_t count = 0;
   for (const Event &error : m_session->getEventListener()->getEvents()) {
     const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
     if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
@@ -236,7 +237,6 @@ TEST_F(IfElseProductionStatements3Test, CompilerReportsNoErrors) {
                     << loc.m_column;
     }
   }
-  EXPECT_EQ(count, 0u) << "the source is legal SystemVerilog";
 }
 
 // Check: env extends uvm_env and declares its members.
@@ -273,9 +273,6 @@ TEST_F(IfElseProductionStatements3Test, EnvExtendsUvmEnvAndDeclaresMembers) {
 
 // Check: the run_phase block is "randsequence ... endsequence" followed by the result check.
 TEST_F(IfElseProductionStatements3Test, RunPhaseBlockIsRandsequenceThenIf) {
-  GTEST_SKIP() << "HLC drops the randsequence statement: the run_phase block only holds the if (1 statement, not 2). "
-                  "IEEE 1800-2023 Sec 18.17: randsequence is a statement_item (Syntax 18-13) and shall be kept in "
-                  "the enclosing block. Fix pending.";
   const hldb::Task *const runPhase = getRunPhase();
   ASSERT_NE(runPhase, nullptr) << "env::run_phase not found";
   // The inner begin...end is the block that directly holds the if statement.

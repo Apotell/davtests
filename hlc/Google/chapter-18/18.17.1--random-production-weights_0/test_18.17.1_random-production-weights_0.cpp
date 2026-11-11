@@ -59,8 +59,9 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, if-else productions): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
@@ -72,6 +73,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -142,7 +144,7 @@ class RandomProductionWeights0Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
     if (m_unit == nullptr) return nullptr;
     if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
@@ -197,9 +199,6 @@ TEST_F(RandomProductionWeights0Test, LocalVariableRandTypeIsNotRand) {
 
 // Check: F's body is "randsequence ... ; return x;" -- two statements, in that order.
 TEST_F(RandomProductionWeights0Test, FunctionFBodyIsRandsequenceThenReturn) {
-  GTEST_SKIP() << "HLC drops the randsequence statement: F's body only holds 'return x;' (1 statement, not 2). "
-                  "IEEE 1800-2023 Sec 18.17: randsequence is a statement_item (Syntax 18-13) and shall be kept in "
-                  "the subroutine body. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getVariables(), nullptr);

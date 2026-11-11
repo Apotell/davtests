@@ -45,8 +45,8 @@
 //      the task, function, named block, or generate block locally or within"
 //      an enclosing scope. So the compiler shall report an error.
 //      - coarse check: at least one fatal/syntax/error diagnostic exists.
-//      - specific check: an undefined-variable or failed-to-bind diagnostic
-//        names 'switch'.
+//      - specific check: an undefined-variable diagnostic
+//        (CompUndefinedVariable) names 'switch'.
 //      (Here 'switch' is the condition of the if-else PRODUCTION
 //      "first : if (switch) second else third;", Syntax 18-15.)
 //   2. Apart from that, the model is still built as written: function 'F' at
@@ -68,8 +68,9 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, if-else productions): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
@@ -80,6 +81,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -150,7 +152,7 @@ class IfElseProductionStatements2Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
     if (m_unit == nullptr) return nullptr;
     if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
@@ -177,13 +179,11 @@ TEST_F(IfElseProductionStatements2Test, CompilerRejectsUndeclaredIdentifierSwitc
 
 // Check: the diagnostic is about the identifier 'switch'.
 TEST_F(IfElseProductionStatements2Test, UnresolvedIdentifierDiagnosticNamesSwitch) {
-  GTEST_SKIP() << "No undefined-variable / failed-to-bind diagnostic names 'switch': the randsequence holding it is "
-                  "dropped by HLC, so the reference is never resolved. "
-                  "IEEE 1800-2023 Sec 23.9: an undeclared identifier in a function is an error. Fix pending.";
-  const bool reported = (findEvent(EventType::CompUndefinedVariable, "switch") != nullptr) ||
-                        (findEvent(EventType::CompFailedToBind, "switch") != nullptr);
-  EXPECT_TRUE(reported) << "expected an undefined-variable / failed-to-bind diagnostic for 'switch' "
-                           "(IEEE 1800-2023 Sec 23.9)";
+  GTEST_SKIP() << "HLC does not report the undefined variable 'switch' yet (CompUndefinedVariable). IEEE 1800-2023 "
+                  "Sec 23.9: an identifier referenced in a function shall be declared locally or in an enclosing "
+                  "scope. Fix pending.";
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "switch"), nullptr)
+      << "expected an undefined-variable diagnostic for 'switch' (IEEE 1800-2023 Sec 23.9)";
 }
 
 // Check: compilation-unit function 'F' -- int return, no arguments, one local int 'x'.
@@ -219,9 +219,6 @@ TEST_F(IfElseProductionStatements2Test, LocalVariableRandTypeIsNotRand) {
 
 // Check: F's body is "randsequence ... ; return x;" -- two statements, in that order.
 TEST_F(IfElseProductionStatements2Test, FunctionFBodyIsRandsequenceThenReturn) {
-  GTEST_SKIP() << "HLC drops the randsequence statement: F's body only holds 'return x;' (1 statement, not 2). "
-                  "IEEE 1800-2023 Sec 18.17: randsequence is a statement_item (Syntax 18-13) and shall be kept in "
-                  "the subroutine body. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getVariables(), nullptr);
