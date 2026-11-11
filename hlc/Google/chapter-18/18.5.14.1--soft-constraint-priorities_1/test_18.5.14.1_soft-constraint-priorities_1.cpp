@@ -95,11 +95,10 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
+
+#include <hldb/Event.h>
 #include <hldb/Utils.h>
 #include <hldb/begin.h>
 #include <hldb/class_defn.h>
@@ -118,6 +117,7 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/task.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -127,38 +127,26 @@
 #include <vector>
 
 namespace {
-struct CallSite {
-  const hldb::MethodFuncCall *m_call = nullptr;
-  // Hierarchical reference "x.method(...)" that holds the call, if any.
-  const hldb::RefObj *m_owner = nullptr;
-};
-
 // Collects, in source order, every method call named 'name' reachable from a statement.
-void collectMethodCalls(const hldb::Any *node, const hldb::RefObj *owner, std::string_view name,
-                        std::vector<CallSite> *out) {
+void collectMethodCalls(const hldb::Any *node, std::string_view name,
+                        std::vector<const hldb::MethodFuncCall *> *out) {
   if (node == nullptr) return;
   if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(node)) {
-    if (call->getName() == name) out->emplace_back(CallSite{call, owner});
+    if (call->getName() == name) out->emplace_back(call);
   } else if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(node)) {
     if (const hldb::AnyCollection *const elems = ref->getPathElems()) {
-      for (const hldb::Any *const elem : *elems) collectMethodCalls(elem, ref, name, out);
+      for (const hldb::Any *const elem : *elems) collectMethodCalls(elem, name, out);
     }
   } else if (const hldb::Begin *const begin = any_cast<hldb::Begin>(node)) {
     if (const hldb::AnyCollection *const stmts = begin->getStmts()) {
-      for (const hldb::Any *const stmt : *stmts) collectMethodCalls(stmt, nullptr, name, out);
+      for (const hldb::Any *const stmt : *stmts) collectMethodCalls(stmt, name, out);
     }
   } else if (const hldb::IfElse *const ifElse = any_cast<hldb::IfElse>(node)) {
-    collectMethodCalls(ifElse->getStmt(), nullptr, name, out);
-    collectMethodCalls(ifElse->getElseStmt(), nullptr, name, out);
+    collectMethodCalls(ifElse->getStmt(), name, out);
+    collectMethodCalls(ifElse->getElseStmt(), name, out);
   } else if (const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(node)) {
-    collectMethodCalls(ifStmt->getStmt(), nullptr, name, out);
+    collectMethodCalls(ifStmt->getStmt(), name, out);
   }
-}
-
-// Name of the i-th element of a hierarchical reference, or "" when absent.
-std::string_view pathElemName(const hldb::RefObj *owner, size_t index) {
-  if ((owner == nullptr) || (owner->getPathElems() == nullptr) || (owner->getPathElems()->size() <= index)) return "";
-  return owner->getPathElems()->at(index)->getName();
 }
 
 const hldb::ClassDefn *classOf(const hldb::Variable *var) {
@@ -208,7 +196,7 @@ class SoftConstraintPriorities1Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 
@@ -217,24 +205,18 @@ class SoftConstraintPriorities1Test : public Test {
 // HLC reports errors inside the UVM 1800.2-2017 library itself (the same set as
 // BuildUVMPkg), and those are not about this source.
 TEST_F(SoftConstraintPriorities1Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-  size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
-      if (std::filesystem::path(path).filename() != "18.5.14.1--soft-constraint-priorities_1.sv") continue;
-      ++count;
-      ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
-                    << loc.m_column;
+  for (const hlc::Event &event : m_session->getEventListener()->getEvents()) {
+    if (event.getDefinition()->m_severity > EventSeverity::Error) continue;
+    for (const EventArg &arg : event.getArguments()) {
+      if (std::filesystem::path(arg.m_file).filename() != "18.5.14.1--soft-constraint-priorities_1.sv") continue;
+      ADD_FAILURE() << "error " << event.getType() << " reported at " << std::quoted(arg.m_file) << ":" << arg.m_line << ":"
+                    << arg.m_column;
     }
   }
-  EXPECT_EQ(count, 0u) << "the source is legal SystemVerilog";
 }
 
 // Check 2: a1 declares 'rand int b'.
@@ -327,11 +309,12 @@ TEST_F(SoftConstraintPriorities1Test, RunPhaseRandomizesObj) {
   ASSERT_NE(env, nullptr);
   const hldb::Task *const runPhase = hldb::findByName<hldb::Task>("run_phase", env->getMethods());
   ASSERT_NE(runPhase, nullptr) << "env::run_phase not found";
-  std::vector<CallSite> calls;
-  collectMethodCalls(runPhase->getStmt(), nullptr, "randomize", &calls);
+  std::vector<const hldb::MethodFuncCall *> calls;
+  collectMethodCalls(runPhase->getStmt(), "randomize", &calls);
   ASSERT_EQ(calls.size(), 1u);
-  EXPECT_EQ(pathElemName(calls[0].m_owner, 0), "obj");
-  EXPECT_EQ(calls[0].m_call->getWith(), nullptr);
+  ASSERT_NE(calls[0]->getPrefix(), nullptr);
+  EXPECT_EQ(calls[0]->getPrefix()->getName(), std::string_view("obj"));
+  EXPECT_EQ(calls[0]->getWith(), nullptr);
 }
 
 // Check 8: module top declares 'env environment'.

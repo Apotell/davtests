@@ -68,8 +68,9 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/constant.h>
@@ -82,6 +83,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -134,15 +136,17 @@ class VariableOrdering0Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  const hldb::ClassDefn *getClassA() const { return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses()); }
+  const hldb::ClassDefn *getClassA() const {
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("a", m_unit->getClassDefns());
+  }
 };
 
 // Check 1: legal file -> no fatal, syntax or semantic error.
 TEST_F(VariableOrdering0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "rand b1/b2 with 'solve b1 before b2' is legal per IEEE 1800-2023 Sec 18.5.9";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "rand b1/b2 with 'solve b1 before b2' is legal per IEEE 1800-2023 Sec 18.5.9";
 }
 
 // Check 2: class 'a' exists, is a plain (non-virtual, non-derived) class.

@@ -73,9 +73,10 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/class_typespec.h>
@@ -88,6 +89,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -136,24 +138,24 @@ class SoftConstraintPriorities2Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 
 // Check 1: legal file.
 TEST_F(SoftConstraintPriorities2Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0)
       << "a constraint prototype with an out-of-body block is legal (IEEE 1800-2023 Sec 18.5.1)";
 }
 
 // Check 1 (specific): prototype + out-of-body block is not a redefinition and is not empty.
 TEST_F(SoftConstraintPriorities2Test, NoMultiplyDefinedOrEmptyErrorForC3) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c3"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c3"), nullptr)
       << "'constraint c3;' and 'constraint a2::c3 {...}' are one constraint, not two";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c3"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompImplicitEmptyConstraint, "c3"), nullptr)
       << "prototype c3 has an out-of-body block, so it is not an empty constraint";
 }
 

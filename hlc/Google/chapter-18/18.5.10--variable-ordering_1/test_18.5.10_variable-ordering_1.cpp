@@ -70,9 +70,10 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/constant.h>
@@ -85,6 +86,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -137,20 +139,22 @@ class VariableOrdering1Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  const hldb::ClassDefn *getClassA() const { return hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses()); }
+  const hldb::ClassDefn *getClassA() const {
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("a", m_unit->getClassDefns());
+  }
 };
 
 // Check 1 (coarse): the illegal randc-in-solve-before must produce a diagnostic.
 TEST_F(VariableOrdering1Test, CompilerRejectsRandcVariableInSolveBefore) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "'solve b1 before b2' with b2 declared randc is illegal: IEEE 1800-2023 Sec 18.5.9 "
          "says randc variables are not allowed in variable ordering";
 }
 
 // Check 1 (specific): the illegal-constraint diagnostic is on c2's solve...before item (line 23).
 TEST_F(VariableOrdering1Test, IllegalConstraintErrorOnSolveBeforeConstraintC2) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2", 23), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "c2", 23), nullptr)
       << "expected an illegal-constraint error for constraint 'c2' ('solve b1 before b2' with randc b2, line 23) "
          "(IEEE 1800-2023 Sec 18.5.9)";
 }

@@ -64,8 +64,9 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/class_typespec.h>
@@ -78,6 +79,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -126,16 +128,16 @@ class SoftConstraintPriorities0Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return hldb::findByName<hldb::ClassDefn>(name, m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 
 // Check 1: legal file.
 TEST_F(SoftConstraintPriorities0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "soft constraints on a rand variable are legal (IEEE 1800-2023 Sec 18.5.13)";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "soft constraints on a rand variable are legal (IEEE 1800-2023 Sec 18.5.13)";
 }
 
 // Check 2: a1 declares 'rand int b'.
