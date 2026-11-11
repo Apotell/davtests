@@ -226,7 +226,6 @@ TEST_F(RandomProductionWeights1Test, CompilerReportsNoErrors) {
     for (const EventArg &loc : error.getArguments()) {
       const std::string_view path = loc.m_file;
       if (std::filesystem::path(path).filename() != "18.17.1--random-production-weights_1.sv") continue;
-      ++count;
       ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
                     << loc.m_column;
     }

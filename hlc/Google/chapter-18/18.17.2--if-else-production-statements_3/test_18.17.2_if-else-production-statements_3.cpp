@@ -232,7 +232,6 @@ TEST_F(IfElseProductionStatements3Test, CompilerReportsNoErrors) {
     for (const EventArg &loc : error.getArguments()) {
       const std::string_view path = loc.m_file;
       if (std::filesystem::path(path).filename() != "18.17.2--if-else-production-statements_3.sv") continue;
-      ++count;
       ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
                     << loc.m_column;
     }
