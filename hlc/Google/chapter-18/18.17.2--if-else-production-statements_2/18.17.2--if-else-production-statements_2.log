@@ -120,7 +120,7 @@ n<$Source01/18.17.2--if-else-production-statements_2.sv> u<107> t<Top_level_rule
                             n<x> u<91> t<SIMPLE_IDENTIFIER> p<92> l<24:12> el<24:13>
               n<> u<100> t<ENDFUNCTION> p<101> l<25:1> el<25:12>
 AST_DEBUG_END
-[WRN:CP5849] $Source01/18.17.2--if-else-production-statements_2.sv:18:5: Feature not yet implemented.
+[WRN:DV8514] $Source01/18.17.2--if-else-production-statements_2.sv:20:18: Failed to bind "switch".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -161,13 +161,116 @@ Design name:unnamed:
                 vpiFullName: F.F
                 vpiActual: IntTypespec
           vpiVisibility: public (1)
-          vpiStmt ReturnStmt start:24:5 end:24:14:
+          vpiStmt Begin:
             vpiParent: Function name:F
-            vpiCondition RefObj name:x start:24:12 end:24:13:
-              vpiParent: ReturnStmt
-              vpiName: x
-              vpiFullName: F.x
-              vpiActual: Variable name:x
+            vpiFullName: F
+            vpiStmt (2 items):
+              RandSequence start:18:5 end:23:16:
+                vpiParent: Begin
+                vpiStartProduction ProductionCall name:main start:18:19 end:18:23:
+                  vpiParent: RandSequence
+                  vpiName Identifier name:main start:18:19 end:18:23:
+                vpiProduction (4 items):
+                  Production name:main start:19:7 end:19:20:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:main start:19:7 end:19:11:
+                    vpiFullName: F.main
+                    vpiRsRule (1 items):
+                      RsRule start:19:14 end:19:19:
+                        vpiParent: Production name:main
+                        vpiRsProd (1 items):
+                          ProductionCall name:first start:19:14 end:19:19:
+                            vpiParent: RsRule
+                            vpiName Identifier name:first start:19:14 end:19:19:
+                  Production name:first start:20:7 end:20:44:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:first start:20:7 end:20:12:
+                    vpiFullName: F.first
+                    vpiRsRule (1 items):
+                      RsRule start:20:15 end:20:43:
+                        vpiParent: Production name:first
+                        vpiRsProd (1 items):
+                          IfElse start:20:15 end:20:43:
+                            vpiParent: RsRule
+                            vpiCondition RefObj name:switch start:20:18 end:20:24:
+                              vpiParent: IfElse
+                              vpiName: switch
+                              vpiFullName: F.first.switch
+                            vpiStmt ProductionCall name:second start:20:26 end:20:32:
+                              vpiParent: IfElse
+                              vpiName Identifier name:second start:20:26 end:20:32:
+                            vpiElseStmt ProductionCall name:third start:20:38 end:20:43:
+                              vpiParent: IfElse
+                              vpiName Identifier name:third start:20:38 end:20:43:
+                  Production name:second start:21:7 end:21:28:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:second start:21:7 end:21:13:
+                    vpiFullName: F.second
+                    vpiRsRule (1 items):
+                      RsRule start:21:16 end:21:27:
+                        vpiParent: Production name:second
+                        vpiRsProd (1 items):
+                          Begin start:21:16 end:21:27:
+                            vpiParent: RsRule
+                            vpiFullName: F.second
+                            vpiStmt (1 items):
+                              Assignment start:21:18 end:21:24:
+                                vpiParent: Begin
+                                vpiBlocking: true
+                                vpiOpType: assignment (96)
+                                vpiLhs RefObj name:x start:21:18 end:21:19:
+                                  vpiParent: Assignment
+                                  vpiName: x
+                                  vpiFullName: F.second.x
+                                  vpiActual: Variable name:x
+                                vpiRhs Constant start:21:22 end:21:24:
+                                  vpiParent: Assignment
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "10"
+                                  vpiValue: 10
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: F.second
+                                    vpiActual: IntTypespec
+                  Production name:third start:22:7 end:22:26:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:third start:22:7 end:22:12:
+                    vpiFullName: F.third
+                    vpiRsRule (1 items):
+                      RsRule start:22:15 end:22:25:
+                        vpiParent: Production name:third
+                        vpiRsProd (1 items):
+                          Begin start:22:15 end:22:25:
+                            vpiParent: RsRule
+                            vpiFullName: F.third
+                            vpiStmt (1 items):
+                              Assignment start:22:17 end:22:22:
+                                vpiParent: Begin
+                                vpiBlocking: true
+                                vpiOpType: assignment (96)
+                                vpiLhs RefObj name:x start:22:17 end:22:18:
+                                  vpiParent: Assignment
+                                  vpiName: x
+                                  vpiFullName: F.third.x
+                                  vpiActual: Variable name:x
+                                vpiRhs Constant start:22:21 end:22:22:
+                                  vpiParent: Assignment
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "5"
+                                  vpiValue: 5
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: F.third
+                                    vpiActual: IntTypespec
+              ReturnStmt start:24:5 end:24:14:
+                vpiParent: Begin
+                vpiCondition RefObj name:x start:24:12 end:24:13:
+                  vpiParent: ReturnStmt
+                  vpiName: x
+                  vpiFullName: F.x
+                  vpiActual: Variable name:x
           vpiReturn RefTypespec start:16:10 end:16:13:
             vpiParent: Function name:F
             vpiFullName: F
@@ -199,25 +302,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.17.2--if-else-production-statements_2/mounts.json
 
 
-{'result': {'coverage': 64.02,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.17.2--if-else-production-statements_2.sv': {'post_len': 59,
+            'files': {'$Output/lib/work/18.17.2--if-else-production-statements_2.sv': {'post_len': 0,
                                                                                        'pre_len': 164}},
-            'post_len': 59,
+            'post_len': 0,
             'pre_len': 164,
             'test_name': 'Google/chapter-18/18.17.2--if-else-production-statements_2'}}
 
 +--------------------------------------------------------------+----------+-----------+
 | INPUT                                                        |   PRELEN |   POSTLEN |
 +==============================================================+==========+===========+
-| $Output/lib/work/18.17.2--if-else-production-statements_2.sv |      164 |        59 |
+| $Output/lib/work/18.17.2--if-else-production-statements_2.sv |      164 |         0 |
 +==============================================================+==========+===========+
-|                                                              |      164 |        59 |
+|                                                              |      164 |         0 |
 +--------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 64.02
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -228,7 +331,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.17.2--if-else-production-sta
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              14      14       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    14      14       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

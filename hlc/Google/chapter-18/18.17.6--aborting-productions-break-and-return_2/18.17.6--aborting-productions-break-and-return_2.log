@@ -183,7 +183,7 @@ n<$Source01/18.17.6--aborting-productions-break-and-return_2.sv> u<170> t<Top_le
                             n<x> u<154> t<SIMPLE_IDENTIFIER> p<155> l<25:12> el<25:13>
               n<> u<163> t<ENDFUNCTION> p<164> l<26:1> el<26:12>
 AST_DEBUG_END
-[WRN:CP5849] $Source01/18.17.6--aborting-productions-break-and-return_2.sv:19:5: Feature not yet implemented.
+[ERR:CP5944] $Source01/18.17.6--aborting-productions-break-and-return_2.sv:22:37: Illegal return value in function F.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -244,13 +244,183 @@ Design name:unnamed:
                 vpiFullName: F.F
                 vpiActual: IntTypespec
           vpiVisibility: public (1)
-          vpiStmt ReturnStmt start:25:5 end:25:14:
+          vpiStmt Begin:
             vpiParent: Function name:F
-            vpiCondition RefObj name:x start:25:12 end:25:13:
-              vpiParent: ReturnStmt
-              vpiName: x
-              vpiFullName: F.x
-              vpiActual: Variable name:x
+            vpiFullName: F
+            vpiStmt (2 items):
+              RandSequence start:19:5 end:24:16:
+                vpiParent: Begin
+                vpiStartProduction ProductionCall name:main start:19:19 end:19:23:
+                  vpiParent: RandSequence
+                  vpiName Identifier name:main start:19:19 end:19:23:
+                vpiProduction (4 items):
+                  Production name:main start:20:7 end:20:34:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:main start:20:7 end:20:11:
+                    vpiFullName: F.main
+                    vpiRsRule (1 items):
+                      RsRule start:20:14 end:20:33:
+                        vpiParent: Production name:main
+                        vpiRsProd (3 items):
+                          ProductionCall name:first start:20:14 end:20:19:
+                            vpiParent: RsRule
+                            vpiName Identifier name:first start:20:14 end:20:19:
+                          ProductionCall name:secondi start:20:20 end:20:27:
+                            vpiParent: RsRule
+                            vpiName Identifier name:secondi start:20:20 end:20:27:
+                          ProductionCall name:third start:20:28 end:20:33:
+                            vpiParent: RsRule
+                            vpiName Identifier name:third start:20:28 end:20:33:
+                  Production name:first start:21:7 end:21:31:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:first start:21:7 end:21:12:
+                    vpiFullName: F.first
+                    vpiRsRule (1 items):
+                      RsRule start:21:15 end:21:30:
+                        vpiParent: Production name:first
+                        vpiRsProd (1 items):
+                          Begin start:21:15 end:21:30:
+                            vpiParent: RsRule
+                            vpiFullName: F.first
+                            vpiStmt (1 items):
+                              Assignment start:21:17 end:21:27:
+                                vpiParent: Begin
+                                vpiBlocking: true
+                                vpiOpType: assignment (96)
+                                vpiLhs RefObj name:x start:21:17 end:21:18:
+                                  vpiParent: Assignment
+                                  vpiName: x
+                                  vpiFullName: F.first.x
+                                  vpiActual: Variable name:x
+                                vpiRhs Operation start:21:21 end:21:27:
+                                  vpiParent: Assignment
+                                  vpiOpType: add (24)
+                                  vpiOperand (2 items):
+                                    RefObj name:x start:21:21 end:21:22:
+                                      vpiParent: Operation
+                                      vpiName: x
+                                      vpiFullName: F.first.x
+                                      vpiActual: Variable name:x
+                                    Constant start:21:25 end:21:27:
+                                      vpiParent: Operation
+                                      vpiConstType: int (7)
+                                      vpiSize: 32
+                                      vpiDecompile: "20"
+                                      vpiValue: 20
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: F.first
+                                        vpiActual: IntTypespec
+                  Production name:second start:22:7 end:22:59:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:second start:22:7 end:22:13:
+                    vpiFullName: F.second
+                    vpiRsRule (1 items):
+                      RsRule start:22:16 end:22:58:
+                        vpiParent: Production name:second
+                        vpiRsProd (1 items):
+                          Begin start:22:16 end:22:58:
+                            vpiParent: RsRule
+                            vpiFullName: F.second
+                            vpiStmt (2 items):
+                              IfStmt start:22:18 end:22:44:
+                                vpiParent: Begin
+                                vpiCondition Operation start:22:21 end:22:35:
+                                  vpiParent: IfStmt
+                                  vpiOpType: equal (14)
+                                  vpiOperand (2 items):
+                                    RefObj name:return_on start:22:21 end:22:30:
+                                      vpiParent: Operation
+                                      vpiName: return_on
+                                      vpiFullName: F.second.return_on
+                                      vpiActual: Variable name:return_on
+                                    Constant start:22:34 end:22:35:
+                                      vpiParent: Operation
+                                      vpiConstType: int (7)
+                                      vpiSize: 32
+                                      vpiDecompile: "1"
+                                      vpiValue: 1
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: F.second
+                                        vpiActual: IntTypespec
+                                vpiStmt ReturnStmt start:22:37 end:22:43:
+                                  vpiParent: IfStmt
+                              Assignment start:22:45 end:22:55:
+                                vpiParent: Begin
+                                vpiBlocking: true
+                                vpiOpType: assignment (96)
+                                vpiLhs RefObj name:x start:22:45 end:22:46:
+                                  vpiParent: Assignment
+                                  vpiName: x
+                                  vpiFullName: F.second.x
+                                  vpiActual: Variable name:x
+                                vpiRhs Operation start:22:49 end:22:55:
+                                  vpiParent: Assignment
+                                  vpiOpType: add (24)
+                                  vpiOperand (2 items):
+                                    RefObj name:x start:22:49 end:22:50:
+                                      vpiParent: Operation
+                                      vpiName: x
+                                      vpiFullName: F.second.x
+                                      vpiActual: Variable name:x
+                                    Constant start:22:53 end:22:55:
+                                      vpiParent: Operation
+                                      vpiConstType: int (7)
+                                      vpiSize: 32
+                                      vpiDecompile: "10"
+                                      vpiValue: 10
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: F.second
+                                        vpiActual: IntTypespec
+                  Production name:third start:23:7 end:23:29:
+                    vpiParent: RandSequence
+                    vpiName Identifier name:third start:23:7 end:23:12:
+                    vpiFullName: F.third
+                    vpiRsRule (1 items):
+                      RsRule start:23:15 end:23:28:
+                        vpiParent: Production name:third
+                        vpiRsProd (1 items):
+                          Begin start:23:15 end:23:28:
+                            vpiParent: RsRule
+                            vpiFullName: F.third
+                            vpiStmt (1 items):
+                              Assignment start:23:17 end:23:26:
+                                vpiParent: Begin
+                                vpiBlocking: true
+                                vpiOpType: assignment (96)
+                                vpiLhs RefObj name:x start:23:17 end:23:18:
+                                  vpiParent: Assignment
+                                  vpiName: x
+                                  vpiFullName: F.third.x
+                                  vpiActual: Variable name:x
+                                vpiRhs Operation start:23:21 end:23:26:
+                                  vpiParent: Assignment
+                                  vpiOpType: add (24)
+                                  vpiOperand (2 items):
+                                    RefObj name:x start:23:21 end:23:22:
+                                      vpiParent: Operation
+                                      vpiName: x
+                                      vpiFullName: F.third.x
+                                      vpiActual: Variable name:x
+                                    Constant start:23:25 end:23:26:
+                                      vpiParent: Operation
+                                      vpiConstType: int (7)
+                                      vpiSize: 32
+                                      vpiDecompile: "5"
+                                      vpiValue: 5
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: F.third
+                                        vpiActual: IntTypespec
+              ReturnStmt start:25:5 end:25:14:
+                vpiParent: Begin
+                vpiCondition RefObj name:x start:25:12 end:25:13:
+                  vpiParent: ReturnStmt
+                  vpiName: x
+                  vpiFullName: F.x
+                  vpiActual: Variable name:x
           vpiReturn RefTypespec start:16:10 end:16:13:
             vpiParent: Function name:F
             vpiFullName: F
@@ -266,8 +436,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 1
+[  ERROR] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -282,25 +452,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.17.6--aborting-productions-break-and-return_2/mounts.json
 
 
-{'result': {'coverage': 64.98,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.17.6--aborting-productions-break-and-return_2.sv': {'post_len': 76,
+            'files': {'$Output/lib/work/18.17.6--aborting-productions-break-and-return_2.sv': {'post_len': 0,
                                                                                                'pre_len': 217}},
-            'post_len': 76,
+            'post_len': 0,
             'pre_len': 217,
             'test_name': 'Google/chapter-18/18.17.6--aborting-productions-break-and-return_2'}}
 
 +----------------------------------------------------------------------+----------+-----------+
 | INPUT                                                                |   PRELEN |   POSTLEN |
 +======================================================================+==========+===========+
-| $Output/lib/work/18.17.6--aborting-productions-break-and-return_2.sv |      217 |        76 |
+| $Output/lib/work/18.17.6--aborting-productions-break-and-return_2.sv |      217 |         0 |
 +======================================================================+==========+===========+
-|                                                                      |      217 |        76 |
+|                                                                      |      217 |         0 |
 +----------------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 64.98
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -310,8 +480,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.17.6--aborting-productions-b
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             5       5       1         1
+Operation                            4       3       0         1
+RefObj                               8       7       0         1
+RefTypespec                          9       9       1         1
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    67      65       2         4
 ===================== END REDUCTION RESULT =====================
