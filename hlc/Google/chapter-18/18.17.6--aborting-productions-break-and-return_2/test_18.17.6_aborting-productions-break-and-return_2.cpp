@@ -45,7 +45,8 @@
 //      18-13), so the compiler shall report an error.
 //      - coarse check: at least one fatal/syntax/error diagnostic exists.
 //   2. Function 'F' at compilation-unit scope: not a class method, returns
-//      int, no argument, and its only variables are the locals 'int x', 'int return_on = 1'.
+//      int, no argument, and its variables are the locals 'int x', 'int return_on = 1'
+//      and the implicit return variable 'F' (Sec 13.4.1).
 //   3. The locals are not rand: vpiRandType == vpiNotRand (37.17 details
 //      15/22: the value is one of vpiRand/vpiRandC/vpiNotRand).
 //   4. F's body is exactly two statements in order: the randsequence
@@ -61,13 +62,14 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, case/repeat/rand join controls): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
-//   - No dedicated diagnostic check for item 1: there is no ErrorDefinition
-//     entry specific to an undefined production, so only the coarse error
+//   - No dedicated diagnostic check for item 1: there is no event
+//     specific to an undefined production, so only the coarse error
 //     check covers it.
 //   - Note: 'return;' inside a production code block aborts only the current
 //     production (18.17.6), not F -- not observable without a randsequence
@@ -75,9 +77,10 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -104,6 +107,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -147,9 +151,10 @@ class AbortingProductionsBreakAndReturn2Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
-    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_design->getTaskFuncs())) return tf;
+    if (m_unit == nullptr) return nullptr;
+    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
     if (m_design->getAllPackages() != nullptr) {
       for (const hldb::Package *const pkg : *m_design->getAllPackages()) {
         if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, pkg->getTaskFuncs())) return tf;
@@ -162,8 +167,8 @@ class AbortingProductionsBreakAndReturn2Test : public Test {
 
 // Check: production 'secondi' is used but never defined, so the file is illegal.
 TEST_F(AbortingProductionsBreakAndReturn2Test, CompilerRejectsUndefinedProductionSecondi) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "main uses production 'secondi', but only 'second' is defined: an rs_production_item names a "
          "production of the randsequence (IEEE 1800-2023 Sec 18.17, Syntax 18-13)";
 }
@@ -176,7 +181,8 @@ TEST_F(AbortingProductionsBreakAndReturn2Test, FunctionFSignatureAndLocalVariabl
   EXPECT_EQ(typespecKind(f->getReturn()), hldb::AnyType::IntTypespec) << "F returns int";
   EXPECT_TRUE((f->getIODecls() == nullptr) || f->getIODecls()->empty()) << "F() takes no argument";
   ASSERT_NE(f->getVariables(), nullptr);
-  ASSERT_EQ(f->getVariables()->size(), 2u) << "F's only variables are its locals: x, return_on";
+  ASSERT_EQ(f->getVariables()->size(), 3u)
+      << "F's only variables are its locals: x, return_on, and implicit function variable";
   {
     const hldb::Variable *const var = hldb::findByName<hldb::Variable>("x", f->getVariables());
     ASSERT_NE(var, nullptr) << "local 'x' not found";

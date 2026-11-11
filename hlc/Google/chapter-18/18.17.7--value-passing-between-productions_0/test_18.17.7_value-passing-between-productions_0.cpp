@@ -41,7 +41,8 @@
 //   1. The file is legal -> no fatal/syntax/error (Syntax 18-19: 'add (int y = 2) : { x = x + y; };' declares a
 //   production with a formal argument and a default; 'add(10)', 'add(5)', 'add()' pass data like a task call).
 //   2. Function 'F' at compilation-unit scope: not a class method, returns
-//      int, no argument, and its only variables are the locals 'int x'.
+//      int, no argument, and its variables are the local 'int x'
+//      and the implicit return variable 'F' (Sec 13.4.1).
 //   3. The locals are not rand: vpiRandType == vpiNotRand (37.17 details
 //      15/22: the value is one of vpiRand/vpiRandC/vpiNotRand).
 //   4. F's body is exactly two statements in order: the randsequence
@@ -57,23 +58,26 @@
 // NOT CHECKED (and why):
 //   - The productions themselves (names, alternatives '|', weights ':=',
 //     code blocks, case/repeat/rand join controls): IEEE 1800-2023 Clause 37 defines
-//     NO VPI object for randsequence, and the hldb model has none either, so
-//     there is no standard API to assert them against. Only what is
+//     NO VPI object for randsequence. HLDB models it as an HLDB-only
+//     extension (rand_sequence, production, rs_rule, production_call), but
+//     there is no standard to assert that shape against. Only what is
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
 //   - The production argument 'y' and its default 2: "A production creates a
 //     scope" (18.17.7), so y belongs to production add -- this is covered by
-//     item 2 (F's only variable is x, y must not leak into F), but y itself
-//     cannot be inspected without a randsequence object.
+//     item 2 (y must not leak into F). HLDB keeps y as an io_decl of the
+//     production, but that is the HLDB-only shape above, with no standard to
+//     assert it against.
 //   - Run time: add runs with 10, 5 and the default 2, so F returns 17; F is
 //     never called here (see _1).
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Tests/Test.h>
+
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
@@ -100,6 +104,7 @@
 #include <hldb/task.h>
 #include <hldb/tf_call.h>
 #include <hldb/typespec.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -143,9 +148,10 @@ class ValuePassingBetweenProductions0Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // A subroutine declared at compilation-unit scope (design level or the $unit package).
+  // A subroutine declared in the compilation unit ($unit) or in a package.
   const hldb::TaskFunc *findUnitSubroutine(std::string_view name) const {
-    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_design->getTaskFuncs())) return tf;
+    if (m_unit == nullptr) return nullptr;
+    if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, m_unit->getTaskFuncs())) return tf;
     if (m_design->getAllPackages() != nullptr) {
       for (const hldb::Package *const pkg : *m_design->getAllPackages()) {
         if (const hldb::TaskFunc *const tf = hldb::findByName<hldb::TaskFunc>(name, pkg->getTaskFuncs())) return tf;
@@ -158,10 +164,10 @@ class ValuePassingBetweenProductions0Test : public Test {
 
 // Check: legal file.
 TEST_F(ValuePassingBetweenProductions0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "this randsequence is legal (IEEE 1800-2023 Sec 18.17.7)";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "this randsequence is legal (IEEE 1800-2023 Sec 18.17.7)";
 }
 
 // Check: compilation-unit function 'F' -- int return, no arguments, locals x.
@@ -172,7 +178,8 @@ TEST_F(ValuePassingBetweenProductions0Test, FunctionFSignatureAndLocalVariables)
   EXPECT_EQ(typespecKind(f->getReturn()), hldb::AnyType::IntTypespec) << "F returns int";
   EXPECT_TRUE((f->getIODecls() == nullptr) || f->getIODecls()->empty()) << "F() takes no argument";
   ASSERT_NE(f->getVariables(), nullptr);
-  ASSERT_EQ(f->getVariables()->size(), 1u) << "F's only variables are its locals: x";
+  ASSERT_EQ(f->getVariables()->size(), 2u)
+      << "F's only variables are its locals: x, and implicit function variable";
   {
     const hldb::Variable *const var = hldb::findByName<hldb::Variable>("x", f->getVariables());
     ASSERT_NE(var, nullptr) << "local 'x' not found";
