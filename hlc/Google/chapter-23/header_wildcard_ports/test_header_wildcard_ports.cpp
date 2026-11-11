@@ -19,43 +19,45 @@
 //
 // THE SOURCE
 //
-//   21: module m(.*);
-//   22:   input a;
-//   23:   output b;
-//   24: endmodule
+//   22: extern module m(a, b);
+//   23:
+//   24: module m(.*);
+//   25:   input a;
+//   26:   output b;
+//   27: endmodule
 //
 // WHAT THE LRM (IEEE 1800-2023) SAYS ABOUT IT
 //
-// Syntax 23-1 gives module_declaration a third alternative besides the
-// non-ANSI and ANSI headers:
+// Syntax 23-1 (23.2.1) gives module_declaration a third alternative:
 //
 //   { attribute_instance } module_keyword [ lifetime ] module_identifier
 //       ( . * ) ; [ timeunits_declaration ] { module_item } endmodule
 //
-// a and b are declared as ports in the body, exactly as they would be
-// under a non-ANSI header; the module's complete port list is the wildcard
-// ".*" rather than a named list_of_ports. This file exercises that third
-// alternative: it is legal SystemVerilog under 23.2.1/Syntax 23-1, so it
-// should compile and produce the same two-port module as
-// 23.2.1--header-non-ansi-basic.sv.
+// 23.5 gives it its meaning: "If an extern declaration exists for a module,
+// it is possible to use .* as the ports of the module. This usage shall be
+// equivalent to placing the ports (and possibly parameters) of the extern
+// declaration on the module." So lines 22-27 are equivalent to
+//
+//   module m(a, b); input a; output b; endmodule
+//
+// An extern declaration declares "the ports on a module without defining
+// the module itself" (23.5), so the file defines exactly one module, m, on
+// lines 24-27, with the input port a (index 0) and the output port b
+// (index 1).
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error diagnostic
-//   ModuleIsAccepted           no such diagnostic on lines 21-24
-//   ModuleMIsDeclared          exactly one module from this file, named m
-//   ModuleIsOnLines21To24      it starts on line 21 and ends on line 24
-//   PortAIsInput               a is a vpiPort with vpiDirection vpiInput
-//   PortBIsOutput               b is a vpiPort with vpiDirection vpiOutput
+//   ModuleIsAccepted           no such diagnostic on lines 22-27
+//   OneDefinitionOfModuleM     exactly one module from this file, m
+//   DefinitionIsOnLines24To27  m starts on line 24 and ends on line 27
+//   PortAIsInput               a is port 0 with vpiDirection vpiInput
+//   PortBIsOutput              b is port 1 with vpiDirection vpiOutput
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Anything about how the ".*" wildcard is distinguished, in the object
-//     model, from an explicit list_of_ports. 37.10 does not call out such a
-//     marker, and 23.2.1's prose only discusses the non-ANSI and ANSI
-//     styles, so the wildcard form is expected to normalize to the same
-//     vpiPort objects as the other two (as 23.2.1--header-non-ansi-basic.sv
-//     and 23.2.1--header-ansi-basic.sv show for their own header styles).
+//   - ".*" without an extern declaration. 23.5 only defines the form when
+//     an extern declaration exists and does not say what happens otherwise.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -76,8 +78,9 @@
 namespace hlc {
 namespace {
 constexpr std::string_view kSourceFileName = "23.2.1--header-wildcard-ports.sv";
-constexpr uint32_t kModuleFirstLine = 21;
-constexpr uint32_t kModuleLastLine = 24;
+constexpr uint32_t kExternLine = 22;
+constexpr uint32_t kModuleFirstLine = 24;
+constexpr uint32_t kModuleLastLine = 27;
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
@@ -92,16 +95,6 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
     }
   }
   return count;
-}
-
-template <typename T>
-const T *findFromSourceFile(const std::vector<T *> *collection) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (endsWith(object->getFile(), kSourceFileName)) return object;
-    }
-  }
-  return nullptr;
 }
 
 int64_t integerProperty(const hldb::Any *object, int32_t property) {
@@ -162,50 +155,61 @@ class HeaderWildcardPortsTest : public Test {
     return description;
   }
 
-  static const hldb::Module *findModule() {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllModules());
+  // The module definition on line 24, not whatever object HLDB may keep for
+  // the extern declaration.
+  static const hldb::Module *findDefinition() {
+    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
+    for (const hldb::Module *module : *m_design->getAllModules()) {
+      if (endsWith(module->getFile(), kSourceFileName) && (module->getStartLine() == kModuleFirstLine)) return module;
+    }
+    return nullptr;
   }
 };
 
 TEST_F(HeaderWildcardPortsTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
 
-TEST_F(HeaderWildcardPortsTest, ModuleIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
-}
+TEST_F(HeaderWildcardPortsTest, ModuleIsAccepted) { EXPECT_EQ(errorsOnLines(kExternLine, kModuleLastLine), ""); }
 
-TEST_F(HeaderWildcardPortsTest, ModuleMIsDeclared) {
+TEST_F(HeaderWildcardPortsTest, OneDefinitionOfModuleM) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 1u);
-
-  const hldb::Module *const module = findModule();
+  const hldb::Module *const module = findDefinition();
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(module->getName(), "m");
 }
 
-TEST_F(HeaderWildcardPortsTest, ModuleIsOnLines21To24) {
-  const hldb::Module *const module = findModule();
+TEST_F(HeaderWildcardPortsTest, DefinitionIsOnLines24To27) {
+  const hldb::Module *const module = findDefinition();
   ASSERT_NE(module, nullptr);
-
-  EXPECT_TRUE(endsWith(module->getFile(), kSourceFileName)) << module->getFile();
   EXPECT_EQ(module->getStartLine(), kModuleFirstLine);
   EXPECT_EQ(module->getEndLine(), kModuleLastLine);
 }
 
 TEST_F(HeaderWildcardPortsTest, PortAIsInput) {
+<<<<<<< Updated upstream:hlc/Google/chapter-23/header_wildcard_ports/test_header_wildcard_ports.cpp
   GTEST_SKIP() << "HLC Gap: Implicit ports aren't supported yet!";
   const hldb::Module *const module = findModule();
+=======
+  const hldb::Module *const module = findDefinition();
+>>>>>>> Stashed changes:hlc/Google/chapter-23/chapter-23_testsuit-1/header_wildcard_ports/test_header_wildcard_ports.cpp
   ASSERT_NE(module, nullptr);
   const hldb::Port *const portA = findPortByName(module->getPorts(), "a");
   ASSERT_NE(portA, nullptr);
+  EXPECT_EQ(integerProperty(portA, vpiPortIndex), 0);
   EXPECT_EQ(integerProperty(portA, vpiDirection), static_cast<int64_t>(vpiInput));
 }
 
 TEST_F(HeaderWildcardPortsTest, PortBIsOutput) {
+<<<<<<< Updated upstream:hlc/Google/chapter-23/header_wildcard_ports/test_header_wildcard_ports.cpp
   GTEST_SKIP() << "HLC Gap: Implicit ports aren't supported yet!";
   const hldb::Module *const module = findModule();
+=======
+  const hldb::Module *const module = findDefinition();
+>>>>>>> Stashed changes:hlc/Google/chapter-23/chapter-23_testsuit-1/header_wildcard_ports/test_header_wildcard_ports.cpp
   ASSERT_NE(module, nullptr);
   const hldb::Port *const portB = findPortByName(module->getPorts(), "b");
   ASSERT_NE(portB, nullptr);
+  EXPECT_EQ(integerProperty(portB, vpiPortIndex), 1);
   EXPECT_EQ(integerProperty(portB, vpiDirection), static_cast<int64_t>(vpiOutput));
 }
 }  // namespace hlc

@@ -91,7 +91,7 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 const hldb::Module *findModuleByName(const hldb::ModuleCollection *modules, std::string_view name,
-                                      std::string_view sourceFileName) {
+                                     std::string_view sourceFileName) {
   if (modules == nullptr) return nullptr;
   for (const hldb::Module *module : *modules) {
     if (endsWith(module->getFile(), sourceFileName) && (module->getName() == name)) return module;
@@ -144,8 +144,7 @@ class HeaderLifetimeAutomaticTest : public Test {
   }
 
   static const hldb::Module *findMhDefault() {
-    return (m_design == nullptr) ? nullptr
-                                  : findModuleByName(m_design->getAllModules(), "mh_default", kSourceFileName);
+    return (m_design == nullptr) ? nullptr : findModuleByName(m_design->getAllModules(), "mh_default", kSourceFileName);
   }
   static const hldb::Module *findMhAuto() {
     return (m_design == nullptr) ? nullptr : findModuleByName(m_design->getAllModules(), "mh_auto", kSourceFileName);

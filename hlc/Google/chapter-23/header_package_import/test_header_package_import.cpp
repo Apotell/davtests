@@ -47,7 +47,7 @@
 //   ModuleHeaderCarriesImportOfP   the module carries an import_typespec
 //                              naming package p (23.2.1's "package import
 //                              list of the module")
-//   LocalparamW2ResolvesThroughTheImport   W2's constant expression
+//   LocalparamW2ResolvesThroughTheImport   W2's vpiExpr (37.28 detail 3)
 //                              resolves W to the very Parameter object
 //                              declared inside package p, proving the
 //                              import made it visible
@@ -70,7 +70,6 @@
 #include <hldb/import_typespec.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
-#include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sv_vpi_user.h>
@@ -112,6 +111,19 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
+<<<<<<< Updated upstream:hlc/Google/chapter-23/header_package_import/test_header_package_import.cpp
+=======
+const hldb::Parameter *findParameterByName(const hldb::AnyCollection *parameters, std::string_view name) {
+  if (parameters == nullptr) return nullptr;
+  for (const hldb::Any *any : *parameters) {
+    if (const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(any)) {
+      if (parameter->getName() == name) return parameter;
+    }
+  }
+  return nullptr;
+}
+
+>>>>>>> Stashed changes:hlc/Google/chapter-23/chapter-23_testsuit-1/header_package_import/test_header_package_import.cpp
 // The module's own vpiTypespec relation (37.10), which HLDB uses to attach a
 // package_import_declaration's ImportTypespec directly to the module header.
 const hldb::ImportTypespec *findImportOfPackage(const hldb::Any *scope, std::string_view packageName) {
@@ -223,14 +235,24 @@ TEST_F(HeaderPackageImportTest, LocalparamW2ResolvesThroughTheImport) {
   const hldb::Parameter *const packageW = hldb::findByName<hldb::Parameter>("W", package->getParameters());
   ASSERT_NE(packageW, nullptr);
 
+<<<<<<< Updated upstream:hlc/Google/chapter-23/header_package_import/test_header_package_import.cpp
   const hldb::Parameter *const w2Assign = hldb::findByName<hldb::Parameter>("W2", module->getParameters());
   ASSERT_NE(w2Assign, nullptr);
 
   const hldb::RefObj *const rhs = w2Assign->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "W");
+=======
+  const hldb::Parameter *const w2 = findParameterByName(module->getParameters(), "W2");
+  ASSERT_NE(w2, nullptr);
 
-  const hldb::Parameter *const resolved = rhs->getActual<hldb::Parameter>();
+  // vpiExpr of a parameter is its default value expression (37.28 detail 3).
+  const hldb::RefObj *const value = w2->getExpr<hldb::RefObj>();
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getName(), "W");
+>>>>>>> Stashed changes:hlc/Google/chapter-23/chapter-23_testsuit-1/header_package_import/test_header_package_import.cpp
+
+  const hldb::Parameter *const resolved = value->getActual<hldb::Parameter>();
   ASSERT_NE(resolved, nullptr);
   EXPECT_EQ(resolved, packageW) << "W2's initializer did not resolve to package p's own parameter W";
 }
