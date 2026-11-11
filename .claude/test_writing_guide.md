@@ -190,6 +190,22 @@ EXPECT_EQ(ptr->getActual()->getAnyType(), hldb::AnyType::Net);
 ```
 rather than relying on a single templated-downcast comparison to carry both meanings.
 
+## Find objects by name, not by position
+
+Avoid reaching into a collection by index (`->at(0)`, `[1]`). Use `hldb::findByName<T>()` (or `hldb::findByDefName<T>()`, see below) to locate the object you need. The order of most collections is an implementation detail: fixing a totally unrelated bug can reorder one and break a test that has nothing to do with that bug. This matters most for typespec collections, and also for nets and variables (e.g. a function's implicit return variable, IEEE 1800-2023 Sec 13.4.1, sits in the same collection as its locals).
+```cpp
+// Avoid: breaks as soon as anything is added before 'x'
+const hldb::Variable *const x = f->getVariables()->at(0);
+EXPECT_EQ(x->getName(), std::string_view("x"));
+
+// Prefer
+const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", f->getVariables());
+ASSERT_NE(x, nullptr) << "local 'x' not found";
+```
+Depend on order only where it actually matters -- function/task arguments, ports, ordered parameter overrides, the statements of a block, the operands of an operation. There the position is part of what the standard requires, and indexing is the right check.
+
+**Prefer `findByDefName` for models that have a def name.** Definitions (module, interface, program, class), instances and the typespecs that name them carry both a name and a def name (`vpiDefName`). The name can be decorated -- a parameterized definition or typespec is named with its parameters, e.g. `C#(.W(8))` -- while `getDefName()` is the plain, undecorated name. So look these up with `hldb::findByDefName<T>()`, and compare against `getDefName()` rather than `getName()`.
+
 ## Look beyond existence and name
 
 Depending on the construct under test, also check properties like `getScalared()`/`getVectored()`, `getNetType()`, `getIsMethodCall()`, signed/unsigned, packed/unpacked, and similar flags. A test that only confirms a node exists and is named correctly is leaving real coverage on the table.
