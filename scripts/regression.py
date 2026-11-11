@@ -216,6 +216,23 @@ def _get_log_statistics(filepath: Path) -> dict[str, Any]:
   return statistics
 
 
+CMDLINE_TEST_MARKER = '# cmdline-test'
+
+
+def _is_cmdline_test(filepath: Path) -> bool:
+  """A .hlc file whose first line is '# cmdline-test' tests command-line handling itself.
+
+  For such a test the harness arguments go first, so the test's own -mt/-o/-cache/... win (hlc keeps
+  the last one), -nostdout is not added, and the console output (stdout and stderr) becomes the test
+  log: errors raised before hlc opens its log file are then kept too.
+  """
+  try:
+    with filepath.open() as strm:
+      return strm.readline().strip() == CMDLINE_TEST_MARKER
+  except OSError:
+    return False
+
+
 def _get_run_args(
   test_id: str, filepath: Path, dirpath: Path, binary_filepath: Path,
   uvm_absdirpath: Path, mt: str, tool: str, output_dirpath: Path
@@ -241,7 +258,10 @@ def _get_run_args(
     pprint.pprint(tool_args_list)
     print('\n')
 
+  cmdline_test = _is_cmdline_test(filepath)
   cmdline = filepath.open().read().strip()
+  if cmdline_test:
+    cmdline = cmdline[len(CMDLINE_TEST_MARKER):].strip()
   print(f'Loaded command line: {cmdline}')
 
   # Resolve the source directory from the first -wd argument (stamped by stamp_wd.py).
@@ -271,7 +291,7 @@ def _get_run_args(
     if '-lowmem' in cmdline:
       mt = '1'  # Force single threaded
 
-    if mt is not None:
+    if (mt is not None) and not cmdline_test:
       cmdline = re.sub(r'-mt\s+(max|\d+)', '', cmdline)
 
     parts = cmdline.split(' ')
@@ -280,13 +300,17 @@ def _get_run_args(
           if parts[i].endswith('.v') or parts[i].endswith('.sv') or parts[i].endswith('.pkg'):
             parts[i] = ' '.join(str(p) for p in find_files(src_dirpath, parts[i]))
 
+    harness = []
     if mt or '-mt' not in cmdline:
-      parts += ['-mt', (mt or '0')]
-    parts += ['-d', 'dbstats'] # Force print hldb stats
-    parts += ['-d', 'cache']
-    parts += ['-writepp']
-    parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
-    parts += ['-o', output_dirpath.as_posix()]  # as_posix(): identical on Linux, avoids backslashes on Windows
+      harness += ['-mt', (mt or '0')]
+    harness += ['-d', 'dbstats'] # Force print hldb stats
+    harness += ['-d', 'cache']
+    harness += ['-writepp']
+    if not cmdline_test:
+      harness += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
+    harness += ['-o', output_dirpath.as_posix()]  # as_posix(): identical on Linux, avoids backslashes on Windows
+    # A command-line test puts its own arguments last, so they override the harness's.
+    parts = (harness + parts) if cmdline_test else (parts + harness)
 
     cmdline = ' '.join(['"' + part + '"' if '"' in part else part for part in parts if part])
     print(f'Processed command line: {cmdline}')
@@ -321,7 +345,9 @@ def _run_hlc(
     # HLC writes hlc.log itself (spdlog) into the -o directory. We do NOT
     # capture its stdout/stderr; they inherit the terminal/CI so the user sees
     # the AST/HLDB dumps live, and there is no second writer to the log.
-    process = subprocess.Popen(args, cwd=dirpath)
+    cmdline_test = _is_cmdline_test(filepath)
+    console_strm = (output_dirpath / 'console.log').open('w', encoding='utf-8') if cmdline_test else None
+    process = subprocess.Popen(args, cwd=dirpath, stdout=console_strm, stderr=subprocess.STDOUT if console_strm else None)
 
     step_dt = datetime.now()
     while psutil.pid_exists(process.pid) and process.poll() == None:
@@ -378,6 +404,11 @@ def _run_hlc(
   # now that -log_file is gone). Rename it to <name>.log so the rest of the
   # harness (normalize, golden comparison, merge, extract, summarize) finds it.
   written_log_filepath = output_dirpath / 'hlc.log'
+  if _is_cmdline_test(filepath):
+    # The console output is the test log: it also holds what hlc reported before its log file opened.
+    if console_strm:
+      console_strm.close()
+    written_log_filepath = output_dirpath / 'console.log'
   if written_log_filepath.is_file():
     written_log_filepath.replace(hlc_log_filepath)
 
