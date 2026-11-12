@@ -10,9 +10,9 @@ row. The checks a cpp makes that no event matches are reported too.
 Input is one of:
   - regression.py's output directory, as in PR Verification (one <test_id>.tar.gz per test)
   - the Regression_*_PR_<n>.tar.gz of a PR run's artifact
-  - a full hlc run's Summary artifact directory (errors.log + regression.csv), to check every
-    test at once. errors.log has no NTE lines and no continuation lines, so a check naming an
-    event's secondary location shows as unmatched.
+  - a full hlc run's Summary artifact directory (events.log + regression.csv), to check every
+    test at once. events.log keeps each event's continuation lines but has no NTE lines, so a
+    check naming a note shows as unmatched.
 
 The parsing and matching are event_coverage.py's, so the statuses agree with the full run's
 Event Coverage report:
@@ -47,6 +47,7 @@ from collections import defaultdict
 from pathlib import Path
 
 import event_coverage as ec
+import log_parser
 from event_coverage import _cpp_names, _location
 from utils import build_filters
 
@@ -57,7 +58,8 @@ _workspace_dirpath = _this_dirpath.parent
 _problem_statuses = ('Broken', 'Pending', 'Satisfied (skipped)')
 
 
-_re_errors_log_line = re.compile(r'^(?P<test_id>\S+): (?P<diag>\[(?:FTL|SNT|ERR|WRN):.*)$')
+_re_events_log_line = re.compile(r'^(?P<test_id>\S+): (?P<diag>\[(?:FTL|SNT|ERR|WRN):.*)$')
+_re_events_log_continuation = re.compile(r'^(?P<test_id>\S+): (?P<cont>[ \t]+\S.*)$')
 
 
 def _is_filtered(test_id: str, filters) -> bool:
@@ -77,9 +79,9 @@ def _is_filtered(test_id: str, filters) -> bool:
 
 
 def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path, filters) -> list[str]:
-  """Splits a full run's Summary artifact (errors.log + regression.csv, see summarize.py) into
-  <out>/<test_id>/<name>.log. regression.csv names every test the run ran; errors.log holds
-  only the FTL/SNT/ERR/WRN lines, without their continuation lines."""
+  """Splits a full run's Summary artifact (events.log + regression.csv, see summarize.py) into
+  <out>/<test_id>/<name>.log. regression.csv names every test the run ran; events.log holds
+  the FTL/SNT/ERR/WRN events, each header line followed by its indented continuation lines."""
   test_ids = []
   with open(summary_dirpath / 'regression.csv', encoding='utf-8') as strm:
     for line in strm:
@@ -88,13 +90,22 @@ def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path, filters) -> 
         test_ids.append(cells[2])
 
   lines_by_test = defaultdict(list)
-  with open(summary_dirpath / 'errors.log', encoding='utf-8', errors='replace') as strm:
+  with open(summary_dirpath / 'events.log', encoding='utf-8', errors='replace') as strm:
+    kept_test_id = None   # Test whose event the following continuation lines belong to.
     for line in strm:
-      if line.startswith('='):
-        break   # The per-test and per-category counts follow the first separator.
-      m = _re_errors_log_line.match(line.rstrip('\r\n'))
-      if m and _is_filtered(m.group('test_id'), filters):
-        lines_by_test[m.group('test_id')].append(m.group('diag') + '\n')
+      line = line.rstrip('\r\n')
+      m = _re_events_log_line.match(line)
+      if m:
+        kept_test_id = m.group('test_id') if _is_filtered(m.group('test_id'), filters) else None
+        if kept_test_id is not None:
+          lines_by_test[kept_test_id].append(m.group('diag') + '\n')
+        continue
+
+      cm = _re_events_log_continuation.match(line)
+      if cm and (cm.group('test_id') == kept_test_id):
+        lines_by_test[kept_test_id].append(cm.group('cont') + '\n')
+      else:
+        kept_test_id = None   # e.g. an "Internal Error" header, whose lines are not checked.
 
   for test_id in set(test_ids) | set(lines_by_test):
     dirpath = out_dirpath / test_id
@@ -103,19 +114,20 @@ def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path, filters) -> 
   return sorted(set(test_ids) | set(lines_by_test), key=str.lower)
 
 
-def _collect_logs(source: Path, out_dirpath: Path, filters) -> list[str]:
+def _collect_logs(source: Path, out_dirpath: Path, filters, specs) -> list[str]:
   """Extracts the logs of a regression run into <out>/<test_id>/<name>.log and returns the test
   ids. source is regression.py's output directory (one <test_id>.tar.gz per test), the PR
   artifact's tarball of that directory (<top>/<test_id>.tar.gz), or a full run's Summary
-  artifact directory (errors.log + regression.csv). Only the tests filters keep are extracted."""
-  if source.is_dir() and (source / 'errors.log').is_file() and (source / 'regression.csv').is_file():
+  artifact directory (events.log + regression.csv). Only the tests filters keep are extracted.
+  specs (log_parser.load_event_specs()) guides how raw logs are split into events."""
+  if source.is_dir() and (source / 'events.log').is_file() and (source / 'regression.csv').is_file():
     return _collect_summary_logs(source, out_dirpath, filters)
 
   test_ids = []
   if source.is_dir():
     for filepath in sorted(source.rglob('*.tar.gz')):
       test_id = filepath.relative_to(source).as_posix()[:-len('.tar.gz')]
-      if _is_filtered(test_id, filters) and ec._extract_test_tarball(filepath.read_bytes(), test_id, out_dirpath):
+      if _is_filtered(test_id, filters) and ec._extract_test_tarball(filepath.read_bytes(), test_id, out_dirpath, specs):
         test_ids.append(test_id)
   else:
     with tarfile.open(source, mode='r|gz') as archive_strm:
@@ -125,7 +137,7 @@ def _collect_logs(source: Path, out_dirpath: Path, filters) -> list[str]:
         parts = member.name[:-len('.tar.gz')].split('/', 1)
         if (len(parts) != 2) or not _is_filtered(parts[1], filters):
           continue
-        if ec._extract_test_tarball(archive_strm.extractfile(member).read(), parts[1], out_dirpath):
+        if ec._extract_test_tarball(archive_strm.extractfile(member).read(), parts[1], out_dirpath, specs):
           test_ids.append(parts[1])
   return sorted(test_ids, key=str.lower)
 
@@ -230,13 +242,16 @@ def _main():
   log_dirpath = output_dirpath / 'event_check_logs'
   log_dirpath.mkdir(parents=True, exist_ok=True)
 
+  events_filepaths = [Path(filepath).resolve() for filepath in args.events_json]
+  specs = log_parser.load_event_specs(events_filepaths)
+
   filters = build_filters(args.filters)
   run_test_ids = sorted({test_id for source in args.regression
-                         for test_id in _collect_logs(Path(source).resolve(), log_dirpath, filters)},
+                         for test_id in _collect_logs(Path(source).resolve(), log_dirpath, filters, specs)},
                         key=str.lower)
   print(f'Tests in the regression run: {len(run_test_ids)}', flush=True)
 
-  codes = ec._load_code_table([Path(filepath).resolve() for filepath in args.events_json])
+  codes = ec._load_code_table(events_filepaths)
   code_by_number = {c.number: c for c in codes.values()}
   all_code_names = set(codes)
   ignored = ec._load_ignore_list(Path(args.ignore_file)) if args.ignore_file else set()
@@ -256,7 +271,7 @@ def _main():
     if log_filepath is None:
       print(f'Warning: no log for {test.test_id}', flush=True)
     else:
-      log_jobs.append((test, log_filepath, code_by_number, args.external_pattern, _workspace_dirpath))
+      log_jobs.append((test, log_filepath, code_by_number, specs, args.external_pattern, _workspace_dirpath))
   cpp_jobs = [(targets, str(cpp), all_code_names) for targets, cpp in links]
 
   reports_by_test = {}

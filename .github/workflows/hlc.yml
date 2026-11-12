@@ -28,20 +28,48 @@ env:
 jobs:
 # Preflight ###########################################################################################################
 
+  # Resolves the hlc build run under test once, from run_id, and hands its identity to every other
+  # job. Jobs read it from needs.preflight.outputs, never from the inputs, so all of them (and the
+  # env.json each one writes) agree. The run_number input is only for run-name, which GitHub
+  # evaluates before any job runs; it is checked against the resolved run here.
   preflight:
     name: "Preflight | ubuntu"
     runs-on: ubuntu-latest
 
+    outputs:
+      hlc_run_id: ${{ steps.hlc-run.outputs.hlc_run_id }}
+      hlc_run_number: ${{ steps.hlc-run.outputs.hlc_run_number }}
+      hlc_run_attempt: ${{ steps.hlc-run.outputs.hlc_run_attempt }}
+      hlc_branch: ${{ steps.hlc-run.outputs.hlc_branch }}
+      hlc_sha: ${{ steps.hlc-run.outputs.hlc_sha }}
+
     steps:
+    - name: Resolve hlc build run
+      id: hlc-run
+      env:
+        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+      run: |
+        gh api repos/Apotell/hlc/actions/runs/${{ github.event.inputs.run_id }}  \
+          --jq '"hlc_run_id=\(.id)",
+                "hlc_run_number=\(.run_number)",
+                "hlc_run_attempt=\(.run_attempt)",
+                "hlc_branch=\(.head_branch)",
+                "hlc_sha=\(.head_sha)"' | tee -a $GITHUB_OUTPUT
+        run_number=$(grep '^hlc_run_number=' $GITHUB_OUTPUT | cut -d= -f2)
+        if [ "$run_number" != "${{ github.event.inputs.run_number }}" ]; then
+          echo "::error::run_number input (${{ github.event.inputs.run_number }}) does not match run ${{ github.event.inputs.run_id }} (#$run_number)"
+          exit 1
+        fi
+
     - name: Verify artifacts are accessible
       env:
         GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
       run: |
-        artifacts=$(gh api /repos/Apotell/hlc/actions/runs/${{ github.event.inputs.run_id }}/artifacts \
+        artifacts=$(gh api /repos/Apotell/hlc/actions/runs/${{ steps.hlc-run.outputs.hlc_run_id }}/artifacts \
           --jq '.artifacts[].name')
         echo "Available artifacts:"
         echo "$artifacts"
-        echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ github.event.inputs.run_number }}" \
+        echo "$artifacts" | grep -q "hlc_ubuntu_release_${{ steps.hlc-run.outputs.hlc_run_number }}" \
           || { echo "::error::Build artifact not found"; exit 1; }
         echo "$artifacts" | grep -q "pyhldb-" \
           || { echo "::error::pyhldb artifact not found"; exit 1; }
@@ -63,9 +91,15 @@ jobs:
         # - { os: windows-2022, tag: windows, build-type: release }
 
     env:
-      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.inputs.run_number }}
+      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ needs.preflight.outputs.hlc_run_number }}
       pyhldb-artifact-pattern: "pyhldb-*-linux_x86_64.whl"
       regression-artifact-name: Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_${{ matrix.shard }}
+      # The hlc build run under test; ci_context.py records these in env.json.
+      HLC_RUN_ID: ${{ needs.preflight.outputs.hlc_run_id }}
+      HLC_RUN_NUMBER: ${{ needs.preflight.outputs.hlc_run_number }}
+      HLC_RUN_ATTEMPT: ${{ needs.preflight.outputs.hlc_run_attempt }}
+      HLC_BRANCH: ${{ needs.preflight.outputs.hlc_branch }}
+      HLC_SHA: ${{ needs.preflight.outputs.hlc_sha }}
 
     steps:
     - name: Checkout repository
@@ -90,7 +124,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ github.event.inputs.run_id }}
+        run-id: ${{ env.HLC_RUN_ID }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -98,7 +132,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         pattern: ${{ env.pyhldb-artifact-pattern }}
-        run-id: ${{ github.event.inputs.run_id }}
+        run-id: ${{ env.HLC_RUN_ID }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -162,7 +196,7 @@ jobs:
           - { platform: ubuntu, os: ubuntu-26.04, shard: 1, num_shards: 2 }
 
     env:
-      build-artifact-name: hlc_${{ matrix.platform }}_release_${{ github.event.inputs.run_number }}
+      build-artifact-name: hlc_${{ matrix.platform }}_release_${{ needs.preflight.outputs.hlc_run_number }}
 
     steps:
     - name: Checkout repository
@@ -192,7 +226,7 @@ jobs:
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ github.event.inputs.run_id }}
+        run-id: ${{ needs.preflight.outputs.hlc_run_id }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -254,14 +288,28 @@ jobs:
 
   Summarize:
     name: "Summarize | ${{ matrix.config.tag }} | ${{ matrix.config.build-type }}"
-    needs: regression
+    needs: [preflight, regression]
     runs-on: ${{ matrix.config.os }}
     if: ${{ !cancelled() }}
+    # id-token: write lets configure-aws-credentials fetch the GitHub OIDC token it exchanges for
+    # the AWS role. Declaring any permission drops the rest to none, so the defaults the other
+    # steps rely on (checkout, same-run artifact download) are restated.
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
 
     env:
       regression-artifact-pattern: 'Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_*'
       summary-artifact-name: Summary_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}
-      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.inputs.run_number }}
+      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ needs.preflight.outputs.hlc_run_number }}
+      # The hlc build run under test (see preflight). ci_context.py records these in env.json,
+      # event_coverage.py reads HLC_SHA, and the bucket upload attaches them as metadata.
+      HLC_RUN_ID: ${{ needs.preflight.outputs.hlc_run_id }}
+      HLC_RUN_NUMBER: ${{ needs.preflight.outputs.hlc_run_number }}
+      HLC_RUN_ATTEMPT: ${{ needs.preflight.outputs.hlc_run_attempt }}
+      HLC_BRANCH: ${{ needs.preflight.outputs.hlc_branch }}
+      HLC_SHA: ${{ needs.preflight.outputs.hlc_sha }}
 
     strategy:
       fail-fast: false
@@ -283,20 +331,11 @@ jobs:
           /hlc/**/*.hlc
           /hlc/**/test_*.cpp
 
-    - name: Resolve hlc commit of the build
-      id: hlc-commit
-      env:
-        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
-      run: |
-        sha=$(gh api repos/Apotell/hlc/actions/runs/${{ github.event.inputs.run_id }} --jq '.head_sha')
-        echo "hlc commit: $sha"
-        echo "sha=$sha" >> $GITHUB_OUTPUT
-
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
       with:
         name: ${{ env.build-artifact-name }}
-        run-id: ${{ github.event.inputs.run_id }}
+        run-id: ${{ env.HLC_RUN_ID }}
         repository: Apotell/hlc
         github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
 
@@ -337,9 +376,11 @@ jobs:
       timeout-minutes: 15
       run: |
         ls -lR
-        python3 scripts/summarize.py                                  \
-          ${{ github.workspace }}                                     \
-          Regression_ubuntu_release_${{ github.run_number }}_{index}  \
+        python3 scripts/summarize.py                                              \
+          ${{ github.workspace }}                                                 \
+          Regression_ubuntu_release_${{ github.run_number }}_{index}              \
+          --events-json ${{ env.build-artifact-name }}/share/hldb/events.json     \
+                        ${{ env.build-artifact-name }}/share/hlc/events.json      \
           --jobs $(nproc)
 
     # Joins the diagnostics in this run's regression logs with the findEvent() checks in
@@ -348,8 +389,7 @@ jobs:
       if: ${{ !cancelled() }}
       timeout-minutes: 15
       env:
-        HLC_BUILD_NUMBER: ${{ github.event.inputs.run_number }}
-        HLC_SHA: ${{ steps.hlc-commit.outputs.sha }}
+        HLC_BUILD_NUMBER: ${{ env.HLC_RUN_NUMBER }}
         DAVTESTS_BRANCH: ${{ github.ref_name }}
       run: |
         python3 scripts/event_coverage.py                                         \
@@ -365,12 +405,62 @@ jobs:
       with:
         name: ${{ env.summary-artifact-name }}
         path: |
-          errors.log
+          events.log
+          event_ids.csv
+          tests.csv
+          events.json
           env.json
           reducer.csv
           regression.csv
           report.xlsx
           summary.md
+
+    # Upload to the bucket only when every step above succeeded, so a partial summary is never
+    # pushed. The zip holds the same files as the Summary artifact, laid out the same way.
+    - name: Configure AWS Credentials
+      if: ${{ success() }}
+      uses: aws-actions/configure-aws-credentials@v6.3.0
+      with:
+        role-to-assume: ${{ secrets.AWS_DAVDASH_ROLE_ARN }}
+        role-session-name: davtests-summarize-${{ github.run_id }}-${{ github.run_attempt }}
+        aws-region: us-west-1
+
+    - name: Upload file to bucket
+      if: ${{ success() }}
+      run: |
+        zip ${{ env.summary-artifact-name }}.zip  \
+          events.log                              \
+          event_ids.csv                           \
+          tests.csv                               \
+          events.json                             \
+          env.json                                \
+          reducer.csv                             \
+          regression.csv                          \
+          report.xlsx                             \
+          summary.md
+        metadata="branch=${{ github.ref_name }}"
+        metadata+=",platform=${{ matrix.config.tag }}"
+        metadata+=",config=${{ matrix.config.build-type }}"
+        metadata+=",run-id=${{ github.run_id }}"
+        metadata+=",run-number=${{ github.run_number }}"
+        metadata+=",run-attempt=${{ github.run_attempt }}"
+        metadata+=",sha=${{ github.sha }}"
+        metadata+=",hlc-run-id=${HLC_RUN_ID}"
+        metadata+=",hlc-run-number=${HLC_RUN_NUMBER}"
+        metadata+=",hlc-run-attempt=${HLC_RUN_ATTEMPT}"
+        metadata+=",hlc-branch=${HLC_BRANCH}"
+        metadata+=",hlc-sha=${HLC_SHA}"
+        aws s3 cp ${{ env.summary-artifact-name }}.zip                                \
+          s3://davdash-927676952993-us-west-1-an/${{ env.summary-artifact-name }}.zip \
+          --metadata "$metadata"
+
+    - name: Notify davdash
+      continue-on-error: true   # a missed notification is caught by the next one
+      run: >
+        curl --fail-with-body -sS --retry 3 --retry-all-errors --max-time 30      \
+          -X POST -H "Authorization: Bearer ${{ secrets.DAVDASH_NOTIFY_TOKEN }}"  \
+          https://dashboards.davenche.com/api/notify
+
 
 # Cache Cleanup #######################################################################################################
 

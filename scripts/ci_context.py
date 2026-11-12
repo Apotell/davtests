@@ -46,6 +46,16 @@ _env_keys = [
   'RUNNER_NAME',
 ]
 
+# The hlc build run under test, exported by the hlc workflow's Summarize job. Recorded under
+# 'hlc' so the summary still names the hlc commit once that run (and its artifacts) are deleted.
+_hlc_env_keys = {
+  'HLC_RUN_ID': 'run_id',
+  'HLC_RUN_NUMBER': 'run_number',
+  'HLC_RUN_ATTEMPT': 'run_attempt',
+  'HLC_BRANCH': 'branch',
+  'HLC_SHA': 'sha',
+}
+
 
 def _event_summary() -> dict:
   event_path = os.environ.get('GITHUB_EVENT_PATH')
@@ -75,6 +85,10 @@ def _event_summary() -> dict:
 def ci_context() -> dict:
   context = {key: os.environ[key] for key in _env_keys if key in os.environ}
   context['event'] = _event_summary()
+
+  hlc = {name: os.environ[key] for key, name in _hlc_env_keys.items() if os.environ.get(key)}
+  if hlc:
+    context['hlc'] = hlc
   return context
 
 

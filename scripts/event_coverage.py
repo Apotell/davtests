@@ -49,6 +49,8 @@ from collections import Counter as _Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import log_parser
+
 _this_dirpath = Path(__file__).parent.resolve()
 _workspace_dirpath = _this_dirpath.parent
 
@@ -295,11 +297,12 @@ def _find_log(log_dirpath: Path, test: TestCase):
 _platform_ids = ('.linux', '.osx', '.msys', '.win', '')
 
 
-def _extract_test_tarball(data: bytes, test_id: str, out_dirpath) -> bool:
+def _extract_test_tarball(data: bytes, test_id: str, out_dirpath, specs=None) -> bool:
   """Copies the diagnostic lines of one test's regression tarball (<test_id>.tar.gz, holding
   <name>/<name>.log, name being the last part of test_id) to <out>/<test_id>/<name>.log.
-  Only diagnostics, their continuation lines and the coverage line are kept, so the HLDB dumps
-  never hit the disk. Returns False when the tarball holds no log."""
+  Only events (split by log_parser against the event table specs, '[debug]' lines dropped) and
+  the coverage line are kept, so the HLDB dumps never hit the disk. Returns False when the
+  tarball holds no log."""
   import io
   import tarfile
 
@@ -312,24 +315,17 @@ def _extract_test_tarball(data: bytes, test_id: str, out_dirpath) -> bool:
         break
     else:
       return False
+    lines = (raw.decode('utf-8', errors='replace') for raw in test_strm.extractfile(log_name))
     kept = []
-    in_diag = False
-    for raw in test_strm.extractfile(log_name):
-      line = raw.decode('utf-8', errors='replace')
-      if _re_coverage.match(line):
-        kept.append(line)
-        in_diag = False
-      elif line.startswith('['):
-        in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
-        if in_diag:
-          kept.append(line)
-      elif in_diag and line[:1] in (' ', '\t'):
-        kept.append(line)
-      else:
-        in_diag = False
+    for item in log_parser.iter_log(lines, specs):
+      if isinstance(item, log_parser.LogEvent):
+        if item.m_severity is not None:
+          kept.extend(item.m_lines)
+      elif _re_coverage.match(item):
+        kept.append(item)
   dirpath = Path(out_dirpath) / test_id
   dirpath.mkdir(parents=True, exist_ok=True)
-  (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
+  (dirpath / f'{name}.log').write_text(''.join(f'{line}\n' for line in kept), encoding='utf-8')
   return True
 
 
@@ -339,7 +335,7 @@ def _extract_regression_archive(args):
   import tarfile
   import zipfile
 
-  zip_filepath, out_dirpath = args
+  zip_filepath, out_dirpath, specs = args
   archive_name = Path(zip_filepath).stem
   count = 0
   with zipfile.ZipFile(zip_filepath, 'r') as zip_strm:
@@ -349,7 +345,7 @@ def _extract_regression_archive(args):
           if not member.isfile() or not member.name.endswith('.tar.gz'):
             continue
           test_id = Path(member.name[:-len('.tar.gz')]).relative_to(archive_name).as_posix()
-          if _extract_test_tarball(archive_strm.extractfile(member).read(), test_id, out_dirpath):
+          if _extract_test_tarball(archive_strm.extractfile(member).read(), test_id, out_dirpath, specs):
             count += 1
   return zip_filepath, count
 
@@ -391,66 +387,63 @@ class _ScopeResolver:
 
 
 def _parse_log(args):
-  test, log_filepath, code_by_number, external_pattern, workspace_dirpath = args
+  test, log_filepath, code_by_number, specs, external_pattern, workspace_dirpath = args
   resolver = _ScopeResolver(test.wd_dirpaths, re.compile(external_pattern, re.I), workspace_dirpath)
   reports = []
   coverage = None
-  last = None
   with open(log_filepath, encoding='utf-8', errors='replace') as strm:
-    for raw in strm:
-      if raw.startswith('['):
-        cov = _re_coverage.match(raw)
+    for item in log_parser.iter_log(strm, specs):
+      if not isinstance(item, log_parser.LogEvent):
+        cov = _re_coverage.match(item)
         if cov:
           coverage = float(cov.group('value'))
-          last = None
-          continue
-        m = _re_diag.match(raw.rstrip('\r\n'))
-        if not m or m.group('sev') not in _counted_severities:
-          last = None
-          continue
+        continue
+      if item.m_severity not in _counted_severities:
+        continue
+      m = _re_diag.match(item.header)
+      if not m:
+        continue
 
-        number = int(m.group('num'))
-        code = code_by_number.get(number)
-        rest = m.group('rest')
-        path, line, col, message = '', 0, 0, rest
-        lm = _re_location.match(rest)
-        if lm and (lm.group('path').startswith(('$', '/', '\\')) or '/' in lm.group('path')):
-          path = lm.group('path')
-          line = int(lm.group('line') or 0)
-          col = int(lm.group('col') or 0)
-          message = lm.group('msg')
+      number = int(m.group('num'))
+      code = code_by_number.get(number)
+      rest = m.group('rest')
+      path, line, col, message = '', 0, 0, rest
+      lm = _re_location.match(rest)
+      if lm and (lm.group('path').startswith(('$', '/', '\\')) or '/' in lm.group('path')):
+        path = lm.group('path')
+        line = int(lm.group('line') or 0)
+        col = int(lm.group('col') or 0)
+        message = lm.group('msg')
 
-        stripped = message[:-1] if message.endswith(('.', ',')) else message
-        symbol = None
-        if code is not None and code.symbol_re is not None:
-          sm = code.symbol_re.match(stripped)
-          if sm:
-            symbol = sm.group('sym')
-        if symbol is None:
-          qm = _re_quoted.search(message)
-          if qm:
-            symbol = qm.group(1)
+      stripped = message[:-1] if message.endswith(('.', ',')) else message
+      symbol = None
+      if code is not None and code.symbol_re is not None:
+        sm = code.symbol_re.match(stripped)
+        if sm:
+          symbol = sm.group('sym')
+      if symbol is None:
+        qm = _re_quoted.search(message)
+        if qm:
+          symbol = qm.group(1)
 
-        last = Report(
-          test_id=test.test_id,
-          severity=m.group('sev'),
-          prefix=m.group('prefix'),
-          number=number,
-          code=code.name if code else f'?{m.group("prefix")}{m.group("num")}',
-          path=path, line=line, col=col,
-          message=message,
-          symbol=symbol,
-          scope=resolver.scope(path) if path else 'local',
-        )
-        reports.append(last)
-      elif last is not None and raw[:1] in (' ', '\t'):
-        cm = _re_continuation.match(raw)
+      report = Report(
+        test_id=test.test_id,
+        severity=m.group('sev'),
+        prefix=m.group('prefix'),
+        number=number,
+        code=code.name if code else f'?{m.group("prefix")}{m.group("num")}',
+        path=path, line=line, col=col,
+        message=message,
+        symbol=symbol,
+        scope=resolver.scope(path) if path else 'local',
+      )
+      # Secondary locations ("<file>:<line>: previous definition"); context notes and the lines
+      # of a multi-line value do not match.
+      for continuation in item.continuations:
+        cm = _re_continuation.match(continuation)
         if cm:
-          last.extra_locations.append((int(cm.group('line')), int(cm.group('col') or 0)))
-        else:
-          last = None
-      else:
-        last = None
+          report.extra_locations.append((int(cm.group('line')), int(cm.group('col') or 0)))
+      reports.append(report)
   return test.test_id, reports, coverage
 
 
@@ -1692,6 +1685,10 @@ def _main():
   mode = 'golden' if log_dirpath == test_dirpath else 'fresh'
   filter_re = re.compile(args.filter) if args.filter else None
 
+  events_filepaths = [Path(filepath).resolve() for filepath in args.events_json]
+  # How the logs are split into events (log_parser.py); read before the logs are.
+  specs = log_parser.load_event_specs(events_filepaths)
+
   if args.regression_archives:
     import glob
     archives = sorted({str(Path(p).resolve()) for pattern in args.regression_archives for p in glob.glob(pattern)})
@@ -1701,11 +1698,11 @@ def _main():
     log_dirpath.mkdir(parents=True, exist_ok=True)
     with multiprocessing.Pool(max(1, min(args.jobs, len(archives)))) as pool:
       for archive, count in pool.imap_unordered(_extract_regression_archive,
-                                                [(a, str(log_dirpath)) for a in archives]):
+                                                [(a, str(log_dirpath), specs) for a in archives]):
         print(f'Extracted {count} logs from {Path(archive).name}', flush=True)
     mode = f'fresh ({len(archives)} regression shard(s))'
 
-  codes = _load_code_table([Path(filepath).resolve() for filepath in args.events_json])
+  codes = _load_code_table(events_filepaths)
   # Logs and cpp files are read against the full table; ignored codes are dropped afterwards.
   code_by_number = {c.number: c for c in codes.values()}
   all_code_names = set(codes)
@@ -1746,9 +1743,9 @@ def _main():
     if log_filepath is None:
       missing_logs.add(test.test_id)
     else:
-      log_jobs.append((test, log_filepath, code_by_number, args.external_pattern, _workspace_dirpath))
+      log_jobs.append((test, log_filepath, code_by_number, specs, args.external_pattern, _workspace_dirpath))
 
-  cpp_jobs = [(targets, str(cpp), all_code_names) for targets, cpp in links]
+  cpp_jobs =[(targets, str(cpp), all_code_names) for targets, cpp in links]
 
   reports_by_test = {}
   coverage_by_test = {}

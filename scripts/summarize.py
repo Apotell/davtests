@@ -19,11 +19,13 @@ from pathlibutil.json import (
 )
 
 from ci_context import ci_context
+from log_parser import LogEvent, iter_log, load_event_specs
 
 _platform_ids = ['.linux', '.osx', '.msys', '.win', '']
 _max_input_file_count = 8
 _reduction_start_marker = '= BEGIN REDUCTION RESULT ='
 _reduction_end_marker = '= END REDUCTION RESULT ='
+_recorded_severities = ('ERR', 'WRN', 'SNT', 'FTL')
 
 
 def _is_ci_build():
@@ -38,7 +40,7 @@ def _merge_dicts(dicta, dictb):
 
 
 def _scan_one(args):
-  zip_filepath, shard = args
+  zip_filepath, shard, specs = args
   archive_name = Path(zip_filepath).stem
   
   errors = []
@@ -72,31 +74,27 @@ def _scan_one(args):
                 try:
                   src_data = test_archive_strm.extractfile(src_filepath).read() # pyright: ignore[reportOptionalMemberAccess]
 
+                  # log_parser splits the log into events (header plus continuation lines,
+                  # '[debug]' lines dropped); every other line comes back as a str.
                   reduction_scan_started = False
-                  for line in src_data.decode().splitlines():
-                    line = line.rstrip()
+                  for item in iter_log(src_data.decode().splitlines(), specs):
+                    if isinstance(item, LogEvent):
+                      if item.m_severity is None:
+                        category = "[  Internal]"
+                      elif item.m_severity in _recorded_severities:
+                        category = item.header[:12]
+                        counts[test_id] += 1
+                      else:
+                        continue
 
-                    if not line:
-                      pass
-                    elif not reduction_scan_started and _reduction_start_marker in line:
+                      errors.append([f"{test_id}: {line}" for line in item.m_lines])
+                      categories[category] = categories.get(category, 0) + 1
+                    elif not reduction_scan_started and _reduction_start_marker in item:
                       reduction_scan_started = True
-                      continue
-                    elif reduction_scan_started and _reduction_end_marker in line:
+                    elif reduction_scan_started and _reduction_end_marker in item:
                       reduction_scan_started = False
-                      continue
-                    elif line.startswith(("[ERR:", "[WRN:", "[SNT:", "[FTL:")):
-                      errors.append(f"{test_id}: {line}")
-                      counts[test_id] += 1
-
-                      category = line[:12]
-                      categories[category] = categories.get(category, 0) + 1
-                    elif line.startswith("Internal Error"):
-                      errors.append(f"{test_id}: {line}")
-                      category = "[  Internal]"
-                      categories[category] = categories.get(category, 0) + 1
-
-                    if reduction_scan_started:
-                      parts = line.split()
+                    elif reduction_scan_started:
+                      parts = item.split()
                       if len(parts) == 4:
                         reducer.append(' | '.join(str(v) for v in [shard, test_id, *parts]))
       
@@ -116,21 +114,57 @@ def _scan_one(args):
     return shard, errors, categories, counts, regression, reducer, env
 
 
-def _write_errors_log(filepath, errors, counts, categories):
+def _write_events_log(filepath, errors):
+  """Writes every event, sorted by its header line, as its header followed by its continuation
+  lines. Each line is prefixed with '<test_id>: '; continuation lines keep their indentation."""
   with filepath.open("w") as strm:
-    separator = '\n' + ('=' * 160) + '\n'
+    for event in sorted(errors, key=lambda lines: lines[0]):
+      for line in event:
+        strm.write(line)
+        strm.write('\n')
 
-    strm.write("\n".join(sorted(errors)))
-    strm.write(separator)
+    strm.flush()
 
-    max_name_len = max((len(name) for name in counts.keys()), default=40)
-    strm.write("\n".join(f"{name:>{max_name_len}}: {counts[name]:>6}" for name in sorted(counts.keys())))
-    strm.write(separator)
 
-    strm.write("\n".join(f"{category}: {categories[category]:>6}" for category in sorted(categories.keys())))
-    strm.write(f"\nFound {len(errors)} total errors.")
-    strm.write(separator)
+def _write_tests_csv(filepath, counts):
+  with filepath.open("w") as strm:
+    strm.write(' | '.join(['TESTNAME', 'COUNT']))
+    strm.write('\n')
 
+    for name in sorted(counts.keys()):
+      strm.write(f'{name} | {counts[name]}\n')
+
+    strm.flush()
+
+
+def _write_event_ids_csv(filepath, categories):
+  with filepath.open("w") as strm:
+    strm.write(' | '.join(['EVENT_ID', 'COUNT']))
+    strm.write('\n')
+
+    for category in sorted(categories.keys()):
+      strm.write(f'{category} | {categories[category]}\n')
+
+    strm.flush()
+
+
+def _write_events_json(filepath, events_filepaths):
+  """Combines the event tables of the hlc install (share/hldb/events.json and
+  share/hlc/events.json) into a single file. List-valued keys ('events', 'categories') are
+  concatenated; any other key keeps the first file's value."""
+  combined = {}
+  for events_filepath in events_filepaths:
+    with Path(events_filepath).open(encoding='utf-8') as strm:
+      data = json_load(strm)
+
+    for key, value in data.items():
+      if isinstance(value, list):
+        combined.setdefault(key, []).extend(value)
+      else:
+        combined.setdefault(key, value)
+
+  with filepath.open("w", encoding='utf-8') as strm:
+    json_dump(combined, strm, indent=2)
     strm.flush()
 
 
@@ -172,16 +206,23 @@ def _main():
   parser.add_argument(
       '--jobs', nargs='?', required=False, default=multiprocessing.cpu_count(), type=int,
       help='Run tests in parallel, optionally providing max number of concurrent processes. Set 0 to run sequentially.')
+  parser.add_argument(
+      '--events-json', dest='events_json', nargs='+', required=False, default=[], type=str,
+      help='Event tables (share/hldb/events.json and share/hlc/events.json): they guide how the logs '
+           'are split into events, and are combined into a single events.json.')
   args = parser.parse_args()
-  
+
   input_dirpath = Path(args.input_dirpath)
 
   if (args.jobs == None) or (args.jobs > multiprocessing.cpu_count()):
     args.jobs = multiprocessing.cpu_count()
 
+  # Without the event tables the logs are split on the event layout alone (see log_parser.py).
+  specs = load_event_specs(args.events_json) if args.events_json else None
+
   filename_pattern = args.filename_pattern + '.zip'
   params = [
-    (input_dirpath / filename_pattern.format(index=i), i) for i in range(_max_input_file_count)
+    (input_dirpath / filename_pattern.format(index=i), i, specs) for i in range(_max_input_file_count)
     if (input_dirpath / filename_pattern.format(index=i)).exists()
   ]
 
@@ -197,8 +238,8 @@ def _main():
   envs['shards'] = {}
 
   if args.jobs <= 1:
-    for filepath, shard in params:
-      shard, errs, cats, cts, regs, reds, env = _scan_one((filepath, shard))
+    for param in params:
+      shard, errs, cats, cts, regs, reds, env = _scan_one(param)
       errors.extend(errs)
       categories = _merge_dicts(categories, cats)
       counts.update(cts)
@@ -216,7 +257,12 @@ def _main():
         reducer.extend(reds)
         envs['shards'][f'env_{shard}'] = env
 
-  _write_errors_log(input_dirpath / "errors.log", errors, counts, categories)
+  _write_events_log(input_dirpath / "events.log", errors)
+  _write_tests_csv(input_dirpath / "tests.csv", counts)
+  _write_event_ids_csv(input_dirpath / "event_ids.csv", categories)
+  print(f"Found {len(errors)} total errors.")
+  if args.events_json:
+    _write_events_json(input_dirpath / "events.json", args.events_json)
   _write_env_json(input_dirpath / "env.json", envs)
   _write_regression_csv(input_dirpath / "regression.csv", regression)
   _write_reducer_csv(input_dirpath / "reducer.csv", reducer)
