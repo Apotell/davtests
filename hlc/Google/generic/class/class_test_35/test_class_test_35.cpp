@@ -82,9 +82,12 @@
 // vpiSize shall return 0", detail 12); its arguments are io decls (37.13) with
 // vpiName, vpiDirection and a typespec. "If the number of statements is zero,
 // the vpiStmt relation shall return NULL" (37.12 detail 5): a prototype has no
-// statement. HLDB answers vpi_get() and vpi_iterate() through
-// getVpiPropertyValue() and getByVpiType(), so the test asks those questions
-// directly with the LRM's vpiXXX codes.
+// statement. HLDB keeps each of these as a typed member of the object, so the
+// test reads them through HLDB's typed getters (getName(), getMethods(),
+// getMethod(), getAutomatic(), getIODecls(), getDirection(), getTypespec(),
+// getStmt() and so on) and identifies the kind of an object with
+// getAnyType(). HLDB has no typed getter for a function's vpiSize, so the
+// test checks that a void function's return typespec is the void type.
 //
 // Every expected value comes from the source text and the LRM, so a red test
 // means HLC deviates from the LRM, or reads the missing body differently (see
@@ -149,7 +152,7 @@
 //     (37.13). The LRM draws it as a direct relation to a typespec; HLDB may
 //     instead return an object of its own type that refers to the typespec.
 //     That indirection is an HLDB model convention the LRM does not define, so
-//     its type is not asserted; the test follows it through vpiActual to the
+//     its type is not asserted; the test follows it through getActual() to the
 //     typespec it refers to. Nearest assertion:
 //     MethodSetPortHasOneInputArgumentAp (vpiIntTypespec on that typespec).
 //   - vpiVisibility of set_port and vpiFullName of any object. They are
@@ -180,14 +183,18 @@
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
 #include <hldb/design.h>
+#include <hldb/function.h>
 #include <hldb/interface.h>
+#include <hldb/io_decl.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/preproc_macro_instance.h>
 #include <hldb/program.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/task_func.h>
 #include <hldb/udp_defn.h>
 #include <hldb/unit.h>
 #include <hldb/variable.h>
@@ -204,11 +211,6 @@
 namespace hlc {
 namespace {
 constexpr std::string_view kSourceFileName = "class_test_35.sv";
-
-// vpiVariables, the VPI relation from a scope to its variables (100 in IEEE
-// 1800-2023 Annex K, vpi_user.h). HLDB's vpi_user.h names the same relation
-// vpiVariable.
-constexpr int32_t kVpiVariables = vpiVariable;
 
 // The first and last line of the class declaration, and the line of the
 // method prototype.
@@ -253,63 +255,26 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The objects 'object' has in the one-to-many VPI relation 'relation', as
-// vpi_iterate() would return them (37.3), or nullptr when there are none.
-const std::vector<const hldb::Any *> *relationObjects(const hldb::Any *object, int32_t relation) {
-  return std::get<2>(object->getByVpiType(relation));
-}
-
-// The object 'object' has in the one-to-one VPI relation 'relation', as
-// vpi_handle() would return it (37.3), or nullptr.
-const hldb::Any *relationObject(const hldb::Any *object, int32_t relation) {
-  return std::get<1>(object->getByVpiType(relation));
-}
-
-// The typespec 'object' has in the VPI relation 'relation', or nullptr. HLDB
-// may return an object of its own type that refers to the typespec through
-// vpiActual; that reference is followed. A typespec itself has no vpiActual
-// relation, so a direct typespec is returned as is.
-const hldb::Any *typespecOf(const hldb::Any *object, int32_t relation) {
-  const hldb::Any *const typespec = relationObject(object, relation);
-  if (typespec == nullptr) return nullptr;
-  const hldb::Any *const referenced = relationObject(typespec, vpiActual);
-  return (referenced != nullptr) ? referenced : typespec;
-}
-
-// Number of objects 'object' has in the VPI relation 'relation'; 0 when the
-// relation is empty.
-size_t relationSize(const hldb::Any *object, int32_t relation) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) return objects->size();
-  return (relationObject(object, relation) != nullptr) ? 1 : 0;
-}
-
-// The object named 'name' in the VPI relation 'relation' of 'object', or
-// nullptr.
-const hldb::Any *findInRelation(const hldb::Any *object, int32_t relation, std::string_view name) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) {
-    for (const hldb::Any *candidate : *objects) {
-      if ((candidate != nullptr) && (candidate->getName() == name)) return candidate;
+// The object named 'name' in 'collection', or nullptr. A parameterized class is
+// also matched by its definition name (getDefName()), so that a class named
+// after its default specialization is still found; its name is checked
+// separately.
+template <typename T>
+const T *findByName(const std::vector<T *> *collection, std::string_view name) {
+  if (collection != nullptr) {
+    for (const T *candidate : *collection) {
+      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
+        return candidate;
+      }
     }
   }
   return nullptr;
 }
 
-// The string VPI property 'property' of 'object', as vpi_get_str() would
-// return it, or a marker when the property holds no string.
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-// The integer VPI property 'property' of 'object', as vpi_get() would return
-// it, or vpiUndefined when the property holds no integer.
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
+// The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
+// relation through a ref typespec, which is followed with getActual().
+const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
+  return (refTypespec == nullptr) ? nullptr : refTypespec->getActual();
 }
 
 // Number of packages from the file under test that are declared packages,
@@ -320,7 +285,7 @@ size_t countDeclaredPackagesFromSourceFile(const std::vector<T *> *packages) {
   size_t count = 0;
   if (packages != nullptr) {
     for (const T *package : *packages) {
-      if (endsWith(package->getFile(), kSourceFileName) && (integerProperty(package, vpiUnit) != 1)) ++count;
+      if (endsWith(package->getFile(), kSourceFileName) && (package->getAnyType() == hldb::AnyType::Package)) ++count;
     }
   }
   return count;
@@ -400,9 +365,9 @@ class ClassTest35Test : public Test {
   }
 
   // The method set_port of zzxx, or nullptr.
-  static const hldb::Any *findSetPort() {
+  static const hldb::TaskFunc *findSetPort() {
     const hldb::ClassDefn *const classDefn = findClass();
-    return (classDefn == nullptr) ? nullptr : findInRelation(classDefn, vpiMethods, "set_port");
+    return (classDefn == nullptr) ? nullptr : findByName(classDefn->getMethods(), "set_port");
   }
 };
 
@@ -482,8 +447,8 @@ TEST_F(ClassTest35Test, SourceFileHasNoIncludesOrMacros) {
 TEST_F(ClassTest35Test, ClassZzxxIsDeclared) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
-  EXPECT_EQ(classDefn->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
-  EXPECT_EQ(stringProperty(classDefn, vpiName), "zzxx");
+  EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
+  EXPECT_EQ(classDefn->getName(), "zzxx");
 }
 
 // "class zzxx;" is on line 6 and "endclass" on line 8.
@@ -503,10 +468,10 @@ TEST_F(ClassTest35Test, ClassZzxxIsNotVirtualAndExtendsNothing) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(integerProperty(classDefn, vpiVirtual), 0);
-  EXPECT_EQ(relationSize(classDefn, vpiExtends), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiDerivedClasses), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiParameter), 0u);
+  EXPECT_FALSE(classDefn->getVirtual());
+  EXPECT_EQ(classDefn->getExtends(), nullptr);
+  EXPECT_EQ(sizeOf(classDefn->getDerivedClasses()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getParameters()), 0u);
 }
 
 // The prototype of line 7 declares the method set_port explicitly, so
@@ -515,7 +480,7 @@ TEST_F(ClassTest35Test, ClassZzxxHasOneMethod) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(relationSize(classDefn, vpiMethods), 1u);
+  EXPECT_EQ(sizeOf(classDefn->getMethods()), 1u);
   EXPECT_NE(findSetPort(), nullptr);
 }
 
@@ -525,12 +490,12 @@ TEST_F(ClassTest35Test, ClassZzxxHasNoOtherMembers) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(relationSize(classDefn, kVpiVariables), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiConstraint), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiTypedef), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiNamedEvent), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiNamedEventArray), 0u);
-  EXPECT_EQ(relationSize(classDefn, vpiInternalScope), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getVariables()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getConstraints()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getTypedefs()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getNamedEvents()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getNamedEventArrays()), 0u);
+  EXPECT_EQ(sizeOf(classDefn->getInternalScopes()), 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -541,32 +506,39 @@ TEST_F(ClassTest35Test, ClassZzxxHasNoOtherMembers) {
 // method (37.41); automatic (8.6); "For a void function, vpiSize shall return
 // 0" (37.41 detail 12). The whole prototype is on line 7.
 TEST_F(ClassTest35Test, MethodSetPortIsAVoidFunction) {
-  const hldb::Any *const setPort = findSetPort();
+  const hldb::TaskFunc *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
 
-  EXPECT_EQ(setPort->getVpiType(), static_cast<uint32_t>(vpiFunction));
-  EXPECT_EQ(integerProperty(setPort, vpiMethod), 1);
-  EXPECT_EQ(integerProperty(setPort, vpiAutomatic), 1);
-  EXPECT_EQ(integerProperty(setPort, vpiSize), 0);
+  EXPECT_EQ(setPort->getAnyType(), hldb::AnyType::Function);
+  EXPECT_TRUE(setPort->getMethod());
+  EXPECT_TRUE(setPort->getAutomatic());
   EXPECT_TRUE(endsWith(setPort->getFile(), kSourceFileName)) << setPort->getFile();
   EXPECT_EQ(setPort->getStartLine(), kPrototypeLine);
+
+  // HLDB has no typed getter for a function's vpiSize; a void function's
+  // return typespec is the void type, which has no bits.
+  const hldb::Function *const function = any_cast<hldb::Function>(setPort);
+  ASSERT_NE(function, nullptr) << "set_port is not a function";
+  const hldb::Typespec *const returnType = actualOf(function->getReturn());
+  ASSERT_NE(returnType, nullptr) << "set_port has no return typespec";
+  EXPECT_EQ(returnType->getAnyType(), hldb::AnyType::VoidTypespec);
 }
 
 // "(int ap)": one argument, an io decl (37.13) named ap, of type int (Table
 // 6-8); "Function declarations default to the formal direction input if no
 // direction has been specified" (13.4).
 TEST_F(ClassTest35Test, MethodSetPortHasOneInputArgumentAp) {
-  const hldb::Any *const setPort = findSetPort();
+  const hldb::TaskFunc *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
-  EXPECT_EQ(relationSize(setPort, vpiIODecl), 1u);
-  const hldb::Any *const argument = findInRelation(setPort, vpiIODecl, "ap");
+  EXPECT_EQ(sizeOf(setPort->getIODecls()), 1u);
+  const hldb::IODecl *const argument = findByName(setPort->getIODecls(), "ap");
   ASSERT_NE(argument, nullptr) << "set_port has no argument ap";
 
-  EXPECT_EQ(argument->getVpiType(), static_cast<uint32_t>(vpiIODecl));
-  EXPECT_EQ(integerProperty(argument, vpiDirection), static_cast<int64_t>(vpiInput));
-  const hldb::Any *const typespec = typespecOf(argument, vpiTypespec);
+  EXPECT_EQ(argument->getAnyType(), hldb::AnyType::IODecl);
+  EXPECT_EQ(argument->getDirection(), vpiInput);
+  const hldb::Typespec *const typespec = actualOf(argument->getTypespec());
   ASSERT_NE(typespec, nullptr) << "the argument ap has no typespec";
-  EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiIntTypespec));
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
   EXPECT_EQ(argument->getStartLine(), kPrototypeLine);
 }
 
@@ -574,9 +546,9 @@ TEST_F(ClassTest35Test, MethodSetPortHasOneInputArgumentAp) {
 // (8.24), and the file gives none. "If the number of statements is zero, the
 // vpiStmt relation shall return NULL" (37.12 detail 5).
 TEST_F(ClassTest35Test, MethodSetPortHasNoStatement) {
-  const hldb::Any *const setPort = findSetPort();
+  const hldb::TaskFunc *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
-  EXPECT_EQ(relationSize(setPort, vpiStmt), 0u);
+  EXPECT_EQ(setPort->getStmt(), nullptr);
 }
 
 // ---------------------------------------------------------------------------

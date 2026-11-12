@@ -106,9 +106,13 @@
 // unit as a package, with vpiUnit TRUE (37.10), although "the
 // compilation-unit scope is not a package" (3.12.1), so only packages whose
 // vpiUnit is not TRUE are counted. A module instance (37.10) has vpiName,
-// vpiDefName, vpiDefFile and vpiDefLineNo. HLDB answers vpi_get() and
-// vpi_iterate() through getVpiPropertyValue() and getByVpiType(), so the test
-// asks those questions directly with the LRM's vpiXXX codes.
+// vpiDefName, vpiDefFile and vpiDefLineNo. HLDB keeps each of these as a
+// typed member of the object, so the test reads them through HLDB's typed
+// getters (getName(), getVirtual(), getExtends(), getClassTypespecs(),
+// getArguments(), getClassDefn(), getDerivedClasses(), getClassDefns(),
+// getDefName() and so on) and identifies the kind of an object with
+// getAnyType(). HLDB models the compilation unit as a separate Unit object,
+// so every package in its package list is a declared package.
 //
 // Every expected value comes from the source text and the LRM, so a red test
 // means HLC deviates from the LRM.
@@ -206,7 +210,7 @@
 //     typespec; HLDB returns it as an iteration (an interface class may extend
 //     several, 8.26.1) of objects of its own type that refer to the typespec.
 //     That indirection is an HLDB model convention the LRM does not define, so
-//     its type is not asserted; the test follows it through vpiActual to the
+//     its type is not asserted; the test follows it through getActual() to the
 //     typespec it refers to. Nearest assertion:
 //     ClassFooExtendsBase (vpiClassTypespec on that typespec).
 //   - The implicit constructors. A class without an explicit new gets one, but
@@ -241,10 +245,13 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
+#include <hldb/class_typespec.h>
 #include <hldb/config_decl.h>
 #include <hldb/design.h>
+#include <hldb/extends.h>
 #include <hldb/interface.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
@@ -252,6 +259,7 @@
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/preproc_macro_instance.h>
 #include <hldb/program.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
@@ -270,11 +278,6 @@
 namespace hlc {
 namespace {
 constexpr std::string_view kSourceFileName = "class_test_29.sv";
-
-// vpiVariables, the VPI relation from a scope to its variables (100 in IEEE
-// 1800-2023 Annex K, vpi_user.h). HLDB's vpi_user.h names the same relation
-// vpiVariable.
-constexpr int32_t kVpiVariables = vpiVariable;
 
 // The lines of the declarations.
 constexpr uint32_t kPackageFirstLine = 16;
@@ -322,52 +325,26 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The objects 'object' has in the one-to-many VPI relation 'relation', as
-// vpi_iterate() would return them (37.3), or nullptr when there are none.
-const std::vector<const hldb::Any *> *relationObjects(const hldb::Any *object, int32_t relation) {
-  return std::get<2>(object->getByVpiType(relation));
-}
-
-// The object 'object' has in the one-to-one VPI relation 'relation', as
-// vpi_handle() would return it (37.3), or nullptr.
-const hldb::Any *relationObject(const hldb::Any *object, int32_t relation) {
-  return std::get<1>(object->getByVpiType(relation));
-}
-
-// Number of objects 'object' has in the VPI relation 'relation'; 0 when the
-// relation is empty.
-size_t relationSize(const hldb::Any *object, int32_t relation) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) return objects->size();
-  return (relationObject(object, relation) != nullptr) ? 1 : 0;
-}
-
-// The object named 'name' in the VPI relation 'relation' of 'object', or
-// nullptr.
-const hldb::Any *findInRelation(const hldb::Any *object, int32_t relation, std::string_view name) {
-  if (const std::vector<const hldb::Any *> *const objects = relationObjects(object, relation)) {
-    for (const hldb::Any *candidate : *objects) {
-      if ((candidate != nullptr) && (candidate->getName() == name)) return candidate;
+// The object named 'name' in 'collection', or nullptr. A parameterized class is
+// also matched by its definition name (getDefName()), so that a class named
+// after its default specialization is still found; its name is checked
+// separately.
+template <typename T>
+const T *findByName(const std::vector<T *> *collection, std::string_view name) {
+  if (collection != nullptr) {
+    for (const T *candidate : *collection) {
+      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
+        return candidate;
+      }
     }
   }
   return nullptr;
 }
 
-// The string VPI property 'property' of 'object', as vpi_get_str() would
-// return it, or a marker when the property holds no string.
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-// The integer VPI property 'property' of 'object', as vpi_get() would return
-// it, or vpiUndefined when the property holds no integer.
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
+// The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
+// relation through a ref typespec, which is followed with getActual().
+const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
+  return (refTypespec == nullptr) ? nullptr : refTypespec->getActual();
 }
 
 // Number of packages from the file under test that are declared packages,
@@ -378,7 +355,7 @@ size_t countDeclaredPackagesFromSourceFile(const std::vector<T *> *packages) {
   size_t count = 0;
   if (packages != nullptr) {
     for (const T *package : *packages) {
-      if (endsWith(package->getFile(), kSourceFileName) && (integerProperty(package, vpiUnit) != 1)) ++count;
+      if (endsWith(package->getFile(), kSourceFileName) && (package->getAnyType() == hldb::AnyType::Package)) ++count;
     }
   }
   return count;
@@ -457,9 +434,9 @@ class ClassTest29Test : public Test {
   }
 
   // The interface class Bar of the package Pkg, or nullptr.
-  static const hldb::Any *findBar() {
+  static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findInRelation(package, vpiClassDefn, "Bar");
+    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
   }
 
   // The compilation-unit class named 'name' declared in the file under test,
@@ -478,8 +455,8 @@ class ClassTest29Test : public Test {
   static void expectClassOnLine(const hldb::Any *classDefn, std::string_view name, uint32_t line) {
     ASSERT_NE(classDefn, nullptr) << "no class " << name;
 
-    EXPECT_EQ(classDefn->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
-    EXPECT_EQ(stringProperty(classDefn, vpiName), std::string(name));
+    EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
+    EXPECT_EQ(classDefn->getName(), name);
     EXPECT_TRUE(endsWith(classDefn->getFile(), kSourceFileName)) << classDefn->getFile();
     EXPECT_EQ(classDefn->getStartLine(), line);
     EXPECT_EQ(classDefn->getEndLine(), line);
@@ -487,26 +464,26 @@ class ClassTest29Test : public Test {
 
   // Checks that 'classDefn' has no parameter_port_list, no parameter item and
   // no extends clause (37.31 details 6 and 7).
-  static void expectNoParametersOrBase(const hldb::Any *classDefn) {
+  static void expectNoParametersOrBase(const hldb::ClassDefn *classDefn) {
     ASSERT_NE(classDefn, nullptr);
 
-    EXPECT_EQ(relationSize(classDefn, vpiParameter), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiExtends), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getParameters()), 0u);
+    EXPECT_EQ(classDefn->getExtends(), nullptr);
   }
 
   // Checks that 'classDefn' has no member and nothing else 37.31 lets a class
   // defn hold besides parameters (8.2; 37.31 detail 1 leaves out the implicit
   // constructor).
-  static void expectNoMembers(const hldb::Any *classDefn) {
+  static void expectNoMembers(const hldb::ClassDefn *classDefn) {
     ASSERT_NE(classDefn, nullptr);
 
-    EXPECT_EQ(relationSize(classDefn, kVpiVariables), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiMethods), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiConstraint), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiTypedef), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiNamedEvent), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiNamedEventArray), 0u);
-    EXPECT_EQ(relationSize(classDefn, vpiInternalScope), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getVariables()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getMethods()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getConstraints()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getTypedefs()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getNamedEvents()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getNamedEventArrays()), 0u);
+    EXPECT_EQ(sizeOf(classDefn->getInternalScopes()), 0u);
   }
 };
 
@@ -615,9 +592,9 @@ TEST_F(ClassTest29Test, PackagePkgIsDeclared) {
 
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
-  EXPECT_EQ(package->getVpiType(), static_cast<uint32_t>(vpiPackage));
-  EXPECT_EQ(stringProperty(package, vpiName), "Pkg");
-  EXPECT_NE(integerProperty(package, vpiUnit), 1);
+  EXPECT_EQ(package->getAnyType(), hldb::AnyType::Package);
+  EXPECT_EQ(package->getName(), "Pkg");
+  EXPECT_EQ(package->getAnyType(), hldb::AnyType::Package);
   EXPECT_EQ(package->getStartLine(), kPackageFirstLine);
   EXPECT_EQ(package->getEndLine(), kPackageLastLine);
 }
@@ -627,7 +604,7 @@ TEST_F(ClassTest29Test, PackagePkgIsDeclared) {
 TEST_F(ClassTest29Test, PackageHoldsInterfaceClassBar) {
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
-  EXPECT_EQ(relationSize(package, vpiClassDefn), 1u);
+  EXPECT_EQ(sizeOf(package->getClassDefns()), 1u);
 
   expectClassOnLine(findBar(), "Bar", kBarLine);
 }
@@ -640,9 +617,9 @@ TEST_F(ClassTest29Test, InterfaceClassBarHasNoParametersOrBase) { expectNoParame
 // Bar, which a class "may implement, but not extend" (8.26.2), so no class
 // defn derives from Bar (37.31 detail 5).
 TEST_F(ClassTest29Test, InterfaceClassBarHasNoDerivedClass) {
-  const hldb::Any *const bar = findBar();
+  const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
-  EXPECT_EQ(relationSize(bar, vpiDerivedClasses), 0u);
+  EXPECT_EQ(sizeOf(bar->getDerivedClasses()), 0u);
 }
 
 // Bar has no interface_class_item, so it has no member (8.2).
@@ -662,7 +639,7 @@ TEST_F(ClassTest29Test, ClassBaseHasNoParametersOrBase) {
   const hldb::ClassDefn *const base = findClass("Base");
   ASSERT_NE(base, nullptr);
 
-  EXPECT_EQ(integerProperty(base, vpiVirtual), 0);
+  EXPECT_FALSE(base->getVirtual());
   expectNoParametersOrBase(base);
 }
 
@@ -672,8 +649,8 @@ TEST_F(ClassTest29Test, ClassBaseIsTheBaseOfFoo) {
   const hldb::ClassDefn *const base = findClass("Base");
   ASSERT_NE(base, nullptr);
 
-  EXPECT_EQ(relationSize(base, vpiDerivedClasses), 1u);
-  EXPECT_NE(findInRelation(base, vpiDerivedClasses, "Foo"), nullptr);
+  EXPECT_EQ(sizeOf(base->getDerivedClasses()), 1u);
+  EXPECT_NE(findByName(base->getDerivedClasses(), "Foo"), nullptr);
 }
 
 // Base has no class_item, so it has no member (8.2).
@@ -696,7 +673,7 @@ TEST_F(ClassTest29Test, InterfaceClassBazHasNoParametersOrBase) { expectNoParame
 TEST_F(ClassTest29Test, InterfaceClassBazHasNoDerivedClass) {
   const hldb::ClassDefn *const baz = findClass("Baz");
   ASSERT_NE(baz, nullptr);
-  EXPECT_EQ(relationSize(baz, vpiDerivedClasses), 0u);
+  EXPECT_EQ(sizeOf(baz->getDerivedClasses()), 0u);
 }
 
 // Baz has no interface_class_item, so it has no member (8.2).
@@ -711,8 +688,8 @@ TEST_F(ClassTest29Test, InterfaceClassBazHasNoMembers) { expectNoMembers(findCla
 TEST_F(ClassTest29Test, ClassFooIsDeclared) {
   const hldb::ClassDefn *const foo = findClass("Foo");
   ASSERT_NE(foo, nullptr);
-  EXPECT_EQ(foo->getVpiType(), static_cast<uint32_t>(vpiClassDefn));
-  EXPECT_EQ(stringProperty(foo, vpiName), "Foo");
+  EXPECT_EQ(foo->getAnyType(), hldb::AnyType::ClassDefn);
+  EXPECT_EQ(foo->getName(), "Foo");
 }
 
 // The whole declaration of Foo, endclass included, is on line 23.
@@ -735,19 +712,19 @@ TEST_F(ClassTest29Test, ClassFooIsOnLine23) {
 TEST_F(ClassTest29Test, ClassFooExtendsBase) {
   const hldb::ClassDefn *const foo = findClass("Foo");
   ASSERT_NE(foo, nullptr);
-  EXPECT_EQ(relationSize(foo, vpiExtends), 1u);
-  const hldb::Any *const extendsObject = relationObject(foo, vpiExtends);
+  const hldb::Extends *const extendsObject = foo->getExtends();
   ASSERT_NE(extendsObject, nullptr);
-  EXPECT_EQ(relationSize(extendsObject, vpiArgument), 0u);
+  EXPECT_EQ(sizeOf(extendsObject->getArguments()), 0u);
 
-  const std::vector<const hldb::Any *> *const typespecs = relationObjects(extendsObject, vpiClassTypespec);
+  const hldb::RefTypespecCollection *const typespecs = extendsObject->getClassTypespecs();
   ASSERT_NE(typespecs, nullptr);
   ASSERT_EQ(typespecs->size(), 1u);
-  const hldb::Any *typespec = typespecs->front();
+  const hldb::Typespec *const typespec = actualOf(typespecs->front());
   ASSERT_NE(typespec, nullptr);
-  if (const hldb::Any *const referenced = relationObject(typespec, vpiActual)) typespec = referenced;
-  EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiClassTypespec));
-  const hldb::Any *const base = relationObject(typespec, vpiClassDefn);
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::ClassTypespec);
+  const hldb::ClassTypespec *const classTypespec = any_cast<hldb::ClassTypespec>(typespec);
+  ASSERT_NE(classTypespec, nullptr);
+  const hldb::ClassDefn *const base = classTypespec->getClassDefn();
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "Base");
   EXPECT_EQ(base->getStartLine(), kBaseLine);
@@ -759,9 +736,9 @@ TEST_F(ClassTest29Test, ClassFooIsNotVirtualAndHasNoDerivedClass) {
   const hldb::ClassDefn *const foo = findClass("Foo");
   ASSERT_NE(foo, nullptr);
 
-  EXPECT_EQ(integerProperty(foo, vpiVirtual), 0);
-  EXPECT_EQ(relationSize(foo, vpiDerivedClasses), 0u);
-  EXPECT_EQ(relationSize(foo, vpiParameter), 0u);
+  EXPECT_FALSE(foo->getVirtual());
+  EXPECT_EQ(sizeOf(foo->getDerivedClasses()), 0u);
+  EXPECT_EQ(sizeOf(foo->getParameters()), 0u);
 }
 
 // Foo has no class_item, so it has no member (8.2); Bar and Baz have no
@@ -798,11 +775,11 @@ TEST_F(ClassTest29Test, ModuleTestIsEmpty) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
 
-  EXPECT_EQ(relationSize(module, kVpiVariables), 0u);
-  EXPECT_EQ(relationSize(module, vpiNet), 0u);
-  EXPECT_EQ(relationSize(module, vpiParameter), 0u);
-  EXPECT_EQ(relationSize(module, vpiTypedef), 0u);
-  EXPECT_EQ(relationSize(module, vpiClassDefn), 0u);
+  EXPECT_EQ(sizeOf(module->getVariables()), 0u);
+  EXPECT_EQ(sizeOf(module->getNets()), 0u);
+  EXPECT_EQ(sizeOf(module->getParameters()), 0u);
+  EXPECT_EQ(sizeOf(module->getTypedefs()), 0u);
+  EXPECT_EQ(sizeOf(module->getClassDefns()), 0u);
 }
 
 // ---------------------------------------------------------------------------
@@ -843,11 +820,10 @@ TEST_F(ClassTest29Test, TestIsTheOnlyTopLevelInstance) {
     ASSERT_NE(instance, nullptr);
 
     EXPECT_EQ(instance->getName(), "test");
-    EXPECT_EQ(stringProperty(instance, vpiDefName), "test");
-    EXPECT_TRUE(endsWith(stringProperty(instance, vpiDefFile), kSourceFileName))
-        << stringProperty(instance, vpiDefFile);
-    EXPECT_EQ(integerProperty(instance, vpiDefLineNo), static_cast<int64_t>(kModuleFirstLine));
-    EXPECT_EQ(relationSize(instance, vpiClassDefn), 0u);
+    EXPECT_EQ(instance->getDefName(), "test");
+    EXPECT_TRUE(endsWith(instance->getDefFile(), kSourceFileName)) << instance->getDefFile();
+    EXPECT_EQ(instance->getDefLineNo(), static_cast<int32_t>(kModuleFirstLine));
+    EXPECT_EQ(sizeOf(instance->getClassDefns()), 0u);
   }
 }
 }  // namespace hlc
