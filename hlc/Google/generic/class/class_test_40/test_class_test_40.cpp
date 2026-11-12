@@ -165,6 +165,7 @@
 #include <hldb/program.h>
 #include <hldb/source_file.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 
 #include <cstddef>
@@ -396,8 +397,9 @@ TEST_F(ClassTest40Test, NoDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 }  // namespace hlc
 

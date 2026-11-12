@@ -265,6 +265,7 @@
 #include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/udp_defn.h>
+#include <hldb/unit.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -475,7 +476,7 @@ class ClassTest49Test : public Test {
 
   // The class declared in the file under test, or nullptr.
   static const hldb::ClassDefn *findClass() {
-    return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllClasses(), "params_as_class_item");
+    return (m_unit == nullptr) ? nullptr : findFromSourceFile(m_unit->getClassDefns(), "params_as_class_item");
   }
 
   // The parameter named 'name' of the class, or nullptr.
@@ -661,7 +662,8 @@ TEST_F(ClassTest49Test, PackageGlbHoldsLocalparamArr) {
 // vpiName is the class_identifier.
 TEST_F(ClassTest49Test, ClassIsDeclared) {
   ASSERT_NE(m_design, nullptr);
-  EXPECT_EQ(countFromSourceFile(m_design->getAllClasses()), 1u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getClassDefns()), 1u);
 
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
@@ -815,8 +817,9 @@ TEST_F(ClassTest49Test, NoOtherDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_design->getAllPrograms()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getAllUdps()), 0u);
   EXPECT_EQ(countFromSourceFile(m_design->getConfigs()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getCheckerDecls()), 0u);
-  EXPECT_EQ(countFromSourceFile(m_design->getVariables()), 0u);
+  ASSERT_NE(m_unit, nullptr);
+  EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
+  EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
 
 // ---------------------------------------------------------------------------
