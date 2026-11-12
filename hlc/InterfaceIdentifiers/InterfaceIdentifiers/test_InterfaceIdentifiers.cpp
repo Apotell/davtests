@@ -241,7 +241,7 @@ TEST_F(InterfaceIdentifiers, AnsiPlainPortIODeclTypespecIsBusIf) {
   const hldb::InterfaceTypespec *const its = iodecl->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr) << "IODecl 'bus' is not typed by an interface";
   ASSERT_NE(its->getInterface(), nullptr);
-  EXPECT_EQ(its->getInterface()->getDefName(), "BusIf");
+  EXPECT_EQ(its->getInterface()->getDefName(), std::string_view("BusIf"));
 }
 
 TEST_F(InterfaceIdentifiers, AnsiModportPortsAreModportIODecls) {
@@ -307,7 +307,7 @@ TEST_F(InterfaceIdentifiers, InterfacePortUseRefersToModport) {
   ASSERT_FALSE(lhs->getPathElems()->empty());
   const hldb::RefObj *const head = any_cast<hldb::RefObj>(lhs->getPathElems()->front());
   ASSERT_NE(head, nullptr);
-  EXPECT_EQ(head->getName(), "out_bus");
+  EXPECT_EQ(head->getName(), std::string_view("out_bus"));
   EXPECT_EQ(head->getActual(), master);
 }
 

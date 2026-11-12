@@ -71,7 +71,7 @@ interface sp_if;
   logic a, b;
   event e;
   modport src (input a, output b);
-  modport k (input a, output .Q(2));
+  modport k (input a, input .Q(2));
 endinterface
 
 module sp (sp_if.src p, output logic y);

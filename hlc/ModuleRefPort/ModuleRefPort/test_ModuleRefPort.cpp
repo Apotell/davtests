@@ -71,7 +71,7 @@ class ModuleRefPort : public Test {
     ASSERT_NE(iodecl->getExpr(), nullptr);
     ASSERT_EQ(iodecl->getExpr()->getAnyType(), hldb::AnyType::RefObj);
     const hldb::RefObj *const expr = static_cast<const hldb::RefObj *>(iodecl->getExpr());
-    EXPECT_EQ(expr->getName(), "r");
+    EXPECT_EQ(expr->getName(), std::string_view("r"));
     EXPECT_EQ(expr->getActual(), variable);
 
     ASSERT_NE(iodecl->getTypespec(), nullptr) << "IODecl 'r' has no typespec";

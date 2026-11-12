@@ -164,16 +164,16 @@ TEST_F(ModportIODecl, ModportExpressionPortsCarryTheirExpression) {
   const hldb::RefObj *const prefix = ps->getPrefix<hldb::RefObj>();
   ASSERT_NE(prefix, nullptr);
   ASSERT_NE(prefix->getActual(), nullptr);
-  EXPECT_EQ(prefix->getActual()->getName(), "r");
+  EXPECT_EQ(prefix->getActual()->getName(), std::string_view("r"));
 
   const hldb::IODecl *const q = hldb::findByName<hldb::IODecl>("Q", a->getIODecls());
   ASSERT_NE(q, nullptr);
   EXPECT_EQ(q->getDirection(), vpiInput);
   const hldb::RefObj *const x = q->getExpr<hldb::RefObj>();
   ASSERT_NE(x, nullptr);
-  EXPECT_EQ(x->getName(), "x");
+  EXPECT_EQ(x->getName(), std::string_view("x"));
   ASSERT_NE(x->getActual(), nullptr);
-  EXPECT_EQ(x->getActual()->getName(), "x");
+  EXPECT_EQ(x->getActual()->getName(), std::string_view("x"));
 
   checkSimplePort(a, "R", vpiInput, hldb::AnyType::Variable);
 
@@ -207,7 +207,7 @@ TEST_F(ModportIODecl, ModportExpressionPortNameResolvesThroughModport) {
   ASSERT_NE(rhsQ, nullptr);
   ASSERT_NE(rhsQ->getActual(), nullptr);
   EXPECT_EQ(rhsQ->getActual(), q->getExpr<hldb::RefObj>()->getActual());
-  EXPECT_EQ(rhsQ->getActual()->getName(), "x");
+  EXPECT_EQ(rhsQ->getActual()->getName(), std::string_view("x"));
 }
 
 // ----
@@ -224,7 +224,7 @@ TEST_F(ModportIODecl, ClockingModportItemNamesTheClockingBlock) {
   ASSERT_NE(expr, nullptr);
   ASSERT_NE(expr->getActual(), nullptr);
   EXPECT_EQ(expr->getActual()->getAnyType(), hldb::AnyType::ClockingBlock);
-  EXPECT_EQ(expr->getActual()->getName(), "sb");
+  EXPECT_EQ(expr->getActual()->getName(), std::string_view("sb"));
 }
 
 TEST_F(ModportIODecl, ClockingSignalResolvesThroughModport) {
@@ -236,13 +236,13 @@ TEST_F(ModportIODecl, ClockingSignalResolvesThroughModport) {
   ASSERT_NE(sb, nullptr);
   ASSERT_NE(sb->getActual(), nullptr);
   EXPECT_EQ(sb->getActual()->getAnyType(), hldb::AnyType::ClockingBlock);
-  EXPECT_EQ(sb->getActual()->getName(), "sb");
+  EXPECT_EQ(sb->getActual()->getName(), std::string_view("sb"));
 
   const hldb::RefObj *const req = pathElem(assign->getLhs(), 2);
   ASSERT_NE(req, nullptr);
   ASSERT_NE(req->getActual(), nullptr);
   EXPECT_EQ(req->getActual()->getAnyType(), hldb::AnyType::ClockingIODecl);
-  EXPECT_EQ(req->getActual()->getName(), "req");
+  EXPECT_EQ(req->getActual()->getName(), std::string_view("req"));
 }
 
 // ----
@@ -288,7 +288,7 @@ TEST_F(ModportIODecl, MemberUseResolvesToInterfaceItem) {
   ASSERT_NE(gnt, nullptr);
   ASSERT_NE(gnt->getActual(), nullptr);
   EXPECT_EQ(gnt->getActual()->getAnyType(), hldb::AnyType::Variable);
-  EXPECT_EQ(gnt->getActual()->getName(), "gnt");
+  EXPECT_EQ(gnt->getActual()->getName(), std::string_view("gnt"));
   EXPECT_EQ(hldb::getParent<hldb::Interface>(gnt->getActual()), findInterface("simple_bus"));
 }
 
@@ -306,7 +306,7 @@ TEST_F(ModportIODecl, ListedObjectIsAccessibleThroughModport) {
   ASSERT_NE(q, nullptr);
   ASSERT_NE(q->getActual(), nullptr);
   EXPECT_EQ(q->getActual()->getAnyType(), hldb::AnyType::Variable);
-  EXPECT_EQ(q->getActual()->getName(), "Q");
+  EXPECT_EQ(q->getActual()->getName(), std::string_view("Q"));
   EXPECT_EQ(hldb::getParent<hldb::Interface>(q->getActual()), findInterface("ebus_i"));
 }
 
@@ -321,7 +321,7 @@ TEST_F(ModportIODecl, TypeIsAccessibleThroughModport) {
   const hldb::RefObj *const choice = pathElem(yesNo->getAlias(), 1);
   ASSERT_NE(choice, nullptr);
   ASSERT_NE(choice->getActual(), nullptr);
-  EXPECT_EQ(choice->getActual()->getName(), "choice");
+  EXPECT_EQ(choice->getActual()->getName(), std::string_view("choice"));
 }
 
 TEST_F(ModportIODecl, UnlistedObjectIsNotAccessibleThroughModport) {
@@ -330,9 +330,9 @@ TEST_F(ModportIODecl, UnlistedObjectIsNotAccessibleThroughModport) {
   ASSERT_NE(assign, nullptr);
   const hldb::RefObj *const i = pathElem(assign->getLhs(), 1);
   ASSERT_NE(i, nullptr);
-  EXPECT_EQ(i->getName(), "I");
+  EXPECT_EQ(i->getName(), std::string_view("I"));
   EXPECT_EQ(i->getActual(), nullptr) << "'I' is not in modport mp and must not resolve through it";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "I"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompModportMemberNotListed, "I", 62, 13), nullptr);
 }
 
 // ----
@@ -341,9 +341,7 @@ TEST_F(ModportIODecl, UnlistedObjectIsNotAccessibleThroughModport) {
 
 TEST_F(ModportIODecl, SpecifyPathSourceMustBeModportInputOrInout) {
   // "(p.b => y)" with p a "sp_if.src" port: b is an output of modport src.
-  EXPECT_NE(findEvent(EventType::CompIllegalSpecifyPath, "b"), nullptr);
-  // "(p.a => y)": a is an input of modport src.
-  EXPECT_EQ(findEvent(EventType::CompIllegalSpecifyPath, "a"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecifyPath, "b", 80, 8), nullptr);
 }
 
 // ----
@@ -351,7 +349,8 @@ TEST_F(ModportIODecl, SpecifyPathSourceMustBeModportInputOrInout) {
 // ----
 
 TEST_F(ModportIODecl, UnlistedEventIsNotAccessibleThroughModport) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "e"), nullptr)
+  // "initial -> p.e;" in evm (sp_if.src p).
+  EXPECT_NE(findEvent(EventType::CompModportMemberNotListed, "e", 86, 16), nullptr)
       << "'e' is not in modport src and must not resolve through it";
 }
 
@@ -360,7 +359,14 @@ TEST_F(ModportIODecl, UnlistedEventIsNotAccessibleThroughModport) {
 // ----
 
 TEST_F(ModportIODecl, ConstantModportExpressionPortIsALegalMember) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "Q"), nullptr);
+  // "input .Q(2)" in modport k: the port expression is the constant itself, so "p.Q" in km names
+  // the modport port, but there is no net or variable for a ref obj to refer to (Sec 37.15).
+  const hldb::Modport *const k = findModport("sp_if", "k");
+  ASSERT_NE(k, nullptr);
+  const hldb::IODecl *const q = hldb::findByName<hldb::IODecl>("Q", k->getIODecls());
+  ASSERT_NE(q, nullptr);
+  EXPECT_EQ(q->getDirection(), vpiInput);
+  EXPECT_NE(q->getExpr<hldb::Constant>(), nullptr);
 }
 
 // ----
@@ -374,17 +380,28 @@ TEST_F(ModportIODecl, ImplicitNetFromInstanceConnectionCanBeListed) {
   const hldb::IODecl *const imp = hldb::findByName<hldb::IODecl>("imp", mp->getIODecls());
   ASSERT_NE(imp, nullptr);
   EXPECT_EQ(imp->getDirection(), vpiInput);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "imp", 100, 20), nullptr)
-      << "the modport port 'imp' (dut.sv:100) names an implicitly declared net";
+  // No Net is built for an implicit net, so the port's reference stays unbound.
+  const hldb::RefObj *const expr = imp->getExpr<hldb::RefObj>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getName(), std::string_view("imp"));
+  EXPECT_EQ(expr->getActual(), nullptr);
 }
 
 // ----
 // Sec 23.2.2: an interface_port_header has no port_direction, so none is missing
 // ----
 
-TEST_F(ModportIODecl, InterfacePortIsNotWarnedMissingDirection) {
-  for (std::string_view name : {"a", "i", "b"}) {
-    EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, name), nullptr) << name;
+TEST_F(ModportIODecl, InterfacePortHasNoDirection) {
+  // Sec 37.13 detail 3: the direction of an interface or modport port is undefined.
+  struct Expected {
+    std::string_view m_module, m_port;
+  };
+  for (const Expected &e : {Expected{"memMod", "a"}, Expected{"M", "i"}, Expected{"stb", "b"}}) {
+    const hldb::Module *const m = findModule(e.m_module);
+    ASSERT_NE(m, nullptr) << e.m_module;
+    const hldb::Port *const port = hldb::findByName<hldb::Port>(e.m_port, m->getPorts());
+    ASSERT_NE(port, nullptr) << e.m_module;
+    EXPECT_EQ(port->getDirection(), vpiNoDirection) << e.m_module;
   }
 }
 
