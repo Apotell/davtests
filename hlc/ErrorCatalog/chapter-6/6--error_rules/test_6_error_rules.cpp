@@ -220,17 +220,7 @@ TEST_F(Chapter6ErrorRulesTest, Row17_RelationalOperatorOnChandleIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row19_ForwardTypedefMismatchIsRejected) {
   // catalog row 19 | 6.18 | COMP
-  // EXPECTED TO FAIL, BLOCKED ON A MODEL GAP: the forward declaration's own basic-type keyword
-  // ('enum') is never retained anywhere in the compiled model -- confirmed via hldb-dump that a
-  // forward "typedef enum r19_e_t;" TypedefTypespec has no property at all recording which
-  // keyword it named, only a vpiTypedefAlias that (once resolved) points straight at the
-  // completed definition, with no trace of what the forward form said. There is nothing left to
-  // compare the actual type against by the time a post-pass could run. Documented as HLDB model
-  // gap #7 in .claude/instructions/hldb_model_gaps.md, with the required model/Phase2ModelBuilder
-  // change spelled out there -- not implementable as a ModelBuilder-only post-pass fix.
-  GTEST_SKIP() << "no diagnostic implemented; the forward declaration's own basic-type keyword "
-                  "('enum') is never retained anywhere in the compiled model, so there is nothing "
-                  "left to compare the actual type against (HLDB model gap #7)";
+  // The forward declaration keeps its keyword (vpiTypedefKind); the definition is a struct.
   EXPECT_NE(findEvent(EventType::CompForwardTypedefMismatch, "r19_e_t"), nullptr)
       << "the actual type must conform to its forward enum declaration (IEEE 1800-2023 6.18)";
 }
@@ -239,18 +229,7 @@ TEST_F(Chapter6ErrorRulesTest, Row19_ForwardTypedefMismatchIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row20_ScopeResolutionOnIncompleteForwardTypeIsRejected) {
   // catalog row 20 | 6.18 | COMP
-  // A separate, pre-existing defect blocks this row from being exercised as
-  // written: HLC reports CompMultiplyDefinedTypedef at "class r20_c ...
-  // endclass" (6--error_rules.sv), treating the completing class definition
-  // as redeclaring the earlier "typedef r20_c;" forward declaration, even
-  // though this two-step forward-then-complete pattern is exactly what a
-  // forward class typedef is for.
-  //
-  // EXPECTED TO FAIL: no diagnostic implemented for the named rule, and the defect above blocks
-  // even reaching it.
-  GTEST_SKIP() << "no diagnostic implemented for this row's rule, and a pre-existing bug "
-                  "(HLC reports CompMultiplyDefinedTypedef at the completing 'class r20_c "
-                  "... endclass' instead) blocks even reaching it";
+  // r20_c::T is used in a declaration (not a typedef) before class r20_c is defined.
   EXPECT_NE(findEvent(EventType::CompIllegalScopeResolutionPrefix, "r20_c"), nullptr)
       << "'C::T' outside a typedef/type-operator context needs C to resolve to a class "
          "(IEEE 1800-2023 6.18)";

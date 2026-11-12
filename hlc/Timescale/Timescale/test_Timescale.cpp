@@ -492,16 +492,10 @@ TEST_F(TimescaleTest, TimescaleInsideDesignElementIsAnError) {
 }
 
 TEST_F(TimescaleTest, TimescalePrecisionLongerThanUnitIsAnError) {
-  GTEST_SKIP() << "Known HLC gap: `timescale 1ns / 1us is accepted without a diagnostic. Sec 22.7: \"The "
-                  "time_precision argument shall be at least as precise as the time_unit argument\" "
-                  "(PaTimescaleInvalidScale is defined but never reported).";
   EXPECT_NE(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 }
 
 TEST_F(TimescaleTest, TimescaleInvalidMagnitudeIsAnError) {
-  GTEST_SKIP() << "Known HLC gap: `timescale 3ns / 1ps is accepted without a diagnostic. Sec 22.7: \"the "
-                  "valid integers are 1, 10, and 100\" (PaTimescaleInvalidValue is defined but never "
-                  "reported).";
   EXPECT_NE(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 }
 

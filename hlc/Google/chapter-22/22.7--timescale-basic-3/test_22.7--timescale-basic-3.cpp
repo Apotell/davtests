@@ -227,7 +227,6 @@ class TimescaleBasic3Test : public Test {
 // so line 17 is illegal. The LRM requires an error there; it does not say
 // which kind, so any error-class diagnostic on line 17 satisfies it.
 TEST_F(TimescaleBasic3Test, ReportsAnErrorOnTheIllegalLine) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);
@@ -244,7 +243,6 @@ TEST_F(TimescaleBasic3Test, ReportsAnErrorOnTheIllegalLine) {
 // 100"). Reporting line 17 under it identifies the LRM condition that makes
 // the line illegal.
 TEST_F(TimescaleBasic3Test, DiagnosesTheInvalidTimescaleValue) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
   const Event *const error = findEvent(EventType::PaTimescaleInvalidValue);
   ASSERT_NE(error, nullptr) << "9 is not one of the valid integers 1, 10 and 100 (22.7)";
   EXPECT_EQ(lineOf(*error), kIllegalLine);

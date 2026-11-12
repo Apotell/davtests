@@ -1141,7 +1141,6 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, InitialCallsRunTestFromUvmPkg)
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (illegal override
 // of rand_mode() accepted) in the file header.
 TEST_F(DisablingRandomVariablesWithRandMode5Test, RedefiningRandModeIsReportedOnItsDeclaration) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnosis yet.";
   EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "rand_mode"), nullptr)
       << "18.8: 'The rand_mode() method is built-in and cannot be overridden.'";
   const std::vector<uint32_t> lines = getDiagnosticLines(EventType::CompCannotRedefineBuiltinMethod, false);

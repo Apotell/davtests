@@ -1159,7 +1159,6 @@ TEST_F(BehaviorOfRandomizationMethods5Test, InitialCallsRunTestFromUvmPkg) {
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (neither illegality
 // is rejected) in the file header.
 TEST_F(BehaviorOfRandomizationMethods5Test, RandomizeOverrideIsReportedAsError) {
-  GTEST_SKIP() << "HLC doesn't generate the required diagnostic";
   size_t onOverride = 0;
   for (const uint32_t line : getErrorLinesInThisFile()) {
     if (line >= kOverrideFirstLine && line <= kOverrideLastLine) ++onOverride;
