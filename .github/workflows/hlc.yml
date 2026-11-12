@@ -128,12 +128,11 @@ jobs:
           --shard=${{ matrix.shard }}
         git status
 
+    # Never dump toJson(github) here: it contains github.token. ci_context.py emits an allowlist.
     - name: Prepare regression artifacts
       if: ${{ !cancelled() }}
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo "$GITHUB_CONTEXT" > env.json
+        python3 scripts/ci_context.py > env.json
         mv regression/regression.csv .
         mv regression ${{ env.regression-artifact-name }}
         find ${{ env.regression-artifact-name }} -name "*.tar.gz" | tar czfp ${{ env.regression-artifact-name }}.tar.gz -T -
@@ -336,8 +335,6 @@ jobs:
 
     - name: Run scanner
       timeout-minutes: 15
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
         ls -lR
         python3 scripts/summarize.py                                  \

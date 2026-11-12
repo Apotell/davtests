@@ -16,8 +16,9 @@ from pathlib import Path
 from pathlibutil.json import (
   load as json_load,
   dump as json_dump,
-  loads as json_loads
 )
+
+from ci_context import ci_context
 
 _platform_ids = ['.linux', '.osx', '.msys', '.win', '']
 _max_input_file_count = 8
@@ -192,7 +193,7 @@ def _main():
   counts = defaultdict(int)
   regression = []
   reducer = []
-  envs = json_loads(os.getenv('GITHUB_CONTEXT')) if _is_ci_build() else {} # pyright: ignore[reportArgumentType]
+  envs = ci_context() if _is_ci_build() else {}
   envs['shards'] = {}
 
   if args.jobs <= 1:
