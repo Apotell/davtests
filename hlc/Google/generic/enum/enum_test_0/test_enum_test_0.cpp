@@ -39,7 +39,7 @@
 // myenum_fwd;' or any other definition of myenum_fwd follows. So
 // myenum_fwd never resolves to a data type, and the compiler shall report
 // an error for it. HLC's diagnostic for a type name that resolves to no
-// data type is CompUndefinedType ("Undefined type"), so that code, naming
+// data type is UnsupportedTypespec ("Unknown or undefined type", DL2510), so that code, naming
 // myenum_fwd on line 6, is expected.
 //
 // Since no enumeration type body exists, no enumeration constant (6.19) is
@@ -54,7 +54,7 @@
 //
 // What is checked
 //   - The unresolved forward typedef is reported: at least one error, and a
-//     CompUndefinedType naming myenum_fwd on line 6 (6.18).
+//     UnsupportedTypespec naming myenum_fwd on line 6 (6.18).
 //   - No fatal and no syntax diagnostic: line 6 matches A.2.1.3.
 //   - No "multiply defined typedef" (myenum_fwd is declared once) and no
 //     "forward typedef mismatch" (there is no actual definition to compare
@@ -69,7 +69,7 @@
 // KNOWN FAILURE (unresolved forward typedef not reported), not a defect in
 // this test: HLC 577 accepts 'typedef enum myenum_fwd;' with no definition
 // of myenum_fwd anywhere and reports no error at all (zero errors, no
-// CompUndefinedType), although 6.18 says "It shall be an error if the
+// UnsupportedTypespec), although 6.18 says "It shall be an error if the
 // type_identifier does not resolve to a data type."
 // ReportsUndefinedTypeForUnresolvedForwardTypedef asserts the LRM behavior
 // and is expected to fail until HLC is fixed; it is intentionally not
@@ -226,7 +226,7 @@ class EnumTest0Test : public Test {
 // 6.18: "It shall be an error if the type_identifier does not resolve to a
 // data type." Nothing in the compilation unit defines myenum_fwd, so the
 // forward typedef of line 6 never resolves and an error is required. HLC
-// reports a type name that resolves to no data type as CompUndefinedType.
+// reports a type name that resolves to no data type as UnsupportedTypespec.
 TEST_F(EnumTest0Test, ReportsUndefinedTypeForUnresolvedForwardTypedef) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
@@ -235,7 +235,7 @@ TEST_F(EnumTest0Test, ReportsUndefinedTypeForUnresolvedForwardTypedef) {
 
   const EventListener::Stats stats = eventListener->getStats();
   EXPECT_GE(stats.m_errors, 1) << "6.18: an unresolved forward typedef is an error";
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "myenum_fwd", 6), nullptr)
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "myenum_fwd", 6), nullptr)
       << "myenum_fwd (line 6) never resolves to a data type;" << describeEvents(eventListener, EventSeverity::Error);
 }
 

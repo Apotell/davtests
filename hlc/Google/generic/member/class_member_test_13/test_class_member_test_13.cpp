@@ -63,7 +63,7 @@
 //   sources, so the type cannot be resolved and the compiler must report it.
 //   Since 'myclass::' may be read as a class scope or a package scope, the
 //   test accepts any of HLC's dedicated codes CompUndefinedClass (5816),
-//   CompUndefinedPackage (5817) or CompUndefinedType (5818), located on
+//   CompUndefinedPackage (5817) or UnsupportedTypespec (DL2510), located on
 //   line 11.
 //
 // The file declares no module, so there is no top-level module (23.3.1).
@@ -330,7 +330,7 @@ TEST_F(ClassMemberTest13Test, UndefinedMyclassScopeIsReported) {
 
   const bool reported = (findEvent(EventType::CompUndefinedClass, 11) != nullptr) ||
                         (findEvent(EventType::CompUndefinedPackage, 11) != nullptr) ||
-                        (findEvent(EventType::CompUndefinedType, 11) != nullptr);
+                        (findEvent(EventType::UnsupportedTypespec, 11) != nullptr);
   EXPECT_TRUE(reported) << "8.23/26.3: nothing named myclass is declared, so 'myclass::msg_t' on line 11 is undefined;"
                         << describeEvents(eventListener, EventSeverity::Error);
 }

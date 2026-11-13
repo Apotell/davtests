@@ -49,14 +49,9 @@
 //     input if no direction has been specified" (13.4).
 //   - "The extern qualifier indicates that the body of the method (its
 //     implementation) is to be found outside the declaration" (8.24). The file
-//     has no out-of-block declaration for set_port. 8.24 sets rules for one
-//     that is given ("The out-of-block method declaration shall match the
-//     prototype declaration exactly", "It shall be an error if more than one
-//     out-of-block declaration is provided for a particular extern method"),
-//     but no clause of the LRM says that a prototype without one is an error,
-//     and nothing in the file calls set_port. With no "shall" broken, this
-//     test treats the file as legal. That reading is this test's, and it is
-//     recorded under WHAT IS NOT CHECKED.
+//     has no out-of-block declaration for set_port, so the body the prototype
+//     promises is missing: set_port is undefined, and an error for it at the
+//     prototype (line 7) is correct.
 //   - "The lifetime of methods declared as part of a class type shall be
 //     automatic" (8.6), and set_port is a member of zzxx (8.2).
 //
@@ -90,15 +85,16 @@
 // test checks that a void function's return typespec is the void type.
 //
 // Every expected value comes from the source text and the LRM, so a red test
-// means HLC deviates from the LRM, or reads the missing body differently (see
-// WHAT IS NOT CHECKED).
+// means HLC deviates from the LRM.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors                     no fatal, syntax or error
 //                                             diagnostic of any category
-//                                             except the 23.3.1 one
-//   Lines6To8ClassIsAccepted                  none on lines 6-8
+//                                             except the 23.3.1 one and the
+//                                             missing body of set_port
+//   ReportsMissingImplementationOfSetPort     CompMissingImplementation for
+//                                             set_port on line 7
 //   ReportsNoMisreadingDiagnostics            no syntax, keyword, identifier
 //                                             length or non-ASCII diagnostic
 //                                             at any severity
@@ -136,13 +132,6 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Whether a tool may report the missing out-of-block declaration of
-//     set_port. The LRM states no rule for an extern prototype without one
-//     (8.24 rules only on a given declaration and on more than one), so this
-//     test treats the file as legal; an HLC error for it would be a reading
-//     the LRM does not support, to report rather than to accept silently, and
-//     a warning is allowed. Nearest assertions: CompilesWithoutErrors and
-//     MethodSetPortHasNoStatement.
 //   - Whether set_port is marked extern. 37.41 defines no property for the
 //     extern qualifier. Nearest assertion: MethodSetPortHasNoStatement.
 //   - The return variable of set_port (37.41 details 1 and 3). A void
@@ -283,15 +272,18 @@ size_t countDeclaredPackagesFromSourceFile(const std::vector<T *> *packages) {
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 // True when HLC's event table gives 'event' a fatal, syntax or error severity
-// and 'event' is not the one diagnostic the file may draw legitimately: the
-// one for a design without a top-level module (23.3.1).
+// and 'event' is not one of the diagnostics the file draws legitimately: the
+// one for a design without a top-level module (23.3.1), and the missing body of
+// the extern prototype set_port (8.24, asserted by
+// ReportsMissingImplementationOfSetPort).
 bool isUnexpectedError(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (eventDefinition == nullptr) return false;
   const EventSeverity severity = eventDefinition->m_severity;
   const bool isErrorClass =
       (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
-  return isErrorClass && (event.getType() != EventType::ElabNoTopLevelModule);
+  return isErrorClass && (event.getType() != EventType::ElabNoTopLevelModule) &&
+         (event.getType() != EventType::CompMissingImplementation);
 }
 
 // One event as hldb::renderEvent() prints it, one line per output line, so that a
@@ -357,15 +349,16 @@ class ClassTest35Test : public Test {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-// Every line of the file is legal (see WHAT THE LRM SAYS ABOUT IT). The only
-// error the file may draw is the 23.3.1 one for a design without a top-level
-// module, so nothing else is fatal, a syntax error or an error, in any
-// category.
+// The errors the file draws are the missing body of set_port (asserted below)
+// and the 23.3.1 one for a design without a top-level module; nothing else is
+// fatal, a syntax error or an error, in any category.
 TEST_F(ClassTest35Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-// Lines 6-8: a class_declaration whose one item is an extern method prototype
-// (8.24, A.1.9, A.2.6).
-TEST_F(ClassTest35Test, Lines6To8ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassFirstLine, kClassLastLine), ""); }
+// Line 7: an extern method prototype (8.24, A.1.9, A.2.6) whose out-of-block
+// declaration the file never gives, so set_port has no body.
+TEST_F(ClassTest35Test, ReportsMissingImplementationOfSetPort) {
+  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", kPrototypeLine), nullptr);
+}
 
 // Each of these diagnostics, at any severity and on any line, would mean HLC
 // misread the text of the file.

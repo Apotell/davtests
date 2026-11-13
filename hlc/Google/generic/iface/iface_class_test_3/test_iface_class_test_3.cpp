@@ -84,7 +84,7 @@
 // not skipped or relaxed.
 //
 // What is NOT checked, and why
-//   - Whether HLC also raises a generic CompUndefinedType or
+//   - Whether HLC also raises a generic UnsupportedTypespec or
 //     CompFailedToBind for basebase. The LRM requires an error, not a
 //     particular count; the dedicated base-class code is asserted. Nearest
 //     assertion: ReportsUndefinedBaseClassBasebase.

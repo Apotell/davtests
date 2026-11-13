@@ -51,7 +51,7 @@
 //   are declared anywhere in the compiled sources, so the return type
 //   cannot be resolved and the compiler must report it. The test accepts any
 //   of HLC's dedicated codes CompUndefinedPackage (5817), CompUndefinedClass
-//   (5816) or CompUndefinedType (5818), located on line 7.
+//   (5816) or UnsupportedTypespec (DL2510), located on line 7.
 //
 // The file declares no module, so there is no top-level module (23.3.1).
 // The .hlc also puts UVM 1800.2-2017 on the include path ('-I') but adds no
@@ -280,7 +280,7 @@ TEST_F(ClassMemberTest17Test, UndefinedReturnTypeIsReported) {
 
   const bool reported = (findEvent(EventType::CompUndefinedPackage, 7) != nullptr) ||
                         (findEvent(EventType::CompUndefinedClass, 7) != nullptr) ||
-                        (findEvent(EventType::CompUndefinedType, 7) != nullptr);
+                        (findEvent(EventType::UnsupportedTypespec, 7) != nullptr);
   EXPECT_TRUE(reported) << "26.3/8.23: no package yourpkg or class classy/xtype is declared, so the return type on "
                            "line 7 is undefined;"
                         << describeEvents(eventListener, EventSeverity::Error);

@@ -201,7 +201,6 @@ TEST_F(EnumVarNoTypedefTest, NoProcesses) {
 // ---------------------------------------------------------------------------
 
 TEST_F(EnumVarNoTypedefTest, CompilerRejectsSizeMismatch) {
-  GTEST_SKIP() << "HLC doesn't implement this diagnosis yet.";
   EXPECT_NE(findEvent(EventType::EnumConstSizeMismatch, "Global"), nullptr);
 }
 

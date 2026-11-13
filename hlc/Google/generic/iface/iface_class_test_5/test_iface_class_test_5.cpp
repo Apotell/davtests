@@ -112,7 +112,7 @@
 //     specialization whose parameter could receive it; how HLDB keeps the
 //     argument of an unresolved specialization is a tool convention.
 //   - Whether HLC also raises CompUndefinedBaseClass for base1, or a
-//     generic CompUndefinedType / CompFailedToBind, and the exact error
+//     generic UnsupportedTypespec / CompFailedToBind, and the exact error
 //     count. The LRM requires an error per unresolved reference, not a
 //     particular code or count; for pkg1::base1 the missing package is the
 //     cause. Nearest assertion: ReportsUndefinedPackageAndBaseClass.

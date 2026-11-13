@@ -75,11 +75,11 @@
 //       8.9 static properties), signed IntTypespec, initializer "1"
 //   Diagnostics
 //     - 'uvm_object_wrapper' is declared nowhere in the design, so using it
-//       as a data type is an error: CompUndefinedType naming it
+//       as a data type is an error: UnsupportedTypespec naming it
 //     - that is a semantic error, not a syntax error: zero syntax and zero
 //       fatal diagnostics
 //     - the names that ARE declared must not be reported: no
-//       CompUndefinedType for 'uvm_core_state', no CompFailedToBind
+//       UnsupportedTypespec for 'uvm_core_state', no CompFailedToBind
 //       for 'UVM_CORE_UNINITIALIZED'
 //
 // What is NOT checked, and why:
@@ -420,7 +420,7 @@ TEST_F(PackageDpiTest, TotoHasNoMethods) {
 
 TEST_F(PackageDpiTest, UndeclaredTypeUvmObjectWrapperIsReported) {
   GTEST_SKIP() << "Undeclared variables aren't resported as such.";
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "uvm_object_wrapper"), nullptr)
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "uvm_object_wrapper"), nullptr)
       << "'uvm_object_wrapper' is declared nowhere in the design, so it cannot be used as a data type";
 }
 

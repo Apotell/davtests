@@ -177,12 +177,9 @@ TEST_F(MultContAssignTest, VIsAVariable) {
 TEST_F(MultContAssignTest, MultipleContAssignsToVariableIsError) {
   EXPECT_NE(findEvent(EventType::MultipleContAssign, "v"), nullptr)
       << "6.5: variable 'v' is written by two continuous assignments";
-  EXPECT_NE(findEvent(EventType::MultipleContAssign, "two"), nullptr)
-      << "6.5: variable 'two' is written by two continuous assignments";
 }
 
 TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   EXPECT_NE(findEvent(EventType::MultipleDriversOnUwire, "two"), nullptr)
       << "6.6.2: uwire 'two' is connected to two drivers";
 }
@@ -193,7 +190,7 @@ TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
 
 TEST_F(MultContAssignTest, UndeclaredRhsIdentifiersFailToBind) {
   for (std::string_view name : {"pu", "pd", "sel", "v0", "v1", "driver_1_en", "driver_1"}) {
-    EXPECT_NE(findEvent(EventType::CompFailedToBind, name), nullptr)
+    EXPECT_NE(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "6.10: '" << name << "' is used on a RHS without being declared";
   }
 }

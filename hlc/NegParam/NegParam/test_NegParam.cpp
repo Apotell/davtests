@@ -228,7 +228,7 @@ TEST_F(NegParamTest, BpDefaultCfgIsLocalParamWithNamedType) {
 TEST_F(NegParamTest, UndeclaredTypeBpProcParamSIsDiagnosed) {
   // Sec 6.5: data shall be declared before they are used.
   const bool found = (findEvent(EventType::CompFailedToBind, "bp_proc_param_s") != nullptr) ||
-                     (findEvent(EventType::CompUndefinedType, "bp_proc_param_s") != nullptr);
+                     (findEvent(EventType::UnsupportedTypespec, "bp_proc_param_s") != nullptr);
   EXPECT_TRUE(found) << "use of undeclared type 'bp_proc_param_s' must be diagnosed";
 }
 

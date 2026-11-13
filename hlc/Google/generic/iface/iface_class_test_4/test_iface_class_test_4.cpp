@@ -90,7 +90,7 @@
 // is intentionally not skipped or relaxed.
 //
 // What is NOT checked, and why
-//   - Whether HLC also raises a generic CompUndefinedType or
+//   - Whether HLC also raises a generic UnsupportedTypespec or
 //     CompFailedToBind for the three names, and the exact error count.
 //     The LRM requires an error for each unresolved name, not a particular
 //     code or count; the dedicated base-class code is asserted per name.
