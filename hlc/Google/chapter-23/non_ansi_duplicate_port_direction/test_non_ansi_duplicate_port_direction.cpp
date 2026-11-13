@@ -54,10 +54,13 @@
 #include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
+#include <algorithm>
 #include <cstdint>
+#include <iterator>
 #include <limits>
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace hlc {
 namespace {
@@ -66,14 +69,25 @@ constexpr uint32_t kLegalLastLine = 22;
 constexpr uint32_t kIllegalFirstLine = 23;
 constexpr uint32_t kFirstLineAfter = 24;
 
+// The line an event points at, or 0 when it carries no location.
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
+// True for an error-class event: one whose severity is fatal, syntax or error.
 bool isErrorClass(const Event &event) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
+}
+
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -83,15 +97,14 @@ class NonAnsiDuplicatePortDirectionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // Every error-class event on lines firstLine..lastLine, described as by describeEvent();
+  // empty when there is none.
   static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
     for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) oss << describeEvent(event);
     }
     return oss.str();
   }

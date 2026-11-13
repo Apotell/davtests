@@ -48,7 +48,7 @@ TEST_F(MacroArgMismatchTest, SourceFileRecorded) {
 // following the substitution, not an actual-argument list, so no PP0111
 // (or any other) diagnostic is raised. See the dedicated
 // NoArgumentMismatchErrorForObjectLikeMacro test below, which confirms this
-// directly against the error container.
+// directly against the event listener.
 TEST_F(MacroArgMismatchTest, DMacroDefined) {
   ASSERT_NE(m_design->getSourceFiles(), nullptr);
   const hldb::SourceFile *const sf = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());

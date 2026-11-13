@@ -76,7 +76,8 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
-#include <cstdint>
+#include <algorithm>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -100,14 +101,22 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
-
+// True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
+}
+
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -120,11 +129,8 @@ class NonAnsiSignednessTest : public Test {
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isErrorClass(event)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+    for (const Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) oss << describeEvent(event);
     }
     return oss.str();
   }

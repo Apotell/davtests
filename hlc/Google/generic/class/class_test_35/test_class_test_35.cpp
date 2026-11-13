@@ -200,8 +200,12 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -276,28 +280,27 @@ size_t countDeclaredPackagesFromSourceFile(const std::vector<T *> *packages) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-// True when HLC's error table gives 'error' a fatal, syntax or error severity
-// and 'error' is not the one diagnostic the file may draw legitimately: the
+// True when HLC's event table gives 'event' a fatal, syntax or error severity
+// and 'event' is not the one diagnostic the file may draw legitimately: the
 // one for a design without a top-level module (23.3.1).
-bool isUnexpectedError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+bool isUnexpectedError(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   const bool isErrorClass =
       (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
-  return isErrorClass && (error.getType() != EventType::ElabNoTopLevelModule);
+  return isErrorClass && (event.getType() != EventType::ElabNoTopLevelModule);
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
-// run shows what was reported and where.
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -309,26 +312,20 @@ class ClassTest35Test : public Test {
  protected:
   // Every unexpected error (see isUnexpectedError) on a line from 'firstLine'
   // to 'lastLine', described; empty when there is none. A run without an
-  // error container is reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
+  // event listener is reported, not passed.
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    const EventListener *const listener = (m_session == nullptr) ? nullptr : m_session->getEventListener();
+    if (listener == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isUnexpectedError(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : listener->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isUnexpectedError(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
   // Every unexpected error, described; empty when there is none.
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isUnexpectedError(error)) description += describeError(error);
-    }
-    return description;
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   // The SourceFile nodes of the file under test.
   static std::vector<const hldb::SourceFile *> findSourceFiles() {
@@ -351,7 +348,8 @@ class ClassTest35Test : public Test {
   // The method set_port of zzxx, or nullptr.
   static const hldb::TaskFuncDecl *findSetPort() {
     const hldb::ClassDefn *const classDefn = findClass();
-    return (classDefn == nullptr) ? nullptr : hldb::findByName<hldb::TaskFuncDecl>("set_port", classDefn->getTaskFuncDecls());
+    return (classDefn == nullptr) ? nullptr
+                                  : hldb::findByName<hldb::TaskFuncDecl>("set_port", classDefn->getTaskFuncDecls());
   }
 };
 
@@ -363,11 +361,11 @@ class ClassTest35Test : public Test {
 // error the file may draw is the 23.3.1 one for a design without a top-level
 // module, so nothing else is fatal, a syntax error or an error, in any
 // category.
-TEST_F(ClassTest35Test, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(ClassTest35Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Lines 6-8: a class_declaration whose one item is an extern method prototype
 // (8.24, A.1.9, A.2.6).
-TEST_F(ClassTest35Test, Lines6To8ClassIsAccepted) { EXPECT_EQ(errorsOnLines(kClassFirstLine, kClassLastLine), ""); }
+TEST_F(ClassTest35Test, Lines6To8ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassFirstLine, kClassLastLine), ""); }
 
 // Each of these diagnostics, at any severity and on any line, would mean HLC
 // misread the text of the file.

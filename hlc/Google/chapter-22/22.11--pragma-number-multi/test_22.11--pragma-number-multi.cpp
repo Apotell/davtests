@@ -185,6 +185,7 @@
 //     checks, which hold only if lines 1-15 were read as whole lines.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
@@ -208,8 +209,10 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -245,16 +248,25 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const hldb::Event &event) { return event.getArguments().empty() ? 0 : event.getArgument(0)->m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArgument(0)->m_line; }
 
 // True when HLC's event table gives 'event' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const hldb::Event &event) {
-  const hldb::EventSeverity severity = event.getDefinition()->m_severity;
-  const bool isErrorClass = (severity == hldb::EventSeverity::Fatal) || (severity == hldb::EventSeverity::Syntax) ||
-                            (severity == hldb::EventSeverity::Error);
-  return isErrorClass && (event.getDefinition()->m_category->m_name != std::string_view("elab"));
+bool isSourceEvent(const Event &event) {
+  const EventSeverity severity = event.getDefinition()->m_severity;
+  const bool isErrorClass =
+      (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
+  return isErrorClass && (event.getDefinition()->m_category->m_name != std::string_view("Elab"));
+}
+
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
 // Every directive 'sourceFile' records as " [vpiType <type> line <n>]", so
@@ -277,31 +289,25 @@ class PragmaNumberMultiTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Every source error (see isSourceError), described; empty when there is
-  // none. A run without an event listener is reported, not passed.
+  // Every source error (see isSourceEvent), described; empty when there is
+  // none.
   static std::string sourceErrors() {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isSourceError(event)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+    EventListener *const listener = m_session->getEventListener();
+    std::string description;
+    for (const Event &event : listener->getEvents()) {
+      if (isSourceEvent(event)) description += describeEvent(event);
     }
-    return oss.str();
+    return description;
   }
 
   // The same, for the source errors that point at 'line' only.
   static std::string sourceErrorsOnLine(uint32_t line) {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isSourceError(event) && (lineOf(event) == line)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+    EventListener *const listener = m_session->getEventListener();
+    std::string description;
+    for (const Event &event : listener->getEvents()) {
+      if (isSourceEvent(event) && (lineOf(event) == line)) description += describeEvent(event);
     }
-    return oss.str();
+    return description;
   }
 
   // The SourceFile nodes of the file under test.

@@ -285,8 +285,11 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -348,8 +351,7 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
 // The base class typespec of 'extendsObject' (37.31 detail 6), or nullptr.
 const hldb::Typespec *baseTypespecOf(const hldb::Extends *extendsObject) {
   const hldb::RefTypespecCollection *const typespecs = extendsObject->getClassTypespecs();
-  return ((typespecs == nullptr) || typespecs->empty()) ? nullptr
-                                                        : hldb::getActual<hldb::Typespec>(typespecs->front());
+  return ((typespecs == nullptr) || typespecs->empty()) ? nullptr : hldb::getActual<hldb::Typespec>(typespecs->front());
 }
 
 // The parameter an expression names: the expression itself when it is the
@@ -359,7 +361,6 @@ const hldb::Parameter *boundParameter(const hldb::Any *expression) {
   const hldb::RefObj *const reference = any_cast<hldb::RefObj>(expression);
   return (reference == nullptr) ? nullptr : any_cast<hldb::Parameter>(reference->getActual());
 }
-
 
 // The line a diagnostic points at, or 0 when it carries no location.
 uint32_t lineOf(const Event &event) {
@@ -380,14 +381,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
-// One diagnostic as " [<code> line <n>: <message>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  std::string description = " [" + std::to_string(event.getType());
-  description += " line " + std::to_string(lineOf(event));
-  const std::vector<std::string> message = event.format();
-  if (!message.empty()) description += ": " + message.front();
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -398,33 +398,21 @@ class ClassTest13Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an event listener is
-  // reported, not passed.
+  // described; empty when there is none.
   static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
     for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
       if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+        oss << describeEvent(event);
       }
     }
     return oss.str();
   }
 
   // Every error-class diagnostic, described; empty when there is none.
-  static std::string allEvents() {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isErrorClass(event)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
-    }
-    return oss.str();
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   // The SourceFile nodes of the file under test.
   static std::vector<const hldb::SourceFile *> findSourceFiles() {

@@ -133,9 +133,12 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -189,19 +192,18 @@ bool isErrorClass(const Event &event) {
 // True when 'event' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out because a design without a
 // top-level module may draw one (23.3.1).
-bool isSourceError(const Event &event) {
+bool isSourceEvent(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   return isErrorClass(event) && (eventDefinition->m_category->m_name != "Elab");
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -234,25 +236,26 @@ class CelldefineInvalidTest : public Test {
     return count;
   }
 
-  // Every source error (see isSourceError) on a line from 'firstLine' to
-  // 'lastLine', described; empty when there is none. A run without an error
-  // container is reported, not passed.
+  // Every source error (see isSourceEvent) on a line from 'firstLine' to
+  // 'lastLine', described; empty when there is none. A run without an event
+  // listener is reported, not passed.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
     if (getEventListener() == nullptr) return "no event listener";
     std::string description;
     for (const Event &event : getEventListener()->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isSourceError(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isSourceEvent(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
   // Every source error without a location, described; empty when there is none.
+  // A run without an event listener is reported, not passed.
   static std::string describeUnlocatedSourceErrors() {
     if (getEventListener() == nullptr) return "no event listener";
     std::string description;
     for (const Event &event : getEventListener()->getEvents()) {
-      if (isSourceError(event) && event.getArguments().empty()) description += describeEvent(event);
+      if (isSourceEvent(event) && (lineOf(event) == 0)) description += describeEvent(event);
     }
     return description;
   }

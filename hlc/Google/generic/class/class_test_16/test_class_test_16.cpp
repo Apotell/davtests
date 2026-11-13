@@ -154,9 +154,12 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -222,20 +225,19 @@ bool isRequiredErrorCandidate(const Event &event) {
 // True when 'event' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out of the checks for unwanted
 // errors because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Event &event) {
+bool isSourceEvent(const Event &event) {
   if (!isErrorClass(event)) return false;
   const EventCategory *const category = event.getDefinition()->m_category;
   return (category == nullptr) || (category->m_name != std::string_view("Elab"));
 }
 
-// One diagnostic as " [<code> line <n>: <message>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  std::string description = " [" + std::to_string(event.getType());
-  description += " line " + std::to_string(lineOf(event));
-  const std::vector<std::string> message = event.format();
-  if (!message.empty()) description += ": " + message.front();
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -246,9 +248,7 @@ class ClassTest16Test : public Test {
 
  protected:
   // The diagnostics of the run, or nullptr.
-  static const EventListener *getListener() {
-    return (m_session == nullptr) ? nullptr : m_session->getEventListener();
-  }
+  static const EventListener *getListener() { return (m_session == nullptr) ? nullptr : m_session->getEventListener(); }
 
   // Every diagnostic of the run, described; for failure messages.
   static std::string describeAllEvents() {
@@ -271,26 +271,27 @@ class ClassTest16Test : public Test {
     return count;
   }
 
-  // Every source error on a line from 'firstLine' to 'lastLine', described;
-  // empty when there is none. A run without an event listener is reported,
-  // not passed.
+  // Every error-class diagnostic outside elaboration (see isSourceEvent) on a
+  // line from 'firstLine' to 'lastLine', described; empty when there is none. A
+  // run without an event listener is reported, not passed.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
     if (getListener() == nullptr) return "no event listener";
     std::string description;
     for (const Event &event : getListener()->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isSourceError(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isSourceEvent(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
-  // Every source error without a line (no location, or line 0), described;
-  // empty when there is none.
+  // Every error-class diagnostic outside elaboration (see isSourceEvent)
+  // without a line (no location, or line 0), described; empty when there is
+  // none. A run without an event listener is reported, not passed.
   static std::string describeUnlocatedSourceErrors() {
     if (getListener() == nullptr) return "no event listener";
     std::string description;
     for (const Event &event : getListener()->getEvents()) {
-      if (isSourceError(event) && (lineOf(event) == 0)) description += describeEvent(event);
+      if (isSourceEvent(event) && (lineOf(event) == 0)) description += describeEvent(event);
     }
     return description;
   }

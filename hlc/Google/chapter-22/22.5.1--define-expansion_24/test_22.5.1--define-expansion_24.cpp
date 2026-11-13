@@ -196,8 +196,11 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -292,20 +295,22 @@ std::string_view literalOf(const hldb::Constant *constant) {
   return (colon == std::string_view::npos) ? value : value.substr(colon + 1);
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
+}
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() prints it, for failure messages.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -339,13 +344,17 @@ class DefineExpansion24Test : public Test {
   // The macro definition named 'name' in the file under test, or nullptr.
   static const hldb::PreprocMacroDefinition *getDefinition(std::string_view name) {
     const hldb::SourceFile *const sourceFile = getSourceFile();
-    return (sourceFile == nullptr) ? nullptr : hldb::findByName<hldb::PreprocMacroDefinition>(name, sourceFile->getPreprocMacroDefinitions());
+    return (sourceFile == nullptr)
+               ? nullptr
+               : hldb::findByName<hldb::PreprocMacroDefinition>(name, sourceFile->getPreprocMacroDefinitions());
   }
 
   // The macro instance named 'name' in the file under test, or nullptr.
   static const hldb::PreprocMacroInstance *getUsage(std::string_view name) {
     const hldb::SourceFile *const sourceFile = getSourceFile();
-    return (sourceFile == nullptr) ? nullptr : hldb::findByName<hldb::PreprocMacroInstance>(name, sourceFile->getPreprocMacroInstances());
+    return (sourceFile == nullptr)
+               ? nullptr
+               : hldb::findByName<hldb::PreprocMacroInstance>(name, sourceFile->getPreprocMacroInstances());
   }
 
   // The module definition of top from the file under test, or nullptr unless there is exactly one.
@@ -597,7 +606,7 @@ TEST_F(DefineExpansion24Test, StringLiteralInMacroTextIsNotExpanded) {
   const hldb::Constant *const argument = getDisplayArgument(1);
   ASSERT_NE(argument, nullptr) << "statement 2 has one constant argument";
   EXPECT_EQ(unquote(literalOf(argument)), std::string_view("Hello, world"))
-    << "Non-standard feature supported by the compiler";
+      << "Non-standard feature supported by the compiler";
 }
 
 // Line 23: $display(`H(world)); `H(world) is substituted by "Hello, x", and

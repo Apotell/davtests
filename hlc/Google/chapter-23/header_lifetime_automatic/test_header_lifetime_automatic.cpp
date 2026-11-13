@@ -60,7 +60,10 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstdint>
+#include <iterator>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -80,17 +83,6 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-template <typename T>
-size_t countFromSourceFile(const std::vector<T *> *collection) {
-  size_t count = 0;
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (endsWith(object->getFile(), kSourceFileName)) ++count;
-    }
-  }
-  return count;
-}
-
 const hldb::Module *findModuleByName(const hldb::ModuleCollection *modules, std::string_view name,
                                      std::string_view sourceFileName) {
   if (modules == nullptr) return nullptr;
@@ -102,6 +94,7 @@ const hldb::Module *findModuleByName(const hldb::ModuleCollection *modules, std:
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
+// True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (eventDefinition == nullptr) return false;
@@ -110,12 +103,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -130,25 +124,12 @@ class HeaderLifetimeAutomaticTest : public Test {
     std::ostringstream oss;
     for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) oss << describeEvent(event);
     }
     return oss.str();
   }
 
-  static std::string allEvents() {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isErrorClass(event)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
-    }
-    return oss.str();
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   static const hldb::Module *findMhDefault() {
     return (m_design == nullptr) ? nullptr : findModuleByName(m_design->getAllModules(), "mh_default", kSourceFileName);

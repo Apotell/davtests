@@ -116,6 +116,7 @@
 //     ReportsAnErrorForTheMissingFileNameAndLevel.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
@@ -136,8 +137,10 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <limits>
 #include <sstream>
 #include <string>
@@ -178,16 +181,25 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const hldb::Event &event) { return event.getArguments().empty() ? 0 : event.getArgument(0)->m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArgument(0)->m_line; }
 
 // True when HLC's event table gives 'event' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const hldb::Event &event) {
-  const hldb::EventSeverity severity = event.getDefinition()->m_severity;
-  const bool isErrorClass = (severity == hldb::EventSeverity::Fatal) || (severity == hldb::EventSeverity::Syntax) ||
-                            (severity == hldb::EventSeverity::Error);
-  return isErrorClass && (event.getDefinition()->m_category->m_name != std::string_view("elab"));
+bool isSourceEvent(const Event &event) {
+  const EventSeverity severity = event.getDefinition()->m_severity;
+  const bool isErrorClass =
+      (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
+  return isErrorClass && (event.getDefinition()->m_category->m_name != std::string_view("Elab"));
+}
+
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -199,54 +211,45 @@ class LineIllegal5Test : public Test {
  protected:
   // Every diagnostic of the run, described; for failure messages.
   static std::string describeAllEvents() {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      std::vector<std::string> msgs = hldb::renderEvent(event);
-      std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-    }
-    return oss.str();
+    EventListener *const listener = m_session->getEventListener();
+    std::string description;
+    for (const Event &event : listener->getEvents()) description += describeEvent(event);
+    return description;
   }
 
-  // Number of source errors (see isSourceError) that point at 'line'.
+  // Number of source errors (see isSourceEvent) that point at 'line'.
   static size_t countSourceErrorsOnLine(uint32_t line) {
-    hlc::EventListener *const listener = m_session->getEventListener();
+    EventListener *const listener = m_session->getEventListener();
     size_t count = 0;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isSourceError(event) && (lineOf(event) == line)) ++count;
+    for (const Event &event : listener->getEvents()) {
+      if (isSourceEvent(event) && (lineOf(event) == line)) ++count;
     }
     return count;
   }
 
   // Every source error on a line from 'firstLine' to 'lastLine', described;
-  // empty when there is none. A run without an event listener is reported,
-  // not passed.
+  // empty when there is none.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
+    EventListener *const listener = m_session->getEventListener();
+    std::string description;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isSourceError(event) && (line >= firstLine) && (line <= lastLine)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+      if (isSourceEvent(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
-    return oss.str();
+    return description;
   }
 
   // Every source error without a location, described; empty when there is none.
   static std::string describeUnlocatedSourceErrors() {
-    hlc::EventListener *const listener = m_session->getEventListener();
-    std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isSourceError(event)) {
-        if (const hldb::EventArg *arg = event.getArgument(0); (arg != nullptr) && (arg->m_line == 0)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+    EventListener *const listener = m_session->getEventListener();
+    std::string description;
+    for (const Event &event : listener->getEvents()) {
+      if (!isSourceEvent(event)) continue;
+      if (const EventArg *const arg = event.getArgument(0); (arg != nullptr) && (arg->m_line == 0)) {
+        description += describeEvent(event);
       }
     }
-    return oss.str();
+    return description;
   }
 
   // The SourceFile nodes of the file under test.

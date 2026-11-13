@@ -270,8 +270,12 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -353,27 +357,26 @@ size_t countDeclaredPackagesFromSourceFile(const std::vector<T *> *packages) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-// True when HLC's error table gives 'error' a fatal, syntax or error
+// True when HLC's event table gives 'event' a fatal, syntax or error
 // severity. Every category counts: the design has a top-level module, so not
 // even elaboration has an error to report (23.3.1).
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  if (errorInfo == nullptr) return false;
-  const EventSeverity severity = errorInfo->m_severity;
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
+  if (eventDefinition == nullptr) return false;
+  const EventSeverity severity = eventDefinition->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
-// run shows what was reported and where.
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -384,27 +387,21 @@ class ClassTest30Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an error container is
+  // described; empty when there is none. A run without an event listener is
   // reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    const EventListener *const listener = (m_session == nullptr) ? nullptr : m_session->getEventListener();
+    if (listener == nullptr) return "no event listener";
     std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+    for (const Event &event : listener->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
     }
     return description;
   }
 
   // Every error-class diagnostic, described; empty when there is none.
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
-    }
-    return description;
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   // The SourceFile nodes of the file under test.
   static std::vector<const hldb::SourceFile *> findSourceFiles() {
@@ -468,17 +465,17 @@ class ClassTest30Test : public Test {
 
 // Every line of the file is legal, and the design has its top-level module,
 // so nothing is fatal, a syntax error or an error, in any category.
-TEST_F(ClassTest30Test, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(ClassTest30Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Lines 15-27: a class_declaration with a property, a constructor and a task
 // (8.3, 8.7, A.1.9).
 TEST_F(ClassTest30Test, Lines15To27ClassFooIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kClassFirstLine, kClassLastLine), "");
+  EXPECT_EQ(eventsOnLines(kClassFirstLine, kClassLastLine), "");
 }
 
 // Lines 29-30: an empty module_declaration (A.1.2).
 TEST_F(ClassTest30Test, Lines29To30ModuleIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
+  EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
 // Each of these diagnostics, at any severity and on any line, would mean HLC

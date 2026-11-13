@@ -169,8 +169,11 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -237,31 +240,26 @@ std::string strippedMacroText(const hldb::PreprocMacroDefinition *definition) {
   return text;
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
-
-// One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
-// red run shows what was reported and where. <text> is HLC's message
-// template, so its placeholders are not filled in.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
-// Every fatal, syntax or error diagnostic of the preprocessor (PP) or parser
-// (PARSE) categories, described as by describeEvent(); empty when there is
-// none.
+// Every error-class event (fatal, syntax or error severity) of the preprocessor
+// (Pp) or parser (Parse) categories, described as by describeEvent(); empty when
+// there is none.
 std::string describePreprocessorAndParserErrors(const EventListener *eventListener) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if (eventDefinition == nullptr) continue;
     const EventSeverity severity = eventDefinition->m_severity;
-    const bool isErrorClass = (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
-                              (severity == EventSeverity::Error);
+    const bool isErrorClass =
+        (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
     const EventCategory *const category = eventDefinition->m_category;
     const bool isEarlyStage = (category->m_name == "Pp") || (category->m_name == "Parse");
     if (isErrorClass && isEarlyStage) description += describeEvent(event);

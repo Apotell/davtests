@@ -184,8 +184,10 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -243,9 +245,9 @@ uint32_t lineOf(const Event &event) {
   return 0;
 }
 
-// True when HLC's event table gives 'event' a fatal, syntax or error
-// severity. Every category counts: the design has a top-level module, so not
-// even elaboration has an error to report (23.3.1).
+// True for an error-class event: its definition gives it a fatal, syntax or
+// error severity. Every category counts: the design has a top-level module, so
+// not even elaboration has an error to report (23.3.1).
 bool isErrorClass(const Event &event) {
   const EventDefinition *const definition = event.getDefinition();
   if (definition == nullptr) return false;
@@ -254,14 +256,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
-// One diagnostic as " [<code> line <n>: <message>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  std::string description = " [" + std::to_string(event.getType());
-  description += " line " + std::to_string(lineOf(event));
-  const std::vector<std::string> message = event.format();
-  if (!message.empty()) description += ": " + message.front();
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -272,17 +273,13 @@ class ClassTest0Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an event listener is
-  // reported, not passed.
+  // described; empty when there is none.
   static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
     for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) oss << describeEvent(event);
     }
     return oss.str();
   }
@@ -291,11 +288,8 @@ class ClassTest0Test : public Test {
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
-    for (const hldb::Event &event : listener->getEvents()) {
-      if (isErrorClass(event)) {
-        std::vector<std::string> msgs = hldb::renderEvent(event);
-        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
-      }
+    for (const Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) oss << describeEvent(event);
     }
     return oss.str();
   }
