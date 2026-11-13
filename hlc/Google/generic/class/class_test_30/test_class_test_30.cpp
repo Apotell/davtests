@@ -332,22 +332,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -443,7 +427,7 @@ class ClassTest30Test : public Test {
   // The method of Foo named 'name', or nullptr.
   static const hldb::TaskFunc *findMethod(std::string_view name) {
     const hldb::ClassDefn *const foo = findFoo();
-    return (foo == nullptr) ? nullptr : findByName(foo->getMethods(), name);
+    return (foo == nullptr) ? nullptr : hldb::findByName<hldb::TaskFunc>(name, foo->getMethods());
   }
 
   // The module declared in the file under test, or nullptr.
@@ -594,7 +578,7 @@ TEST_F(ClassTest30Test, ClassFooHasOneProperty) {
   ASSERT_NE(foo, nullptr);
 
   EXPECT_EQ(sizeOf(foo->getVariables()), 1u);
-  EXPECT_NE(findByName(foo->getVariables(), "size"), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("size", foo->getVariables()), nullptr);
 }
 
 // "integer size;": an integer variable (37.17). BUG-7: HLDB models every kind
@@ -605,7 +589,7 @@ TEST_F(ClassTest30Test, PropertySizeIsAnIntegerVar) {
   GTEST_SKIP() << "HLC Gap (BUG-7): a variable's vpiType is vpiVariable, not its kind (vpiIntegerVar, Sec 37.17)";
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
-  const hldb::Variable *const size = findByName(foo->getVariables(), "size");
+  const hldb::Variable *const size = hldb::findByName<hldb::Variable>("size", foo->getVariables());
   ASSERT_NE(size, nullptr) << "no property size in Foo";
 
   EXPECT_EQ(size->getAnyType(), hldb::AnyType::Variable);
@@ -622,7 +606,7 @@ TEST_F(ClassTest30Test, PropertySizeIsAnIntegerVar) {
 TEST_F(ClassTest30Test, PropertySizeIsAnInteger) {
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
-  const hldb::Variable *const size = findByName(foo->getVariables(), "size");
+  const hldb::Variable *const size = hldb::findByName<hldb::Variable>("size", foo->getVariables());
   ASSERT_NE(size, nullptr) << "no property size in Foo";
 
   EXPECT_EQ(size->getName(), "size");
@@ -680,7 +664,7 @@ TEST_F(ClassTest30Test, ConstructorNewHasOneInputArgumentSize) {
   const hldb::TaskFunc *const constructor = findMethod("new");
   ASSERT_NE(constructor, nullptr);
   EXPECT_EQ(sizeOf(constructor->getIODecls()), 1u);
-  const hldb::IODecl *const argument = findByName(constructor->getIODecls(), "size");
+  const hldb::IODecl *const argument = hldb::findByName<hldb::IODecl>("size", constructor->getIODecls());
   ASSERT_NE(argument, nullptr) << "new has no argument size";
 
   EXPECT_EQ(argument->getAnyType(), hldb::AnyType::IODecl);

@@ -330,22 +330,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -452,7 +436,7 @@ class ClassTest27Test : public Test {
   // The interface class Bar of the package Package, or nullptr.
   static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
+    return (package == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("Bar", package->getClassDefns());
   }
 
   // The compilation-unit class Foo declared in the file under test, or
@@ -471,14 +455,11 @@ class ClassTest27Test : public Test {
   static void expectBarParameterWithoutDefault(std::string_view name) {
     const hldb::ClassDefn *const bar = findBar();
     ASSERT_NE(bar, nullptr) << "no interface class Bar in Package";
-    const hldb::Any *const object = findByName(bar->getParameters(), name);
-    ASSERT_NE(object, nullptr) << "no parameter " << name << " in Bar";
+    const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>(name, bar->getParameters());
+    ASSERT_NE(parameter, nullptr) << "no parameter " << name << " in Bar";
 
     // A value parameter (37.28) declared in the parameter port list with the
     // keyword parameter, so not a local parameter (6.20.1, 37.31 detail 7).
-    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
-    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
-    ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
     EXPECT_EQ(parameter->getName(), name);
     EXPECT_FALSE(parameter->getLocalParam());
 
@@ -637,7 +618,7 @@ TEST_F(ClassTest27Test, PackageHoldsInterfaceClassBar) {
   const hldb::ClassDefn *const bar = findBar();
   ASSERT_NE(bar, nullptr);
   EXPECT_EQ(bar->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(bar->getName(), "Bar");
+  EXPECT_EQ(bar->getDefName(), "Bar");
   EXPECT_TRUE(endsWith(bar->getFile(), kSourceFileName)) << bar->getFile();
   EXPECT_EQ(bar->getStartLine(), kBarLine);
   EXPECT_EQ(bar->getEndLine(), kBarLine);
@@ -652,8 +633,8 @@ TEST_F(ClassTest27Test, InterfaceClassBarHasTwoParameters) {
   ASSERT_NE(bar, nullptr);
 
   EXPECT_EQ(sizeOf(bar->getParameters()), 2u);
-  EXPECT_NE(findByName(bar->getParameters(), "A"), nullptr);
-  EXPECT_NE(findByName(bar->getParameters(), "B"), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Parameter>("A", bar->getParameters()), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Parameter>("B", bar->getParameters()), nullptr);
 }
 
 // "parameter A": a value parameter of the port list without a value (6.20.1,

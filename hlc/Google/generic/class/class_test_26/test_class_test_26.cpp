@@ -334,22 +334,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -595,7 +579,7 @@ TEST_F(ClassTest26Test, InterfaceClassBarIsDeclared) {
   ASSERT_NE(bar, nullptr);
 
   EXPECT_EQ(bar->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(bar->getName(), "Bar");
+  EXPECT_EQ(bar->getDefName(), std::string_view("Bar"));
   EXPECT_EQ(bar->getStartLine(), kBarLine);
   EXPECT_EQ(bar->getEndLine(), kBarLine);
 }
@@ -609,7 +593,7 @@ TEST_F(ClassTest26Test, InterfaceClassBarHasOneParameter) {
   ASSERT_NE(bar, nullptr);
 
   EXPECT_EQ(sizeOf(bar->getParameters()), 1u);
-  EXPECT_NE(findByName(bar->getParameters(), "N"), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Parameter>("N", bar->getParameters()), nullptr);
 }
 
 // "parameter N": a value parameter of the port list, so not a local
@@ -619,11 +603,7 @@ TEST_F(ClassTest26Test, InterfaceClassBarHasOneParameter) {
 TEST_F(ClassTest26Test, BarParameterNHasNoDefault) {
   const hldb::ClassDefn *const bar = findClass("Bar");
   ASSERT_NE(bar, nullptr);
-  const hldb::Any *const object = findByName(bar->getParameters(), "N");
-  ASSERT_NE(object, nullptr) << "no parameter N in Bar";
-
-  EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
-  const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
+  const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("N", bar->getParameters());
   ASSERT_NE(parameter, nullptr) << "N is not a value parameter";
   EXPECT_EQ(parameter->getName(), "N");
   EXPECT_FALSE(parameter->getLocalParam());

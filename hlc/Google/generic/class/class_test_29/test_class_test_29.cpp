@@ -325,22 +325,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -436,7 +420,7 @@ class ClassTest29Test : public Test {
   // The interface class Bar of the package Pkg, or nullptr.
   static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
+    return (package == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("Bar", package->getClassDefns());
   }
 
   // The compilation-unit class named 'name' declared in the file under test,
@@ -650,7 +634,7 @@ TEST_F(ClassTest29Test, ClassBaseIsTheBaseOfFoo) {
   ASSERT_NE(base, nullptr);
 
   EXPECT_EQ(sizeOf(base->getDerivedClasses()), 1u);
-  EXPECT_NE(findByName(base->getDerivedClasses(), "Foo"), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("Foo", base->getDerivedClasses()), nullptr);
 }
 
 // Base has no class_item, so it has no member (8.2).

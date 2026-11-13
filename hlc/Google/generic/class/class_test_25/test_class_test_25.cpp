@@ -295,22 +295,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // Number of packages from the file under test that are declared packages,
 // not the package object the model may use for a compilation unit (vpiUnit
 // TRUE, 37.10).
@@ -400,7 +384,7 @@ class ClassTest25Test : public Test {
   // The interface class Bar of the package Package, or nullptr.
   static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
+    return (package == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("Bar", package->getClassDefns());
   }
 
   // The compilation-unit class Foo declared in the file under test, or

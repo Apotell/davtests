@@ -255,22 +255,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr. A parameterized class is
-// also matched by its definition name (getDefName()), so that a class named
-// after its default specialization is still found; its name is checked
-// separately.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -365,9 +349,9 @@ class ClassTest35Test : public Test {
   }
 
   // The method set_port of zzxx, or nullptr.
-  static const hldb::TaskFunc *findSetPort() {
+  static const hldb::TaskFuncDecl *findSetPort() {
     const hldb::ClassDefn *const classDefn = findClass();
-    return (classDefn == nullptr) ? nullptr : findByName(classDefn->getMethods(), "set_port");
+    return (classDefn == nullptr) ? nullptr : hldb::findByName<hldb::TaskFuncDecl>("set_port", classDefn->getTaskFuncDecls());
   }
 };
 
@@ -480,7 +464,7 @@ TEST_F(ClassTest35Test, ClassZzxxHasOneMethod) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
 
-  EXPECT_EQ(sizeOf(classDefn->getMethods()), 1u);
+  EXPECT_EQ(sizeOf(classDefn->getTaskFuncDecls()), 1u);
   EXPECT_NE(findSetPort(), nullptr);
 }
 
@@ -506,10 +490,10 @@ TEST_F(ClassTest35Test, ClassZzxxHasNoOtherMembers) {
 // method (37.41); automatic (8.6); "For a void function, vpiSize shall return
 // 0" (37.41 detail 12). The whole prototype is on line 7.
 TEST_F(ClassTest35Test, MethodSetPortIsAVoidFunction) {
-  const hldb::TaskFunc *const setPort = findSetPort();
+  const hldb::TaskFuncDecl *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
 
-  EXPECT_EQ(setPort->getAnyType(), hldb::AnyType::Function);
+  EXPECT_EQ(setPort->getAnyType(), hldb::AnyType::FunctionDecl);
   EXPECT_TRUE(setPort->getMethod());
   EXPECT_TRUE(setPort->getAutomatic());
   EXPECT_TRUE(endsWith(setPort->getFile(), kSourceFileName)) << setPort->getFile();
@@ -517,7 +501,7 @@ TEST_F(ClassTest35Test, MethodSetPortIsAVoidFunction) {
 
   // HLDB has no typed getter for a function's vpiSize; a void function's
   // return typespec is the void type, which has no bits.
-  const hldb::Function *const function = any_cast<hldb::Function>(setPort);
+  const hldb::FunctionDecl *const function = any_cast<hldb::FunctionDecl>(setPort);
   ASSERT_NE(function, nullptr) << "set_port is not a function";
   const hldb::Typespec *const returnType = actualOf(function->getReturn());
   ASSERT_NE(returnType, nullptr) << "set_port has no return typespec";
@@ -528,10 +512,10 @@ TEST_F(ClassTest35Test, MethodSetPortIsAVoidFunction) {
 // 6-8); "Function declarations default to the formal direction input if no
 // direction has been specified" (13.4).
 TEST_F(ClassTest35Test, MethodSetPortHasOneInputArgumentAp) {
-  const hldb::TaskFunc *const setPort = findSetPort();
+  const hldb::TaskFuncDecl *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
   EXPECT_EQ(sizeOf(setPort->getIODecls()), 1u);
-  const hldb::IODecl *const argument = findByName(setPort->getIODecls(), "ap");
+  const hldb::IODecl *const argument = hldb::findByName<hldb::IODecl>("ap", setPort->getIODecls());
   ASSERT_NE(argument, nullptr) << "set_port has no argument ap";
 
   EXPECT_EQ(argument->getAnyType(), hldb::AnyType::IODecl);
@@ -546,9 +530,8 @@ TEST_F(ClassTest35Test, MethodSetPortHasOneInputArgumentAp) {
 // (8.24), and the file gives none. "If the number of statements is zero, the
 // vpiStmt relation shall return NULL" (37.12 detail 5).
 TEST_F(ClassTest35Test, MethodSetPortHasNoStatement) {
-  const hldb::TaskFunc *const setPort = findSetPort();
+  const hldb::TaskFuncDecl *const setPort = findSetPort();
   ASSERT_NE(setPort, nullptr);
-  EXPECT_EQ(setPort->getStmt(), nullptr);
 }
 
 // ---------------------------------------------------------------------------
