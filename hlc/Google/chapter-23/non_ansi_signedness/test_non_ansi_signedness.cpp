@@ -68,6 +68,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -76,6 +77,7 @@
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -98,44 +100,14 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
-
-const hldb::Net *findNetByName(const hldb::NetCollection *nets, std::string_view name) {
-  if (nets == nullptr) return nullptr;
-  for (const hldb::Net *net : *nets) {
-    if (net->getName() == name) return net;
-  }
-  return nullptr;
-}
-
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
-
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -145,13 +117,16 @@ class NonAnsiSignednessTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Module *findModule() {
@@ -160,47 +135,55 @@ class NonAnsiSignednessTest : public Test {
 
   static const hldb::Net *findNet(std::string_view name) {
     const hldb::Module *const module = findModule();
-    return (module == nullptr) ? nullptr : findNetByName(module->getNets(), name);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Net>(name, module->getNets());
   }
 };
 
-TEST_F(NonAnsiSignednessTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(NonAnsiSignednessTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(NonAnsiSignednessTest, FourInputPorts) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "test");
+  EXPECT_EQ(module->getDefName(), std::string_view("test"));
   ASSERT_NE(module->getPorts(), nullptr);
   EXPECT_EQ(module->getPorts()->size(), 4u);
   for (std::string_view name : {"a", "b", "c", "d"}) {
-    const hldb::Port *const port = findPortByName(module->getPorts(), name);
+    const hldb::Port *const port = hldb::findByName<hldb::Port>(name, module->getPorts());
     ASSERT_NE(port, nullptr) << name;
-    EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput)) << name;
+    EXPECT_EQ(port->getDirection(), vpiInput) << name;
   }
 }
 
 TEST_F(NonAnsiSignednessTest, NetAIsUnsigned) {
   const hldb::Net *const net = findNet("a");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(integerProperty(net, vpiSigned), 0);
+  const hldb::Typespec *const ts = hldb::getTypespec(net);
+  ASSERT_NE(ts, nullptr);
+  EXPECT_FALSE(hldb::getSigned(ts));
 }
 
 TEST_F(NonAnsiSignednessTest, NetBIsSigned) {
   const hldb::Net *const net = findNet("b");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(integerProperty(net, vpiSigned), 1);
+  const hldb::Typespec *const ts = hldb::getTypespec(net);
+  ASSERT_NE(ts, nullptr);
+  EXPECT_TRUE(hldb::getSigned(ts));
 }
 
 TEST_F(NonAnsiSignednessTest, NetCIsSigned) {
   const hldb::Net *const net = findNet("c");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(integerProperty(net, vpiSigned), 1);
+  const hldb::Typespec *const ts = hldb::getTypespec(net);
+  ASSERT_NE(ts, nullptr);
+  EXPECT_TRUE(hldb::getSigned(ts));
 }
 
 TEST_F(NonAnsiSignednessTest, NetDIsSigned) {
   const hldb::Net *const net = findNet("d");
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(integerProperty(net, vpiSigned), 1);
+  const hldb::Typespec *const ts = hldb::getTypespec(net);
+  ASSERT_NE(ts, nullptr);
+  EXPECT_TRUE(hldb::getSigned(ts));
 }
 }  // namespace hlc
 

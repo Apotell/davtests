@@ -45,6 +45,7 @@
 
 #include <cstdint>
 #include <limits>
+#include <sstream>
 #include <string>
 
 namespace hlc {
@@ -53,22 +54,14 @@ constexpr uint32_t kIllegalFirstLine = 19;
 constexpr uint32_t kIllegalLastLine = 19;
 constexpr uint32_t kFirstLineAfter = 20;
 
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -78,25 +71,28 @@ class AnsiInoutVariableTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 };
 
 TEST_F(AnsiInoutVariableTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  ASSERT_NE(findEvent(EventType::CompIllegalVariableOnInoutPort, kIllegalLastLine), nullptr);
 }
 
 TEST_F(AnsiInoutVariableTest, NoErrorAfterTheIllegalCode) {
-  EXPECT_EQ(errorsOnLines(kFirstLineAfter, std::numeric_limits<uint32_t>::max()), "");
+  EXPECT_EQ(eventsOnLines(kFirstLineAfter, std::numeric_limits<uint32_t>::max()), "");
 }
 }  // namespace hlc
 

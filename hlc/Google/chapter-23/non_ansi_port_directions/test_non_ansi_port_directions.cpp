@@ -55,6 +55,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -65,6 +66,7 @@
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -78,51 +80,14 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The object a port's low connection refers to, or nullptr.
-const hldb::Any *lowConnActual(const hldb::Port *port) {
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  if (connection == nullptr) return nullptr;
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(connection);
-  return (reference == nullptr) ? nullptr : reference->getActual();
-}
-
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
-
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
-
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -132,33 +97,36 @@ class NonAnsiPortDirectionsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Port *findPort(std::string_view name) {
     if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
     for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName)) return findPortByName(module->getPorts(), name);
+      if (endsWith(module->getFile(), kSourceFileName)) return hldb::findByName<hldb::Port>(name, module->getPorts());
     }
     return nullptr;
   }
 };
 
-TEST_F(NonAnsiPortDirectionsTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(NonAnsiPortDirectionsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(NonAnsiPortDirectionsTest, DirectionsAreAsDeclared) {
-  const std::vector<std::pair<std::string_view, int64_t>> expected = {
+  const std::vector<std::pair<std::string_view, int32_t>> expected = {
       {"a", vpiInput}, {"b", vpiOutput}, {"c", vpiInout}, {"d", vpiRef}};
   for (const std::pair<std::string_view, int64_t> &entry : expected) {
     const hldb::Port *const port = findPort(entry.first);
     ASSERT_NE(port, nullptr) << entry.first;
-    EXPECT_EQ(integerProperty(port, vpiDirection), entry.second) << entry.first;
+    EXPECT_EQ(port->getDirection(), entry.second) << entry.first;
   }
 }
 
@@ -166,7 +134,7 @@ TEST_F(NonAnsiPortDirectionsTest, InputOutputInoutAreNets) {
   for (std::string_view name : {"a", "b", "c"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
-    const hldb::Any *const actual = lowConnActual(port);
+    const hldb::Any *const actual = hldb::getActual(port->getLowConn());
     ASSERT_NE(actual, nullptr) << name;
     EXPECT_NE(any_cast<hldb::Net>(actual), nullptr) << name;
   }
@@ -175,7 +143,7 @@ TEST_F(NonAnsiPortDirectionsTest, InputOutputInoutAreNets) {
 TEST_F(NonAnsiPortDirectionsTest, RefPortDIsAVariable) {
   const hldb::Port *const port = findPort("d");
   ASSERT_NE(port, nullptr);
-  const hldb::Any *const actual = lowConnActual(port);
+  const hldb::Any *const actual = hldb::getActual(port->getLowConn());
   ASSERT_NE(actual, nullptr);
   EXPECT_NE(any_cast<hldb::Variable>(actual), nullptr);
 }

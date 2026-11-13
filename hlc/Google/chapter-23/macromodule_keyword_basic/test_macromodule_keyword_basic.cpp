@@ -58,6 +58,7 @@
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -93,20 +94,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 bool isErrorClass(const Event &event) {
@@ -132,23 +119,29 @@ class MacromoduleKeywordBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Module *findModule() {
@@ -156,10 +149,10 @@ class MacromoduleKeywordBasicTest : public Test {
   }
 };
 
-TEST_F(MacromoduleKeywordBasicTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(MacromoduleKeywordBasicTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(MacromoduleKeywordBasicTest, ModuleIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
+  EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
 TEST_F(MacromoduleKeywordBasicTest, ModuleTopIsDeclared) {
@@ -168,8 +161,8 @@ TEST_F(MacromoduleKeywordBasicTest, ModuleTopIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getVpiType(), static_cast<uint32_t>(vpiModule));
-  EXPECT_EQ(module->getName(), "top");
+  EXPECT_EQ(module->getAnyType(), hldb::AnyType::Module);
+  EXPECT_EQ(module->getDefName(), std::string_view("top"));
 }
 
 TEST_F(MacromoduleKeywordBasicTest, ModuleIsOnLines19To20) {
@@ -188,9 +181,9 @@ TEST_F(MacromoduleKeywordBasicTest, TopIsTheOnlyTopLevelInstance) {
     const hldb::Module *const instance = findFromSourceFile(m_design->getTopModules());
     ASSERT_NE(instance, nullptr);
 
-    EXPECT_EQ(instance->getName(), "top");
-    EXPECT_EQ(stringProperty(instance, vpiDefName), "top");
-    EXPECT_EQ(integerProperty(instance, vpiDefLineNo), static_cast<int64_t>(kModuleFirstLine));
+    EXPECT_EQ(instance->getName(), std::string_view("top"));
+    EXPECT_EQ(instance->getDefName(), std::string_view("top"));
+    EXPECT_EQ(instance->getDefLineNo(), static_cast<int32_t>(kModuleFirstLine));
   }
 }
 }  // namespace hlc

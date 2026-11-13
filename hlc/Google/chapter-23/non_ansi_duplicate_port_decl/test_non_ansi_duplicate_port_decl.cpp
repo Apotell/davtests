@@ -38,21 +38,24 @@
 //
 //   FirstDeclarationIsAccepted     no fatal, syntax or error diagnostic on
 //                                  lines 20-21
-//   SecondDeclarationIsAnError     at least one such diagnostic on line 22
+//   SecondDeclarationIsAnError     CompMultiplyDeclaredPort for aport on
+//                                  line 22
 //   NoErrorAfterTheRedeclaration   none on line 23 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The diagnostic's code or wording. The LRM requires an error, not a
+//   - The diagnostic's wording. The LRM requires an error, not a
 //     particular message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <cstdint>
 #include <limits>
+#include <sstream>
 #include <string>
 
 namespace hlc {
@@ -61,22 +64,14 @@ constexpr uint32_t kHeaderLine = 20;
 constexpr uint32_t kFirstDeclarationLine = 21;
 constexpr uint32_t kRedeclarationLine = 22;
 
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -86,29 +81,32 @@ class NonAnsiDuplicatePortDeclTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      const uint32_t line = lineOf(error);
-      if (isErrorClass(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
+      const uint32_t line = lineOf(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 };
 
 TEST_F(NonAnsiDuplicatePortDeclTest, FirstDeclarationIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kHeaderLine, kFirstDeclarationLine), "");
+  EXPECT_EQ(eventsOnLines(kHeaderLine, kFirstDeclarationLine), "");
 }
 
 TEST_F(NonAnsiDuplicatePortDeclTest, SecondDeclarationIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kRedeclarationLine, kRedeclarationLine), "");
+  EXPECT_NE(findEvent(EventType::CompMultiplyDeclaredPort, "aport", kRedeclarationLine), nullptr);
 }
 
 TEST_F(NonAnsiDuplicatePortDeclTest, NoErrorAfterTheRedeclaration) {
-  EXPECT_EQ(errorsOnLines(kRedeclarationLine + 1, std::numeric_limits<uint32_t>::max()), "");
+  EXPECT_EQ(eventsOnLines(kRedeclarationLine + 1, std::numeric_limits<uint32_t>::max()), "");
 }
 }  // namespace hlc
 

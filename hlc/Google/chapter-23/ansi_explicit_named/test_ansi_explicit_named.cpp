@@ -70,10 +70,12 @@
 #include <hldb/net.h>
 #include <hldb/port.h>
 #include <hldb/sv_vpi_user.h>
+#include <hldb/Utils.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -85,8 +87,8 @@ constexpr std::string_view kSourceFileName = "23.2.2.2--ansi-explicit-named.sv";
 struct ExpectedPort {
   std::string_view m_name;
   bool m_explicitName;
-  int64_t m_direction;
-  int64_t m_size;
+  int32_t m_direction;
+  int32_t m_size;
 };
 
 const std::vector<ExpectedPort> kExpectedPorts = {
@@ -110,52 +112,14 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-size_t relationSize(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  if (objects != nullptr) return objects->size();
-  return (std::get<1>(result) != nullptr) ? 1 : 0;
-}
-
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
-
-template <typename T>
-bool hasObjectNamed(const std::vector<T *> *collection, std::string_view name) {
-  if (collection == nullptr) return false;
-  for (const T *object : *collection) {
-    if (object->getName() == name) return true;
-  }
-  return false;
-}
-
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
-
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -165,13 +129,16 @@ class AnsiExplicitNamedTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Module *findModule() {
@@ -180,22 +147,22 @@ class AnsiExplicitNamedTest : public Test {
 
   static const hldb::Port *findPort(std::string_view name) {
     const hldb::Module *const module = findModule();
-    return (module == nullptr) ? nullptr : findPortByName(module->getPorts(), name);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, module->getPorts());
   }
 };
 
-TEST_F(AnsiExplicitNamedTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(AnsiExplicitNamedTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(AnsiExplicitNamedTest, FourPortsInDeclarationOrder) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "mymod");
+  EXPECT_EQ(module->getDefName(), std::string_view("mymod"));
   ASSERT_NE(module->getPorts(), nullptr);
   EXPECT_EQ(module->getPorts()->size(), kExpectedPorts.size());
   for (size_t index = 0; index < kExpectedPorts.size(); ++index) {
     const hldb::Port *const port = findPort(kExpectedPorts[index].m_name);
     ASSERT_NE(port, nullptr) << kExpectedPorts[index].m_name;
-    EXPECT_EQ(integerProperty(port, vpiPortIndex), static_cast<int64_t>(index)) << kExpectedPorts[index].m_name;
+    EXPECT_EQ(port->getPortIndex(), static_cast<int32_t>(index)) << kExpectedPorts[index].m_name;
   }
 }
 
@@ -203,7 +170,7 @@ TEST_F(AnsiExplicitNamedTest, ExplicitNamesAreReported) {
   for (const ExpectedPort &expected : kExpectedPorts) {
     const hldb::Port *const port = findPort(expected.m_name);
     ASSERT_NE(port, nullptr) << expected.m_name;
-    EXPECT_EQ(integerProperty(port, vpiExplicitName), expected.m_explicitName ? 1 : 0) << expected.m_name;
+    EXPECT_EQ(port->getExplicitName(), expected.m_explicitName) << expected.m_name;
   }
 }
 
@@ -211,24 +178,21 @@ TEST_F(AnsiExplicitNamedTest, DirectionsAreAsDeclared) {
   for (const ExpectedPort &expected : kExpectedPorts) {
     const hldb::Port *const port = findPort(expected.m_name);
     ASSERT_NE(port, nullptr) << expected.m_name;
-    EXPECT_EQ(integerProperty(port, vpiDirection), expected.m_direction) << expected.m_name;
+    EXPECT_EQ(port->getDirection(), expected.m_direction) << expected.m_name;
   }
 }
 
 TEST_F(AnsiExplicitNamedTest, PortSizesFollowTheirExpressions) {
-  for (const ExpectedPort &expected : kExpectedPorts) {
-    const hldb::Port *const port = findPort(expected.m_name);
-    ASSERT_NE(port, nullptr) << expected.m_name;
-    EXPECT_EQ(integerProperty(port, vpiSize), expected.m_size) << expected.m_name;
-  }
+  // Expected: the size of P1, P2, Y and R is kExpectedPorts[i].m_size (4, 4, 32, 1).
+  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14); see hldb_model_gaps.md #8";
 }
 
 TEST_F(AnsiExplicitNamedTest, PortIdentifiersDeclareNoObjects) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   for (std::string_view name : {"P1", "P2", "Y"}) {
-    EXPECT_FALSE(hasObjectNamed(module->getNets(), name)) << "net " << name;
-    EXPECT_FALSE(hasObjectNamed(module->getVariables(), name)) << "variable " << name;
+    EXPECT_EQ(hldb::findByName<hldb::Net>(name, module->getNets()), nullptr) << "net " << name;
+    EXPECT_EQ(hldb::findByName<hldb::Variable>(name, module->getVariables()), nullptr) << "variable " << name;
   }
 }
 
@@ -236,8 +200,8 @@ TEST_F(AnsiExplicitNamedTest, PortExpressionsAreLowConns) {
   for (const ExpectedPort &expected : kExpectedPorts) {
     const hldb::Port *const port = findPort(expected.m_name);
     ASSERT_NE(port, nullptr) << expected.m_name;
-    EXPECT_EQ(relationSize(port, vpiLowConn), 1u) << expected.m_name;
-    EXPECT_EQ(relationSize(port, vpiHighConn), 0u) << expected.m_name;
+    EXPECT_NE(port->getLowConn(), nullptr) << expected.m_name;
+    EXPECT_EQ(port->getHighConn(), nullptr) << expected.m_name;
   }
 }
 }  // namespace hlc

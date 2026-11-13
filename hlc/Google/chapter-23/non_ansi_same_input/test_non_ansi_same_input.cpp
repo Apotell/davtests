@@ -60,6 +60,7 @@
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -82,35 +83,14 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
-
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -120,13 +100,16 @@ class NonAnsiSameInputTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Module *findModule() {
@@ -134,18 +117,18 @@ class NonAnsiSameInputTest : public Test {
   }
 };
 
-TEST_F(NonAnsiSameInputTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(NonAnsiSameInputTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(NonAnsiSameInputTest, TwoPortsBothNamedA) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "same_input");
+  EXPECT_EQ(module->getDefName(), std::string_view("same_input"));
   const hldb::PortCollection *const ports = module->getPorts();
   ASSERT_NE(ports, nullptr);
   ASSERT_EQ(ports->size(), 2u);
   for (size_t index = 0; index < ports->size(); ++index) {
     EXPECT_EQ((*ports)[index]->getName(), "a") << index;
-    EXPECT_EQ(integerProperty((*ports)[index], vpiPortIndex), static_cast<int64_t>(index));
+    EXPECT_EQ((*ports)[index]->getPortIndex(), static_cast<int32_t>(index));
   }
 }
 
@@ -156,7 +139,7 @@ TEST_F(NonAnsiSameInputTest, BothPortsAreInputs) {
   ASSERT_NE(ports, nullptr);
   ASSERT_EQ(ports->size(), 2u);
   for (size_t index = 0; index < ports->size(); ++index) {
-    EXPECT_EQ(integerProperty((*ports)[index], vpiDirection), static_cast<int64_t>(vpiInput)) << index;
+    EXPECT_EQ((*ports)[index]->getDirection(), vpiInput) << index;
   }
 }
 
@@ -179,7 +162,7 @@ TEST_F(NonAnsiSameInputTest, BothPortsConnectToNetA) {
   ASSERT_EQ(ports->size(), 2u);
   ASSERT_EQ(nets->size(), 1u);
   for (size_t index = 0; index < ports->size(); ++index) {
-    const hldb::Any *const connection = relatedObject((*ports)[index], vpiLowConn);
+    const hldb::Any *const connection = (*ports)[index]->getLowConn();
     ASSERT_NE(connection, nullptr) << index;
     const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>(connection);
     ASSERT_NE(lowConn, nullptr) << index;

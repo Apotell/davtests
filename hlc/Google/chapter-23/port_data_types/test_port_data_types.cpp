@@ -60,6 +60,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/port.h>
@@ -69,6 +70,7 @@
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -104,63 +106,14 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
+uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-// The single object 'object' has in the VPI relation 'relation', or nullptr.
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The typespec of a port (vpiTypespec), seen through HLDB's reference
-// typespec when there is one.
-const hldb::Any *portTypespec(const hldb::Port *port) {
-  const hldb::Any *const typespec = relatedObject(port, vpiTypespec);
-  if (typespec == nullptr) return nullptr;
-  if (const hldb::RefTypespec *const reference = any_cast<hldb::RefTypespec>(typespec)) {
-    return reference->getActual();
-  }
-  return typespec;
-}
-
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
-
-uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
-
-bool isErrorClass(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+bool isErrorClass(const Event &event) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (errorInfo == nullptr) return false;
   const EventSeverity severity = errorInfo->m_severity;
   return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
          (severity == EventSeverity::Error);
-}
-
-std::string describeError(const Event &error) {
-  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
-  description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
-  return description + "]";
 }
 }  // namespace
 
@@ -170,13 +123,16 @@ class PortDataTypesTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
-    std::string description;
-    for (const Event &error : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(error)) description += describeError(error);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Module *findModule() {
@@ -185,18 +141,18 @@ class PortDataTypesTest : public Test {
 
   static const hldb::Port *findPort(std::string_view name) {
     const hldb::Module *const module = findModule();
-    return (module == nullptr) ? nullptr : findPortByName(module->getPorts(), name);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, module->getPorts());
   }
 };
 
-TEST_F(PortDataTypesTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(PortDataTypesTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(PortDataTypesTest, ModuleMh1IsDeclared) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(countFromSourceFile(m_design->getAllModules()), 1u);
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "mh1");
+  EXPECT_EQ(module->getDefName(), std::string_view("mh1"));
   EXPECT_EQ(module->getStartLine(), kModuleFirstLine);
   EXPECT_EQ(module->getEndLine(), kModuleLastLine);
 }
@@ -210,37 +166,37 @@ TEST_F(PortDataTypesTest, ThreePortsInDeclarationOrder) {
 
   const std::vector<std::string_view> names = {"in1", "in2", "out"};
   for (size_t index = 0; index < names.size(); ++index) {
-    const hldb::Port *const port = findPortByName(ports, names[index]);
+    const hldb::Port *const port = hldb::findByName<hldb::Port>(names[index], ports);
     ASSERT_NE(port, nullptr) << names[index];
-    EXPECT_EQ(integerProperty(port, vpiPortIndex), static_cast<int64_t>(index)) << names[index];
+    EXPECT_EQ(port->getPortIndex(), static_cast<int32_t>(index)) << names[index];
   }
 }
 
 TEST_F(PortDataTypesTest, PortIn1IsAnIntInput) {
   const hldb::Port *const port = findPort("in1");
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput));
-  const hldb::Any *const typespec = portTypespec(port);
+  EXPECT_EQ(port->getDirection(), vpiInput);
+  const hldb::Typespec *const typespec = hldb::getTypespec(port);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiIntTypespec));
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
 }
 
 TEST_F(PortDataTypesTest, PortIn2IsAShortrealInput) {
   const hldb::Port *const port = findPort("in2");
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput));
-  const hldb::Any *const typespec = portTypespec(port);
+  EXPECT_EQ(port->getDirection(), vpiInput);
+  const hldb::Typespec *const typespec = hldb::getTypespec(port);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiShortRealTypespec));
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::ShortRealTypespec);
 }
 
 TEST_F(PortDataTypesTest, PortOutIsATaggedStOutput) {
   const hldb::Port *const port = findPort("out");
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiOutput));
-  const hldb::Any *const typespec = portTypespec(port);
+  EXPECT_EQ(port->getDirection(), vpiOutput);
+  const hldb::Typespec *const typespec = hldb::getTypespec(port);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(stringProperty(typespec, vpiName), "tagged_st");
+  EXPECT_EQ(typespec->getName(), std::string_view("tagged_st"));
 }
 }  // namespace hlc
 

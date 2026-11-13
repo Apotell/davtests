@@ -185,6 +185,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -272,24 +273,30 @@ class ClassTest1Test : public Test {
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
   // described; empty when there is none. A run without an event listener is
   // reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // Every error-class diagnostic, described; empty when there is none.
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // The SourceFile nodes of the file under test.
@@ -322,14 +329,14 @@ class ClassTest1Test : public Test {
 
 // Every line of the file is legal, and the design has its top-level module,
 // so nothing is fatal, a syntax error or an error, in any category.
-TEST_F(ClassTest1Test, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(ClassTest1Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Line 15: a class_declaration with no class_item between its header and
 // endclass (8.3, A.1.2).
-TEST_F(ClassTest1Test, Line15ClassIsAccepted) { EXPECT_EQ(errorsOnLines(kClassLine, kClassLine), ""); }
+TEST_F(ClassTest1Test, Line15ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassLine, kClassLine), ""); }
 
 // Lines 17-18: an empty module_declaration (A.1.2).
-TEST_F(ClassTest1Test, Lines17To18ModuleIsAccepted) { EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
+TEST_F(ClassTest1Test, Lines17To18ModuleIsAccepted) { EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
 
 // ---------------------------------------------------------------------------
 // The source file
@@ -361,7 +368,7 @@ TEST_F(ClassTest1Test, ClassFooIsDeclared) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
   EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(classDefn->getName(), "Foo");
+  EXPECT_EQ(classDefn->getDefName(), std::string_view("Foo"));
 }
 
 // The whole declaration, endclass included, is on line 15.
@@ -416,7 +423,7 @@ TEST_F(ClassTest1Test, ModuleTestIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "test");
+  EXPECT_EQ(module->getDefName(), std::string_view("test"));
 }
 
 // "module test;" is on line 17 and "endmodule" on line 18.
