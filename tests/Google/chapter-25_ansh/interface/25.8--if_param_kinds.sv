@@ -24,7 +24,8 @@
 //   CHK1: type parameter overridden with int
 //   CHK2: parameter declared in the body and overridden
 //   CHK3: parameter changed with defparam
-//   CHK4: module reads the parameter through its interface port b.W
+//   CHK4: module reads the parameter through its interface port b.W (a constant range here is a
+//         common tool extension: the constant_primary grammar has no interface-port parameter)
 //   CHK5: one override applied to several instances and an array (LRM #(100) example)
 
 // CHK1
