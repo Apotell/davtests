@@ -129,7 +129,7 @@ TEST_F(ModPortParamTest, InterfaceHasSingleModportCsr) {
   ASSERT_NE(iface, nullptr);
   ASSERT_NE(iface->getModports(), nullptr);
   ASSERT_EQ(iface->getModports()->size(), 1u);
-  EXPECT_EQ(iface->getModports()->at(0)->getName(), "CSR");
+  EXPECT_EQ(iface->getModports()->at(0)->getName(), std::string_view("CSR"));
 }
 
 TEST_F(ModPortParamTest, ModportCsrHasInputPerfCounter) {
@@ -138,7 +138,7 @@ TEST_F(ModPortParamTest, ModportCsrHasInputPerfCounter) {
   ASSERT_NE(mp->getIODecls(), nullptr);
   ASSERT_EQ(mp->getIODecls()->size(), 1u);
   const hldb::IODecl *const io = mp->getIODecls()->at(0);
-  EXPECT_EQ(io->getName(), "perfCounter");
+  EXPECT_EQ(io->getName(), std::string_view("perfCounter"));
   EXPECT_EQ(io->getDirection(), vpiInput);
 }
 
@@ -158,7 +158,7 @@ TEST_F(ModPortParamTest, CsrUnitHasSingleModportPort) {
   ASSERT_EQ(m->getPorts()->size(), 1u);
   const hldb::Port *const p = getCsrUnitPort();
   ASSERT_NE(p, nullptr);
-  EXPECT_EQ(p->getName(), "perfCounter");
+  EXPECT_EQ(p->getName(), std::string_view("perfCounter"));
   EXPECT_EQ(p->getPortType(), vpiModportPort) << "37.14: port declared as interface.modport is a modport port";
 }
 
@@ -178,7 +178,7 @@ TEST_F(ModPortParamTest, PortLowConnBindsToModport) {
   ASSERT_NE(p, nullptr);
   const hldb::RefObj *const lc = p->getLowConn<hldb::RefObj>();
   ASSERT_NE(lc, nullptr) << "37.14 detail 5: low conn of an interface port is a RefObj";
-  EXPECT_EQ(lc->getName(), "perfCounter");
+  EXPECT_EQ(lc->getName(), std::string_view("perfCounter"));
   ASSERT_NE(lc->getActual(), nullptr);
   EXPECT_EQ(lc->getActual(), getCsrModport());
 }
@@ -225,7 +225,7 @@ TEST_F(ModPortParamTest, CsrUnitConnectionBindsInterfaceInstanceToPort) {
 
   const hldb::RefObj *const hi = conn->getHighConn<hldb::RefObj>();
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(hi->getName(), "perfCounterIF");
+  EXPECT_EQ(hi->getName(), std::string_view("perfCounterIF"));
   EXPECT_EQ(hi->getActual(), ifInst);
 
   const hldb::RefObj *const lo = conn->getLowConn<hldb::RefObj>();

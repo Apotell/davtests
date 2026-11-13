@@ -258,7 +258,7 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
   EXPECT_NE(findEvent(EventType::CompUndefinedType, "id_t1", 14), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "mem_if::system1", 36), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedModport, "system1", 36, 29), nullptr)
       << "25.5: mem_if has no modport named system1";
   EXPECT_NE(findEvent(EventType::CompUndefinedType, "DD", 51), nullptr);
 }
@@ -276,10 +276,6 @@ TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {
   ASSERT_NE(its, nullptr);
   EXPECT_EQ(its->getInterface(), getIface("mem_if"));
   EXPECT_EQ(its->getModport(), getModport("mem_if", "system"));
-}
-
-TEST_F(ModPortTestTest, InterfacePortsNotWarnedMissingDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
 }
 
 TEST_F(ModPortTestTest, MemoryCtrl1HasFsmEnumAndState) { expectFsmEnum("memory_ctrl1"); }

@@ -149,3 +149,61 @@ endmodule
 // 23.2.2.1: one "signed" written for two interconnect ports.
 module ic_signed_pair (input interconnect signed [3:0] p1, p2);
 endmodule
+
+// Events first raised by sr/iodecl (Sec 10.11, 23.6, 25.3, 25.5.5, 23.3.3.2, 25.5, 11.2).
+module ipr_alias; wire a; tri1 b; alias a = b; endmodule
+interface ipr_ii; logic s; endinterface
+module ipr_idx; ipr_ii arr[0:3](); wire w; assign w = arr[4].s; endmodule
+module ipr_leaf; endmodule
+interface ipr_hasmod; ipr_leaf u(); endinterface
+interface ipr_ck; modport m(clocking nocb); endinterface
+module ipr_io(inout wire p); endmodule
+module ipr_ioc; logic v; ipr_io u(.p(v)); endmodule
+interface ipr_ai; logic d; modport m(input d); endinterface
+module ipr_aw(ipr_ai.m p); initial p.d = 1; endmodule
+interface ipr_ie; logic s; endinterface
+module ipr_iec; ipr_ie x(); wire w; assign w = x; endmodule
+// Non-ANSI port declarations (Sec 23.2.2.1).
+interface ipr_if; endinterface
+module ipr_dupimp(a, a); input a; endmodule  // legal: 23.2.2.1 Ex. 6
+module ipr_dupif(p); ipr_if p; ipr_if p; endmodule
+module ipr_dupin(q); input q; input q; endmodule
+module ipr_undecl(.p(a), b[1:0], {c, d}); input c; wire a; wire [3:0] b; endmodule
+// A generic interface port takes only an interface instance (Sec 23.3.3.4).
+module ipr_gen(interface p); endmodule
+module ipr_gentop; logic o; ipr_gen u(.p(o)); endmodule
+// Default values on inherited ANSI ports (Sec 23.2.2.3).
+module ipr_d1(output var integer x, [3:0] y = 0); endmodule
+module ipr_d2(output var logic x, .b(s), c = 1); logic s; endmodule
+// Parameterized interface instances and virtual interfaces (Sec 25.9, 25.10).
+interface ipr_pif #(parameter int W = 8); logic s, h; modport mp(input s); modport other(output s); endinterface
+interface ipr_qif; logic s; endinterface
+module ipr_virt;
+  ipr_pif #(16) wide();
+  ipr_pif narrow();
+  ipr_qif q();
+  virtual ipr_pif #(8) v8;
+  virtual ipr_pif.mp vmp;
+  virtual ipr_pif.other voth;
+  virtual ipr_pif vplain;
+  logic y;
+  initial begin
+    v8 = wide;
+    v8 = q;
+    vmp = voth;
+    vplain = vmp;
+    vmp = narrow;
+    y = vmp.h;
+  end
+endmodule
+// Interface and program ports have io decls (Sec 37.13).
+program ipr_prog(ipr_pif.mp p); initial $display(p.s); endprogram
+// Implicit .name and .* connections (Sec 23.3.2.3, 23.3.2.4).
+module ipr_c(input logic a, input logic b = 0, input logic d); endmodule
+module ipr_late; ipr_c u(.a, .b(), .d(a)); logic a; endmodule
+module ipr_star; logic a; ipr_c u(.*); endmodule
+// Through a generic interface port (Sec 25.3.3): a signal in an event control is a reference, a
+// name used as a statement is a subroutine call (Sec 13.5.5).
+module ipr_generic(interface a); always @(a.start) a.run; endmodule
+// Sec 10.11: aliased nets shall be of the same net type; an interconnect is not merged into a wire.
+module ipr_icalias; interconnect i; wire w; alias i = w; endmodule

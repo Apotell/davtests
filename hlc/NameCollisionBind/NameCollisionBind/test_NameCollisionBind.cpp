@@ -166,11 +166,11 @@ TEST_F(NameCollisionBindTest, PerfCounterPathIsPackedStructWithNumLoadMiss) {
   ASSERT_NE(st->getMembers(), nullptr);
   ASSERT_EQ(st->getMembers()->size(), 1u);
   const hldb::TypespecMember *const m = st->getMembers()->at(0);
-  EXPECT_EQ(m->getName(), "numLoadMiss");
+  EXPECT_EQ(m->getName(), std::string_view("numLoadMiss"));
   ASSERT_NE(m->getTypespec(), nullptr);
   const hldb::TypedefTypespec *const tts = any_cast<hldb::TypedefTypespec>(m->getTypespec()->getActual());
   ASSERT_NE(tts, nullptr) << "'numLoadMiss' is typed by typedef 'DataPath'";
-  EXPECT_EQ(tts->getName(), "DataPath");
+  EXPECT_EQ(tts->getName(), std::string_view("DataPath"));
 }
 
 // ===========================================================================
@@ -184,7 +184,7 @@ TEST_F(NameCollisionBindTest, InterfaceVariablePerfCounter) {
   ASSERT_NE(v->getTypespec(), nullptr);
   const hldb::TypedefTypespec *const tts = any_cast<hldb::TypedefTypespec>(v->getTypespec()->getActual());
   ASSERT_NE(tts, nullptr);
-  EXPECT_EQ(tts->getName(), "PerfCounterPath");
+  EXPECT_EQ(tts->getName(), std::string_view("PerfCounterPath"));
 }
 
 TEST_F(NameCollisionBindTest, ModportCsrHasInputPerfCounter) {
@@ -193,7 +193,7 @@ TEST_F(NameCollisionBindTest, ModportCsrHasInputPerfCounter) {
   ASSERT_NE(mp->getIODecls(), nullptr);
   ASSERT_EQ(mp->getIODecls()->size(), 1u);
   const hldb::IODecl *const io = mp->getIODecls()->at(0);
-  EXPECT_EQ(io->getName(), "perfCounter");
+  EXPECT_EQ(io->getName(), std::string_view("perfCounter"));
   EXPECT_EQ(io->getDirection(), vpiInput);
 }
 
@@ -231,7 +231,7 @@ TEST_F(NameCollisionBindTest, PortLowConnBindsToModport) {
   ASSERT_NE(p, nullptr);
   const hldb::RefObj *const lc = any_cast<hldb::RefObj>(p->getLowConn());
   ASSERT_NE(lc, nullptr);
-  EXPECT_EQ(lc->getName(), "perfCounter");
+  EXPECT_EQ(lc->getName(), std::string_view("perfCounter"));
   ASSERT_NE(lc->getActual(), nullptr);
   EXPECT_EQ(lc->getActual(), getModport());
 }
@@ -252,7 +252,7 @@ TEST_F(NameCollisionBindTest, RhsIsThreeElementPath) {
 TEST_F(NameCollisionBindTest, FirstPerfCounterBindsToPort) {
   const hldb::RefObj *const e = getRhsElem(0);
   ASSERT_NE(e, nullptr);
-  EXPECT_EQ(e->getName(), "perfCounter");
+  EXPECT_EQ(e->getName(), std::string_view("perfCounter"));
   ASSERT_NE(e->getActual(), nullptr) << "first 'perfCounter' is the interface port of CSR_Unit";
   EXPECT_EQ(e->getActual(), getModport()) << "the port is restricted to modport CSR (25.5)";
 }
@@ -260,7 +260,7 @@ TEST_F(NameCollisionBindTest, FirstPerfCounterBindsToPort) {
 TEST_F(NameCollisionBindTest, SecondPerfCounterBindsToInterfaceVariable) {
   const hldb::RefObj *const e = getRhsElem(1);
   ASSERT_NE(e, nullptr);
-  EXPECT_EQ(e->getName(), "perfCounter");
+  EXPECT_EQ(e->getName(), std::string_view("perfCounter"));
   ASSERT_NE(e->getActual(), nullptr) << "second 'perfCounter' is the interface item exposed by modport CSR";
   ASSERT_NE(getIfaceVar(), nullptr);
   EXPECT_EQ(e->getActual(), getIfaceVar());
@@ -269,7 +269,7 @@ TEST_F(NameCollisionBindTest, SecondPerfCounterBindsToInterfaceVariable) {
 TEST_F(NameCollisionBindTest, NumLoadMissBindsToStructMember) {
   const hldb::RefObj *const e = getRhsElem(2);
   ASSERT_NE(e, nullptr);
-  EXPECT_EQ(e->getName(), "numLoadMiss");
+  EXPECT_EQ(e->getName(), std::string_view("numLoadMiss"));
   ASSERT_NE(e->getActual(), nullptr);
   const hldb::Struct *const st = getPerfStruct();
   ASSERT_NE(st, nullptr);
@@ -283,7 +283,7 @@ TEST_F(NameCollisionBindTest, NumLoadMissBindsToStructMember) {
 // ===========================================================================
 
 TEST_F(NameCollisionBindTest, MshrIDIsImplicitScalarWire) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
+  GTEST_SKIP() << "Sec 6.10: HLC builds no implicit net for the undeclared lhs of a continuous assignment (mshrID)";
   const hldb::Module *const m = getMod();
   ASSERT_NE(m, nullptr);
   const hldb::Net *const n = hldb::findByName<hldb::Net>("mshrID", m->getNets());

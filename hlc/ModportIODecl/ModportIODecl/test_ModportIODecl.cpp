@@ -414,7 +414,7 @@ TEST_F(ModportIODecl, InterfacePortDefaultValueIsIllegal) {
   const hldb::Module *const m = findModule("bad_default");
   ASSERT_NE(m, nullptr);
   EXPECT_NE(hldb::findByName<hldb::IODecl>("x", m->getIODecls()), nullptr);
-  EXPECT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "x"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "x", 66, 36), nullptr);
 }
 
 }  // namespace hlc

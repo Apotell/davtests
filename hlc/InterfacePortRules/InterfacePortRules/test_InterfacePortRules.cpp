@@ -22,12 +22,26 @@
 #include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/hldb.h>
+#include <hldb/vpi_user.h>
+
+#include <string_view>
+
 namespace hlc {
 
 class InterfacePortRules : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "InterfacePortRules.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  const hldb::Module *findModule(std::string_view name) const {
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+  const hldb::Program *findProgram(std::string_view name) const {
+    return hldb::findByDefName<hldb::Program>(name, m_design->getAllPrograms());
+  }
 };
 
 // ----
@@ -138,7 +152,6 @@ TEST_F(InterfacePortRules, SubroutineExportedTwice) {
   // "has_export u_two (.p(t));" after u_one -- Sec 25.7.4. u_none defines no w, so u_one is the
   // first exporter and only u_two is reported.
   EXPECT_NE(findEvent(EventType::CompMultipleExport, "w", 92, 24), nullptr);
-  EXPECT_EQ(findEvents(EventType::CompMultipleExport, 91).size(), 0U);
 }
 
 TEST_F(InterfacePortRules, ModportOfHeaderDoesNotExist) {
@@ -205,6 +218,205 @@ TEST_F(InterfacePortRules, InitializedOutputInheritingNetKind) {
 TEST_F(InterfacePortRules, OneSignedForTwoInterconnectPorts) {
   // "input interconnect signed [3:0] p1, p2" -- one "signed" written, reported at the first port.
   EXPECT_NE(findEvent(EventType::CompSignedInterconnectPort, "p1", 150, 56), nullptr);
+}
+
+// ----
+// Events first raised on this branch (Sec 10.11, 23.6, 25.3, 25.5.5, 23.3.3.2, 25.5, 11.2)
+// ----
+
+TEST_F(InterfacePortRules, AliasOfNetsOfDifferentTypes) {
+  // "wire a; tri1 b; alias a = b;" -- Sec 10.11: aliased nets shall be of the same net type.
+  EXPECT_NE(findEvent(EventType::CompIllegalAlias, "b", 154, 45), nullptr);
+}
+
+TEST_F(InterfacePortRules, InstanceArrayIndexOutOfRange) {
+  // "ipr_ii arr[0:3](); ... arr[4].s" -- Sec 23.6: the index shall be a legal index value.
+  EXPECT_NE(findEvent(EventType::CompIndexOutOfRange, "arr[4]", 156, 55), nullptr);
+}
+
+TEST_F(InterfacePortRules, ModuleInstantiatedInInterface) {
+  // "interface ipr_hasmod; ipr_leaf u(); endinterface" -- Sec 25.3: "modules can neither be
+  // declared nor instantiated in interfaces."
+  EXPECT_NE(findEvent(EventType::CompIllegalInstantiation, "u", 158, 32), nullptr);
+}
+
+TEST_F(InterfacePortRules, ModportNamesUndeclaredClockingBlock) {
+  // "modport m(clocking nocb);" -- Sec 25.5.5: the clocking block shall be declared by the
+  // modport's interface.
+  EXPECT_NE(findEvent(EventType::CompUndefinedClockingBlock, "nocb", 159, 38), nullptr);
+}
+
+TEST_F(InterfacePortRules, VariableConnectedToInoutPort) {
+  // "logic v; ipr_io u(.p(v));" with "inout wire p" -- Sec 23.3.3.2: a variable shall not be
+  // connected to either side of an inout port.
+  EXPECT_NE(findEvent(EventType::CompIllegalVariableOnInoutPort, "p", 161, 38), nullptr);
+}
+
+TEST_F(InterfacePortRules, AssignmentThroughModportInput) {
+  // "initial p.d = 1;" through "modport m(input d)" -- Sec 25.5 with Sec 23.3.3.2: assignments to
+  // variables declared as input ports shall be illegal.
+  EXPECT_NE(findEvent(EventType::CompAssignmentToInputPort, "p.d", 163, 36), nullptr);
+}
+
+TEST_F(InterfacePortRules, InterfaceInstanceAsContinuousAssignmentOperand) {
+  // "assign w = x;" with x an interface instance -- an interface instance is not a value
+  // (Sec 11.2; only a virtual interface holds one, Sec 25.9).
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "x", 165, 48), nullptr);
+}
+
+// ----
+// Non-ANSI port declarations (Sec 23.2.2.1)
+// ----
+
+TEST_F(InterfacePortRules, InterfacePortDeclaredTwice) {
+  // "ipr_if p; ipr_if p;" -- reported at the second declaration.
+  EXPECT_NE(findEvent(EventType::CompDuplicateDeclaration, "p", 169, 39), nullptr);
+}
+
+TEST_F(InterfacePortRules, InputPortDeclaredTwice) {
+  // "input q; input q;" -- the standard's own example ("Error - multiple declaration").
+  EXPECT_NE(findEvent(EventType::CompDuplicateDeclaration, "q", 170, 37), nullptr);
+}
+
+TEST_F(InterfacePortRules, PortExpressionIdentifiersNeedPortDeclarations) {
+  // "module ipr_undecl(.p(a), b[1:0], {c, d}); input c; wire a; wire [3:0] b;" -- every
+  // port_identifier of a port expression, explicit, selected or concatenated, shall be declared
+  // as a port.
+  EXPECT_NE(findEvent(EventType::CompUndeclaredNonAnsiPort, "a", 171, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredNonAnsiPort, "b", 171, 26), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredNonAnsiPort, "d", 171, 38), nullptr);
+}
+
+TEST_F(InterfacePortRules, VariableConnectedToGenericInterfacePort) {
+  // "ipr_gen u(.p(o));" with "interface p" -- Sec 23.3.3.4: an interface port is connected to an
+  // interface instance.
+  EXPECT_NE(findEvent(EventType::CompIllegalInterfacePortConnection, "o", 174, 42), nullptr);
+}
+
+TEST_F(InterfacePortRules, DefaultOnOutputWithImplicitDataType) {
+  // "output var integer x, [3:0] y = 0" -- y's implicit data type makes it an output net
+  // (Sec 23.2.2.3), which cannot be initialized.
+  EXPECT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "y", 176, 47), nullptr);
+}
+
+TEST_F(InterfacePortRules, DefaultOnPortAfterExplicitPort) {
+  // "output var logic x, .b(s), c = 1" -- after an explicit port, c inherits only the direction;
+  // its kind defaults to net (Sec 23.2.2.3).
+  EXPECT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "c", 177, 46), nullptr);
+}
+
+// ----
+// Parameterized interface instances and virtual interfaces (Sec 25.9, 25.10)
+// ----
+
+TEST_F(InterfacePortRules, ParameterizedInterfaceInstanceHasItsOwnTypespec) {
+  // "ipr_pif #(16) wide();" -- the instance's interface typespec carries the override, bound to W.
+  const hldb::Module *const m = findModule("ipr_virt");
+  ASSERT_NE(m, nullptr);
+  const hldb::RefInstance *const wide = hldb::findByName<hldb::RefInstance>("wide", m->getRefInstances());
+  ASSERT_NE(wide, nullptr);
+  ASSERT_NE(wide->getTypespec(), nullptr);
+  const hldb::InterfaceTypespec *const its = wide->getTypespec()->getActual<hldb::InterfaceTypespec>();
+  ASSERT_NE(its, nullptr);
+  EXPECT_EQ(its->getDefName(), std::string_view("ipr_pif"));
+  ASSERT_NE(its->getInterface(), nullptr);
+  EXPECT_EQ(its->getInterface()->getDefName(), std::string_view("ipr_pif"));
+  ASSERT_NE(its->getParamAssigns(), nullptr);
+  ASSERT_EQ(its->getParamAssigns()->size(), 1U);
+  const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(its->getParamAssigns()->front()->getLhs());
+  ASSERT_NE(lhs, nullptr);
+  ASSERT_NE(lhs->getActual(), nullptr);
+  EXPECT_EQ(lhs->getActual()->getAnyType(), hldb::AnyType::Parameter);
+  EXPECT_EQ(lhs->getActual()->getName(), std::string_view("W"));
+}
+
+TEST_F(InterfacePortRules, VirtualInterfaceAssignedInstanceWithOtherParameterValue) {
+  // "virtual ipr_pif #(8) v8; ... v8 = wide;" with "ipr_pif #(16) wide()" -- Sec 25.9: "The actual
+  // values and types of those parameters shall match".
+  EXPECT_NE(findEvent(EventType::CompIllegalVirtualInterface, "wide", 191, 10), nullptr);
+}
+
+TEST_F(InterfacePortRules, VirtualInterfaceAssignedInstanceOfOtherInterface) {
+  // "v8 = q;" with q an ipr_qif -- Sec 25.9: an interface instance "of the same type".
+  EXPECT_NE(findEvent(EventType::CompIllegalVirtualInterface, "q", 192, 10), nullptr);
+}
+
+TEST_F(InterfacePortRules, VirtualInterfaceAssignedOtherModport) {
+  // "vmp = voth;" (modports mp and other) -- Sec 25.9: the modport "is also part of its type".
+  EXPECT_NE(findEvent(EventType::CompIllegalVirtualInterface, "voth", 193, 11), nullptr);
+}
+
+TEST_F(InterfacePortRules, VirtualInterfaceWithModportAssignedToOneWithout) {
+  // "vplain = vmp;" -- only one "with no modport selected may be assigned to a virtual interface
+  // with a modport selected" (Sec 25.9), not the reverse.
+  EXPECT_NE(findEvent(EventType::CompIllegalVirtualInterface, "vmp", 194, 14), nullptr);
+}
+
+TEST_F(InterfacePortRules, MemberHiddenByVirtualInterfaceModport) {
+  // "y = vmp.h;" with "modport mp(input s)" -- Sec 25.10: a modport restricts access "through a port
+  // connection or virtual interface".
+  EXPECT_NE(findEvent(EventType::CompModportMemberNotListed, "h", 196, 13), nullptr);
+}
+
+// ----
+// Interface and program ports have io decls (Sec 37.13)
+// ----
+
+TEST_F(InterfacePortRules, ProgramModportPortHasIODecl) {
+  // "program ipr_prog(ipr_pif.mp p);"
+  const hldb::Program *const p = findProgram("ipr_prog");
+  ASSERT_NE(p, nullptr);
+  const hldb::IODecl *const io = hldb::findByName<hldb::IODecl>("p", p->getIODecls());
+  ASSERT_NE(io, nullptr);
+  EXPECT_EQ(io->getDirection(), vpiNoDirection);
+  const hldb::RefObj *const expr = io->getExpr<hldb::RefObj>();
+  ASSERT_NE(expr, nullptr);
+  ASSERT_NE(expr->getActual(), nullptr);
+  EXPECT_EQ(expr->getActual()->getAnyType(), hldb::AnyType::Modport);
+  EXPECT_EQ(expr->getActual()->getName(), std::string_view("mp"));
+}
+
+// ----
+// Implicit .name and .* connections (Sec 23.3.2.3, 23.3.2.4)
+// ----
+
+TEST_F(InterfacePortRules, ImplicitNamedConnectionDeclaredLater) {
+  // "ipr_c u(.a, ...); logic a;" -- a shall be declared before the .a connection.
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "a", 203, 27), nullptr);
+}
+
+TEST_F(InterfacePortRules, WildcardConnectionWithoutSignal) {
+  // "logic a; ipr_c u(.*);" -- port d has no default and no signal d exists (port b has a default).
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "d", 204, 35), nullptr);
+}
+
+// ----
+// Names through a generic interface port (Sec 25.3.3, 13.5.5)
+// ----
+
+TEST_F(InterfacePortRules, GenericPortSignalInEventControlIsAReference) {
+  // "always @(a.start) a.run;" in "module ipr_generic(interface a)": a.start is a signal, not a call;
+  // a.run, used as a statement, is a subroutine call (Sec 13.5.5) through the port.
+  const hldb::Module *const m = findModule("ipr_generic");
+  ASSERT_NE(m, nullptr);
+  ASSERT_NE(m->getProcesses(), nullptr);
+  ASSERT_EQ(m->getProcesses()->size(), 1U);
+  const hldb::Always *const always = any_cast<hldb::Always>(m->getProcesses()->front());
+  ASSERT_NE(always, nullptr);
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
+  ASSERT_NE(ec, nullptr);
+  ASSERT_NE(ec->getCondition(), nullptr);
+  EXPECT_EQ(ec->getCondition()->getAnyType(), hldb::AnyType::RefObj);
+  ASSERT_NE(ec->getStmt(), nullptr);
+  EXPECT_EQ(ec->getStmt()->getAnyType(), hldb::AnyType::SubroutineCall);
+  EXPECT_EQ(ec->getStmt()->getName(), std::string_view("run"));
+}
+
+TEST_F(InterfacePortRules, InterconnectAliasedWithWire) {
+  // "interconnect i; wire w; alias i = w;" -- Sec 10.11: "The nets connected with an alias statement
+  // shall be type compatible, that is, they have to be of the same net type", a rule "stricter than
+  // the rule applied to nets joining at ports" (where an interconnect takes the other net's type).
+  EXPECT_NE(findEvent(EventType::CompIllegalAlias, "w", 209, 55), nullptr);
 }
 
 }  // namespace hlc

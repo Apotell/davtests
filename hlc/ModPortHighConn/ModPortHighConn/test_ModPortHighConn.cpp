@@ -159,7 +159,7 @@ TEST_F(ModPortHighConnTest, ModuleAPortsAreScalarWireNets) {
 // ===========================================================================
 
 TEST_F(ModPortHighConnTest, TopHasTwoVectorWireNetsWithoutDeclAssign) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
+  GTEST_SKIP() << "Sec 6.7: HLC sets vpiNetDeclAssign on a net declared without a net_decl_assignment";
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
