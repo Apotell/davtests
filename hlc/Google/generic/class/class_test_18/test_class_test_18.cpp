@@ -196,6 +196,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -286,14 +287,17 @@ class ClassTest18Test : public Test {
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
   // described; empty when there is none. A run without an event listener is
   // reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // The SourceFile nodes of the file under test.
@@ -328,13 +332,13 @@ class ClassTest18Test : public Test {
 // module, so no line but 15 draws a fatal, syntax or error diagnostic, in any
 // category. Line 15 is left out: see WHAT IS NOT CHECKED.
 TEST_F(ClassTest18Test, NoErrorsOutsideLine15) {
-  EXPECT_EQ(errorsOnLines(1, kClassFirstLine - 1), "");
-  EXPECT_EQ(errorsOnLines(kClassFirstLine + 1, kAnyLaterLine), "");
+  EXPECT_EQ(eventsOnLines(1, kClassFirstLine - 1), "");
+  EXPECT_EQ(eventsOnLines(kClassFirstLine + 1, kAnyLaterLine), "");
 }
 
 // Lines 18-19: an empty module_declaration (A.1.2).
 TEST_F(ClassTest18Test, Lines18To19ModuleIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
+  EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
 // ---------------------------------------------------------------------------
@@ -446,7 +450,7 @@ TEST_F(ClassTest18Test, ModuleTestIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "test");
+  EXPECT_EQ(module->getDefName(), std::string_view("test"));
 }
 
 // "module test;" is on line 18 and "endmodule" on line 19.

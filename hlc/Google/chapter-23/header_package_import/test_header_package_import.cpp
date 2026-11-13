@@ -47,7 +47,7 @@
 //   ModuleHeaderCarriesImportOfP   the module carries an import_typespec
 //                              naming package p (23.2.1's "package import
 //                              list of the module")
-//   LocalparamW2ResolvesThroughTheImport   W2's constant expression
+//   LocalparamW2ResolvesThroughTheImport   W2's vpiExpr (37.28 detail 3)
 //                              resolves W to the very Parameter object
 //                              declared inside package p, proving the
 //                              import made it visible
@@ -70,13 +70,13 @@
 #include <hldb/import_typespec.h>
 #include <hldb/module.h>
 #include <hldb/package.h>
-#include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
 #include <cstdint>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -112,24 +112,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-// The module's own vpiTypespec relation (37.10), which HLDB uses to attach a
-// package_import_declaration's ImportTypespec directly to the module header.
-const hldb::ImportTypespec *findImportOfPackage(const hldb::Any *scope, std::string_view packageName) {
-  const hldb::Any::get_by_vpi_type_return_t result = scope->getByVpiType(vpiTypespec);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) {
-    for (const hldb::Any *object : *objects) {
-      if (const hldb::ImportTypespec *const importTypespec = any_cast<hldb::ImportTypespec>(object)) {
-        if (importTypespec->getName() == packageName) return importTypespec;
-      }
-    }
-  } else if (const hldb::Any *const single = std::get<1>(result)) {
-    if (const hldb::ImportTypespec *const importTypespec = any_cast<hldb::ImportTypespec>(single)) {
-      if (importTypespec->getName() == packageName) return importTypespec;
-    }
-  }
-  return nullptr;
-}
-
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 bool isErrorClass(const Event &event) {
@@ -155,23 +137,29 @@ class HeaderPackageImportTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const hldb::Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) {
+        std::vector<std::string> msgs = hldb::renderEvent(event);
+        std::copy(msgs.cbegin(), msgs.cend(), std::ostream_iterator<std::string>(oss));
+      }
     }
-    return description;
+    return oss.str();
   }
 
   static const hldb::Package *findPackage() {
@@ -182,9 +170,9 @@ class HeaderPackageImportTest : public Test {
   }
 };
 
-TEST_F(HeaderPackageImportTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(HeaderPackageImportTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(HeaderPackageImportTest, BothAreAccepted) { EXPECT_EQ(errorsOnLines(kFirstLine, kLastLine), ""); }
+TEST_F(HeaderPackageImportTest, BothAreAccepted) { EXPECT_EQ(eventsOnLines(kFirstLine, kLastLine), ""); }
 
 TEST_F(HeaderPackageImportTest, PackagePIsDeclared) {
   ASSERT_NE(m_design, nullptr);
@@ -192,7 +180,7 @@ TEST_F(HeaderPackageImportTest, PackagePIsDeclared) {
 
   const hldb::Package *const package = findPackage();
   ASSERT_NE(package, nullptr);
-  EXPECT_EQ(package->getName(), "p");
+  EXPECT_EQ(package->getDefName(), std::string_view("p"));
   EXPECT_NE(hldb::findByName<hldb::Parameter>("W", package->getParameters()), nullptr);
 }
 
@@ -202,7 +190,7 @@ TEST_F(HeaderPackageImportTest, ModuleMIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "m");
+  EXPECT_EQ(module->getDefName(), std::string_view("m"));
 }
 
 TEST_F(HeaderPackageImportTest, ModuleHeaderCarriesImportOfP) {
@@ -210,7 +198,10 @@ TEST_F(HeaderPackageImportTest, ModuleHeaderCarriesImportOfP) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
 
-  const hldb::ImportTypespec *const importTypespec = findImportOfPackage(module, "p");
+  // The module's own vpiTypespec relation (37.10), which HLDB uses to attach a
+  // package_import_declaration's ImportTypespec directly to the module header.
+  const hldb::ImportTypespec *const importTypespec =
+      hldb::findByName<hldb::ImportTypespec>("p", module->getTypespecs());
   EXPECT_NE(importTypespec, nullptr);
 }
 
@@ -228,7 +219,7 @@ TEST_F(HeaderPackageImportTest, LocalparamW2ResolvesThroughTheImport) {
 
   const hldb::RefObj *const rhs = w2Assign->getExpr<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), "W");
+  EXPECT_EQ(rhs->getName(), std::string_view("W"));
 
   const hldb::Parameter *const resolved = rhs->getActual<hldb::Parameter>();
   ASSERT_NE(resolved, nullptr);
