@@ -407,6 +407,10 @@ AST_DEBUG_END
 [ERR:CP5832] $Source01/t_var_dup_bad.v:16:11: Multiply defined variable "a".
 [ERR:CP5832] $Source01/t_var_dup_bad.v:19:12: Multiply defined variable "l".
 [ERR:CP5832] $Source01/t_var_dup_bad.v:22:12: Multiply defined variable "b".
+[ERR:CP5991] $Source01/t_var_dup_bad.v:25:11: Port "o" is declared more than once: a port shall have only one port declaration.
+[ERR:CP5991] $Source01/t_var_dup_bad.v:28:11: Port "i" is declared more than once: a port shall have only one port declaration.
+[ERR:CP5991] $Source01/t_var_dup_bad.v:31:11: Port "oi" is declared more than once: a port shall have only one port declaration.
+[ERR:CP5991] $Source01/t_var_dup_bad.v:38:15: Port "org" is declared more than once: a port shall have only one port declaration.
 [INF:CP5804] $Source01/t_var_dup_bad.v:46:1: Compile module "sub0".
 [INF:CP5804] $Source01/t_var_dup_bad.v:54:1: Compile module "sub1".
 [NTE:CP5810] $Source01/t_var_dup_bad.v:56:4: Implicit port type (wire) for "bad_mixport".
@@ -415,10 +419,13 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_var_dup_bad.v:63:11: Implicit port type (wire) for "bad_reout_port".
 [INF:CP5804] $Source01/t_var_dup_bad.v:68:1: Compile module "sub3".
 [NTE:CP5810] $Source01/t_var_dup_bad.v:69:16: Implicit port type (wire) for "bad_rewire".
-[ERR:CP5832] $Source01/t_var_dup_bad.v:73:9: Multiply defined variable "bad_rereg".
+[ERR:CP5988] $Source01/t_var_dup_bad.v:72:9: Illegal redeclaration of ANSI port "bad_rewire" in the body,
+             $Source01/t_var_dup_bad.v:69:16: port declared here.
+[ERR:CP5988] $Source01/t_var_dup_bad.v:73:9: Illegal redeclaration of ANSI port "bad_rereg" in the body,
+             $Source01/t_var_dup_bad.v:70:15: port declared here.
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5818] Undefined type "".
-[ERR:DV8501] Invalid name: id:111, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:DV8501] Invalid name: id:113, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -624,7 +631,12 @@ Design name:unnamed:
           vpiName: oi
           vpiPortIndex: 5
           vpiPortType: port (44)
-          vpiDirection: no direction (5)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:oi start:30:11 end:30:13:
+            vpiParent: Port name:oi
+            vpiName: oi
+            vpiFullName: t.oi.oi
+            vpiActual: Net name:oi
       vpiRefInstance (4 items):
         RefInstance name:sub0 start:40:9 end:40:13:
           vpiParent: Module name:t
@@ -740,7 +752,12 @@ Design name:unnamed:
           vpiName: bad_duport
           vpiPortIndex: 1
           vpiPortType: port (44)
-          vpiDirection: no direction (5)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:bad_duport start:51:11 end:51:21:
+            vpiParent: Port name:bad_duport
+            vpiName: bad_duport
+            vpiFullName: sub0.bad_duport.bad_duport
+            vpiActual: Net name:bad_duport
     Module name:sub1 file:$Source01/t_var_dup_bad.v start:54:1 end:59:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub1 start:54:8 end:54:12:
@@ -968,7 +985,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 6
+[  ERROR] : 11
 [WARNING] : 0
 [   NOTE] : 4
 ********************************************************************************
@@ -1013,7 +1030,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_dup_bad/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   113     113       0         0
+                                   115     115       0         0
 ===================== END REDUCTION RESULT =====================
