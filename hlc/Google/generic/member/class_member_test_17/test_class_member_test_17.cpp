@@ -254,7 +254,7 @@ class ClassMemberTest17Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 };
 

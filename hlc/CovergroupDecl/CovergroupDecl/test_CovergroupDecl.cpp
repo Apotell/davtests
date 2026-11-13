@@ -818,7 +818,7 @@ TEST_F(CovergroupDeclTest, CpArrHasFirstBin) {
 // positive integral expression is specified inside the square brackets."
 // 'bins quarters[4] = {[4'h0:4'hF]};' -- size 4, value the range list.
 TEST_F(CovergroupDeclTest, CpArrBinHasArraySizeAndRangeListValue) {
-  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -841,7 +841,7 @@ TEST_F(CovergroupDeclTest, CpArrBinHasArraySizeAndRangeListValue) {
 // covergroup_range_list that satisfy the given expression ... are included in the bin."
 // 'bins hi_half = {[4'h0:4'hF]} with (item > 7);'
 TEST_F(CovergroupDeclTest, CpWithBinHasWithClause) {
-  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -862,7 +862,7 @@ TEST_F(CovergroupDeclTest, CpWithBinHasWithClause) {
 // IEEE 1800-2023 19.5: "An iff construct at the end of a bin definition provides a per-bin
 // guard condition." 'bins rd = {2'b00} iff (en);'
 TEST_F(CovergroupDeclTest, CpBinIffBinHasGuardCondition) {
-  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_bins");
   ASSERT_NE(cg, nullptr);
@@ -912,7 +912,7 @@ TEST_F(CovergroupDeclTest, CgSampledHasSamplingEvent) {
 // declares the covergroup's sample() method with those arguments, so the coverage event is
 // a function 'sample' owning both argument declarations.
 TEST_F(CovergroupDeclTest, CgSampledEventIsSampleFunctionWithArguments) {
-  const hldb::Module *mod = hldb::findByName<hldb::Module>("cg_extra", m_design->getAllModules());
+  const hldb::Module *mod = hldb::findByDefName<hldb::Module>("cg_extra", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   const auto *cg = findCG(mod->getCoverGroups(), "cg_sampled");
   ASSERT_NE(cg, nullptr) << "cg_sampled not found";

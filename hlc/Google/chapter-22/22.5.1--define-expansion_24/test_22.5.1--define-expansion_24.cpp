@@ -165,6 +165,7 @@
 #include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/begin.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
@@ -258,17 +259,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
-    }
-  }
-  return nullptr;
-}
-
 // Number of objects in 'collection' named 'name'.
 template <typename T>
 size_t countByName(const std::vector<T *> *collection, std::string_view name) {
@@ -349,13 +339,13 @@ class DefineExpansion24Test : public Test {
   // The macro definition named 'name' in the file under test, or nullptr.
   static const hldb::PreprocMacroDefinition *getDefinition(std::string_view name) {
     const hldb::SourceFile *const sourceFile = getSourceFile();
-    return (sourceFile == nullptr) ? nullptr : findByName(sourceFile->getPreprocMacroDefinitions(), name);
+    return (sourceFile == nullptr) ? nullptr : hldb::findByName<hldb::PreprocMacroDefinition>(name, sourceFile->getPreprocMacroDefinitions());
   }
 
   // The macro instance named 'name' in the file under test, or nullptr.
   static const hldb::PreprocMacroInstance *getUsage(std::string_view name) {
     const hldb::SourceFile *const sourceFile = getSourceFile();
-    return (sourceFile == nullptr) ? nullptr : findByName(sourceFile->getPreprocMacroInstances(), name);
+    return (sourceFile == nullptr) ? nullptr : hldb::findByName<hldb::PreprocMacroInstance>(name, sourceFile->getPreprocMacroInstances());
   }
 
   // The module definition of top from the file under test, or nullptr unless there is exactly one.

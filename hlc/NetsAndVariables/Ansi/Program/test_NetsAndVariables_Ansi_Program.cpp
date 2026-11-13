@@ -51,7 +51,7 @@ class AnsiProgramTest : public Test {
 
  protected:
   static const hldb::Program *getProg() {
-    return hldb::findByName<hldb::Program>("nets_and_variables_program", m_design->getAllPrograms());
+    return hldb::findByDefName<hldb::Program>("nets_and_variables_program", m_design->getAllPrograms());
   }
 };
 

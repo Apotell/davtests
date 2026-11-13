@@ -295,7 +295,7 @@ class ClassMemberTest13Test : public Test {
 
   // The class protected_stuff, or nullptr.
   static const hldb::ClassDefn *getProtectedStuff() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("protected_stuff", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("protected_stuff", m_unit->getClassDefns());
   }
 
   // The property 'name' of protected_stuff, or nullptr.

@@ -90,7 +90,7 @@ class ClassMemberTest32Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getMyClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   static const hldb::Variable *getProperty(std::string_view name) {
@@ -340,7 +340,7 @@ TEST_F(ClassMemberTest32Test, BodyDoutReferencesBindToProperty) {
 }
 
 TEST_F(ClassMemberTest32Test, ModuleTestExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()), nullptr)
       << "'module test; endmodule' should create a Module";
 }
 

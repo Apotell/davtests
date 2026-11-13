@@ -210,6 +210,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -307,17 +308,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   if (collection != nullptr) {
     for (const T *object : *collection) {
       if (endsWith(object->getFile(), kSourceFileName)) return object;
-    }
-  }
-  return nullptr;
-}
-
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
     }
   }
   return nullptr;
@@ -507,7 +497,8 @@ TEST_F(IfdefNestedTest, FourEmptyMacroDefinitions) {
   const std::vector<uint32_t> lines = {18, 19, 20, 21};
   for (size_t index = 0; index < names.size(); ++index) {
     EXPECT_EQ(countByName(definitions, names[index]), 1u) << names[index] << " is defined once";
-    const hldb::PreprocMacroDefinition *const definition = findByName(definitions, names[index]);
+    const hldb::PreprocMacroDefinition *const definition =
+        hldb::findByName<hldb::PreprocMacroDefinition>(names[index], definitions);
     if (definition == nullptr) continue;
 
     // Each line is a `define (22.5.1), not an `undef (22.5.2) or an

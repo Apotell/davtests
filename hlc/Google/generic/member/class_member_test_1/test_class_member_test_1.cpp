@@ -245,7 +245,7 @@ class ClassMemberTest1Test : public Test {
 
   // The class c, or nullptr.
   static const hldb::ClassDefn *getClassC() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("c", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("c", m_unit->getClassDefns());
   }
 
   // The method task1 of c, or nullptr. It has a body, so HLDB records it in

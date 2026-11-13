@@ -342,20 +342,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) &&
-          ((candidate->getName() == name) || (hldb::getDefName(candidate) == name))) {
-        return candidate;
-      }
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -470,7 +456,7 @@ class ClassTest21Test : public Test {
   // The class Bar of the package Package, or nullptr.
   static const hldb::ClassDefn *findBar() {
     const hldb::Package *const package = findPackage();
-    return (package == nullptr) ? nullptr : findByName(package->getClassDefns(), "Bar");
+    return (package == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("Bar", package->getClassDefns());
   }
 
   // The compilation-unit class Foo declared in the file under test, or
@@ -503,14 +489,11 @@ class ClassTest21Test : public Test {
   static void expectBarParameter(std::string_view name, std::string_view defaultText) {
     const hldb::ClassDefn *const bar = findBar();
     ASSERT_NE(bar, nullptr) << "no class Bar in Package";
-    const hldb::Any *const object = findByName(bar->getParameters(), name);
-    ASSERT_NE(object, nullptr) << "no parameter " << name << " in Bar";
+    const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>(name, bar->getParameters());
+    ASSERT_NE(parameter, nullptr) << "no parameter " << name << " in Bar";
 
     // A value parameter of the port list, so not a local parameter (6.20.1,
     // 37.31 detail 7).
-    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
-    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
-    ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
     EXPECT_EQ(parameter->getName(), name);
     EXPECT_FALSE(parameter->getLocalParam());
 
@@ -735,7 +718,7 @@ TEST_F(ClassTest21Test, ClassBarIsTheBaseOfFoo) {
   ASSERT_NE(bar, nullptr);
 
   EXPECT_EQ(sizeOf(bar->getDerivedClasses()), 1u);
-  EXPECT_NE(findByName(bar->getDerivedClasses(), "Foo"), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::ClassDefn>("Foo", bar->getDerivedClasses()), nullptr);
 }
 
 // Bar has no class_item, so it has no member (8.2).

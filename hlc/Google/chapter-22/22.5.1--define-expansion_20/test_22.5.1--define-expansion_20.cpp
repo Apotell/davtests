@@ -162,6 +162,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -250,17 +251,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
-    }
-  }
-  return nullptr;
-}
-
 // The macro text of 'definition', its tokens concatenated with white space
 // removed. This compares the text independently of how HLDB splits it into
 // tokens and of whether white space is kept as tokens.
@@ -316,7 +306,7 @@ void expectNandTerminals(const hldb::Primitive *gate, std::string_view output) {
 void expectImplicitWires(const hldb::NetCollection *nets) {
   ASSERT_EQ(sizeOf(nets), kImplicitNetNames.size());
   for (std::string_view name : kImplicitNetNames) {
-    const hldb::Net *const net = findByName(nets, name);
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, nets);
     EXPECT_NE(net, nullptr) << "no implicit net " << name;
     if (net == nullptr) continue;
     EXPECT_TRUE(net->getImplicitDecl()) << name << " is declared nowhere (6.10)";
@@ -385,7 +375,7 @@ class DefineExpansion20Test : public Test {
   // The primitive named 'name' in top's definition, or nullptr.
   static const hldb::Primitive *getGate(std::string_view name) {
     const hldb::Module *const top = getTopDefinition();
-    return (top == nullptr) ? nullptr : findByName(top->getPrimitives(), name);
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Primitive>(name, top->getPrimitives());
   }
 
   // The macro instance whose usage starts on 'line', or nullptr.
@@ -676,19 +666,19 @@ TEST_F(DefineExpansion20Test, NoOtherDesignObjectsDeclared) {
 
     expectImplicitWires(topInstance->getNets());
     for (std::string_view name : kImplicitNetNames) {
-      const hldb::Net *const net = findByName(topInstance->getNets(), name);
+      const hldb::Net *const net = hldb::findByName<hldb::Net>(name, topInstance->getNets());
       if (net == nullptr) continue;
       const hldb::Any::vpi_property_value_t size = net->getVpiPropertyValue(vpiSize);
       EXPECT_TRUE(std::holds_alternative<int64_t>(size)) << name;
       if (std::holds_alternative<int64_t>(size)) EXPECT_EQ(std::get<int64_t>(size), 1) << name << " is scalar";
     }
 
-    const hldb::Primitive *const g121 = findByName(topInstance->getPrimitives(), "g121");
+    const hldb::Primitive *const g121 = hldb::findByName<hldb::Primitive>("g121", topInstance->getPrimitives());
     ASSERT_NE(g121, nullptr);
     ASSERT_EQ(sizeOf(g121->getPrimTerms()), 3u);
     const hldb::RefObj *const output = ::any_cast<hldb::RefObj>(g121->getPrimTerms()->front()->getExpr());
     ASSERT_NE(output, nullptr);
-    EXPECT_EQ(output->getActual(), findByName(topInstance->getNets(), "q21"));
+    EXPECT_EQ(output->getActual(), hldb::findByName<hldb::Net>("q21", topInstance->getNets()));
   }
 }
 }  // namespace hlc

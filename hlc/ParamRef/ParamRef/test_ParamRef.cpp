@@ -241,7 +241,7 @@ class ParamRefTest : public Test {
     const hldb::Module *m = hldb::findByDefName<hldb::Module>("top_earlgrey", m_design->getTopModules());
     for (std::string_view name : path) {
       if (m == nullptr) return nullptr;
-      m = hldb::findByName<hldb::Module>(name, m->getModules());
+      m = hldb::findByDefName<hldb::Module>(name, m->getModules());
     }
     return m;
   }

@@ -270,7 +270,7 @@ class ClassMemberTest10Test : public Test {
 
   // The compilation-unit class outerclass (line 15), or nullptr.
   static const hldb::ClassDefn *getOuterClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("outerclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("outerclass", m_unit->getClassDefns());
   }
 
   // The class innerclass nested in outerclass (line 16), or nullptr.
@@ -279,7 +279,7 @@ class ClassMemberTest10Test : public Test {
     if (outerClass == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::ClassDefn>("innerclass", outerClass->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("innerclass", outerClass->getClassDefns());
   }
 
   // The class reallyinnerclass nested in innerclass (line 17), or nullptr.
@@ -288,7 +288,7 @@ class ClassMemberTest10Test : public Test {
     if (innerClass == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::ClassDefn>("reallyinnerclass", innerClass->getClassDefns());
+    return hldb::findByDefName<hldb::ClassDefn>("reallyinnerclass", innerClass->getClassDefns());
   }
 
   // The method subtask of reallyinnerclass (line 18), or nullptr.
@@ -305,7 +305,7 @@ class ClassMemberTest10Test : public Test {
     if (m_design == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   }
 };
 
@@ -471,7 +471,7 @@ TEST_F(ClassMemberTest10Test, TestIsTheTopLevelModule) {
 
   if (m_design->getElaborated()) {
     ASSERT_EQ(countFromSourceFile(m_design->getTopModules()), 1u) << "23.3.1: test is the only top-level module";
-    const hldb::Module *const topInstance = hldb::findByName<hldb::Module>("test", m_design->getTopModules());
+    const hldb::Module *const topInstance = hldb::findByDefName<hldb::Module>("test", m_design->getTopModules());
     ASSERT_NE(topInstance, nullptr) << "23.3.1: the top instance is named after module test";
     EXPECT_TRUE(topInstance->getTopModule()) << "23.3.1: test is never instantiated, so it is a top-level module";
   } else {

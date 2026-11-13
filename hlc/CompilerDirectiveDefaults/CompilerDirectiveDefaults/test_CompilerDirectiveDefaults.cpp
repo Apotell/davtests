@@ -100,13 +100,13 @@ TEST_F(CompilerDirectiveDefaultsTest, CellModuleTakesActiveDirectives) {
 
 // Sec 22.9: `unconnected_drive also applies to interfaces and programs.
 TEST_F(CompilerDirectiveDefaultsTest, InterfaceTakesUnconnectedDrive) {
-  const hldb::Interface *const i = hldb::findByName<hldb::Interface>("ifc", m_design->getAllInterfaces());
+  const hldb::Interface *const i = hldb::findByDefName<hldb::Interface>("ifc", m_design->getAllInterfaces());
   ASSERT_NE(i, nullptr);
   EXPECT_EQ(i->getUnconnDrive(), vpiPull1);
 }
 
 TEST_F(CompilerDirectiveDefaultsTest, ProgramTakesUnconnectedDrive) {
-  const hldb::Program *const p = hldb::findByName<hldb::Program>("prg", m_design->getAllPrograms());
+  const hldb::Program *const p = hldb::findByDefName<hldb::Program>("prg", m_design->getAllPrograms());
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getUnconnDrive(), vpiPull1);
 }

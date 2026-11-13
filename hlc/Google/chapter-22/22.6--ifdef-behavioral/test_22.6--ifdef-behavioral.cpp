@@ -148,6 +148,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -219,17 +220,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
-    }
-  }
-  return nullptr;
-}
-
 // The name 'term' connects to, or empty when it has no expression.
 std::string_view terminalName(const hldb::PrimTerm *term) {
   const hldb::Expr *const expr = term->getExpr();
@@ -241,7 +231,7 @@ std::string_view terminalName(const hldb::PrimTerm *term) {
 void expectPortWires(const hldb::NetCollection *nets) {
   ASSERT_EQ(sizeOf(nets), kPortNames.size());
   for (std::string_view name : kPortNames) {
-    const hldb::Net *const net = findByName(nets, name);
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, nets);
     EXPECT_NE(net, nullptr) << "no net " << name;
     if (net == nullptr) continue;
     EXPECT_EQ(net->getNetType(), vpiWire) << name << " has the default net type wire (22.8)";
@@ -399,7 +389,7 @@ TEST_F(IfdefBehavioralTest, GateReportsTwoInputs) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't populate this property";
   const hldb::Module *const andOp = getAndOpDefinition();
   ASSERT_NE(andOp, nullptr);
-  const hldb::Primitive *const gate = findByName(andOp->getPrimitives(), "a1");
+  const hldb::Primitive *const gate = hldb::findByName<hldb::Primitive>("a1", andOp->getPrimitives());
   ASSERT_NE(gate, nullptr);
   const hldb::Any::vpi_property_value_t size = gate->getVpiPropertyValue(vpiSize);
   ASSERT_TRUE(std::holds_alternative<int64_t>(size));

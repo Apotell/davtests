@@ -232,7 +232,7 @@ class ClassMemberTest11Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   // The property buzz_count of myclass (line 16), or nullptr.
@@ -249,7 +249,7 @@ class ClassMemberTest11Test : public Test {
     if (m_design == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   }
 };
 
@@ -398,7 +398,7 @@ TEST_F(ClassMemberTest11Test, TestIsTheTopLevelModule) {
 
   if (m_design->getElaborated()) {
     ASSERT_EQ(countFromSourceFile(m_design->getTopModules()), 1u) << "23.3.1: test is the only top-level module";
-    const hldb::Module *const topInstance = hldb::findByName<hldb::Module>("test", m_design->getTopModules());
+    const hldb::Module *const topInstance = hldb::findByDefName<hldb::Module>("test", m_design->getTopModules());
     ASSERT_NE(topInstance, nullptr) << "23.3.1: the top instance is named after module test";
     EXPECT_TRUE(topInstance->getTopModule()) << "23.3.1: test is never instantiated, so it is a top-level module";
   } else {

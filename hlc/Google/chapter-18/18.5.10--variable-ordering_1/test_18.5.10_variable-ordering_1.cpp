@@ -140,7 +140,7 @@ class VariableOrdering1Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClassA() const {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("a", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("a", m_unit->getClassDefns());
   }
 };
 

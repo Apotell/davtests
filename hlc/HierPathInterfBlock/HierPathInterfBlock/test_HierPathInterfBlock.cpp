@@ -90,7 +90,7 @@ class HierPathInterfBlockTest : public Test {
  protected:
   static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Interface *getIntf() {
-    return hldb::findByName<hldb::Interface>("intf", m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>("intf", m_design->getAllInterfaces());
   }
 
   // This design is not elaborated (no -d inst): "if (1) begin : blk ... end" is a GenIf in the
@@ -142,7 +142,7 @@ TEST_F(HierPathInterfBlockTest, ModuleHasInterfaceInstance) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   // ASSERT_NE(top->getInterfaces(), nullptr);
-  // EXPECT_NE(hldb::findByName<hldb::Interface>("i", top->getInterfaces()), nullptr);
+  // EXPECT_NE(hldb::findByDefName<hldb::Interface>("i", top->getInterfaces()), nullptr);
   // Unelaborated: 'intf i();' is a RefInstance whose typespec resolves to the InterfaceTypespec 'intf'.
   ASSERT_NE(top->getRefInstances(), nullptr);
   const hldb::RefInstance *const i = hldb::findByName<hldb::RefInstance>("i", top->getRefInstances());

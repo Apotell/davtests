@@ -215,7 +215,7 @@ TEST_F(UnionsTaggedBasicTest, SecondStmtDisplaysUn) {
 
 TEST_F(UnionsTaggedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
-  const hldb::ModuleTypespec *const mt = hldb::findByName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
+  const hldb::ModuleTypespec *const mt = hldb::findByDefName<hldb::ModuleTypespec>("top", m_design->getTypespecs());
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "top");
 }

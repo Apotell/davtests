@@ -346,17 +346,6 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && (candidate->getName() == name)) return candidate;
-    }
-  }
-  return nullptr;
-}
-
 // The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
 // relation through a ref typespec, which is followed with getActual().
 const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
@@ -493,13 +482,7 @@ class ClassTest13Test : public Test {
                                  std::string_view defaultText) {
     const hldb::ClassDefn *const classDefn = findClass(owner);
     ASSERT_NE(classDefn, nullptr) << "no class " << owner;
-    const hldb::Any *const object = findByName(classDefn->getParameters(), name);
-    ASSERT_NE(object, nullptr) << "no parameter " << name << " in " << owner;
-
-    // A value parameter of the port list, so not a local parameter (6.20.1,
-    // 37.31 detail 7).
-    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
-    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
+    const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>(name, classDefn->getParameters());
     ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
     EXPECT_EQ(parameter->getName(), name);
     EXPECT_FALSE(parameter->getLocalParam());
@@ -531,13 +514,7 @@ class ClassTest13Test : public Test {
   static void expectTypeParameterInt() {
     const hldb::ClassDefn *const foo = findClass("Foo");
     ASSERT_NE(foo, nullptr) << "no class Foo";
-    const hldb::Any *const object = findByName(foo->getParameters(), "Int");
-    ASSERT_NE(object, nullptr) << "no parameter Int in Foo";
-
-    // A type parameter of the port list, so not a local parameter (6.20.1,
-    // 37.31 detail 7).
-    EXPECT_EQ(object->getAnyType(), hldb::AnyType::TypeParameter);
-    const hldb::TypeParameter *const parameter = any_cast<hldb::TypeParameter>(object);
+    const hldb::TypeParameter *const parameter = hldb::findByName<hldb::TypeParameter>("Int", foo->getParameters());
     ASSERT_NE(parameter, nullptr) << "Int is not a type parameter";
     EXPECT_EQ(parameter->getName(), "Int");
     EXPECT_FALSE(parameter->getLocalParam());
