@@ -199,9 +199,7 @@ TEST_F(NetTypeTest, MyAliasIsPlainTypedef) {
 }
 
 TEST_F(NetTypeTest, UndeclaredSomeOtherTypeIsDiagnosed) {
-  const bool found = (findEvent(EventType::CompFailedToBind, "some_other_type") != nullptr) ||
-                     (findEvent(EventType::CompUndefinedType, "some_other_type") != nullptr);
-  EXPECT_TRUE(found) << "Sec 6.5: 'some_other_type' is never declared";
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "some_other_type"), nullptr) << "Sec 6.5: 'some_other_type' is never declared";
 }
 
 // ---------------------------------------------------------------------------

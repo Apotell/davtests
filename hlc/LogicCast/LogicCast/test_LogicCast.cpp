@@ -225,7 +225,7 @@ TEST_F(LogicCastTest, GtRightIsNrHartsMinusOne) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LogicCastTest, UndeclaredDmstatusIsReported) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "dmstatus", 3, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "dmstatus", 3, 3), nullptr)
       << "'dmstatus' is not declared (Sec 6.10)";
 }
 

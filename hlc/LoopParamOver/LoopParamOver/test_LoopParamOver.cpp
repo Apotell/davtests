@@ -214,7 +214,7 @@ TEST_F(LoopParamOverTest, SubOverridesFooP1WithTopP2) {
 // 6.5 + 6.20: "P1" on line 9 is used before top.P1 is declared on line 11.
 TEST_F(LoopParamOverTest, ForwardReferenceToP1IsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "P1", 9), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "P1", 9), nullptr)
       << "6.5: data shall be declared before they are used; top.P1 is declared on line 11";
 }
 

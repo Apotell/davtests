@@ -569,7 +569,7 @@ TEST_F(ClassTypedConstructorParamTest, CompilerReportsNoErrors) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0) << "8.8: 'test_cls#(.t(23))::new(.def(41))' is legal syntax and should not raise "
-                                 "a CompFailedToBind error (see FIXED COMPILER BUG #3 above)";
+                                 "an error (see FIXED COMPILER BUG #3 above)";
 }
 
 }  // namespace hlc

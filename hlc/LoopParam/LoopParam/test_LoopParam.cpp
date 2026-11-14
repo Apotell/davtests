@@ -119,7 +119,7 @@ TEST_F(LoopParamTest, BackwardReferenceToP1Binds) {
 // 6.5 + 6.20: "P2" on line 4 is used before its declaration on line 5.
 TEST_F(LoopParamTest, ForwardReferenceToP2IsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "P2", 4), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "P2", 4), nullptr)
       << "6.5: data shall be declared before they are used; P2 is declared on line 5";
 }
 

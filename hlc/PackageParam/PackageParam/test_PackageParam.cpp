@@ -546,9 +546,7 @@ TEST_F(PackageParamTest, OtpAddrWidthReducesToTen) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // identifier not reported) in the file header.
 TEST_F(PackageParamTest, UndeclaredLcStateWidthIsReportedAsError) {
-  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"it shall be illegal if no identifier can be found that matches the reference\"; "
-                  "ObjectBinder::reportError skips every plain unresolved name as a possible implicit net, so no error is raised.";
-  ExpectReportedAsError({EventType::CompUndefinedVariable, EventType::ElabUndefVariable},
+  ExpectReportedAsError({EventType::CompUndefinedVariable},
                         "LcStateWidth");
 }
 

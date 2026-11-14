@@ -180,9 +180,8 @@ TEST_F(IfElseProductionStatements2Test, UnresolvedIdentifierDiagnosticNamesSwitc
   GTEST_SKIP() << "No undefined-variable / failed-to-bind diagnostic names 'switch': the randsequence holding it is "
                   "dropped by HLC, so the reference is never resolved. "
                   "IEEE 1800-2023 Sec 23.9: an undeclared identifier in a function is an error. Fix pending.";
-  const bool reported = (findEvent(EventType::CompUndefinedVariable, "switch") != nullptr) ||
-                        (findEvent(EventType::CompFailedToBind, "switch") != nullptr);
-  EXPECT_TRUE(reported) << "expected an undefined-variable / failed-to-bind diagnostic for 'switch' "
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "switch"), nullptr)
+      << "expected an undefined-variable diagnostic for 'switch' "
                            "(IEEE 1800-2023 Sec 23.9)";
 }
 

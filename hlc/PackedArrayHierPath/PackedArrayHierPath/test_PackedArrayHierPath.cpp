@@ -424,7 +424,7 @@ TEST_F(PackedArrayHierPathTest, SecondTermSelectsManBitsOfElementFmt) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type reported as a warning) in the file header.
 TEST_F(PackedArrayHierPathTest, UndeclaredTypeFpFormatEIsReportedAsError) {
-  ExpectReportedAsError({EventType::CompUndefinedType, EventType::CompFailedToBind}, "fp_format_e");
+  ExpectReportedAsError({EventType::CompUndefinedType}, "fp_format_e");
 }
 
 TEST_F(PackedArrayHierPathTest, PatternItemCountMismatchIsReportedAfterElaboration) {

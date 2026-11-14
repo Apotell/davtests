@@ -716,9 +716,7 @@ TEST_F(PackageValueTest, ElaboratedModuleInstantiatesGenPadGeneric) {
 // (undeclared identifier not reported as an error) in the file header.
 TEST_F(PackageValueTest, UndeclaredNamesAreReportedAsErrors) {
   for (std::string_view name : {"state_q", "IsSkewed", "state_d", "IsStd"}) {
-    ExpectReportedAsError({EventType::CompUndefinedVariable, EventType::ElabUndefVariable,
-                           EventType::CompFailedToBind},
-                          name);
+    ExpectReportedAsError({EventType::CompUndefinedVariable}, name);
   }
 }
 

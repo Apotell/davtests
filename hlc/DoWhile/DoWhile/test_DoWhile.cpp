@@ -149,14 +149,16 @@ TEST_F(DoWhileTest, WaitInsideFunctionIsIllegalTimingControl) {
 }
 
 // ===========================================================================
-// 6.3: undeclared identifiers must fail to bind
+// 8.24: the class of an out-of-block method must be defined
 // ===========================================================================
 
-TEST_F(DoWhileTest, UndeclaredIdentifiersFailToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "m_state"), nullptr) << "'m_state' is never declared";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "qs"), nullptr) << "'qs' is never declared";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "m_type_names"), nullptr)
-      << "'m_type_names' is never declared";
+// 'function void uvm_default_factory::print()' names a class that is never declared, so the names used in
+// its body (m_sync, m_state, qs, m_type_names, key) cannot be looked up: they would be members of that
+// class. The error is the undefined class, reported at the qualifier; the names in the body are not
+// reported separately.
+TEST_F(DoWhileTest, UndefinedClassOfOutOfBlockMethodIsReported) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedClass, "uvm_default_factory"), nullptr)
+      << "8.24: 'uvm_default_factory' is never declared";
 }
 
 // 'key' is the argument of m_type_names.next(key), a call on an undeclared receiver. It is never

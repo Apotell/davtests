@@ -263,7 +263,7 @@ TEST_F(ForElabTest, EachGenTreeIterationHasOrGateNamedGate) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ForElabTest, UndeclaredTypeTlH2dTFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "tl_h2d_t"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedMember, "tl_h2d_t"), nullptr)
       << "Sec 6.3: 'tlul_pkg::tl_h2d_t' is never declared anywhere in tlul_pkg";
 }
 

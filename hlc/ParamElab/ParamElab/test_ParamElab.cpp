@@ -141,9 +141,7 @@ namespace hlc {
 // The error types HLC uses for a name with no declaration. Which one reports
 // the loop index is a tool convention, so any of them, at error severity and
 // naming 'i', is accepted.
-constexpr uint32_t kUndeclaredNameErrors[] = {EventType::CompUndefinedVariable,
-                                                                EventType::ElabUndefVariable,
-                                                                EventType::CompFailedToBind};
+constexpr uint32_t kUndeclaredNameErrors[] = {EventType::CompUndefinedVariable};
 
 class ParamElabTest : public Test {
  public:

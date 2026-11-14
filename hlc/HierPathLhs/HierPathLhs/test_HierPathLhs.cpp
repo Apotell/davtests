@@ -103,7 +103,7 @@ TEST_F(HierPathLhsTest, GenAlertCauseIsAGenScopeArrayOfSizeOne) {
 }
 
 TEST_F(HierPathLhsTest, UndeclaredHw2regFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "hw2reg"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "hw2reg"), nullptr)
       << "'hw2reg' is never declared and must fail to bind";
 }
 

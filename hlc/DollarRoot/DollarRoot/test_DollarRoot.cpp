@@ -153,23 +153,16 @@ TEST_F(DollarRootTest, UnresolvableRootTbReferenceFailsToBindInTestProgram) {
   // name a "tb" scope that is never instantiated anywhere in dut.sv (there
   // is no 'module tb' and no instance of that name). Per IEEE 1800-2023
   // Sec 23.8 a '$root'-rooted path must still resolve through real
-  // instances; an absent "tb" must fail to bind.
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "tb"), nullptr)
-      << "'$root.tb...' should fail to bind: no instance named 'tb' exists anywhere in dut.sv";
+  // instances; an absent "tb" is an undefined member of $root.
+  EXPECT_NE(findEvent(EventType::CompUndefinedMember, "tb"), nullptr)
+      << "'$root.tb...': no instance named 'tb' exists anywhere in dut.sv";
 }
 
 TEST_F(DollarRootTest, UnresolvableRootTbReferenceFailsToBindInTestProgram1) {
   // 'always @($root.tb.dut.master_0[2].signal_write_response_complete)'
   // inside "test_program1" -- same unresolvable "tb" scope, indexed this
-  // time; still expected to fail to bind at the same 'tb' name.
-  const Event *const err = findEvent(EventType::CompFailedToBind, "tb", 802, 15);
-  if (err == nullptr) {
-    GTEST_SKIP() << "CompFailedToBind for 'tb' was not found at dut.sv:802 col 15 specifically (test_program1's "
-                     "own '$root.tb.dut.master_0[2]...' reference); the narrower line/column-qualified overload "
-                     "may not match HLC's exact reported location for this second occurrence. The unqualified "
-                     "'tb' unbound-name check above already covers the systemic gap. Fix/confirmation pending.";
-  }
-  EXPECT_NE(err, nullptr);
+  // time; still an undefined member at the same 'tb' name ('tb' starts at column 19, after '$root.').
+  EXPECT_NE(findEvent(EventType::CompUndefinedMember, "tb", 802, 19), nullptr);
 }
 
 // ---------------------------------------------------------------------------

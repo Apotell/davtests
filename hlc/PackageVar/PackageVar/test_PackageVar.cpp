@@ -585,9 +585,7 @@ TEST_F(PackageVarTest, ElseCallsUndeclaredDoPrintWithFormal) {
 // (undeclared identifier not reported as an error) in the file header.
 TEST_F(PackageVarTest, UndeclaredDataReferencesAreReportedAsErrors) {
   for (std::string_view name : {"ovm_default_printer", "OVM_PRINT"}) {
-    ExpectReportedAsError({EventType::CompUndefinedVariable, EventType::ElabUndefVariable,
-                           EventType::CompFailedToBind},
-                          name);
+    ExpectReportedAsError({EventType::CompUndefinedVariable}, name);
   }
 }
 

@@ -229,9 +229,7 @@ TEST_F(ModPortTestTest, RwIdIsVariableOfTypeIdT) {
 
 TEST_F(ModPortTestTest, UndeclaredTypesAreDiagnosed) {
   for (std::string_view name : {"id_t1", "DD"}) {
-    const bool found = (findEvent(EventType::CompUndefinedType, name) != nullptr) ||
-                       (findEvent(EventType::CompFailedToBind, name) != nullptr);
-    EXPECT_TRUE(found) << "6.18: '" << name << "' is not a declared type";
+    EXPECT_NE(findEvent(EventType::CompUndefinedType, name), nullptr) << "6.18: '" << name << "' is not a declared type";
   }
 }
 
