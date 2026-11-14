@@ -337,6 +337,14 @@ TEST_F(ClassTest2Test, ReportsAnErrorForStaticAfterClass) {
   EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
 }
 
+// IEEE 1800-2023 A.1.2 (p.1174): "class_declaration ::= [ virtual ] class [ final_specifier ]
+// class_identifier ..." -- unlike "package [ lifetime ] package_identifier", the class production has
+// no lifetime between `class` and the identifier, so the `static` at 6:7 is not allowed there.
+TEST_F(ClassTest2Test, ReportsTheLifetimeOnTheClassDeclaration) {
+  ASSERT_NE(findEvent(EventType::CompIllegalClassLifetime, "Foo", 6, 7), nullptr)
+      << "A.1.2: class_declaration has no lifetime, so `class static Foo` must be reported";
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest2Test, NoErrorsOnTheLegalLines1To5) { EXPECT_EQ(describeSourceErrorsOnLines(1, kIllegalLine - 1), ""); }
