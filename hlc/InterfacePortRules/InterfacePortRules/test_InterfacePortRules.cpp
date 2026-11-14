@@ -26,6 +26,7 @@
 #include <hldb/hldb.h>
 #include <hldb/vpi_user.h>
 
+#include <map>
 #include <string_view>
 
 namespace hlc {
@@ -377,6 +378,48 @@ TEST_F(InterfacePortRules, ImplicitNamedConnectionDeclaredLater) {
 TEST_F(InterfacePortRules, WildcardConnectionWithoutSignal) {
   // "logic a; ipr_c u(.*);" -- port d has no default and no signal d exists (port b has a default).
   EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "d", 204, 35), nullptr);
+}
+
+namespace {
+// The connections of the one instance of `module` that were made from its ".*": the port each connects
+// (low conn) and the declaration it names (high conn), by port name.
+std::map<std::string_view, const hldb::NamedArgument *> wildcardConnections(const hldb::Module *module) {
+  std::map<std::string_view, const hldb::NamedArgument *> result;
+  if ((module == nullptr) || (module->getRefInstances() == nullptr) || module->getRefInstances()->empty()) return result;
+  const hldb::NamedArgumentCollection *const arguments = module->getRefInstances()->front()->getArguments();
+  if (arguments == nullptr) return result;
+  for (const hldb::NamedArgument *const argument : *arguments) {
+    if (!argument->getWildcardConn()) continue;
+    const hldb::RefObj *const low = argument->getLowConn<hldb::RefObj>();
+    if (low != nullptr) result.emplace(low->getName(), argument);
+  }
+  return result;
+}
+}  // namespace
+
+TEST_F(InterfacePortRules, WildcardConnectionMakesOneNameConnectionPerUnconnectedPort) {
+  // "ipr_wc_def u(.*, .b(a));" with a and y declared, port c having a default and no c in scope:
+  // ".*" is ".name" for a and y only -- b is connected explicitly, c uses its default (Sec 23.3.2.4).
+  const hldb::Module *const m = findModule("ipr_wc");
+  ASSERT_NE(m, nullptr);
+  const std::map<std::string_view, const hldb::NamedArgument *> connections = wildcardConnections(m);
+  ASSERT_EQ(connections.size(), 2U);
+  for (const std::string_view name : {std::string_view("a"), std::string_view("y")}) {
+    ASSERT_NE(connections.find(name), connections.end()) << name;
+    const hldb::NamedArgument *const argument = connections.at(name);
+    EXPECT_TRUE(argument->getConnByName());
+    const hldb::RefObj *const low = argument->getLowConn<hldb::RefObj>();
+    ASSERT_NE(low, nullptr);
+    ASSERT_NE(low->getActual(), nullptr);
+    EXPECT_EQ(low->getActual()->getAnyType(), hldb::AnyType::Port);
+    EXPECT_EQ(low->getActual()->getName(), name);
+    const hldb::RefObj *const high = argument->getHighConn<hldb::RefObj>();
+    ASSERT_NE(high, nullptr);
+    EXPECT_EQ(high->getName(), name);
+    ASSERT_NE(high->getActual(), nullptr);
+    EXPECT_EQ(high->getActual()->getAnyType(), hldb::AnyType::Variable);  // "logic a" is a variable (Sec 6.8).
+    EXPECT_EQ(high->getActual()->getParent(), m);
+  }
 }
 
 // ----

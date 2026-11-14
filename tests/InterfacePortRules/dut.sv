@@ -219,3 +219,8 @@ module ipr_arr2;
     u[1][9].x = 0;
   end
 endmodule
+
+// ".*" is ".name" for every port not connected explicitly (Sec 23.3.2.4), except that a port with a
+// default value, and no name of its own in the instantiating scope, uses the default.
+module ipr_wc_def(input logic a, input logic b, input logic c = 1'b1, output logic y); endmodule
+module ipr_wc; logic a, y; ipr_wc_def u(.*, .b(a)); endmodule
