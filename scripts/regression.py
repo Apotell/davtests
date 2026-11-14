@@ -100,7 +100,9 @@ def _scan(dirpath: Path, filters: list[str|Pattern], shard: int, num_shards: int
   blacklisted_tests = set()
   for sub_dirpath, sub_dirnames, filenames in dirpath.walk():
     for filename in filenames:
-      if filename.endswith('.hlc'):
+      # Preprocessor cache entries (<name>.spp.hlc, <fingerprint>.app.hlc) share the extension; a test
+      # may check one in (e.g. CmdArgs/CacheRejected/stalecache), so skip them.
+      if filename.endswith('.hlc') and not filename.endswith(('.spp.hlc', '.app.hlc')):
         name = filename[:-3]
         test_id = sub_dirpath.relative_to(dirpath).as_posix()
         filepath = sub_dirpath / filename

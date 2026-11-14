@@ -254,6 +254,9 @@ def _parse_hlc(filepath: Path) -> list[Path]:
 def _scan_tests(test_dirpath: Path, filter_re) -> dict[str, TestCase]:
   tests = {}
   for filepath in sorted(test_dirpath.rglob('*.hlc')):
+    # Preprocessor cache entries share the extension (e.g. CmdArgs/CacheRejected/stalecache).
+    if filepath.name.endswith(('.spp.hlc', '.app.hlc')):
+      continue
     test_id = filepath.parent.relative_to(test_dirpath).as_posix()
     if filter_re and not filter_re.search(test_id):
       continue
