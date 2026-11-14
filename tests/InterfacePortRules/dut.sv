@@ -207,3 +207,15 @@ module ipr_star; logic a; ipr_c u(.*); endmodule
 module ipr_generic(interface a); always @(a.start) a.run; endmodule
 // Sec 10.11: aliased nets shall be of the same net type; an interconnect is not merged into a wire.
 module ipr_icalias; interconnect i; wire w; alias i = w; endmodule
+// Sec 25.9: a virtual interface may be compared with an interface instance of the same type.
+interface ipr_vi; logic s; endinterface
+module ipr_veq; ipr_vi inst(); virtual ipr_vi vif; wire eq; assign eq = (vif == inst); endmodule
+// Sec 23.6: every index of a multi-dimensional instance array shall be a legal index value.
+interface ipr_ba; logic x; endinterface
+module ipr_arr2;
+  ipr_ba u[3][4]();
+  initial begin
+    u[1][2].x = 0;
+    u[1][9].x = 0;
+  end
+endmodule

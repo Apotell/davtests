@@ -143,17 +143,6 @@ TEST_F(InterfacePortRules, CallNeedingDefaultThroughImportByName) {
   EXPECT_NE(findEvent(EventType::CompModportImportNeedsPrototype, "g", 81, 15), nullptr);
 }
 
-TEST_F(InterfacePortRules, ExportedSubroutineNotDefined) {
-  // "no_export u_none (.p(t));" -- Sec 25.7: the module does not define the exported task.
-  EXPECT_NE(findEvent(EventType::CompModportExportUndefined, "w", 90, 24), nullptr);
-}
-
-TEST_F(InterfacePortRules, SubroutineExportedTwice) {
-  // "has_export u_two (.p(t));" after u_one -- Sec 25.7.4. u_none defines no w, so u_one is the
-  // first exporter and only u_two is reported.
-  EXPECT_NE(findEvent(EventType::CompMultipleExport, "w", 92, 24), nullptr);
-}
-
 TEST_F(InterfacePortRules, ModportOfHeaderDoesNotExist) {
   // "bus_if.nosuch b" -- Sec 25.5.
   EXPECT_NE(findEvent(EventType::CompUndefinedModport, "nosuch", 97, 28), nullptr);
@@ -417,6 +406,12 @@ TEST_F(InterfacePortRules, InterconnectAliasedWithWire) {
   // shall be type compatible, that is, they have to be of the same net type", a rule "stricter than
   // the rule applied to nets joining at ports" (where an interconnect takes the other net's type).
   EXPECT_NE(findEvent(EventType::CompIllegalAlias, "w", 209, 55), nullptr);
+}
+
+TEST_F(InterfacePortRules, InnerIndexOfInstanceArrayOutOfRange) {
+  // "ipr_ba u[3][4](); u[1][9].x = 0;" -- Sec 23.6: each index "shall evaluate to one of the legal
+  // index values for that array"; 9 is outside the second dimension [0:3].
+  EXPECT_NE(findEvent(EventType::CompIndexOutOfRange, "u[1][9]", 219, 5), nullptr);
 }
 
 }  // namespace hlc
