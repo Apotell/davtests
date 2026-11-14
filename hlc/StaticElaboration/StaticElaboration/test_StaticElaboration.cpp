@@ -38,14 +38,11 @@
 // instance, then its typespec) -- never as the place override data is asserted against.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Database.h>
-#include <hldb/RTTI.h>
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/class_typespec.h>
@@ -64,6 +61,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/typedef_typespec.h>
+#include <hldb/unit.h>
 #include <hldb/unsupported_typespec.h>
 #include <hldb/variable.h>
 
@@ -117,7 +115,7 @@ class StaticElaborationTest : public Test {
     return hldb::findByDefName<hldb::Program>("param_prog", m_design->getAllPrograms());
   }
   static const hldb::ClassDefn *getParamCls() {
-    return hldb::findByDefName<hldb::ClassDefn>("param_cls", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("param_cls", m_unit->getClassDefns());
   }
   static const hldb::Package *getPkgA() { return hldb::findByName<hldb::Package>("pkg_a", m_design->getAllPackages()); }
   static const hldb::Package *getPkgB() { return hldb::findByName<hldb::Package>("pkg_b", m_design->getAllPackages()); }
@@ -135,10 +133,10 @@ class StaticElaborationTest : public Test {
     return hldb::findByName<hldb::Package>("pkg_import_c", m_design->getAllPackages());
   }
   static const hldb::ClassDefn *getOuterCls() {
-    return hldb::findByDefName<hldb::ClassDefn>("OuterCls", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("OuterCls", m_unit->getClassDefns());
   }
   static const hldb::ClassDefn *getOtherOuterCls() {
-    return hldb::findByDefName<hldb::ClassDefn>("OtherOuterCls", m_design->getAllClasses());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("OtherOuterCls", m_unit->getClassDefns());
   }
   static const hldb::ClassDefn *getNestedClass(const hldb::ClassDefn *outer, std::string_view name) {
     if ((outer == nullptr) || (outer->getClassDefns() == nullptr)) return nullptr;
@@ -370,12 +368,8 @@ class StaticElaborationTest : public Test {
   // shape, inherited from scope.yaml) ----
 
   template <typename T>
-  static const hldb::ParamAssign *getParamAssignByName(const T *scope, std::string_view name) {
-    if ((scope == nullptr) || (scope->getParamAssigns() == nullptr)) return nullptr;
-    for (const hldb::ParamAssign *const pa : *scope->getParamAssigns()) {
-      if ((pa != nullptr) && (pa->getLhs() != nullptr) && (pa->getLhs()->getName() == name)) return pa;
-    }
-    return nullptr;
+  static const hldb::Parameter *getParameter(const T *scope, std::string_view name) {
+    return (scope == nullptr) ? nullptr : hldb::findByName<hldb::Parameter>(name, scope->getParameters());
   }
 
   template <typename T>
@@ -405,12 +399,11 @@ TEST_F(StaticElaborationTest, ParamModHasOneParameterW) {
 }
 
 TEST_F(StaticElaborationTest, ParamModDefaultAssignForWIsEight) {
-  const hldb::ParamAssign *const pa = getParamAssignByName(getParamMod(), "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("8"));
-  EXPECT_FALSE(pa->getOverridden()) << "param_mod's own default for W is not an override";
+  const hldb::Parameter *const p = getParameter(getParamMod(), "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("8"));
 }
 
 TEST_F(StaticElaborationTest, BothInstanceTypespecsExist) {
@@ -436,7 +429,6 @@ TEST_F(StaticElaborationTest, InstWideOverridesWToSixteen) {
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), std::string_view("16"));
-  EXPECT_TRUE(pa->getOverridden());
   EXPECT_TRUE(pa->getConnByName()) << "'.W(16)' is a by-name connection";
 }
 
@@ -458,11 +450,11 @@ TEST_F(StaticElaborationTest, InstWideResolvesToDistinctSpecializedDefinition) {
 TEST_F(StaticElaborationTest, SpecializedModuleHasWOverriddenToSixteen) {
   const hldb::Module *const modWide = getInstWideTypespec()->getModule();
   ASSERT_NE(modWide, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(modWide, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("16"));
+  const hldb::Parameter *const p = getParameter(modWide, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("16"));
 }
 
 // Confirms the full-clone build strategy (as opposed to a delta/overlay one that shares
@@ -480,11 +472,11 @@ TEST_F(StaticElaborationTest, SpecializedModuleOwnsItsOwnCopyOfInternalReg) {
   EXPECT_NE(specializedReg, baseReg);
 }
 
-TEST_F(StaticElaborationTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+TEST_F(StaticElaborationTest, CompilerReportsNoEvents) {
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 // =============================================================================================
@@ -525,11 +517,11 @@ TEST_F(StaticElaborationTest, IfWideResolvesToDistinctSpecializedInterface) {
 TEST_F(StaticElaborationTest, SpecializedInterfaceHasWOverriddenToEight) {
   const hldb::Interface *const ifWide = getIfWideTypespec()->getInterface();
   ASSERT_NE(ifWide, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(ifWide, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("8"));
+  const hldb::Parameter *const p = getParameter(ifWide, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("8"));
 }
 
 TEST_F(StaticElaborationTest, SpecializedInterfaceOwnsItsOwnCopyOfData) {
@@ -570,11 +562,11 @@ TEST_F(StaticElaborationTest, ProgWideResolvesToDistinctSpecializedProgram) {
 TEST_F(StaticElaborationTest, SpecializedProgramHasWOverriddenToFour) {
   const hldb::Program *const progWide = getProgWideTypespec()->getProgram();
   ASSERT_NE(progWide, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(progWide, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("4"));
+  const hldb::Parameter *const p = getParameter(progWide, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("4"));
 }
 
 // =============================================================================================
@@ -605,11 +597,11 @@ TEST_F(StaticElaborationTest, ClsWideHandleResolvesToDistinctSpecializedClass) {
 TEST_F(StaticElaborationTest, SpecializedClsHasWOverriddenToNine) {
   const hldb::ClassDefn *const clsWide = getHandleTypespec("cls_wide_handle")->getClassDefn();
   ASSERT_NE(clsWide, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(clsWide, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("9"));
+  const hldb::Parameter *const p = getParameter(clsWide, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("9"));
 }
 
 TEST_F(StaticElaborationTest, SpecializedClsOwnsItsOwnCopyOfPayload) {
@@ -649,11 +641,11 @@ TEST_F(StaticElaborationTest, PkgAHandleResolvesToSpecializationOfPkgAsWidget) {
                                      "search pkg_a's own class list, not a flat/global one";
   EXPECT_NE(specialized, getPkgClass(getPkgA(), "PkgWidget"))
       << "an override-bearing use must specialize, not bind straight to the template";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("10"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("10"));
 }
 
 TEST_F(StaticElaborationTest, PkgBHandleResolvesToSpecializationOfPkgBsWidget) {
@@ -666,11 +658,11 @@ TEST_F(StaticElaborationTest, PkgBHandleResolvesToSpecializationOfPkgBsWidget) {
   EXPECT_NE(specialized, getHandleTypespec("pkg_a_handle")->getClassDefn())
       << "pkg_a's and pkg_b's specializations must never collide, even though both PkgWidget "
          "classes share a name";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("20"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("20"));
 }
 
 // =============================================================================================
@@ -699,11 +691,11 @@ TEST_F(StaticElaborationTest, OuterInnerHandleResolvesToSpecializationOfOuterCls
   ASSERT_NE(specialized, nullptr) << "OuterCls::InnerCls#(12) must resolve -- scoped lookup must "
                                      "search OuterCls's own nested class list";
   EXPECT_NE(specialized, getNestedClass(getOuterCls(), "InnerCls"));
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("12"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("12"));
 }
 
 TEST_F(StaticElaborationTest, OtherOuterInnerHandleResolvesToSpecializationOfOtherOuterClsInnerCls) {
@@ -717,11 +709,11 @@ TEST_F(StaticElaborationTest, OtherOuterInnerHandleResolvesToSpecializationOfOth
   EXPECT_NE(specialized, getHandleTypespec("outer_inner_handle")->getClassDefn())
       << "OuterCls's and OtherOuterCls's specializations must never collide, even though both "
          "InnerCls classes share a name";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("24"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("24"));
 }
 
 // =============================================================================================
@@ -750,11 +742,11 @@ TEST_F(StaticElaborationTest, ShadowTestHandleResolvesToOuterClsOwnInnerClsViaBa
       << "must never be confused with OtherOuterCls's own, identically-named InnerCls -- the "
          "whole point of walking up from shadow_test_handle's own scope (OuterCls) rather than "
          "falling back to some global, name-only lookup";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("15"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("15"));
 }
 
 // The module/interface counterparts of the class-shadowing test above -- IEEE 1800-2023 Sec
@@ -776,11 +768,11 @@ TEST_F(StaticElaborationTest, ShadowModInstResolvesToOuterModOwnInnerModViaBareR
       << "must never be confused with OtherOuterMod's own, identically-named InnerMod -- the "
          "whole point of walking up from shadow_mod_inst's own scope (OuterMod) rather than "
          "falling back to some global, name-only lookup";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("15"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("15"));
 }
 
 TEST_F(StaticElaborationTest, ShadowIfaceInstResolvesToOuterModWithIfaceOwnInnerIfaceViaBareReference) {
@@ -795,11 +787,11 @@ TEST_F(StaticElaborationTest, ShadowIfaceInstResolvesToOuterModWithIfaceOwnInner
       << "an override-bearing use (#(17)) must specialize, not bind straight to the template";
   EXPECT_NE(specialized, getNestedInterface(getOtherOuterModWithIface(), "InnerIface"))
       << "must never be confused with OtherOuterModWithIface's own, identically-named InnerIface";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("17"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("17"));
 }
 
 // =============================================================================================
@@ -833,11 +825,11 @@ TEST_F(StaticElaborationTest, DeepHandleResolvesToSpecializedLevel3) {
   ASSERT_NE(baseLevel3, nullptr);
   EXPECT_NE(specialized, baseLevel3) << "an override-bearing use must specialize, not bind "
                                          "straight to the template";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("33"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("33"));
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLevel1SegmentIsSpecialized) {
@@ -849,11 +841,11 @@ TEST_F(StaticElaborationTest, DeepHandleLevel1SegmentIsSpecialized) {
   ASSERT_NE(specializedLevel1, nullptr);
   EXPECT_NE(specializedLevel1, getPkgClass(getPkgDeep(), "Level1"))
       << "an intermediate segment's own #(...) must specialize it too, not just the leaf";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specializedLevel1, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("11"));
+  const hldb::Parameter *const p = getParameter(specializedLevel1, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("11"));
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLevel2SegmentIsSpecializedWithinLevel1sSpecialization) {
@@ -873,11 +865,11 @@ TEST_F(StaticElaborationTest, DeepHandleLevel2SegmentIsSpecializedWithinLevel1sS
   // two must be distinct objects too -- confirming Level2's own #(...) specialized it a second,
   // independent time on top of being resolved in the right (specialized) scope.
   EXPECT_NE(specializedLevel2, getNestedClass(specializedLevel1, "Level2"));
-  const hldb::ParamAssign *const pa = getParamAssignByName(specializedLevel2, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("22"));
+  const hldb::Parameter *const p = getParameter(specializedLevel2, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("22"));
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLastSegmentSelfReferencesTheChainsOwnResult) {
@@ -1003,11 +995,11 @@ TEST_F(StaticElaborationTest, PkgAliasHandleResolvesThroughPackageScopedTypedef)
   const hldb::ClassDefn *const specialized = underlying->getClassDefn();
   ASSERT_NE(specialized, nullptr);
   EXPECT_NE(specialized, getParamCls()) << "param_cls#(40) must specialize, not bind to the base";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("40"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("40"));
 }
 
 TEST_F(StaticElaborationTest, BareAliasHandleResolvesThroughFlatCaseTypedefFallback) {
@@ -1023,11 +1015,11 @@ TEST_F(StaticElaborationTest, BareAliasHandleResolvesThroughFlatCaseTypedefFallb
   const hldb::ClassDefn *const specialized = underlying->getClassDefn();
   ASSERT_NE(specialized, nullptr);
   EXPECT_NE(specialized, getParamCls());
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("41"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("41"));
 }
 
 TEST_F(StaticElaborationTest, ChainedAliasHandleResolvesThroughTypedefOfTypedef) {
@@ -1051,11 +1043,11 @@ TEST_F(StaticElaborationTest, ChainedAliasHandleResolvesThroughTypedefOfTypedef)
                                      "first";
   const hldb::ClassDefn *const specialized = underlying->getClassDefn();
   ASSERT_NE(specialized, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("41"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("41"));
 }
 
 // =============================================================================================
@@ -1101,11 +1093,11 @@ TEST_F(StaticElaborationTest, TdOuterAliasIsATypedefResolvingToSpecializedTdOute
   const hldb::ClassDefn *const specializedOuter = underlying->getClassDefn();
   ASSERT_NE(specializedOuter, nullptr);
   EXPECT_NE(specializedOuter, getModuleLocalClass(getDut(), "TdOuter"));
-  const hldb::ParamAssign *const pa = getParamAssignByName(specializedOuter, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("80"));
+  const hldb::Parameter *const p = getParameter(specializedOuter, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("80"));
 }
 
 TEST_F(StaticElaborationTest, TdChainHandleResolvesThroughSpecializedTypedefLeadingSegment) {
@@ -1123,11 +1115,11 @@ TEST_F(StaticElaborationTest, TdChainHandleResolvesThroughSpecializedTypedefLead
 
   const hldb::ClassDefn *const specializedInner = ct->getClassDefn();
   ASSERT_NE(specializedInner, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(specializedInner, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("82"));
+  const hldb::Parameter *const p = getParameter(specializedInner, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("82"));
 }
 
 TEST_F(StaticElaborationTest, TdChainHandleMidSegmentIsSpecializedWithinTdOuterAliasSpecialization) {
@@ -1147,11 +1139,11 @@ TEST_F(StaticElaborationTest, TdChainHandleMidSegmentIsSpecializedWithinTdOuterA
                                           "TdOuterAlias's own specialization's nested class "
                                           "list, not TdOuter's base one";
 
-  const hldb::ParamAssign *const pa = getParamAssignByName(specializedMid, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("81"));
+  const hldb::Parameter *const p = getParameter(specializedMid, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("81"));
 }
 
 // =============================================================================================
@@ -1183,11 +1175,11 @@ TEST_F(StaticElaborationTest, ScopeWalkMemberResolvesTypedefFromEnclosingClassSc
   ASSERT_NE(underlying, nullptr);
   const hldb::ClassDefn *const specialized = underlying->getClassDefn();
   ASSERT_NE(specialized, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("95"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("95"));
 }
 
 TEST_F(StaticElaborationTest, UnitScopeHandleResolvesTypedefWalkedAllTheWayToDesign) {
@@ -1203,11 +1195,11 @@ TEST_F(StaticElaborationTest, UnitScopeHandleResolvesTypedefWalkedAllTheWayToDes
   ASSERT_NE(underlying, nullptr);
   const hldb::ClassDefn *const specialized = underlying->getClassDefn();
   ASSERT_NE(specialized, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("96"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("96"));
 }
 
 // =============================================================================================
@@ -1237,11 +1229,11 @@ TEST_F(StaticElaborationTest, ImportExplicitHandleResolvesViaExplicitImport) {
       << "an override-bearing use (#(31)) must specialize, not bind straight to the template";
   EXPECT_NE(specialized, getPkgClass(getPkgImportB(), "ImportShadowCls"))
       << "must never resolve to pkg_import_b's own, identically-named, NOT-imported class";
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("31"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("31"));
 }
 
 TEST_F(StaticElaborationTest, ImportWildcardAliasHandleResolvesViaWildcardImport) {
@@ -1255,11 +1247,11 @@ TEST_F(StaticElaborationTest, ImportWildcardAliasHandleResolvesViaWildcardImport
   ASSERT_NE(aliasCt, nullptr);
   const hldb::ClassDefn *const specialized = aliasCt->getClassDefn();
   ASSERT_NE(specialized, nullptr);
-  const hldb::ParamAssign *const pa = getParamAssignByName(specialized, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("42"));
+  const hldb::Parameter *const p = getParameter(specialized, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("42"));
 }
 
 // =============================================================================================
@@ -1305,11 +1297,11 @@ TEST_F(StaticElaborationTest, MidNestedDistinctIsItsOwnSpecialization) {
   EXPECT_NE(modDistinct, modSameAsWide);
   EXPECT_NE(modDistinct, getParamMod());
 
-  const hldb::ParamAssign *const pa = getParamAssignByName(modDistinct, "W");
-  ASSERT_NE(pa, nullptr);
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), std::string_view("24"));
+  const hldb::Parameter *const p = getParameter(modDistinct, "W");
+  ASSERT_NE(p, nullptr);
+  const hldb::Constant *const expr = p->getExpr<hldb::Constant>();
+  ASSERT_NE(expr, nullptr);
+  EXPECT_EQ(expr->getDecompile(), std::string_view("24"));
 }
 
 // =============================================================================================
