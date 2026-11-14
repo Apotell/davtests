@@ -103,9 +103,12 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/class_member_test_43.sv:9:12: Failed to bind "N".
 [WRN:DV8514] $Source01/class_member_test_43.sv:9:30: Failed to bind "K".
 [WRN:DV8514] $Source01/class_member_test_43.sv:10:8: Failed to bind "name".
-[ERR:CP5818] $Source01/class_member_test_43.sv:7:15: Undefined type "foo::bar".
-[ERR:CP5818] $Source01/class_member_test_43.sv:8:23: Undefined type "time_if".
-[ERR:CP5818] $Source01/class_member_test_43.sv:9:5: Undefined type "baz #(M, N)::foo".
+[ERR:DL2510] $Source01/class_member_test_43.sv:7:15: Unknown or undefined type "foo::bar".
+[ERR:CP5809] $Source01/class_member_test_43.sv:8:23: Undefined interface "time_if".
+[ERR:DL2510] $Source01/class_member_test_43.sv:9:5: Unknown or undefined type "baz #(M, N)::foo".
+[ERR:CP5828] $Source01/class_member_test_43.sv:9:30: Undefined variable "K".
+[ERR:CP5828] $Source01/class_member_test_43.sv:9:10: Undefined variable "M".
+[ERR:CP5828] $Source01/class_member_test_43.sv:9:12: Undefined variable "N".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -167,6 +170,7 @@ Design name:unnamed:
                     vpiParent: Variable name:vif
                     vpiName: time_if
                     vpiFullName: constructible::new::vif::time_if
+                    vpiActual: InterfaceTypespec name:time_if
                 Variable name:bar start:9:20 end:9:23:
                   vpiParent: Function name:new
                   vpiName: bar
@@ -187,7 +191,12 @@ Design name:unnamed:
                     vpiParent: Variable name:b
                     vpiFullName: constructible::new::b
                     vpiActual: BitTypespec
-              vpiTypespec (1 items):
+              vpiTypespec (2 items):
+                InterfaceTypespec name:time_if start:8:23 end:8:30:
+                  vpiParent: Function name:new
+                  vpiName Identifier name:time_if:
+                  vpiDefName: time_if
+                  vpiVirtual: true
                 BitTypespec:
                   vpiParent: Function name:new
                   vpiRange (1 items):
@@ -237,6 +246,7 @@ Design name:unnamed:
                     vpiParent: IODecl name:vif
                     vpiName: time_if
                     vpiFullName: constructible::new::vif::time_if
+                    vpiActual: InterfaceTypespec name:time_if
                 IODecl name:bar start:9:20 end:9:23:
                   vpiParent: Function name:new
                   vpiName: bar
@@ -314,7 +324,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 6
 [WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
@@ -359,7 +369,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_43/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    47      47       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

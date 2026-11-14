@@ -655,10 +655,13 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/t_dpi_var.v:61:16: Failed to bind "fr_chk".
 [WRN:DV8514] $Source01/t_dpi_var.v:63:4: Failed to bind "in".
 [WRN:DV8514] $Source01/t_dpi_var.v:67:8: Failed to bind "mon_class_name".
-[ERR:CP5818] $Source01/t_dpi_var.v:67:29: Undefined type "char".
-[ERR:DV8504] $Source01/t_dpi_var.v:56:38: Null Actual: id:176, type:SubroutineCall, name:mon_register_done, relation:vpiStmt.
+[ERR:DL2510] $Source01/t_dpi_var.v:67:29: Unknown or undefined type "char".
+[ERR:CP5817] $Source01/t_dpi_var.v:55:8: Undefined package "context".
+[ERR:CP5817] $Source01/t_dpi_var.v:56:8: Undefined package "context".
+[ERR:CP5838] $Source01/t_dpi_var.v:56:38: Undefined user task/function "mon_register_done".
 [ERR:DL2516] $Source01/t_dpi_var.v:67:8: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
-[ERR:DV8504] $Source01/t_dpi_var.v:59:8: Null Actual: id:190, type:SubroutineCall, name:sub, relation:vpiStmt.
+[ERR:CP5838] $Source01/t_dpi_var.v:59:8: Undefined user task/function "sub".
+[ERR:CP5828] $Source01/t_dpi_var.v:67:8: Undefined variable "mon_class_name".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -765,9 +768,21 @@ Design name:unnamed:
                 vpiParent: IODecl name:isOut
                 vpiFullName: mon_register_b.isOut
                 vpiActual: IntTypespec
-          vpiStmt SubroutineCall name:mon_register_done start:56:38 end:56:57:
+          vpiStmt Begin:
             vpiParent: Function name:mon_register_b
-            vpiName Identifier name:mon_register_done start:56:38 end:56:55:
+            vpiFullName: mon_register_b
+            vpiStmt (2 items):
+              Operation start:56:33 end:56:37:
+                vpiParent: Begin
+                vpiOpType: cast (81)
+                vpiOperand (1 items):
+                  RefTypespec start:56:33 end:56:37:
+                    vpiParent: Operation
+                    vpiFullName: mon_register_b
+                    vpiActual: VoidTypespec
+              SubroutineCall name:mon_register_done start:56:38 end:56:57:
+                vpiParent: Begin
+                vpiName Identifier name:mon_register_done start:56:38 end:56:55:
           vpiReturn RefTypespec start:55:33 end:55:37:
             vpiParent: Function name:mon_register_b
             vpiFullName: mon_register_b
@@ -780,7 +795,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:mon_eval
             vpiFullName: mon_eval
-            vpiStmt (2 items):
+            vpiStmt (3 items):
               SubroutineCall name:sub start:59:8 end:64:5:
                 vpiParent: Begin
                 vpiName Identifier name:sub start:59:8 end:59:11:
@@ -809,6 +824,14 @@ Design name:unnamed:
                       vpiParent: NamedArgument
                       vpiName: in
                       vpiFullName: mon_eval.in
+              Operation start:67:3 end:67:7:
+                vpiParent: Begin
+                vpiOpType: cast (81)
+                vpiOperand (1 items):
+                  RefTypespec start:67:3 end:67:7:
+                    vpiParent: Operation
+                    vpiFullName: mon_eval
+                    vpiActual: VoidTypespec
               RefObj name:mon_class_name start:67:8 end:67:22:
                 vpiParent: Begin
                 vpiName: mon_class_name
@@ -1366,7 +1389,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 10
-[  ERROR] : 7
+[  ERROR] : 10
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -1411,11 +1434,11 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_var/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       5         5
-Operation                           13       8       0         5
+Operation                           15      10       0         5
 RefObj                              29      24       0         5
-RefTypespec                         32      32       5         5
+RefTypespec                         34      34       5         5
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                   174     164      10        20
+                                   179     169      10        20
 ===================== END REDUCTION RESULT =====================

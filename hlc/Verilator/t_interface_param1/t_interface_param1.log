@@ -301,10 +301,6 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_interface_param1.v:24:18: Implicit port type (wire) for "c".
 [INF:CP5805] $Source01/t_interface_param1.v:31:1: Compile interface "test_if".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_param1.v:15:16: Failed to bind "id".
-[WRN:DV8514] $Source01/t_interface_param1.v:16:26: Failed to bind "a".
-[WRN:DV8514] $Source01/t_interface_param1.v:16:28: Failed to bind "b".
-[ERR:DL2510] $Source01/t_interface_param1.v:15:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -533,7 +529,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
@@ -563,43 +559,6 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
-        UnsupportedTypespec start:15:4 end:15:22:
-          vpiParent: Module name:t
-          vpiParamAssign (2 items):
-            ParamAssign start:15:15 end:15:21:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:id start:15:16 end:15:18:
-                vpiParent: ParamAssign
-                vpiName: id
-                vpiFullName: t.id
-              vpiRhs Constant start:15:19 end:15:20:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "3"
-                vpiValue: 3
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
-            ParamAssign start:15:15 end:15:21:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:id start:15:16 end:15:18:
-                vpiParent: ParamAssign
-                vpiName: id
-                vpiFullName: t.id
-              vpiRhs Constant start:15:19 end:15:20:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "3"
-                vpiValue: 3
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
         ModuleTypespec name:sub_test:
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -657,10 +616,11 @@ Design name:unnamed:
         RefInstance name:s start:15:23 end:15:24:
           vpiParent: Module name:t
           vpiName: s
-          vpiTypespec RefTypespec start:15:4 end:15:11:
+          vpiTypespec RefTypespec name:test_if start:15:4 end:15:11:
             vpiParent: RefInstance name:s
-            vpiFullName: t.s
-            vpiActual: UnsupportedTypespec
+            vpiName: test_if
+            vpiFullName: t.s.test_if
+            vpiActual: InterfaceTypespec name:test_if
         RefInstance name:U_SUB_TEST start:16:13 end:16:23:
           vpiParent: Module name:t
           vpiName: U_SUB_TEST
@@ -691,10 +651,13 @@ Design name:unnamed:
                     vpiParent: RefObj name:s.a.b
                     vpiName: a
                     vpiFullName: t.U_SUB_TEST.a
+                    vpiActual: Variable name:a
                   RefObj name:b start:16:28 end:16:29:
                     vpiParent: RefObj name:s.a.b
                     vpiName: b
                     vpiFullName: t.U_SUB_TEST.b
+                    vpiActual: TypespecMember name:b
+                vpiActual: TypespecMember name:b
             NamedArgument start:16:31 end:16:37:
               vpiParent: RefInstance name:U_SUB_TEST
               vpiLowConn RefObj name:c:
@@ -872,8 +835,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -888,25 +851,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_param1/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.1,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 4,
                                                                 'pre_len': 442}},
-            'post_len': 0,
+            'post_len': 4,
             'pre_len': 442,
             'test_name': 'Verilator/t_interface_param1'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/t_interface_param1.v |      442 |         0 |
+| $Output/lib/work/t_interface_param1.v |      442 |         4 |
 +=======================================+==========+===========+
-|                                       |      442 |         0 |
+|                                       |      442 |         4 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.1
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -917,7 +880,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param1/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             123     123       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   123     123       0         0
 ===================== END REDUCTION RESULT =====================

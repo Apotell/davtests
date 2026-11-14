@@ -460,23 +460,27 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top1.v:32:1: Compile module "middle".
 [INF:CP5804] $Source01/top1.v:36:3: Compile module "nested".
 [INF:CP5804] $Source01/top1.v:46:1: Compile module "bottom3".
-[ERR:CP5835] Colliding compilation unit name: "top".
-[ERR:CP5835] Colliding compilation unit name: "bottom1".
-[ERR:CP5835] Colliding compilation unit name: "bottom2".
-[ERR:CP5835] Colliding compilation unit name: "bottom3".
+[ERR:CP5835] $Source01/top1.v:15:1: Colliding compilation unit name: "top",
+             $Source01/top.v:2:1: previous usage.
+[ERR:CP5835] $Source01/top1.v:21:1: Colliding compilation unit name: "bottom1",
+             $Source01/top.v:17:1: previous usage.
+[ERR:CP5835] $Source01/top1.v:26:1: Colliding compilation unit name: "bottom2",
+             $Source01/top.v:27:1: previous usage.
+[ERR:CP5835] $Source01/top1.v:46:1: Colliding compilation unit name: "bottom3",
+             $Source01/top.v:60:1: previous usage.
 [WRN:DV8514] $Source01/top.v:13:12: Failed to bind "uvm_resource_db".
 [WRN:DV8514] $Source01/top.v:13:50: Failed to bind "read_by_name".
 [WRN:DV8514] $Source01/top.v:13:64: Failed to bind "get_full_name".
 [WRN:DV8514] $Source01/top.v:13:95: Failed to bind "m_if".
 [WRN:DV8514] $Source01/top.v:64:17: Failed to bind "capture".
 [WRN:DV8514] $Source01/top.v:65:13: Failed to bind "clk".
-[ERR:CP5816] $Source01/top.v:8:19: Undefined class "uvm_env".
-[ERR:CP5818] $Source01/top.v:11:31: Undefined type "uvm_phase".
-[ERR:DV8504] $Source01/top.v:13:50: Null Actual: id:335, type:SubroutineCall, name:read_by_name, relation:vpiPathElem.
-[ERR:DV8504] $Source01/top.v:13:64: Null Actual: id:325, type:SubroutineCall, name:get_full_name, relation:vpiHighConn.
+[ERR:CP5829] $Source01/top.v:8:19: Undefined base class "uvm_env" extended by "env".
+[ERR:DL2510] $Source01/top.v:11:31: Unknown or undefined type "uvm_phase".
+[ERR:CP5809] $Source01/top.v:13:37: Undefined interface "add_sub_if".
+[ERR:DV8504] $Source01/top.v:13:50: Null Actual: id:337, type:SubroutineCall, name:read_by_name, relation:vpiPathElem.
 [ERR:CP5983] $Source01/top.v:21:20: Port connection of instance "u2" has no matching port in "bottom3".
-[ERR:DV8501] Invalid name: id:378, type:RefObj, name:, relation:vpiLowConn.
-[ERR:DL2510] $Source01/top.v:62:2: Unsupported typespec "ddr".
+[ERR:DV8501] Invalid name: id:380, type:RefObj, name:, relation:vpiLowConn.
+[ERR:DL2510] $Source01/top.v:62:2: Unknown or undefined type "ddr".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -812,6 +816,12 @@ Design name:unnamed:
                     vpiParent: Variable name:phase
                     vpiName: uvm_phase
                     vpiFullName: env::connect_phase::phase::uvm_phase
+              vpiTypespec (1 items):
+                InterfaceTypespec name:add_sub_if start:13:37 end:13:47:
+                  vpiParent: Function name:connect_phase
+                  vpiName Identifier name:add_sub_if:
+                  vpiDefName: add_sub_if
+                  vpiVirtual: true
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
@@ -842,6 +852,7 @@ Design name:unnamed:
                             vpiParent: ParamAssign
                             vpiName: add_sub_if
                             vpiFullName: env::connect_phase::uvm_resource_db::add_sub_if
+                            vpiActual: InterfaceTypespec name:add_sub_if
                     SubroutineCall name:read_by_name start:13:50 end:13:100:
                       vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
                       vpiName Identifier name:read_by_name start:13:50 end:13:62:
@@ -1727,7 +1738,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2310    2310       0         0
+Others                            2312    2312       0         0
 ----------------------------------------------------------------
-                                  2310    2310       0         0
+                                  2312    2312       0         0
 ===================== END REDUCTION RESULT =====================

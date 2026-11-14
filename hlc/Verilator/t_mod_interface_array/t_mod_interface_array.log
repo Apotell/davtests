@@ -697,8 +697,6 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/t_mod_interface_array.v:21:10: Failed to bind "i_intf_source".
 [WRN:DV8514] $Source01/t_mod_interface_array.v:33:36: Failed to bind "long_name".
 [WRN:DV8514] $Source01/t_mod_interface_array.v:33:21: Failed to bind "i_intf_sink".
-[WRN:DV8514] $Source01/t_mod_interface_array.v:46:12: Failed to bind "PARAM".
-[ERR:DL2510] $Source01/t_mod_interface_array.v:46:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1351,7 +1349,7 @@ Design name:unnamed:
             vpiParent: Variable name:ack_out
             vpiFullName: t.ack_out
             vpiActual: LogicTypespec
-      vpiTypespec (9 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
@@ -1494,47 +1492,11 @@ Design name:unnamed:
                 vpiParent: Constant
                 vpiFullName: t
                 vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec start:46:4 end:46:8:
+          vpiElemTypespec RefTypespec name:a_if start:46:4 end:46:8:
             vpiParent: ArrayTypespec
-            vpiFullName: t
-            vpiActual: UnsupportedTypespec
-        UnsupportedTypespec start:46:4 end:46:21:
-          vpiParent: Module name:t
-          vpiParamAssign (2 items):
-            ParamAssign start:46:11 end:46:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:46:12 end:46:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:46:18 end:46:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
-            ParamAssign start:46:11 end:46:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:46:12 end:46:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:46:18 end:46:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
+            vpiName: a_if
+            vpiFullName: t.a_if
+            vpiActual: InterfaceTypespec name:a_if
         ModuleTypespec name:intf_source:
         ModuleTypespec name:intf_sink:
         BitTypespec:
@@ -1826,10 +1788,10 @@ Design name:unnamed:
         RefInstance name:tl_intf start:46:22 end:46:29:
           vpiParent: Module name:t
           vpiName: tl_intf
-          "vpiTypespec RefTypespec name: [N-1:0] start:46:4 end:46:8":
+          vpiTypespec RefTypespec name:a_if [N-1:0] start:46:4 end:46:8:
             vpiParent: RefInstance name:tl_intf
-            vpiName: " [N-1:0]"
-            vpiFullName: t.tl_intf. [N-1:0]
+            vpiName: a_if [N-1:0]
+            vpiFullName: t.tl_intf.a_if [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:source start:47:16 end:47:22:
           vpiParent: Module name:t
@@ -1930,8 +1892,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 7
+[  ERROR] : 0
+[WARNING] : 6
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1946,25 +1908,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_mod_interface_array/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.26,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_mod_interface_array.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_mod_interface_array.v': {'post_len': 7,
                                                                    'pre_len': 948}},
-            'post_len': 0,
+            'post_len': 7,
             'pre_len': 948,
             'test_name': 'Verilator/t_mod_interface_array'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/t_mod_interface_array.v |      948 |         0 |
+| $Output/lib/work/t_mod_interface_array.v |      948 |         7 |
 +==========================================+==========+===========+
-|                                          |      948 |         0 |
+|                                          |      948 |         7 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.26
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1974,12 +1936,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_interface_array/design.hldb ${HLC
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            30      26      10        14
+Constant                            28      24      10        14
 Operation                           25       9       0        16
-RefObj                              58      48       0        10
-RefTypespec                         52      46       8        14
+RefObj                              56      46       0        10
+RefTypespec                         50      44       8        14
 ----------------------------------------------------------------
-Others                             112     112       0         0
+Others                             109     109       0         0
 ----------------------------------------------------------------
-                                   277     241      18        54
+                                   268     232      18        54
 ===================== END REDUCTION RESULT =====================

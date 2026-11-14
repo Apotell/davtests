@@ -466,8 +466,9 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/top.sv:29:24: Failed to bind "pins_oe".
 [WRN:DV8514] $Source01/top.sv:39:24: Failed to bind "pins_oe".
 [WRN:DV8514] $Source01/top.sv:39:37: Failed to bind "pins_o".
-[ERR:DL2510] $Source01/top.sv:35:1: Unsupported typespec "".
-[ERR:DV8501] Invalid name: id:213, type:RefObj, name:, relation:vpiLowConn.
+[ERR:CP5828] $Source01/top.sv:29:24: Undefined variable "pins_oe".
+[ERR:CP5828] $Source01/top.sv:39:24: Undefined variable "pins_oe".
+[ERR:CP5828] $Source01/top.sv:39:37: Undefined variable "pins_o".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1012,7 +1013,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: top2 #(.Width(2)).Width
               vpiActual: IntTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top2 #(.Width(2))
           vpiRange (1 items):
@@ -1048,35 +1049,6 @@ Design name:unnamed:
                   vpiFullName: top2 #(.Width(2))
                   vpiActual: IntTypespec
           vpiVector: true
-        UnsupportedTypespec start:35:1 end:35:25:
-          vpiParent: Module name:top2 #(.Width(2))
-          vpiParamAssign (2 items):
-            ParamAssign start:35:11 end:35:24:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:Width start:35:12 end:35:17:
-                vpiParent: ParamAssign
-                vpiName: Width
-                vpiFullName: top2 #(.Width(2)).Width
-                vpiActual: Parameter name:Width
-              vpiRhs RefObj name:Width start:35:18 end:35:23:
-                vpiParent: ParamAssign
-                vpiName: Width
-                vpiFullName: top2 #(.Width(2)).Width
-                vpiActual: Parameter name:Width
-            ParamAssign start:35:11 end:35:24:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:Width start:35:12 end:35:17:
-                vpiParent: ParamAssign
-                vpiName: Width
-                vpiFullName: top2 #(.Width(2)).Width
-                vpiActual: Parameter name:Width
-              vpiRhs RefObj name:Width start:35:18 end:35:23:
-                vpiParent: ParamAssign
-                vpiName: Width
-                vpiFullName: top2 #(.Width(2)).Width
-                vpiActual: Parameter name:Width
       vpiDefName: top2
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.sv"
@@ -1120,16 +1092,19 @@ Design name:unnamed:
         RefInstance name:intf start:35:26 end:35:30:
           vpiParent: Module name:top2 #(.Width(2))
           vpiName: intf
-          vpiTypespec RefTypespec start:35:1 end:35:8:
+          vpiTypespec RefTypespec name:pins_if start:35:1 end:35:8:
             vpiParent: RefInstance name:intf
-            vpiFullName: top2 #(.Width(2)).intf
-            vpiActual: UnsupportedTypespec
+            vpiName: pins_if
+            vpiFullName: top2 #(.Width(2)).intf.pins_if
+            vpiActual: InterfaceTypespec name:pins_if
           vpiArgument (1 items):
             NamedArgument start:35:33 end:35:37:
               vpiParent: RefInstance name:intf
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:pins:
                 vpiParent: NamedArgument
-                vpiFullName: top2 #(.Width(2)).intf
+                vpiName: pins
+                vpiFullName: top2 #(.Width(2)).intf.pins
+                vpiActual: Port name:pins
               vpiHighConn RefObj name:pins start:35:33 end:35:37:
                 vpiParent: NamedArgument
                 vpiName: pins
@@ -1297,7 +1272,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 3
 [WARNING] : 7
 [   NOTE] : 2
 ********************************************************************************
@@ -1313,25 +1288,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/GenerateInterface/GenerateInterface/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.45,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 11,
                                                   'pre_len': 710}},
-            'post_len': 0,
+            'post_len': 11,
             'pre_len': 710,
             'test_name': 'GenerateInterface/GenerateInterface'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      710 |         0 |
+| $Output/lib/work/top.sv |      710 |        11 |
 +=========================+==========+===========+
-|                         |      710 |         0 |
+|                         |      710 |        11 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.45
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1343,10 +1318,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      32       5         5
 Operation                           14       9       0         5
-RefObj                              40      35       0         5
+RefObj                              36      31       0         5
 RefTypespec                        645     645       5         5
 ----------------------------------------------------------------
-Others                            1312    1312       0         0
+Others                            1309    1309       0         0
 ----------------------------------------------------------------
-                                  2043    2033      10        20
+                                  2036    2026      10        20
 ===================== END REDUCTION RESULT =====================

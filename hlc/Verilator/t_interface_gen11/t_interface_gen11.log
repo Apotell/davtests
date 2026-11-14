@@ -277,8 +277,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_gen11.v:21:16: Port "mod_intfs" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_gen11.v:29:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_gen11.v:31:12: Failed to bind "PARAM".
-[ERR:DL2510] $Source01/t_interface_gen11.v:31:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -608,7 +606,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:29:8 end:29:9:
       vpiFullName: t
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -634,47 +632,11 @@ Design name:unnamed:
                 vpiParent: Constant
                 vpiFullName: t
                 vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec start:31:4 end:31:8:
+          vpiElemTypespec RefTypespec name:intf start:31:4 end:31:8:
             vpiParent: ArrayTypespec
-            vpiFullName: t
-            vpiActual: UnsupportedTypespec
-        UnsupportedTypespec start:31:4 end:31:21:
-          vpiParent: Module name:t
-          vpiParamAssign (2 items):
-            ParamAssign start:31:11 end:31:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:31:12 end:31:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:31:18 end:31:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
-            ParamAssign start:31:11 end:31:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:31:12 end:31:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:31:18 end:31:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
+            vpiName: intf
+            vpiFullName: t.intf
+            vpiActual: InterfaceTypespec name:intf
         ModuleTypespec name:t2:
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -730,10 +692,10 @@ Design name:unnamed:
         RefInstance name:my_intf start:31:22 end:31:29:
           vpiParent: Module name:t
           vpiName: my_intf
-          "vpiTypespec RefTypespec name: [1:0] start:31:4 end:31:8":
+          vpiTypespec RefTypespec name:intf [1:0] start:31:4 end:31:8:
             vpiParent: RefInstance name:my_intf
-            vpiName: " [1:0]"
-            vpiFullName: t.my_intf. [1:0]
+            vpiName: intf [1:0]
+            vpiFullName: t.my_intf.intf [1:0]
             vpiActual: ArrayTypespec
         RefInstance name:t2 start:33:7 end:33:9:
           vpiParent: Module name:t
@@ -790,8 +752,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -806,25 +768,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen11/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.36,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen11.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_gen11.v': {'post_len': 7,
                                                                'pre_len': 428}},
-            'post_len': 0,
+            'post_len': 7,
             'pre_len': 428,
             'test_name': 'Verilator/t_interface_gen11'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_interface_gen11.v |      428 |         0 |
+| $Output/lib/work/t_interface_gen11.v |      428 |         7 |
 +======================================+==========+===========+
-|                                      |      428 |         0 |
+|                                      |      428 |         7 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.36
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -835,7 +797,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen11/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             105     105       0         0
 ----------------------------------------------------------------
-                                   114     114       0         0
+                                   105     105       0         0
 ===================== END REDUCTION RESULT =====================

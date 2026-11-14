@@ -49,7 +49,7 @@ n<$Source01/class_test_17.sv> u<34> t<Top_level_rule> c<1> l<15:1> el<20:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/class_test_17.sv:18:1: Compile module "test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:CP5818] $Source01/class_test_17.sv:15:33: Undefined type "x_if".
+[ERR:CP5809] $Source01/class_test_17.sv:15:33: Undefined interface "x_if".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -83,7 +83,13 @@ Design name:unnamed:
                 vpiParent: TypeParameter name:IFType
                 vpiName: x_if
                 vpiFullName: Foo #(.IFType(x_if))::IFType::x_if
-          vpiTypespec (1 items):
+                vpiActual: InterfaceTypespec name:x_if
+          vpiTypespec (2 items):
+            InterfaceTypespec name:x_if start:15:33 end:15:37:
+              vpiParent: ClassDefn name:Foo #(.IFType(x_if))
+              vpiName Identifier name:x_if:
+              vpiDefName: x_if
+              vpiVirtual: true
             TypeParameter name:IFType:
           vpiDefName: Foo
           vpiAutomatic: true
@@ -172,7 +178,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_17/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              16      16       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    16      16       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================
