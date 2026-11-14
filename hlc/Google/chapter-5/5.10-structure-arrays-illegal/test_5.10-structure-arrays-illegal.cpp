@@ -19,7 +19,8 @@
 // produces a flat assign-pattern with 4 raw Constants rather than 2 nested patterns.
 // `ms_t ms[1:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
 // is a variable_declaration, not a net_declaration.
-// :should_fail_because: C-like assignment is illegal (simulation-time failure only).
+// :should_fail_because: C-like assignment is illegal (IEEE 1800-2023 Sec 5.10, 10.9.1); HLC reports it
+// at compile time.
 // Grammar: assignment_pattern with expression_list (4 items) -- no inner '{} per element.
 
 #include <hlc/Common/Session.h>

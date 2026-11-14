@@ -101,6 +101,10 @@
 //   ReportsAnErrorForStaticAfterClass   at least one fatal, syntax or error
 //                                       diagnostic on line 6, other than the
 //                                       23.3.1 one
+//   ReportsTheLifetimeOnTheClassDeclaration
+//                                       CompIllegalClassLifetime at the
+//                                       static keyword, naming Foo (A.1.2:
+//                                       class_declaration has no lifetime)
 //   NoErrorsOnTheLegalLines1To5         no fatal, syntax or error diagnostic
 //                                       outside elaboration on lines 1-5
 //   NoCascadeErrors                     HLC error recovery, not an LRM rule:
@@ -118,7 +122,8 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Which code, which error-class severity, which phase and how many
+//   - Beyond the one HLC event asserted by ReportsTheLifetimeOnTheClassDeclaration:
+//     which code, which error-class severity, which phase and how many
 //     diagnostics line 6 draws, and their message text and column. The LRM
 //     requires no particular form for a diagnostic: "The compiler shall
 //     maintain the current line number and file name of the file being
