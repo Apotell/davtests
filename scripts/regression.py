@@ -259,9 +259,11 @@ def _get_run_args(
     print('\n')
 
   cmdline_test = _is_cmdline_test(filepath)
-  cmdline = filepath.open().read().strip()
-  if cmdline_test:
-    cmdline = cmdline[len(CMDLINE_TEST_MARKER):].strip()
+  # Drop comment lines (the cmdline-test marker included), as hlc does when it reads the file with -f.
+  # The file's contents are put on the command line, where a comment would become arguments.
+  with filepath.open() as strm:
+    lines = [line for line in strm.read().splitlines() if not line.lstrip().startswith('#')]
+  cmdline = '\n'.join(lines).strip()
   print(f'Loaded command line: {cmdline}')
 
   # Resolve the source directory from the first -wd argument (stamped by stamp_wd.py).
