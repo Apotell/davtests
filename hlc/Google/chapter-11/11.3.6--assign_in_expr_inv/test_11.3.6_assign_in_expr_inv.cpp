@@ -24,6 +24,8 @@
 //
 //     initial begin
 //       a = b = c = 5;
+//     end
+//
 //     endmodule
 //
 // This file is the deliberate negative case for IEEE 1800-2017 11.3.6:
@@ -36,36 +38,21 @@
 // the AST looks like -- it is whether the parser actually rejects the
 // construct instead of silently accepting it.
 //
-// Confirmed by compiling this file directly: parsing fails with syntax
-// errors pointing at line 23 (the "a = b = c = 5;" statement) and the
-// following "initial begin" that the parser could no longer make sense of
-// once the chained assignment broke the grammar. Because the parse
-// aborted mid-module, no well-formed "top" module is elaborated, unlike
-// every other file in this chapter.
+// The parser rejects it with a syntax error at the second '=' of the
+// statement (line 23, column 7).
 //
 // Checked:
-//   - the compiler reports at least one syntax/fatal/semantic error (0
-//     warnings) -- i.e. this is caught at the parser stage, which is
-//     exactly where IEEE 11.3.6's parenthesization requirement is a
-//     grammar-level rule, not a later semantic check. The exact number and
-//     shape of the parser's error-recovery output (how many partial module
-//     records it leaves behind, etc.) is an incidental implementation
-//     detail of HLC's error recovery, not something IEEE 1800-2023
-//     mandates, so this file intentionally does not pin down an exact
-//     error count or recovery shape -- only that the construct is rejected
-//   - as a direct, mechanical consequence of the failed parse: no
-//     well-formed "top" module is elaborated, confirming the parser did
-//     not recover a clean module the way 11.3.6--assign_in_expr.sv and
-//     friends do
+//   - a syntax error at 23:7, and 0 warnings -- i.e. this is caught at the
+//     parser stage, which is exactly where IEEE 11.3.6's parenthesization
+//     requirement is a grammar-level rule, not a later semantic check.
 //
 // Not checked:
-//   - no simulation-only gap applies here: this file never produces a
-//     valid module body to evaluate, so there is nothing further to skip.
-//   - the exact count/shape of the parser's error-recovery artifacts
-//     (number of partial module stubs, their typespecs, etc.) -- this is
-//     incidental to HLC's current recovery strategy, not IEEE-mandated,
-//     so pinning it down would lock in an implementation detail rather
-//     than a spec requirement.
+//   - what the parser's error recovery leaves behind (the number of
+//     errors, whether a "top" module and which parts of its body survive).
+//     IEEE 1800-2023 only requires the construct to be rejected; the shape
+//     of the recovery is an implementation detail and changes with the
+//     grammar (it used to discard the module and leave partial stubs; it
+//     now reports the one error and keeps the module).
 //
 // This test is intentionally NOT a GTEST_SKIP: it is a real, currently
 // PASSING assertion that HLC correctly enforces IEEE 11.3.6's
@@ -78,10 +65,6 @@
 #include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 
 namespace hlc {
 
@@ -100,15 +83,6 @@ TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssign
          ":should_fail_because: tag";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_warnings, 0);
-}
-
-// --- side effect of the failed parse: no well-formed module survives ------
-
-TEST_F(AssignInExprInvTest, FailedParseLeavesNoWellFormedTopModule) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
-  EXPECT_EQ(top, nullptr) << "the syntax error prevents a well-formed 'top' module from "
-                             "being elaborated, unlike every clean file in this chapter";
 }
 
 }  // namespace hlc

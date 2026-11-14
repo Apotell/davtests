@@ -18,27 +18,31 @@
 // undefined at compile time.
 //
 // SV source:
-//   module top();
-//   int a = `VAR_1 + `VAR_2;   // VAR_1 and VAR_2 are NOT pre-defined
+//   17: module top();
+//   18: int a = `VAR_1 + `VAR_2;   // VAR_1 and VAR_2 are NOT pre-defined
 //   ...
-//   endmodule
+//   27: endmodule
 //
 // The block comment carries `:defines: VAR_1=2 VAR_2=5` -- a test-framework
-// hint that these macros should be pre-defined.  Without them, Surelog
-// substitutes `VAR_1 -> "SURELOG_MACRO_NOT_DEFINED:VAR_1!!!" which produces
-// syntax errors and breaks the module parse.
+// hint that these macros should be pre-defined. This test's command line does
+// not define them, so both usages on line 18 refer to undefined macros.
 //
-// UHDM: 2 nameless stub modules (parse fragments) -- the module name "top"
-// was never captured due to the parse failure on line 18.
+// Checked:
+//   - the preprocessor reports each undefined macro, VAR_1 and VAR_2, on
+//     line 18 (IEEE 1800-2023 Sec 22.5.1).
+//
+// Not checked:
+//   - the syntax errors the unexpanded usages cause in the parser, and what
+//     the parser's error recovery leaves behind (whether "top" and its body
+//     survive). Those are implementation details that change with the grammar
+//     (recovery used to discard the module and leave unnamed module stubs; it
+//     now keeps the module).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 
 namespace hlc {
 
@@ -49,48 +53,12 @@ class CompilerDirectivesPreprocessorMacro1 : public Test {
 };
 
 // ----
-// The module name "top" was never captured -- the syntax error on the `int a`
-// line broke the parse before the module body could be resolved.
-// ----
-TEST_F(CompilerDirectivesPreprocessorMacro1, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
-      << "'top' should not exist -- parse failure swallowed the module name";
-}
-
-// ----
-// UHDM contains 2 nameless stub modules produced by the broken parse.
-// ----
-TEST_F(CompilerDirectivesPreprocessorMacro1, TwoStubModulesExist) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
-}
-
-TEST_F(CompilerDirectivesPreprocessorMacro1, StubModulesHaveNoName) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
-  }
-}
-
-// ----
-// Neither stub module contains nets -- the broken variable declaration was
-// not added to any module scope.
-// ----
-TEST_F(CompilerDirectivesPreprocessorMacro1, NoNetsInStubModules) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
-  }
-}
-
-// ----
-// Per IEEE 1800-2023 Sec 22.5.1, referencing an undefined macro (`VAR_1,
-// `VAR_2) is illegal and must be reported as a compiler error/syntax error.
+// Per IEEE 1800-2023 Sec 22.5.1, using an undefined macro (`VAR_1, `VAR_2) is
+// an error.
 // ----
 TEST_F(CompilerDirectivesPreprocessorMacro1, Compiler_ReportsErrorForUndefinedMacros) {
-  const EventListener::Stats stats = m_compiler->getEventStats();
-  EXPECT_TRUE(stats.m_syntaxes > 0 || stats.m_errors > 0)
-      << "referencing undefined macros `VAR_1/`VAR_2 must produce a diagnostic";
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "VAR_1", 18), nullptr) << "`VAR_1 is not defined";
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "VAR_2", 18), nullptr) << "`VAR_2 is not defined";
 }
 
 }  // namespace hlc

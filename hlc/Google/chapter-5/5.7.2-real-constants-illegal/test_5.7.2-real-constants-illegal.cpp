@@ -14,37 +14,45 @@
  limitations under the License.
 */
 
-// Spec-based validation of illegal real literal constant forms per IEEE 1800-2017 Sec 5.7.2.
+// Spec-based validation of illegal real literal constant forms per IEEE 1800-2023 Sec 5.7.2.
 //
 // Sec 5.7.2 rule under test:
 //   "Real numbers expressed with a decimal point shall have at least one digit
 //    on each side of the decimal point."
 //
-// The following forms are explicitly listed as INVALID in Sec 5.7.2:
-//   .12   -- missing digit BEFORE decimal point
-//   9.    -- missing digit AFTER decimal point
-//   4.E3  -- missing digit AFTER decimal point (before exponent)
-//   .2e-7 -- missing digit BEFORE decimal point
+// SV source:
+//   16: module top();
+//   17:   logic [31:0] a;
+//   18:
+//   19:   initial begin;
+//   20:     a = .12;      -- missing digit BEFORE decimal point
+//   21:     a = 9.;       -- missing digit AFTER decimal point
+//   22:     a = 4.E3;     -- missing digit AFTER decimal point (before exponent)
+//   23:     a = .2e-7;    -- missing digit BEFORE decimal point
+//   24:   end
+//   25:
+//   26: endmodule
 //
-// All four appear inside the initial block of module top. The first illegal
-// form (.12) triggers a syntax error that collapses the parse: the initial
-// block is never completed, and the module body is never closed.
+// All four forms are listed as invalid in Sec 5.7.2.
 //
-// Surelog's UHDM output after the broken parse:
-//   - 2 nameless stub module fragments (no name, no nets, no processes)
-//   - No module named "top"
-//   - No initial block and no assignments -- confirming the illegal literal
-//     forms prevented any of the assignments from reaching UHDM
+// Checked:
+//   - a syntax error on each of lines 20, 21, 22 and 23.
+//
+// Not checked:
+//   - the columns of the errors, any further errors, and what the parser's
+//     error recovery leaves behind (whether "top", its initial block and the
+//     assignments survive, and the diagnostics that follow from it, e.g. "E3"
+//     reported as an undefined name). IEEE 1800-2023 only requires the literals
+//     to be rejected; the rest is an implementation detail that changes with
+//     the grammar (recovery used to stop at the first literal and discard the
+//     module, leaving unnamed module stubs; it now reports each literal and
+//     keeps the module).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 
 namespace hlc {
 
@@ -55,66 +63,15 @@ class RealConstantsIllegal : public Test {
 };
 
 // ----
-// Sec 5.7.2: the four illegal forms must be rejected. No valid named module
-// should reach UHDM -- if 'top' exists, Surelog silently accepted input
-// that the spec forbids.
-// ----
-TEST_F(RealConstantsIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
-      << "Sec 5.7.2: forms without a digit on both sides of the decimal point "
-         "must be rejected -- 'top' must not exist";
-}
-
-// ----
-// The broken parse leaves 2 nameless stub fragments. Exactly 2 confirms the
-// parser attempted recovery but could not produce a valid module.
-// ----
-TEST_F(RealConstantsIllegal, TwoStubModulesExist) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
-}
-
-TEST_F(RealConstantsIllegal, StubModulesHaveNoName) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
-  }
-}
-
-// ----
-// Sec 5.7.2: the initial block contained all four illegal literals. If no
-// processes exist in any module, the initial block was never parsed --
-// confirming the illegal forms stopped the parse before any assignment
-// (.12, 9., 4.E3, .2e-7) could be recorded in UHDM.
-// ----
-TEST_F(RealConstantsIllegal, NoProcessesInStubModules) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getProcesses() || m->getProcesses()->empty())
-        << "Sec 5.7.2: initial block with illegal literals must not appear in "
-           "UHDM -- stub module should have no processes";
-  }
-}
-
-// ----
-// No nets in any stub module -- 'logic [31:0] a' leaked to global scope
-// because the module body was never completed.
-// ----
-TEST_F(RealConstantsIllegal, NoNetsInStubModules) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
-  }
-}
-
-// ----
 // Per IEEE 1800-2023 Sec 5.7.2, real literals without a digit on each side of
 // the decimal point (.12, 9., 4.E3, .2e-7) are illegal and must be reported
 // as syntax errors.
 // ----
 TEST_F(RealConstantsIllegal, Compiler_ReportsSyntaxErrors) {
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 19, 2), nullptr) << "illegal real literals (IEEE 1800-2023 Sec 5.7.2) must be syntax errors";
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20), nullptr) << "'.12' is illegal (IEEE 1800-2023 Sec 5.7.2)";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 21), nullptr) << "'9.' is illegal (IEEE 1800-2023 Sec 5.7.2)";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 22), nullptr) << "'4.E3' is illegal (IEEE 1800-2023 Sec 5.7.2)";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 23), nullptr) << "'.2e-7' is illegal (IEEE 1800-2023 Sec 5.7.2)";
 }
 
 }  // namespace hlc

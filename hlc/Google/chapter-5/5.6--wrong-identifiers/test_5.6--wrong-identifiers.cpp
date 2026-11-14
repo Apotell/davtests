@@ -15,25 +15,29 @@
 */
 
 // Validates that identifiers with illegal first characters are rejected.
-// The SV file deliberately uses two invalid identifiers:
-//   reg $dollar;   -- '$' is not a legal first character (only legal mid-name)
-//   reg 0number;   -- digit is not a legal first character
 //
-// Expected compiler behaviour (confirmed from UHDM log):
-//   - 4 syntax errors emitted (SNT:PA0207)
-//   - The module declaration fails to parse cleanly; UHDM contains 2 nameless
-//     stub Module nodes (fragments from the broken parse), neither with nets.
-//   - 'identifiers' does NOT appear -- the module name was never captured.
+// SV source:
+//   16: module identifiers();
+//   17:   reg $dollar;   -- '$' is not a legal first character (only legal mid-name)
+//   18:   reg 0number;   -- digit is not a legal first character
+//   19: endmodule
+//
+// Checked:
+//   - a syntax error at each illegal identifier (17:6 and 18:6).
+//
+// Not checked:
+//   - any further errors, and what the parser's error recovery leaves behind
+//     (whether module "identifiers" survives, and what it declares). IEEE
+//     1800-2023 only requires the identifiers to be rejected; the rest is an
+//     implementation detail that changes with the grammar (recovery used to
+//     discard the module and leave unnamed module stubs; it now keeps the
+//     module).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 
 namespace hlc {
 
@@ -50,43 +54,10 @@ class WrongIdentifiers : public Test {
 // both illegal and must be reported as syntax errors.
 // ----
 TEST_F(WrongIdentifiers, Compiler_ReportsSyntaxErrors) {
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 17, 6), nullptr) << "illegal identifiers '$dollar' and '0number' (IEEE 1800-2023 Sec 5.6) "
-                                   "must be reported as syntax errors";
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 18, 6), nullptr);
-}
-
-// ----
-// The module name 'identifiers' was never captured due to parse failure.
-// ----
-TEST_F(WrongIdentifiers, NoModuleNamedIdentifiers) {
-  EXPECT_EQ(hldb::findByDefName<hldb::Module>("identifiers", m_design->getAllModules()), nullptr)
-      << "'identifiers' should not exist -- parse failure swallowed the name";
-}
-
-// ----
-// UHDM contains 2 nameless stub modules produced by the broken parse.
-// ----
-TEST_F(WrongIdentifiers, TwoStubModulesExist) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
-}
-
-TEST_F(WrongIdentifiers, StubModulesHaveNoName) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
-  }
-}
-
-// ----
-// Neither stub module contains nets -- the invalid reg declarations were
-// rejected along with the rest of the broken module body.
-// ----
-TEST_F(WrongIdentifiers, NoNetsInStubModules) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
-  }
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 17, 6), nullptr)
+      << "illegal identifier '$dollar' (IEEE 1800-2023 Sec 5.6) must be reported as a syntax error";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 18, 6), nullptr)
+      << "illegal identifier '0number' (IEEE 1800-2023 Sec 5.6) must be reported as a syntax error";
 }
 
 }  // namespace hlc

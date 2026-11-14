@@ -98,6 +98,9 @@
 //     arguments. They could only come from an expansion of the illegal usage,
 //     which the LRM does not define. Nearest assertions: TopModule (the
 //     module itself, its lines and end label) and TopHasOneNullPort.
+//   - The null port's vpiSize 0 (37.14 detail 11): HLDB has no vpiSize on a
+//     port (hldb_model_gaps.md #8). NullPortHasSizeZero holds the assertion,
+//     skipped until the model has it.
 //   - How many diagnostics line 19 draws, and of which severity, beyond the
 //     required error. The LRM requires an error for the illegal usage but
 //     does not limit how many diagnostics it draws or of which kind. Nearest
@@ -450,7 +453,6 @@ TEST_F(DefineExpansion12Test, MacroDefinition) {
 // after reporting line 19, so a module that is missing or cut short here is
 // a recovery failure, not a conformance failure.
 TEST_F(DefineExpansion12Test, TopModule) {
-  GTEST_SKIP() << "HLC Gap: Parser recovery can be improved";
   ASSERT_NE(m_design, nullptr);
   ASSERT_EQ(countFromSourceFile(m_design->getAllModules()), 1u);
   const hldb::Module *const top = getTopDefinition();
@@ -464,9 +466,8 @@ TEST_F(DefineExpansion12Test, TopModule) {
   EXPECT_EQ(top->getEndLabel(), "");
 }
 
-// "module top ();" has one null port (37.14 details 9, 10 and 11).
+// "module top ();" has one null port (37.14 details 9 and 10).
 TEST_F(DefineExpansion12Test, TopHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: Parser recovery can be improved";
   const hldb::Module *const top = getTopDefinition();
   ASSERT_NE(top, nullptr);
 
@@ -476,6 +477,17 @@ TEST_F(DefineExpansion12Test, TopHasOneNullPort) {
 
   EXPECT_EQ(port->getPortIndex(), 0);
   EXPECT_EQ(port->getLowConn(), nullptr);
+}
+
+// A null port has vpiSize 0 (37.14 detail 11).
+TEST_F(DefineExpansion12Test, NullPortHasSizeZero) {
+  GTEST_SKIP() << "HLDB model gap: Port has no vpiSize (hldb_model_gaps.md #8)";
+  const hldb::Module *const top = getTopDefinition();
+  ASSERT_NE(top, nullptr);
+
+  const hldb::PortCollection *const ports = top->getPorts();
+  ASSERT_EQ(sizeOf(ports), 1u);
+  const hldb::Port *const port = ports->front();
 
   const hldb::Any::vpi_property_value_t size = port->getVpiPropertyValue(vpiSize);
   ASSERT_TRUE(std::holds_alternative<int64_t>(size));
