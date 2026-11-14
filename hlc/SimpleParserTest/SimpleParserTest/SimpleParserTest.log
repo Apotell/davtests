@@ -10977,17 +10977,11 @@ AST_DEBUG_END
 [INF:CP5806] $Source01/jkff_udp.v:7:11: Compile udp "jkff_udp".
 [INF:CP5806] $Source01/jkff_udp.v:24:11: Compile udp "xor2_input".
 [INF:CM5028] Using global timescale: "1ps/1ps".
-[ERR:CP5835] Colliding compilation unit name: "arbiter".
-[ERR:CP5835] Colliding compilation unit name: "encoder_using_case".
-[WRN:DV8514] $Source01/lfsr_task.v:18:12: Failed to bind "I".
-[WRN:DV8514] $Source01/lfsr_task.v:18:20: Failed to bind "I".
-[WRN:DV8514] $Source01/lfsr_task.v:27:34: Failed to bind "Reset".
-[WRN:DV8514] $Source01/lfsr_task.v:28:7: Failed to bind "Reset".
-[WRN:DV8514] $Source01/lfsr_task.v:31:2: Failed to bind "LFSR_TASK".
-[WRN:DV8514] $Source01/lfsr_task.v:32:34: Failed to bind "Reset".
-[WRN:DV8514] $Source01/lfsr_task.v:33:7: Failed to bind "Reset".
-[WRN:DV8514] $Source01/lfsr_task.v:34:12: Failed to bind "seed2".
-[WRN:DV8514] $Source01/lfsr_task.v:36:2: Failed to bind "LFSR_TASK".
+[ERR:CP5835] $Source01/arbiter.inc:6:1: Colliding compilation unit name: "arbiter",
+             $Source01/another_arbiter.v:2:1: previous usage,
+             In file included from $Source01/arbiter_tb.v:2.
+[ERR:CP5835] $Source01/encoder_case.v:8:1: Colliding compilation unit name: "encoder_using_case",
+             $Source01/encoder.v:7:1: previous usage.
 [ERR:DL2507] $Source01/m_input_mult.v:8:11: Illegal lhs of type wire "out2".
 [ERR:DL2516] $Source01/m_input_mult.v:8:11: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/m_input_mult.v:9:11: Illegal lhs of type wire "out2".
@@ -11020,7 +11014,7 @@ AST_DEBUG_END
 [ERR:DL2516] $Source01/m_input_mult.v:69:2: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/m_input_mult.v:70:2: Illegal lhs of type wire "B".
 [ERR:DL2516] $Source01/m_input_mult.v:70:2: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
-[ERR:DL2510] $Source01/synfifo.v:91:1: Unsupported typespec "ram_dp_ar_aw".
+[WRN:EL6901] $Source01/synfifo.v:91:1: Cannot find a module definition for "ram_dp_ar_aw".
 [ERR:CP5983] $Source01/arbiter_tb.v:58:2: Port connection of instance "U" has no matching port in "arbiter".
 [ERR:DV8501] Invalid name: id:3521, type:RefObj, name:, relation:vpiLowConn.
 [ERR:CP5983] $Source01/arbiter_tb.v:59:2: Port connection of instance "U" has no matching port in "arbiter".
@@ -11029,8 +11023,12 @@ AST_DEBUG_END
 [ERR:DV8501] Invalid name: id:3527, type:RefObj, name:, relation:vpiLowConn.
 [ERR:CP5983] $Source01/arbiter_tb.v:61:2: Port connection of instance "U" has no matching port in "arbiter".
 [ERR:DV8501] Invalid name: id:3530, type:RefObj, name:, relation:vpiLowConn.
-[ERR:DV8504] $Source01/lfsr_task.v:31:2: Null Actual: id:4086, type:SubroutineCall, name:LFSR_TASK, relation:vpiElseStmt.
-[ERR:DV8504] $Source01/lfsr_task.v:36:2: Null Actual: id:4107, type:SubroutineCall, name:LFSR_TASK, relation:vpiElseStmt.
+[ERR:CP5828] $Source01/lfsr_task.v:18:20: Undefined variable "I".
+[ERR:CP5828] $Source01/lfsr_task.v:18:12: Undefined variable "I".
+[ERR:CP5841] $Source01/lfsr_task.v:2:26: Port "Reset" of unspecified type.
+[ERR:CP5841] $Source01/lfsr_task.v:2:40: Port "seed2" of unspecified type.
+[ERR:CP5838] $Source01/lfsr_task.v:31:2: Undefined user task/function "LFSR_TASK".
+[ERR:CP5838] $Source01/lfsr_task.v:36:2: Undefined user task/function "LFSR_TASK".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -26800,8 +26798,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 45
-[WARNING] : 9
+[  ERROR] : 48
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

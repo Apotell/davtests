@@ -1,0 +1,177 @@
+[WRN:CM5031] Current directory option "-cd" is missing directory.
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -mt 0 -d dbstats -d cache -writepp -o ${HLC_DIR}/regression/CmdArgs/CdNoArg -wd ../../../tests/CmdArgs top.sv -cd -nocache
+  ------------ HLC HELP --------------
+
+STANDARD VERILOG COMMAND LINE:
+  -f <file>             Accepts a file containing command line arguments
+  -v <file>             Library file
+  -y <path>             Library directory
+  +incdir+<dir>[+<dir>...]
+                        Specifies include paths
+  -Idir                 Specifies include paths
+  +libext+<extname>+... Specifies the library extensions,  default is .v+.sv
+  <file>.v              Verilog File
+  <file>.sv             SystemVerilog File
+  +define+<name>=<value>[+<name>=<value>...]
+                        Defines a macro and optionally its value
+  -L <libName>          Defines library compilation order
+  -map <mapFile>        Specifies a library mapping file (multiple -map options supported)
+  -cfgfile <confiFile>  Specifies a configuration file (multiple -cfgFile options supported)
+  -cfg <configName>     Specifies a configuration to use (multiple -cfg options supported)
+  -Dvar=value           Same as env var definition for -f files var substitution
+  -Pparameter=value     Top level parameter override
+  -pvalue+parameter=value
+                        Top level parameter override
+  -sverilog/-sv         Forces all files to be parsed as SystemVerilog files
+  -sv <file>            Forces the following file to be parsed as SystemVerilog file
+
+EDA TOOLS COMPATIBILITY OPTIONS:
+  -cmd_ign <cmd> <argc>    Ignore <cmd> when encountered and drop <argc> arguments
+  -cmd_ren <flag1> <flag2> Rename <flag1> into <flag2> when encountered
+  -cmd_mrg <flag1> <flag2> Merge <flag1> argument into a unified <flag2> '+' argument when encountered
+
+FLOWS OPTIONS:
+  -fileunit             Compiles each Verilog file as an independent compilation unit
+  -parse                Parse/Compile/Elaborate the files after pre-processing step
+  -nocomp               Turns off Compilation
+  -parseonly            Only Parses, reloads Preprocessor saved db
+  -nodb                 No db write
+  -n <name>             Design name, printed in the log header next to COMMAND
+  -top/--top-module <module>
+                        Top level module for elaboration (multiple cmds ok)
+  -bb_mod <module>      Blackbox module (multiple cmds ok, ex: -bb_mod work@top)
+  -bb_inst <instance>   Blackbox instance (multiple cmds ok, ex: -bb_inst work@top.u1)
+  --enable-feature=<feature>
+  --disable-feature=<feature>
+    Features: parametersubstitution Enables substitution of assignment patterns in parameters
+              letexprsubstitution   Enables Let expr substitution (Inlining)
+  -mt/--threads <nb_max_threads>
+                        0 up to 512 max threads; 0 (the default) uses multiple threads, up to one per core,
+                        only if there's enough work to justify it; 1 forces single-threaded; "max" always
+                        uses one thread per core on the host
+  -split <line number>  Split files or modules larger than specified line number for multi thread compilation
+  -timescale=<timescale>
+                        Specifies the overall timescale
+  -nobuiltin            Do not parse SV builtin classes (array, semaphore, ...)
+
+TRACES OPTIONS:
+  -d <int|tag>          Debug <level> 1-4, lib, ast, lib_ast, sp_ast, pp_ast, pa_ast,
+                        inst, directives, db, cache, vpi_ids, builtins, fsconfig 
+  -nostdout             Mutes Standard output
+  -verbose              Gives verbose processing information
+  -profile              Gives Profiling information
+
+OUTPUT OPTIONS:
+  -o/-odir/--Mdir <dir> Specifies the output directory, default is ./
+  -writepp              Writes out Preprocessor output
+  -lineoffsetascomments Writes the preprocessor line offsets as comments as opposed as parser directives
+  -nocache              Default allows to read/write cache, this option prevents both
+  -noreadcache          Default allows reading/writing cache, this option prevents reading
+  -nowritecache         Default allows reading/writing cache, this option prevents writing
+  -cache <dir>          Specifies the cache directory, default is 'cache' under output directory
+  -conf <path>          Specifies the hlc.conf file to load, default is next to the executable
+  -nohash               Treat cache as always valid (no timestamp/dependancy check)
+  -createcache          Create cache for precompiled packages
+  -filterdirectives     Filters out simple directives like `default_nettype in pre-processor's output
+  -filterprotected      Filters out protected regions in pre-processor's output
+  -filtercomments       Filters out comments in pre-processor's output
+  -outputlineinfo       Outputs SLline directives in pre-processor's output
+  -noinfo               Filters out INFO messages
+  -nonote               Filters out NOTE messages
+  -nowarning            Filters out WARNING messages
+  -synth                Reports non-synthesizable constructs. Honors
+                        // pragma translate_off
+                        // pragma translate_on
+  -wd <dir>             Internally change directory to <dir>. Relative paths are w.r.t. current working
+                        directory. All following relative paths using -cd option are w.r.t. this directory.
+                        Defaults to the current working directory.
+  -cd <dir>             Internally change directory to relative <dir>. This should only be
+                        relative and is w.r.t. last -wd option or current working directory.
+  -gc                   Enable garbage collection during save.
+  -nogc                 Disable garbage collection during save.
+  --help                This help
+  --version             HLC version
+
+RETURN CODE:
+   Bit mask the return code, more than 1 bit can be on.
+   0   - No issues
+   0x1 - Fatal error(s)
+   0x2 - Syntax error(s)
+   0x4 - Error(s)
+
+NOTES:
+  -wd/-cd : Working directory & current directory options work in pairs. Relative working directory arguments
+            should be relative to working directory and relative current directory arguments should be relative
+            to the last working directory argument. Multiple series of -wd / -cd are supported. Working
+            directory arguments are also used to compute the absolute root (all sources, includes, libraries,
+            etc are under this absolute root) for the FileSystem (which in turn is used to organize the output
+            directory).
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: CmdArgs/CdNoArg
+   test-dirpath: ${HLC_DIR}/regression/CmdArgs/CdNoArg
+  hldb-filepath: ${HLC_DIR}/regression/CmdArgs/CdNoArg/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/CmdArgs/CdNoArg/mounts.json
+
+CmdArgs/CdNoArg FAILED with exception!
+Traceback (most recent call last):
+  File "${HLC_DIR}/scripts/coverage.py", line 238, in _run_one
+    mounts = json_load(mounts_filepath.open())
+                       ~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/hostedtoolcache/Python/3.14.10/x64/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '${HLC_DIR}/regression/CmdArgs/CdNoArg/mounts.json'
+
+{'result': {'coverage': 0,
+            'error_count': 1,
+            'file_count': 0,
+            'files': {},
+            'post_len': 0,
+            'pre_len': 0,
+            'test_name': 'CmdArgs/CdNoArg'}}
+
++---------+----------+-----------+
+| INPUT   |   PRELEN |   POSTLEN |
++=========+==========+===========+
++=========+==========+===========+
+|         |        0 |         0 |
++---------+----------+-----------+
+
+[   ERROR] : 1
+[COVERAGE] : 0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/CmdArgs/CdNoArg/design.hldb ${HLC_DIR}/regression/CmdArgs/CdNoArg/reduced.hldb
+
+"${HLC_DIR}/regression/CmdArgs/CdNoArg/design.hldb": File does not exist!
+Usage:
+  ${HLC_DIR}/build/bin/hldb-reduce <input.hldb> [reduced.hldb] [-v] [-d <type>]...
+
+Reads an input HLDB binary file, reduces it, and optionally writes the reduced output to a file. (Version: 0.1) 
+
+Arguments:
+  <input.hldb>    Input HLDB binary file (required)
+  [reduced.hldb]  Output HLDB file after reduction (optional)
+  [-v]            Verbose output (optional)
+  [-d <type>]     Dump type (can be repeated, e.g. -d hldb -d ast)
+
+Exit codes:
+  0   Success
+  >0  Failure
