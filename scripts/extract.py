@@ -17,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Pattern
 
-from log_compare import logs_equivalent
+from log_compare import reorder_events
 from utils import build_filters, is_windows, log, mkdir
 
 _this_filepath = Path(__file__).resolve()
@@ -98,24 +98,20 @@ def _extract_worker(params):
                     src_log_strm = test_strm.extractfile(src_log_filepath)
                     new_bytes = src_log_strm.read() # pyright: ignore[reportOptionalMemberAccess]
 
-                    # Conditionally (only when --skip-noise is passed): if a log already sits at
-                    # dst_log_filepath, compare it against the freshly extracted one using
-                    # log_compare's tolerant comparison (ignores PROFILE timing, AST_DEBUG block
-                    # reordering/id-renumbering, and diagnostic-message reordering -- see
-                    # log_compare.py's own module docstring). If the only differences are exactly
-                    # that kind of run-to-run noise, leave the existing file untouched instead of
-                    # overwriting it -- avoids creating revision history for noise alone.
+                    # Only with --skip-noise: if a log already sits at dst_log_filepath and holds
+                    # the same events as the fresh one, write the fresh one with its events in the
+                    # existing order (see log_compare.py), so event-order noise never shows up as
+                    # a change. Whatever else differs is left for git diff.
+                    note = ''
                     if skip_noise and dst_log_filepath.is_file():
-                      old_text = dst_log_filepath.read_text(encoding='utf-8', errors='replace')
-                      new_text = new_bytes.decode('utf-8', errors='replace')
-                      log(f'Compare Begin: {src_log_filepath}')
-                      equivalent, _diffs = logs_equivalent(old_text, new_text)
-                      log(f'Compare End: {src_log_filepath}')
-                      if equivalent:
-                        log(f'{src_log_filepath} => {dst_log_filepath} (unchanged: only noise, kept existing)')
-                        continue
+                      old_text = dst_log_filepath.read_bytes().decode('utf-8', errors='surrogateescape')
+                      new_text = new_bytes.decode('utf-8', errors='surrogateescape')
+                      reordered = reorder_events(old_text, new_text)
+                      if reordered is not None:
+                        new_bytes = reordered.encode('utf-8', errors='surrogateescape')
+                        note = ' (events reordered to match existing)'
 
-                    log(f'{src_log_filepath} => {dst_log_filepath}')
+                    log(f'{src_log_filepath} => {dst_log_filepath}{note}')
 
                     with dst_log_filepath.open('wb') as dst_log_strm:
                       dst_log_strm.write(new_bytes)
@@ -215,10 +211,9 @@ def _main():
       '--zip-filepath', dest='zip_filepath', required=True, type=str, help='Path to zipfile to extract logs from.')
   parser.add_argument(
       '--skip-noise', dest='skip_noise', action='store_true',
-      help='For \'log\' mode: if a log already exists at the destination, keep it instead of overwriting when the '
-           'only differences from the freshly extracted one are PROFILE timing, AST_DEBUG block reordering/'
-           'id-renumbering, or diagnostic message reordering (see log_compare.py). Off by default -- logs are '
-           'always overwritten as before.')
+      help='For \'log\' mode: if a log already exists at the destination and holds the same events as the freshly '
+           'extracted one, write the fresh log with its events in the existing order (see log_compare.py), so '
+           'event-order noise does not show up as a change. Off by default -- logs are written as extracted.')
   args = parser.parse_args()
 
   args.modes = sorted(set(args.modes))
