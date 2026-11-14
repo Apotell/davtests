@@ -286,7 +286,7 @@ TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
 }
 
 TEST_F(ModPortArrayBindTest, UndeclaredSDecFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "s_dec"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "s_dec"), nullptr)
       << "Sec 6.10: an undeclared identifier on a continuous-assignment RHS is not an implicit net";
 }
 

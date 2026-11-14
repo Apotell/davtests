@@ -61,7 +61,7 @@
 //     CompFailedToBind may be reported for "logic". rw_id is a variable of
 //     type id_t.
 //   - 6.18: "id_t1 aw_id;" -- id_t1 is not a declared type; an error is
-//     required (accepted as either CompUndefinedType or
+//     required (accepted as either UnsupportedTypespec or
 //     CompFailedToBind for "id_t1"). Likewise for "DD t;" in
 //     memory_ctrl2.
 //   - 6.20.1: AXI_ID_WIDTH is a (non-local) parameter of AXI_BUS (declared
@@ -229,7 +229,7 @@ TEST_F(ModPortTestTest, RwIdIsVariableOfTypeIdT) {
 
 TEST_F(ModPortTestTest, UndeclaredTypesAreDiagnosed) {
   for (std::string_view name : {"id_t1", "DD"}) {
-    const bool found = (findEvent(EventType::CompUndefinedType, name) != nullptr) ||
+    const bool found = (findEvent(EventType::UnsupportedTypespec, name) != nullptr) ||
                        (findEvent(EventType::CompFailedToBind, name) != nullptr);
     EXPECT_TRUE(found) << "6.18: '" << name << "' is not a declared type";
   }
@@ -257,10 +257,10 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 }
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "id_t1", 14), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "mem_if::system1", 36), nullptr)
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "id_t1", 14), nullptr);
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "mem_if::system1", 36), nullptr)
       << "25.5: mem_if has no modport named system1";
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "DD", 51), nullptr);
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "DD", 51), nullptr);
 }
 
 TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {

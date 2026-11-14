@@ -61,14 +61,14 @@
 // no class some_class, and the .hlc compiles no other source. Each such
 // name resolves to no data type, which is an error:
 //   - line 7, member type bool: HLC's diagnostic for a type name that
-//     resolves to no type is CompUndefinedType ("Undefined type").
+//     resolves to no type is UnsupportedTypespec ("Unknown or undefined type", DL2510).
 //   - line 9, 'virtual blah_if': a virtual interface shall name an
 //     interface (25.9); HLC's dedicated diagnostic is
-//     CompUndefinedInterface ("Undefined interface"); CompUndefinedType
+//     CompUndefinedInterface ("Undefined interface"); UnsupportedTypespec
 //     is also accepted.
 //   - line 10, 'some_class#(3, 2, 1)': a specialization shall name a
 //     parameterized class (8.25); HLC's dedicated diagnostic is
-//     CompUndefinedClass ("Undefined class"); CompUndefinedType is also
+//     CompUndefinedClass ("Undefined class"); UnsupportedTypespec is also
 //     accepted.
 // The syntax of every line is legal, so there is no syntax error. The enum
 // typedef of line 8 is fully legal.
@@ -374,7 +374,7 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared type names are errors";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedType}, "bool", 7))
+  EXPECT_TRUE(reportsAnyOf({EventType::UnsupportedTypespec}, "bool", 7))
       << "bool (line 7) resolves to no data type;" << describeReportedErrors();
 }
 
@@ -382,7 +382,7 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
 // declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedInterface, EventType::CompUndefinedType}, "blah_if", 9))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedInterface, EventType::UnsupportedTypespec}, "blah_if", 9))
       << "blah_if (line 9) names no interface;" << describeReportedErrors();
 }
 
@@ -390,7 +390,7 @@ TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
 // some_class is declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, SomeClassIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::CompUndefinedType}, "some_class", 10))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::UnsupportedTypespec}, "some_class", 10))
       << "some_class (line 10) names no class;" << describeReportedErrors();
 }
 

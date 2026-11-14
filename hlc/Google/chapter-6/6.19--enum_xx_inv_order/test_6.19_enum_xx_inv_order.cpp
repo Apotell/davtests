@@ -200,8 +200,6 @@ TEST_F(EnumXxInvOrderTest, NoProcesses) {
 // The actual point of the file: unassigned name after an x-valued one is illegal
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxInvOrderTest, CompilerShouldRejectUnassignedNameAfterXValueButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19: 'an unassigned enumerated name that follows an enum name with x or "
-                  "z assignments shall be a syntax error'";
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_NE(findEvent(EventType::CompIllegalEnumValue), nullptr)
       << "IEEE 1800-2023 6.19: 'c' is an unassigned enumerated name following an enumerator "

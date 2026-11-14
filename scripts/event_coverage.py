@@ -56,7 +56,10 @@ _workspace_dirpath = _this_dirpath.parent
 
 _main_severities = ('FTL', 'SNT', 'ERR', 'WRN')
 _note_severities = ('NTE',)
-_counted_severities = _main_severities + _note_severities
+# INF events (progress messages) count for the per-code buckets too, so an INF code a log shows is
+# "logged" rather than "not seen". They are left out of the per-event counts (_main_severities).
+_info_severities = ('INF',)
+_counted_severities = _main_severities + _note_severities + _info_severities
 
 # Event categories left out of the report entirely: their codes are not counted, and their
 # events and cpp checks are dropped, the same way as the codes in ignored_events.txt.

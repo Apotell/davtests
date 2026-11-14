@@ -202,7 +202,7 @@ TEST_F(LocalScopeAssignTest, NoImplicitNetV2IsCreated) {
 }
 
 TEST_F(LocalScopeAssignTest, UndeclaredV2IsReported) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "v2", 7, 37), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "v2", 7, 37), nullptr)
       << "reference to undeclared 'v2' with '`default_nettype none' is an error (Sec 22.8, 6.10)";
 }
 

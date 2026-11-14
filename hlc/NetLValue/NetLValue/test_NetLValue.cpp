@@ -169,7 +169,6 @@ TEST_F(NetLValueTest, TypedefSIsUnpackedStructWithIntMemberX) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NetLValueTest, PackedDimensionOnUnpackedStructIsDiagnosed) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   const bool found = (findEvent(EventType::CompIllegalPackedArrayType, 3) != nullptr) ||
                      (findEvent(EventType::CompUnpackedInPacked, 3) != nullptr) ||
                      (findEvent(EventType::IllegalPackedDimension, 3) != nullptr);

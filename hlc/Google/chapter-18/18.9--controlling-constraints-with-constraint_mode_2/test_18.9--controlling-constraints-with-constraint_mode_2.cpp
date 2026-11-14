@@ -1139,7 +1139,6 @@ TEST_F(ControllingConstraintsWithConstraintMode2Test, InitialCallsRunTestFromUvm
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (illegal override
 // of constraint_mode() accepted) in the file header.
 TEST_F(ControllingConstraintsWithConstraintMode2Test, RedefiningConstraintModeIsReportedOnItsDeclaration) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnosis yet.";
   EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "constraint_mode"), nullptr)
       << "18.9: 'The constraint_mode() method is built-in and cannot be overridden.'";
   const std::vector<uint32_t> lines = getDiagnosticLines(EventType::CompCannotRedefineBuiltinMethod, false);

@@ -34,7 +34,7 @@
 //   - 26.4 / 23.2.1: the package import in the module header
 //     ("module top import my_pkg::variable_type;") is recorded on 'top' and
 //     names the imported item 'variable_type', making it visible in the
-//     port list (no CompUndefinedType for 'variable_type').
+//     port list (no UnsupportedTypespec for 'variable_type').
 //   - 23.2.2.3: the port list is ANSI style (the first port has a direction
 //     and data type). Module 'top' has exactly two ports 'a' and 'b'.
 //     "For subsequent ports in an ANSI style port list: If the direction,

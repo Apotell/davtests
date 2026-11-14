@@ -59,8 +59,6 @@ TEST_F(Chapter21ErrorRulesTest, Row754_FormatSpecifierWithoutAnArgumentIsRejecte
   // one argument follows it. %m, %l and %% take no argument and must not be
   // counted -- that exemption is what separates this rule from a naive
   // percent-count.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 21.2.1 requires one expression "
-                  "argument per format specifier, excluding %m, %l and %%";
   EXPECT_NE(findEvent(EventType::CompFormatArgumentMismatch, "r754_m", 13, 11), nullptr)
       << "each format specifier needs a corresponding argument (IEEE 1800-2023 21.2.1)";
 }
@@ -92,7 +90,6 @@ TEST_F(Chapter21ErrorRulesTest, Row762_FopenTypeMustBeATable21_6Form) {
 
 TEST_F(Chapter21ErrorRulesTest, Row765_SformatArgumentCountMustMatchFormatSpecifiers) {
   // catalog row 765 | 21.3.3 | COMP
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 21.3.3)";
   // If not enough arguments are supplied for the format specifiers in
   // $sformat's format_string, or too many are supplied, a warning shall be
   // issued (an implementation may instead issue a compile-time error).

@@ -53,7 +53,7 @@
 //   - Line 8: some_class is declared nowhere (the file declares no other
 //     class, and the .hlc compiles no other source), so the specialization
 //     names no class (8.25). HLC's dedicated diagnostic is
-//     CompUndefinedClass ("Undefined class"); CompUndefinedType is also
+//     CompUndefinedClass ("Undefined class"); UnsupportedTypespec is also
 //     accepted.
 //   - Lines 9-10: the name pure_task1 is declared twice in the scope of
 //     base_ic, once as a task and once as a function. Within a class,
@@ -357,7 +357,7 @@ TEST_F(IfaceClassTest11Test, SomeClassIsReportedUndefined) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "lines 8 and 10 hold errors";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::CompUndefinedType}, "some_class", {8}))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::UnsupportedTypespec}, "some_class", {8}))
       << "8.25: some_class (line 8) names no class;" << describeReportedErrors();
 }
 

@@ -205,8 +205,6 @@ TEST_F(EnumXxInvTest, NoProcesses) {
 // The actual point of the file: x-value on a 2-state enum base is illegal
 // ---------------------------------------------------------------------------
 TEST_F(EnumXxInvTest, CompilerShouldRejectXValueOn2StateEnumButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19: 'an enumerated name with x or z assignments assigned to an enum "
-                  "with ... an explicit 2-state declaration shall be a syntax error'";
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_NE(findEvent(EventType::CompIllegalEnumValue), nullptr)
       << "IEEE 1800-2023 6.19: enumerator 'b' is given an x value while the enum has an "
