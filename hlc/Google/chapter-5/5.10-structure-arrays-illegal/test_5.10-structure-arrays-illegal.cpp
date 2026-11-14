@@ -15,14 +15,15 @@
 */
 
 // Validates that the C-like flat struct-array initializer (ms_t ms[1:0] = '{0,0,1,1})
-// is accepted by the parser without errors but produces a flat assign-pattern with
-// 4 raw Constants rather than 2 nested patterns.
+// is reported as CompAssignmentPatternShapeMismatch (IEEE 1800-2023 Sec 5.10, 10.9.1) and
+// produces a flat assign-pattern with 4 raw Constants rather than 2 nested patterns.
 // `ms_t ms[1:0]` has no net-type keyword, so per IEEE 1800-2023 Sec 6.7/6.8 it
 // is a variable_declaration, not a net_declaration.
 // :should_fail_because: C-like assignment is illegal (simulation-time failure only).
 // Grammar: assignment_pattern with expression_list (4 items) -- no inner '{} per element.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -187,6 +188,16 @@ TEST_F(StructuredArraysIllegal, OperandsAreAllConstants) {
     const hldb::Constant *const c = any_cast<hldb::Constant>((*init->getOperands())[i]);
     EXPECT_NE(c, nullptr) << "operand [" << i << "] is not a Constant -- illegal flat pattern was not preserved";
   }
+}
+
+// IEEE 1800-2023 Sec 5.10 (p.84): "When an array of structures is initialized, the nested braces
+// shall reflect the array and the structure." ... "The C-like alternative '{1, 1.0, 2, 2.0} for the
+// preceding example is not allowed." Sec 10.9.1 (p.261-262): "The expressions shall match element for
+// element, and the braces shall match the array dimensions." `ms[1:0]` has 2 struct elements but the
+// flat pattern '{0, 0, 1, 1} supplies 4 items with no braces per element.
+TEST_F(StructuredArraysIllegal, FlatInitializerOfStructArrayIsReported) {
+  ASSERT_NE(findEvent(EventType::CompAssignmentPatternShapeMismatch, "ms", 24, 8), nullptr)
+      << "Sec 5.10/10.9.1: flat '{0, 0, 1, 1} for ms_t ms[1:0] must be reported";
 }
 
 TEST_F(StructuredArraysIllegal, NoNestedAssignPatterns) {
