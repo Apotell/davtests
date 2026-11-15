@@ -47,7 +47,7 @@ class NonAnsiModportTest : public Test {
 
  protected:
   static const hldb::Interface *getIface() {
-    return hldb::findByName<hldb::Interface>("nets_and_variables_modport_if_nonansi", m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>("nets_and_variables_modport_if_nonansi", m_design->getAllInterfaces());
   }
 };
 

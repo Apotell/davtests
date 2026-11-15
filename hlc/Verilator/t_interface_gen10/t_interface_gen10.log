@@ -234,8 +234,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_gen10.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen10.v:23:15: Compile generate block "TestIf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_gen10.v:24:18: Failed to bind "PARAM".
-[ERR:DL2510] $Source01/t_interface_gen10.v:24:10: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -497,7 +495,7 @@ Design name:unnamed:
               vpiParent: GenRegion
               vpiName Identifier name:TestIf start:23:15 end:23:21:
               vpiFullName: t.TestIf
-              vpiTypespec (3 items):
+              vpiTypespec (2 items):
                 ArrayTypespec:
                   vpiParent: GenBlock name:TestIf
                   vpiArrayType: static (1)
@@ -523,56 +521,20 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: t.TestIf
                         vpiActual: IntTypespec
-                  vpiElemTypespec RefTypespec start:24:10 end:24:14:
+                  vpiElemTypespec RefTypespec name:intf start:24:10 end:24:14:
                     vpiParent: ArrayTypespec
-                    vpiFullName: t.TestIf
-                    vpiActual: UnsupportedTypespec
-                UnsupportedTypespec start:24:10 end:24:27:
-                  vpiParent: GenBlock name:TestIf
-                  vpiParamAssign (2 items):
-                    ParamAssign start:24:17 end:24:26:
-                      vpiParent: UnsupportedTypespec
-                      vpiConnByName: true
-                      vpiLhs RefObj name:PARAM start:24:18 end:24:23:
-                        vpiParent: ParamAssign
-                        vpiName: PARAM
-                        vpiFullName: t.TestIf.PARAM
-                      vpiRhs Constant start:24:24 end:24:25:
-                        vpiParent: ParamAssign
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.TestIf
-                          vpiActual: IntTypespec
-                    ParamAssign start:24:17 end:24:26:
-                      vpiParent: UnsupportedTypespec
-                      vpiConnByName: true
-                      vpiLhs RefObj name:PARAM start:24:18 end:24:23:
-                        vpiParent: ParamAssign
-                        vpiName: PARAM
-                        vpiFullName: t.TestIf.PARAM
-                      vpiRhs Constant start:24:24 end:24:25:
-                        vpiParent: ParamAssign
-                        vpiConstType: int (7)
-                        vpiSize: 32
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.TestIf
-                          vpiActual: IntTypespec
+                    vpiName: intf
+                    vpiFullName: t.TestIf.intf
+                    vpiActual: InterfaceTypespec name:intf
                 ModuleTypespec name:t1:
               vpiStmt (2 items):
                 RefInstance name:my_intf start:24:28 end:24:35:
                   vpiParent: GenBlock name:TestIf
                   vpiName: my_intf
-                  "vpiTypespec RefTypespec name: [0:0] start:24:10 end:24:14":
+                  vpiTypespec RefTypespec name:intf [0:0] start:24:10 end:24:14:
                     vpiParent: RefInstance name:my_intf
-                    vpiName: " [0:0]"
-                    vpiFullName: t.TestIf.my_intf. [0:0]
+                    vpiName: intf [0:0]
+                    vpiFullName: t.TestIf.my_intf.intf [0:0]
                     vpiActual: ArrayTypespec
                 RefInstance name:t start:25:13 end:25:14:
                   vpiParent: GenBlock name:TestIf
@@ -638,8 +600,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -654,25 +616,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen10/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.09,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen10.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_gen10.v': {'post_len': 7,
                                                                'pre_len': 367}},
-            'post_len': 0,
+            'post_len': 7,
             'pre_len': 367,
             'test_name': 'Verilator/t_interface_gen10'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_interface_gen10.v |      367 |         0 |
+| $Output/lib/work/t_interface_gen10.v |      367 |         7 |
 +======================================+==========+===========+
-|                                      |      367 |         0 |
+|                                      |      367 |         7 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.09
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -683,7 +645,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen10/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    84      84       0         0
 ===================== END REDUCTION RESULT =====================

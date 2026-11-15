@@ -223,7 +223,7 @@ TEST_F(ExprEvalPartialTest, ARefObjDoesNotResolveToAnyDeclaration) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExprEvalPartialTest, CompilerReportsFailedToBindForA) {
-  ASSERT_NE(findEvent(EventType::CompFailedToBind, "A"), nullptr)
+  ASSERT_NE(findEvent(EventType::CompUndefinedVariable, "A"), nullptr)
       << "Sec 6.3: 'A' is used without ever being declared and must fail to bind";
 }
 

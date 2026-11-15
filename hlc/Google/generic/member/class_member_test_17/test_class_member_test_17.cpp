@@ -51,7 +51,7 @@
 //   are declared anywhere in the compiled sources, so the return type
 //   cannot be resolved and the compiler must report it. The test accepts any
 //   of HLC's dedicated codes CompUndefinedPackage (5817), CompUndefinedClass
-//   (5816) or CompUndefinedType (5818), located on line 7.
+//   (5816) or UnsupportedTypespec (DL2510), located on line 7.
 //
 // The file declares no module, so there is no top-level module (23.3.1).
 // The .hlc also puts UVM 1800.2-2017 on the include path ('-I') but adds no
@@ -139,8 +139,10 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
-#include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -193,17 +195,17 @@ size_t countNamed(const std::vector<T *> *collection, std::string_view name) {
   return count;
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) {
-  if (event.getArguments().empty()) {
-    return 0;
-  }
-  return event.getArguments().front().m_line;
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() renders it, for failure
+// messages.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
@@ -211,9 +213,7 @@ std::string describeEvents(const EventListener *eventListener, EventSeverity sev
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) {
       continue;
     }
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -254,7 +254,7 @@ class ClassMemberTest17Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 };
 
@@ -280,7 +280,7 @@ TEST_F(ClassMemberTest17Test, UndefinedReturnTypeIsReported) {
 
   const bool reported = (findEvent(EventType::CompUndefinedPackage, 7) != nullptr) ||
                         (findEvent(EventType::CompUndefinedClass, 7) != nullptr) ||
-                        (findEvent(EventType::CompUndefinedType, 7) != nullptr);
+                        (findEvent(EventType::UnsupportedTypespec, 7) != nullptr);
   EXPECT_TRUE(reported) << "26.3/8.23: no package yourpkg or class classy/xtype is declared, so the return type on "
                            "line 7 is undefined;"
                         << describeEvents(eventListener, EventSeverity::Error);

@@ -119,8 +119,11 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -157,23 +160,22 @@ uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : 
 // True when HLC's event table gives 'event' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Event &event) {
+bool isSourceEvent(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (eventDefinition == nullptr) return false;
   const EventSeverity severity = eventDefinition->m_severity;
-  const bool isErrorClass = (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
-                            (severity == EventSeverity::Error);
+  const bool isErrorClass =
+      (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) || (severity == EventSeverity::Error);
   return isErrorClass && (eventDefinition->m_category->m_name != "Elab");
 }
 
-// One diagnostic as " [<code> line <n>: <message template>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -183,13 +185,13 @@ class CelldefineBasic1Test : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Every source error (see isSourceError), described; empty when there is
+  // Every source error (see isSourceEvent), described; empty when there is
   // none. A run without an event listener is reported, not passed.
   static std::string sourceErrors() {
     if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
     for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isSourceError(event)) description += describeEvent(event);
+      if (isSourceEvent(event)) description += describeEvent(event);
     }
     return description;
   }
@@ -199,7 +201,7 @@ class CelldefineBasic1Test : public Test {
     if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
     std::string description;
     for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isSourceError(event) && (lineOf(event) == line)) description += describeEvent(event);
+      if (isSourceEvent(event) && (lineOf(event) == line)) description += describeEvent(event);
     }
     return description;
   }
@@ -224,21 +226,15 @@ class CelldefineBasic1Test : public Test {
 
 // Every line of the file is legal, so nothing is fatal, a syntax error or an
 // error, apart from the 23.3.1 elaboration error left out above.
-TEST_F(CelldefineBasic1Test, CompilesWithoutErrors) {
-  EXPECT_EQ(sourceErrors(), "");
-}
+TEST_F(CelldefineBasic1Test, CompilesWithoutErrors) { EXPECT_EQ(sourceErrors(), ""); }
 
 // Line 16: `celldefine. It takes no argument and may appear anywhere
 // (22.10).
-TEST_F(CelldefineBasic1Test, Line16CelldefineIsAccepted) {
-  EXPECT_EQ(sourceErrorsOnLine(16), "");
-}
+TEST_F(CelldefineBasic1Test, Line16CelldefineIsAccepted) { EXPECT_EQ(sourceErrorsOnLine(16), ""); }
 
 // Line 17: `endcelldefine. It takes no argument and may appear anywhere
 // (22.10). It ends the cell region that line 16 started.
-TEST_F(CelldefineBasic1Test, Line17EndcelldefineIsAccepted) {
-  EXPECT_EQ(sourceErrorsOnLine(17), "");
-}
+TEST_F(CelldefineBasic1Test, Line17EndcelldefineIsAccepted) { EXPECT_EQ(sourceErrorsOnLine(17), ""); }
 
 // ---------------------------------------------------------------------------
 // The source file

@@ -128,7 +128,7 @@ class SoftConstraintPriorities0Test : public Test {
 
  protected:
   const hldb::ClassDefn *getClass(std::string_view name) const {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 };
 

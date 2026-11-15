@@ -120,8 +120,11 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -176,15 +179,13 @@ bool isElaborationError(const Event &event) {
 // The line a diagnostic points at, or 0 when it carries no location.
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
-// One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
-// red run shows what was reported and where. <text> is HLC's message
-// template, so its placeholders are not filled in.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
 // Every diagnostic, described as by describeEvent(); for failure messages.
@@ -226,7 +227,6 @@ class TimescaleBasic4Test : public Test {
 // line 17 is illegal. The LRM requires an error there; it does not say which
 // kind, so any error-class diagnostic on line 17 satisfies it.
 TEST_F(TimescaleBasic4Test, ReportsAnErrorOnTheIllegalLine) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);
@@ -243,7 +243,6 @@ TEST_F(TimescaleBasic4Test, ReportsAnErrorOnTheIllegalLine) {
 // Reporting line 17 under it identifies the LRM condition that makes the line
 // illegal.
 TEST_F(TimescaleBasic4Test, DiagnosesThePrecisionCoarserThanTheUnit) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
   const Event *const error = findEvent(EventType::PaTimescaleInvalidScale);
   ASSERT_NE(error, nullptr) << "the precision 10 ns is a longer unit of time than the unit 1 ns (22.7)";
   EXPECT_EQ(lineOf(*error), kIllegalLine);

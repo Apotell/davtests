@@ -274,8 +274,12 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -333,27 +337,10 @@ const T *findFromSourceFile(const std::vector<T *> *collection, std::string_view
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *candidate : *collection) {
-      if ((candidate != nullptr) && (candidate->getName() == name)) return candidate;
-    }
-  }
-  return nullptr;
-}
-
-// The typespec 'refTypespec' refers to, or nullptr. HLDB holds a typespec
-// relation through a ref typespec, which is followed with getActual().
-const hldb::Typespec *actualOf(const hldb::RefTypespec *refTypespec) {
-  return (refTypespec == nullptr) ? nullptr : refTypespec->getActual();
-}
-
 // The base class typespec of 'extendsObject' (37.31 detail 6), or nullptr.
 const hldb::Typespec *baseTypespecOf(const hldb::Extends *extendsObject) {
   const hldb::RefTypespecCollection *const typespecs = extendsObject->getClassTypespecs();
-  return ((typespecs == nullptr) || typespecs->empty()) ? nullptr : actualOf(typespecs->front());
+  return ((typespecs == nullptr) || typespecs->empty()) ? nullptr : hldb::getTypespec(typespecs->front());
 }
 
 // The parameter an expression names: the expression itself when it is the
@@ -383,14 +370,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
-// One diagnostic as " [<code> line <n>: <message>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  std::string description = " [" + std::to_string(event.getType());
-  description += " line " + std::to_string(lineOf(event));
-  const std::vector<std::string> message = event.format();
-  if (!message.empty()) description += ": " + message.front();
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -401,27 +387,21 @@ class ClassTest12Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an event listener is
-  // reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  // described; empty when there is none.
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) {
+        oss << describeEvent(event);
+      }
     }
-    return description;
+    return oss.str();
   }
 
   // Every error-class diagnostic, described; empty when there is none.
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
-    }
-    return description;
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   // The SourceFile nodes of the file under test.
   static std::vector<const hldb::SourceFile *> findSourceFiles() {
@@ -466,19 +446,16 @@ class ClassTest12Test : public Test {
                                  std::string_view defaultText) {
     const hldb::ClassDefn *const classDefn = findClass(owner);
     ASSERT_NE(classDefn, nullptr) << "no class " << owner;
-    const hldb::Any *const object = findByName(classDefn->getParameters(), name);
-    ASSERT_NE(object, nullptr) << "no parameter " << name << " in " << owner;
+    const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>(name, classDefn->getParameters());
+    ASSERT_NE(parameter, nullptr) << "no parameter " << name << " in " << owner;
 
     // A value parameter of the port list, so not a local parameter (6.20.1,
     // 37.31 detail 7).
-    EXPECT_EQ(object->getAnyType(), hldb::AnyType::Parameter);
-    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
-    ASSERT_NE(parameter, nullptr) << name << " is not a value parameter";
     EXPECT_EQ(parameter->getName(), name);
     EXPECT_FALSE(parameter->getLocalParam());
 
     // Of the type specified, int (6.20.2): a 32-bit signed integer (Table 6-8).
-    const hldb::Typespec *const typespec = actualOf(parameter->getTypespec());
+    const hldb::Typespec *const typespec = hldb::getTypespec(parameter);
     ASSERT_NE(typespec, nullptr) << "parameter " << name << " has no typespec";
     EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
     const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(typespec);
@@ -535,13 +512,8 @@ class ClassTest12Test : public Test {
     const hldb::ClassTypespec *const typespec = findFooBaseTypespec();
     ASSERT_NE(typespec, nullptr) << "Foo has no base class typespec";
 
-    const hldb::ParamAssign *paramAssign = nullptr;
-    if (const hldb::ParamAssignCollection *const paramAssigns = typespec->getParamAssigns()) {
-      for (const hldb::ParamAssign *candidate : *paramAssigns) {
-        const hldb::Any *const lhs = (candidate == nullptr) ? nullptr : candidate->getLhs();
-        if ((lhs != nullptr) && (lhs->getName() == overridden)) paramAssign = candidate;
-      }
-    }
+    const hldb::ParamAssign *const paramAssign =
+        hldb::findByName<hldb::ParamAssign>(overridden, typespec->getParamAssigns());
     ASSERT_NE(paramAssign, nullptr) << "no override of " << overridden;
 
     // vpiLhs is Bar's parameter as declared on line 15.
@@ -584,22 +556,22 @@ class ClassTest12Test : public Test {
 
 // Every line of the file is legal, and the design has its top-level module,
 // so nothing is fatal, a syntax error or an error, in any category.
-TEST_F(ClassTest12Test, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(ClassTest12Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Line 15: the class Bar with three int parameters (8.3, A.1.3).
-TEST_F(ClassTest12Test, Line15ClassBarIsAccepted) { EXPECT_EQ(errorsOnLines(kBarLine, kBarLine), ""); }
+TEST_F(ClassTest12Test, Line15ClassBarIsAccepted) { EXPECT_EQ(eventsOnLines(kBarLine, kBarLine), ""); }
 
 // Line 16: local parameters in the compilation-unit scope (3.12.1, 6.20.1).
 TEST_F(ClassTest12Test, Line16LocalparamsAreAccepted) {
-  EXPECT_EQ(errorsOnLines(kLocalparamLine, kLocalparamLine), "");
+  EXPECT_EQ(eventsOnLines(kLocalparamLine, kLocalparamLine), "");
 }
 
 // Lines 18-19: the class Foo, derived from a specialization of Bar (8.25).
-TEST_F(ClassTest12Test, Lines18To19ClassFooIsAccepted) { EXPECT_EQ(errorsOnLines(kFooFirstLine, kFooLastLine), ""); }
+TEST_F(ClassTest12Test, Lines18To19ClassFooIsAccepted) { EXPECT_EQ(eventsOnLines(kFooFirstLine, kFooLastLine), ""); }
 
 // Lines 21-22: an empty module_declaration (A.1.2).
 TEST_F(ClassTest12Test, Lines21To22ModuleIsAccepted) {
-  EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), "");
+  EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
 // ---------------------------------------------------------------------------
@@ -794,7 +766,7 @@ TEST_F(ClassTest12Test, ModuleTestIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "test");
+  EXPECT_EQ(module->getDefName(), std::string_view("test"));
 }
 
 // "module test;" is on line 21 and "endmodule" on line 22.

@@ -120,7 +120,7 @@ class ModPortRangeTest : public Test {
 
  protected:
   static const hldb::Interface *getIface(std::string_view name) {
-    return hldb::findByName<hldb::Interface>(name, m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>(name, m_design->getAllInterfaces());
   }
 
   static const hldb::Module *getModule(std::string_view name) {

@@ -50,12 +50,12 @@ class AnsiInterfaceTest : public Test {
 
 TEST_F(AnsiInterfaceTest, InterfaceExists) {
   ASSERT_NE(m_design->getAllInterfaces(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces()), nullptr);
+  EXPECT_NE(hldb::findByDefName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces()), nullptr);
 }
 
 TEST_F(AnsiInterfaceTest, IfLogicIsVariableNoNetDuplicate) {
   const hldb::Interface *const iface =
-      hldb::findByName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
+      hldb::findByDefName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Variable>("if_logic", iface->getVariables()), nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("if_logic", iface->getNets()), nullptr)
@@ -64,7 +64,7 @@ TEST_F(AnsiInterfaceTest, IfLogicIsVariableNoNetDuplicate) {
 
 TEST_F(AnsiInterfaceTest, IfWireIsNetWithWireTypeNoVariableDuplicate) {
   const hldb::Interface *const iface =
-      hldb::findByName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
+      hldb::findByDefName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
   const hldb::Net *const n = hldb::findByName<hldb::Net>("if_wire", iface->getNets());
   ASSERT_NE(n, nullptr);
@@ -75,7 +75,7 @@ TEST_F(AnsiInterfaceTest, IfWireIsNetWithWireTypeNoVariableDuplicate) {
 
 TEST_F(AnsiInterfaceTest, InterfaceHasOneModport) {
   const hldb::Interface *const iface =
-      hldb::findByName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
+      hldb::findByDefName<hldb::Interface>("nets_and_variables_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
   ASSERT_NE(iface->getModports(), nullptr);
   ASSERT_EQ(iface->getModports()->size(), 1u);

@@ -150,7 +150,7 @@ TEST_F(PkgImportPkgTest, NoFatalOrSyntaxDiagnostics) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type only warned) in the file header.
 TEST_F(PkgImportPkgTest, UndeclaredOtpAstRspTIsAnError) {
-  ASSERT_NE(findEvent(EventType::CompUndefinedType, "otp_ast_rsp_t"), nullptr)
+  ASSERT_NE(findEvent(EventType::UnsupportedTypespec, "otp_ast_rsp_t"), nullptr)
       << "6.18: The declaration of a user-defined data type shall precede any reference to its type_identifier";
 }
 

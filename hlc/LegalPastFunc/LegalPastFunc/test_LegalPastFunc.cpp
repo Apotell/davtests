@@ -162,16 +162,16 @@ TEST_F(LegalPastFuncTest, ZeroTicksIsDiagnosed) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LegalPastFuncTest, UndeclaredReqFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 5, 9), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 5, 25), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 11, 9), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 11, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "req", 5, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "req", 5, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "req", 11, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "req", 11, 25), nullptr);
 }
 
 TEST_F(LegalPastFuncTest, UndeclaredClkFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clk", 4, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 4, 14), nullptr)
       << "6.10: 'clk' is never declared and a clocking event is not an implicit-net context";
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clk", 10, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 10, 14), nullptr)
       << "6.10: 'clk' is never declared and a clocking event is not an implicit-net context";
 }
 

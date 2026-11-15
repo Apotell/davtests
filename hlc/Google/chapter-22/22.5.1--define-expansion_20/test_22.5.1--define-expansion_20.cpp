@@ -162,6 +162,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -190,8 +191,11 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -245,17 +249,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   if (collection != nullptr) {
     for (const T *object : *collection) {
       if (endsWith(object->getFile(), kSourceFileName)) return object;
-    }
-  }
-  return nullptr;
-}
-
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
     }
   }
   return nullptr;
@@ -316,7 +309,7 @@ void expectNandTerminals(const hldb::Primitive *gate, std::string_view output) {
 void expectImplicitWires(const hldb::NetCollection *nets) {
   ASSERT_EQ(sizeOf(nets), kImplicitNetNames.size());
   for (std::string_view name : kImplicitNetNames) {
-    const hldb::Net *const net = findByName(nets, name);
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, nets);
     EXPECT_NE(net, nullptr) << "no implicit net " << name;
     if (net == nullptr) continue;
     EXPECT_TRUE(net->getImplicitDecl()) << name << " is declared nowhere (6.10)";
@@ -332,20 +325,22 @@ void expectImplicitWires(const hldb::NetCollection *nets) {
   }
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
+}
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() prints it, for failure messages.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -385,7 +380,7 @@ class DefineExpansion20Test : public Test {
   // The primitive named 'name' in top's definition, or nullptr.
   static const hldb::Primitive *getGate(std::string_view name) {
     const hldb::Module *const top = getTopDefinition();
-    return (top == nullptr) ? nullptr : findByName(top->getPrimitives(), name);
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Primitive>(name, top->getPrimitives());
   }
 
   // The macro instance whose usage starts on 'line', or nullptr.
@@ -676,19 +671,19 @@ TEST_F(DefineExpansion20Test, NoOtherDesignObjectsDeclared) {
 
     expectImplicitWires(topInstance->getNets());
     for (std::string_view name : kImplicitNetNames) {
-      const hldb::Net *const net = findByName(topInstance->getNets(), name);
+      const hldb::Net *const net = hldb::findByName<hldb::Net>(name, topInstance->getNets());
       if (net == nullptr) continue;
       const hldb::Any::vpi_property_value_t size = net->getVpiPropertyValue(vpiSize);
       EXPECT_TRUE(std::holds_alternative<int64_t>(size)) << name;
       if (std::holds_alternative<int64_t>(size)) EXPECT_EQ(std::get<int64_t>(size), 1) << name << " is scalar";
     }
 
-    const hldb::Primitive *const g121 = findByName(topInstance->getPrimitives(), "g121");
+    const hldb::Primitive *const g121 = hldb::findByName<hldb::Primitive>("g121", topInstance->getPrimitives());
     ASSERT_NE(g121, nullptr);
     ASSERT_EQ(sizeOf(g121->getPrimTerms()), 3u);
     const hldb::RefObj *const output = ::any_cast<hldb::RefObj>(g121->getPrimTerms()->front()->getExpr());
     ASSERT_NE(output, nullptr);
-    EXPECT_EQ(output->getActual(), findByName(topInstance->getNets(), "q21"));
+    EXPECT_EQ(output->getActual(), hldb::findByName<hldb::Net>("q21", topInstance->getNets()));
   }
 }
 }  // namespace hlc

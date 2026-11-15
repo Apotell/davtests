@@ -57,7 +57,7 @@
 // general-expression *read* reference such as an actual argument to a
 // function call or an operand of '=='. Sec 6.3/23.9: any other undeclared
 // identifier reference is simply unresolvable. So both 'PRES_STATE' and
-// 'fsm_coin' should fail to bind (CompFailedToBind), while 'fsm' itself,
+// 'fsm_coin' should be reported as undefined (CompUndefinedVariable), while 'fsm' itself,
 // its own IODecl 'fsm_PRES_STATE', its local 'fsm_newspaper', and the
 // module-level 'newspaper'/'clock'/'s0' should all bind cleanly.
 //
@@ -164,8 +164,8 @@ TEST_F(FuncBinding2Test, FsmFunctionDeclaredWithOneInputIODecl) {
 // inference to a general expression read), so it must fail to bind.
 TEST_F(FuncBinding2Test, UndeclaredFsmCoinFailsToBind) {
   ASSERT_NE(getTop(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, std::string_view("fsm_coin")), nullptr)
-      << "'fsm_coin' is never declared in 'vend' and must produce CompFailedToBind";
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, std::string_view("fsm_coin")), nullptr)
+      << "'fsm_coin' is never declared in 'vend' and must be reported as an undefined variable";
 }
 
 // 'assign newspaper = fsm(PRES_STATE);' -- the actual argument 'PRES_STATE'
@@ -177,8 +177,8 @@ TEST_F(FuncBinding2Test, CallSiteBindsToFsmButUndeclaredPresStateArgumentFailsTo
   const hldb::Function *const fn = getFsmFunction(top);
   ASSERT_NE(fn, nullptr);
 
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, std::string_view("PRES_STATE")), nullptr)
-      << "'PRES_STATE' is never declared in 'vend' and must produce CompFailedToBind";
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, std::string_view("PRES_STATE")), nullptr)
+      << "'PRES_STATE' is never declared in 'vend' and must be reported as an undefined variable";
 
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Always *always = nullptr;

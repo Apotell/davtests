@@ -328,6 +328,7 @@ n<$Source01/t_func_void.v> u<313> t<Top_level_rule> c<1> l<6:1> el<37:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_void.v:6:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:CP5945] $Source01/t_func_void.v:25:7: Return value of function f1 is unused.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -657,23 +658,31 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:27:30 end:27:35:
                   vpiIsProperty: true
-              FuncCall name:f1 start:29:13 end:29:19:
+              Operation start:29:7 end:29:21:
                 vpiParent: Begin
-                vpiName Identifier name:f1 start:29:13 end:29:15:
-                vpiTaskFunc: Function name:f1
-                vpiArgument (1 items):
-                  NamedArgument start:29:16 end:29:18:
-                    vpiParent: FuncCall name:f1
-                    vpiHighConn Constant start:29:16 end:29:18:
-                      vpiParent: NamedArgument
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "30"
-                      vpiValue: 30
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
+                vpiOpType: cast (81)
+                vpiOperand (2 items):
+                  RefTypespec start:29:7 end:29:11:
+                    vpiParent: Operation
+                    vpiFullName: t
+                    vpiActual: VoidTypespec
+                  FuncCall name:f1 start:29:13 end:29:19:
+                    vpiParent: Operation
+                    vpiName Identifier name:f1 start:29:13 end:29:15:
+                    vpiTaskFunc: Function name:f1
+                    vpiArgument (1 items):
+                      NamedArgument start:29:16 end:29:18:
+                        vpiParent: FuncCall name:f1
+                        vpiHighConn Constant start:29:16 end:29:18:
+                          vpiParent: NamedArgument
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "30"
+                          vpiValue: 30
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: t
+                            vpiActual: IntTypespec
               IfStmt start:30:7 end:30:36:
                 vpiParent: Begin
                 vpiCondition Operation start:30:11 end:30:28:
@@ -726,7 +735,7 @@ Design name:unnamed:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
@@ -735,6 +744,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
@@ -745,7 +756,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -760,25 +771,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_void/mounts.json
 
 
-{'result': {'coverage': 99.71,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_func_void.v': {'post_len': 1,
+            'files': {'$Output/lib/work/t_func_void.v': {'post_len': 0,
                                                          'pre_len': 347}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 347,
             'test_name': 'Verilator/t_func_void'}}
 
 +--------------------------------+----------+-----------+
 | INPUT                          |   PRELEN |   POSTLEN |
 +================================+==========+===========+
-| $Output/lib/work/t_func_void.v |      347 |         1 |
+| $Output/lib/work/t_func_void.v |      347 |         0 |
 +================================+==========+===========+
-|                                |      347 |         1 |
+|                                |      347 |         0 |
 +--------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.71
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -789,7 +800,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_void/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             101     101       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                   101     101       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

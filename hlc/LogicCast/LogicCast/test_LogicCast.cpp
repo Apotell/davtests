@@ -230,12 +230,12 @@ TEST_F(LogicCastTest, UndeclaredDmstatusIsReported) {
 }
 
 TEST_F(LogicCastTest, UndeclaredHartselOIsReported) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "hartsel_o", 3, 40), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "hartsel_o", 3, 40), nullptr)
       << "'hartsel_o' is not declared (Sec 6.10)";
 }
 
 TEST_F(LogicCastTest, UndeclaredNrHartsIsReported) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "NrHarts", 3, 54), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "NrHarts", 3, 54), nullptr)
       << "'NrHarts' is not declared (Sec 6.10)";
 }
 

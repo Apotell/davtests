@@ -52,7 +52,7 @@ class Chapter35ErrorRulesTest : public Test {
   // recorded on the imported subroutine (vpiDPICStr, sv_vpi_user.h); the
   // quoted string is never a Constant of its own.
   static void expectDpiImport(std::string_view moduleName, std::string_view funcName, int32_t dpiStr) {
-    const hldb::Module *const module = hldb::findByName<hldb::Module>(moduleName, m_design->getAllModules());
+    const hldb::Module *const module = hldb::findByDefName<hldb::Module>(moduleName, m_design->getAllModules());
     ASSERT_NE(module, nullptr) << moduleName;
     ASSERT_NE(module->getTaskFuncDecls(), nullptr) << moduleName;
     ASSERT_EQ(module->getTaskFuncDecls()->size(), 1u) << moduleName;

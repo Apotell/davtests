@@ -61,7 +61,7 @@ class ClassMemberTest40Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getConstructible() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("constructible", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("constructible", m_unit->getClassDefns());
   }
 
   static const hldb::Function *getConstructor() {
@@ -103,7 +103,7 @@ TEST_F(ClassMemberTest40Test, NewHasNoFormals) {
 }
 
 TEST_F(ClassMemberTest40Test, ModuleTestExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()), nullptr)
       << "'module test; endmodule' should create a Module";
 }
 

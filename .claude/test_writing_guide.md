@@ -27,7 +27,7 @@ const Event *findEvent(uint32_t type, std::string_view symbol, uint32_t line, ui
 ```
 Prefer the overloads that narrow by `symbol` and/or `line`/`column` over the bare `type`-only one -- confirming the event is about the *specific* named object/location under test is what verifies the right thing was reported, not just that some event of that type exists anywhere in the file. `findEvent()` returns `nullptr` when nothing matches:
 ```cpp
-ASSERT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "port_name"), nullptr);
+ASSERT_NE(findEvent(EventType::CompIllegalPortInitializer, "port_name"), nullptr);
 ```
 To check every event at one position -- e.g. the copies of one message reached through different inclusions, which differ only in their context notes (`event->getNotes()`) -- use `findEvents(type, line[, column])`. A file that only passes `EventType::X` codes needs `<hlc/Events/EventType.h>`; include `<hlc/Events/EventDefinition.h>` only when it names `Event`, `EventSeverity`, etc.
 
@@ -204,7 +204,18 @@ ASSERT_NE(x, nullptr) << "local 'x' not found";
 ```
 Depend on order only where it actually matters -- function/task arguments, ports, ordered parameter overrides, the statements of a block, the operands of an operation. There the position is part of what the standard requires, and indexing is the right check.
 
-**Prefer `findByDefName` for models that have a def name.** Definitions (module, interface, program, class), instances and the typespecs that name them carry both a name and a def name (`vpiDefName`). The name can be decorated -- a parameterized definition or typespec is named with its parameters, e.g. `C#(.W(8))` -- while `getDefName()` is the plain, undecorated name. So look these up with `hldb::findByDefName<T>()`, and compare against `getDefName()` rather than `getName()`.
+**Use `findByDefName` for any type that has a `vpiDefName`, unless the test is about the decorated name itself.** The name (`getName()`) is decorated; the def name (`getDefName()`) is not. Anything that carries parameters, param assigns or arguments is named with them -- a parameterized definition, an instance, or a typespec that names a module/interface/program/class is named e.g. `C#(.W(8))` -- while its def name stays `C`. So for definitions (module, interface, program, class), instances, and the module/interface/program/class typespecs, look the object up with `hldb::findByDefName<T>()` and compare against `getDefName()`. Use `hldb::findByName<T>()` / `getName()` on these types only in a test that explicitly checks the decorated name (and then assert the whole decorated string). Whether a given object's name happens to be decorated today depends on whether it has parameters and on how HLC prints them; `findByDefName` does not, so a test written against it does not break when either changes.
+
+**Use the helpers in `hldb/Utils.h` -- don't write local copies.** Before adding a helper function to a test file, check `<hldb/Utils.h>` (in `build/include/hldb/`); most model navigation a test needs is already there:
+- `hldb::findByName<T>(name, collection)` and `hldb::findByDefName<T>(name, collection)`: the first object in the collection with that name (or def name) that is a `T`, else `nullptr`. Both are null-safe -- a null collection or an empty name returns `nullptr`.
+- `hldb::getActual<T>(object)`, `hldb::getTypespec<T>(object)`: follow a reference (`RefObj`, `RefTypespec`, ...) to what it is bound to.
+- `hldb::getDefName(object)`, `hldb::getSigned(typespec)`.
+- `hldb::getNets()`, `getPorts()`, `getVariables()`, `getParameters()`: the collection on any scope, without a cast to its concrete class.
+- `hldb::getLexicalParent()`, `hldb::getCompilationUnit()`.
+
+So do not write file-local `findPortByName` / `findNetByName` / `hasObjectNamed` loops over a collection: use `hldb::findByName<hldb::Port>("a", module->getPorts())`. "Has an object named x" is `hldb::findByName<T>("x", collection) != nullptr`. The only lookups `findByName` cannot do are positional ones -- an unnamed port, or the n-th of several ports sharing a name -- and those are indexed on purpose (see above). If a helper is genuinely missing and more than one test would use it, propose adding it to `hldb/Utils.h` instead of copying it from file to file.
+
+**Use the typed accessors, not the VPI layer.** Don't write helpers like `integerProperty(object, vpiX)` (around `getVpiPropertyValue()`) or `relationSize(object, vpiX)` / `relatedObject(object, vpiX)` (around `getByVpiType()`) to read the model. Call the concrete accessor on the concrete class: `port->getPortIndex()` not `integerProperty(port, vpiPortIndex)`, `port->getDirection()` not `integerProperty(port, vpiDirection)`, `port->getLowConn() != nullptr` not `relationSize(port, vpiLowConn) == 1u`. Check an object's class with `getAnyType()` (`EXPECT_EQ(ts->getAnyType(), hldb::AnyType::IntTypespec)`), not `getVpiType() == vpiIntTypespec`. The VPI layer is loosely typed and largely untested, so going through it hides type errors and can fail silently: a property the class doesn't have comes back as "undefined" rather than a compile error, and a test written that way can pass or fail for the wrong reason. The `vpiXxx` constants are still the right way to spell the expected *values* (`EXPECT_EQ(port->getDirection(), vpiInput)`). If the class has no accessor for what the standard requires (e.g. a port's `vpiSize`), that is a model gap: `GTEST_SKIP()` with the reason (and record it in hlc's `.claude/instructions/hldb_model_gaps.md`) rather than reaching for the VPI call. Tests that exercise the VPI API itself are the only exception.
 
 ## Look beyond existence and name
 

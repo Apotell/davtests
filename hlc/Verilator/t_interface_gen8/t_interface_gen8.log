@@ -265,8 +265,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_gen8.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen8.v:28:66: Compile generate block "TestIf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_gen8.v:24:12: Failed to bind "PARAM".
-[ERR:DL2510] $Source01/t_interface_gen8.v:24:4: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -477,44 +475,6 @@ Design name:unnamed:
           vpiFullName: t.the_genvar
           vpiRandType: (1)
           vpiVisibility: public (1)
-      vpiTypespec (1 items):
-        UnsupportedTypespec start:24:4 end:24:21:
-          vpiParent: Module name:t
-          vpiParamAssign (2 items):
-            ParamAssign start:24:11 end:24:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:24:12 end:24:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:24:18 end:24:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
-            ParamAssign start:24:11 end:24:20:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:PARAM start:24:12 end:24:17:
-                vpiParent: ParamAssign
-                vpiName: PARAM
-                vpiFullName: t.PARAM
-              vpiRhs Constant start:24:18 end:24:19:
-                vpiParent: ParamAssign
-                vpiConstType: int (7)
-                vpiSize: 32
-                vpiDecompile: "1"
-                vpiValue: 1
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_gen8.v"
@@ -569,10 +529,11 @@ Design name:unnamed:
         RefInstance name:my_intf start:24:22 end:24:29:
           vpiParent: Module name:t
           vpiName: my_intf
-          vpiTypespec RefTypespec start:24:4 end:24:8:
+          vpiTypespec RefTypespec name:intf start:24:4 end:24:8:
             vpiParent: RefInstance name:my_intf
-            vpiFullName: t.my_intf
-            vpiActual: UnsupportedTypespec
+            vpiName: intf
+            vpiFullName: t.my_intf.intf
+            vpiActual: InterfaceTypespec name:intf
       vpiGenStmt (1 items):
         GenRegion start:26:4 end:33:15:
           vpiParent: Module name:t
@@ -685,8 +646,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -701,25 +662,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen8/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.36,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 0,
+            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 7,
                                                               'pre_len': 427}},
-            'post_len': 0,
+            'post_len': 7,
             'pre_len': 427,
             'test_name': 'Verilator/t_interface_gen8'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen8.v |      427 |         0 |
+| $Output/lib/work/t_interface_gen8.v |      427 |         7 |
 +=====================================+==========+===========+
-|                                     |      427 |         0 |
+|                                     |      427 |         7 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.36
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -730,7 +691,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen8/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

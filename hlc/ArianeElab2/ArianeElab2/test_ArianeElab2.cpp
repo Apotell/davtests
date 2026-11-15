@@ -229,6 +229,9 @@ TEST_F(ArianeElab2Test, GeneratedBlockInstantiatesUnresolvedFmtSlice) {
 
 // --- compiler diagnostics: the unresolved reference cascades upward ---------
 
+// The definition name never resolves, so the instance keeps its UnsupportedTypespec placeholder and that
+// is what is reported: without a definition the kind (module, interface, program, checker) is unknown,
+// and a missing definition as such is an elaboration error, not a compile-time one.
 TEST_F(ArianeElab2Test, UnresolvedFmtSliceReportsUnsupportedTypespec) {
   EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "fpnew_opgroup_fmt_slice"), nullptr);
 }

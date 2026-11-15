@@ -184,8 +184,11 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -242,9 +245,9 @@ uint32_t lineOf(const Event &event) {
   return 0;
 }
 
-// True when HLC's event table gives 'event' a fatal, syntax or error
-// severity. Every category counts: the design has a top-level module, so not
-// even elaboration has an error to report (23.3.1).
+// True for an error-class event: its definition gives it a fatal, syntax or
+// error severity. Every category counts: the design has a top-level module, so
+// not even elaboration has an error to report (23.3.1).
 bool isErrorClass(const Event &event) {
   const EventDefinition *const definition = event.getDefinition();
   if (definition == nullptr) return false;
@@ -253,14 +256,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
-// One diagnostic as " [<code> line <n>: <message>]", so that a red
-// run shows what was reported and where.
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  std::string description = " [" + std::to_string(event.getType());
-  description += " line " + std::to_string(lineOf(event));
-  const std::vector<std::string> message = event.format();
-  if (!message.empty()) description += ": " + message.front();
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -271,26 +273,25 @@ class ClassTest0Test : public Test {
 
  protected:
   // Every error-class diagnostic on a line from 'firstLine' to 'lastLine',
-  // described; empty when there is none. A run without an event listener is
-  // reported, not passed.
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  // described; empty when there is none.
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) oss << describeEvent(event);
     }
-    return description;
+    return oss.str();
   }
 
   // Every error-class diagnostic, described; empty when there is none.
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
+  static std::string allEvents() {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
+      if (isErrorClass(event)) oss << describeEvent(event);
     }
-    return description;
+    return oss.str();
   }
 
   // The SourceFile nodes of the file under test.
@@ -323,14 +324,14 @@ class ClassTest0Test : public Test {
 
 // Every line of the file is legal, and the design has its top-level module,
 // so nothing is fatal, a syntax error or an error, in any category.
-TEST_F(ClassTest0Test, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(ClassTest0Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Line 15: a class_declaration whose seven extra semicolons are empty
 // class_items, the ";" form of class_item (8.3, A.1.9).
-TEST_F(ClassTest0Test, Line15ClassIsAccepted) { EXPECT_EQ(errorsOnLines(kClassLine, kClassLine), ""); }
+TEST_F(ClassTest0Test, Line15ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassLine, kClassLine), ""); }
 
 // Lines 17-18: an empty module_declaration (A.1.2).
-TEST_F(ClassTest0Test, Lines17To18ModuleIsAccepted) { EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
+TEST_F(ClassTest0Test, Lines17To18ModuleIsAccepted) { EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
 
 // ---------------------------------------------------------------------------
 // The source file
@@ -361,7 +362,7 @@ TEST_F(ClassTest0Test, ClassSemicolonClassyIsDeclared) {
   const hldb::ClassDefn *const classDefn = findClass();
   ASSERT_NE(classDefn, nullptr);
   EXPECT_EQ(classDefn->getAnyType(), hldb::AnyType::ClassDefn);
-  EXPECT_EQ(classDefn->getName(), "semicolon_classy");
+  EXPECT_EQ(classDefn->getDefName(), std::string_view("semicolon_classy"));
 }
 
 // The whole declaration, endclass included, is on line 15.
@@ -417,7 +418,7 @@ TEST_F(ClassTest0Test, ModuleTestIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "test");
+  EXPECT_EQ(module->getDefName(), std::string_view("test"));
 }
 
 // "module test;" is on line 17 and "endmodule" on line 18.

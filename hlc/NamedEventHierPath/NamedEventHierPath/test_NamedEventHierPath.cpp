@@ -169,7 +169,7 @@ TEST_F(NamedEventHierPathTest, DoCopyHasOneInputArgRhs) {
 }
 
 TEST_F(NamedEventHierPathTest, UndeclaredUvmObjectIsDiagnosed) {
-  EXPECT_NE(findEvent(EventType::CompUndefinedType, "uvm_object", 6), nullptr)
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "uvm_object", 6), nullptr)
       << "'uvm_object' is never declared; the argument type cannot be resolved";
 }
 

@@ -199,7 +199,7 @@ TEST_F(PropertyInterfacePrecUvmTest, ModuleMemCtrlAndTopAndClassEnvExist) {
 }
 
 TEST_F(PropertyInterfacePrecUvmTest, InterfaceMemCtrlIfExistsWithClkReadWritePorts) {
-  const hldb::Interface *const iface = hldb::findByName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
+  const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr) << "interface 'mem_ctrl_if' not found";
   ASSERT_NE(iface->getPorts(), nullptr);
   EXPECT_NE(hldb::findByName<hldb::Ports>("clk", iface->getPorts()), nullptr) << "port 'clk' not found";
@@ -224,7 +224,7 @@ TEST_F(PropertyInterfacePrecUvmTest, ClassEnvHasConnectPhaseFunctionAndRunPhaseT
 }
 
 TEST_F(PropertyInterfacePrecUvmTest, AssertPropertyIsReachableOnInterface) {
-  const hldb::Interface *const iface = hldb::findByName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
+  const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
 
   ASSERT_NE(iface->getConcurrentAssertions(), nullptr)
@@ -240,7 +240,7 @@ TEST_F(PropertyInterfacePrecUvmTest, AssertPropertyIsReachableOnInterface) {
 }
 
 TEST_F(PropertyInterfacePrecUvmTest, PropertySpecHasPosedgeClockingEvent) {
-  const hldb::Interface *const iface = hldb::findByName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
+  const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(iface->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);
@@ -259,7 +259,7 @@ TEST_F(PropertyInterfacePrecUvmTest, PropertySpecHasPosedgeClockingEvent) {
 }
 
 TEST_F(PropertyInterfacePrecUvmTest, PropertyExprIsNonOverlappedImplicationOfReadAndWrite) {
-  const hldb::Interface *const iface = hldb::findByName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
+  const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("mem_ctrl_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(iface->getConcurrentAssertions()->front());
   ASSERT_NE(assertProp, nullptr);

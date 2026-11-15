@@ -77,7 +77,7 @@ class ClassMemberTest27Test : public Test {
 
  protected:
   static const hldb::ClassDefn *getClass(std::string_view name) {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>(name, m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
   }
 
   static const hldb::Function *getStarter() {
@@ -182,7 +182,7 @@ TEST_F(ClassMemberTest27Test, LocalNewServerIsReportServerHandleInitializedByNew
 }
 
 TEST_F(ClassMemberTest27Test, ModuleTestExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("test", m_design->getAllModules()), nullptr)
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("test", m_design->getAllModules()), nullptr)
       << "'module test; endmodule' should create a Module";
 }
 

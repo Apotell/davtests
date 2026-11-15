@@ -248,8 +248,8 @@ TEST_F(SigsSensListTest, ElseBranchAssignsZeroToUndeclaredYScaleAmountNext) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(SigsSensListTest, CompilesWithBindErrors) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "outputLine", 28), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "yScaleAmountNext", 32), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "outputLine", 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "yScaleAmountNext", 32), nullptr);
 }
 
 }  // namespace hlc

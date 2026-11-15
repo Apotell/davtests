@@ -42,6 +42,9 @@ def _scan(dirpath: Path, filters: list[str|Pattern]):
 
   tests = {}
   for filepath in dirpath.resolve().rglob('*.hlc'):
+    # Preprocessor cache entries share the extension (e.g. CmdArgs/CacheRejected/stalecache).
+    if filepath.name.endswith(('.spp.hlc', '.app.hlc')):
+      continue
     name = filepath.stem
     test_id = filepath.parent.relative_to(dirpath).as_posix()
     if _is_filtered(test_id, name):

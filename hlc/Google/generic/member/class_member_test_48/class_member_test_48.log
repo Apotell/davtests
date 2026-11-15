@@ -46,8 +46,8 @@ n<$Source01/class_member_test_48.sv> u<33> t<Top_level_rule> c<1> l<6:1> el<9:9>
                         n<bar_if> u<19> t<SIMPLE_IDENTIFIER> p<20> l<8:26> el<8:32>
             n<> u<27> t<ENDCLASS> p<28> l<9:1> el<9:9>
 AST_DEBUG_END
-[ERR:CP5818] $Source01/class_member_test_48.sv:7:9: Undefined type "splinterface".
-[ERR:CP5818] $Source01/class_member_test_48.sv:8:19: Undefined type "foo_if".
+[ERR:CP5809] $Source01/class_member_test_48.sv:7:9: Undefined interface "splinterface".
+[ERR:CP5809] $Source01/class_member_test_48.sv:8:19: Undefined interface "foo_if".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -84,6 +84,7 @@ Design name:unnamed:
                 vpiParent: Variable name:grinterface
                 vpiName: splinterface
                 vpiFullName: myclass::grinterface::splinterface
+                vpiActual: InterfaceTypespec name:splinterface
             Variable name:bar_if start:8:26 end:8:32:
               vpiParent: ClassDefn name:myclass
               vpiName: bar_if
@@ -95,6 +96,18 @@ Design name:unnamed:
                 vpiParent: Variable name:bar_if
                 vpiName: foo_if
                 vpiFullName: myclass::bar_if::foo_if
+                vpiActual: InterfaceTypespec name:foo_if
+          vpiTypespec (2 items):
+            InterfaceTypespec name:splinterface start:7:9 end:7:21:
+              vpiParent: ClassDefn name:myclass
+              vpiName Identifier name:splinterface:
+              vpiDefName: splinterface
+              vpiVirtual: true
+            InterfaceTypespec name:foo_if start:8:19 end:8:25:
+              vpiParent: ClassDefn name:myclass
+              vpiName Identifier name:foo_if:
+              vpiDefName: foo_if
+              vpiVirtual: true
           vpiDefName: myclass
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -156,7 +169,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_48/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              13      13       0         0
+Others                              17      17       0         0
 ----------------------------------------------------------------
-                                    13      13       0         0
+                                    17      17       0         0
 ===================== END REDUCTION RESULT =====================

@@ -68,7 +68,7 @@
 //       structures (7.4.1), and a packed union member must be integral
 //       (7.3.1)
 //   Diagnostics
-//     - the scoped type name resolves: no CompUndefinedType for
+//     - the scoped type name resolves: no UnsupportedTypespec for
 //       common_flags_t and no CompUndefinedPackage for foo_flags
 //     - the file is legal: zero fatal, syntax and error diagnostics
 //

@@ -893,7 +893,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/tb.v:1:1: No timescale set for "TESTBENCH #(.width(1))".
 [INF:CP5804] $Source01/tb.v:16:1: Compile module "TOP".
 [WRN:PA5506] $Source01/tb.v:16:1: No timescale set for "TOP".
-[ERR:DL2510] $Source01/dut.v:3:3: Unsupported typespec "".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1549,7 +1548,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: dut #(.width(1)).width
               vpiActual: IntTypespec
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.width(1))
           vpiScalar: true
@@ -1623,35 +1622,6 @@ Design name:unnamed:
                   vpiFullName: dut #(.width(1))
                   vpiActual: IntTypespec
           vpiVector: true
-        UnsupportedTypespec start:3:3 end:3:29:
-          vpiParent: Module name:dut #(.width(1))
-          vpiParamAssign (2 items):
-            ParamAssign start:3:15 end:3:28:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:width start:3:16 end:3:21:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: dut #(.width(1)).width
-                vpiActual: Parameter name:width
-              vpiRhs RefObj name:width start:3:22 end:3:27:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: dut #(.width(1)).width
-                vpiActual: Parameter name:width
-            ParamAssign start:3:15 end:3:28:
-              vpiParent: UnsupportedTypespec
-              vpiConnByName: true
-              vpiLhs RefObj name:width start:3:16 end:3:21:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: dut #(.width(1)).width
-                vpiActual: Parameter name:width
-              vpiRhs RefObj name:width start:3:22 end:3:27:
-                vpiParent: ParamAssign
-                vpiName: width
-                vpiFullName: dut #(.width(1)).width
-                vpiActual: Parameter name:width
         ModuleTypespec name:middle #(.width(width)):
       vpiDefName: dut
       vpiDefNetType: wire (1)
@@ -1711,10 +1681,11 @@ Design name:unnamed:
         RefInstance name:conntb start:3:30 end:3:36:
           vpiParent: Module name:dut #(.width(1))
           vpiName: conntb
-          vpiTypespec RefTypespec start:3:3 end:3:12:
+          vpiTypespec RefTypespec name:ConnectTB start:3:3 end:3:12:
             vpiParent: RefInstance name:conntb
-            vpiFullName: dut #(.width(1)).conntb
-            vpiActual: UnsupportedTypespec
+            vpiName: ConnectTB
+            vpiFullName: dut #(.width(1)).conntb.ConnectTB
+            vpiActual: InterfaceTypespec name:ConnectTB
           vpiArgument (2 items):
             NamedArgument start:3:37 end:3:46:
               vpiParent: RefInstance name:conntb
@@ -1723,6 +1694,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_i
                 vpiFullName: dut #(.width(1)).conntb.con_i
+                vpiActual: Port name:con_i
               vpiHighConn RefObj name:i start:3:44 end:3:45:
                 vpiParent: NamedArgument
                 vpiName: i
@@ -1735,6 +1707,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_o
                 vpiFullName: dut #(.width(1)).conntb.con_o
+                vpiActual: Port name:con_o
               vpiHighConn RefObj name:o start:3:54 end:3:55:
                 vpiParent: NamedArgument
                 vpiName: o
@@ -2453,7 +2426,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
@@ -2469,27 +2442,28 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/OneNetRange/OneNetRange/mounts.json
 
 
-{'result': {'coverage': 99.18,
+{'result': {'coverage': 98.28,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/dut.v': {'post_len': 0, 'pre_len': 549},
+            'files': {'$Output/lib/work/dut.v': {'post_len': 11,
+                                                 'pre_len': 549},
                       '$Output/lib/work/tb.v': {'post_len': 10,
                                                 'pre_len': 672}},
-            'post_len': 10,
+            'post_len': 21,
             'pre_len': 1221,
             'test_name': 'OneNetRange/OneNetRange'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/dut.v |      549 |         0 |
+| $Output/lib/work/dut.v |      549 |        11 |
 | $Output/lib/work/tb.v  |      672 |        10 |
 +========================+==========+===========+
-|                        |     1221 |        10 |
+|                        |     1221 |        21 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.18
+[COVERAGE] : 98.28
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2501,10 +2475,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      40      10        10
 Operation                           12       2       0        10
-RefObj                              79      69       0        10
+RefObj                              75      65       0        10
 RefTypespec                         72      72      10        10
 ----------------------------------------------------------------
-Others                             154     154       0         0
+Others                             151     151       0         0
 ----------------------------------------------------------------
-                                   357     337      20        40
+                                   350     330      20        40
 ===================== END REDUCTION RESULT =====================

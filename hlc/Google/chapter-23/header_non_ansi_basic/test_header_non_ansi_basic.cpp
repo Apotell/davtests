@@ -55,13 +55,18 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/port.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstdint>
+#include <iterator>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -97,22 +102,9 @@ const T *findFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
-
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
+// True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
   if (eventDefinition == nullptr) return false;
@@ -121,12 +113,13 @@ bool isErrorClass(const Event &event) {
          (severity == EventSeverity::Error);
 }
 
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
 std::string describeEvent(const Event &event) {
-  const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
-  std::string description = " [" + std::to_string(static_cast<int32_t>(event.getType()));
-  description += " line " + std::to_string(lineOf(event));
-  if (eventDefinition != nullptr) description += ": " + std::string(eventDefinition->m_lines[0].m_text);
-  return description + "]";
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 }  // namespace
 
@@ -136,33 +129,26 @@ class HeaderNonAnsiBasicTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static std::string errorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
+  static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
+    hlc::EventListener *const listener = m_session->getEventListener();
+    std::ostringstream oss;
+    for (const Event &event : listener->getEvents()) {
       const uint32_t line = lineOf(event);
-      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) description += describeEvent(event);
+      if (isErrorClass(event) && (line >= firstLine) && (line <= lastLine)) oss << describeEvent(event);
     }
-    return description;
+    return oss.str();
   }
 
-  static std::string allErrors() {
-    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no event listener";
-    std::string description;
-    for (const Event &event : m_session->getEventListener()->getEvents()) {
-      if (isErrorClass(event)) description += describeEvent(event);
-    }
-    return description;
-  }
+  static std::string allEvents() { return eventsOnLines(0, std::numeric_limits<uint32_t>::max()); }
 
   static const hldb::Module *findModule() {
     return (m_design == nullptr) ? nullptr : findFromSourceFile(m_design->getAllModules());
   }
 };
 
-TEST_F(HeaderNonAnsiBasicTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
+TEST_F(HeaderNonAnsiBasicTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(HeaderNonAnsiBasicTest, ModuleIsAccepted) { EXPECT_EQ(errorsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
+TEST_F(HeaderNonAnsiBasicTest, ModuleIsAccepted) { EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
 
 TEST_F(HeaderNonAnsiBasicTest, ModuleMIsDeclared) {
   ASSERT_NE(m_design, nullptr);
@@ -170,7 +156,7 @@ TEST_F(HeaderNonAnsiBasicTest, ModuleMIsDeclared) {
 
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "m");
+  EXPECT_EQ(module->getDefName(), std::string_view("m"));
 }
 
 TEST_F(HeaderNonAnsiBasicTest, ModuleIsOnLines20To23) {
@@ -185,18 +171,18 @@ TEST_F(HeaderNonAnsiBasicTest, ModuleIsOnLines20To23) {
 TEST_F(HeaderNonAnsiBasicTest, PortAIsInput) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  const hldb::Port *const portA = findPortByName(module->getPorts(), "a");
+  const hldb::Port *const portA = hldb::findByName<hldb::Port>("a", module->getPorts());
   ASSERT_NE(portA, nullptr);
-  EXPECT_EQ(portA->getVpiType(), static_cast<uint32_t>(vpiPort));
-  EXPECT_EQ(integerProperty(portA, vpiDirection), static_cast<int64_t>(vpiInput));
+  EXPECT_EQ(portA->getAnyType(), hldb::AnyType::Port);
+  EXPECT_EQ(portA->getDirection(), vpiInput);
 }
 
 TEST_F(HeaderNonAnsiBasicTest, PortBIsOutput) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  const hldb::Port *const portB = findPortByName(module->getPorts(), "b");
+  const hldb::Port *const portB = hldb::findByName<hldb::Port>("b", module->getPorts());
   ASSERT_NE(portB, nullptr);
-  EXPECT_EQ(integerProperty(portB, vpiDirection), static_cast<int64_t>(vpiOutput));
+  EXPECT_EQ(portB->getDirection(), vpiOutput);
 }
 
 TEST_F(HeaderNonAnsiBasicTest, ExactlyTwoPorts) {

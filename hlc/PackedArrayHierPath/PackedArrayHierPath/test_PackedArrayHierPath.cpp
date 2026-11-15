@@ -75,7 +75,7 @@
 //     - 'fp_format_e' is declared nowhere. For a reference other than a
 //       subroutine call "it shall be illegal if no identifier can be found
 //       that matches the reference" (26.3), so it is reported at error
-//       severity, as CompUndefinedType or CompFailedToBind
+//       severity, as UnsupportedTypespec or CompFailedToBind
 //     - an array assignment pattern's "expressions shall match element for
 //       element" (10.9.1). The pattern has 5 items for an array of 4
 //       elements, so an elaborated design, where NUM_FP_FORMATS is known,
@@ -424,7 +424,7 @@ TEST_F(PackedArrayHierPathTest, SecondTermSelectsManBitsOfElementFmt) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type reported as a warning) in the file header.
 TEST_F(PackedArrayHierPathTest, UndeclaredTypeFpFormatEIsReportedAsError) {
-  ExpectReportedAsError({EventType::CompUndefinedType, EventType::CompFailedToBind}, "fp_format_e");
+  ExpectReportedAsError({EventType::UnsupportedTypespec, EventType::CompFailedToBind}, "fp_format_e");
 }
 
 TEST_F(PackedArrayHierPathTest, PatternItemCountMismatchIsReportedAfterElaboration) {

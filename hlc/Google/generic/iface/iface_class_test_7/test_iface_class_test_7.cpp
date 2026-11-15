@@ -61,14 +61,14 @@
 // no class some_class, and the .hlc compiles no other source. Each such
 // name resolves to no data type, which is an error:
 //   - line 7, member type bool: HLC's diagnostic for a type name that
-//     resolves to no type is CompUndefinedType ("Undefined type").
+//     resolves to no type is UnsupportedTypespec ("Unknown or undefined type", DL2510).
 //   - line 9, 'virtual blah_if': a virtual interface shall name an
 //     interface (25.9); HLC's dedicated diagnostic is
-//     CompUndefinedInterface ("Undefined interface"); CompUndefinedType
+//     CompUndefinedInterface ("Undefined interface"); UnsupportedTypespec
 //     is also accepted.
 //   - line 10, 'some_class#(3, 2, 1)': a specialization shall name a
 //     parameterized class (8.25); HLC's dedicated diagnostic is
-//     CompUndefinedClass ("Undefined class"); CompUndefinedType is also
+//     CompUndefinedClass ("Undefined class"); UnsupportedTypespec is also
 //     accepted.
 // The syntax of every line is legal, so there is no syntax error. The enum
 // typedef of line 8 is fully legal.
@@ -194,9 +194,12 @@
 #include <hldb/unit.h>
 #include <hldb/variable.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -259,25 +262,23 @@ std::string_view literalOf(const hldb::Constant *constant) {
   return value.substr(colon + 1);
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) {
-  if (event.getArguments().empty()) {
-    return 0;
-  }
-  return event.getArguments().front().m_line;
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() prints it, for failure
+// messages, so a red run shows what was reported and where.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -373,7 +374,7 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared type names are errors";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedType}, "bool", 7))
+  EXPECT_TRUE(reportsAnyOf({EventType::UnsupportedTypespec}, "bool", 7))
       << "bool (line 7) resolves to no data type;" << describeReportedErrors();
 }
 
@@ -381,8 +382,7 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
 // declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
-  EXPECT_TRUE(
-      reportsAnyOf({EventType::CompUndefinedInterface, EventType::CompUndefinedType}, "blah_if", 9))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedInterface, EventType::UnsupportedTypespec}, "blah_if", 9))
       << "blah_if (line 9) names no interface;" << describeReportedErrors();
 }
 
@@ -390,8 +390,7 @@ TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
 // some_class is declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, SomeClassIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
-  EXPECT_TRUE(
-      reportsAnyOf({EventType::CompUndefinedClass, EventType::CompUndefinedType}, "some_class", 10))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::UnsupportedTypespec}, "some_class", 10))
       << "some_class (line 10) names no class;" << describeReportedErrors();
 }
 

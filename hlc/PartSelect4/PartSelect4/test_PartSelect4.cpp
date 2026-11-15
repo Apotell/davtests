@@ -747,7 +747,7 @@ TEST_F(PartSelect4Test, USocketReceivesNEightAndDReqDepthZero) {
   if (m_design->getElaborated()) {
     const hldb::Module *const xbar = getElabTop("xbar_main");
     ASSERT_NE(xbar, nullptr) << "the elaborated xbar_main not found";
-    const hldb::Module *const socket = hldb::findByName<hldb::Module>("u_s1n_25", xbar->getModules());
+    const hldb::Module *const socket = hldb::findByDefName<hldb::Module>("u_s1n_25", xbar->getModules());
     ASSERT_NE(socket, nullptr) << "the instance u_s1n_25 is elaborated";
     uint64_t v = 0;
     const hldb::Parameter *const n = getParameter(socket, "N");
@@ -769,7 +769,7 @@ TEST_F(PartSelect4Test, GenDfifoHasEightInstancesWithReqDepthZero) {
   if (m_design->getElaborated()) {
     const hldb::Module *const xbar = getElabTop("xbar_main");
     ASSERT_NE(xbar, nullptr) << "the elaborated xbar_main not found";
-    const hldb::Module *const socket = hldb::findByName<hldb::Module>("u_s1n_25", xbar->getModules());
+    const hldb::Module *const socket = hldb::findByDefName<hldb::Module>("u_s1n_25", xbar->getModules());
     ASSERT_NE(socket, nullptr) << "the instance u_s1n_25 is elaborated";
     ASSERT_NE(socket->getGenScopeArrays(), nullptr) << "27.4: gen_dfifo declares an array of generate block instances";
     std::vector<const hldb::GenScope *> scopes;
@@ -779,7 +779,7 @@ TEST_F(PartSelect4Test, GenDfifoHasEightInstancesWithReqDepthZero) {
     }
     EXPECT_EQ(scopes.size(), 8u) << "27.4: i takes the values 0 to 7 because N = 8";
     for (const hldb::GenScope *const gs : scopes) {
-      const hldb::Module *const fifo = hldb::findByName<hldb::Module>("fifo_d", gs->getModules());
+      const hldb::Module *const fifo = hldb::findByDefName<hldb::Module>("fifo_d", gs->getModules());
       ASSERT_NE(fifo, nullptr) << "each gen_dfifo instance holds fifo_d";
       const hldb::Parameter *const p = getParameter(fifo, "ReqDepth");
       ASSERT_NE(p, nullptr);

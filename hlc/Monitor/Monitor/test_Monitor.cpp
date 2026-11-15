@@ -121,7 +121,7 @@ class MonitorTest : public Test {
 
  protected:
   static const hldb::Interface *getIface() {
-    return hldb::findByName<hldb::Interface>("my_interface", m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>("my_interface", m_design->getAllInterfaces());
   }
 
   // Compiled with -fileunit: each file is its own compilation unit (IEEE 3.12.1), so a class

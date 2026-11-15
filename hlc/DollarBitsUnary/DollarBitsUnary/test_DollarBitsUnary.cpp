@@ -256,7 +256,7 @@ TEST_F(DollarBitsUnaryTest, UndeclaredDrXFailsToBind) {
   // identifier used bare in a continuous assignment; 'dr_x' here is used
   // with a part-select ('dr_x[$bits(~dr_q)-1:0]'), so it is expected to
   // remain an unresolved reference rather than being implicitly declared.
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "dr_x"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "dr_x"), nullptr)
       << "'dr_x' is never declared in dut.sv and is used with a part-select, so it should fail to bind "
          "(Sec 6.10 implicit-net inference does not cover a part-selected undeclared identifier)";
 }

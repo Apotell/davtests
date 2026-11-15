@@ -252,7 +252,7 @@ TEST_F(MultiConcatTest, MacroExpandedOperandsAreReplications) {
 // ===========================================================================
 
 TEST_F(MultiConcatTest, UndeclaredNumLcStatesFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "NumLcStates"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "NumLcStates"), nullptr)
       << "6.3: NumLcStates is never declared in lc_ctrl_pkg";
 }
 

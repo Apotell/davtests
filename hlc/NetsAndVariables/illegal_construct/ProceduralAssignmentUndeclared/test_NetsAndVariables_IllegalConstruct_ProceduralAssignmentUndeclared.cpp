@@ -41,7 +41,7 @@ class ProceduralAssignmentUndeclaredTest : public Test {
 
 TEST_F(ProceduralAssignmentUndeclaredTest, ProceduralAssignmentToUndeclaredIsRejected) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "undeclared_var"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "undeclared_var"), nullptr)
       << "IEEE 1800-2023 6.10: the assigned identifier is never declared, and an implicit net "
          "is not created for a procedural assignment target.";
 }

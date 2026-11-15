@@ -153,8 +153,10 @@
 #include <hldb/void_typespec.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
-#include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -207,17 +209,17 @@ size_t countNamed(const std::vector<T *> *collection, std::string_view name) {
   return count;
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) {
-  if (event.getArguments().empty()) {
-    return 0;
-  }
-  return event.getArguments().front().m_line;
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() renders it, for failure
+// messages.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
@@ -225,9 +227,7 @@ std::string describeEvents(const EventListener *eventListener, EventSeverity sev
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) {
       continue;
     }
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -274,7 +274,7 @@ class ClassMemberTest15Test : public Test {
 
   // The class myclass, or nullptr.
   static const hldb::ClassDefn *getMyClass() {
-    return (m_unit == nullptr) ? nullptr : hldb::findByName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 
   // The extern prototype subroutine of myclass (line 16), or nullptr.
@@ -300,7 +300,7 @@ class ClassMemberTest15Test : public Test {
     if (m_design == nullptr) {
       return nullptr;
     }
-    return hldb::findByName<hldb::Module>("test", m_design->getAllModules());
+    return hldb::findByDefName<hldb::Module>("test", m_design->getAllModules());
   }
 };
 
@@ -486,7 +486,7 @@ TEST_F(ClassMemberTest15Test, TestIsTheTopLevelModule) {
 
   if (m_design->getElaborated()) {
     ASSERT_EQ(countFromSourceFile(m_design->getTopModules()), 1u) << "23.3.1: test is the only top-level module";
-    const hldb::Module *const topInstance = hldb::findByName<hldb::Module>("test", m_design->getTopModules());
+    const hldb::Module *const topInstance = hldb::findByDefName<hldb::Module>("test", m_design->getTopModules());
     ASSERT_NE(topInstance, nullptr) << "23.3.1: the top instance is named after module test";
     EXPECT_TRUE(topInstance->getTopModule()) << "23.3.1: test is never instantiated, so it is a top-level module";
   } else {

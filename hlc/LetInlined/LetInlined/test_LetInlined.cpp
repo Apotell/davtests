@@ -194,7 +194,7 @@ TEST_F(LetInlinedTest, A1NoInferredClockIsDiagnosed) {
 }
 
 TEST_F(LetInlinedTest, UndeclaredClockFailsToBind) {
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clock", 6, 33), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clock", 6, 33), nullptr)
       << "'clock' is not declared (port commented out)";
 }
 

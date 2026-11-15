@@ -170,9 +170,12 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <initializer_list>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -233,25 +236,23 @@ std::string_view literalOf(const hldb::Constant *constant) {
   return value.substr(colon + 1);
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) {
-  if (event.getArguments().empty()) {
-    return 0;
-  }
-  return event.getArguments().front().m_line;
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
 }
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() prints it, for failure
+// messages, so a red run shows what was reported and where.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -328,16 +329,14 @@ TEST_F(IfaceClassTest8Test, PackageBhgIsReportedUndefined) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared names are errors";
-  EXPECT_TRUE(
-      reportsAnyOf({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage}, "bhg", 9))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage}, "bhg", 9))
       << "26.3: bhg (line 9) names no package;" << describeReportedErrors();
 }
 
 // Line 9: f names no function (13.4), so the call f(...) is an error.
 TEST_F(IfaceClassTest8Test, FunctionFIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
-  EXPECT_TRUE(reportsAnyOf(
-      {EventType::CompUndefinedUserFunction, EventType::UndefinedUserFunction}, "f", 9))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedUserFunction, EventType::UndefinedUserFunction}, "f", 9))
       << "13.4: f (line 9) names no function;" << describeReportedErrors();
 }
 

@@ -27,11 +27,11 @@ COMMAND: -wd ../../../tests/YosysDsp -d ast -d db +incdir+. -sverilog -writepp -
 [INF:PP5223] Preprocessing source file "$Source01/slowsymf.v".
 [INF:PP5223] Preprocessing source file "$Source01/smplfir.v".
 [INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
-[ERR:PP5202] $Source01/fastfir_dynamictaps.v:20:1: Cannot open include file "fastfir.vh".
-[ERR:PP5202] $Source01/fastfir_dynamictaps.v:21:1: Cannot open include file "firtap.vh".
 [ERR:PP5202] $Source01/fastfir_fixedtaps.v:20:1: Cannot open include file "fastfir.vh".
 [ERR:PP5202] $Source01/fastfir_fixedtaps.v:21:1: Cannot open include file "firtap.vh".
 [ERR:PP5202] $Source01/slowfil_fixedtaps.v:21:1: Cannot open include file "slowfil.vh".
+[ERR:PP5202] $Source01/fastfir_dynamictaps.v:20:1: Cannot open include file "fastfir.vh".
+[ERR:PP5202] $Source01/fastfir_dynamictaps.v:21:1: Cannot open include file "firtap.vh".
 [INF:PA5502] Parsing source file "$Source01/boxcar.v".
 [INF:PA5502] Parsing source file "$Source01/delayw.v".
 [INF:PA5502] Parsing source file "$Source01/dspswitch.v".
@@ -24064,7 +24064,9 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/slowsymf.v:45:1: No timescale set for "slowsymf".
 [INF:CP5804] $Source01/smplfir.v:47:1: Compile module "smplfir".
 [WRN:PA5506] $Source01/smplfir.v:47:1: No timescale set for "smplfir".
-[ERR:CP5835] Colliding compilation unit name: "slowfil_srl".
+[ERR:CP5835] $Source01/slowfil_srl.vh:49:1: Colliding compilation unit name: "slowfil_srl",
+             $Source01/slowfil_srl.v:49:1: previous usage,
+             In file included from $Source01/slowfil_srl_fixedtaps.v:23.
 [ERR:DL2507] $Source01/smplfir.v:63:4: Illegal lhs of type wire "o_val".
 [ERR:DL2516] $Source01/smplfir.v:63:4: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 ====== HLDB =======

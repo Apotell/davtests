@@ -662,7 +662,7 @@ TEST_F(ParamTypespec2Test, TopIsTheOnlyTopLevelInstance) {
     const hldb::Module *const top = m_design->getTopModules()->at(0);
     ASSERT_NE(top, nullptr);
     EXPECT_EQ(top->getDefName(), "top");
-    const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_nmi_gen", top->getModules());
+    const hldb::Module *const inst = hldb::findByDefName<hldb::Module>("u_nmi_gen", top->getModules());
     ASSERT_NE(inst, nullptr) << "the instance u_nmi_gen is elaborated";
     EXPECT_EQ(inst->getDefName(), "nmi_gen");
   }

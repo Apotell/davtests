@@ -39,10 +39,8 @@ class NoneGateTerminalTest : public Test {
 };
 
 TEST_F(NoneGateTerminalTest, UndeclaredGateTerminalNetIsRejected) {
-  GTEST_SKIP() << "under `default_nettype none, an undeclared identifier used as a primitive gate terminal is "
-                  "illegal: there is no default net type to fall back on.";
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompFailedToBind, "undeclared_gate_net"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "undeclared_gate_net"), nullptr)
       << "IEEE 1800-2023 22.8 with 6.10: under default_nettype none no implicit net is "
          "created, so the gate terminal never resolves.";
 }

@@ -148,6 +148,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/checker_decl.h>
 #include <hldb/class_defn.h>
 #include <hldb/config_decl.h>
@@ -172,8 +173,11 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iterator>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <variant>
@@ -219,17 +223,6 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
   return nullptr;
 }
 
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findByName(const std::vector<T *> *collection, std::string_view name) {
-  if (collection != nullptr) {
-    for (const T *object : *collection) {
-      if (object->getName() == name) return object;
-    }
-  }
-  return nullptr;
-}
-
 // The name 'term' connects to, or empty when it has no expression.
 std::string_view terminalName(const hldb::PrimTerm *term) {
   const hldb::Expr *const expr = term->getExpr();
@@ -241,7 +234,7 @@ std::string_view terminalName(const hldb::PrimTerm *term) {
 void expectPortWires(const hldb::NetCollection *nets) {
   ASSERT_EQ(sizeOf(nets), kPortNames.size());
   for (std::string_view name : kPortNames) {
-    const hldb::Net *const net = findByName(nets, name);
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, nets);
     EXPECT_NE(net, nullptr) << "no net " << name;
     if (net == nullptr) continue;
     EXPECT_EQ(net->getNetType(), vpiWire) << name << " has the default net type wire (22.8)";
@@ -249,20 +242,22 @@ void expectPortWires(const hldb::NetCollection *nets) {
   }
 }
 
-// The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
+// One event as hldb::renderEvent() prints it, one line per output line, so that a
+// failing test shows what was reported and where.
+std::string describeEvent(const Event &event) {
+  std::ostringstream oss;
+  const std::vector<std::string> lines = hldb::renderEvent(event);
+  std::copy(lines.cbegin(), lines.cend(), std::ostream_iterator<std::string>(oss, "\n"));
+  return oss.str();
+}
 
-// Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
-// messages, so a red run shows what was reported and where. <text> is HLC's
-// message template, so its placeholders are not filled in.
+// Every event of 'severity', each as describeEvent() prints it, for failure messages.
 std::string describeEvents(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
   for (const Event &event : eventListener->getEvents()) {
     const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
     if ((eventDefinition == nullptr) || (eventDefinition->m_severity != severity)) continue;
-    description += " [" + std::to_string(static_cast<int32_t>(event.getType()));
-    description += " line " + std::to_string(lineOf(event));
-    description += ": " + std::string(eventDefinition->m_lines[0].m_text) + "]";
+    description += describeEvent(event);
   }
   return description;
 }
@@ -399,7 +394,7 @@ TEST_F(IfdefBehavioralTest, GateReportsTwoInputs) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't populate this property";
   const hldb::Module *const andOp = getAndOpDefinition();
   ASSERT_NE(andOp, nullptr);
-  const hldb::Primitive *const gate = findByName(andOp->getPrimitives(), "a1");
+  const hldb::Primitive *const gate = hldb::findByName<hldb::Primitive>("a1", andOp->getPrimitives());
   ASSERT_NE(gate, nullptr);
   const hldb::Any::vpi_property_value_t size = gate->getVpiPropertyValue(vpiSize);
   ASSERT_TRUE(std::holds_alternative<int64_t>(size));

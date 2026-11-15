@@ -100,7 +100,7 @@ class ModPortParamTest : public Test {
 
  protected:
   static const hldb::Interface *getIface() {
-    return hldb::findByName<hldb::Interface>("PerformanceCounterIF", m_design->getAllInterfaces());
+    return hldb::findByDefName<hldb::Interface>("PerformanceCounterIF", m_design->getAllInterfaces());
   }
 
   static const hldb::Modport *getCsrModport() {

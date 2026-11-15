@@ -395,36 +395,44 @@ Design name:unnamed:
                               vpiParent: Constant
                               vpiFullName: tb
                               vpiActual: IntTypespec
-              SysFuncCall name:$cast start:18:11 end:18:24:
+              Operation start:18:5 end:18:26:
                 vpiParent: Begin
-                vpiName Identifier name:$cast start:18:11 end:18:16:
-                vpiArgument (2 items):
-                  NamedArgument start:18:17 end:18:18:
-                    vpiParent: SysFuncCall name:$cast
-                    vpiHighConn RefObj name:i start:18:17 end:18:18:
-                      vpiParent: NamedArgument
-                      vpiName: i
-                      vpiFullName: tb.i
-                      vpiActual: Variable name:i
-                  NamedArgument start:18:20 end:18:23:
-                    vpiParent: SysFuncCall name:$cast
-                    vpiHighConn Constant start:18:20 end:18:23:
-                      vpiParent: NamedArgument
-                      vpiConstType: real (2)
-                      vpiSize: 64
-                      vpiDecompile: "3.9"
-                      vpiValue: 3.9
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: tb
-                        vpiActual: RealTypespec
+                vpiOpType: cast (81)
+                vpiOperand (2 items):
+                  RefTypespec start:18:5 end:18:9:
+                    vpiParent: Operation
+                    vpiFullName: tb
+                    vpiActual: VoidTypespec
+                  SysFuncCall name:$cast start:18:11 end:18:24:
+                    vpiParent: Operation
+                    vpiName Identifier name:$cast start:18:11 end:18:16:
+                    vpiArgument (2 items):
+                      NamedArgument start:18:17 end:18:18:
+                        vpiParent: SysFuncCall name:$cast
+                        vpiHighConn RefObj name:i start:18:17 end:18:18:
+                          vpiParent: NamedArgument
+                          vpiName: i
+                          vpiFullName: tb.i
+                          vpiActual: Variable name:i
+                      NamedArgument start:18:20 end:18:23:
+                        vpiParent: SysFuncCall name:$cast
+                        vpiHighConn Constant start:18:20 end:18:23:
+                          vpiParent: NamedArgument
+                          vpiConstType: real (2)
+                          vpiSize: 64
+                          vpiDecompile: "3.9"
+                          vpiValue: 3.9
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: RealTypespec
       vpiSysTaskCall (5 items):
         SysFuncCall name:$itor:
         SysFuncCall name:$rtoi:
         SysFuncCall name:$signed:
         SysFuncCall name:$unsigned:
         SysFuncCall name:$cast:
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tb start:1:8 end:1:10:
@@ -434,6 +442,8 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     RealTypespec:
+      vpiParent: Design name:unnamed
+    VoidTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -458,25 +468,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ConvFunc01/ConvFunc01/mounts.json
 
 
-{'result': {'coverage': 99.33,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 1,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 150}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 150,
             'test_name': 'ConvFunc01/ConvFunc01'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      150 |         1 |
+| $Output/lib/work/dut.sv |      150 |         0 |
 +=========================+==========+===========+
-|                         |      150 |         1 |
+|                         |      150 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.33
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -489,12 +499,12 @@ Name                            Before   After   Added   Removed
 Constant                             7       7       5         5
 Identifier                           7       2       0         5
 NamedArgument                        6       0       0         6
-Operation                            2       0       0         2
+Operation                            3       1       0         2
 RefObj                               6       5       0         1
-RefTypespec                         10       5       0         5
+RefTypespec                         11       6       0         5
 SysFuncCall                          5       0       0         5
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    62      38       5        29
+                                    65      41       5        29
 ===================== END REDUCTION RESULT =====================

@@ -305,7 +305,6 @@ TEST_F(DisablingRandomVariablesWithRandMode4Test, RandModeBodyIsReturnOne) {
 // ---------------------------------------------------------------------------
 
 TEST_F(DisablingRandomVariablesWithRandMode4Test, RedefiningRandModeIsReportedOnItsDeclaration) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnosis yet.";
   EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "rand_mode"), nullptr)
       << "18.8: 'The rand_mode() method is built-in and cannot be overridden.'";
   const std::vector<uint32_t> lines = getDiagnosticLines(EventType::CompCannotRedefineBuiltinMethod, false);
@@ -325,7 +324,6 @@ TEST_F(DisablingRandomVariablesWithRandMode4Test, RedefinitionDiagnosticIsAnErro
 }
 
 TEST_F(DisablingRandomVariablesWithRandMode4Test, CompilationReportsAtLeastOneError) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnosis yet.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1)
       << "the source is illegal (18.8), so the compilation cannot be clean";
