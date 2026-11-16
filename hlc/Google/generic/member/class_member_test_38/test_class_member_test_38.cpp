@@ -141,8 +141,6 @@ TEST_F(ClassMemberTest38Test, ReturnTypeReferenceNamesArrayIf) {
 }
 
 TEST_F(ClassMemberTest38Test, UndefinedInterfaceArrayIfIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared interface 'array_if' (7:26) and modport 'modport_x' (7:35) only as "
-                  "warnings (CompFailedToBind); per IEEE 1800-2023 Sec 25.9 it must be an error. Fix pending.";
   // Sec 25.9: a virtual interface type names an interface declaration;
   // "array_if" is never declared, so neither it nor its modport
   // "modport_x" can resolve.

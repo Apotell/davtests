@@ -167,9 +167,6 @@ TEST_F(Chapter3ErrorRulesTest, Row7_AttributeNameIsNotVisibleOutsideAttributeNam
   // instantiation (a ParamAssign's lhs), so it rejected legal designs. Reporting
   // this soundly needs the inverse formulation -- classify the positions where a
   // name must denote a declared object -- which is its own piece of work.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.13(h) is already honoured, but the "
-                  "undeclared reference it leaves behind is unreported -- see catalog rows 53 and "
-                  "941 for the 6.10/26.3 rule that would cover it";
   EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "r7_fsm_state"), nullptr)
       << "an attribute name is not visible as an ordinary identifier (IEEE 1800-2023 3.13)";
 }

@@ -228,7 +228,6 @@ class EnumTest0Test : public Test {
 // forward typedef of line 6 never resolves and an error is required. HLC
 // reports a type name that resolves to no data type as UnsupportedTypespec.
 TEST_F(EnumTest0Test, ReportsUndefinedTypeForUnresolvedForwardTypedef) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);

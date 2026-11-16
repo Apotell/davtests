@@ -195,12 +195,6 @@ TEST_F(CasexPatternTest, CaseStmtExistsWithCaseXTypeAndMatchesQualifier) {
 }
 
 TEST_F(CasexPatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "'casex (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
-                  "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
-                  "CompUndefinedVariable is registered in events/events.lst and its definitions but has no call site anywhere "
-                  "in src/. Same underlying gap as 12.6.1--case_pattern.cpp and "
-                  "6.10--implicit_continuous_assignment.cpp. Tracked, not yet fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *const cond = cs->getCondition<hldb::RefObj>();

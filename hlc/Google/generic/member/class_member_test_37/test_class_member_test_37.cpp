@@ -133,8 +133,6 @@ TEST_F(ClassMemberTest37Test, ReturnTypeReferenceNamesCmdArrayIf) {
 }
 
 TEST_F(ClassMemberTest37Test, UndefinedInterfaceCmdArrayIfIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared interface 'cmd_array_if' (8:5) only as a warning "
-                  "(CompFailedToBind); per IEEE 1800-2023 Sec 25.9 it must be an error. Fix pending.";
   // Sec 25.9: a virtual interface type names an interface declaration;
   // "cmd_array_if" is never declared, so the type cannot resolve.
   EXPECT_TRUE(hasErrorAt(8, 5) || hasErrorAt(7, 18))
