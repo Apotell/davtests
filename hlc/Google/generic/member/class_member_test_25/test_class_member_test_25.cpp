@@ -152,8 +152,6 @@ TEST_F(ClassMemberTest25Test, BodyReturnsIntegerWithNoFormals) {
 }
 
 TEST_F(ClassMemberTest25Test, BodyIsMethod) {
-  GTEST_SKIP() << "HLC leaves getMethod() false on the out-of-block body 'myclass::subroutine'; per IEEE "
-                  "1800-2023 Sec 8.24 it defines a class method. Fix pending.";
   // Sec 8.24: the out-of-block declaration defines the class method itself.
   const hldb::Function *const body = getBody();
   ASSERT_NE(body, nullptr);
@@ -161,8 +159,6 @@ TEST_F(ClassMemberTest25Test, BodyIsMethod) {
 }
 
 TEST_F(ClassMemberTest25Test, BodyIsVirtual) {
-  GTEST_SKIP() << "HLC leaves getVirtual() false on the out-of-block body of 'extern virtual' subroutine; per "
-                  "IEEE 1800-2023 Sec 8.20 / 8.24 the method stays virtual. Fix pending.";
   // Sec 8.24: the out-of-block declaration drops "virtual", but the method
   // it defines was declared virtual in the prototype (Sec 8.20).
   const hldb::Function *const body = getBody();

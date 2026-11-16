@@ -481,7 +481,6 @@ TEST_F(DefineExpansion12Test, TopHasOneNullPort) {
 
 // A null port has vpiSize 0 (37.14 detail 11).
 TEST_F(DefineExpansion12Test, NullPortHasSizeZero) {
-  GTEST_SKIP() << "HLDB model gap: Port has no vpiSize (hldb_model_gaps.md #8)";
   const hldb::Module *const top = getTopDefinition();
   ASSERT_NE(top, nullptr);
 

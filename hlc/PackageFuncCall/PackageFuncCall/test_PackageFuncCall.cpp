@@ -969,7 +969,6 @@ TEST_F(PackageFuncCallTest, CompoundXorAssignmentsLowerToXorOperations) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageFuncCallTest, EveryUndeclaredIdentifierIsReported) {
-  GTEST_SKIP() << "Implicit nets aren't explicitly materialized by the compiler.";
   for (std::string_view name :
        {"data_state_xor", "data_o", "data_state", "NumRoundsHalf", "DataWidth", "k1", "k0_prime"}) {
     EXPECT_NE(findEvent(EventType::CompUndefinedVariable, name), nullptr)

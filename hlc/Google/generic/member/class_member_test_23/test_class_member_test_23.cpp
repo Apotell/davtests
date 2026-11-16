@@ -192,8 +192,6 @@ TEST_F(ClassMemberTest23Test, UndefinedPackageMypkgIsReported) {
 }
 
 TEST_F(ClassMemberTest23Test, UndefinedIdentifierMIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared identifier 'M' (7:40) only as a warning (CompFailedToBind); per "
-                  "IEEE 1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3: data shall be declared before use; "M" in "[M]" names no
   // parameter, variable or net anywhere in the compilation unit.
   EXPECT_TRUE(hasErrorAt(7, 40)) << "'M' is never declared; an error-level diagnostic at 7:40 is expected";

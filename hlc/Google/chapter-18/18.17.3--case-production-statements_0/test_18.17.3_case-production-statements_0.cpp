@@ -178,9 +178,6 @@ class CaseProductionStatements0Test : public Test {
 
 // Check: undeclared 'switch' and undefined production 'zero' make the file illegal.
 TEST_F(CaseProductionStatements0Test, CompilerRejectsUndeclaredSwitchAndUndefinedProductionZero) {
-  GTEST_SKIP() << "HLC does not report the undefined variable 'switch' yet (CompUndefinedVariable). IEEE 1800-2023 "
-                  "Sec 23.9: an identifier referenced in a function shall be declared locally or in an enclosing "
-                  "scope. Fix pending.";
   // NOTE: the case production itself is legal (Syntax 18-16); only 'switch' and 'zero' make the file
   // illegal. The rule-specific check is UnresolvedIdentifierDiagnosticNamesSwitch below.
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
@@ -191,9 +188,6 @@ TEST_F(CaseProductionStatements0Test, CompilerRejectsUndeclaredSwitchAndUndefine
 
 // Check: the diagnostic is about the identifier 'switch'.
 TEST_F(CaseProductionStatements0Test, UnresolvedIdentifierDiagnosticNamesSwitch) {
-  GTEST_SKIP() << "HLC does not report the undefined variable 'switch' yet (CompUndefinedVariable). IEEE 1800-2023 "
-                  "Sec 23.9: an identifier referenced in a function shall be declared locally or in an enclosing "
-                  "scope. Fix pending.";
   EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "switch"), nullptr)
       << "expected an undefined-variable diagnostic for 'switch' (IEEE 1800-2023 Sec 23.9)";
 }

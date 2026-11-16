@@ -74,8 +74,6 @@ TEST_F(Chapter13ErrorRulesTest, Row404_DiscardedNonvoidReturnValueIsWarned) {
   // then a warning shall be issued. To suppress the warning, the function call
   // can be cast to void." The bare call is on line 33; the void-cast call on
   // line 34 must stay silent, which is the negative half of the same rule.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 13.4.1 requires a warning when a "
-                  "nonvoid function is called as a statement, suppressed by a void cast";
   EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "f", 33, 5), nullptr)
       << "discarding a nonvoid function's return value must be warned (IEEE 1800-2023 13.4.1)";
 }

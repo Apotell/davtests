@@ -353,7 +353,6 @@ class IfaceClassTest11Test : public Test {
 // Line 8: some_class is declared nowhere, so 'some_class#(N)' names no
 // class (8.25): an error.
 TEST_F(IfaceClassTest11Test, SomeClassIsReportedUndefined) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "lines 8 and 10 hold errors";

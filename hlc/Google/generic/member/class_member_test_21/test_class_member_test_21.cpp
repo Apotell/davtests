@@ -185,8 +185,6 @@ TEST_F(ClassMemberTest21Test, UndefinedFormalTypeDucktypeIsReported) {
 }
 
 TEST_F(ClassMemberTest21Test, UndefinedIdentifierNIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared identifier 'N' (7:28) only as a warning (CompFailedToBind); per "
-                  "IEEE 1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3: data shall be declared before use; "N" in "#(N+1)" names no
   // parameter, variable or net anywhere in the compilation unit.
   EXPECT_TRUE(hasErrorAt(7, 28)) << "'N' is never declared; an error-level diagnostic at 7:28 is expected";

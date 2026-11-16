@@ -242,9 +242,6 @@ TEST_F(ClassMemberTest30Test, BodyRhsIsConcatShiftedLeftByOne) {
 }
 
 TEST_F(ClassMemberTest30Test, UndeclaredShftIdxIsReported) {
-  GTEST_SKIP()
-      << "HLC reports the undeclared 'shft_idx' (8:8, 8:28, 9:8) only as warnings (CompFailedToBind); per IEEE "
-         "1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3: data shall be declared before use; "shft_idx" names no
   // variable anywhere (not a class property, local or formal).
   EXPECT_TRUE(hasErrorAt(8, 8)) << "'shft_idx' in the initializer is undeclared; an error at 8:8 is expected";
@@ -253,22 +250,16 @@ TEST_F(ClassMemberTest30Test, UndeclaredShftIdxIsReported) {
 }
 
 TEST_F(ClassMemberTest30Test, UndeclaredCIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared 'c' (8:20) only as a warning (CompFailedToBind); per IEEE "
-                  "1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3, as above, for "c".
   EXPECT_TRUE(hasErrorAt(8, 20)) << "'c' is undeclared; an error at 8:20 is expected";
 }
 
 TEST_F(ClassMemberTest30Test, UndeclaredNBitsIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared 'n_bits' (8:39) only as a warning (CompFailedToBind); per IEEE "
-                  "1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3, as above, for "n_bits".
   EXPECT_TRUE(hasErrorAt(8, 39)) << "'n_bits' is undeclared; an error at 8:39 is expected";
 }
 
 TEST_F(ClassMemberTest30Test, UndeclaredDoutIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared 'dout' (10:5, 10:13) only as warnings (CompFailedToBind); per IEEE "
-                  "1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3, as above, for both references to "dout".
   EXPECT_TRUE(hasErrorAt(10, 5)) << "'dout' as target is undeclared; an error at 10:5 is expected";
   EXPECT_TRUE(hasErrorAt(10, 13)) << "'dout' in '{dout}' is undeclared; an error at 10:13 is expected";

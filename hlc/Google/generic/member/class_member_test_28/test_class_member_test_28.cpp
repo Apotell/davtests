@@ -182,8 +182,6 @@ TEST_F(ClassMemberTest28Test, ForBodyIsEmptyBegin) {
 }
 
 TEST_F(ClassMemberTest28Test, UndeclaredShftIdxIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared 'shft_idx' (8:11, 9:8) only as warnings (CompFailedToBind); per "
-                  "IEEE 1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3: data shall be declared before use; "shft_idx" names no
   // variable anywhere (not a class property, local or formal).
   EXPECT_TRUE(hasErrorAt(8, 11)) << "'shft_idx' in the condition is undeclared; an error at 8:11 is expected";
@@ -191,8 +189,6 @@ TEST_F(ClassMemberTest28Test, UndeclaredShftIdxIsReported) {
 }
 
 TEST_F(ClassMemberTest28Test, UndeclaredNBitsIsReported) {
-  GTEST_SKIP() << "HLC reports the undeclared 'n_bits' (8:22) only as a warning (CompFailedToBind); per IEEE "
-                  "1800-2023 Sec 6.3 it must be an error. Fix pending.";
   // Sec 6.3, as above, for "n_bits".
   EXPECT_TRUE(hasErrorAt(8, 22)) << "'n_bits' is undeclared; an error at 8:22 is expected";
 }
