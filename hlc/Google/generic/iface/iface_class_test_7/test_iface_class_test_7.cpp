@@ -370,7 +370,6 @@ class IfaceClassTest7Test : public Test {
 // Line 7: member b is declared 'bool', which is no built-in type (6.11) and
 // is declared nowhere, so it resolves to no data type: an error.
 TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared type names are errors";
@@ -381,7 +380,6 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
 // Line 9: 'virtual blah_if' shall name an interface (25.9); blah_if is
 // declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedInterface, EventType::UnsupportedTypespec}, "blah_if", 9))
       << "blah_if (line 9) names no interface;" << describeReportedErrors();
 }
@@ -389,7 +387,6 @@ TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
 // Line 10: 'some_class#(3, 2, 1)' shall name a parameterized class (8.25);
 // some_class is declared nowhere: an error.
 TEST_F(IfaceClassTest7Test, SomeClassIsReportedUndefined) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedClass, EventType::UnsupportedTypespec}, "some_class", 10))
       << "some_class (line 10) names no class;" << describeReportedErrors();
 }

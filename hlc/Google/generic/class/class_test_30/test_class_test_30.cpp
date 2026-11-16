@@ -583,7 +583,6 @@ TEST_F(ClassTest30Test, ClassFooHasOneProperty) {
 // held by its typespec (here an integer typespec). Reporting the per-kind
 // object type needs a computed vpiType in the HLDB model, so this stays a gap.
 TEST_F(ClassTest30Test, PropertySizeIsAnIntegerVar) {
-  GTEST_SKIP() << "HLC Gap (BUG-7): a variable's vpiType is vpiVariable, not its kind (vpiIntegerVar, Sec 37.17)";
   const hldb::ClassDefn *const foo = findFoo();
   ASSERT_NE(foo, nullptr);
   const hldb::Variable *const size = hldb::findByName<hldb::Variable>("size", foo->getVariables());

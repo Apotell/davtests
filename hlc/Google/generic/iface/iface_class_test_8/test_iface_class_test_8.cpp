@@ -335,7 +335,6 @@ TEST_F(IfaceClassTest8Test, PackageBhgIsReportedUndefined) {
 
 // Line 9: f names no function (13.4), so the call f(...) is an error.
 TEST_F(IfaceClassTest8Test, FunctionFIsReportedUndefined) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedUserFunction, EventType::UndefinedUserFunction}, "f", 9))
       << "13.4: f (line 9) names no function;" << describeReportedErrors();
 }

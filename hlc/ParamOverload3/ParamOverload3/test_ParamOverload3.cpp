@@ -461,7 +461,6 @@ TEST_F(ParamOverload3Test, LoopBlockIsGenNanboxCheck) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type only warned) in the file header.
 TEST_F(ParamOverload3Test, UndeclaredFpuFeaturesTIsAnError) {
-  GTEST_SKIP() << "HLC Gap: Missing diagnostics";
   EXPECT_TRUE(reportsErrorNaming("fpu_features_t"))
       << "6.18: The declaration of a user-defined data type shall precede any reference to its type_identifier";
 }

@@ -168,9 +168,6 @@ class IfElseProductionStatements2Test : public Test {
 
 // Check: 'switch' is never declared, so the reference is illegal (23.9) and must be diagnosed.
 TEST_F(IfElseProductionStatements2Test, CompilerRejectsUndeclaredIdentifierSwitch) {
-  GTEST_SKIP() << "HLC reports no error for the undeclared 'switch': the randsequence holding it is dropped, so the "
-                  "reference is never resolved. IEEE 1800-2023 Sec 23.9 (and Table B.1: 'switch' is no keyword) "
-                  "require an error for an undeclared identifier. Fix pending.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "'switch' is not a keyword (Table B.1) and is not declared anywhere: IEEE 1800-2023 Sec 23.9 requires an "
@@ -179,9 +176,6 @@ TEST_F(IfElseProductionStatements2Test, CompilerRejectsUndeclaredIdentifierSwitc
 
 // Check: the diagnostic is about the identifier 'switch'.
 TEST_F(IfElseProductionStatements2Test, UnresolvedIdentifierDiagnosticNamesSwitch) {
-  GTEST_SKIP() << "HLC does not report the undefined variable 'switch' yet (CompUndefinedVariable). IEEE 1800-2023 "
-                  "Sec 23.9: an identifier referenced in a function shall be declared locally or in an enclosing "
-                  "scope. Fix pending.";
   EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "switch"), nullptr)
       << "expected an undefined-variable diagnostic for 'switch' (IEEE 1800-2023 Sec 23.9)";
 }

@@ -14,35 +14,38 @@
  limitations under the License.
 */
 
-// Validates the parse behaviour for an illegal negative decimal literal.
+// Validates that an illegal negative decimal literal is rejected.
 //
-// SV source (module top):
-//   logic [7:0] a;
-//   initial begin
-//     a = 8'd-6;   // ILLEGAL: minus must precede the literal: -8'd6
-//   end
+// SV source:
+//   16: module top();
+//   17:   logic  [7:0] a;
+//   18:
+//   19:   initial begin
+//   20:     a = 8'd-6;   // ILLEGAL: minus must precede the literal: -8'd6
+//   21:   end
+//   22:
+//   23: endmodule
 //
 // The '-' in '8'd-6' is not valid SV syntax; the token '8'd' is a size+base
 // specifier and cannot be followed by a minus sign.  The correct negation
 // form is '-8'd6' (unary minus applied to the whole sized constant).
 //
-// Surelog issues 2 syntax errors and the parse collapses: the module body is
-// never completed, producing 2 nameless stub modules -- the same broken-parse
-// pattern seen in other illegal-syntax tests.
+// Checked:
+//   - a syntax error on line 20.
 //
-// UHDM:
-//   vpiAllModules: 2 nameless stub modules (no name, no nets, no processes)
-//   No module named "top"
+// Not checked:
+//   - the column of the error (which token the parser reports it at), the
+//     number of errors, and what the parser's error recovery leaves behind
+//     (whether "top" and its body survive). IEEE 1800-2023 only requires the
+//     literal to be rejected; the rest is an implementation detail that
+//     changes with the grammar (recovery used to discard the module and leave
+//     unnamed module stubs; it now keeps the module).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/design.h>
-#include <hldb/module.h>
 
 namespace hlc {
 
@@ -53,48 +56,13 @@ class IntegersSignedIllegal : public Test {
 };
 
 // ----
-// '8'd-6' is illegal: the module body cannot be parsed, so no named module
-// reaches UHDM.
-// ----
-TEST_F(IntegersSignedIllegal, NoModuleNamedTop) {
-  EXPECT_EQ(hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()), nullptr)
-      << "'top' should not exist -- syntax error broke the parse";
-}
-
-// ----
-// The broken parse leaves 2 nameless stub module fragments in UHDM.
-// ----
-TEST_F(IntegersSignedIllegal, TwoStubModulesExist) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u) << "broken parse should produce exactly 2 nameless stub modules";
-}
-
-TEST_F(IntegersSignedIllegal, StubModulesHaveNoName) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(m->getName().empty()) << "stub module should have an empty name, got: " << m->getName();
-  }
-}
-
-// ----
-// Neither stub module contains nets -- the variable declaration for 'a' was
-// parsed into the global scope, not into any module.
-// ----
-TEST_F(IntegersSignedIllegal, NoNetsInStubModules) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const m : *m_design->getAllModules()) {
-    EXPECT_TRUE(!m->getNets() || m->getNets()->empty()) << "stub module should have no nets";
-  }
-}
-
-// ----
 // Per IEEE 1800-2023 Sec 5.7.1 / Annex A.8.7 (decimal_number grammar), the
 // unary minus must precede the entire sized literal (-8'd6); '8'd-6' is not
 // valid syntax and must be reported as a syntax error.
 // ----
 TEST_F(IntegersSignedIllegal, Compiler_ReportsSyntaxErrors) {
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 19, 2), nullptr) << "'8'd-6' is illegal (IEEE 1800-2023 Sec 5.7.1) and must be a syntax error";
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20, 10), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20), nullptr)
+      << "'8'd-6' is illegal (IEEE 1800-2023 Sec 5.7.1) and must be a syntax error";
 }
 
 }  // namespace hlc

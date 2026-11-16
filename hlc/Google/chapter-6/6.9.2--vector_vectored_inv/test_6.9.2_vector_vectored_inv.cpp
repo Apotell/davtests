@@ -15,15 +15,15 @@
 */
 
 // Tests for 6.9.2--vector_vectored_inv.sv (tags: 6.9.2)
-//   module top();
-//     logic vectored [15:0] a = 0;
-//     assign a[1] = 1;
-//   endmodule
+//   16: module top();
+//   17:   logic vectored [15:0] a = 0;
+//   18:
+//   19:   assign a[1] = 1;
+//   20: endmodule
 //   :should_fail_because: bit selects are not permitted on vectored vector nets
 //
-// What to check and why (IEEE 1800-2023 6.9.2 "Vector net accessibility",
-// p.109, and 6.8 "Variable declarations", p.105, checked before any test
-// code was written):
+// What to check and why (IEEE 1800-2023 6.7.1 "Net declarations" and 6.8
+// "Variable declarations", checked before any test code was written):
 //   Grammar: "net_type [drive_strength | charge_strength] [vectored |
 //   scalared]" -- the "vectored"/"scalared" modifiers are only valid in
 //   a NET declaration, immediately after a net_type keyword. "logic" is
@@ -33,48 +33,31 @@
 //   one. This means the file's own :should_fail_because: tag ("bit
 //   selects not permitted on vectored vector nets", a 6.9.2 semantic
 //   restriction that only applies to a successfully-declared vectored
-//   net) does not actually describe the failure this file triggers: the
-//   parse fails on the illegal "logic vectored" combination itself,
-//   before the compiler ever reaches "assign a[1] = 1;" to evaluate any
-//   bit-select restriction. The existing tests below already document
-//   the TRUE failure mode (a syntax error) rather than the tag's
-//   claimed one, which matches this session's rule of verifying against
-//   spec/actual behavior rather than trusting a tag at face value.
-//
-//   The exact error count (4 PA0207) and the shape of HLC's error-
-//   recovery stubs (2 unnamed Module nodes, 5 leftover Typespec nodes)
-//   are tool-implementation/mechanical facts, not independently
-//   derivable from the spec text alone -- kept as previously verified.
+//   net) does not describe the failure this file triggers: the parse
+//   fails on the illegal "logic vectored" combination itself, so there is
+//   no vectored net whose bit select could be checked. The test checks
+//   the true failure (the syntax error), not the tag's claimed one.
 //
 // What is checked:
-//   - no module named "top" exists (parse failed before the module
-//     could be fully elaborated)
-//   - design has 2 unnamed Module stubs (error-recovery artifacts), with
-//     no nets, no processes, no continuous assignments in either stub
-//     (consistent with the parse failing before "assign a[1] = 1;" is
-//     ever reached)
-//   - design has 5 Typespec nodes: 2 ModuleTypespec, 1 LogicTypespec,
-//     1 IntTypespec, 1 ArrayTypespec (static, Range [15:0], left=15,
-//     right=0)
-//   - exactly 4 PA0207 syntax errors reported
-//   - design name field is "unnamed"
+//   - a syntax error at "vectored" (line 17, column 7).
 //
 // What is NOT checked and why:
-//   - none: every corner above is fully structural and checkable without
-//     simulation.
+//   - what the parser's error recovery leaves behind: the number of syntax
+//     errors, whether a "top" module and its continuous assignment survive,
+//     and the diagnostics that follow from it (with the declaration of "a"
+//     lost, "assign a[1] = 1;" reports "a" as undefined). IEEE 1800-2023 only
+//     requires the declaration to be rejected; the shape of the recovery is
+//     an implementation detail and changes with the grammar (it used to
+//     discard the module and leave unnamed module stubs; it now keeps the
+//     module).
+//   - the 6.9.2 bit-select restriction itself: it cannot be reached here (see
+//     above).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Utils.h>
-#include <hldb/array_typespec.h>
-#include <hldb/constant.h>
-#include <hldb/design.h>
-#include <hldb/logic_typespec.h>
-#include <hldb/module.h>
-#include <hldb/range.h>
 
 namespace hlc {
 
@@ -84,53 +67,11 @@ class VectorVectoredInvTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 };
 
-// --- module-level checks ------------------------------------------------
-
-TEST_F(VectorVectoredInvTest, NoModuleNamedTop) {
-  // Parse failure: no properly named top module in the UHDM graph
-  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
-  EXPECT_EQ(top, nullptr);
-}
-
-TEST_F(VectorVectoredInvTest, DesignHasTwoUnnamedModuleStubs) {
-  // HLC's error recovery emits 2 partial Module nodes, both unnamed
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 2u);
-  for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_TRUE(mod->getName().empty()) << "Expected unnamed stub but got: " << mod->getName();
-  }
-}
-
-TEST_F(VectorVectoredInvTest, NoNetsInAnyModule) {
-  // Neither module stub contains nets -- `logic vectored [15:0] a` was not
-  // lowered to a Net because the module body parse failed
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getNets(), nullptr) << "Unexpected nets in stub module";
-  }
-}
-
-TEST_F(VectorVectoredInvTest, NoContAssignsInAnyModule) {
-  // `assign a[1] = 1` never reached UHDM (4th PA0207 error aborts parse
-  // before the assign keyword is processed)
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getContAssigns(), nullptr) << "Unexpected continuous assignments in stub module";
-  }
-}
-
-TEST_F(VectorVectoredInvTest, NoProcessesInAnyModule) {
-  ASSERT_NE(m_design->getAllModules(), nullptr);
-  for (const hldb::Module *const mod : *m_design->getAllModules()) {
-    EXPECT_EQ(mod->getProcesses(), nullptr) << "Unexpected processes in stub module";
-  }
-}
-
-// --- compiler diagnostics ----------------------------------------------
-
-TEST_F(VectorVectoredInvTest, ExactlyFourSyntaxErrorsReported) {
-  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
-  EXPECT_EQ(stats.m_syntaxes, 4) << "expected 4 PA0207 syntax errors from the malformed 'logic vectored' declaration";
+TEST_F(VectorVectoredInvTest, VectoredOnAVariableIsASyntaxError) {
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 17, 7), nullptr)
+      << "\"vectored\" is only valid after a net_type (IEEE 1800-2023 6.7.1); \"logic vectored\" "
+         "must be rejected";
 }
 
 }  // namespace hlc

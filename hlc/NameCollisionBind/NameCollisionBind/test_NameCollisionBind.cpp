@@ -216,7 +216,6 @@ TEST_F(NameCollisionBindTest, ModportPortRefersToInterfaceVariable) {
 // ===========================================================================
 
 TEST_F(NameCollisionBindTest, PortTypeResolvesToInterfaceAndModport) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort();
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);

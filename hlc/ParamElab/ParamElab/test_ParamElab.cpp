@@ -383,7 +383,6 @@ TEST_F(ParamElabTest, NoSyntaxOrFatalDiagnostics) {
 }
 
 TEST_F(ParamElabTest, UndeclaredLoopIndexIsAnError) {
-  GTEST_SKIP() << "HLC GAp: Undeclared variables aren't reported yet";
   bool reported = false;
   for (uint32_t type : kUndeclaredNameErrors) {
     const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), type);

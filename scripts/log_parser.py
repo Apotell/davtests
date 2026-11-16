@@ -163,31 +163,47 @@ def _start(line: str, specs: dict | None) -> _Pending | None:
   return None
 
 
-def iter_log(lines: Iterable[str], specs: dict | None = None) -> Iterator:
-  """Yields each event of the log as a LogEvent and every other line as a str. Lines are
-  stripped of trailing whitespace; '[debug]' lines are dropped. specs is load_event_specs()'s
-  table, or None to split on the layout alone."""
+def iter_log_spans(lines: Iterable[str], specs: dict | None = None) -> Iterator[tuple]:
+  """Like iter_log(), but yields (item, start, end): item and the range [start, end) of indices
+  into lines it was read from. An event's range covers its '[debug]' lines too; a '[debug]' line
+  that is not part of an event is in no range."""
   pending = None
-  for raw in lines:
+  start = 0
+  end = 0
+  for index, raw in enumerate(lines):
     line = raw.rstrip()
 
     if line.lstrip().startswith(_debug_marker):
       # A '[debug]' line inside an event (at its indent) is that event's last part.
       if (pending is not None) and (pending.m_indent > 0) and not line[:pending.m_indent].strip():
+        if not pending.m_closed:
+          end = index + 1
         pending.m_closed = True
       continue
 
     if (pending is not None) and pending.accepts(line):
       pending.add(line)
+      end = index + 1
       continue
 
     if pending is not None:
-      yield pending.m_event
+      yield pending.m_event, start, end
       pending = None
 
     pending = _start(line, specs)
     if pending is None:
-      yield line
+      yield line, index, index + 1
+    else:
+      start = index
+      end = index + 1
 
   if pending is not None:
-    yield pending.m_event
+    yield pending.m_event, start, end
+
+
+def iter_log(lines: Iterable[str], specs: dict | None = None) -> Iterator:
+  """Yields each event of the log as a LogEvent and every other line as a str. Lines are
+  stripped of trailing whitespace; '[debug]' lines are dropped. specs is load_event_specs()'s
+  table, or None to split on the layout alone."""
+  for item, _start_index, _end_index in iter_log_spans(lines, specs):
+    yield item

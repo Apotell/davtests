@@ -363,7 +363,6 @@ TEST_F(DefineExpansion6Test, IllegalUsageIsStillRecorded) {
 }
 
 TEST_F(DefineExpansion6Test, DesignHasExactlyOneModuleTop) {
-  GTEST_SKIP() << "HLC Task: Improve recovery from parse errors.";
   ASSERT_EQ(countOf(m_design->getAllModules()), 1u) << "the source declares exactly one design element";
   const hldb::Module *const top = m_design->getAllModules()->at(0);
   ASSERT_NE(top, nullptr);
@@ -374,7 +373,6 @@ TEST_F(DefineExpansion6Test, DesignHasExactlyOneModuleTop) {
 TEST_F(DefineExpansion6Test, ModuleTopSpansLines18To20) {
   // Sec 22.12: whatever the illegal usage on line 19 becomes, 'module top'
   // stays at line 18 and 'endmodule' at line 20.
-  GTEST_SKIP() << "HLC Task: Improve recovery from parse errors.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(endsWith(top->getFile(), kMainFileName)) << "file: " << top->getFile();
@@ -386,14 +384,12 @@ TEST_F(DefineExpansion6Test, ModuleTopSpansLines18To20) {
 TEST_F(DefineExpansion6Test, ModuleTopHasStaticDefaultLifetime) {
   // "module top" carries no lifetime qualifier; Sec 6.21: "The default
   // lifetime is static."
-  GTEST_SKIP() << "HLC Task: Improve recovery from parse errors.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_FALSE(top->getAutomatic());
 }
 
 TEST_F(DefineExpansion6Test, ModuleTopHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: No null port";
   // Sec 37.14 detail 10 names "module M();" as declaring a null port.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
@@ -412,7 +408,6 @@ TEST_F(DefineExpansion6Test, ModuleTopHasOneNullPort) {
 TEST_F(DefineExpansion6Test, ModuleTopHasNoDeclarations) {
   // The macro text declares nothing, so whatever HLC does with the illegal
   // usage, 'top' gains no declaration or instantiation.
-  GTEST_SKIP() << "HLC Task: Improve recovery from parse errors.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(countOf(top->getNets()), 0u);

@@ -256,7 +256,6 @@ class IfaceClassTest4Test : public Test {
 // error is required for each. HLC's dedicated diagnostic is
 // CompUndefinedBaseClass.
 TEST_F(IfaceClassTest4Test, ReportsUndefinedBaseClasses) {
-  GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);

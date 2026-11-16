@@ -211,13 +211,6 @@ TEST_F(CasePatternTest, CaseStmtExistsWithExactTypeAndMatchesQualifier) {
 }
 
 TEST_F(CasePatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "'case (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
-                  "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
-                  "CompUndefinedVariable is registered in events/events.lst and its definitions (ERROR, COMP, "
-                  "'Undefined variable \"%s\"') but has no call site anywhere in src/ -- it is listed as pending "
-                  "reference' gap already confirmed in 6.10--implicit_continuous_assignment.cpp. Tracked, not yet "
-                  "fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr);
   const hldb::RefObj *const cond = cs->getCondition<hldb::RefObj>();
