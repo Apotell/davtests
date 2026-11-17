@@ -317,6 +317,16 @@ TEST_F(ClassTest14Test, ReportsAnErrorForTheTypeDefaultOfT) {
       << "no error on line 6 or 7;" << describeAllEvents();
 }
 
+// T has no `type` keyword, so it is a value parameter (6.20.1: "The parameter keyword can be
+// omitted in a parameter port list"; a data type parameter needs `type`, 6.20.3). 6.20.2: "A value
+// parameter ... can only be set to an expression", and a data type is not one. The grammar accepts the
+// form (constant_param_expression has a data_type alternative, A.2.2.1), so the error is derived from
+// 6.20.2, not from a sentence that says "shall be illegal".
+TEST_F(ClassTest14Test, ReportsADataTypeAssignedToValueParameter) {
+  ASSERT_NE(findEvent(EventType::CompIllegalValueParameterDefault, "T", 6, 15), nullptr)
+      << "6.20.2: a value parameter cannot be set to a data type;" << describeAllEvents();
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest14Test, NoErrorsOnTheLegalLines1To5) {
