@@ -88,6 +88,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -237,6 +238,14 @@ class ClassMemberTest16Test : public Test {
     return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 };
+
+// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
+// outside the declaration." No out-of-block body for subroutine is in this file, so HLC warns. It is a warning
+// because the body may legally be in another file of the compilation unit (no sentence makes a missing
+// body an error), so this checks what HLC says about this input, not an LRM error.
+TEST_F(ClassMemberTest16Test, WarnsThatTheExternMethodHasNoBody) {
+  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subroutine", 7, 8), nullptr);
+}
 
 // The grammar accepts lines 6-8 (A.1.9), so nothing is fatal or a syntax
 // error. Whether the missing out-of-block body is an error is not asserted

@@ -258,6 +258,14 @@ class ClassMemberTest17Test : public Test {
   }
 };
 
+// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
+// outside the declaration." No out-of-block body for subr is in this file, so HLC warns. It is a warning
+// because the body may legally be in another file of the compilation unit (no sentence makes a missing
+// body an error), so this checks what HLC says about this input, not an LRM error.
+TEST_F(ClassMemberTest17Test, WarnsThatTheExternMethodHasNoBody) {
+  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subr", 7, 8), nullptr);
+}
+
 // The grammar accepts lines 6-8 (A.1.9, A.2.2.1 class_type), so nothing is
 // fatal or a syntax error; the unresolved names are semantic errors.
 TEST_F(ClassMemberTest17Test, NoFatalOrSyntaxErrors) {

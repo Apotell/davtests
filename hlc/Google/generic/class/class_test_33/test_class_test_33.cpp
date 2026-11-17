@@ -164,6 +164,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -336,6 +337,14 @@ class ClassTest33Test : public Test {
 // ---------------------------------------------------------------------------
 // Diagnostics
 // ---------------------------------------------------------------------------
+
+// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
+// outside the declaration." No out-of-block body for set_port is in this file, so HLC warns. It is a warning
+// because the body may legally be in another file of the compilation unit (no sentence makes a missing
+// body an error), so this checks what HLC says about this input, not an LRM error.
+TEST_F(ClassTest33Test, WarnsThatTheExternMethodHasNoBody) {
+  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", 7, 8), nullptr);
+}
 
 // The argument type is dbg_pkg::analysis_port, but "The left operand of the
 // scope resolution operator :: shall be a class type name, package name ...,
