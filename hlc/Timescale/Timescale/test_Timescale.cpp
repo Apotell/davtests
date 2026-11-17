@@ -428,6 +428,14 @@ TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
 // ----
 // errors.sv / errors_timescale_inside.sv -- each element breaks one rule.
 // ----
+TEST_F(TimescaleTest, PrecisionWithoutTimeUnitIsAnError) {
+  // Sec 3.14.2.3, last sentence: "It shall be an error if some design elements have a time unit and
+  // precision specified and others do not." d_prec_only has a timeprecision but no time unit, and none
+  // reaches it from a `timescale or the compilation unit (rules a-c), so it is reported (strict reading).
+  // timeprecision 1ps;
+  EXPECT_NE(findEvent(EventType::PaMissingTimeunit, "d_prec_only", 24, 1), nullptr);
+}
+
 TEST_F(TimescaleTest, PrecisionLongerThanUnitInDeclarationIsAnError) {
   // Sec 3.14: "The time precision of a design element shall be at least as precise as
   // the time unit; it cannot be a longer unit of time than the time unit."
