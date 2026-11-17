@@ -46,6 +46,7 @@
 //     does not make a never-defined extern prototype an explicit error.
 //   - vpiFullName on any object (never asserted per the test writing guide).
 
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
@@ -111,6 +112,14 @@ class ClassMemberTest21Test : public Test {
     return false;
   }
 };
+
+// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
+// outside the declaration." No out-of-block body for subr is in this file, so HLC warns. It is a warning
+// because the body may legally be in another file of the compilation unit (no sentence makes a missing
+// body an error), so this checks what HLC says about this input, not an LRM error.
+TEST_F(ClassMemberTest21Test, WarnsThatTheExternMethodHasNoBody) {
+  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subr", 7, 8), nullptr);
+}
 
 TEST_F(ClassMemberTest21Test, ClassMyclassExists) {
   const hldb::ClassDefn *const cls = getMyClass();
