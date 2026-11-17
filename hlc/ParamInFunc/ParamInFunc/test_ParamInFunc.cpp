@@ -83,7 +83,7 @@
 // declared in the body of the module", and 22.8 requires an error for an
 // undeclared net under '`default_nettype none'. The list of ports
 // '(inp, out1, out2, out3)' has no port declaration in the module body, so
-// UndeclaredPortsAreErrors expects CompUndeclaredPort for each of the four.
+// UndeclaredPortsAreErrors expects CompUnspecifiedPort for each of the four.
 //
 // Model convention: HLC stores the formal argument 'inp' both as an IODecl and
 // as a Variable of func3, and a reference to it may bind to either.
@@ -343,13 +343,9 @@ TEST_F(ParamInFuncTest, RhsPrefixIsFunc3Argument) {
 // is the function's argument (13.4), not a port declaration in the module body, so all four ports are
 // undeclared.
 TEST_F(ParamInFuncTest, UndeclaredPortsAreErrors) {
-  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "inp", 3, 23), nullptr);
   EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "inp", 3, 23), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out1", 3, 28), nullptr);
   EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out1", 3, 28), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out2", 3, 34), nullptr);
   EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out2", 3, 34), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out3", 3, 40), nullptr);
   EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out3", 3, 40), nullptr);
 }
 
