@@ -59,16 +59,12 @@
 //     "output #3ns c;") still bind by name the same way as the -signals.sv
 //     sibling (the clockvar/net-vs-variable status of the underlying signal
 //     is orthogonal to whether it is legally a clockvar)
-//   - PER THE SOURCE FILE'S OWN ":should_fail_because:" TAG: the compiler
-//     should report at least one error, because "b <= a;"/"c <= a;" are
-//     procedural (non-blocking) assignments to nets, illegal per Table 10-1
-//     -- CONFIRMED FAILING against a real build/run: HLC reports zero
-//     errors for this file. GTEST_SKIP()'d below with the real assertion
-//     preserved; this is a genuine HLC compiler bug (Table 10-1's
-//     net/procedural-assignment restriction is not enforced), not a
-//     mistake in this test -- the sibling checks for port classification
-//     and always_ff body shape both pass, confirming "b"/"c" really are
-//     Nets driven by procedural assignments as expected.
+//   - PER THE SOURCE FILE'S OWN ":should_fail_because:" TAG: "b <= a;"/"c <= a;" are
+//     procedural (non-blocking) assignments to nets, illegal per IEEE 1800-2023 10.1 (p.247:
+//     the procedural assignment assigns values to variables); HLC reports
+//     EventType::IllegalWireLhs for "b" (27:2) and "c" (28:2), asserted by
+//     CompilerRejectsProceduralAssignmentToNets; the sibling checks for port classification
+//     and always_ff body shape confirm "b"/"c" really are Nets driven procedurally.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -168,30 +164,18 @@ TEST_F(ClockingBlockSignalsErrorTest, AlwaysFFBodyAssignsNetsBAndCFromNetA) {
 
 // --- compiler diagnostics: this file must be rejected ----
 
-TEST_F(ClockingBlockSignalsErrorTest, CompilerReportsAtLeastOneErrorForProceduralAssignmentToNet) {
+TEST_F(ClockingBlockSignalsErrorTest, CompilerRejectsProceduralAssignmentToNets) {
   // IEEE 1800-2023 Table 10-1 / Sec 10.3.2: only a continuous assignment (or
   // a primitive/module output/inout drive) may drive a net; "b <= a;" and
   // "c <= a;" inside always_ff are procedural assignments to nets "b"/"c"
   // and must be rejected. This is the exact condition named by the source
   // file's own ":should_fail_because: assigning to net from procedural
   // context" tag.
-  //
-  // CONFIRMED HLC BUG (user-verified real build/run): the compiler reports
-  // zero errors for this file (m_fatals + m_syntaxes + m_errors == 0), even
-  // though "b"/"c" are plain untyped output ports (confirmed Nets by the
-  // AllFourPortsAreNetsNoVariables test above, which passes) and are driven
-  // by non-blocking procedural assignments inside always_ff (confirmed by
-  // AlwaysFFBodyAssignsNetsBAndCFromNetA, which also passes). HLC is not
-  // enforcing the Table 10-1 net/procedural-assignment restriction.
-  GTEST_SKIP() << "HLC accepts this file with zero errors; per IEEE 1800-2023 Table 10-1 / Sec "
-                  "10.3.2, a procedural (non-blocking) assignment to a net ('b <= a;', 'c <= a;' "
-                  "targeting untyped output ports 'b'/'c', confirmed Nets) is illegal and should "
-                  "be rejected. Confirmed compiler bug, matches this source file's own "
-                  "':should_fail_because: assigning to net from procedural context' tag.";
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "b"), nullptr)
-      << "IEEE 1800-2023 14.3 with 10.3 Table 10-1: output ports 'b' and 'c' are nets, so the "
-         "always_ff procedural assignments to them are illegal assignment targets.";
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "b", 27, 2), nullptr)
+      << "IEEE 1800-2023 10.1: a procedural assignment assigns values to variables; 'b' is a net.";
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "c", 28, 2), nullptr)
+      << "IEEE 1800-2023 10.1: a procedural assignment assigns values to variables; 'c' is a net.";
 }
 
 }  // namespace hlc

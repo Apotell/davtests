@@ -127,6 +127,11 @@ TEST_F(Chapter6ErrorRulesTest, Row12_NetWithTwoStateOrRealDataTypeIsRejected) {
   // Both 'wire bit r12_b' and 'wire real r12_r' are now rejected.
   EXPECT_NE(findEvent(EventType::CompIllegalNetDataType, "r12_r"), nullptr)
       << "real is not a valid data type for a built-in-nettype net (IEEE 1800-2023 6.7.1)";
+  // IEEE 1800-2023 6.7.1 (p.103): "A valid data type for a net shall be one of the following: a) A
+  // 4-state integral type ... b) A fixed-size unpacked array or unpacked structure or union ...".
+  // `bit` is a 2-state type, so `wire bit r12_b` (line 55) is not a valid net.
+  EXPECT_NE(findEvent(EventType::CompIllegalNetDataType, "r12_b", 55, 12), nullptr)
+      << "bit is a 2-state type, not a valid data type for a built-in-nettype net (IEEE 1800-2023 6.7.1)";
 }
 
 // --- row 13: bit-select of a vectored net (6.9.2) ---------------------------

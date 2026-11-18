@@ -172,6 +172,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -351,6 +352,15 @@ TEST_F(ClassTest3Test, ReportsAnErrorForAutomaticAfterClass) {
   EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
 }
 
+// IEEE 1800-2023 A.1.2: "class_declaration ::= [ virtual ] class [ final_specifier ]
+// class_identifier ..." -- the class production has no lifetime between `class` and the identifier
+// (unlike "package [ lifetime ] package_identifier"), so the `automatic` at 6:7 is not allowed
+// there, even though it names the lifetime 8.6 already gives class methods.
+TEST_F(ClassTest3Test, ReportsTheLifetimeOnTheClassDeclaration) {
+  ASSERT_NE(findEvent(EventType::CompIllegalClassLifetime, "Foo", 6, 7), nullptr)
+      << "A.1.2: class_declaration has no lifetime, so `class automatic Foo` must be reported";
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest3Test, NoErrorsOnTheLegalLines1To5) { EXPECT_EQ(describeSourceErrorsOnLines(1, kIllegalLine - 1), ""); }
@@ -364,21 +374,11 @@ TEST_F(ClassTest3Test, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for line 6.
-TEST_F(ClassTest3Test, ReportsNoMisreadingDiagnostics) {
-  // The file contains no grave accent (`), which begins every macro usage
-  // (22.5.1), so nothing in it is a macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
-
-  // Foo is within any identifier length limit, which "shall be at least 1024
-  // characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

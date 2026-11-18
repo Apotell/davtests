@@ -79,6 +79,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -170,6 +171,15 @@ class GateLevelTest : public Test {
 // --- module existence ----
 
 TEST_F(GateLevelTest, ModuleExists) { ASSERT_NE(getModule("LogicGates"), nullptr) << "module 'LogicGates' not found"; }
+
+// IEEE 1800-2023 23.2.2.1 (p.731): "Each port_identifier in a port_expression in the list of ports for
+// the module declaration shall also be declared in the body of the module as one of the following port
+// declarations: input, output, inout (bidirectional), ref, or as an interface port". The port y10 of LogicGates is listed
+// (line 1, column 53) but only y1-y9 are declared as outputs.
+TEST_F(GateLevelTest, UndeclaredPortY10IsReported) {
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "y10", 1, 53), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "y10", 1, 53), nullptr);
+}
 
 // --- unnamed gates: correct vpiPrimType and, per Sec 28.4, no name ----
 

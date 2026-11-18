@@ -127,8 +127,6 @@ TEST_F(Chapter13ErrorRulesTest, Row432_OmittedArgumentWithoutDefaultIsRejected) 
   // "If an unspecified argument is used for an argument that has no default
   // value, a compiler error shall be issued." read's formal k has no default;
   // line 83 omits every argument and line 84 leaves k's position empty.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 13.5.3 requires an error when a formal "
-                  "with no default value is left unspecified at the call site";
   EXPECT_NE(findEvent(EventType::CompMissingArgument, "k", 83, 5), nullptr)
       << "calling read() omits k, which has no default value (IEEE 1800-2023 13.5.3)";
   EXPECT_NE(findEvent(EventType::CompMissingArgument, "k", 84, 5), nullptr)

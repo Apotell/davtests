@@ -210,6 +210,18 @@ TEST_F(FuncBindingTest, FunBlockCallsFsmFunctionBoundToItsDeclaration) {
   ASSERT_EQ(call->getArguments()->size(), 4u) << "curr_state, req_0, req_1, next_state";
 }
 
+// IEEE 1800-2023 23.2.2.3 (p.735): "If the port kind is omitted: For input and inout ports, the port
+// shall default to a net of default net type." Only an output with an explicit data type defaults to a
+// variable. 6.7.1 (p.103): "A valid data type for a net shall be one of the following: a) A 4-state
+// integral type ...", so the 2-state `bit` of `input bit clock` (dut.sv:2) is not a valid net data type.
+// The output ports gnt_0/gnt_1 are variables and are not reported.
+TEST_F(FuncBindingTest, TwoStateInputPortsAreNotValidNetDataTypes) {
+  ASSERT_NE(findEvent(EventType::CompIllegalNetDataType, "clock", 2, 11), nullptr);
+  ASSERT_NE(findEvent(EventType::CompIllegalNetDataType, "reset", 3, 11), nullptr);
+  ASSERT_NE(findEvent(EventType::CompIllegalNetDataType, "req_0", 4, 11), nullptr);
+  ASSERT_NE(findEvent(EventType::CompIllegalNetDataType, "req_1", 5, 11), nullptr);
+}
+
 // Sec 13.4: "It shall be illegal to call a function with output, inout, or ref
 // arguments ... in an expression within a procedural continuous assignment".
 // fsm_function has 'output logic [1:0] future_state', and dut.sv:17:22 calls it

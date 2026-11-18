@@ -26,12 +26,9 @@
 // Fixture: 23--error_rules.sv (rows 862, 864, 881), compiled in one run by
 // 23--error_rules.hlc.
 //
-// None of the three event codes exercised here (CompMissingArgument,
-// CompIllegalExpressionContext) have a call site anywhere in src/ outside
-// their own events/*.yaml definition, so every assertion below is
-// expected to be red today -- that is the intended, documented state of this
-// exercise, not a bug for this file to work around. No test asserts the
-// absence of a diagnostic, which would lock the gap in.
+// CompMissingArgument (rows 862, 864) is reported by HLC's Linter
+// (Linter::checkRefInstance). No test asserts the absence of a diagnostic,
+// which would lock a gap in.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
@@ -50,10 +47,10 @@ class Chapter23ErrorRulesTest : public Test {
 
 TEST_F(Chapter23ErrorRulesTest, Row862_RefPortCannotBeLeftUnconnected) {
   // catalog row 862 | 23.3.3.2 | LINT
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 23.3.3.2)";
   // A ref port shall be connected to an equivalent variable data type and
-  // cannot be left unconnected.
-  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r862_sub"), nullptr)
+  // cannot be left unconnected. Instance u (line 20) leaves r862_sub's ref
+  // port r unconnected.
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r", 20, 12), nullptr)
       << "a ref port cannot be left unconnected (IEEE 1800-2023 23.3.3.2)";
 }
 
@@ -61,10 +58,10 @@ TEST_F(Chapter23ErrorRulesTest, Row862_RefPortCannotBeLeftUnconnected) {
 
 TEST_F(Chapter23ErrorRulesTest, Row864_InterfacePortCannotBeLeftUnconnected) {
   // catalog row 864 | 23.3.3.4 | LINT
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 23.3.3.4)";
   // An interface port shall always be connected to an interface instance or
-  // a higher level interface port; it cannot be left unconnected.
-  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r864_sub"), nullptr)
+  // a higher level interface port; it cannot be left unconnected. Instance
+  // u (line 29) leaves r864_sub's interface port i unconnected.
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "i", 29, 12), nullptr)
       << "an interface port cannot be left unconnected (IEEE 1800-2023 23.3.3.4)";
 }
 

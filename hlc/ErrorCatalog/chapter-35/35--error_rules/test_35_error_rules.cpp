@@ -109,6 +109,15 @@ TEST_F(Chapter35ErrorRulesTest, Row1123_DeprecatedDpiSpecStringIsDiagnosed) {
       << "the deprecated 'DPI' spec string must be diagnosed (IEEE 1800-2023 35.5.4)";
 }
 
+// IEEE 1800-2023 35.5.4 (p.978): "Use of the string "DPI" shall generate a compile-time warning or
+// error." The rule applies to every use of the string, independent of any other declaration of the
+// c_identifier, so the `import "DPI"` of r1109_f in r1109_n (line 25) is diagnosed on its own, as
+// the one in r1123_m is. (The mixed "DPI"/"DPI-C" rule of row 1109 is a separate requirement.)
+TEST_F(Chapter35ErrorRulesTest, DeprecatedDpiSpecStringOfRow1109ImportIsDiagnosed) {
+  ASSERT_NE(findEvent(EventType::CompIllegalDpiDeclaration, "r1109_f", 25, 3), nullptr)
+      << "35.5.4: the deprecated 'DPI' spec string on the r1109_f import must be diagnosed";
+}
+
 // --- the dpi_spec_string is a property of the import, not an expression ------
 
 TEST_F(Chapter35ErrorRulesTest, DpiCSpecStringIsRecordedOnTheImport) {

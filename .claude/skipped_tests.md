@@ -31,7 +31,7 @@ this audit, so treat counts as a snapshot and re-verify before acting.
 
 | # | Category | Skips | Tests | Files | Cond. |
 |---|---|---|---|---|---|
-| 1 | Missing diagnostic (HLC accepts illegal code) | 113 | 113 | 48 | 3 |
+| 1 | Missing diagnostic (HLC accepts illegal code) | 101 | 101 | 42 | 3 |
 | 2 | Simulation-only (asserts a runtime value) | 82 | 82 | 82 | 0 |
 | 3 | Elaboration gap | 43 | 34 | 14 | 27 |
 | 4 | Unverified expectation (test author unsure of correct shape) | 29 | 29 | 27 | 0 |
@@ -49,7 +49,7 @@ usually a primary one plus knock-on skips ("'pp2' itself was not elaborated").
 
 ## 3. Categories and root causes
 
-### 3.1 Missing diagnostic (113)
+### 3.1 Missing diagnostic (101)
 
 HLC compiles code that IEEE 1800-2023 says is illegal, with no error. The test
 asserts the error the standard requires.
@@ -255,23 +255,22 @@ Paths are relative to the davtests repo root.
 - `hlc/EnumVarNoTypedef/EnumVarNoTypedef/test_EnumVarNoTypedef.cpp`: `CompilerShouldRejectSizeMismatchButDoesNot`
 - `hlc/ErrorCatalog/chapter-10/10--error_rules/test_10_error_rules.cpp`: `Row290_NonConstantSelectOnContinuousAssignLhsIsRejected`, `Row298_SelectIntoAtomicNetLhsIsRejected`, `Row309_AssignmentPatternInPortExpressionIsRejected`, `Row316_UnpackedArrayConcatOutsideAssignmentLikeContextIsRejected`, `Row322_ReplicationInsideUnpackedArrayConcatIsRejected`, `Row323_NestedUnpackedArrayConcatIsRejected`
 - `hlc/ErrorCatalog/chapter-11/11--error_rules/test_11_error_rules.cpp`: `Row338_SelectOfConcatenationCannotBeAssignmentLhs`, `Row340_ReplicationCannotBeAssignmentLhs`, `Row341_ReplicationCannotConnectToOutputPort`, `Row346_StreamingConcatenationCannotBeBareOperand`, `Row369_EventTypedLetFormalReferencedOutsideEventExpressionContext`
-- `hlc/ErrorCatalog/chapter-13/13--error_rules/test_13_error_rules.cpp`: `Row404_DiscardedNonvoidReturnValueIsWarned`, `Row420_PostReturnEventSchedulingOutsideInitialAlwaysForkThread`, `Row432_OmittedArgumentWithoutDefaultIsRejected`
+- `hlc/ErrorCatalog/chapter-13/13--error_rules/test_13_error_rules.cpp`: `Row404_DiscardedNonvoidReturnValueIsWarned`, `Row420_PostReturnEventSchedulingOutsideInitialAlwaysForkThread`
 - `hlc/ErrorCatalog/chapter-14/14--error_rules/test_14_error_rules.cpp`: `Row444_CycleDelayWithoutDefaultClockingIsRejected`, `Row450_GlobalClockWithNoEffectiveGlobalClockingIsRejected`, `Row453_ClockvarExpressionCannotBeAConcatenation`
 - `hlc/ErrorCatalog/chapter-15/15--error_rules/test_15_error_rules.cpp`: `Row460_MailboxGetMessageArgumentMustBeAValidLhsExpression`
-- `hlc/ErrorCatalog/chapter-16/16--error_rules/test_16_error_rules.cpp`: `Row474_NonStaticClassPropertyInAssertionIsRejected`, `Row476_SideEffectInAssertionExpressionIsRejected`, `Row478_FunctionWithStateOrSideEffectsInAssertionIsRejected`, `Row483_NamedSequenceInstanceMissingActualForFormalIsRejected`, `Row484_DollarActualBoundToFormalUsedAsOrdinaryOperandIsRejected`, `Row489_SequenceTypedFormalUsedAsGotoRepetitionOperandIsRejected`, `Row490_EventTypedFormalActualNotAnEventExpressionIsRejected`, `Row514_FutureSampledValueFunctionWithMatchItemsIsRejected`
+- `hlc/ErrorCatalog/chapter-16/16--error_rules/test_16_error_rules.cpp`: `Row476_SideEffectInAssertionExpressionIsRejected`, `Row478_FunctionWithStateOrSideEffectsInAssertionIsRejected`, `Row484_DollarActualBoundToFormalUsedAsOrdinaryOperandIsRejected`, `Row489_SequenceTypedFormalUsedAsGotoRepetitionOperandIsRejected`, `Row490_EventTypedFormalActualNotAnEventExpressionIsRejected`, `Row514_FutureSampledValueFunctionWithMatchItemsIsRejected`
 - `hlc/ErrorCatalog/chapter-17/17--error_rules/test_17_error_rules.cpp`: `Row580_DollarActualRequiresUntypedFormalUsedAsDelayBound`, `Row582_CheckerOutputArgumentMustBeLvalue`, `Row597_FunctionInCheckerAssignmentMustBeSideEffectFree`
 - `hlc/ErrorCatalog/chapter-18/18--error_rules/test_18_error_rules.cpp`: `Row608_ConstrainingAssociativeArraySizeIsRejected`, `Row613_ParenthesesOnConstraintPrimaryRequireArrayMethod`, `Row615_DistExpressionCannotNestInAnotherExpression`, `Row616_ExternalConstraintBlockMustFollowItsClass`, `Row629_RealDistRangeRequiresColonSlashWithWeight`, `Row630_DistDefaultSpecificationMustUseColonSlash`, `Row633_DistExpressionRequiresARandVariable`, `Row634_UniqueRangeListItemsMustBeSingularVariables`, `Row637_FunctionCallCannotBeForeachArrayIdentifier`, `Row646_ConstraintFunctionMustBeSideEffectFree`, `Row647_ConstraintFunctionCannotModifyConstraints`, `Row652_ScopeRandomizeCannotUseWithIdentifierListOrNull`, `Row665_RandsequenceRepeatCountMustBeNonNegative`, `Row666_RandJoinWeightMustBeInZeroToOneRange`
-- `hlc/ErrorCatalog/chapter-19/19--error_rules/test_19_error_rules.cpp`: `Row672_CovergroupNewMustSupplyEveryNonDefaultedActual`, `Row680_CoverpointNameNotUsableForOptionAssignment`, `Row682_CovergroupExpressionConstantMustBeEnclosingClassMember`, `Row685_CovergroupExpressionFunctionMustHaveNoSideEffects`, `Row694_OnlyEnclosingCoverpointNameAllowedAsRangeList`, `Row696_CoverpointIdentifierNotVisibleInSetExpression`, `Row705_NegativeBinValueAgainstUnsignedCoverpointIsWarned`, `Row711_CrossNameNotUsableForOptionAssignment`, `Row713_OnlyEnclosingCrossIdentifierAllowedAsSelectExpression`, `Row719_OptionWeightMustBeNonNegative`, `Row720_ProceduralPerInstanceAssignmentIsRejected`, `Row721_AutoBinMaxOnlySettableInDefinition`, `Row725_StrobeOnlySettableInCovergroupDefinition`, `Row728_SampleFormalUsableOnlyInCoverpointOrGuard`
+- `hlc/ErrorCatalog/chapter-19/19--error_rules/test_19_error_rules.cpp`: `Row680_CoverpointNameNotUsableForOptionAssignment`, `Row682_CovergroupExpressionConstantMustBeEnclosingClassMember`, `Row685_CovergroupExpressionFunctionMustHaveNoSideEffects`, `Row694_OnlyEnclosingCoverpointNameAllowedAsRangeList`, `Row696_CoverpointIdentifierNotVisibleInSetExpression`, `Row705_NegativeBinValueAgainstUnsignedCoverpointIsWarned`, `Row711_CrossNameNotUsableForOptionAssignment`, `Row713_OnlyEnclosingCrossIdentifierAllowedAsSelectExpression`, `Row719_OptionWeightMustBeNonNegative`, `Row720_ProceduralPerInstanceAssignmentIsRejected`, `Row721_AutoBinMaxOnlySettableInDefinition`, `Row725_StrobeOnlySettableInCovergroupDefinition`, `Row728_SampleFormalUsableOnlyInCoverpointOrGuard`
 - `hlc/ErrorCatalog/chapter-20/20--error_rules/test_20_error_rules.cpp`: `Row731_FinishDiagnosticArgumentMustBe0Or1Or2`, `Row732_TimeformatUnitsNumberMustBeInRange`, `Row744_AssertcontrolControlTypeMustBeInTable20_5`
 - `hlc/ErrorCatalog/chapter-21/21--error_rules/test_21_error_rules.cpp`: `Row754_FormatSpecifierWithoutAnArgumentIsRejected`, `Row762_FopenTypeMustBeATable21_6Form`, `Row765_SformatArgumentCountMustMatchFormatSpecifiers`, `Row782_OmittedDumpportsScopeListRequiresLeadingComma`, `Row786_DumpportslimitFilesizeArgumentIsRequired`
-- `hlc/ErrorCatalog/chapter-23/23--error_rules/test_23_error_rules.cpp`: `Row862_RefPortCannotBeLeftUnconnected`, `Row864_InterfacePortCannotBeLeftUnconnected`
 - `hlc/ErrorCatalog/chapter-25/25--error_rules/test_25_error_rules.cpp`: `Row912_RefDirectionModportSignalCannotBeSpecifyTerminal`
 - `hlc/ErrorCatalog/chapter-26/26--error_rules/test_26_error_rules.cpp`: `Row942_AmbiguousWildcardImportedNameIsRejected`
 - `hlc/ErrorCatalog/chapter-3/3--error_rules/test_3_error_rules.cpp`: `Row7_AttributeNameIsNotVisibleOutsideAttributeNameSpace`, `Row12_MixedTimescaleAndNoTimescaleElementsAreRejected`
 - `hlc/ErrorCatalog/chapter-31/31--error_rules/test_31_error_rules.cpp`: `Row1034_SetupholdNegativeLimitPairMustExceedPrecision`, `Row1037_RecremNegativeLimitPairMustExceedPrecision`, `Row1052_AdjustedDelayedSignalLimitBelowZeroIsClampedWithWarning`
 - `hlc/ErrorCatalog/chapter-35/35--error_rules/test_35_error_rules.cpp`: `Row1109_SameCIdentifierMustUseSameDpiVersionString`
 - `hlc/ErrorCatalog/chapter-6/6--error_rules/test_6_error_rules.cpp`: `Row19_ForwardTypedefMismatchIsRejected`, `Row20_ScopeResolutionOnIncompleteForwardTypeIsRejected`, `Row27_MissingLifetimeKeywordIsRejected`, `Row25_StatementBeforeDeclarationIsRejected`
-- `hlc/ErrorCatalog/chapter-8/8--error_rules/test_8_error_rules.cpp`: `Row201_NonStaticAccessFromStaticMethodIsRejected`, `Row236_NestedClassCannotImplicitlyAccessOuterNonStaticMember`, `Row239_OutOfBlockDeclarationMustFollowTheClass`
+- `hlc/ErrorCatalog/chapter-8/8--error_rules/test_8_error_rules.cpp`: `Row201_NonStaticAccessFromStaticMethodIsRejected`, `Row239_OutOfBlockDeclarationMustFollowTheClass`
 - `hlc/ForeachFunction/ForeachFunction/test_ForeachFunction.cpp`: `ForeachIndexCountExceedsArrayRank`
 - `hlc/Google/chapter-10/10.3--proc-assignment--bad/test_10.3_proc-assignment--bad.cpp`: `CompilerShouldRejectProceduralAssignmentToWireButDoesNot`
 - `hlc/Google/chapter-11/11.4.14.3--unpack_stream_inv/test_11.4.14.3_unpack_stream_inv.cpp`: `CompilerShouldRejectOversizedStreamUnpackButDoesNot`
@@ -284,17 +283,12 @@ Paths are relative to the davtests repo root.
 - `hlc/Google/chapter-6/6.19--enum_value_inv/test_6.19_enum_value_inv.cpp`: `CompilerShouldRejectSizeMismatchButDoesNot`
 - `hlc/Google/chapter-6/6.19--enum_xx_inv/test_6.19_enum_xx_inv.cpp`: `CompilerShouldRejectXValueOn2StateEnumButDoesNot`
 - `hlc/Google/chapter-6/6.19--enum_xx_inv_order/test_6.19_enum_xx_inv_order.cpp`: `CompilerShouldRejectUnassignedNameAfterXValueButDoesNot`
-- `hlc/Google/chapter-6/6.19.3--enum_type_checking_inv/test_6.19.3_enum_type_checking_inv.cpp`: `CompilerShouldRejectUncastIntAssignmentButDoesNot`
-- `hlc/Google/chapter-6/6.19.4--enum_numerical_expr_no_cast/test_6.19.4_enum_numerical_expr_no_cast.cpp`: `CompilerShouldRejectUncastCompoundAssignmentButDoesNot`
-- `hlc/Google/chapter-6/6.5--variable_mixed_assignments/test_6.5_variable_mixed_assignments.cpp`: `CompilerShouldRejectMixedContinuousAndProceduralAssignmentButDoesNot`
 - `hlc/Google/chapter-6/6.5--variable_multiple_assignments/test_6.5_variable_multiple_assignments.cpp`: `CompilerShouldRejectTwoContinuousAssignmentsToOneVariableButDoesNot`
 - `hlc/Google/chapter-6/6.5--variable_redeclare/test_6.5_variable_redeclare.cpp`: `CompilerShouldRejectRedeclarationOfVButDoesNot`
 - `hlc/Google/chapter-7/arrays/packed/variable-slice-zero/test_7.4.3_arrays_packed_variable-slice-zero.cpp`: `CompilerShouldRejectZeroWidthIndexedPartSelect`
 - `hlc/HierBitSelect/HierBitSelect/test_HierBitSelect.cpp`: `MidoBytesInFailsToBind`, `StateDFailsToBind`, `StateD1FailsToBind`
 - `hlc/NetsAndVariables/DefaultNettype/NoneGateTerminal/test_NetsAndVariables_DefaultNettype_NoneGateTerminal.cpp`: `UndeclaredGateTerminalNetIsRejected`
 - `hlc/NetsAndVariables/DefaultNettype/NoneInstancePort/test_NetsAndVariables_DefaultNettype_NoneInstancePort.cpp`: `UndeclaredInstancePortNetIsRejected`
-- `hlc/NetsAndVariables/DefaultNettype/UnrecognizedArgument/test_NetsAndVariables_DefaultNettype_UnrecognizedArgument.cpp`: `UnrecognizedArgumentIsRejected`
-- `hlc/NetsAndVariables/DefaultNettype/WrongCase/test_NetsAndVariables_DefaultNettype_WrongCase.cpp`: `WrongCaseIsRejected`
 - `hlc/NetsAndVariables/illegal_construct/ProceduralAssignmentUndeclared/test_NetsAndVariables_IllegalConstruct_ProceduralAssignmentUndeclared.cpp`: `ProceduralAssignmentToUndeclaredIsRejected`
 - `hlc/PackageDpi/PackageDpi/test_PackageDpi.cpp`: `UndeclaredTypeUvmObjectWrapperIsReported`
 - `hlc/Sequence/sequence14/test_sequence14.cpp`: `Seq14_MatchItems_OnlyModifyLocalVars`

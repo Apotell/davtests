@@ -305,25 +305,11 @@ TEST_F(LineIllegal2Test, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for line 17.
-TEST_F(LineIllegal2Test, ReportsNoMisreadingDiagnostics) {
-  // A `line "can be specified anywhere" (22.12), and the file has no design
-  // element anyway.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `line is a compiler directive (22.1), not a usage of a text macro, and
-  // somefile has no grave accent, so it is no macro usage either.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
-
-  // A `line reads no file (22.12), so nothing named somefile is opened.
-  EXPECT_EQ(findEvent(EventType::PpCannotOpenFile), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpCannotOpenIncludeFile), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

@@ -312,6 +312,14 @@ TEST_F(ClassTest20Test, ReportsAnErrorForTheUndeclaredNames) {
   EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
 }
 
+// IEEE 1800-2023 3.12.1 (p.57): "Other than for task and function names (see 23.8.1), references
+// shall only be made to names already defined in the compilation unit." IEEE 1800-2023 26.3
+// (p.808): "The compilation of a package shall precede the compilation of scopes in which the
+// package is imported." Package::Bar names no package, so the base class is undefined.
+TEST_F(ClassTest20Test, ReportsTheUndefinedBaseClass) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "Package::Bar", 6, 19), nullptr);
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest20Test, NoErrorsOnTheLegalLines1To5) {

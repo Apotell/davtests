@@ -46,6 +46,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -107,7 +108,10 @@ TEST_F(AnsiPortRedeclaredTest, AnsiHeaderIsAccepted) { EXPECT_EQ(eventsOnLines(k
 TEST_F(AnsiPortRedeclaredTest, BodyRedeclarationIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  ASSERT_NE(findEvent(EventType::CompIllegalPortRedeclaration, kRedeclarationLine), nullptr);
+  // IEEE 1800-2023 23.2.2.2 (p.734): "The port identifier shall not be redeclared, in part or in
+  // full, inside the module body." Reported at the body declaration of a (20:14).
+  ASSERT_NE(findEvent(EventType::CompIllegalPortRedeclaration, "a", kRedeclarationLine, 14), nullptr)
+      << "wire a redeclares ANSI port a and must be reported";
 }
 
 TEST_F(AnsiPortRedeclaredTest, NoErrorAfterTheRedeclaration) {

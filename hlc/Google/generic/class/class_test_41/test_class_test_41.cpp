@@ -360,17 +360,11 @@ TEST_F(ClassTest41Test, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for lines 7-10. An "unknown macro" diagnostic is
-// not among them: it is the expected kind of error here.
-TEST_F(ClassTest41Test, ReportsNoMisreadingDiagnostics) {
-  // The longest identifier, macros_as_class_item, has 20 characters, within any
-  // limit, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

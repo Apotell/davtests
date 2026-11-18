@@ -115,6 +115,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -358,15 +359,12 @@ TEST_F(BehaviorOfRandomizationMethods4Test, IllegalRandomizeOverrideBodyAssignsS
 // Diagnostics -- the point of this file
 // ---------------------------------------------------------------------------
 
-// Expected to fail until HLC is fixed -- see KNOWN FAILURE (override of
-// randomize() is not rejected) in the file header.
+// IEEE 1800-2023 18.6.3 (p.551): "The randomize() method is built-in and cannot be overridden."
+// The class declares `function void randomize();` on line 22, column 5.
 TEST_F(BehaviorOfRandomizationMethods4Test, RandomizeOverrideIsReportedAsError) {
-  size_t onOverride = 0;
-  for (const uint32_t line : getErrorLinesInThisFile()) {
-    if (line >= kOverrideFirstLine && line <= kOverrideLastLine) ++onOverride;
-  }
-  EXPECT_GE(onOverride, 1u) << "18.6.3: \"The randomize() method is built-in and cannot be overridden.\" -- "
-                               "the declaration on lines 22-24 must draw a fatal, syntax or error diagnostic";
+  EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "randomize", 22, 5), nullptr)
+      << "18.6.3: \"The randomize() method is built-in and cannot be overridden.\" -- the declaration on "
+         "line 22 must be reported";
 }
 
 // Passes with HLC 577 only because of the false error on line 20 -- see the

@@ -131,6 +131,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -319,6 +320,15 @@ TEST_F(IfaceClassTest5Test, ReportsUndefinedPackageAndBaseClass) {
   EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "base2", 6), nullptr)
       << "8.26.3: base2 (line 6) is extended but never declared;"
       << describeEvents(eventListener, EventSeverity::Error);
+}
+
+// IEEE 1800-2023 8.26 (p.211): "An interface class shall be declared before it is implemented or
+// extended." IEEE 1800-2023 26.3 (p.808): "The compilation of a package shall precede the
+// compilation of scopes in which the package is imported." pkg1 names no package and base2 is never
+// declared.
+TEST_F(IfaceClassTest5Test, ReportsTheUndefinedBaseClass) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "pkg1::base1", 6, 46), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "base2", 6, 59), nullptr);
 }
 
 // Lines 6-7 match interface_class_declaration (A.1.9), so the errors above

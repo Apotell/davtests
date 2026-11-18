@@ -367,6 +367,18 @@ TEST_F(CmdArgsTimescaleEmptyTest, ReportsCmdTimescaleMissingSetting) {
       << "CmdTimescaleMissingSetting expected for: -timescale= with no value";
 }
 
+// -timescale=1xs/1ns: -timescale with a unit that is not s, ms, us, ns, ps or fs (IEEE 1800-2023 Sec 22.7).
+class CmdArgsTimescaleBadUnitTest : public Test {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-nocompile", "-f", "TimescaleBadUnit/TimescaleBadUnit.hlc"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+};
+
+TEST_F(CmdArgsTimescaleBadUnitTest, ReportsPaTimescaleInvalidUnit) {
+  EXPECT_NE(findEvent(EventType::PaTimescaleInvalidUnit), nullptr)
+      << "PaTimescaleInvalidUnit expected for: -timescale=1xs/1ns";
+}
+
 // nosuch.sv: a source file that does not exist.
 class CmdArgsVerilogFileMissingTest : public Test {
  public:

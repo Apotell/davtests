@@ -38,9 +38,8 @@ class UnrecognizedArgumentTest : public Test {
 };
 
 TEST_F(UnrecognizedArgumentTest, UnrecognizedArgumentIsRejected) {
-  GTEST_SKIP() << "`default_nettype mytype is illegal: 'mytype' is not a net type keyword or 'none'.";
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue), nullptr)
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue, "mytype", 21, 18), nullptr)
       << "IEEE 1800-2023 22.8: default_nettype accepts only wire, tri, tri0, tri1, triand, "
          "trior, trireg, uwire, wand, wor or none, and 'mytype' is not one of them.";
 }

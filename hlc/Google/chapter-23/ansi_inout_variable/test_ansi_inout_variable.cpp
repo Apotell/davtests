@@ -41,6 +41,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -100,7 +101,10 @@ class AnsiInoutVariableTest : public Test {
 TEST_F(AnsiInoutVariableTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  ASSERT_NE(findEvent(EventType::CompIllegalVariableOnInoutPort, kIllegalLine), nullptr);
+  // IEEE 1800-2023 A.10 footnote 2 (p.1216): "a ref port shall be of a variable type and an inout port
+  // shall not be." Reported at the port x (19:26).
+  ASSERT_NE(findEvent(EventType::CompIllegalVariableOnInoutPort, "x", kIllegalLine, 26), nullptr)
+      << "inout port x of variable type must be reported";
 }
 
 TEST_F(AnsiInoutVariableTest, NoErrorAfterTheIllegalCode) {

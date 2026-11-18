@@ -79,14 +79,11 @@
 // expected to fail until HLC is fixed; it is intentionally not skipped or
 // relaxed.
 //
-// KNOWN COMPILER BUG (undeclared non-ANSI ports unreported), not a defect in
-// this test: HLC accepts the list of ports '(inp, out1, out2, out3)' with no
-// port declaration in the module body and reports nothing, although 23.2.2.1
-// requires each port_identifier to "also be declared in the body of the
-// module" and 22.8 requires an error for an undeclared net under
-// '`default_nettype none'. HLC records the four ports with no direction.
-// UndeclaredPortsAreErrors is expected to fail until HLC is fixed; it is
-// intentionally not skipped or relaxed.
+// 23.2.2.1 requires each port_identifier in the list of ports to "also be
+// declared in the body of the module", and 22.8 requires an error for an
+// undeclared net under '`default_nettype none'. The list of ports
+// '(inp, out1, out2, out3)' has no port declaration in the module body, so
+// UndeclaredPortsAreErrors expects CompUndeclaredPort for each of the four.
 //
 // Model convention: HLC stores the formal argument 'inp' both as an IODecl and
 // as a Variable of func3, and a reference to it may bind to either.
@@ -109,7 +106,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
-#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -143,17 +140,6 @@ class ParamInFuncTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Whether a diagnostic of error severity names 'symbol'. Which error
-  // identifier HLC picks for it is a tool convention, so any is accepted.
-  bool reportsErrorNaming(std::string_view symbol) {
-    for (const EventDefinition &entry : getEventTable()) {
-      if ((entry.m_severity == EventSeverity::Error) && (findEvent(entry.m_type, symbol) != nullptr)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   static const hldb::Module *getTop() {
     return hldb::findByDefName<hldb::Module>("func_block_top", m_design->getAllModules());
   }
@@ -351,16 +337,20 @@ TEST_F(ParamInFuncTest, RhsPrefixIsFunc3Argument) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
-// non-ANSI ports unreported) in the file header.
+// IEEE 1800-2023 23.2.2.1 (p.731): "Each port_identifier in a port_expression in the list of ports for
+// the module declaration shall also be declared in the body of the module as one of the following port
+// declarations: input, output, inout (bidirectional), ref, or as an interface port". Only func3 declares an input inp, and that
+// is the function's argument (13.4), not a port declaration in the module body, so all four ports are
+// undeclared.
 TEST_F(ParamInFuncTest, UndeclaredPortsAreErrors) {
-  for (std::string_view port : {"inp", "out1", "out2", "out3"}) {
-    EXPECT_TRUE(reportsErrorNaming(port))
-        << "23.2.2.1: port '" << port
-        << "' shall also be declared in the body of the module as an input, output, inout, "
-           "ref or interface port; 22.8: with '`default_nettype none' an undeclared net is "
-           "an error";
-  }
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "inp", 3, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "inp", 3, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out1", 3, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out1", 3, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out2", 3, 34), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out2", 3, 34), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "out3", 3, 40), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "out3", 3, 40), nullptr);
 }
 
 TEST_F(ParamInFuncTest, NoFatalOrSyntaxDiagnostics) {

@@ -103,6 +103,7 @@
 //     derived from IEEE 1800-2023 6.7 text, not confirmed by running the
 //     compiler.
 
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -252,6 +253,10 @@ TEST_F(EventSequenceTest, ProceduralAssignmentToWiresAYAndClkIsIllegal) {
       << "'y = 1;' procedurally assigns the net 'y', illegal per IEEE 1800-2023 6.7";
   EXPECT_NE(findEvent(EventType::IllegalWireLhs, "clk"), nullptr)
       << "'clk = 1;'/'clk = 0;' procedurally assign the net 'clk', illegal per IEEE 1800-2023 6.7";
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "b", 37, 5), nullptr)
+      << "'b = 1;' procedurally assigns the net 'b', illegal per IEEE 1800-2023 10.1";
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "c", 40, 5), nullptr)
+      << "'c = 1;' procedurally assigns the net 'c', illegal per IEEE 1800-2023 10.1";
 }
 }  // namespace hlc
 

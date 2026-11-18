@@ -34,18 +34,11 @@
 //     with vpiDelay Constant "10"
 //   - design-level typespecs (2): ModuleTypespec, IntTypespec (signed)
 //
-// Known compiler defect (see CompilerShouldRejectProceduralAssignmentToWireButDoesNot
-// below): this file's own ':should_fail_because:' annotation states the
-// construct is illegal per IEEE 1800-2017 Table 10-1 -- a net (here, `wire w`)
-// can only be driven by a continuous assignment, a gate, or a port
-// connection, never by a procedural (blocking/non-blocking) assignment
-// inside an initial/always block. The compiler currently emits ZERO errors
-// and happily elaborates 'w = #10 a & b;' as an ordinary Assignment with the
-// Net "w" as its lhs (see above) -- it does not enforce this rule at all.
-// This is not a simulation gap: the compiler already resolves "w" to a Net
-// (not a Variable) at compile time, via the very same RefTypespec ->
-// LogicTypespec / vpiNetType:wire data checked above, so it has everything
-// it needs to reject this statement and doesn't.
+// Illegal construct (this file's own ':should_fail_because:' annotation): per IEEE 1800-2023
+// 10.1 (p.247) "the procedural assignment, which assigns values to variables"; a net (here,
+// `wire w`) is driven only by a continuous assignment, a gate, or a port connection, so the
+// procedural 'w = #10 a & b;' is illegal. HLC reports EventType::IllegalWireLhs at 23:2, which
+// CompilerRejectsProceduralAssignmentToWire asserts.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -188,13 +181,11 @@ TEST_F(ProcAssignmentBadTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-// --- known compiler defect: illegal procedural assignment to a net ----
+// --- illegal procedural assignment to a net ----
 
-TEST_F(ProcAssignmentBadTest, CompilerShouldRejectProceduralAssignmentToWireButDoesNot) {
-  GTEST_SKIP() << "HLC does not enforce IEEE 1800-2023 Table 10-1: a net shall not be the target of a "
-                  "procedural assignment. Fix pending.";
+TEST_F(ProcAssignmentBadTest, CompilerRejectsProceduralAssignmentToWire) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "w"), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "w", 23, 2), nullptr)
       << "IEEE 1800-2023 10.3 Table 10-1: 'w' is a wire, and a net may only be driven by a "
          "continuous assignment or a primitive, so the procedural 'w = #10 a & b;' is an "
          "illegal assignment target.";

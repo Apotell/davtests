@@ -497,23 +497,12 @@ TEST_F(ClassTest29Test, Lines25To26ModuleIsAccepted) {
   EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest29Test, ReportsNoMisreadingDiagnostics) {
-  // Every declaration matches the grammar (A.1.2, A.2.2.1, A.9.3), and the
-  // file uses no preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // Pkg, Bar, Base, Baz, Foo and test are no keywords (5.6.2, Table B.1), and
-  // the longest have 4 characters, within any limit an implementation may
-  // set, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // Pkg is declared once, on lines 16-18, before the class that names it on
 // line 23 (3.12, 26.3), so none of these diagnostics applies, at any

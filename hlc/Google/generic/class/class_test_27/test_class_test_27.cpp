@@ -509,24 +509,12 @@ TEST_F(ClassTest27Test, Lines22To23ModuleIsAccepted) {
   EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest27Test, ReportsNoMisreadingDiagnostics) {
-  // Every declaration matches the grammar (A.1.2, A.1.3, A.2.2.1, A.9.3), and
-  // the file uses no preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // Package, Bar, A, B, Foo and test are no keywords: "All keywords are
-  // defined in lowercase only" (5.6.2). The longest, Package, has 7
-  // characters, within any limit an implementation may set, which "shall be at
-  // least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // Package is declared once, on lines 16-18, before the class that names it
 // on line 20 (3.12, 26.3), so none of these diagnostics applies, at any
@@ -547,17 +535,11 @@ TEST_F(ClassTest27Test, ReportsNoClassDiagnostics) {
   EXPECT_EQ(findEvent(EventType::CompUnmatchedLabel), nullptr);
 }
 
-// A and B are distinct names; they are parameters, not local parameters, so
-// they may have no value in a parameter_port_list (Annex A footnote 22); and
-// "#(1, 2)" gives each of Bar's two parameters one constant by ordered list
-// (23.10.2.1). So none of these diagnostics applies, at any severity.
-TEST_F(ClassTest27Test, ReportsNoParameterDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedParameter), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompLocalparamNoValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompNotAConstantExpression), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabUnknownParameterOverride), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabMissingParameterOverride), nullptr);
-}
+// Removed test: ReportsNoParameterDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // The package, the classes and the module are each declared once, nothing is
 // instantiated, and test is a top-level module (23.3.1), so none of these

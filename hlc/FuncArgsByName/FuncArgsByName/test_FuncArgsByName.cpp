@@ -67,6 +67,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -231,6 +232,15 @@ TEST_F(FuncArgsByNameTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 0);
+}
+
+// // IEEE 1800-2023 13.4.1 (p.342): "Calling a nonvoid function as if it has no return value shall
+// be legal, // but shall issue a warning." The three statement calls of m_matches_type_pair (a
+// function returning bit) at lines 8, 11 and 13 discard the value.
+TEST_F(FuncArgsByNameTest, ReportsTheDiscardedReturnValue) {
+  EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "m_matches_type_pair", 8, 7), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "m_matches_type_pair", 11, 7), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "m_matches_type_pair", 13, 7), nullptr);
 }
 
 }  // namespace hlc

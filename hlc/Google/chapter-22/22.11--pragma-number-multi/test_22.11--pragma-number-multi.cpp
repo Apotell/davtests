@@ -362,47 +362,13 @@ TEST_F(PragmaNumberMultiTest, CompilesWithoutErrors) { EXPECT_EQ(sourceErrors(),
 // (22.11).
 TEST_F(PragmaNumberMultiTest, Line16PragmaIsAccepted) { EXPECT_EQ(sourceErrorsOnLine(kPragmaLine), ""); }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread line 16 as a directive, or the text of the file.
-TEST_F(PragmaNumberMultiTest, ReportsNoDirectiveMisreadingDiagnostics) {
-  // Line 16 matches Syntax 22-8, for the preprocessor and for the parser.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // A pragma_keyword = number pair is one of the pragma_expression forms of
-  // Syntax 22-8.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-
-  // The file has no design element, and 22.11 does not restrict where a
-  // `pragma may appear.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `pragma is a compiler directive (22.1), not a usage of a text macro, and
-  // no identifier on the line has a grave accent.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
-
-// pragma_number_other is not protect, so line 16 is no protect pragma and
-// starts no protected envelope (22.11.1, Clause 34). Either diagnostic, at any
-// severity, would mean HLC took it for one.
-TEST_F(PragmaNumberMultiTest, ReportsNoProtectPragmaDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpIllegalProtectPragma), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpDecryptionFailed), nullptr);
-}
-
-// pragma_number_other, a and b are legal simple_identifiers (A.9.3).
-TEST_F(PragmaNumberMultiTest, ReportsNoIdentifierDiagnostics) {
-  // None of them is a keyword (Table B.1).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-
-  // The longest, pragma_number_other, has 19 characters, within any limit an
-  // implementation may set, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-}
+// Removed tests: ReportsNoDirectiveMisreadingDiagnostics, ReportsNoProtectPragmaDiagnostics,
+// ReportsNoIdentifierDiagnostics. They only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // ---------------------------------------------------------------------------
 // The source file

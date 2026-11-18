@@ -219,12 +219,9 @@ TEST_F(EnumNumericalExprNoCastTest, AddConstant1IsIntConst) {
 // ---------------------------------------------------------------------------
 // The actual point of the file: enum compound-assignment without a cast is illegal
 // ---------------------------------------------------------------------------
-TEST_F(EnumNumericalExprNoCastTest, CompilerShouldRejectUncastCompoundAssignmentButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19.4: 'a cast shall be required for an expression that is assigned to "
-                  "an enum variable where the type of the expression is not equivalent to the enumeration "
-                  "type'";
+TEST_F(EnumNumericalExprNoCastTest, CompilerRejectsUncastCompoundAssignment) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes, "val", 23, 3), nullptr)
       << "IEEE 1800-2023 6.19.4: a compound numerical assignment on an enum variable with no "
          "cast back to the enum type violates the same strict type checking rule.";
 }

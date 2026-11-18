@@ -82,6 +82,13 @@ class EscapeTest : public Test {
 
 TEST_F(EscapeTest, DesignCompiles) { ASSERT_NE(m_design, nullptr); }
 
+// IEEE 1800-2023 3.12.1 (p.57): "Other than for task and function names (see 23.8.1), references
+// shall only be made to names already defined in the compilation unit." uvm_env is not defined in
+// this compilation (no file declares it), so the base class of env is undefined.
+TEST_F(EscapeTest, ReportsTheUndefinedBaseClass) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "uvm_env", 8, 19), nullptr);
+}
+
 TEST_F(EscapeTest, ModulesArePresent) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
   EXPECT_FALSE(m_design->getAllModules()->empty());

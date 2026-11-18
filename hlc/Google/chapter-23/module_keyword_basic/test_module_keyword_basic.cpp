@@ -148,13 +148,12 @@ TEST_F(ModuleKeywordBasicTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), "
 
 TEST_F(ModuleKeywordBasicTest, ModuleIsAccepted) { EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
 
-TEST_F(ModuleKeywordBasicTest, ReportsNoMisreadingDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 TEST_F(ModuleKeywordBasicTest, ModuleTopIsDeclared) {
   ASSERT_NE(m_design, nullptr);

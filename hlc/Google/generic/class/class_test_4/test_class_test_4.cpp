@@ -345,24 +345,12 @@ TEST_F(ClassTest4Test, Line15ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassLi
 // Lines 17-18: an empty module_declaration (A.1.2).
 TEST_F(ClassTest4Test, Lines17To18ModuleIsAccepted) { EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), ""); }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest4Test, ReportsNoMisreadingDiagnostics) {
-  // Both declarations match the grammar (A.1.2), and the file uses no
-  // preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // Foo and test are no keywords (Table B.1); virtual is one, where the
-  // grammar puts it. The longer identifier, test, has 4 characters, within any
-  // limit an implementation may set, which "shall be at least 1024
-  // characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // The class is declared once, extends nothing, and endclass has no label, so
 // none of these diagnostics applies, at any severity.

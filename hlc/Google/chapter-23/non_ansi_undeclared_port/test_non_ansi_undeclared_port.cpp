@@ -102,7 +102,9 @@ class NonAnsiUndeclaredPortTest : public Test {
 TEST_F(NonAnsiUndeclaredPortTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "b", kIllegalFirstLine), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "b", kIllegalFirstLine, 13), nullptr);
+  // 23.2.2.1 (p.731): the same undeclared port is also reported as a port of unspecified type.
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "b", kIllegalFirstLine, 13), nullptr);
 }
 
 TEST_F(NonAnsiUndeclaredPortTest, NoErrorAfterTheIllegalCode) {

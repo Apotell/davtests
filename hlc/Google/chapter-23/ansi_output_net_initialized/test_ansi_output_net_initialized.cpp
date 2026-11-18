@@ -44,6 +44,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -103,7 +104,10 @@ class AnsiOutputNetInitializedTest : public Test {
 TEST_F(AnsiOutputNetInitializedTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  ASSERT_NE(findEvent(EventType::CompIllegalPortInitializer, kIllegalLine), nullptr);
+  // IEEE 1800-2023 A.10 footnote 2 (p.1216): "It shall be illegal to initialize a port that is not a
+  // variable output port". Reported at the initializer (19:26) naming port x.
+  ASSERT_NE(findEvent(EventType::CompIllegalPortInitializer, "x", kIllegalLine, 26), nullptr)
+      << "net output port x with an initializer must be reported";
 }
 
 TEST_F(AnsiOutputNetInitializedTest, NoErrorAfterTheIllegalCode) {
