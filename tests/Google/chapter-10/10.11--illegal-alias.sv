@@ -1,0 +1,28 @@
+/*
+ Copyright 2020 Apotell
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+// Illegal alias statements (IEEE 1800-2023 Sec 10.11).
+
+module sub; wire w; endmodule
+module top(inout wand [7:0] a, inout wor [7:0] b, inout wire [7:0] c, inout wire [7:0] d);
+  logic [7:0] v;
+  sub u();
+  alias a = b;
+  alias c = v;
+  alias c[0] = u.w;
+  alias c = c;
+  alias c = d;
+endmodule
