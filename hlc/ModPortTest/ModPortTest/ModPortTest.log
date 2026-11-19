@@ -281,14 +281,14 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/top.v:29:1: Compile interface "mem_if".
 [WRN:PA5506] $Source01/top.v:29:1: No timescale set for "mem_if".
 [INF:CP5804] $Source01/top.v:36:1: Compile module "memory_ctrl1".
-[WRN:CP5811] $Source01/top.v:36:37: Port "sif" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/top.v:36:1: No timescale set for "memory_ctrl1".
 [INF:CP5804] $Source01/top.v:45:1: Compile module "memory_ctrl2".
-[WRN:CP5811] $Source01/top.v:45:36: Port "sif" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/top.v:45:1: No timescale set for "memory_ctrl2".
+[WRN:DV8514] $Source01/top.v:23:12: Failed to bind "ww_id".
 [ERR:DL2510] $Source01/top.v:14:3: Unknown or undefined type "id_t1".
-[ERR:CP5812] $Source01/top.v:23:12: Undefined net used in modport: "ww_id".
-[ERR:DL2510] $Source01/top.v:36:22: Unknown or undefined type "mem_if::system1".
+[ERR:CP5812] $Source01/top.v:23:12: Undefined name used in modport: "ww_id".
+[ERR:CP5828] $Source01/top.v:23:12: Undefined variable "ww_id".
+[ERR:CP6003] $Source01/top.v:36:29: Undefined modport "system1" of interface "mem_if".
 [ERR:DL2510] $Source01/top.v:51:1: Unknown or undefined type "DD".
 ====== HLDB =======
 Design name:unnamed:
@@ -437,6 +437,11 @@ Design name:unnamed:
               vpiParent: Modport name:Master
               vpiName: aw_id
               vpiDirection: output (2)
+              vpiExpr RefObj name:aw_id start:17:12 end:17:17:
+                vpiParent: IODecl name:aw_id
+                vpiName: aw_id
+                vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).Master.aw_id.aw_id
+                vpiActual: Variable name:aw_id
           vpiInterface: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
         Modport name:Slave start:22:11 end:22:16:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
@@ -446,6 +451,10 @@ Design name:unnamed:
               vpiParent: Modport name:Slave
               vpiName: ww_id
               vpiDirection: output (2)
+              vpiExpr RefObj name:ww_id start:23:12 end:23:17:
+                vpiParent: IODecl name:ww_id
+                vpiName: ww_id
+                vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).Slave.ww_id.ww_id
           vpiInterface: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
     Interface name:mem_if file:$Source01/top.v start:29:1 end:34:13:
       vpiParent: Design name:unnamed
@@ -499,6 +508,11 @@ Design name:unnamed:
               vpiParent: Modport name:system
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:31:26 end:31:29:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.system.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
         Modport name:memory start:32:12 end:32:18:
           vpiParent: Interface name:mem_if
@@ -508,6 +522,11 @@ Design name:unnamed:
               vpiParent: Modport name:memory
               vpiName: clk
               vpiDirection: output (2)
+              vpiExpr RefObj name:clk start:32:27 end:32:30:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.memory.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
       vpiPort (1 items):
         Port name:clk start:29:30 end:29:33:
@@ -659,13 +678,37 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif start:36:37 end:36:40:
             vpiParent: Port name:sif
             vpiName: sif
             vpiFullName: memory_ctrl1.sif.sif
+            vpiActual: Port name:sif
           vpiTypespec RefTypespec name:mem_if::system1 start:36:22 end:36:36:
             vpiParent: Port name:sif
+            vpiName: mem_if::system1
+            vpiFullName: memory_ctrl1.sif.mem_if::system1
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:36:22 end:36:28:
+                vpiParent: RefTypespec name:mem_if::system1
+                vpiName: mem_if
+                vpiFullName: memory_ctrl1.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system1 start:36:29 end:36:36:
+                vpiParent: RefTypespec name:mem_if::system1
+                vpiName: system1
+                vpiFullName: memory_ctrl1.sif.mem_if::system1.system1
+      vpiIODecl (1 items):
+        IODecl name:sif start:36:37 end:36:40:
+          vpiParent: Module name:memory_ctrl1
+          vpiName: sif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif start:36:37 end:36:40:
+            vpiParent: IODecl name:sif
+            vpiName: sif
+            vpiFullName: memory_ctrl1.sif.sif
+          vpiTypespec RefTypespec name:mem_if::system1 start:36:22 end:36:36:
+            vpiParent: IODecl name:sif
             vpiName: mem_if::system1
             vpiFullName: memory_ctrl1.sif.mem_if::system1
             vpiPathElem (2 items):
@@ -755,13 +798,40 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl2
           vpiName: sif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif start:45:36 end:45:39:
             vpiParent: Port name:sif
             vpiName: sif
             vpiFullName: memory_ctrl2.sif.sif
+            vpiActual: Modport name:system
           vpiTypespec RefTypespec name:mem_if::system start:45:22 end:45:35:
             vpiParent: Port name:sif
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl2.sif.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:45:22 end:45:28:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl2.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:45:29 end:45:35:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl2.sif.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
+      vpiIODecl (1 items):
+        IODecl name:sif start:45:36 end:45:39:
+          vpiParent: Module name:memory_ctrl2
+          vpiName: sif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif start:45:36 end:45:39:
+            vpiParent: IODecl name:sif
+            vpiName: sif
+            vpiFullName: memory_ctrl2.sif.sif
+            vpiActual: Modport name:system
+          vpiTypespec RefTypespec name:mem_if::system start:45:22 end:45:35:
+            vpiParent: IODecl name:sif
             vpiName: mem_if::system
             vpiFullName: memory_ctrl2.sif.mem_if::system
             vpiPathElem (2 items):
@@ -812,8 +882,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 7
+[  ERROR] : 5
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -858,10 +928,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       2         2
 Operation                            2       0       0         2
-RefObj                              12      11       0         1
-RefTypespec                         21      21       2         2
+RefObj                              20      19       0         1
+RefTypespec                         25      25       2         2
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                   135     132       4         7
+                                   149     146       4         7
 ===================== END REDUCTION RESULT =====================

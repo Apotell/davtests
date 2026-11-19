@@ -379,11 +379,8 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_twod.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface_twod.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_twod.v:38:1: Compile module "wrapper".
-[WRN:CP5811] $Source01/t_interface_twod.v:40:10: Port "isuba" definition missing its direction (input, output, inout).
 [NTE:CP5810] $Source01/t_interface_twod.v:40:17: Implicit port type (wire) for "isubb".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_twod.v:44:7: Failed to bind "isuba".
-[WRN:DV8514] $Source01/t_interface_twod.v:44:13: Failed to bind "value".
 [WRN:DV8514] $Source01/t_interface_twod.v:45:13: Failed to bind "value".
 [ERR:DL2510] Unknown or undefined type "ifc::i".
 [ERR:CP5861] $Source01/t_interface_twod.v:40:17: Illegal variable connected to inout port isubb.
@@ -456,6 +453,11 @@ Design name:unnamed:
               vpiParent: Modport name:i
               vpiName: value
               vpiDirection: output (2)
+              vpiExpr RefObj name:value start:8:22 end:8:27:
+                vpiParent: IODecl name:value
+                vpiName: value
+                vpiFullName: ifc.i.value.value
+                vpiActual: Variable name:value
           vpiInterface: Interface name:ifc
         Modport name:o start:9:12 end:9:13:
           vpiParent: Interface name:ifc
@@ -465,6 +467,11 @@ Design name:unnamed:
               vpiParent: Modport name:o
               vpiName: value
               vpiDirection: input (1)
+              vpiExpr RefObj name:value start:9:21 end:9:26:
+                vpiParent: IODecl name:value
+                vpiName: value
+                vpiFullName: ifc.o.value.value
+                vpiActual: Variable name:value
           vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_twod.v start:12:1 end:36:10:
@@ -857,11 +864,12 @@ Design name:unnamed:
           vpiParent: Module name:wrapper
           vpiName: isuba
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isuba start:40:10 end:40:15:
             vpiParent: Port name:isuba
             vpiName: isuba
             vpiFullName: wrapper.isuba.isuba
+            vpiActual: Modport name:i
           vpiTypespec RefTypespec name:ifc::i start:40:4 end:40:9:
             vpiParent: Port name:isuba
             vpiName: ifc::i
@@ -945,10 +953,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:isuba.value
                         vpiName: isuba
                         vpiFullName: wrapper.isuba
+                        vpiActual: Modport name:i
                       RefObj name:value start:44:13 end:44:18:
                         vpiParent: RefObj name:isuba.value
                         vpiName: value
                         vpiFullName: wrapper.value
+                        vpiActual: Variable name:value
+                    vpiActual: Variable name:value
                   vpiRhs RefObj name:i_valuea start:44:21 end:44:29:
                     vpiParent: Assignment
                     vpiName: i_valuea
@@ -979,6 +990,32 @@ Design name:unnamed:
                     vpiActual: Net name:i_valueb
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:isuba start:40:10 end:40:15:
+          vpiParent: Module name:wrapper
+          vpiName: isuba
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isuba start:40:10 end:40:15:
+            vpiParent: IODecl name:isuba
+            vpiName: isuba
+            vpiFullName: wrapper.isuba.isuba
+            vpiActual: Modport name:i
+          vpiTypespec RefTypespec name:ifc::i start:40:4 end:40:9:
+            vpiParent: IODecl name:isuba
+            vpiName: ifc::i
+            vpiFullName: wrapper.isuba.ifc::i
+            vpiPathElem (2 items):
+              RefObj name:ifc start:40:4 end:40:7:
+                vpiParent: RefTypespec name:ifc::i
+                vpiName: ifc
+                vpiFullName: wrapper.isuba.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:i start:40:8 end:40:9:
+                vpiParent: RefTypespec name:ifc::i
+                vpiName: i
+                vpiFullName: wrapper.isuba.ifc::i.i
+                vpiActual: InterfaceTypespec name:i
+            vpiActual: InterfaceTypespec name:i
   vpiTypespec (5 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -1008,7 +1045,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 4
+[WARNING] : 1
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1053,10 +1090,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            5       3       0         2
-RefObj                              33      31       0         2
-RefTypespec                         23      23       2         2
+RefObj                              37      35       0         2
+RefTypespec                         25      25       2         2
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                   141     137       4         8
+                                   148     144       4         8
 ===================== END REDUCTION RESULT =====================

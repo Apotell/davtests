@@ -45,7 +45,6 @@ n<$Source01/errors/syntax_err12.v> u<30> t<Top_level_rule> c<1> l<1:1> el<8:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/errors/syntax_err12.v:1:1: Compile interface "iface".
 [INF:CP5804] $Source01/errors/syntax_err12.v:4:1: Compile module "a".
-[WRN:CP5811] $Source01/errors/syntax_err12.v:5:9: Port "x" definition missing its direction (input, output, inout).
 [ERR:CP5987] $Source01/errors/syntax_err12.v:5:13: Illegal initializer on interface port "x": only an output variable port can be initialized and only an input port can have a default value.
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -85,9 +84,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a start:4:8 end:4:9:
       vpiFullName: a
-      vpiTypespec (1 items):
-        BitTypespec:
-          vpiParent: Module name:a
       vpiDefName: a
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/errors/syntax_err12.v"
@@ -102,42 +98,36 @@ Design name:unnamed:
         vpiFullName: a.work
         vpiActual: Library name:work
       vpiCell: a
-      vpiNet (1 items):
-        Net name:x start:5:9 end:5:10:
-          vpiParent: Module name:a
-          vpiName: x
-          vpiFullName: a.x
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:iface start:5:3 end:5:8:
-            vpiParent: Net name:x
-            vpiName: iface
-            vpiFullName: a.x.iface
-            vpiActual: InterfaceTypespec name:iface
-          vpiValue Constant start:5:13 end:5:17:
-            vpiParent: Net name:x
-            vpiConstType: binary (3)
-            vpiSize: 1
-            vpiDecompile: "1'b0"
-            vpiValue: "0"
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: a.x
-              vpiActual: BitTypespec
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:x start:5:9 end:5:10:
           vpiParent: Module name:a
           vpiName: x
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:x start:5:9 end:5:10:
             vpiParent: Port name:x
             vpiName: x
             vpiFullName: a.x.x
-            vpiActual: Net name:x
+            vpiGeneric: true
+            vpiActual: Interface name:iface
           vpiTypespec RefTypespec name:iface start:5:3 end:5:8:
             vpiParent: Port name:x
+            vpiName: iface
+            vpiFullName: a.x.iface
+            vpiActual: InterfaceTypespec name:iface
+      vpiIODecl (1 items):
+        IODecl name:x start:5:9 end:5:10:
+          vpiParent: Module name:a
+          vpiName: x
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:x start:5:9 end:5:10:
+            vpiParent: IODecl name:x
+            vpiName: x
+            vpiFullName: a.x.x
+            vpiActual: Interface name:iface
+          vpiTypespec RefTypespec name:iface start:5:3 end:5:8:
+            vpiParent: IODecl name:x
             vpiName: iface
             vpiFullName: a.x.iface
             vpiActual: InterfaceTypespec name:iface
@@ -160,7 +150,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -175,25 +165,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/errors/syntax_err12.v/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 93.65,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/errors/syntax_err12.v': {'post_len': 0,
+            'files': {'$Output/lib/work/errors/syntax_err12.v': {'post_len': 4,
                                                                  'pre_len': 63}},
-            'post_len': 0,
+            'post_len': 4,
             'pre_len': 63,
             'test_name': 'Yosys/errors/syntax_err12.v'}}
 
 +----------------------------------------+----------+-----------+
 | INPUT                                  |   PRELEN |   POSTLEN |
 +========================================+==========+===========+
-| $Output/lib/work/errors/syntax_err12.v |       63 |         0 |
+| $Output/lib/work/errors/syntax_err12.v |       63 |         4 |
 +========================================+==========+===========+
-|                                        |       63 |         0 |
+|                                        |       63 |         4 |
 +----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 93.65
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -204,7 +194,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/errors/syntax_err12.v/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    20      20       0         0
 ===================== END REDUCTION RESULT =====================

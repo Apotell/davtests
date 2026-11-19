@@ -305,6 +305,8 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:9:8 end:9:11:
       vpiFullName: top
+      vpiTypespec (1 items):
+        InterfaceTypespec name:Foo #(.MULTIPLIER(8)):
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -396,12 +398,12 @@ Design name:unnamed:
         RefInstance name:foo_2 start:11:27 end:11:32:
           vpiParent: Module name:top
           vpiName: foo_2
-          vpiTypespec RefTypespec name:Foo start:11:5 end:11:8:
+          vpiTypespec RefTypespec name:Foo #(.MULTIPLIER(8)) start:11:5 end:11:8:
             vpiParent: RefInstance name:foo_2
-            vpiName: Foo
-            vpiFullName: top.foo_2.Foo
-            vpiActual: InterfaceTypespec name:Foo
-  vpiTypespec (3 items):
+            vpiName: Foo #(.MULTIPLIER(8))
+            vpiFullName: top.foo_2.Foo #(.MULTIPLIER(8))
+            vpiActual: InterfaceTypespec name:Foo #(.MULTIPLIER(8))
+  vpiTypespec (4 items):
     InterfaceTypespec name:Foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:1:11 end:1:14:
@@ -415,6 +417,30 @@ Design name:unnamed:
       vpiName Identifier name:top start:9:8 end:9:11:
       vpiDefName: top
       vpiModule: Module name:top
+    InterfaceTypespec name:Foo #(.MULTIPLIER(8)) start:11:5 end:11:26:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:Foo #(.MULTIPLIER(8)):
+      vpiDefName: Foo
+      vpiParamAssign (1 items):
+        ParamAssign start:11:11 end:11:25:
+          vpiParent: InterfaceTypespec name:Foo #(.MULTIPLIER(8))
+          vpiConnByName: true
+          vpiLhs RefObj name:MULTIPLIER start:11:12 end:11:22:
+            vpiParent: ParamAssign
+            vpiName: MULTIPLIER
+            vpiFullName: Foo #(.MULTIPLIER(8)).MULTIPLIER
+            vpiActual: Parameter name:MULTIPLIER
+          vpiRhs Constant start:11:23 end:11:24:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Foo #(.MULTIPLIER(8))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:Foo
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -438,25 +464,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/mounts.json
 
 
-{'result': {'coverage': 95.18,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 12,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 249}},
-            'post_len': 12,
+            'post_len': 0,
             'pre_len': 249,
             'test_name': 'InterfaceFuncCall/InterfaceFuncCall'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      249 |        12 |
+| $Output/lib/work/dut.sv |      249 |         0 |
 +=========================+==========+===========+
-|                         |      249 |        12 |
+|                         |      249 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.18
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -467,7 +493,7 @@ COMMAND: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

@@ -188,6 +188,7 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/dut.sv:18:57: Failed to bind "dma_mem_dccm_req".
 [WRN:DV8514] $Source01/dut.sv:19:40: Failed to bind "rfpc_postsync".
 [WRN:DV8514] $Source01/dut.sv:19:55: Failed to bind "dma_mem_dccm_req_f".
+[ERR:CP6007] $Source01/dut.sv:17:30: Implicit connection of port "rst_l" names no declaration made before the instance.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -447,7 +448,7 @@ Design name:unnamed:
             vpiName: rvdff
             vpiFullName: dut.freezerfpc_ff.rvdff
             vpiActual: ModuleTypespec name:rvdff #(.WIDTH(2))
-          vpiArgument (4 items):
+          vpiArgument (5 items):
             NamedArgument start:17:30 end:17:32:
               vpiParent: RefInstance name:freezerfpc_ff
               vpiHighConn RefObj name:.* start:17:30 end:17:32:
@@ -506,6 +507,19 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: dma_mem_dccm_req_f
                     vpiFullName: dut.freezerfpc_ff.dma_mem_dccm_req_f
+            NamedArgument start:17:30 end:17:32:
+              vpiParent: RefInstance name:freezerfpc_ff
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:rst_l start:17:30 end:17:32:
+                vpiParent: NamedArgument
+                vpiName: rst_l
+                vpiFullName: dut.freezerfpc_ff.rst_l
+                vpiActual: Port name:rst_l
+              vpiHighConn RefObj name:rst_l start:17:30 end:17:32:
+                vpiParent: NamedArgument
+                vpiName: rst_l
+                vpiFullName: dut.freezerfpc_ff.rst_l
   vpiTypespec (10 items):
     ModuleTypespec name:rvdff:
       vpiParent: Design name:unnamed
@@ -562,7 +576,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -608,10 +622,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      20       2         2
 Operation                            4       2       0         2
-RefObj                              18      16       0         2
+RefObj                              20      18       0         2
 RefTypespec                        631     631       2         2
 ----------------------------------------------------------------
-Others                            1268    1268       0         0
+Others                            1269    1269       0         0
 ----------------------------------------------------------------
-                                  1941    1937       4         8
+                                  1944    1940       4         8
 ===================== END REDUCTION RESULT =====================

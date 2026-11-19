@@ -918,36 +918,11 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/top.v:1:1: Compile interface "mem_interface".
 [INF:CP5805] $Source01/top.v:26:1: Compile interface "mem_if".
 [INF:CP5804] $Source01/top.v:62:1: Compile module "memory_model".
-[WRN:CP5811] $Source01/top.v:62:36: Port "mif" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/top.v:87:1: Compile module "memory_ctrl".
-[WRN:CP5811] $Source01/top.v:87:35: Port "sif" definition missing its direction (input, output, inout).
 [INF:CP5807] $Source01/top.v:99:9: Compile program "test".
 [WRN:CP5815] $Source01/top.v:99:9: Using programs is discouraged "test", programs are obsoleted by UVM.
-[WRN:CP5811] $Source01/top.v:99:24: Port "tif" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/top.v:112:1: Compile module "interface_modports".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/top.v:69:19: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:69:23: Failed to bind "clk".
-[WRN:DV8514] $Source01/top.v:70:6: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:70:10: Failed to bind "ce_mem".
-[WRN:DV8514] $Source01/top.v:70:20: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:70:24: Failed to bind "we_mem".
-[WRN:DV8514] $Source01/top.v:71:8: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:71:12: Failed to bind "addr_mem".
-[WRN:DV8514] $Source01/top.v:71:25: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:71:29: Failed to bind "datai_mem".
-[WRN:DV8514] $Source01/top.v:77:19: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:77:23: Failed to bind "clk".
-[WRN:DV8514] $Source01/top.v:78:6: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:78:10: Failed to bind "ce_mem".
-[WRN:DV8514] $Source01/top.v:78:21: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:78:25: Failed to bind "we_mem".
-[WRN:DV8514] $Source01/top.v:79:4: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:79:8: Failed to bind "datao_mem".
-[WRN:DV8514] $Source01/top.v:79:25: Failed to bind "mif".
-[WRN:DV8514] $Source01/top.v:79:29: Failed to bind "addr_mem".
-[WRN:DV8514] $Source01/top.v:102:7: Failed to bind "tif".
-[WRN:DV8514] $Source01/top.v:102:11: Failed to bind "reset".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
 ====== HLDB =======
 Design name:unnamed:
@@ -1102,7 +1077,6 @@ Design name:unnamed:
           vpiName: mem_data
           vpiFullName: mem_interface.mem_data
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:6:9 end:6:14:
             vpiParent: Net name:mem_data
@@ -1113,7 +1087,6 @@ Design name:unnamed:
           vpiName: mem_add
           vpiFullName: mem_interface.mem_add
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:7:9 end:7:14:
             vpiParent: Net name:mem_add
@@ -1124,7 +1097,6 @@ Design name:unnamed:
           vpiName: mem_en
           vpiFullName: mem_interface.mem_en
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:mem_en
@@ -1135,7 +1107,6 @@ Design name:unnamed:
           vpiName: mem_rd_wr
           vpiFullName: mem_interface.mem_rd_wr
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:mem_rd_wr
@@ -1150,11 +1121,21 @@ Design name:unnamed:
             IODecl name:cb start:19:25 end:19:27:
               vpiParent: Modport name:MEM
               vpiName: cb
+              vpiExpr RefObj name:cb start:19:25 end:19:27:
+                vpiParent: IODecl name:cb
+                vpiName: cb
+                vpiFullName: mem_interface.MEM.cb.cb
+                vpiActual: ClockingBlock name:cb
               vpiClocking: true
             IODecl name:clock start:19:34 end:19:39:
               vpiParent: Modport name:MEM
               vpiName: clock
               vpiDirection: input (1)
+              vpiExpr RefObj name:clock start:19:34 end:19:39:
+                vpiParent: IODecl name:clock
+                vpiName: clock
+                vpiFullName: mem_interface.MEM.clock.clock
+                vpiActual: Net name:clock
           vpiInterface: Interface name:mem_interface
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:11:4 end:17:18:
@@ -1522,50 +1503,110 @@ Design name:unnamed:
               vpiParent: Modport name:system
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:41:26 end:41:29:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.system.clk.clk
+                vpiActual: Net name:clk
             IODecl name:reset start:41:30 end:41:35:
               vpiParent: Modport name:system
               vpiName: reset
               vpiDirection: input (1)
+              vpiExpr RefObj name:reset start:41:30 end:41:35:
+                vpiParent: IODecl name:reset
+                vpiName: reset
+                vpiFullName: mem_if.system.reset.reset
+                vpiActual: Variable name:reset
             IODecl name:we_sys start:41:36 end:41:42:
               vpiParent: Modport name:system
               vpiName: we_sys
               vpiDirection: input (1)
+              vpiExpr RefObj name:we_sys start:41:36 end:41:42:
+                vpiParent: IODecl name:we_sys
+                vpiName: we_sys
+                vpiFullName: mem_if.system.we_sys.we_sys
+                vpiActual: Variable name:we_sys
             IODecl name:cmd_valid_sys start:41:44 end:41:57:
               vpiParent: Modport name:system
               vpiName: cmd_valid_sys
               vpiDirection: input (1)
+              vpiExpr RefObj name:cmd_valid_sys start:41:44 end:41:57:
+                vpiParent: IODecl name:cmd_valid_sys
+                vpiName: cmd_valid_sys
+                vpiFullName: mem_if.system.cmd_valid_sys.cmd_valid_sys
+                vpiActual: Variable name:cmd_valid_sys
             IODecl name:addr_sys start:42:20 end:42:28:
               vpiParent: Modport name:system
               vpiName: addr_sys
               vpiDirection: input (1)
+              vpiExpr RefObj name:addr_sys start:42:20 end:42:28:
+                vpiParent: IODecl name:addr_sys
+                vpiName: addr_sys
+                vpiFullName: mem_if.system.addr_sys.addr_sys
+                vpiActual: Variable name:addr_sys
             IODecl name:datao_mem start:42:30 end:42:39:
               vpiParent: Modport name:system
               vpiName: datao_mem
               vpiDirection: input (1)
+              vpiExpr RefObj name:datao_mem start:42:30 end:42:39:
+                vpiParent: IODecl name:datao_mem
+                vpiName: datao_mem
+                vpiFullName: mem_if.system.datao_mem.datao_mem
+                vpiActual: Variable name:datao_mem
             IODecl name:we_mem start:43:27 end:43:33:
               vpiParent: Modport name:system
               vpiName: we_mem
               vpiDirection: output (2)
+              vpiExpr RefObj name:we_mem start:43:27 end:43:33:
+                vpiParent: IODecl name:we_mem
+                vpiName: we_mem
+                vpiFullName: mem_if.system.we_mem.we_mem
+                vpiActual: Variable name:we_mem
             IODecl name:ce_mem start:43:35 end:43:41:
               vpiParent: Modport name:system
               vpiName: ce_mem
               vpiDirection: output (2)
+              vpiExpr RefObj name:ce_mem start:43:35 end:43:41:
+                vpiParent: IODecl name:ce_mem
+                vpiName: ce_mem
+                vpiFullName: mem_if.system.ce_mem.ce_mem
+                vpiActual: Variable name:ce_mem
             IODecl name:addr_mem start:43:43 end:43:51:
               vpiParent: Modport name:system
               vpiName: addr_mem
               vpiDirection: output (2)
+              vpiExpr RefObj name:addr_mem start:43:43 end:43:51:
+                vpiParent: IODecl name:addr_mem
+                vpiName: addr_mem
+                vpiFullName: mem_if.system.addr_mem.addr_mem
+                vpiActual: Variable name:addr_mem
             IODecl name:datai_mem start:44:20 end:44:29:
               vpiParent: Modport name:system
               vpiName: datai_mem
               vpiDirection: output (2)
+              vpiExpr RefObj name:datai_mem start:44:20 end:44:29:
+                vpiParent: IODecl name:datai_mem
+                vpiName: datai_mem
+                vpiFullName: mem_if.system.datai_mem.datai_mem
+                vpiActual: Variable name:datai_mem
             IODecl name:ready_sys start:44:31 end:44:40:
               vpiParent: Modport name:system
               vpiName: ready_sys
               vpiDirection: output (2)
+              vpiExpr RefObj name:ready_sys start:44:31 end:44:40:
+                vpiParent: IODecl name:ready_sys
+                vpiName: ready_sys
+                vpiFullName: mem_if.system.ready_sys.ready_sys
+                vpiActual: Variable name:ready_sys
             IODecl name:data_sys start:44:46 end:44:54:
               vpiParent: Modport name:system
               vpiName: data_sys
               vpiDirection: ref (6)
+              vpiExpr RefObj name:data_sys start:44:46 end:44:54:
+                vpiParent: IODecl name:data_sys
+                vpiName: data_sys
+                vpiFullName: mem_if.system.data_sys.data_sys
+                vpiActual: Variable name:data_sys
           vpiInterface: Interface name:mem_if
         Modport name:memory start:48:12 end:48:18:
           vpiParent: Interface name:mem_if
@@ -1575,30 +1616,65 @@ Design name:unnamed:
               vpiParent: Modport name:memory
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:48:26 end:48:29:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.memory.clk.clk
+                vpiActual: Net name:clk
             IODecl name:reset start:48:30 end:48:35:
               vpiParent: Modport name:memory
               vpiName: reset
               vpiDirection: input (1)
+              vpiExpr RefObj name:reset start:48:30 end:48:35:
+                vpiParent: IODecl name:reset
+                vpiName: reset
+                vpiFullName: mem_if.memory.reset.reset
+                vpiActual: Variable name:reset
             IODecl name:we_mem start:48:36 end:48:42:
               vpiParent: Modport name:memory
               vpiName: we_mem
               vpiDirection: input (1)
+              vpiExpr RefObj name:we_mem start:48:36 end:48:42:
+                vpiParent: IODecl name:we_mem
+                vpiName: we_mem
+                vpiFullName: mem_if.memory.we_mem.we_mem
+                vpiActual: Variable name:we_mem
             IODecl name:ce_mem start:48:44 end:48:50:
               vpiParent: Modport name:memory
               vpiName: ce_mem
               vpiDirection: input (1)
+              vpiExpr RefObj name:ce_mem start:48:44 end:48:50:
+                vpiParent: IODecl name:ce_mem
+                vpiName: ce_mem
+                vpiFullName: mem_if.memory.ce_mem.ce_mem
+                vpiActual: Variable name:ce_mem
             IODecl name:addr_mem start:49:20 end:49:28:
               vpiParent: Modport name:memory
               vpiName: addr_mem
               vpiDirection: input (1)
+              vpiExpr RefObj name:addr_mem start:49:20 end:49:28:
+                vpiParent: IODecl name:addr_mem
+                vpiName: addr_mem
+                vpiFullName: mem_if.memory.addr_mem.addr_mem
+                vpiActual: Variable name:addr_mem
             IODecl name:datai_mem start:49:30 end:49:39:
               vpiParent: Modport name:memory
               vpiName: datai_mem
               vpiDirection: input (1)
+              vpiExpr RefObj name:datai_mem start:49:30 end:49:39:
+                vpiParent: IODecl name:datai_mem
+                vpiName: datai_mem
+                vpiFullName: mem_if.memory.datai_mem.datai_mem
+                vpiActual: Variable name:datai_mem
             IODecl name:datao_mem start:49:48 end:49:57:
               vpiParent: Modport name:memory
               vpiName: datao_mem
               vpiDirection: output (2)
+              vpiExpr RefObj name:datao_mem start:49:48 end:49:57:
+                vpiParent: IODecl name:datao_mem
+                vpiName: datao_mem
+                vpiFullName: mem_if.memory.datao_mem.datao_mem
+                vpiActual: Variable name:datao_mem
           vpiInterface: Interface name:mem_if
         Modport name:tb start:53:12 end:53:14:
           vpiParent: Interface name:mem_if
@@ -1608,30 +1684,65 @@ Design name:unnamed:
               vpiParent: Modport name:tb
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:53:22 end:53:25:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.tb.clk.clk
+                vpiActual: Net name:clk
             IODecl name:ready_sys start:53:27 end:53:36:
               vpiParent: Modport name:tb
               vpiName: ready_sys
               vpiDirection: input (1)
+              vpiExpr RefObj name:ready_sys start:53:27 end:53:36:
+                vpiParent: IODecl name:ready_sys
+                vpiName: ready_sys
+                vpiFullName: mem_if.tb.ready_sys.ready_sys
+                vpiActual: Variable name:ready_sys
             IODecl name:reset start:54:23 end:54:28:
               vpiParent: Modport name:tb
               vpiName: reset
               vpiDirection: output (2)
+              vpiExpr RefObj name:reset start:54:23 end:54:28:
+                vpiParent: IODecl name:reset
+                vpiName: reset
+                vpiFullName: mem_if.tb.reset.reset
+                vpiActual: Variable name:reset
             IODecl name:we_sys start:54:29 end:54:35:
               vpiParent: Modport name:tb
               vpiName: we_sys
               vpiDirection: output (2)
+              vpiExpr RefObj name:we_sys start:54:29 end:54:35:
+                vpiParent: IODecl name:we_sys
+                vpiName: we_sys
+                vpiFullName: mem_if.tb.we_sys.we_sys
+                vpiActual: Variable name:we_sys
             IODecl name:cmd_valid_sys start:54:37 end:54:50:
               vpiParent: Modport name:tb
               vpiName: cmd_valid_sys
               vpiDirection: output (2)
+              vpiExpr RefObj name:cmd_valid_sys start:54:37 end:54:50:
+                vpiParent: IODecl name:cmd_valid_sys
+                vpiName: cmd_valid_sys
+                vpiFullName: mem_if.tb.cmd_valid_sys.cmd_valid_sys
+                vpiActual: Variable name:cmd_valid_sys
             IODecl name:addr_sys start:54:52 end:54:60:
               vpiParent: Modport name:tb
               vpiName: addr_sys
               vpiDirection: output (2)
+              vpiExpr RefObj name:addr_sys start:54:52 end:54:60:
+                vpiParent: IODecl name:addr_sys
+                vpiName: addr_sys
+                vpiFullName: mem_if.tb.addr_sys.addr_sys
+                vpiActual: Variable name:addr_sys
             IODecl name:data_sys start:55:19 end:55:27:
               vpiParent: Modport name:tb
               vpiName: data_sys
               vpiDirection: ref (6)
+              vpiExpr RefObj name:data_sys start:55:19 end:55:27:
+                vpiParent: IODecl name:data_sys
+                vpiName: data_sys
+                vpiFullName: mem_if.tb.data_sys.data_sys
+                vpiActual: Variable name:data_sys
           vpiInterface: Interface name:mem_if
       vpiPort (1 items):
         Port name:clk start:26:30 end:26:33:
@@ -1686,10 +1797,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:tif.reset
                       vpiName: tif
                       vpiFullName: test.tif
+                      vpiActual: Modport name:tb
                     RefObj name:reset start:102:11 end:102:16:
                       vpiParent: RefObj name:tif.reset
                       vpiName: reset
                       vpiFullName: test.reset
+                      vpiActual: Variable name:reset
+                  vpiActual: Variable name:reset
                 vpiRhs Constant start:102:20 end:102:21:
                   vpiParent: Assignment
                   vpiConstType: int (7)
@@ -1723,13 +1837,40 @@ Design name:unnamed:
           vpiParent: Program name:test
           vpiName: tif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:tif start:99:24 end:99:27:
             vpiParent: Port name:tif
             vpiName: tif
             vpiFullName: test.tif.tif
+            vpiActual: Modport name:tb
           vpiTypespec RefTypespec name:mem_if::tb start:99:14 end:99:23:
             vpiParent: Port name:tif
+            vpiName: mem_if::tb
+            vpiFullName: test.tif.mem_if::tb
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:99:14 end:99:20:
+                vpiParent: RefTypespec name:mem_if::tb
+                vpiName: mem_if
+                vpiFullName: test.tif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:tb start:99:21 end:99:23:
+                vpiParent: RefTypespec name:mem_if::tb
+                vpiName: tb
+                vpiFullName: test.tif.mem_if::tb.tb
+                vpiActual: InterfaceTypespec name:tb
+            vpiActual: InterfaceTypespec name:tb
+      vpiIODecl (1 items):
+        IODecl name:tif start:99:24 end:99:27:
+          vpiParent: Program name:test
+          vpiName: tif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:tif start:99:24 end:99:27:
+            vpiParent: IODecl name:tif
+            vpiName: tif
+            vpiFullName: test.tif.tif
+            vpiActual: Modport name:tb
+          vpiTypespec RefTypespec name:mem_if::tb start:99:14 end:99:23:
+            vpiParent: IODecl name:tif
             vpiName: mem_if::tb
             vpiFullName: test.tif.mem_if::tb
             vpiPathElem (2 items):
@@ -1837,11 +1978,12 @@ Design name:unnamed:
           vpiParent: Module name:memory_model
           vpiName: mif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:mif start:62:36 end:62:39:
             vpiParent: Port name:mif
             vpiName: mif
             vpiFullName: memory_model.mif.mif
+            vpiActual: Modport name:memory
           vpiTypespec RefTypespec name:mem_if::memory start:62:22 end:62:35:
             vpiParent: Port name:mif
             vpiName: mem_if::memory
@@ -1876,10 +2018,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:mif.clk
                       vpiName: mif
                       vpiFullName: memory_model.mif
+                      vpiActual: Modport name:memory
                     RefObj name:clk start:69:23 end:69:26:
                       vpiParent: RefObj name:mif.clk
                       vpiName: clk
                       vpiFullName: memory_model.clk
+                      vpiActual: Net name:clk
+                  vpiActual: Net name:clk
             vpiStmt IfStmt start:70:2 end:72:5:
               vpiParent: EventControl
               vpiCondition Operation start:70:6 end:70:30:
@@ -1895,10 +2040,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:mif.ce_mem
                         vpiName: mif
                         vpiFullName: memory_model.mif
+                        vpiActual: Modport name:memory
                       RefObj name:ce_mem start:70:10 end:70:16:
                         vpiParent: RefObj name:mif.ce_mem
                         vpiName: ce_mem
                         vpiFullName: memory_model.ce_mem
+                        vpiActual: Variable name:ce_mem
+                    vpiActual: Variable name:ce_mem
                   RefObj name:mif.we_mem start:70:20 end:70:30:
                     vpiParent: Operation
                     vpiName: mif.we_mem
@@ -1908,10 +2056,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:mif.we_mem
                         vpiName: mif
                         vpiFullName: memory_model.mif
+                        vpiActual: Modport name:memory
                       RefObj name:we_mem start:70:24 end:70:30:
                         vpiParent: RefObj name:mif.we_mem
                         vpiName: we_mem
                         vpiFullName: memory_model.we_mem
+                        vpiActual: Variable name:we_mem
+                    vpiActual: Variable name:we_mem
               vpiStmt Begin start:70:32 end:72:5:
                 vpiParent: IfStmt
                 vpiFullName: memory_model
@@ -1937,10 +2088,13 @@ Design name:unnamed:
                             vpiParent: RefObj name:mif.addr_mem
                             vpiName: mif
                             vpiFullName: memory_model.mif
+                            vpiActual: Modport name:memory
                           RefObj name:addr_mem start:71:12 end:71:20:
                             vpiParent: RefObj name:mif.addr_mem
                             vpiName: addr_mem
                             vpiFullName: memory_model.addr_mem
+                            vpiActual: Variable name:addr_mem
+                        vpiActual: Variable name:addr_mem
                     vpiRhs RefObj name:mif.datai_mem start:71:25 end:71:38:
                       vpiParent: Assignment
                       vpiName: mif.datai_mem
@@ -1950,10 +2104,13 @@ Design name:unnamed:
                           vpiParent: RefObj name:mif.datai_mem
                           vpiName: mif
                           vpiFullName: memory_model.mif
+                          vpiActual: Modport name:memory
                         RefObj name:datai_mem start:71:29 end:71:38:
                           vpiParent: RefObj name:mif.datai_mem
                           vpiName: datai_mem
                           vpiFullName: memory_model.datai_mem
+                          vpiActual: Variable name:datai_mem
+                      vpiActual: Variable name:datai_mem
           vpiAlwaysType: always (1)
         Always start:77:1 end:80:5:
           vpiParent: Module name:memory_model
@@ -1972,10 +2129,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:mif.clk
                       vpiName: mif
                       vpiFullName: memory_model.mif
+                      vpiActual: Modport name:memory
                     RefObj name:clk start:77:23 end:77:26:
                       vpiParent: RefObj name:mif.clk
                       vpiName: clk
                       vpiFullName: memory_model.clk
+                      vpiActual: Net name:clk
+                  vpiActual: Net name:clk
             vpiStmt IfStmt start:78:2 end:80:5:
               vpiParent: EventControl
               vpiCondition Operation start:78:6 end:78:31:
@@ -1991,10 +2151,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:mif.ce_mem
                         vpiName: mif
                         vpiFullName: memory_model.mif
+                        vpiActual: Modport name:memory
                       RefObj name:ce_mem start:78:10 end:78:16:
                         vpiParent: RefObj name:mif.ce_mem
                         vpiName: ce_mem
                         vpiFullName: memory_model.ce_mem
+                        vpiActual: Variable name:ce_mem
+                    vpiActual: Variable name:ce_mem
                   Operation start:78:20 end:78:31:
                     vpiParent: Operation
                     vpiOpType: bitwise negation (4)
@@ -2008,10 +2171,13 @@ Design name:unnamed:
                             vpiParent: RefObj name:mif.we_mem
                             vpiName: mif
                             vpiFullName: memory_model.mif
+                            vpiActual: Modport name:memory
                           RefObj name:we_mem start:78:25 end:78:31:
                             vpiParent: RefObj name:mif.we_mem
                             vpiName: we_mem
                             vpiFullName: memory_model.we_mem
+                            vpiActual: Variable name:we_mem
+                        vpiActual: Variable name:we_mem
               vpiStmt Begin start:78:34 end:80:5:
                 vpiParent: IfStmt
                 vpiFullName: memory_model
@@ -2028,10 +2194,13 @@ Design name:unnamed:
                           vpiParent: RefObj name:mif.datao_mem
                           vpiName: mif
                           vpiFullName: memory_model.mif
+                          vpiActual: Modport name:memory
                         RefObj name:datao_mem start:79:8 end:79:17:
                           vpiParent: RefObj name:mif.datao_mem
                           vpiName: datao_mem
                           vpiFullName: memory_model.datao_mem
+                          vpiActual: Variable name:datao_mem
+                      vpiActual: Variable name:datao_mem
                     vpiRhs BitSelect name:mem[mif.addr_mem] start:79:21 end:79:38:
                       vpiParent: Assignment
                       vpiName: mem[mif.addr_mem]
@@ -2050,11 +2219,40 @@ Design name:unnamed:
                             vpiParent: RefObj name:mif.addr_mem
                             vpiName: mif
                             vpiFullName: memory_model.mif
+                            vpiActual: Modport name:memory
                           RefObj name:addr_mem start:79:29 end:79:37:
                             vpiParent: RefObj name:mif.addr_mem
                             vpiName: addr_mem
                             vpiFullName: memory_model.addr_mem
+                            vpiActual: Variable name:addr_mem
+                        vpiActual: Variable name:addr_mem
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:mif start:62:36 end:62:39:
+          vpiParent: Module name:memory_model
+          vpiName: mif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:mif start:62:36 end:62:39:
+            vpiParent: IODecl name:mif
+            vpiName: mif
+            vpiFullName: memory_model.mif.mif
+            vpiActual: Modport name:memory
+          vpiTypespec RefTypespec name:mem_if::memory start:62:22 end:62:35:
+            vpiParent: IODecl name:mif
+            vpiName: mem_if::memory
+            vpiFullName: memory_model.mif.mem_if::memory
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:62:22 end:62:28:
+                vpiParent: RefTypespec name:mem_if::memory
+                vpiName: mem_if
+                vpiFullName: memory_model.mif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:memory start:62:29 end:62:35:
+                vpiParent: RefTypespec name:mem_if::memory
+                vpiName: memory
+                vpiFullName: memory_model.mif.mem_if::memory.memory
+                vpiActual: InterfaceTypespec name:memory
+            vpiActual: InterfaceTypespec name:memory
     Module name:memory_ctrl file:$Source01/top.v start:87:1 end:94:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl start:87:8 end:87:19:
@@ -2124,13 +2322,40 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl
           vpiName: sif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif start:87:35 end:87:38:
             vpiParent: Port name:sif
             vpiName: sif
             vpiFullName: memory_ctrl.sif.sif
+            vpiActual: Modport name:system
           vpiTypespec RefTypespec name:mem_if::system start:87:21 end:87:34:
             vpiParent: Port name:sif
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl.sif.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:87:21 end:87:27:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:87:28 end:87:34:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl.sif.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
+      vpiIODecl (1 items):
+        IODecl name:sif start:87:35 end:87:38:
+          vpiParent: Module name:memory_ctrl
+          vpiName: sif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif start:87:35 end:87:38:
+            vpiParent: IODecl name:sif
+            vpiName: sif
+            vpiFullName: memory_ctrl.sif.sif
+            vpiActual: Modport name:system
+          vpiTypespec RefTypespec name:mem_if::system start:87:21 end:87:34:
+            vpiParent: IODecl name:sif
             vpiName: mem_if::system
             vpiFullName: memory_ctrl.sif.mem_if::system
             vpiPathElem (2 items):
@@ -2362,7 +2587,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 26
+[WARNING] : 1
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2407,10 +2632,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            38      39       1         0
 Operation                            7       6       0         1
-RefObj                              61      60       0         1
-RefTypespec                        675     676       1         0
+RefObj                              95      94       0         1
+RefTypespec                        681     682       1         0
 ----------------------------------------------------------------
-Others                            1412    1412       0         0
+Others                            1415    1415       0         0
 ----------------------------------------------------------------
-                                  2193    2193       2         2
+                                  2236    2236       2         2
 ===================== END REDUCTION RESULT =====================

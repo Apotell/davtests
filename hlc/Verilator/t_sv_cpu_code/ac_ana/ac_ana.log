@@ -165,16 +165,11 @@ n<$Source01/ac_ana.sv> u<151> t<Top_level_rule> c<1> l<8:1> el<44:1>
   n<// ac_ana> u<150> t<LINE_COMMENT> p<151> l<43:11> el<43:20>
 AST_DEBUG_END
 [INF:CP5804] $Source01/ac_ana.sv:8:1: Compile module "ac_ana".
-[WRN:CP5811] $Source01/ac_ana.sv:17:19: Port "padsif" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/ac_ana.sv:17:3: Failed to bind "pads_if".
-[WRN:DV8514] $Source01/ac_ana.sv:37:19: Failed to bind "padsif".
 [WRN:DV8514] $Source01/ac_ana.sv:37:26: Failed to bind "ana".
-[WRN:DV8514] $Source01/ac_ana.sv:37:35: Failed to bind "padsif".
 [WRN:DV8514] $Source01/ac_ana.sv:37:42: Failed to bind "ana".
-[WRN:DV8514] $Source01/ac_ana.sv:39:10: Failed to bind "padsif".
 [WRN:DV8514] $Source01/ac_ana.sv:39:17: Failed to bind "ana_override".
-[WRN:DV8514] $Source01/ac_ana.sv:40:10: Failed to bind "padsif".
 [WRN:DV8514] $Source01/ac_ana.sv:40:17: Failed to bind "ana_override".
 [ERR:DL2510] $Source01/ac_ana.sv:17:3: Unknown or undefined type "pads_if::mp_ana".
 ====== HLDB =======
@@ -263,11 +258,12 @@ Design name:unnamed:
           vpiParent: Module name:ac_ana
           vpiName: padsif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:padsif start:17:19 end:17:25:
             vpiParent: Port name:padsif
             vpiName: padsif
             vpiFullName: ac_ana.padsif.padsif
+            vpiActual: Port name:padsif
           vpiTypespec RefTypespec name:pads_if::mp_ana start:17:3 end:17:17:
             vpiParent: Port name:padsif
             vpiName: pads_if::mp_ana
@@ -368,6 +364,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:padsif.ana[1]
                         vpiName: padsif
                         vpiFullName: ac_ana.padsif
+                        vpiActual: Port name:padsif
                       BitSelect name:ana[1] start:37:26 end:37:31:
                         vpiParent: RefObj name:padsif.ana[1]
                         vpiName: ana[1]
@@ -395,6 +392,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:padsif.ana[2]
                         vpiName: padsif
                         vpiFullName: ac_ana.padsif
+                        vpiActual: Port name:padsif
                       BitSelect name:ana[2] start:37:42 end:37:47:
                         vpiParent: RefObj name:padsif.ana[2]
                         vpiName: ana[2]
@@ -431,6 +429,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:padsif.ana_override[1]
                 vpiName: padsif
                 vpiFullName: ac_ana.padsif
+                vpiActual: Port name:padsif
               BitSelect name:ana_override[1] start:39:17 end:39:31:
                 vpiParent: RefObj name:padsif.ana_override[1]
                 vpiName: ana_override[1]
@@ -472,6 +471,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:padsif.ana_override[2]
                 vpiName: padsif
                 vpiFullName: ac_ana.padsif
+                vpiActual: Port name:padsif
               BitSelect name:ana_override[2] start:40:17 end:40:31:
                 vpiParent: RefObj name:padsif.ana_override[2]
                 vpiName: ana_override[2]
@@ -500,6 +500,28 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: ac_ana
               vpiActual: BitTypespec
+      vpiIODecl (1 items):
+        IODecl name:padsif start:17:19 end:17:25:
+          vpiParent: Module name:ac_ana
+          vpiName: padsif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:padsif start:17:19 end:17:25:
+            vpiParent: IODecl name:padsif
+            vpiName: padsif
+            vpiFullName: ac_ana.padsif.padsif
+          vpiTypespec RefTypespec name:pads_if::mp_ana start:17:3 end:17:17:
+            vpiParent: IODecl name:padsif
+            vpiName: pads_if::mp_ana
+            vpiFullName: ac_ana.padsif.pads_if::mp_ana
+            vpiPathElem (2 items):
+              RefObj name:pads_if start:17:3 end:17:10:
+                vpiParent: RefTypespec name:pads_if::mp_ana
+                vpiName: pads_if
+                vpiFullName: ac_ana.padsif.pads_if
+              RefTypespec name:mp_ana start:17:11 end:17:17:
+                vpiParent: RefTypespec name:pads_if::mp_ana
+                vpiName: mp_ana
+                vpiFullName: ac_ana.padsif.pads_if::mp_ana.mp_ana
   vpiTypespec (2 items):
     ModuleTypespec name:ac_ana:
       vpiParent: Design name:unnamed
@@ -517,7 +539,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 10
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -561,7 +583,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac_ana/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

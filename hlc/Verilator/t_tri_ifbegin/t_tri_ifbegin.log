@@ -446,7 +446,6 @@ Design name:unnamed:
           vpiName: pad_io_h
           vpiFullName: t.pad_io_h
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: tri (4)
           vpiTypespec RefTypespec:
             vpiParent: Net name:pad_io_h
@@ -457,7 +456,6 @@ Design name:unnamed:
           vpiName: pad_io_l
           vpiFullName: t.pad_io_l
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: tri (4)
           vpiTypespec RefTypespec:
             vpiParent: Net name:pad_io_l
@@ -488,13 +486,41 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:12:13 end:12:15:
               vpiParent: RefInstance name:sub
               vpiHighConn RefObj name:.* start:12:13 end:12:15:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub..*
+            NamedArgument start:12:13 end:12:15:
+              vpiParent: RefInstance name:sub
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:pad_io_h start:12:13 end:12:15:
+                vpiParent: NamedArgument
+                vpiName: pad_io_h
+                vpiFullName: t.sub.pad_io_h
+                vpiActual: Port name:pad_io_h
+              vpiHighConn RefObj name:pad_io_h start:12:13 end:12:15:
+                vpiParent: NamedArgument
+                vpiName: pad_io_h
+                vpiFullName: t.sub.pad_io_h
+                vpiActual: Net name:pad_io_h
+            NamedArgument start:12:13 end:12:15:
+              vpiParent: RefInstance name:sub
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:pad_io_l start:12:13 end:12:15:
+                vpiParent: NamedArgument
+                vpiName: pad_io_l
+                vpiFullName: t.sub.pad_io_l
+                vpiActual: Port name:pad_io_l
+              vpiHighConn RefObj name:pad_io_l start:12:13 end:12:15:
+                vpiParent: NamedArgument
+                vpiName: pad_io_l
+                vpiFullName: t.sub.pad_io_l
+                vpiActual: Net name:pad_io_l
     Module name:sub file:$Source01/t_tri_ifbegin.v start:17:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:17:8 end:17:11:
@@ -626,7 +652,6 @@ Design name:unnamed:
           vpiName: dqs_out_dtap_delay
           vpiFullName: sub.dqs_out_dtap_delay
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:29:9 end:29:15:
             vpiParent: Net name:dqs_out_dtap_delay
@@ -688,7 +713,6 @@ Design name:unnamed:
                     vpiName: aligned_os_oe
                     vpiFullName: sub.output_strobe.aligned_os_oe
                     vpiConstantSelect: true
-                    vpiNetDeclAssign: true
                     vpiNetType: wire (1)
                     vpiTypespec RefTypespec:
                       vpiParent: Net name:aligned_os_oe
@@ -699,7 +723,6 @@ Design name:unnamed:
                     vpiName: aligned_strobe
                     vpiFullName: sub.output_strobe.aligned_strobe
                     vpiConstantSelect: true
-                    vpiNetDeclAssign: true
                     vpiNetType: wire (1)
                     vpiTypespec RefTypespec:
                       vpiParent: Net name:aligned_strobe
@@ -968,7 +991,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_tri_ifbegin/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             122     122       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   122     122       0         0
 ===================== END REDUCTION RESULT =====================

@@ -653,40 +653,26 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/dut.v:9:1: Compile interface "ConnectTB".
 [WRN:PA5506] $Source01/dut.v:9:1: No timescale set for "ConnectTB".
 [INF:CP5804] $Source01/dut.v:22:1: Compile module "middle".
-[WRN:CP5811] $Source01/dut.v:22:26: Port "intf" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.v:22:1: No timescale set for "middle".
 [INF:CP5804] $Source01/dut.v:26:1: Compile module "SUB".
 [WRN:PA5506] $Source01/dut.v:26:1: No timescale set for "SUB".
 [INF:CP5804] $Source01/dut.v:30:1: Compile module "OBSERVER".
-[WRN:CP5811] $Source01/dut.v:30:27: Port "intf" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.v:30:1: No timescale set for "OBSERVER".
 [INF:CP5807] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP5815] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
-[WRN:CP5811] $Source01/tb.v:1:31: Port "intf" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/tb.v:1:1: No timescale set for "TESTBENCH".
 [INF:CP5804] $Source01/tb.v:15:1: Compile module "TOP".
 [WRN:PA5506] $Source01/tb.v:15:1: No timescale set for "TOP".
-[WRN:DV8514] $Source01/dut.v:23:17: Failed to bind "intf".
 [WRN:DV8514] $Source01/dut.v:23:22: Failed to bind "drive".
-[WRN:DV8514] $Source01/dut.v:23:35: Failed to bind "intf".
 [WRN:DV8514] $Source01/dut.v:23:40: Failed to bind "observe".
-[WRN:DV8514] $Source01/dut.v:31:17: Failed to bind "intf".
 [WRN:DV8514] $Source01/dut.v:31:22: Failed to bind "observe".
-[WRN:DV8514] $Source01/tb.v:5:46: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:5:51: Failed to bind "drive".
-[WRN:DV8514] $Source01/tb.v:5:58: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:5:63: Failed to bind "observe".
-[WRN:DV8514] $Source01/tb.v:6:5: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:6:10: Failed to bind "drive".
-[WRN:DV8514] $Source01/tb.v:7:15: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:7:20: Failed to bind "drive".
-[WRN:DV8514] $Source01/tb.v:7:29: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:7:34: Failed to bind "observe".
-[WRN:DV8514] $Source01/tb.v:8:10: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:8:15: Failed to bind "drive".
-[WRN:DV8514] $Source01/tb.v:9:15: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:9:20: Failed to bind "drive".
-[WRN:DV8514] $Source01/tb.v:9:29: Failed to bind "intf".
 [WRN:DV8514] $Source01/tb.v:9:34: Failed to bind "observe".
 ====== HLDB =======
 Design name:unnamed:
@@ -772,10 +758,20 @@ Design name:unnamed:
               vpiParent: Modport name:dut
               vpiName: drive
               vpiDirection: input (1)
+              vpiExpr RefObj name:drive start:13:11 end:13:16:
+                vpiParent: IODecl name:drive
+                vpiName: drive
+                vpiFullName: ConnectTB.dut.drive.drive
+                vpiActual: Variable name:drive
             IODecl name:observe start:14:12 end:14:19:
               vpiParent: Modport name:dut
               vpiName: observe
               vpiDirection: output (2)
+              vpiExpr RefObj name:observe start:14:12 end:14:19:
+                vpiParent: IODecl name:observe
+                vpiName: observe
+                vpiFullName: ConnectTB.dut.observe.observe
+                vpiActual: Variable name:observe
           vpiInterface: Interface name:ConnectTB
         Modport name:tb start:16:11 end:16:13:
           vpiParent: Interface name:ConnectTB
@@ -785,10 +781,20 @@ Design name:unnamed:
               vpiParent: Modport name:tb
               vpiName: drive
               vpiDirection: output (2)
+              vpiExpr RefObj name:drive start:17:12 end:17:17:
+                vpiParent: IODecl name:drive
+                vpiName: drive
+                vpiFullName: ConnectTB.tb.drive.drive
+                vpiActual: Variable name:drive
             IODecl name:observe start:18:11 end:18:18:
               vpiParent: Modport name:tb
               vpiName: observe
               vpiDirection: input (1)
+              vpiExpr RefObj name:observe start:18:11 end:18:18:
+                vpiParent: IODecl name:observe
+                vpiName: observe
+                vpiFullName: ConnectTB.tb.observe.observe
+                vpiActual: Variable name:observe
           vpiInterface: Interface name:ConnectTB
   vpiAllPrograms (1 items):
     Program name:TESTBENCH file:$Source01/tb.v start:1:1 end:12:11:
@@ -869,6 +875,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:intf.drive
                           vpiName: intf
                           vpiFullName: TESTBENCH.intf
+                          vpiActual: Port name:intf
                         RefObj name:drive start:5:51 end:5:56:
                           vpiParent: RefObj name:intf.drive
                           vpiName: drive
@@ -884,6 +891,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:intf.observe
                           vpiName: intf
                           vpiFullName: TESTBENCH.intf
+                          vpiActual: Port name:intf
                         RefObj name:observe start:5:63 end:5:70:
                           vpiParent: RefObj name:intf.observe
                           vpiName: observe
@@ -901,6 +909,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:intf.drive
                       vpiName: intf
                       vpiFullName: TESTBENCH.intf
+                      vpiActual: Port name:intf
                     RefObj name:drive start:6:10 end:6:15:
                       vpiParent: RefObj name:intf.drive
                       vpiName: drive
@@ -933,6 +942,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf.drive
                             vpiName: intf
                             vpiFullName: TESTBENCH.intf
+                            vpiActual: Port name:intf
                           RefObj name:drive start:7:20 end:7:25:
                             vpiParent: RefObj name:intf.drive
                             vpiName: drive
@@ -946,6 +956,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf.observe
                             vpiName: intf
                             vpiFullName: TESTBENCH.intf
+                            vpiActual: Port name:intf
                           RefObj name:observe start:7:34 end:7:41:
                             vpiParent: RefObj name:intf.observe
                             vpiName: observe
@@ -1020,6 +1031,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:intf.drive
                         vpiName: intf
                         vpiFullName: TESTBENCH.intf
+                        vpiActual: Port name:intf
                       RefObj name:drive start:8:15 end:8:20:
                         vpiParent: RefObj name:intf.drive
                         vpiName: drive
@@ -1062,6 +1074,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf.drive
                             vpiName: intf
                             vpiFullName: TESTBENCH.intf
+                            vpiActual: Port name:intf
                           RefObj name:drive start:9:20 end:9:25:
                             vpiParent: RefObj name:intf.drive
                             vpiName: drive
@@ -1075,6 +1088,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf.observe
                             vpiName: intf
                             vpiFullName: TESTBENCH.intf
+                            vpiActual: Port name:intf
                           RefObj name:observe start:9:34 end:9:41:
                             vpiParent: RefObj name:intf.observe
                             vpiName: observe
@@ -1154,14 +1168,28 @@ Design name:unnamed:
           vpiParent: Program name:TESTBENCH
           vpiName: intf
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf start:1:31 end:1:35:
             vpiParent: Port name:intf
             vpiName: intf
             vpiFullName: TESTBENCH.intf.intf
             vpiGeneric: true
+            vpiActual: Port name:intf
           vpiTypespec RefTypespec start:1:21 end:1:30:
             vpiParent: Port name:intf
+            vpiFullName: TESTBENCH.intf
+            vpiActual: InterfaceTypespec
+      vpiIODecl (1 items):
+        IODecl name:intf start:1:31 end:1:35:
+          vpiParent: Program name:TESTBENCH
+          vpiName: intf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf start:1:31 end:1:35:
+            vpiParent: IODecl name:intf
+            vpiName: intf
+            vpiFullName: TESTBENCH.intf.intf
+          vpiTypespec RefTypespec start:1:21 end:1:30:
+            vpiParent: IODecl name:intf
             vpiFullName: TESTBENCH.intf
             vpiActual: InterfaceTypespec
   vpiAllModules (5 items):
@@ -1358,14 +1386,28 @@ Design name:unnamed:
           vpiParent: Module name:middle
           vpiName: intf
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf start:22:26 end:22:30:
             vpiParent: Port name:intf
             vpiName: intf
             vpiFullName: middle.intf.intf
             vpiGeneric: true
+            vpiActual: Port name:intf
           vpiTypespec RefTypespec start:22:16 end:22:25:
             vpiParent: Port name:intf
+            vpiFullName: middle.intf
+            vpiActual: InterfaceTypespec
+      vpiIODecl (1 items):
+        IODecl name:intf start:22:26 end:22:30:
+          vpiParent: Module name:middle
+          vpiName: intf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf start:22:26 end:22:30:
+            vpiParent: IODecl name:intf
+            vpiName: intf
+            vpiFullName: middle.intf.intf
+          vpiTypespec RefTypespec start:22:16 end:22:25:
+            vpiParent: IODecl name:intf
             vpiFullName: middle.intf
             vpiActual: InterfaceTypespec
       vpiRefInstance (1 items):
@@ -1395,6 +1437,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:intf.drive
                     vpiName: intf
                     vpiFullName: middle.sub1.intf
+                    vpiActual: Port name:intf
                   RefObj name:drive start:23:22 end:23:27:
                     vpiParent: RefObj name:intf.drive
                     vpiName: drive
@@ -1416,6 +1459,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:intf.observe
                     vpiName: intf
                     vpiFullName: middle.sub1.intf
+                    vpiActual: Port name:intf
                   RefObj name:observe start:23:40 end:23:47:
                     vpiParent: RefObj name:intf.observe
                     vpiName: observe
@@ -1533,12 +1577,13 @@ Design name:unnamed:
           vpiParent: Module name:OBSERVER
           vpiName: intf
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf start:30:27 end:30:31:
             vpiParent: Port name:intf
             vpiName: intf
             vpiFullName: OBSERVER.intf.intf
             vpiGeneric: true
+            vpiActual: Port name:intf
           vpiTypespec RefTypespec start:30:17 end:30:26:
             vpiParent: Port name:intf
             vpiFullName: OBSERVER.intf
@@ -1561,10 +1606,24 @@ Design name:unnamed:
                 vpiParent: RefObj name:intf.observe
                 vpiName: intf
                 vpiFullName: OBSERVER.intf
+                vpiActual: Port name:intf
               RefObj name:observe start:31:22 end:31:29:
                 vpiParent: RefObj name:intf.observe
                 vpiName: observe
                 vpiFullName: OBSERVER.observe
+      vpiIODecl (1 items):
+        IODecl name:intf start:30:27 end:30:31:
+          vpiParent: Module name:OBSERVER
+          vpiName: intf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf start:30:27 end:30:31:
+            vpiParent: IODecl name:intf
+            vpiName: intf
+            vpiFullName: OBSERVER.intf.intf
+          vpiTypespec RefTypespec start:30:17 end:30:26:
+            vpiParent: IODecl name:intf
+            vpiFullName: OBSERVER.intf
+            vpiActual: InterfaceTypespec
     Module name:TOP file:$Source01/tb.v start:15:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TOP start:15:8 end:15:11:
@@ -1759,7 +1818,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 33
+[WARNING] : 19
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1804,7 +1863,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPortGeneric/OneNetModPortGeneric/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             253     253       0         0
+Others                             266     266       0         0
 ----------------------------------------------------------------
-                                   253     253       0         0
+                                   266     266       0         0
 ===================== END REDUCTION RESULT =====================

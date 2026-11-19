@@ -645,14 +645,14 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/top.v:40:29: Implicit port type (wire) for "o".
 [ERR:CP5988] $Source01/top.v:41:6: Illegal redeclaration of ANSI port "i" in the body,
              $Source01/top.v:40:19: port declared here.
+[ERR:CP5941] $Source01/top.v:41:6: Duplicate i,
+             $Source01/top.v:40:19: previous declaration.
 [ERR:CP5988] $Source01/top.v:42:5: Illegal redeclaration of ANSI port "o" in the body,
              $Source01/top.v:40:29: port declared here.
 [WRN:PA5506] $Source01/top.v:40:1: No timescale set for "top".
 [INF:CP5805] $Source01/top.v:47:1: Compile interface "mem_if".
 [WRN:PA5506] $Source01/top.v:47:1: No timescale set for "mem_if".
 [INF:CP5804] $Source01/top.v:57:1: Compile module "memory_ctrl1".
-[WRN:CP5811] $Source01/top.v:57:29: Port "sif1" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/top.v:57:49: Port "sif2" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
 [ERR:DL2516] $Source01/top.v:34:26: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
 [ERR:DL2516] $Source01/top.v:35:26: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
@@ -678,6 +678,8 @@ AST_DEBUG_END
 [ERR:DL2516] $Source01/top.v:34:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 [ERR:DL2507] $Source01/top.v:35:5: Illegal lhs of type wire "shifter".
 [ERR:DL2516] $Source01/top.v:35:5: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
+[ERR:CP5941] $Source01/top.v:42:5: Duplicate o,
+             $Source01/top.v:40:29: previous declaration.
 [ERR:DL2510] $Source01/top.v:59:1: Unknown or undefined type "DD1".
 ====== HLDB =======
 Design name:unnamed:
@@ -765,6 +767,11 @@ Design name:unnamed:
               vpiParent: Modport name:system
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:49:26 end:49:29:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.system.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
         Modport name:memory start:50:12 end:50:18:
           vpiParent: Interface name:mem_if
@@ -774,6 +781,11 @@ Design name:unnamed:
               vpiParent: Modport name:memory
               vpiName: clk
               vpiDirection: output (2)
+              vpiExpr RefObj name:clk start:50:27 end:50:30:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.memory.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
       vpiPort (1 items):
         Port name:clk start:47:30 end:47:33:
@@ -866,7 +878,6 @@ Design name:unnamed:
           vpiName: shifter
           vpiFullName: tb_operators.shifter
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:5:6 end:5:12:
             vpiParent: Net name:shifter
@@ -877,7 +888,6 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: tb_operators.result
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:6:6 end:6:12:
             vpiParent: Net name:result
@@ -1413,7 +1423,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: top.i
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:i
@@ -1528,24 +1537,12 @@ Design name:unnamed:
         vpiFullName: memory_ctrl1.work
         vpiActual: Library name:work
       vpiCell: memory_ctrl1
-      vpiNet (2 items):
-        Net name:sif1 start:57:29 end:57:33:
-          vpiParent: Module name:memory_ctrl1
-          vpiName: sif1
-          vpiFullName: memory_ctrl1.sif1
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:mem_if start:57:22 end:57:28:
-            vpiParent: Net name:sif1
-            vpiName: mem_if
-            vpiFullName: memory_ctrl1.sif1.mem_if
-            vpiActual: InterfaceTypespec name:mem_if
+      vpiNet (1 items):
         Net name:i1 start:63:6 end:63:8:
           vpiParent: Module name:memory_ctrl1
           vpiName: i1
           vpiFullName: memory_ctrl1.i1
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:i1
@@ -1557,12 +1554,13 @@ Design name:unnamed:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif1
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif1 start:57:29 end:57:33:
             vpiParent: Port name:sif1
             vpiName: sif1
             vpiFullName: memory_ctrl1.sif1.sif1
-            vpiActual: Net name:sif1
+            vpiGeneric: true
+            vpiActual: Interface name:mem_if
           vpiTypespec RefTypespec name:mem_if start:57:22 end:57:28:
             vpiParent: Port name:sif1
             vpiName: mem_if
@@ -1573,13 +1571,54 @@ Design name:unnamed:
           vpiName: sif2
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif2 start:57:49 end:57:53:
             vpiParent: Port name:sif2
             vpiName: sif2
             vpiFullName: memory_ctrl1.sif2.sif2
+            vpiActual: Modport name:system
           vpiTypespec RefTypespec name:mem_if::system start:57:35 end:57:48:
             vpiParent: Port name:sif2
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl1.sif2.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:57:35 end:57:41:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl1.sif2.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:57:42 end:57:48:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl1.sif2.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
+      vpiIODecl (2 items):
+        IODecl name:sif1 start:57:29 end:57:33:
+          vpiParent: Module name:memory_ctrl1
+          vpiName: sif1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif1 start:57:29 end:57:33:
+            vpiParent: IODecl name:sif1
+            vpiName: sif1
+            vpiFullName: memory_ctrl1.sif1.sif1
+            vpiActual: Interface name:mem_if
+          vpiTypespec RefTypespec name:mem_if start:57:22 end:57:28:
+            vpiParent: IODecl name:sif1
+            vpiName: mem_if
+            vpiFullName: memory_ctrl1.sif1.mem_if
+            vpiActual: InterfaceTypespec name:mem_if
+        IODecl name:sif2 start:57:49 end:57:53:
+          vpiParent: Module name:memory_ctrl1
+          vpiName: sif2
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif2 start:57:49 end:57:53:
+            vpiParent: IODecl name:sif2
+            vpiName: sif2
+            vpiFullName: memory_ctrl1.sif2.sif2
+            vpiActual: Modport name:system
+          vpiTypespec RefTypespec name:mem_if::system start:57:35 end:57:48:
+            vpiParent: IODecl name:sif2
             vpiName: mem_if::system
             vpiFullName: memory_ctrl1.sif2.mem_if::system
             vpiPathElem (2 items):
@@ -1629,8 +1668,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 27
-[WARNING] : 6
+[  ERROR] : 29
+[WARNING] : 4
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1675,9 +1714,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      16       2         6
 Operation                           14      10       0         4
-RefTypespec                         37      33       2         6
+RefTypespec                         39      35       2         6
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             150     150       0         0
 ----------------------------------------------------------------
-                                   215     203       4        16
+                                   223     211       4        16
 ===================== END REDUCTION RESULT =====================

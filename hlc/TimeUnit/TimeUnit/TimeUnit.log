@@ -526,6 +526,9 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/top.v:90:13: Failed to bind "clk".
 [ERR:CP5983] $Source01/top.v:7:20: Port connection of instance "u2" has no matching port in "bottom3".
 [ERR:DV8501] Invalid name: id:119, type:RefObj, name:, relation:vpiLowConn.
+[ERR:CP6007] $Source01/top.v:9:28: Implicit connection of port "clock" names no declaration made before the instance.
+[ERR:CP6007] $Source01/top.v:9:28: Implicit connection of port "select" names no declaration made before the instance.
+[ERR:CP6007] $Source01/top.v:9:28: Implicit connection of port "data" names no declaration made before the instance.
 [ERR:DL2510] $Source01/top.v:24:2: Unknown or undefined type "ddr".
 [ERR:DL2510] $Source01/top.v:87:2: Unknown or undefined type "ddr".
 ====== HLDB =======
@@ -926,13 +929,52 @@ Design name:unnamed:
             vpiName: my_interface
             vpiFullName: bottom1.my_interface.my_interface
             vpiActual: InterfaceTypespec name:my_interface
-          vpiArgument (1 items):
+          vpiArgument (4 items):
             NamedArgument start:9:28 end:9:30:
               vpiParent: RefInstance name:my_interface
               vpiHighConn RefObj name:.* start:9:28 end:9:30:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: bottom1.my_interface..*
+            NamedArgument start:9:28 end:9:30:
+              vpiParent: RefInstance name:my_interface
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:clock start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: clock
+                vpiFullName: bottom1.my_interface.clock
+                vpiActual: Port name:clock
+              vpiHighConn RefObj name:clock start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: clock
+                vpiFullName: bottom1.my_interface.clock
+            NamedArgument start:9:28 end:9:30:
+              vpiParent: RefInstance name:my_interface
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:select start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: select
+                vpiFullName: bottom1.my_interface.select
+                vpiActual: Port name:select
+              vpiHighConn RefObj name:select start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: select
+                vpiFullName: bottom1.my_interface.select
+            NamedArgument start:9:28 end:9:30:
+              vpiParent: RefInstance name:my_interface
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:data start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: data
+                vpiFullName: bottom1.my_interface.data
+                vpiActual: Port name:data
+              vpiHighConn RefObj name:data start:9:28 end:9:30:
+                vpiParent: NamedArgument
+                vpiName: data
+                vpiFullName: bottom1.my_interface.data
     Module name:bottom2 file:$Source01/top.v start:13:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:13:8 end:13:15:
@@ -1362,7 +1404,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: middle.a
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:a
@@ -1373,7 +1414,6 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: middle.b
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:b
@@ -1384,7 +1424,6 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: middle.c
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:c
@@ -1582,7 +1621,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 10
+[  ERROR] : 13
 [WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
@@ -1629,7 +1668,7 @@ COMMAND: ${HLC_DIR}/regression/TimeUnit/TimeUnit/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2091    2091       0         0
+Others                            2100    2100       0         0
 ----------------------------------------------------------------
-                                  2091    2091       0         0
+                                  2100    2100       0         0
 ===================== END REDUCTION RESULT =====================

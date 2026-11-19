@@ -291,9 +291,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_star.v:6:1: Compile module "t".
 [INF:CP5805] $Source01/t_interface_star.v:30:1: Compile interface "counter_io".
 [INF:CP5804] $Source01/t_interface_star.v:34:1: Compile module "counter_ansi".
-[WRN:CP5811] $Source01/t_interface_star.v:37:15: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:CP5948] $Source01/t_interface_star.v:18:17: Missing argument for formal c_data.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -564,7 +562,7 @@ Design name:unnamed:
             vpiName: counter_ansi
             vpiFullName: t.c1.counter_ansi
             vpiActual: ModuleTypespec name:counter_ansi
-          vpiArgument (2 items):
+          vpiArgument (3 items):
             NamedArgument start:16:21 end:16:25:
               vpiParent: RefInstance name:c1
               vpiConnByName: true
@@ -573,12 +571,31 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: t.c1.clk
                 vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:16:22 end:16:25:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: t.c1.clk
+                vpiActual: Net name:clk
             NamedArgument start:16:27 end:16:29:
               vpiParent: RefInstance name:c1
               vpiHighConn RefObj name:.* start:16:27 end:16:29:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.c1..*
+            NamedArgument start:16:27 end:16:29:
+              vpiParent: RefInstance name:c1
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:c_data start:16:27 end:16:29:
+                vpiParent: NamedArgument
+                vpiName: c_data
+                vpiFullName: t.c1.c_data
+                vpiActual: Port name:c_data
+              vpiHighConn RefObj name:c_data start:16:27 end:16:29:
+                vpiParent: NamedArgument
+                vpiName: c_data
+                vpiFullName: t.c1.c_data
+                vpiActual: RefInstance name:c_data
         RefInstance name:c2 start:18:17 end:18:19:
           vpiParent: Module name:t
           vpiName: c2
@@ -596,6 +613,11 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: t.c2.clk
                 vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:18:22 end:18:25:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: t.c2.clk
+                vpiActual: Net name:clk
             NamedArgument start:18:27 end:18:34:
               vpiParent: RefInstance name:c2
               vpiConnByName: true
@@ -604,6 +626,11 @@ Design name:unnamed:
                 vpiName: c_data
                 vpiFullName: t.c2.c_data
                 vpiActual: Port name:c_data
+              vpiHighConn RefObj name:c_data start:18:28 end:18:34:
+                vpiParent: NamedArgument
+                vpiName: c_data
+                vpiFullName: t.c2.c_data
+                vpiActual: RefInstance name:c_data
     Module name:counter_ansi file:$Source01/t_interface_star.v start:34:1 end:43:25:
       vpiParent: Design name:unnamed
       vpiName Identifier name:counter_ansi start:34:8 end:34:20:
@@ -626,7 +653,7 @@ Design name:unnamed:
         vpiFullName: counter_ansi.work
         vpiActual: Library name:work
       vpiCell: counter_ansi
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:36:10 end:36:13:
           vpiParent: Module name:counter_ansi
           vpiName: clk
@@ -637,17 +664,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: counter_ansi.clk
             vpiActual: LogicTypespec
-        Net name:c_data start:37:15 end:37:21:
-          vpiParent: Module name:counter_ansi
-          vpiName: c_data
-          vpiFullName: counter_ansi.c_data
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:counter_io start:37:4 end:37:14:
-            vpiParent: Net name:c_data
-            vpiName: counter_io
-            vpiFullName: counter_ansi.c_data.counter_io
-            vpiActual: InterfaceTypespec name:counter_io
       vpiUnit: Unit
       vpiPort (2 items):
         Port name:clk start:36:10 end:36:13:
@@ -669,12 +685,13 @@ Design name:unnamed:
           vpiName: c_data
           vpiPortIndex: 1
           vpiPortType: interface port (1)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:c_data start:37:15 end:37:21:
             vpiParent: Port name:c_data
             vpiName: c_data
             vpiFullName: counter_ansi.c_data.c_data
-            vpiActual: Net name:c_data
+            vpiGeneric: true
+            vpiActual: Interface name:counter_io
           vpiTypespec RefTypespec name:counter_io start:37:4 end:37:14:
             vpiParent: Port name:c_data
             vpiName: counter_io
@@ -710,7 +727,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:c_data.value
                         vpiName: c_data
                         vpiFullName: counter_ansi.c_data
-                        vpiActual: Net name:c_data
+                        vpiActual: Interface name:counter_io
                       RefObj name:value start:41:14 end:41:19:
                         vpiParent: RefObj name:c_data.value
                         vpiName: value
@@ -728,6 +745,21 @@ Design name:unnamed:
                       vpiFullName: counter_ansi
                       vpiActual: IntTypespec
           vpiAlwaysType: ff (3)
+      vpiIODecl (1 items):
+        IODecl name:c_data start:37:15 end:37:21:
+          vpiParent: Module name:counter_ansi
+          vpiName: c_data
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:c_data start:37:15 end:37:21:
+            vpiParent: IODecl name:c_data
+            vpiName: c_data
+            vpiFullName: counter_ansi.c_data.c_data
+            vpiActual: Interface name:counter_io
+          vpiTypespec RefTypespec name:counter_io start:37:4 end:37:14:
+            vpiParent: IODecl name:c_data
+            vpiName: counter_io
+            vpiFullName: counter_ansi.c_data.counter_io
+            vpiActual: InterfaceTypespec name:counter_io
       vpiEndLabel Identifier name:counter_ansi start:43:13 end:43:25:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
@@ -757,8 +789,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -803,10 +835,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       2         2
 Operation                            5       3       0         2
-RefObj                              21      19       0         2
+RefObj                              27      25       0         2
 RefTypespec                         17      17       2         2
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                   105     101       4         8
+                                   112     108       4         8
 ===================== END REDUCTION RESULT =====================

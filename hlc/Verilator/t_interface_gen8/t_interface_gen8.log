@@ -261,7 +261,6 @@ n<$Source01/t_interface_gen8.v> u<246> t<Top_level_rule> c<1> l<8:1> el<56:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_gen8.v:8:1: Compile interface "intf".
 [INF:CP5804] $Source01/t_interface_gen8.v:15:1: Compile module "t1".
-[WRN:CP5811] $Source01/t_interface_gen8.v:15:16: Port "mod_intf" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_gen8.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen8.v:28:66: Compile generate block "TestIf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
@@ -392,30 +391,19 @@ Design name:unnamed:
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
-      vpiNet (1 items):
-        Net name:mod_intf start:15:16 end:15:24:
-          vpiParent: Module name:t1
-          vpiName: mod_intf
-          vpiFullName: t1.mod_intf
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:intf start:15:11 end:15:15:
-            vpiParent: Net name:mod_intf
-            vpiName: intf
-            vpiFullName: t1.mod_intf.intf
-            vpiActual: InterfaceTypespec name:intf
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:mod_intf start:15:16 end:15:24:
           vpiParent: Module name:t1
           vpiName: mod_intf
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:mod_intf start:15:16 end:15:24:
             vpiParent: Port name:mod_intf
             vpiName: mod_intf
             vpiFullName: t1.mod_intf.mod_intf
-            vpiActual: Net name:mod_intf
+            vpiGeneric: true
+            vpiActual: Interface name:intf #(.PARAM(0))
           vpiTypespec RefTypespec name:intf start:15:11 end:15:15:
             vpiParent: Port name:mod_intf
             vpiName: intf
@@ -455,13 +443,28 @@ Design name:unnamed:
                           vpiParent: RefObj name:mod_intf.val
                           vpiName: mod_intf
                           vpiFullName: t1.mod_intf
-                          vpiActual: Net name:mod_intf
+                          vpiActual: Interface name:intf #(.PARAM(0))
                         RefObj name:val start:17:34 end:17:37:
                           vpiParent: RefObj name:mod_intf.val
                           vpiName: val
                           vpiFullName: t1.val
                           vpiActual: Variable name:val
                       vpiActual: Variable name:val
+      vpiIODecl (1 items):
+        IODecl name:mod_intf start:15:16 end:15:24:
+          vpiParent: Module name:t1
+          vpiName: mod_intf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:mod_intf start:15:16 end:15:24:
+            vpiParent: IODecl name:mod_intf
+            vpiName: mod_intf
+            vpiFullName: t1.mod_intf.mod_intf
+            vpiActual: Interface name:intf #(.PARAM(0))
+          vpiTypespec RefTypespec name:intf start:15:11 end:15:15:
+            vpiParent: IODecl name:mod_intf
+            vpiName: intf
+            vpiFullName: t1.mod_intf.intf
+            vpiActual: InterfaceTypespec name:intf
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
     Module name:t file:$Source01/t_interface_gen8.v start:21:1 end:55:10:
@@ -475,6 +478,8 @@ Design name:unnamed:
           vpiFullName: t.the_genvar
           vpiRandType: (1)
           vpiVisibility: public (1)
+      vpiTypespec (1 items):
+        InterfaceTypespec name:intf #(.PARAM(1)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_interface_gen8.v"
@@ -529,11 +534,11 @@ Design name:unnamed:
         RefInstance name:my_intf start:24:22 end:24:29:
           vpiParent: Module name:t
           vpiName: my_intf
-          vpiTypespec RefTypespec name:intf start:24:4 end:24:8:
+          vpiTypespec RefTypespec name:intf #(.PARAM(1)) start:24:4 end:24:8:
             vpiParent: RefInstance name:my_intf
-            vpiName: intf
-            vpiFullName: t.my_intf.intf
-            vpiActual: InterfaceTypespec name:intf
+            vpiName: intf #(.PARAM(1))
+            vpiFullName: t.my_intf.intf #(.PARAM(1))
+            vpiActual: InterfaceTypespec name:intf #(.PARAM(1))
       vpiGenStmt (1 items):
         GenRegion start:26:4 end:33:15:
           vpiParent: Module name:t
@@ -618,7 +623,7 @@ Design name:unnamed:
                           vpiName: my_intf
                           vpiFullName: t.TestIf.t.my_intf
                           vpiActual: RefInstance name:my_intf
-  vpiTypespec (5 items):
+  vpiTypespec (6 items):
     InterfaceTypespec name:intf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:intf start:8:11 end:8:15:
@@ -639,6 +644,30 @@ Design name:unnamed:
       vpiName Identifier name:t start:21:8 end:21:9:
       vpiDefName: t
       vpiModule: Module name:t
+    InterfaceTypespec name:intf #(.PARAM(1)) start:24:4 end:24:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:intf #(.PARAM(1)):
+      vpiDefName: intf
+      vpiParamAssign (1 items):
+        ParamAssign start:24:11 end:24:20:
+          vpiParent: InterfaceTypespec name:intf #(.PARAM(1))
+          vpiConnByName: true
+          vpiLhs RefObj name:PARAM start:24:12 end:24:17:
+            vpiParent: ParamAssign
+            vpiName: PARAM
+            vpiFullName: intf #(.PARAM(1)).PARAM
+            vpiActual: Parameter name:PARAM
+          vpiRhs Constant start:24:18 end:24:19:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: intf #(.PARAM(1))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:intf #(.PARAM(0))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -647,7 +676,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -662,25 +691,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen8/mounts.json
 
 
-{'result': {'coverage': 98.36,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 7,
+            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 0,
                                                               'pre_len': 427}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 427,
             'test_name': 'Verilator/t_interface_gen8'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen8.v |      427 |         7 |
+| $Output/lib/work/t_interface_gen8.v |      427 |         0 |
 +=====================================+==========+===========+
-|                                     |      427 |         7 |
+|                                     |      427 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.36
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -691,7 +720,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen8/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================

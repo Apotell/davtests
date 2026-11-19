@@ -176,7 +176,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_size_bad.v:6:1: Compile interface "foo_intf".
 [INF:CP5804] $Source01/t_interface_size_bad.v:10:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_size_bad.v:20:1: Compile module "baz".
-[WRN:CP5811] $Source01/t_interface_size_bad.v:20:21: Port "foo" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -454,32 +453,36 @@ Design name:unnamed:
         vpiFullName: baz.work
         vpiActual: Library name:work
       vpiCell: baz
-      vpiNet (1 items):
-        Net name:foo start:20:21 end:20:24:
-          vpiParent: Module name:baz
-          vpiName: foo
-          vpiFullName: baz.foo
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:foo_intf [4:0] start:20:12 end:20:20:
-            vpiParent: Net name:foo
-            vpiName: foo_intf [4:0]
-            vpiFullName: baz.foo.foo_intf [4:0]
-            vpiActual: ArrayTypespec
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:foo start:20:21 end:20:24:
           vpiParent: Module name:baz
           vpiName: foo
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:foo start:20:21 end:20:24:
             vpiParent: Port name:foo
             vpiName: foo
             vpiFullName: baz.foo.foo
-            vpiActual: Net name:foo
+            vpiGeneric: true
+            vpiActual: Interface name:foo_intf
           vpiTypespec RefTypespec name:foo_intf [4:0] start:20:12 end:20:20:
             vpiParent: Port name:foo
+            vpiName: foo_intf [4:0]
+            vpiFullName: baz.foo.foo_intf [4:0]
+            vpiActual: ArrayTypespec
+      vpiIODecl (1 items):
+        IODecl name:foo start:20:21 end:20:24:
+          vpiParent: Module name:baz
+          vpiName: foo
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:foo start:20:21 end:20:24:
+            vpiParent: IODecl name:foo
+            vpiName: foo
+            vpiFullName: baz.foo.foo
+            vpiActual: Interface name:foo_intf
+          vpiTypespec RefTypespec name:foo_intf [4:0] start:20:12 end:20:20:
+            vpiParent: IODecl name:foo
             vpiName: foo_intf [4:0]
             vpiFullName: baz.foo.foo_intf [4:0]
             vpiActual: ArrayTypespec
@@ -510,7 +513,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -555,10 +558,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       7       1         1
 Operation                            1       0       0         1
-RefObj                               9       8       0         1
+RefObj                              10       9       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
 Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    71      69       2         4
+                                    72      70       2         4
 ===================== END REDUCTION RESULT =====================

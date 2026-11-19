@@ -352,10 +352,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface1_modport.v:8:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface1_modport.v:14:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface1_modport.v:39:1: Compile module "sub".
-[WRN:CP5811] $Source01/t_interface1_modport.v:48:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface1_modport.v:54:7: Failed to bind "isub".
-[WRN:DV8514] $Source01/t_interface1_modport.v:54:12: Failed to bind "value".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -428,6 +425,11 @@ Design name:unnamed:
               vpiParent: Modport name:out_modport
               vpiName: value
               vpiDirection: output (2)
+              vpiExpr RefObj name:value start:11:32 end:11:37:
+                vpiParent: IODecl name:value
+                vpiName: value
+                vpiFullName: ifc.out_modport.value.value
+                vpiActual: Variable name:value
           vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface1_modport.v start:14:1 end:37:10:
@@ -790,11 +792,12 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isub start:48:20 end:48:24:
             vpiParent: Port name:isub
             vpiName: isub
             vpiFullName: sub.isub.isub
+            vpiActual: Modport name:out_modport
           vpiTypespec RefTypespec name:ifc::out_modport start:48:4 end:48:19:
             vpiParent: Port name:isub
             vpiName: ifc::out_modport
@@ -848,10 +851,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:isub.value
                         vpiName: isub
                         vpiFullName: sub.isub
+                        vpiActual: Modport name:out_modport
                       RefObj name:value start:54:12 end:54:17:
                         vpiParent: RefObj name:isub.value
                         vpiName: value
                         vpiFullName: sub.value
+                        vpiActual: Variable name:value
+                    vpiActual: Variable name:value
                   vpiRhs RefObj name:i_value start:54:20 end:54:27:
                     vpiParent: Assignment
                     vpiName: i_value
@@ -859,6 +865,32 @@ Design name:unnamed:
                     vpiActual: Net name:i_value
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:isub start:48:20 end:48:24:
+          vpiParent: Module name:sub
+          vpiName: isub
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isub start:48:20 end:48:24:
+            vpiParent: IODecl name:isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
+            vpiActual: Modport name:out_modport
+          vpiTypespec RefTypespec name:ifc::out_modport start:48:4 end:48:19:
+            vpiParent: IODecl name:isub
+            vpiName: ifc::out_modport
+            vpiFullName: sub.isub.ifc::out_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:48:4 end:48:7:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: ifc
+                vpiFullName: sub.isub.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:out_modport start:48:8 end:48:19:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: out_modport
+                vpiFullName: sub.isub.ifc::out_modport.out_modport
+                vpiActual: InterfaceTypespec name:out_modport
+            vpiActual: InterfaceTypespec name:out_modport
   vpiTypespec (5 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -888,7 +920,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -933,10 +965,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            5       3       0         2
-RefObj                              27      25       0         2
-RefTypespec                         19      19       2         2
+RefObj                              30      28       0         2
+RefTypespec                         21      21       2         2
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                   120     116       4         8
+                                   126     122       4         8
 ===================== END REDUCTION RESULT =====================

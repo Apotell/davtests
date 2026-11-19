@@ -225,14 +225,9 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_lint_modport_dir_bad.v:6:1: Compile interface "dummy_if".
 [INF:CP5804] $Source01/t_lint_modport_dir_bad.v:16:1: Compile module "sub".
 [NTE:CP5810] $Source01/t_lint_modport_dir_bad.v:19:16: Implicit port type (wire) for "signal_o".
-[WRN:CP5811] $Source01/t_lint_modport_dir_bad.v:21:20: Port "dummy_in" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/t_lint_modport_dir_bad.v:22:19: Port "dummy_out" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_lint_modport_dir_bad.v:30:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_lint_modport_dir_bad.v:25:11: Failed to bind "dummy_in".
-[WRN:DV8514] $Source01/t_lint_modport_dir_bad.v:25:20: Failed to bind "signal".
-[WRN:DV8514] $Source01/t_lint_modport_dir_bad.v:26:22: Failed to bind "dummy_out".
-[WRN:DV8514] $Source01/t_lint_modport_dir_bad.v:26:32: Failed to bind "signal".
+[ERR:CP5860] $Source01/t_lint_modport_dir_bad.v:25:11: Illegal assignment to input port dummy_in.signal.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -301,6 +296,11 @@ Design name:unnamed:
               vpiParent: Modport name:slave
               vpiName: signal
               vpiDirection: output (2)
+              vpiExpr RefObj name:signal start:10:14 end:10:20:
+                vpiParent: IODecl name:signal
+                vpiName: signal
+                vpiFullName: dummy_if.slave.signal.signal
+                vpiActual: Variable name:signal
           vpiInterface: Interface name:dummy_if
         Modport name:master start:12:12 end:12:18:
           vpiParent: Interface name:dummy_if
@@ -310,6 +310,11 @@ Design name:unnamed:
               vpiParent: Modport name:master
               vpiName: signal
               vpiDirection: input (1)
+              vpiExpr RefObj name:signal start:13:13 end:13:19:
+                vpiParent: IODecl name:signal
+                vpiName: signal
+                vpiFullName: dummy_if.master.signal.signal
+                vpiActual: Variable name:signal
           vpiInterface: Interface name:dummy_if
       vpiPort (1 items):
         Port start:6:20 end:6:22:
@@ -397,11 +402,12 @@ Design name:unnamed:
           vpiName: dummy_in
           vpiPortIndex: 2
           vpiPortType: modport (2)
-          vpiDirection: output (2)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:dummy_in start:21:20 end:21:28:
             vpiParent: Port name:dummy_in
             vpiName: dummy_in
             vpiFullName: sub.dummy_in.dummy_in
+            vpiActual: Modport name:master
           vpiTypespec RefTypespec name:dummy_if::master start:21:4 end:21:19:
             vpiParent: Port name:dummy_in
             vpiName: dummy_if::master
@@ -423,11 +429,12 @@ Design name:unnamed:
           vpiName: dummy_out
           vpiPortIndex: 3
           vpiPortType: modport (2)
-          vpiDirection: output (2)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:dummy_out start:22:19 end:22:28:
             vpiParent: Port name:dummy_out
             vpiName: dummy_out
             vpiFullName: sub.dummy_out.dummy_out
+            vpiActual: Modport name:slave
           vpiTypespec RefTypespec name:dummy_if::slave start:22:4 end:22:18:
             vpiParent: Port name:dummy_out
             vpiName: dummy_if::slave
@@ -458,10 +465,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:dummy_in.signal
                 vpiName: dummy_in
                 vpiFullName: sub.dummy_in
+                vpiActual: Modport name:master
               RefObj name:signal start:25:20 end:25:26:
                 vpiParent: RefObj name:dummy_in.signal
                 vpiName: signal
                 vpiFullName: sub.signal
+                vpiActual: Variable name:signal
+            vpiActual: Variable name:signal
           vpiRhs RefObj name:signal_i start:25:29 end:25:37:
             vpiParent: ContAssign
             vpiName: signal_i
@@ -485,10 +495,64 @@ Design name:unnamed:
                 vpiParent: RefObj name:dummy_out.signal
                 vpiName: dummy_out
                 vpiFullName: sub.dummy_out
+                vpiActual: Modport name:slave
               RefObj name:signal start:26:32 end:26:38:
                 vpiParent: RefObj name:dummy_out.signal
                 vpiName: signal
                 vpiFullName: sub.signal
+                vpiActual: Variable name:signal
+            vpiActual: Variable name:signal
+      vpiIODecl (2 items):
+        IODecl name:dummy_in start:21:20 end:21:28:
+          vpiParent: Module name:sub
+          vpiName: dummy_in
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:dummy_in start:21:20 end:21:28:
+            vpiParent: IODecl name:dummy_in
+            vpiName: dummy_in
+            vpiFullName: sub.dummy_in.dummy_in
+            vpiActual: Modport name:master
+          vpiTypespec RefTypespec name:dummy_if::master start:21:4 end:21:19:
+            vpiParent: IODecl name:dummy_in
+            vpiName: dummy_if::master
+            vpiFullName: sub.dummy_in.dummy_if::master
+            vpiPathElem (2 items):
+              RefObj name:dummy_if start:21:4 end:21:12:
+                vpiParent: RefTypespec name:dummy_if::master
+                vpiName: dummy_if
+                vpiFullName: sub.dummy_in.dummy_if
+                vpiActual: Interface name:dummy_if
+              RefTypespec name:master start:21:13 end:21:19:
+                vpiParent: RefTypespec name:dummy_if::master
+                vpiName: master
+                vpiFullName: sub.dummy_in.dummy_if::master.master
+                vpiActual: InterfaceTypespec name:master
+            vpiActual: InterfaceTypespec name:master
+        IODecl name:dummy_out start:22:19 end:22:28:
+          vpiParent: Module name:sub
+          vpiName: dummy_out
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:dummy_out start:22:19 end:22:28:
+            vpiParent: IODecl name:dummy_out
+            vpiName: dummy_out
+            vpiFullName: sub.dummy_out.dummy_out
+            vpiActual: Modport name:slave
+          vpiTypespec RefTypespec name:dummy_if::slave start:22:4 end:22:18:
+            vpiParent: IODecl name:dummy_out
+            vpiName: dummy_if::slave
+            vpiFullName: sub.dummy_out.dummy_if::slave
+            vpiPathElem (2 items):
+              RefObj name:dummy_if start:22:4 end:22:12:
+                vpiParent: RefTypespec name:dummy_if::slave
+                vpiName: dummy_if
+                vpiFullName: sub.dummy_out.dummy_if
+                vpiActual: Interface name:dummy_if
+              RefTypespec name:slave start:22:13 end:22:18:
+                vpiParent: RefTypespec name:dummy_if::slave
+                vpiName: slave
+                vpiFullName: sub.dummy_out.dummy_if::slave.slave
+                vpiActual: InterfaceTypespec name:slave
+            vpiActual: InterfaceTypespec name:slave
     Module name:t file:$Source01/t_lint_modport_dir_bad.v start:30:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:30:8 end:30:9:
@@ -657,8 +721,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 6
+[  ERROR] : 1
+[WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -702,7 +766,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_modport_dir_bad/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              92      92       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                    92      92       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

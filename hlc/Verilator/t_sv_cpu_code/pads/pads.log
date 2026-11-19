@@ -449,7 +449,6 @@ n<$Source01/pads.sv> u<435> t<Top_level_rule> c<1> l<8:1> el<95:1>
   n<// pads> u<434> t<LINE_COMMENT> p<435> l<94:11> el<94:18>
 AST_DEBUG_END
 [INF:CP5804] $Source01/pads.sv:8:1: Compile module "pads".
-[WRN:CP5811] $Source01/pads.sv:18:19: Port "padsif" definition missing its direction (input, output, inout).
 [NTE:CP5810] $Source01/pads.sv:25:14: Implicit port type (wire) for "pad".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/pads.sv:10:22: Failed to bind "pinout".
@@ -460,21 +459,13 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/pads.sv:51:37: Failed to bind "pinout".
 [WRN:DV8514] $Source01/pads.sv:55:9: Failed to bind "PADTYPE_GPIO".
 [WRN:DV8514] $Source01/pads.sv:56:24: Failed to bind "ID".
-[WRN:DV8514] $Source01/pads.sv:60:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:60:49: Failed to bind "input_val".
-[WRN:DV8514] $Source01/pads.sv:65:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:65:49: Failed to bind "ana".
-[WRN:DV8514] $Source01/pads.sv:68:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:68:49: Failed to bind "pullup_en".
-[WRN:DV8514] $Source01/pads.sv:69:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:69:49: Failed to bind "pulldown_en".
-[WRN:DV8514] $Source01/pads.sv:70:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:70:49: Failed to bind "output_en".
-[WRN:DV8514] $Source01/pads.sv:71:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:71:49: Failed to bind "output_val".
-[WRN:DV8514] $Source01/pads.sv:72:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:72:49: Failed to bind "slew_limit_en".
-[WRN:DV8514] $Source01/pads.sv:73:42: Failed to bind "padsif".
 [WRN:DV8514] $Source01/pads.sv:73:49: Failed to bind "input_en".
 [WRN:DV8514] $Source01/pads.sv:76:9: Failed to bind "PADTYPE_VDD".
 [WRN:DV8514] $Source01/pads.sv:78:25: Failed to bind "ID".
@@ -617,11 +608,12 @@ Design name:unnamed:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiName: padsif
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:padsif start:18:19 end:18:25:
             vpiParent: Port name:padsif
             vpiName: padsif
             vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.padsif
+            vpiActual: Port name:padsif
           vpiTypespec RefTypespec name:pads_if::mp_pads start:18:3 end:18:18:
             vpiParent: Port name:padsif
             vpiName: pads_if::mp_pads
@@ -681,6 +673,28 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiFullName: pads #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
+      vpiIODecl (1 items):
+        IODecl name:padsif start:18:19 end:18:25:
+          vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
+          vpiName: padsif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:padsif start:18:19 end:18:25:
+            vpiParent: IODecl name:padsif
+            vpiName: padsif
+            vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.padsif
+          vpiTypespec RefTypespec name:pads_if::mp_pads start:18:3 end:18:18:
+            vpiParent: IODecl name:padsif
+            vpiName: pads_if::mp_pads
+            vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if::mp_pads
+            vpiPathElem (2 items):
+              RefObj name:pads_if start:18:3 end:18:10:
+                vpiParent: RefTypespec name:pads_if::mp_pads
+                vpiName: pads_if
+                vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if
+              RefTypespec name:mp_pads start:18:11 end:18:18:
+                vpiParent: RefTypespec name:pads_if::mp_pads
+                vpiName: mp_pads
+                vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if::mp_pads.mp_pads
       vpiSysTaskCall (1 items):
         SysFuncCall name:$size:
       vpiGenStmt (1 items):
@@ -882,6 +896,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.input_val[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:input_val[i] start:60:49 end:60:64:
                                     vpiParent: RefObj name:padsif.input_val[i]
                                     vpiName: input_val[i]
@@ -911,6 +926,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.ana[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:ana[i] start:65:49 end:65:64:
                                     vpiParent: RefObj name:padsif.ana[i]
                                     vpiName: ana[i]
@@ -940,6 +956,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.pullup_en[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:pullup_en[i] start:68:49 end:68:64:
                                     vpiParent: RefObj name:padsif.pullup_en[i]
                                     vpiName: pullup_en[i]
@@ -969,6 +986,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.pulldown_en[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:pulldown_en[i] start:69:49 end:69:64:
                                     vpiParent: RefObj name:padsif.pulldown_en[i]
                                     vpiName: pulldown_en[i]
@@ -998,6 +1016,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.output_en[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:output_en[i] start:70:49 end:70:64:
                                     vpiParent: RefObj name:padsif.output_en[i]
                                     vpiName: output_en[i]
@@ -1027,6 +1046,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.output_val[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:output_val[i] start:71:49 end:71:64:
                                     vpiParent: RefObj name:padsif.output_val[i]
                                     vpiName: output_val[i]
@@ -1056,6 +1076,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.slew_limit_en[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:slew_limit_en[i] start:72:49 end:72:64:
                                     vpiParent: RefObj name:padsif.slew_limit_en[i]
                                     vpiName: slew_limit_en[i]
@@ -1085,6 +1106,7 @@ Design name:unnamed:
                                     vpiParent: RefObj name:padsif.input_en[i]
                                     vpiName: padsif
                                     vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif
+                                    vpiActual: Port name:padsif
                                   BitSelect name:input_en[i] start:73:49 end:73:64:
                                     vpiParent: RefObj name:padsif.input_en[i]
                                     vpiName: input_en[i]
@@ -1235,7 +1257,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 13
-[WARNING] : 29
+[WARNING] : 20
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1279,7 +1301,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             172     172       0         0
+Others                             177     177       0         0
 ----------------------------------------------------------------
-                                   172     172       0         0
+                                   177     177       0         0
 ===================== END REDUCTION RESULT =====================

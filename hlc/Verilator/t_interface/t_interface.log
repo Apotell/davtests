@@ -1415,22 +1415,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface.v:6:1: Compile module "t".
 [INF:CP5805] $Source01/t_interface.v:70:1: Compile interface "handshake".
 [INF:CP5804] $Source01/t_interface.v:109:1: Compile module "source".
-[WRN:CP5811] $Source01/t_interface.v:117:19: Port "inf" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface.v:141:1: Compile module "drain".
-[WRN:CP5811] $Source01/t_interface.v:149:19: Port "inf" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface.v:132:35: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:132:39: Failed to bind "req".
-[WRN:DV8514] $Source01/t_interface.v:132:45: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:132:49: Failed to bind "grt".
-[WRN:DV8514] $Source01/t_interface.v:135:11: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:135:15: Failed to bind "req".
-[WRN:DV8514] $Source01/t_interface.v:164:35: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:164:39: Failed to bind "req".
-[WRN:DV8514] $Source01/t_interface.v:164:45: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:164:49: Failed to bind "grt".
-[WRN:DV8514] $Source01/t_interface.v:167:11: Failed to bind "inf".
-[WRN:DV8514] $Source01/t_interface.v:167:15: Failed to bind "grt".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1574,10 +1560,20 @@ Design name:unnamed:
               vpiParent: Modport name:src
               vpiName: req
               vpiDirection: output (2)
+              vpiExpr RefObj name:req start:87:14 end:87:17:
+                vpiParent: IODecl name:req
+                vpiName: req
+                vpiFullName: handshake #(.WC(32)).src.req.req
+                vpiActual: Variable name:req
             IODecl name:grt start:88:14 end:88:17:
               vpiParent: Modport name:src
               vpiName: grt
               vpiDirection: input (1)
+              vpiExpr RefObj name:grt start:88:14 end:88:17:
+                vpiParent: IODecl name:grt
+                vpiName: grt
+                vpiFullName: handshake #(.WC(32)).src.grt.grt
+                vpiActual: Variable name:grt
           vpiInterface: Interface name:handshake #(.WC(32))
         Modport name:drn start:92:12 end:92:15:
           vpiParent: Interface name:handshake #(.WC(32))
@@ -1587,10 +1583,20 @@ Design name:unnamed:
               vpiParent: Modport name:drn
               vpiName: req
               vpiDirection: input (1)
+              vpiExpr RefObj name:req start:93:14 end:93:17:
+                vpiParent: IODecl name:req
+                vpiName: req
+                vpiFullName: handshake #(.WC(32)).drn.req.req
+                vpiActual: Variable name:req
             IODecl name:grt start:94:14 end:94:17:
               vpiParent: Modport name:drn
               vpiName: grt
               vpiDirection: output (2)
+              vpiExpr RefObj name:grt start:94:14 end:94:17:
+                vpiParent: IODecl name:grt
+                vpiName: grt
+                vpiFullName: handshake #(.WC(32)).drn.grt.grt
+                vpiActual: Variable name:grt
           vpiInterface: Interface name:handshake #(.WC(32))
       vpiContAssign (1 items):
         ContAssign start:98:11 end:98:26:
@@ -2481,25 +2487,26 @@ Design name:unnamed:
           vpiName: inf
           vpiPortIndex: 2
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:inf start:117:19 end:117:22:
             vpiParent: Port name:inf
             vpiName: inf
             vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.inf"
-          vpiTypespec RefTypespec name:handshake #(.WC(32))::src start:117:4 end:117:17:
+            vpiActual: Modport name:src
+          vpiTypespec RefTypespec name:handshake::src start:117:4 end:117:17:
             vpiParent: Port name:inf
-            vpiName: handshake #(.WC(32))::src
-            vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::src"
+            vpiName: handshake::src
+            vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake::src"
             vpiPathElem (2 items):
               RefObj name:handshake start:117:4 end:117:13:
-                vpiParent: RefTypespec name:handshake #(.WC(32))::src
+                vpiParent: RefTypespec name:handshake::src
                 vpiName: handshake
                 vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake"
                 vpiActual: Interface name:handshake #(.WC(32))
               RefTypespec name:src start:117:14 end:117:17:
-                vpiParent: RefTypespec name:handshake #(.WC(32))::src
+                vpiParent: RefTypespec name:handshake::src
                 vpiName: src
-                vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::src.src"
+                vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake::src.src"
                 vpiActual: InterfaceTypespec name:src
             vpiActual: InterfaceTypespec name:src
         Port name:cnt start:118:19 end:118:22:
@@ -2779,10 +2786,13 @@ Design name:unnamed:
                                   vpiParent: RefObj name:inf.req
                                   vpiName: inf
                                   vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf"
+                                  vpiActual: Modport name:src
                                 RefObj name:req start:132:39 end:132:42:
                                   vpiParent: RefObj name:inf.req
                                   vpiName: req
                                   vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).req"
+                                  vpiActual: Variable name:req
+                              vpiActual: Variable name:req
                             RefObj name:inf.grt start:132:45 end:132:52:
                               vpiParent: Operation
                               vpiName: inf.grt
@@ -2792,10 +2802,13 @@ Design name:unnamed:
                                   vpiParent: RefObj name:inf.grt
                                   vpiName: inf
                                   vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf"
+                                  vpiActual: Modport name:src
                                 RefObj name:grt start:132:49 end:132:52:
                                   vpiParent: RefObj name:inf.grt
                                   vpiName: grt
                                   vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).grt"
+                                  vpiActual: Variable name:grt
+                              vpiActual: Variable name:grt
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:135:11 end:135:27:
@@ -2811,10 +2824,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:inf.req
                 vpiName: inf
                 vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf"
+                vpiActual: Modport name:src
               RefObj name:req start:135:15 end:135:18:
                 vpiParent: RefObj name:inf.req
                 vpiName: req
                 vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).req"
+                vpiActual: Variable name:req
+            vpiActual: Variable name:req
           vpiRhs BitSelect name:rnd[0] start:135:21 end:135:27:
             vpiParent: ContAssign
             vpiName: rnd[0]
@@ -2835,6 +2851,32 @@ Design name:unnamed:
                 vpiParent: Constant
                 vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).rnd[0]"
                 vpiActual: IntTypespec
+      vpiIODecl (1 items):
+        IODecl name:inf start:117:19 end:117:22:
+          vpiParent: "Module name:source #(.RW(1), .RP('0), .RR('1))"
+          vpiName: inf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:inf start:117:19 end:117:22:
+            vpiParent: IODecl name:inf
+            vpiName: inf
+            vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.inf"
+            vpiActual: Modport name:src
+          vpiTypespec RefTypespec name:handshake::src start:117:4 end:117:17:
+            vpiParent: IODecl name:inf
+            vpiName: handshake::src
+            vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake::src"
+            vpiPathElem (2 items):
+              RefObj name:handshake start:117:4 end:117:13:
+                vpiParent: RefTypespec name:handshake::src
+                vpiName: handshake
+                vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake"
+                vpiActual: Interface name:handshake #(.WC(32))
+              RefTypespec name:src start:117:14 end:117:17:
+                vpiParent: RefTypespec name:handshake::src
+                vpiName: src
+                vpiFullName: "source #(.RW(1), .RP('0), .RR('1)).inf.handshake::src.src"
+                vpiActual: InterfaceTypespec name:src
+            vpiActual: InterfaceTypespec name:src
       vpiEndLabel Identifier name:source start:137:13 end:137:19:
     "Module name:drain #(.RW(1), .RP('0), .RR('1)) file:$Source01/t_interface.v start:141:1 end:169:18":
       vpiParent: Design name:unnamed
@@ -3101,25 +3143,26 @@ Design name:unnamed:
           vpiName: inf
           vpiPortIndex: 2
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:inf start:149:19 end:149:22:
             vpiParent: Port name:inf
             vpiName: inf
             vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.inf"
-          vpiTypespec RefTypespec name:handshake #(.WC(32))::drn start:149:4 end:149:17:
+            vpiActual: Modport name:drn
+          vpiTypespec RefTypespec name:handshake::drn start:149:4 end:149:17:
             vpiParent: Port name:inf
-            vpiName: handshake #(.WC(32))::drn
-            vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::drn"
+            vpiName: handshake::drn
+            vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake::drn"
             vpiPathElem (2 items):
               RefObj name:handshake start:149:4 end:149:13:
-                vpiParent: RefTypespec name:handshake #(.WC(32))::drn
+                vpiParent: RefTypespec name:handshake::drn
                 vpiName: handshake
                 vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake"
                 vpiActual: Interface name:handshake #(.WC(32))
               RefTypespec name:drn start:149:14 end:149:17:
-                vpiParent: RefTypespec name:handshake #(.WC(32))::drn
+                vpiParent: RefTypespec name:handshake::drn
                 vpiName: drn
-                vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake #(.WC(32))::drn.drn"
+                vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake::drn.drn"
                 vpiActual: InterfaceTypespec name:drn
             vpiActual: InterfaceTypespec name:drn
         Port name:cnt start:150:19 end:150:22:
@@ -3399,10 +3442,13 @@ Design name:unnamed:
                                   vpiParent: RefObj name:inf.req
                                   vpiName: inf
                                   vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf"
+                                  vpiActual: Modport name:drn
                                 RefObj name:req start:164:39 end:164:42:
                                   vpiParent: RefObj name:inf.req
                                   vpiName: req
                                   vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).req"
+                                  vpiActual: Variable name:req
+                              vpiActual: Variable name:req
                             RefObj name:inf.grt start:164:45 end:164:52:
                               vpiParent: Operation
                               vpiName: inf.grt
@@ -3412,10 +3458,13 @@ Design name:unnamed:
                                   vpiParent: RefObj name:inf.grt
                                   vpiName: inf
                                   vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf"
+                                  vpiActual: Modport name:drn
                                 RefObj name:grt start:164:49 end:164:52:
                                   vpiParent: RefObj name:inf.grt
                                   vpiName: grt
                                   vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).grt"
+                                  vpiActual: Variable name:grt
+                              vpiActual: Variable name:grt
           vpiAlwaysType: always (1)
       vpiContAssign (1 items):
         ContAssign start:167:11 end:167:27:
@@ -3431,10 +3480,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:inf.grt
                 vpiName: inf
                 vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf"
+                vpiActual: Modport name:drn
               RefObj name:grt start:167:15 end:167:18:
                 vpiParent: RefObj name:inf.grt
                 vpiName: grt
                 vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).grt"
+                vpiActual: Variable name:grt
+            vpiActual: Variable name:grt
           vpiRhs BitSelect name:rnd[0] start:167:21 end:167:27:
             vpiParent: ContAssign
             vpiName: rnd[0]
@@ -3455,6 +3507,32 @@ Design name:unnamed:
                 vpiParent: Constant
                 vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).rnd[0]"
                 vpiActual: IntTypespec
+      vpiIODecl (1 items):
+        IODecl name:inf start:149:19 end:149:22:
+          vpiParent: "Module name:drain #(.RW(1), .RP('0), .RR('1))"
+          vpiName: inf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:inf start:149:19 end:149:22:
+            vpiParent: IODecl name:inf
+            vpiName: inf
+            vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.inf"
+            vpiActual: Modport name:drn
+          vpiTypespec RefTypespec name:handshake::drn start:149:4 end:149:17:
+            vpiParent: IODecl name:inf
+            vpiName: handshake::drn
+            vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake::drn"
+            vpiPathElem (2 items):
+              RefObj name:handshake start:149:4 end:149:13:
+                vpiParent: RefTypespec name:handshake::drn
+                vpiName: handshake
+                vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake"
+                vpiActual: Interface name:handshake #(.WC(32))
+              RefTypespec name:drn start:149:14 end:149:17:
+                vpiParent: RefTypespec name:handshake::drn
+                vpiName: drn
+                vpiFullName: "drain #(.RW(1), .RP('0), .RR('1)).inf.handshake::drn.drn"
+                vpiActual: InterfaceTypespec name:drn
+            vpiActual: InterfaceTypespec name:drn
       vpiEndLabel Identifier name:drain start:169:13 end:169:18:
   vpiTypespec (10 items):
     ModuleTypespec name:t:
@@ -3578,7 +3656,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 14
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3623,10 +3701,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            46      45      11        12
 Operation                           50      39       0        11
-RefObj                             126     116       0        10
-RefTypespec                         89      88      11        12
+RefObj                             134     124       0        10
+RefTypespec                         93      92      11        12
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             178     178       0         0
 ----------------------------------------------------------------
-                                   487     464      22        45
+                                   501     478      22        45
 ===================== END REDUCTION RESULT =====================

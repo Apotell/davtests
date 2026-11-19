@@ -3819,8 +3819,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:40:1: No timescale set for "tnoc_pkg".
 [INF:CP5804] $Source01/dut.sv:404:1: Compile module "tnoc_vc_splitter".
 [WRN:CP5811] $Source01/dut.sv:411:25: Port "types" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:412:25: Port "receiver_if" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:413:25: Port "sender_if" definition missing its direction (input, output, inout).
 [INF:CP5836] $Source01/dut.sv:415:47: Compile generate block "g".
 [INF:CP5836] $Source01/dut.sv:422:43: Compile generate block "g".
 [INF:CP5836] $Source01/dut.sv:427:18: Compile generate block "g".
@@ -3828,24 +3826,14 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/dut.sv:412:3: Failed to bind "tnoc_flit_if".
 [WRN:DV8514] $Source01/dut.sv:413:3: Failed to bind "tnoc_flit_if".
 [WRN:DV8514] $Source01/dut.sv:417:20: Failed to bind "valid".
-[WRN:DV8514] $Source01/dut.sv:417:7: Failed to bind "sender_if".
-[WRN:DV8514] $Source01/dut.sv:417:33: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:417:45: Failed to bind "valid".
-[WRN:DV8514] $Source01/dut.sv:418:7: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:418:19: Failed to bind "ready".
 [WRN:DV8514] $Source01/dut.sv:418:46: Failed to bind "ready".
-[WRN:DV8514] $Source01/dut.sv:418:33: Failed to bind "sender_if".
-[WRN:DV8514] $Source01/dut.sv:419:7: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:419:19: Failed to bind "vc_ready".
 [WRN:DV8514] $Source01/dut.sv:419:46: Failed to bind "vc_ready".
-[WRN:DV8514] $Source01/dut.sv:419:33: Failed to bind "sender_if".
 [WRN:DV8514] $Source01/dut.sv:424:22: Failed to bind "flit".
-[WRN:DV8514] $Source01/dut.sv:424:9: Failed to bind "sender_if".
-[WRN:DV8514] $Source01/dut.sv:424:29: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:424:41: Failed to bind "flit".
 [WRN:DV8514] $Source01/dut.sv:429:22: Failed to bind "flit".
-[WRN:DV8514] $Source01/dut.sv:429:9: Failed to bind "sender_if".
-[WRN:DV8514] $Source01/dut.sv:429:29: Failed to bind "receiver_if".
 [WRN:DV8514] $Source01/dut.sv:429:41: Failed to bind "flit".
 [ERR:DL2510] $Source01/dut.sv:411:3: Unknown or undefined type "tnoc_types".
 [ERR:DL2510] $Source01/dut.sv:412:3: Unknown or undefined type "tnoc_flit_if::receiver".
@@ -9287,11 +9275,12 @@ Design name:unnamed:
           vpiName: receiver_if
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:receiver_if start:412:25 end:412:36:
             vpiParent: Port name:receiver_if
             vpiName: receiver_if
             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).receiver_if.receiver_if
+            vpiActual: Port name:receiver_if
           vpiTypespec RefTypespec name:tnoc_flit_if::receiver start:412:3 end:412:24:
             vpiParent: Port name:receiver_if
             vpiName: tnoc_flit_if::receiver
@@ -9310,13 +9299,49 @@ Design name:unnamed:
           vpiName: sender_if
           vpiPortIndex: 2
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sender_if start:413:25 end:413:34:
             vpiParent: Port name:sender_if
             vpiName: sender_if
             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).sender_if.sender_if
+            vpiActual: Port name:sender_if
           vpiTypespec RefTypespec name:tnoc_flit_if::sender [CHANNELS] start:413:3 end:413:22:
             vpiParent: Port name:sender_if
+            vpiName: tnoc_flit_if::sender [CHANNELS]
+            vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).sender_if.tnoc_flit_if::sender [CHANNELS]
+            vpiActual: ArrayTypespec
+      vpiIODecl (2 items):
+        IODecl name:receiver_if start:412:25 end:412:36:
+          vpiParent: Module name:tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels))
+          vpiName: receiver_if
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:receiver_if start:412:25 end:412:36:
+            vpiParent: IODecl name:receiver_if
+            vpiName: receiver_if
+            vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).receiver_if.receiver_if
+          vpiTypespec RefTypespec name:tnoc_flit_if::receiver start:412:3 end:412:24:
+            vpiParent: IODecl name:receiver_if
+            vpiName: tnoc_flit_if::receiver
+            vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).receiver_if.tnoc_flit_if::receiver
+            vpiPathElem (2 items):
+              RefObj name:tnoc_flit_if start:412:3 end:412:15:
+                vpiParent: RefTypespec name:tnoc_flit_if::receiver
+                vpiName: tnoc_flit_if
+                vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).receiver_if.tnoc_flit_if
+              RefTypespec name:receiver start:412:16 end:412:24:
+                vpiParent: RefTypespec name:tnoc_flit_if::receiver
+                vpiName: receiver
+                vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).receiver_if.tnoc_flit_if::receiver.receiver
+        IODecl name:sender_if start:413:25 end:413:34:
+          vpiParent: Module name:tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels))
+          vpiName: sender_if
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sender_if start:413:25 end:413:34:
+            vpiParent: IODecl name:sender_if
+            vpiName: sender_if
+            vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).sender_if.sender_if
+          vpiTypespec RefTypespec name:tnoc_flit_if::sender [CHANNELS] start:413:3 end:413:22:
+            vpiParent: IODecl name:sender_if
             vpiName: tnoc_flit_if::sender [CHANNELS]
             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).sender_if.tnoc_flit_if::sender [CHANNELS]
             vpiActual: ArrayTypespec
@@ -9398,6 +9423,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: sender_if
                               vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.sender_if[i].valid.sender_if
+                              vpiActual: Port name:sender_if
                             vpiIndex RefObj name:i start:417:17 end:417:18:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: i
@@ -9416,6 +9442,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:receiver_if.valid[i]
                             vpiName: receiver_if
                             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.receiver_if
+                            vpiActual: Port name:receiver_if
                           BitSelect name:valid[i] start:417:45 end:417:52:
                             vpiParent: RefObj name:receiver_if.valid[i]
                             vpiName: valid[i]
@@ -9442,6 +9469,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:receiver_if.ready[i]
                             vpiName: receiver_if
                             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.receiver_if
+                            vpiActual: Port name:receiver_if
                           BitSelect name:ready[i] start:418:19 end:418:26:
                             vpiParent: RefObj name:receiver_if.ready[i]
                             vpiName: ready[i]
@@ -9468,6 +9496,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: sender_if
                               vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.sender_if[i].ready.sender_if
+                              vpiActual: Port name:sender_if
                             vpiIndex RefObj name:i start:418:43 end:418:44:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: i
@@ -9490,6 +9519,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:receiver_if.vc_ready[i]
                             vpiName: receiver_if
                             vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.receiver_if
+                            vpiActual: Port name:receiver_if
                           BitSelect name:vc_ready[i] start:419:19 end:419:29:
                             vpiParent: RefObj name:receiver_if.vc_ready[i]
                             vpiName: vc_ready[i]
@@ -9516,6 +9546,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: sender_if
                               vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.sender_if[i].vc_ready.sender_if
+                              vpiActual: Port name:sender_if
                             vpiIndex RefObj name:i start:419:43 end:419:44:
                               vpiParent: BitSelect name:sender_if[i]
                               vpiName: i
@@ -9568,6 +9599,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:sender_if[i]
                                     vpiName: sender_if
                                     vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.g.sender_if[i].flit.sender_if
+                                    vpiActual: Port name:sender_if
                                   vpiIndex RefObj name:i start:424:19 end:424:20:
                                     vpiParent: BitSelect name:sender_if[i]
                                     vpiName: i
@@ -9586,6 +9618,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:receiver_if.flit[i]
                                   vpiName: receiver_if
                                   vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.g.receiver_if
+                                  vpiActual: Port name:receiver_if
                                 BitSelect name:flit[i] start:424:41 end:424:47:
                                   vpiParent: RefObj name:receiver_if.flit[i]
                                   vpiName: flit[i]
@@ -9628,6 +9661,7 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:sender_if[i]
                                     vpiName: sender_if
                                     vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.g.sender_if[i].flit.sender_if
+                                    vpiActual: Port name:sender_if
                                   vpiIndex RefObj name:i start:429:19 end:429:20:
                                     vpiParent: BitSelect name:sender_if[i]
                                     vpiName: i
@@ -9646,6 +9680,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:receiver_if.flit
                                   vpiName: receiver_if
                                   vpiFullName: tnoc_vc_splitter #(.PACKET_CONFIG(TNOC_DEFAULT_PACKET_CONFIG), .PORT_TYPE(TNOC_LOCAL_PORT), .CHANNELS(PACKET_CONFIG.virtual_channels)).g.g.receiver_if
+                                  vpiActual: Port name:receiver_if
                                 RefObj name:flit start:429:41 end:429:45:
                                   vpiParent: RefObj name:receiver_if.flit
                                   vpiName: flit
@@ -9675,7 +9710,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 27
+[WARNING] : 15
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -9719,7 +9754,7 @@ COMMAND: ${HLC_DIR}/regression/FuncDef2/FuncDef2/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1437    1437       0         0
+Others                            1445    1445       0         0
 ----------------------------------------------------------------
-                                  1437    1437       0         0
+                                  1445    1445       0         0
 ===================== END REDUCTION RESULT =====================

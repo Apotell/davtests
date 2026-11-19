@@ -190,17 +190,8 @@ n<$Source01/t_interface_modportlist.v> u<172> t<Top_level_rule> c<1> l<8:1> el<2
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_modportlist.v:8:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_modportlist.v:13:1: Compile module "my_module".
-[WRN:CP5811] $Source01/t_interface_modportlist.v:13:50: Port "iface" definition missing its direction (input, output, inout).
 [INF:CP5805] $Source01/t_interface_modportlist.v:20:1: Compile interface "my_interface".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:15:7: Failed to bind "iface".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:15:13: Failed to bind "b".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:15:18: Failed to bind "iface".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:15:24: Failed to bind "a".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:16:7: Failed to bind "iface".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:16:13: Failed to bind "c".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:16:18: Failed to bind "iface".
-[WRN:DV8514] $Source01/t_interface_modportlist.v:16:24: Failed to bind "a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -283,14 +274,29 @@ Design name:unnamed:
               vpiParent: Modport name:my_port
               vpiName: a
               vpiDirection: input (1)
+              vpiExpr RefObj name:a start:22:26 end:22:27:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: my_interface.my_port.a.a
+                vpiActual: Variable name:a
             IODecl name:b start:22:36 end:22:37:
               vpiParent: Modport name:my_port
               vpiName: b
               vpiDirection: output (2)
+              vpiExpr RefObj name:b start:22:36 end:22:37:
+                vpiParent: IODecl name:b
+                vpiName: b
+                vpiFullName: my_interface.my_port.b.b
+                vpiActual: Variable name:b
             IODecl name:c start:22:39 end:22:40:
               vpiParent: Modport name:my_port
               vpiName: c
               vpiDirection: output (2)
+              vpiExpr RefObj name:c start:22:39 end:22:40:
+                vpiParent: IODecl name:c
+                vpiName: c
+                vpiFullName: my_interface.my_port.c.c
+                vpiActual: Variable name:c
           vpiInterface: Interface name:my_interface
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_modportlist.v start:8:1 end:11:10:
@@ -405,11 +411,12 @@ Design name:unnamed:
           vpiName: iface
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:iface start:13:50 end:13:55:
             vpiParent: Port name:iface
             vpiName: iface
             vpiFullName: my_module.iface.iface
+            vpiActual: Modport name:my_port
           vpiTypespec RefTypespec name:my_interface::my_port start:13:29 end:13:49:
             vpiParent: Port name:iface
             vpiName: my_interface::my_port
@@ -456,10 +463,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:iface.b
                         vpiName: iface
                         vpiFullName: my_module.iface
+                        vpiActual: Modport name:my_port
                       RefObj name:b start:15:13 end:15:14:
                         vpiParent: RefObj name:iface.b
                         vpiName: b
                         vpiFullName: my_module.b
+                        vpiActual: Variable name:b
+                    vpiActual: Variable name:b
                   vpiRhs RefObj name:iface.a start:15:18 end:15:25:
                     vpiParent: Assignment
                     vpiName: iface.a
@@ -469,10 +479,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:iface.a
                         vpiName: iface
                         vpiFullName: my_module.iface
+                        vpiActual: Modport name:my_port
                       RefObj name:a start:15:24 end:15:25:
                         vpiParent: RefObj name:iface.a
                         vpiName: a
                         vpiFullName: my_module.a
+                        vpiActual: Variable name:a
+                    vpiActual: Variable name:a
                 Assignment start:16:7 end:16:25:
                   vpiParent: Begin
                   vpiOpType: assignment (96)
@@ -485,10 +498,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:iface.c
                         vpiName: iface
                         vpiFullName: my_module.iface
+                        vpiActual: Modport name:my_port
                       RefObj name:c start:16:13 end:16:14:
                         vpiParent: RefObj name:iface.c
                         vpiName: c
                         vpiFullName: my_module.c
+                        vpiActual: Variable name:c
+                    vpiActual: Variable name:c
                   vpiRhs RefObj name:iface.a start:16:18 end:16:25:
                     vpiParent: Assignment
                     vpiName: iface.a
@@ -498,11 +514,40 @@ Design name:unnamed:
                         vpiParent: RefObj name:iface.a
                         vpiName: iface
                         vpiFullName: my_module.iface
+                        vpiActual: Modport name:my_port
                       RefObj name:a start:16:24 end:16:25:
                         vpiParent: RefObj name:iface.a
                         vpiName: a
                         vpiFullName: my_module.a
+                        vpiActual: Variable name:a
+                    vpiActual: Variable name:a
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:iface start:13:50 end:13:55:
+          vpiParent: Module name:my_module
+          vpiName: iface
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:iface start:13:50 end:13:55:
+            vpiParent: IODecl name:iface
+            vpiName: iface
+            vpiFullName: my_module.iface.iface
+            vpiActual: Modport name:my_port
+          vpiTypespec RefTypespec name:my_interface::my_port start:13:29 end:13:49:
+            vpiParent: IODecl name:iface
+            vpiName: my_interface::my_port
+            vpiFullName: my_module.iface.my_interface::my_port
+            vpiPathElem (2 items):
+              RefObj name:my_interface start:13:29 end:13:41:
+                vpiParent: RefTypespec name:my_interface::my_port
+                vpiName: my_interface
+                vpiFullName: my_module.iface.my_interface
+                vpiActual: Interface name:my_interface
+              RefTypespec name:my_port start:13:42 end:13:49:
+                vpiParent: RefTypespec name:my_interface::my_port
+                vpiName: my_port
+                vpiFullName: my_module.iface.my_interface::my_port.my_port
+                vpiActual: InterfaceTypespec name:my_port
+            vpiActual: InterfaceTypespec name:my_port
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -527,7 +572,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -571,7 +616,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    79      79       0         0
 ===================== END REDUCTION RESULT =====================

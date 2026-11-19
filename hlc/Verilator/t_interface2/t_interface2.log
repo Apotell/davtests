@@ -1076,10 +1076,8 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface2.v:65:1: Compile interface "counter_io".
 [INF:CP5805] $Source01/t_interface2.v:73:1: Compile interface "ifunused".
 [INF:CP5804] $Source01/t_interface2.v:77:1: Compile module "counter_ansi".
-[WRN:CP5811] $Source01/t_interface2.v:80:15: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface2.v:95:1: Compile module "counter_nansi".
 [INF:CP5804] $Source01/t_interface2.v:106:1: Compile module "modunused".
-[WRN:CP5811] $Source01/t_interface2.v:106:28: Port "ifinunused" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -2311,7 +2309,7 @@ Design name:unnamed:
         vpiFullName: counter_ansi.work
         vpiActual: Library name:work
       vpiCell: counter_ansi
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clkm start:79:10 end:79:14:
           vpiParent: Module name:counter_ansi
           vpiName: clkm
@@ -2322,17 +2320,6 @@ Design name:unnamed:
             vpiParent: Net name:clkm
             vpiFullName: counter_ansi.clkm
             vpiActual: LogicTypespec
-        Net name:c_data start:80:15 end:80:21:
-          vpiParent: Module name:counter_ansi
-          vpiName: c_data
-          vpiFullName: counter_ansi.c_data
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:counter_io start:80:4 end:80:14:
-            vpiParent: Net name:c_data
-            vpiName: counter_io
-            vpiFullName: counter_ansi.c_data.counter_io
-            vpiActual: InterfaceTypespec name:counter_io
         Net name:i_value start:81:22 end:81:29:
           vpiParent: Module name:counter_ansi
           vpiName: i_value
@@ -2364,12 +2351,13 @@ Design name:unnamed:
           vpiName: c_data
           vpiPortIndex: 1
           vpiPortType: interface port (1)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:c_data start:80:15 end:80:21:
             vpiParent: Port name:c_data
             vpiName: c_data
             vpiFullName: counter_ansi.c_data.c_data
-            vpiActual: Net name:c_data
+            vpiGeneric: true
+            vpiActual: Interface name:counter_io
           vpiTypespec RefTypespec name:counter_io start:80:4 end:80:14:
             vpiParent: Port name:c_data
             vpiName: counter_io
@@ -2418,7 +2406,7 @@ Design name:unnamed:
                   vpiParent: MethodTaskCall name:set_lcl
                   vpiName: c_data
                   vpiFullName: counter_ansi.c_data
-                  vpiActual: Net name:c_data
+                  vpiActual: Interface name:counter_io
         Always start:88:4 end:90:7:
           vpiParent: Module name:counter_ansi
           vpiStmt EventControl start:88:11 end:90:7:
@@ -2448,7 +2436,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:c_data.value
                         vpiName: c_data
                         vpiFullName: counter_ansi.c_data
-                        vpiActual: Net name:c_data
+                        vpiActual: Interface name:counter_io
                       RefObj name:value start:89:14 end:89:19:
                         vpiParent: RefObj name:c_data.value
                         vpiName: value
@@ -2468,7 +2456,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:c_data.reset
                             vpiName: c_data
                             vpiFullName: counter_ansi.c_data
-                            vpiActual: Net name:c_data
+                            vpiActual: Interface name:counter_io
                           RefObj name:reset start:89:30 end:89:35:
                             vpiParent: RefObj name:c_data.reset
                             vpiName: reset
@@ -2493,7 +2481,7 @@ Design name:unnamed:
                                 vpiParent: RefObj name:c_data.value
                                 vpiName: c_data
                                 vpiFullName: counter_ansi.c_data
-                                vpiActual: Net name:c_data
+                                vpiActual: Interface name:counter_io
                               RefObj name:value start:89:55 end:89:60:
                                 vpiParent: RefObj name:c_data.value
                                 vpiName: value
@@ -2511,23 +2499,26 @@ Design name:unnamed:
                               vpiFullName: counter_ansi
                               vpiActual: IntTypespec
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:c_data start:80:15 end:80:21:
+          vpiParent: Module name:counter_ansi
+          vpiName: c_data
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:c_data start:80:15 end:80:21:
+            vpiParent: IODecl name:c_data
+            vpiName: c_data
+            vpiFullName: counter_ansi.c_data.c_data
+            vpiActual: Interface name:counter_io
+          vpiTypespec RefTypespec name:counter_io start:80:4 end:80:14:
+            vpiParent: IODecl name:c_data
+            vpiName: counter_io
+            vpiFullName: counter_ansi.c_data.counter_io
+            vpiActual: InterfaceTypespec name:counter_io
       vpiEndLabel Identifier name:counter_ansi start:91:13 end:91:25:
     Module name:counter_nansi file:$Source01/t_interface2.v start:95:1 end:103:26:
       vpiParent: Design name:unnamed
       vpiName Identifier name:counter_nansi start:95:8 end:95:21:
       vpiFullName: counter_nansi
-      vpiVariable (1 items):
-        Variable name:c_data start:97:15 end:97:21:
-          vpiParent: Module name:counter_nansi
-          vpiName: c_data
-          vpiFullName: counter_nansi.c_data
-          vpiRandType: (1)
-          vpiVisibility: public (1)
-          vpiTypespec RefTypespec name:counter_io start:97:4 end:97:14:
-            vpiParent: Variable name:c_data
-            vpiName: counter_io
-            vpiFullName: counter_nansi.c_data.counter_io
-            vpiActual: InterfaceTypespec name:counter_io
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:counter_nansi
@@ -2619,7 +2610,7 @@ Design name:unnamed:
             vpiParent: Port name:c_data
             vpiName: c_data
             vpiFullName: counter_nansi.c_data.c_data
-            vpiActual: Variable name:c_data
+            vpiActual: Interface name:counter_io
         Port name:i_value start:95:36 end:95:43:
           vpiParent: Module name:counter_nansi
           vpiName: i_value
@@ -2665,7 +2656,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:c_data.value
                         vpiName: c_data
                         vpiFullName: counter_nansi.c_data
-                        vpiActual: Variable name:c_data
+                        vpiActual: Interface name:counter_io
                       RefObj name:value start:101:14 end:101:19:
                         vpiParent: RefObj name:c_data.value
                         vpiName: value
@@ -2685,7 +2676,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:c_data.reset
                             vpiName: c_data
                             vpiFullName: counter_nansi.c_data
-                            vpiActual: Variable name:c_data
+                            vpiActual: Interface name:counter_io
                           RefObj name:reset start:101:30 end:101:35:
                             vpiParent: RefObj name:c_data.reset
                             vpiName: reset
@@ -2710,7 +2701,7 @@ Design name:unnamed:
                                 vpiParent: RefObj name:c_data.value
                                 vpiName: c_data
                                 vpiFullName: counter_nansi.c_data
-                                vpiActual: Variable name:c_data
+                                vpiActual: Interface name:counter_io
                               RefObj name:value start:101:55 end:101:60:
                                 vpiParent: RefObj name:c_data.value
                                 vpiName: value
@@ -2728,6 +2719,21 @@ Design name:unnamed:
                               vpiFullName: counter_nansi
                               vpiActual: IntTypespec
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:c_data start:97:15 end:97:21:
+          vpiParent: Module name:counter_nansi
+          vpiName: c_data
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:c_data start:97:15 end:97:21:
+            vpiParent: IODecl name:c_data
+            vpiName: c_data
+            vpiFullName: counter_nansi.c_data.c_data
+            vpiActual: Interface name:counter_io
+          vpiTypespec RefTypespec name:counter_io start:97:4 end:97:14:
+            vpiParent: IODecl name:c_data
+            vpiName: counter_io
+            vpiFullName: counter_nansi.c_data.counter_io
+            vpiActual: InterfaceTypespec name:counter_io
       vpiEndLabel Identifier name:counter_nansi start:103:13 end:103:26:
     Module name:modunused file:$Source01/t_interface2.v start:106:1 end:108:10:
       vpiParent: Design name:unnamed
@@ -2747,32 +2753,36 @@ Design name:unnamed:
         vpiFullName: modunused.work
         vpiActual: Library name:work
       vpiCell: modunused
-      vpiNet (1 items):
-        Net name:ifinunused start:106:28 end:106:38:
-          vpiParent: Module name:modunused
-          vpiName: ifinunused
-          vpiFullName: modunused.ifinunused
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:ifunused start:106:19 end:106:27:
-            vpiParent: Net name:ifinunused
-            vpiName: ifunused
-            vpiFullName: modunused.ifinunused.ifunused
-            vpiActual: InterfaceTypespec name:ifunused
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:ifinunused start:106:28 end:106:38:
           vpiParent: Module name:modunused
           vpiName: ifinunused
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:ifinunused start:106:28 end:106:38:
             vpiParent: Port name:ifinunused
             vpiName: ifinunused
             vpiFullName: modunused.ifinunused.ifinunused
-            vpiActual: Net name:ifinunused
+            vpiGeneric: true
+            vpiActual: Interface name:ifunused
           vpiTypespec RefTypespec name:ifunused start:106:19 end:106:27:
             vpiParent: Port name:ifinunused
+            vpiName: ifunused
+            vpiFullName: modunused.ifinunused.ifunused
+            vpiActual: InterfaceTypespec name:ifunused
+      vpiIODecl (1 items):
+        IODecl name:ifinunused start:106:28 end:106:38:
+          vpiParent: Module name:modunused
+          vpiName: ifinunused
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:ifinunused start:106:28 end:106:38:
+            vpiParent: IODecl name:ifinunused
+            vpiName: ifinunused
+            vpiFullName: modunused.ifinunused.ifinunused
+            vpiActual: Interface name:ifunused
+          vpiTypespec RefTypespec name:ifunused start:106:19 end:106:27:
+            vpiParent: IODecl name:ifinunused
             vpiName: ifunused
             vpiFullName: modunused.ifinunused.ifunused
             vpiActual: InterfaceTypespec name:ifunused
@@ -2831,7 +2841,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2876,10 +2886,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            33      33       5         5
 Operation                           16      11       0         5
-RefObj                             118     113       0         5
+RefObj                             121     116       0         5
 RefTypespec                         64      64       5         5
 ----------------------------------------------------------------
 Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   393     383      10        20
+                                   396     386      10        20
 ===================== END REDUCTION RESULT =====================

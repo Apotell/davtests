@@ -421,9 +421,16 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_var_dup_bad.v:69:16: Implicit port type (wire) for "bad_rewire".
 [ERR:CP5988] $Source01/t_var_dup_bad.v:72:9: Illegal redeclaration of ANSI port "bad_rewire" in the body,
              $Source01/t_var_dup_bad.v:69:16: port declared here.
+[ERR:CP5941] $Source01/t_var_dup_bad.v:72:9: Duplicate bad_rewire,
+             $Source01/t_var_dup_bad.v:69:16: previous declaration.
 [ERR:CP5988] $Source01/t_var_dup_bad.v:73:9: Illegal redeclaration of ANSI port "bad_rereg" in the body,
              $Source01/t_var_dup_bad.v:70:15: port declared here.
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:CP6007] $Source01/t_var_dup_bad.v:40:14: Implicit connection of port "bad_duport" names no declaration made before the instance.
+[ERR:CP6007] $Source01/t_var_dup_bad.v:41:14: Implicit connection of port "bad_mixport" names no declaration made before the instance.
+[ERR:CP6007] $Source01/t_var_dup_bad.v:42:14: Implicit connection of port "bad_reout_port" names no declaration made before the instance.
+[ERR:CP6007] $Source01/t_var_dup_bad.v:43:14: Implicit connection of port "bad_rewire" names no declaration made before the instance.
+[ERR:CP6007] $Source01/t_var_dup_bad.v:43:14: Implicit connection of port "bad_rereg" names no declaration made before the instance.
 [ERR:DV8501] Invalid name: id:113, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
@@ -645,13 +652,39 @@ Design name:unnamed:
             vpiName: sub0
             vpiFullName: t.sub0.sub0
             vpiActual: ModuleTypespec name:sub0
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:40:14 end:40:16:
               vpiParent: RefInstance name:sub0
               vpiHighConn RefObj name:.* start:40:14 end:40:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub0..*
+            NamedArgument start:40:14 end:40:16:
+              vpiParent: RefInstance name:sub0
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_duport start:40:14 end:40:16:
+                vpiParent: NamedArgument
+                vpiName: bad_duport
+                vpiFullName: t.sub0.bad_duport
+                vpiActual: Port name:bad_duport
+              vpiHighConn RefObj name:bad_duport start:40:14 end:40:16:
+                vpiParent: NamedArgument
+                vpiName: bad_duport
+                vpiFullName: t.sub0.bad_duport
+            NamedArgument start:40:14 end:40:16:
+              vpiParent: RefInstance name:sub0
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_duport start:40:14 end:40:16:
+                vpiParent: NamedArgument
+                vpiName: bad_duport
+                vpiFullName: t.sub0.bad_duport
+                vpiActual: Port name:bad_duport
+              vpiHighConn RefObj name:bad_duport start:40:14 end:40:16:
+                vpiParent: NamedArgument
+                vpiName: bad_duport
+                vpiFullName: t.sub0.bad_duport
         RefInstance name:sub1 start:41:9 end:41:13:
           vpiParent: Module name:t
           vpiName: sub1
@@ -660,13 +693,39 @@ Design name:unnamed:
             vpiName: sub1
             vpiFullName: t.sub1.sub1
             vpiActual: ModuleTypespec name:sub1
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:41:14 end:41:16:
               vpiParent: RefInstance name:sub1
               vpiHighConn RefObj name:.* start:41:14 end:41:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub1..*
+            NamedArgument start:41:14 end:41:16:
+              vpiParent: RefInstance name:sub1
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_mixport start:41:14 end:41:16:
+                vpiParent: NamedArgument
+                vpiName: bad_mixport
+                vpiFullName: t.sub1.bad_mixport
+                vpiActual: Port name:bad_mixport
+              vpiHighConn RefObj name:bad_mixport start:41:14 end:41:16:
+                vpiParent: NamedArgument
+                vpiName: bad_mixport
+                vpiFullName: t.sub1.bad_mixport
+            NamedArgument start:41:14 end:41:16:
+              vpiParent: RefInstance name:sub1
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_mixport start:41:14 end:41:16:
+                vpiParent: NamedArgument
+                vpiName: bad_mixport
+                vpiFullName: t.sub1.bad_mixport
+                vpiActual: Port name:bad_mixport
+              vpiHighConn RefObj name:bad_mixport start:41:14 end:41:16:
+                vpiParent: NamedArgument
+                vpiName: bad_mixport
+                vpiFullName: t.sub1.bad_mixport
         RefInstance name:sub2 start:42:9 end:42:13:
           vpiParent: Module name:t
           vpiName: sub2
@@ -675,13 +734,26 @@ Design name:unnamed:
             vpiName: sub2
             vpiFullName: t.sub2.sub2
             vpiActual: ModuleTypespec name:sub2
-          vpiArgument (1 items):
+          vpiArgument (2 items):
             NamedArgument start:42:14 end:42:16:
               vpiParent: RefInstance name:sub2
               vpiHighConn RefObj name:.* start:42:14 end:42:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub2..*
+            NamedArgument start:42:14 end:42:16:
+              vpiParent: RefInstance name:sub2
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_reout_port start:42:14 end:42:16:
+                vpiParent: NamedArgument
+                vpiName: bad_reout_port
+                vpiFullName: t.sub2.bad_reout_port
+                vpiActual: Port name:bad_reout_port
+              vpiHighConn RefObj name:bad_reout_port start:42:14 end:42:16:
+                vpiParent: NamedArgument
+                vpiName: bad_reout_port
+                vpiFullName: t.sub2.bad_reout_port
         RefInstance name:sub3 start:43:9 end:43:13:
           vpiParent: Module name:t
           vpiName: sub3
@@ -690,13 +762,39 @@ Design name:unnamed:
             vpiName: sub3
             vpiFullName: t.sub3.sub3
             vpiActual: ModuleTypespec name:sub3
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:43:14 end:43:16:
               vpiParent: RefInstance name:sub3
               vpiHighConn RefObj name:.* start:43:14 end:43:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub3..*
+            NamedArgument start:43:14 end:43:16:
+              vpiParent: RefInstance name:sub3
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_rewire start:43:14 end:43:16:
+                vpiParent: NamedArgument
+                vpiName: bad_rewire
+                vpiFullName: t.sub3.bad_rewire
+                vpiActual: Port name:bad_rewire
+              vpiHighConn RefObj name:bad_rewire start:43:14 end:43:16:
+                vpiParent: NamedArgument
+                vpiName: bad_rewire
+                vpiFullName: t.sub3.bad_rewire
+            NamedArgument start:43:14 end:43:16:
+              vpiParent: RefInstance name:sub3
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:bad_rereg start:43:14 end:43:16:
+                vpiParent: NamedArgument
+                vpiName: bad_rereg
+                vpiFullName: t.sub3.bad_rereg
+                vpiActual: Port name:bad_rereg
+              vpiHighConn RefObj name:bad_rereg start:43:14 end:43:16:
+                vpiParent: NamedArgument
+                vpiName: bad_rereg
+                vpiFullName: t.sub3.bad_rereg
     Module name:sub0 file:$Source01/t_var_dup_bad.v start:46:1 end:52:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub0 start:46:8 end:46:12:
@@ -914,7 +1012,6 @@ Design name:unnamed:
           vpiName: bad_rewire
           vpiFullName: sub3.bad_rewire
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:bad_rewire
@@ -984,7 +1081,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 10
+[  ERROR] : 16
 [WARNING] : 0
 [   NOTE] : 4
 ********************************************************************************
@@ -1029,7 +1126,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_dup_bad/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   136     136       0         0
 ===================== END REDUCTION RESULT =====================

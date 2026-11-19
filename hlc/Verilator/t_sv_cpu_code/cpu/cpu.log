@@ -1672,22 +1672,18 @@ n<$Source01/cpu.sv> u<1658> t<Top_level_rule> c<1> l<8:1> el<232:1>
   n<// cpu> u<1657> t<LINE_COMMENT> p<1658> l<231:11> el<231:17>
 AST_DEBUG_END
 [INF:CP5804] $Source01/cpu.sv:8:1: Compile module "cpu".
-[WRN:CP5811] $Source01/cpu.sv:18:22: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/cpu.sv:18:3: Failed to bind "genbus_if".
 [WRN:DV8514] $Source01/cpu.sv:80:26: Failed to bind "rom".
 [WRN:DV8514] $Source01/cpu.sv:81:23: Failed to bind "rom".
-[WRN:DV8514] $Source01/cpu.sv:205:7: Failed to bind "dbus".
 [WRN:DV8514] $Source01/cpu.sv:205:12: Failed to bind "mConnect".
-[WRN:DV8514] $Source01/cpu.sv:227:21: Failed to bind "dbus".
 [WRN:DV8514] $Source01/cpu.sv:227:26: Failed to bind "mPreAdrDecode".
 [ERR:DL2510] $Source01/cpu.sv:223:3: Unknown or undefined type "mPreAdrDecode_resp".
 [ERR:DL2510] $Source01/cpu.sv:18:3: Unknown or undefined type "genbus_if::master".
 [ERR:CP5828] $Source01/cpu.sv:80:26: Undefined variable "rom".
 [ERR:CP5828] $Source01/cpu.sv:81:23: Undefined variable "rom".
-[ERR:DL2516] $Source01/cpu.sv:205:7: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
-[ERR:DV8504] $Source01/cpu.sv:205:12: Null Actual: id:606, type:SubroutineCall, name:mConnect, relation:vpiPathElem.
-[ERR:DV8504] $Source01/cpu.sv:227:26: Null Actual: id:648, type:SubroutineCall, name:mPreAdrDecode, relation:vpiPathElem.
+[ERR:DV8504] $Source01/cpu.sv:205:7: Null Actual: id:611, type:SubroutineCall, name:mConnect, relation:vpiStmt.
+[ERR:DV8504] $Source01/cpu.sv:227:21: Null Actual: id:653, type:SubroutineCall, name:mPreAdrDecode, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2221,11 +2217,12 @@ Design name:unnamed:
           vpiParent: Module name:cpu #(.ID(1))
           vpiName: dbus
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:dbus start:18:22 end:18:26:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: cpu #(.ID(1)).dbus.dbus
+            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::master start:18:3 end:18:19:
             vpiParent: Port name:dbus
             vpiName: genbus_if::master
@@ -3690,47 +3687,182 @@ Design name:unnamed:
               BitTypespec:
                 vpiParent: Begin name:Conntect
             vpiStmt (2 items):
-              "RefObj name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}) start:205:7 end:216:12":
+              SubroutineCall name:mConnect start:205:7 end:216:12:
                 vpiParent: Begin name:Conntect
-                vpiName: "dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                vpiPathElem (2 items):
-                  RefObj name:dbus start:205:7 end:205:11:
-                    vpiParent: "RefObj name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                    vpiName: dbus
-                    vpiFullName: cpu #(.ID(1)).Conntect.dbus
-                  SubroutineCall name:mConnect start:205:12 end:216:12:
-                    vpiParent: "RefObj name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                    vpiName Identifier name:mConnect start:205:12 end:205:20:
-                    vpiArgument (7 items):
-                      NamedArgument start:206:11 end:206:13:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn RefObj name:ID start:206:11 end:206:13:
-                          vpiParent: NamedArgument
-                          vpiName: ID
-                          vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).ID"
-                          vpiActual: Parameter name:ID
-                      NamedArgument start:207:11 end:207:18:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn RefObj name:sdata16 start:207:11 end:207:18:
-                          vpiParent: NamedArgument
-                          vpiName: sdata16
-                          vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).sdata16"
-                          vpiActual: Variable name:sdata16
-                      NamedArgument start:208:11 end:208:17:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn RefObj name:mem_ws start:208:11 end:208:17:
-                          vpiParent: NamedArgument
-                          vpiName: mem_ws
-                          vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).mem_ws"
-                          vpiActual: Variable name:mem_ws
-                      NamedArgument start:209:11 end:209:27:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn Operation start:209:11 end:209:27:
-                          vpiParent: NamedArgument
+                vpiName Identifier name:mConnect start:205:12 end:205:20:
+                vpiArgument (7 items):
+                  NamedArgument start:206:11 end:206:13:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn RefObj name:ID start:206:11 end:206:13:
+                      vpiParent: NamedArgument
+                      vpiName: ID
+                      vpiFullName: cpu #(.ID(1)).Conntect.ID
+                      vpiActual: Parameter name:ID
+                  NamedArgument start:207:11 end:207:18:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn RefObj name:sdata16 start:207:11 end:207:18:
+                      vpiParent: NamedArgument
+                      vpiName: sdata16
+                      vpiFullName: cpu #(.ID(1)).Conntect.sdata16
+                      vpiActual: Variable name:sdata16
+                  NamedArgument start:208:11 end:208:17:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn RefObj name:mem_ws start:208:11 end:208:17:
+                      vpiParent: NamedArgument
+                      vpiName: mem_ws
+                      vpiFullName: cpu #(.ID(1)).Conntect.mem_ws
+                      vpiActual: Variable name:mem_ws
+                  NamedArgument start:209:11 end:209:27:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn Operation start:209:11 end:209:27:
+                      vpiParent: NamedArgument
+                      vpiOpType: multi-concatenation (34)
+                      vpiOperand (2 items):
+                        Constant start:209:12 end:209:13:
+                          vpiParent: Operation
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "2"
+                          vpiValue: 2
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: cpu #(.ID(1)).Conntect
+                            vpiActual: IntTypespec
+                        Operation start:209:13 end:209:26:
+                          vpiParent: Operation
+                          vpiOpType: concatenation (33)
+                          vpiOperand (1 items):
+                            BitSelect name:rf[idec_rs] start:209:14 end:209:25:
+                              vpiParent: Operation
+                              vpiName: rf[idec_rs]
+                              vpiFullName: cpu #(.ID(1)).Conntect.rf[idec_rs]
+                              vpiPrefix RefObj name:rf start:209:14 end:209:16:
+                                vpiParent: BitSelect name:rf[idec_rs]
+                                vpiName: rf
+                                vpiFullName: cpu #(.ID(1)).Conntect.rf
+                                vpiActual: Variable name:rf
+                              vpiIndex RefObj name:idec_rs start:209:17 end:209:24:
+                                vpiParent: BitSelect name:rf[idec_rs]
+                                vpiName: idec_rs
+                                vpiFullName: cpu #(.ID(1)).Conntect.idec_rs
+                                vpiActual: Variable name:idec_rs
+                  NamedArgument start:211:11 end:211:43:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn Operation start:211:11 end:211:43:
+                      vpiParent: NamedArgument
+                      vpiOpType: concatenation (33)
+                      vpiOperand (3 items):
+                        Constant start:211:12 end:211:17:
+                          vpiParent: Operation
+                          vpiConstType: hexadecimal (5)
+                          vpiSize: 8
+                          vpiDecompile: "8'h00"
+                          vpiValue: "00"
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: cpu #(.ID(1)).Conntect
+                            vpiActual: IntTypespec
+                        PartSelect name:idec_mem_adr[7:1] start:211:19 end:211:36:
+                          vpiParent: Operation
+                          vpiName: idec_mem_adr[7:1]
+                          vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[7:1]
+                          vpiConstantSelect: true
+                          vpiPrefix RefObj name:idec_mem_adr start:211:19 end:211:31:
+                            vpiParent: PartSelect name:idec_mem_adr[7:1]
+                            vpiName: idec_mem_adr
+                            vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[7:1].idec_mem_adr
+                            vpiActual: Variable name:idec_mem_adr
+                          vpiRange Range start:211:32 end:211:35:
+                            vpiParent: PartSelect name:idec_mem_adr[7:1]
+                            vpiLeftRange Constant start:211:32 end:211:33:
+                              vpiParent: Range
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "7"
+                              vpiValue: 7
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[7:1]
+                                vpiActual: IntTypespec
+                            vpiRightRange Constant start:211:34 end:211:35:
+                              vpiParent: Range
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[7:1]
+                                vpiActual: IntTypespec
+                        Constant start:211:38 end:211:42:
+                          vpiParent: Operation
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "1'b0"
+                          vpiValue: "0"
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: cpu #(.ID(1)).Conntect
+                            vpiActual: BitTypespec
+                  NamedArgument start:213:11 end:213:64:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn Operation start:213:11 end:213:64:
+                      vpiParent: NamedArgument
+                      vpiOpType: bitwise and (28)
+                      vpiOperand (2 items):
+                        Operation start:213:11 end:213:45:
+                          vpiParent: Operation
+                          vpiOpType: concatenation (33)
+                          vpiOperand (2 items):
+                            BitSelect name:idec_mem_adr[0] start:213:12 end:213:27:
+                              vpiParent: Operation
+                              vpiName: idec_mem_adr[0]
+                              vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                              vpiConstantSelect: true
+                              vpiPrefix RefObj name:idec_mem_adr start:213:12 end:213:24:
+                                vpiParent: BitSelect name:idec_mem_adr[0]
+                                vpiName: idec_mem_adr
+                                vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr
+                                vpiActual: Variable name:idec_mem_adr
+                              vpiIndex Constant start:213:25 end:213:26:
+                                vpiParent: BitSelect name:idec_mem_adr[0]
+                                vpiConstType: int (7)
+                                vpiSize: 32
+                                vpiDecompile: "0"
+                                vpiValue: 0
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                  vpiActual: IntTypespec
+                            Operation start:213:28 end:213:44:
+                              vpiParent: Operation
+                              vpiOpType: bitwise negation (4)
+                              vpiOperand (1 items):
+                                BitSelect name:idec_mem_adr[0] start:213:29 end:213:44:
+                                  vpiParent: Operation
+                                  vpiName: idec_mem_adr[0]
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                  vpiConstantSelect: true
+                                  vpiPrefix RefObj name:idec_mem_adr start:213:29 end:213:41:
+                                    vpiParent: BitSelect name:idec_mem_adr[0]
+                                    vpiName: idec_mem_adr
+                                    vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr
+                                    vpiActual: Variable name:idec_mem_adr
+                                  vpiIndex Constant start:213:42 end:213:43:
+                                    vpiParent: BitSelect name:idec_mem_adr[0]
+                                    vpiConstType: int (7)
+                                    vpiSize: 32
+                                    vpiDecompile: "0"
+                                    vpiValue: 0
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                      vpiActual: IntTypespec
+                        Operation start:213:48 end:213:64:
+                          vpiParent: Operation
                           vpiOpType: multi-concatenation (34)
                           vpiOperand (2 items):
-                            Constant start:209:12 end:209:13:
+                            Constant start:213:49 end:213:50:
                               vpiParent: Operation
                               vpiConstType: int (7)
                               vpiSize: 32
@@ -3738,238 +3870,99 @@ Design name:unnamed:
                               vpiValue: 2
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
+                                vpiFullName: cpu #(.ID(1)).Conntect
                                 vpiActual: IntTypespec
-                            Operation start:209:13 end:209:26:
+                            Operation start:213:50 end:213:63:
                               vpiParent: Operation
                               vpiOpType: concatenation (33)
                               vpiOperand (1 items):
-                                BitSelect name:rf[idec_rs] start:209:14 end:209:25:
+                                RefObj name:idec_mem_we start:213:51 end:213:62:
                                   vpiParent: Operation
-                                  vpiName: rf[idec_rs]
-                                  vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).rf[idec_rs]"
-                                  vpiPrefix RefObj name:rf start:209:14 end:209:16:
-                                    vpiParent: BitSelect name:rf[idec_rs]
-                                    vpiName: rf
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).rf"
-                                    vpiActual: Variable name:rf
-                                  vpiIndex RefObj name:idec_rs start:209:17 end:209:24:
-                                    vpiParent: BitSelect name:rf[idec_rs]
-                                    vpiName: idec_rs
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_rs"
-                                    vpiActual: Variable name:idec_rs
-                      NamedArgument start:211:11 end:211:43:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn Operation start:211:11 end:211:43:
-                          vpiParent: NamedArgument
+                                  vpiName: idec_mem_we
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_we
+                                  vpiActual: Variable name:idec_mem_we
+                  NamedArgument start:215:11 end:215:64:
+                    vpiParent: SubroutineCall name:mConnect
+                    vpiHighConn Operation start:215:11 end:215:64:
+                      vpiParent: NamedArgument
+                      vpiOpType: bitwise and (28)
+                      vpiOperand (2 items):
+                        Operation start:215:11 end:215:45:
+                          vpiParent: Operation
                           vpiOpType: concatenation (33)
-                          vpiOperand (3 items):
-                            Constant start:211:12 end:211:17:
+                          vpiOperand (2 items):
+                            BitSelect name:idec_mem_adr[0] start:215:12 end:215:27:
                               vpiParent: Operation
-                              vpiConstType: hexadecimal (5)
-                              vpiSize: 8
-                              vpiDecompile: "8'h00"
-                              vpiValue: "00"
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                                vpiActual: IntTypespec
-                            PartSelect name:idec_mem_adr[7:1] start:211:19 end:211:36:
-                              vpiParent: Operation
-                              vpiName: idec_mem_adr[7:1]
-                              vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[7:1]"
+                              vpiName: idec_mem_adr[0]
+                              vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
                               vpiConstantSelect: true
-                              vpiPrefix RefObj name:idec_mem_adr start:211:19 end:211:31:
-                                vpiParent: PartSelect name:idec_mem_adr[7:1]
+                              vpiPrefix RefObj name:idec_mem_adr start:215:12 end:215:24:
+                                vpiParent: BitSelect name:idec_mem_adr[0]
                                 vpiName: idec_mem_adr
-                                vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[7:1].idec_mem_adr"
+                                vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr
                                 vpiActual: Variable name:idec_mem_adr
-                              vpiRange Range start:211:32 end:211:35:
-                                vpiParent: PartSelect name:idec_mem_adr[7:1]
-                                vpiLeftRange Constant start:211:32 end:211:33:
-                                  vpiParent: Range
-                                  vpiConstType: int (7)
-                                  vpiSize: 32
-                                  vpiDecompile: "7"
-                                  vpiValue: 7
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[7:1]"
-                                    vpiActual: IntTypespec
-                                vpiRightRange Constant start:211:34 end:211:35:
-                                  vpiParent: Range
-                                  vpiConstType: int (7)
-                                  vpiSize: 32
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[7:1]"
-                                    vpiActual: IntTypespec
-                            Constant start:211:38 end:211:42:
+                              vpiIndex Constant start:215:25 end:215:26:
+                                vpiParent: BitSelect name:idec_mem_adr[0]
+                                vpiConstType: int (7)
+                                vpiSize: 32
+                                vpiDecompile: "0"
+                                vpiValue: 0
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                  vpiActual: IntTypespec
+                            Operation start:215:28 end:215:44:
                               vpiParent: Operation
-                              vpiConstType: binary (3)
-                              vpiSize: 1
-                              vpiDecompile: "1'b0"
-                              vpiValue: "0"
+                              vpiOpType: bitwise negation (4)
+                              vpiOperand (1 items):
+                                BitSelect name:idec_mem_adr[0] start:215:29 end:215:44:
+                                  vpiParent: Operation
+                                  vpiName: idec_mem_adr[0]
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                  vpiConstantSelect: true
+                                  vpiPrefix RefObj name:idec_mem_adr start:215:29 end:215:41:
+                                    vpiParent: BitSelect name:idec_mem_adr[0]
+                                    vpiName: idec_mem_adr
+                                    vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr
+                                    vpiActual: Variable name:idec_mem_adr
+                                  vpiIndex Constant start:215:42 end:215:43:
+                                    vpiParent: BitSelect name:idec_mem_adr[0]
+                                    vpiConstType: int (7)
+                                    vpiSize: 32
+                                    vpiDecompile: "0"
+                                    vpiValue: 0
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_adr[0]
+                                      vpiActual: IntTypespec
+                        Operation start:215:48 end:215:64:
+                          vpiParent: Operation
+                          vpiOpType: multi-concatenation (34)
+                          vpiOperand (2 items):
+                            Constant start:215:49 end:215:50:
+                              vpiParent: Operation
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "2"
+                              vpiValue: 2
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                                vpiActual: BitTypespec
-                      NamedArgument start:213:11 end:213:64:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn Operation start:213:11 end:213:64:
-                          vpiParent: NamedArgument
-                          vpiOpType: bitwise and (28)
-                          vpiOperand (2 items):
-                            Operation start:213:11 end:213:45:
+                                vpiFullName: cpu #(.ID(1)).Conntect
+                                vpiActual: IntTypespec
+                            Operation start:215:50 end:215:63:
                               vpiParent: Operation
                               vpiOpType: concatenation (33)
-                              vpiOperand (2 items):
-                                BitSelect name:idec_mem_adr[0] start:213:12 end:213:27:
+                              vpiOperand (1 items):
+                                RefObj name:idec_mem_re start:215:51 end:215:62:
                                   vpiParent: Operation
-                                  vpiName: idec_mem_adr[0]
-                                  vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                  vpiConstantSelect: true
-                                  vpiPrefix RefObj name:idec_mem_adr start:213:12 end:213:24:
-                                    vpiParent: BitSelect name:idec_mem_adr[0]
-                                    vpiName: idec_mem_adr
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr"
-                                    vpiActual: Variable name:idec_mem_adr
-                                  vpiIndex Constant start:213:25 end:213:26:
-                                    vpiParent: BitSelect name:idec_mem_adr[0]
-                                    vpiConstType: int (7)
-                                    vpiSize: 32
-                                    vpiDecompile: "0"
-                                    vpiValue: 0
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                      vpiActual: IntTypespec
-                                Operation start:213:28 end:213:44:
-                                  vpiParent: Operation
-                                  vpiOpType: bitwise negation (4)
-                                  vpiOperand (1 items):
-                                    BitSelect name:idec_mem_adr[0] start:213:29 end:213:44:
-                                      vpiParent: Operation
-                                      vpiName: idec_mem_adr[0]
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                      vpiConstantSelect: true
-                                      vpiPrefix RefObj name:idec_mem_adr start:213:29 end:213:41:
-                                        vpiParent: BitSelect name:idec_mem_adr[0]
-                                        vpiName: idec_mem_adr
-                                        vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr"
-                                        vpiActual: Variable name:idec_mem_adr
-                                      vpiIndex Constant start:213:42 end:213:43:
-                                        vpiParent: BitSelect name:idec_mem_adr[0]
-                                        vpiConstType: int (7)
-                                        vpiSize: 32
-                                        vpiDecompile: "0"
-                                        vpiValue: 0
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                          vpiActual: IntTypespec
-                            Operation start:213:48 end:213:64:
-                              vpiParent: Operation
-                              vpiOpType: multi-concatenation (34)
-                              vpiOperand (2 items):
-                                Constant start:213:49 end:213:50:
-                                  vpiParent: Operation
-                                  vpiConstType: int (7)
-                                  vpiSize: 32
-                                  vpiDecompile: "2"
-                                  vpiValue: 2
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                                    vpiActual: IntTypespec
-                                Operation start:213:50 end:213:63:
-                                  vpiParent: Operation
-                                  vpiOpType: concatenation (33)
-                                  vpiOperand (1 items):
-                                    RefObj name:idec_mem_we start:213:51 end:213:62:
-                                      vpiParent: Operation
-                                      vpiName: idec_mem_we
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_we"
-                                      vpiActual: Variable name:idec_mem_we
-                      NamedArgument start:215:11 end:215:64:
-                        vpiParent: SubroutineCall name:mConnect
-                        vpiHighConn Operation start:215:11 end:215:64:
-                          vpiParent: NamedArgument
-                          vpiOpType: bitwise and (28)
-                          vpiOperand (2 items):
-                            Operation start:215:11 end:215:45:
-                              vpiParent: Operation
-                              vpiOpType: concatenation (33)
-                              vpiOperand (2 items):
-                                BitSelect name:idec_mem_adr[0] start:215:12 end:215:27:
-                                  vpiParent: Operation
-                                  vpiName: idec_mem_adr[0]
-                                  vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                  vpiConstantSelect: true
-                                  vpiPrefix RefObj name:idec_mem_adr start:215:12 end:215:24:
-                                    vpiParent: BitSelect name:idec_mem_adr[0]
-                                    vpiName: idec_mem_adr
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr"
-                                    vpiActual: Variable name:idec_mem_adr
-                                  vpiIndex Constant start:215:25 end:215:26:
-                                    vpiParent: BitSelect name:idec_mem_adr[0]
-                                    vpiConstType: int (7)
-                                    vpiSize: 32
-                                    vpiDecompile: "0"
-                                    vpiValue: 0
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                      vpiActual: IntTypespec
-                                Operation start:215:28 end:215:44:
-                                  vpiParent: Operation
-                                  vpiOpType: bitwise negation (4)
-                                  vpiOperand (1 items):
-                                    BitSelect name:idec_mem_adr[0] start:215:29 end:215:44:
-                                      vpiParent: Operation
-                                      vpiName: idec_mem_adr[0]
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                      vpiConstantSelect: true
-                                      vpiPrefix RefObj name:idec_mem_adr start:215:29 end:215:41:
-                                        vpiParent: BitSelect name:idec_mem_adr[0]
-                                        vpiName: idec_mem_adr
-                                        vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr"
-                                        vpiActual: Variable name:idec_mem_adr
-                                      vpiIndex Constant start:215:42 end:215:43:
-                                        vpiParent: BitSelect name:idec_mem_adr[0]
-                                        vpiConstType: int (7)
-                                        vpiSize: 32
-                                        vpiDecompile: "0"
-                                        vpiValue: 0
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_adr[0]"
-                                          vpiActual: IntTypespec
-                            Operation start:215:48 end:215:64:
-                              vpiParent: Operation
-                              vpiOpType: multi-concatenation (34)
-                              vpiOperand (2 items):
-                                Constant start:215:49 end:215:50:
-                                  vpiParent: Operation
-                                  vpiConstType: int (7)
-                                  vpiSize: 32
-                                  vpiDecompile: "2"
-                                  vpiValue: 2
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
-                                    vpiActual: IntTypespec
-                                Operation start:215:50 end:215:63:
-                                  vpiParent: Operation
-                                  vpiOpType: concatenation (33)
-                                  vpiOperand (1 items):
-                                    RefObj name:idec_mem_re start:215:51 end:215:62:
-                                      vpiParent: Operation
-                                      vpiName: idec_mem_re
-                                      vpiFullName: "cpu #(.ID(1)).Conntect.dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}}).idec_mem_re"
-                                      vpiActual: Variable name:idec_mem_re
+                                  vpiName: idec_mem_re
+                                  vpiFullName: cpu #(.ID(1)).Conntect.idec_mem_re
+                                  vpiActual: Variable name:idec_mem_re
+                vpiPrefix RefObj name:dbus start:205:7 end:205:11:
+                  vpiParent: SubroutineCall name:mConnect
+                  vpiName: dbus
+                  vpiFullName: cpu #(.ID(1)).Conntect.dbus
+                  vpiActual: Port name:dbus
               Assignment start:219:7 end:219:68:
                 vpiParent: Begin name:Conntect
                 vpiBlocking: true
@@ -4084,39 +4077,57 @@ Design name:unnamed:
                   vpiName: busproperty
                   vpiFullName: cpu #(.ID(1)).PreAdrDecode.busproperty
                   vpiActual: Variable name:busproperty
-                vpiRhs RefObj name:dbus.mPreAdrDecode(0, idec_mem_adr) start:227:21 end:227:58:
+                vpiRhs SubroutineCall name:mPreAdrDecode start:227:21 end:227:58:
                   vpiParent: Assignment
-                  vpiName: dbus.mPreAdrDecode(0, idec_mem_adr)
-                  vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr)
-                  vpiPathElem (2 items):
-                    RefObj name:dbus start:227:21 end:227:25:
-                      vpiParent: RefObj name:dbus.mPreAdrDecode(0, idec_mem_adr)
-                      vpiName: dbus
-                      vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus
-                    SubroutineCall name:mPreAdrDecode start:227:26 end:227:58:
-                      vpiParent: RefObj name:dbus.mPreAdrDecode(0, idec_mem_adr)
-                      vpiName Identifier name:mPreAdrDecode start:227:26 end:227:39:
-                      vpiArgument (2 items):
-                        NamedArgument start:227:41 end:227:42:
-                          vpiParent: SubroutineCall name:mPreAdrDecode
-                          vpiHighConn Constant start:227:41 end:227:42:
-                            vpiParent: NamedArgument
-                            vpiConstType: int (7)
-                            vpiSize: 32
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr)
-                              vpiActual: IntTypespec
-                        NamedArgument start:227:44 end:227:56:
-                          vpiParent: SubroutineCall name:mPreAdrDecode
-                          vpiHighConn RefObj name:idec_mem_adr start:227:44 end:227:56:
-                            vpiParent: NamedArgument
-                            vpiName: idec_mem_adr
-                            vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr).idec_mem_adr
-                            vpiActual: Variable name:idec_mem_adr
+                  vpiName Identifier name:mPreAdrDecode start:227:26 end:227:39:
+                  vpiArgument (2 items):
+                    NamedArgument start:227:41 end:227:42:
+                      vpiParent: SubroutineCall name:mPreAdrDecode
+                      vpiHighConn Constant start:227:41 end:227:42:
+                        vpiParent: NamedArgument
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: cpu #(.ID(1)).PreAdrDecode
+                          vpiActual: IntTypespec
+                    NamedArgument start:227:44 end:227:56:
+                      vpiParent: SubroutineCall name:mPreAdrDecode
+                      vpiHighConn RefObj name:idec_mem_adr start:227:44 end:227:56:
+                        vpiParent: NamedArgument
+                        vpiName: idec_mem_adr
+                        vpiFullName: cpu #(.ID(1)).PreAdrDecode.idec_mem_adr
+                        vpiActual: Variable name:idec_mem_adr
+                  vpiPrefix RefObj name:dbus start:227:21 end:227:25:
+                    vpiParent: SubroutineCall name:mPreAdrDecode
+                    vpiName: dbus
+                    vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus
+                    vpiActual: Port name:dbus
           vpiAlwaysType: comb (2)
+      vpiIODecl (1 items):
+        IODecl name:dbus start:18:22 end:18:26:
+          vpiParent: Module name:cpu #(.ID(1))
+          vpiName: dbus
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:dbus start:18:22 end:18:26:
+            vpiParent: IODecl name:dbus
+            vpiName: dbus
+            vpiFullName: cpu #(.ID(1)).dbus.dbus
+          vpiTypespec RefTypespec name:genbus_if::master start:18:3 end:18:19:
+            vpiParent: IODecl name:dbus
+            vpiName: genbus_if::master
+            vpiFullName: cpu #(.ID(1)).dbus.genbus_if::master
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:18:3 end:18:12:
+                vpiParent: RefTypespec name:genbus_if::master
+                vpiName: genbus_if
+                vpiFullName: cpu #(.ID(1)).dbus.genbus_if
+              RefTypespec name:master start:18:13 end:18:19:
+                vpiParent: RefTypespec name:genbus_if::master
+                vpiName: master
+                vpiFullName: cpu #(.ID(1)).dbus.genbus_if::master.master
       vpiSysTaskCall (1 items):
         SysFuncCall name:$size:
   vpiTypespec (3 items):
@@ -4137,8 +4148,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 8
+[  ERROR] : 6
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -4182,7 +4193,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             553     553       0         0
+Others                             556     556       0         0
 ----------------------------------------------------------------
-                                   553     553       0         0
+                                   556     556       0         0
 ===================== END REDUCTION RESULT =====================

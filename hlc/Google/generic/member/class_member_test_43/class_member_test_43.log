@@ -160,6 +160,15 @@ Design name:unnamed:
                     vpiParent: Variable name:name
                     vpiName: foo::bar
                     vpiFullName: constructible::new::name::foo::bar
+                    vpiPathElem (2 items):
+                      RefObj name:foo start:7:15 end:7:18:
+                        vpiParent: RefTypespec name:foo::bar
+                        vpiName: foo
+                        vpiFullName: constructible::new::name::foo
+                      RefTypespec name:bar start:7:20 end:7:23:
+                        vpiParent: RefTypespec name:foo::bar
+                        vpiName: bar
+                        vpiFullName: constructible::new::name::foo::bar::bar
                 Variable name:vif start:8:31 end:8:34:
                   vpiParent: Function name:new
                   vpiName: vif
@@ -181,6 +190,28 @@ Design name:unnamed:
                     vpiParent: Variable name:bar
                     vpiName: baz #(M, N)::foo
                     vpiFullName: constructible::new::bar::baz #(M, N)::foo
+                    vpiPathElem (2 items):
+                      RefObj name:baz start:9:5 end:9:8:
+                        vpiParent: RefTypespec name:baz #(M, N)::foo
+                        vpiName: baz
+                        vpiFullName: constructible::new::bar::baz
+                        vpiParamAssign (2 items):
+                          ParamAssign start:9:10 end:9:11:
+                            vpiParent: RefObj name:baz
+                            vpiRhs RefObj name:M start:9:10 end:9:11:
+                              vpiParent: ParamAssign
+                              vpiName: M
+                              vpiFullName: constructible::new::bar::baz::M
+                          ParamAssign start:9:12 end:9:13:
+                            vpiParent: RefObj name:baz
+                            vpiRhs RefObj name:N start:9:12 end:9:13:
+                              vpiParent: ParamAssign
+                              vpiName: N
+                              vpiFullName: constructible::new::bar::baz::N
+                      RefTypespec name:foo start:9:16 end:9:19:
+                        vpiParent: RefTypespec name:baz #(M, N)::foo
+                        vpiName: foo
+                        vpiFullName: constructible::new::bar::baz #(M, N)::foo::foo
                 Variable name:b start:9:35 end:9:36:
                   vpiParent: Function name:new
                   vpiName: b
@@ -369,7 +400,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_43/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================
