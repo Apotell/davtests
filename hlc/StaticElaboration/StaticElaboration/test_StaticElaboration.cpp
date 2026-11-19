@@ -48,6 +48,7 @@
 #include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/extends.h>
 #include <hldb/interface.h>
 #include <hldb/interface_typespec.h>
 #include <hldb/module.h>
@@ -60,10 +61,13 @@
 #include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/type_parameter.h>
 #include <hldb/typedef_typespec.h>
 #include <hldb/unit.h>
 #include <hldb/unsupported_typespec.h>
 #include <hldb/variable.h>
+
+#include <algorithm>
 
 namespace hlc {
 
@@ -376,6 +380,77 @@ class StaticElaborationTest : public Test {
   static const hldb::Variable *getVariableByName(const T *scope, std::string_view name) {
     if ((scope == nullptr) || (scope->getVariables() == nullptr)) return nullptr;
     return hldb::findByName<hldb::Variable>(name, scope->getVariables());
+  }
+
+  // ---- extends / super helpers ----
+
+  static const hldb::ClassDefn *getSuperBase() {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("SuperBase", m_unit->getClassDefns());
+  }
+  static const hldb::ClassDefn *getSuperDerived() {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("SuperDerived", m_unit->getClassDefns());
+  }
+
+  // The class `cd` extends: its extends clause's class typespec, followed to the class definition
+  // it resolved to. A class extends exactly one class (IEEE 1800-2023 Sec 8.13), so the first
+  // entry is the only one.
+  static const hldb::ClassDefn *getExtendedClass(const hldb::ClassDefn *cd) {
+    if ((cd == nullptr) || (cd->getExtends() == nullptr)) return nullptr;
+    const hldb::RefTypespecCollection *const rts = cd->getExtends()->getClassTypespecs();
+    if ((rts == nullptr) || rts->empty()) return nullptr;
+    const hldb::ClassTypespec *const ct = rts->front()->getActual<hldb::ClassTypespec>();
+    return (ct == nullptr) ? nullptr : ct->getClassDefn();
+  }
+
+  // The `super` reference written inside `owner` (SuperDerived's derived_fn() has exactly one).
+  // Found by name among the references whose enclosing class is `owner`, so the test does not
+  // depend on how the call `super.base_fn()` itself is modeled.
+  static const hldb::RefObj *getSuperRef(const hldb::ClassDefn *owner) {
+    if (owner == nullptr) return nullptr;
+    for (hldb::Any *const source : m_session->getDatabase().getObjects<hldb::RefObj>()) {
+      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(source);
+      if ((ro == nullptr) || (ro->getParent() == nullptr) || (ro->getName() != std::string_view("super"))) continue;
+      if (hldb::getParent<hldb::ClassDefn>(ro) == owner) return ro;
+    }
+    return nullptr;
+  }
+
+  // The value of type parameter `name` in `cd`: what its vpiExpr is bound to (the default in a
+  // written definition, the override in a specialization).
+  static const hldb::Typespec *getTypeParameterValue(const hldb::ClassDefn *cd, std::string_view name) {
+    if (cd == nullptr) return nullptr;
+    const hldb::TypeParameter *const tp = hldb::findByName<hldb::TypeParameter>(name, cd->getParameters());
+    if ((tp == nullptr) || (tp->getExpr() == nullptr)) return nullptr;
+    return tp->getExpr()->getActual();
+  }
+
+  static bool containsClass(const hldb::ClassDefnCollection *classes, const hldb::ClassDefn *cd) {
+    return (classes != nullptr) && (std::find(classes->cbegin(), classes->cend(), cd) != classes->cend());
+  }
+
+  // ---- canonical-key helpers ----
+
+  // A class declared at compilation-unit scope.
+  static const hldb::ClassDefn *getUnitClass(std::string_view name) {
+    return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>(name, m_unit->getClassDefns());
+  }
+
+  // The class a dut handle's declared type resolved to.
+  static const hldb::ClassDefn *getHandleClass(std::string_view handleName) {
+    const hldb::ClassTypespec *const ct = getHandleTypespec(handleName);
+    return (ct == nullptr) ? nullptr : ct->getClassDefn();
+  }
+
+  // The type a typespec names, typedefs followed (a typedef names the same type, IEEE 1800-2023 Sec
+  // 6.18).
+  static const hldb::Typespec *followTypedefs(const hldb::Typespec *ts) {
+    for (size_t guard = 0; (ts != nullptr) && (guard < 16); ++guard) {
+      const hldb::TypedefTypespec *const td = any_cast<hldb::TypedefTypespec>(ts);
+      if (td == nullptr) return ts;
+      if ((td->getTypedef() == nullptr) || (td->getTypedef()->getAlias() == nullptr)) return nullptr;
+      ts = td->getTypedef()->getAlias()->getActual();
+    }
+    return nullptr;
   }
 };
 
@@ -1305,6 +1380,261 @@ TEST_F(StaticElaborationTest, MidNestedDistinctIsItsOwnSpecialization) {
 }
 
 // =============================================================================================
+// extends whose override depends on the deriving class's own parameter -- `class SuperDerived
+// #(type T = int) extends SuperBase #(T);`. IEEE 1800-2023 Sec 8.15: `super` is the class the
+// current class extends; Sec 8.25: each specialization is its own class type. So SuperDerived
+// #(bit) extends SuperBase #(bit) and its `super` is SuperBase #(bit) -- never SuperDerived itself
+// (a specialization does not extend the definition it was built from), and never SuperBase
+// specialized with SuperDerived's DEFAULT for T. The default SuperDerived extends SuperBase #(int),
+// SuperBase's own default specialization, which is SuperBase itself.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, SuperBaseAndSuperDerivedExist) {
+  EXPECT_NE(getSuperBase(), nullptr);
+  EXPECT_NE(getSuperDerived(), nullptr);
+}
+
+TEST_F(StaticElaborationTest, SuperDefaultHandleResolvesToBaseSuperDerived) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("super_default_handle");
+  ASSERT_NE(ct, nullptr);
+  ASSERT_NE(getSuperDerived(), nullptr);
+  EXPECT_EQ(ct->getClassDefn(), getSuperDerived());
+}
+
+TEST_F(StaticElaborationTest, SuperBitHandleResolvesToSuperDerivedSpecializedWithBit) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("super_bit_handle");
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const derivedBit = ct->getClassDefn();
+  ASSERT_NE(derivedBit, nullptr);
+  ASSERT_NE(getSuperDerived(), nullptr);
+  EXPECT_NE(derivedBit, getSuperDerived());
+  EXPECT_TRUE(derivedBit->getIsSpecialization());
+  EXPECT_EQ(derivedBit->getSpecializedFrom(), getSuperDerived());
+  EXPECT_EQ(derivedBit->getDefName(), std::string_view("SuperDerived"));
+
+  const hldb::Typespec *const t = getTypeParameterValue(derivedBit, "T");
+  ASSERT_NE(t, nullptr);
+  EXPECT_EQ(t->getAnyType(), hldb::AnyType::BitTypespec);
+}
+
+TEST_F(StaticElaborationTest, BaseSuperDerivedExtendsSuperBaseItself) {
+  ASSERT_NE(getSuperDerived(), nullptr);
+  ASSERT_NE(getSuperBase(), nullptr);
+  // SuperBase #(int), with int SuperBase's own default for T: SuperBase's default specialization.
+  EXPECT_EQ(getExtendedClass(getSuperDerived()), getSuperBase());
+}
+
+TEST_F(StaticElaborationTest, SpecializedSuperDerivedExtendsSuperBaseSpecializedWithBit) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("super_bit_handle");
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const derivedBit = ct->getClassDefn();
+  ASSERT_NE(derivedBit, nullptr);
+
+  const hldb::ClassDefn *const baseBit = getExtendedClass(derivedBit);
+  ASSERT_NE(baseBit, nullptr);
+  // Not the definition the specialization was built from: a specialization never extends it.
+  EXPECT_NE(baseBit, getSuperDerived());
+  EXPECT_NE(baseBit, derivedBit);
+  // Not SuperBase specialized with SuperDerived's default (int), which is SuperBase itself.
+  EXPECT_NE(baseBit, getSuperBase());
+  EXPECT_TRUE(baseBit->getIsSpecialization());
+  EXPECT_EQ(baseBit->getSpecializedFrom(), getSuperBase());
+
+  const hldb::Typespec *const t = getTypeParameterValue(baseBit, "T");
+  ASSERT_NE(t, nullptr);
+  EXPECT_EQ(t->getAnyType(), hldb::AnyType::BitTypespec);
+}
+
+TEST_F(StaticElaborationTest, SuperInBaseSuperDerivedBindsToSuperBase) {
+  const hldb::RefObj *const superRef = getSuperRef(getSuperDerived());
+  ASSERT_NE(superRef, nullptr);
+  ASSERT_NE(superRef->getActual(), nullptr);
+  EXPECT_EQ(superRef->getActual(), getSuperBase());
+}
+
+TEST_F(StaticElaborationTest, SuperInSpecializedSuperDerivedBindsToSuperBaseSpecializedWithBit) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("super_bit_handle");
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const derivedBit = ct->getClassDefn();
+  ASSERT_NE(derivedBit, nullptr);
+  const hldb::ClassDefn *const baseBit = getExtendedClass(derivedBit);
+  ASSERT_NE(baseBit, nullptr);
+
+  // The specialization owns its own copy of derived_fn(), and so of its `super` reference.
+  const hldb::RefObj *const superRef = getSuperRef(derivedBit);
+  ASSERT_NE(superRef, nullptr);
+  EXPECT_NE(superRef, getSuperRef(getSuperDerived()));
+  ASSERT_NE(superRef->getActual(), nullptr);
+  EXPECT_EQ(superRef->getActual(), baseBit);
+}
+
+TEST_F(StaticElaborationTest, DerivedClassesFollowWhatEachClassExtends) {
+  const hldb::ClassTypespec *const ct = getHandleTypespec("super_bit_handle");
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const derivedBit = ct->getClassDefn();
+  ASSERT_NE(derivedBit, nullptr);
+  const hldb::ClassDefn *const baseBit = getExtendedClass(derivedBit);
+  ASSERT_NE(baseBit, nullptr);
+  ASSERT_NE(getSuperBase(), nullptr);
+
+  // SuperBase is extended by SuperDerived (default); SuperBase #(bit) by SuperDerived #(bit).
+  EXPECT_TRUE(containsClass(getSuperBase()->getDerivedClasses(), getSuperDerived()));
+  EXPECT_FALSE(containsClass(getSuperBase()->getDerivedClasses(), derivedBit));
+  EXPECT_TRUE(containsClass(baseBit->getDerivedClasses(), derivedBit));
+  EXPECT_FALSE(containsClass(baseBit->getDerivedClasses(), getSuperDerived()));
+  // A specialization is not a subclass of the definition it was built from.
+  EXPECT_FALSE(containsClass(getSuperDerived()->getDerivedClasses(), derivedBit));
+}
+
+// =============================================================================================
+// Canonical specialization keys. A specialization is identified by its parameter values (IEEE
+// 1800-2023 Sec 8.25), not by how a use site spells them: defaults omitted or written, ordered or
+// named (in any order, Sec 23.10.2), a type written directly or through any typedef of it (Sec
+// 6.18). Inside a class, the class with its own parameters (this_type) is the current
+// specialization; a dependent name P::item_t names item_t in the class P stands for.
+// =============================================================================================
+
+TEST_F(StaticElaborationTest, KeyClassesExist) {
+  EXPECT_NE(getUnitClass("KeyCls"), nullptr);
+  EXPECT_NE(getUnitClass("KeySelf"), nullptr);
+  EXPECT_NE(getUnitClass("KeyDepHost"), nullptr);
+  EXPECT_NE(getUnitClass("KeyItemProvider"), nullptr);
+  EXPECT_NE(getUnitClass("KeyItemProviderWide"), nullptr);
+}
+
+TEST_F(StaticElaborationTest, KeyEverySpellingOfTheDefaultsNamesTheBaseClass) {
+  const hldb::ClassDefn *const keyCls = getUnitClass("KeyCls");
+  ASSERT_NE(keyCls, nullptr);
+  for (std::string_view handle : {"key_bare_handle", "key_ordered_default_handle", "key_named_default_handle",
+                                  "key_named_w_default_handle"}) {
+    EXPECT_EQ(getHandleClass(handle), keyCls) << handle;
+  }
+}
+
+TEST_F(StaticElaborationTest, KeyEverySpellingOfByteNamesOneSpecialization) {
+  const hldb::ClassDefn *const keyCls = getUnitClass("KeyCls");
+  ASSERT_NE(keyCls, nullptr);
+  const hldb::ClassDefn *const keyByte = getHandleClass("key_byte_handle");
+  ASSERT_NE(keyByte, nullptr);
+  EXPECT_NE(keyByte, keyCls);
+  EXPECT_TRUE(keyByte->getIsSpecialization());
+  EXPECT_EQ(keyByte->getSpecializedFrom(), keyCls);
+
+  // Named vs. ordered, the default W spelled out, and two different typedefs of byte.
+  for (std::string_view handle :
+       {"key_named_byte_handle", "key_byte_full_handle", "key_typedef_a_handle", "key_typedef_b_handle"}) {
+    EXPECT_EQ(getHandleClass(handle), keyByte) << handle;
+  }
+}
+
+TEST_F(StaticElaborationTest, KeyByteSpecializationHasTheValuesItWasRequestedWith) {
+  const hldb::ClassDefn *const keyByte = getHandleClass("key_byte_handle");
+  ASSERT_NE(keyByte, nullptr);
+
+  const hldb::Typespec *const t = followTypedefs(getTypeParameterValue(keyByte, "T"));
+  ASSERT_NE(t, nullptr);
+  EXPECT_EQ(t->getAnyType(), hldb::AnyType::ByteTypespec);
+
+  const hldb::Parameter *const w = getParameter(keyByte, "W");
+  ASSERT_NE(w, nullptr);
+  const hldb::Constant *const wValue = w->getExpr<hldb::Constant>();
+  ASSERT_NE(wValue, nullptr);
+  EXPECT_EQ(wValue->getDecompile(), std::string_view("4"));
+}
+
+TEST_F(StaticElaborationTest, KeyDifferentValuesNameDifferentSpecializations) {
+  const hldb::ClassDefn *const keyCls = getUnitClass("KeyCls");
+  const hldb::ClassDefn *const keyByte = getHandleClass("key_byte_handle");
+  const hldb::ClassDefn *const keyW8 = getHandleClass("key_w8_handle");
+  ASSERT_NE(keyCls, nullptr);
+  ASSERT_NE(keyByte, nullptr);
+  ASSERT_NE(keyW8, nullptr);
+  EXPECT_NE(keyW8, keyCls);
+  EXPECT_NE(keyW8, keyByte);
+  EXPECT_TRUE(keyW8->getIsSpecialization());
+  EXPECT_EQ(keyW8->getSpecializedFrom(), keyCls);
+
+  const hldb::Parameter *const w = getParameter(keyW8, "W");
+  ASSERT_NE(w, nullptr);
+  const hldb::Constant *const wValue = w->getExpr<hldb::Constant>();
+  ASSERT_NE(wValue, nullptr);
+  EXPECT_EQ(wValue->getDecompile(), std::string_view("8"));
+}
+
+TEST_F(StaticElaborationTest, KeyNamedOverridesMatchFormalsInAnyOrder) {
+  const hldb::ClassDefn *const keyW8 = getHandleClass("key_w8_handle");
+  ASSERT_NE(keyW8, nullptr);
+  EXPECT_EQ(getHandleClass("key_w8_ordered_handle"), keyW8);
+  EXPECT_EQ(getHandleClass("key_w8_reversed_handle"), keyW8);
+}
+
+TEST_F(StaticElaborationTest, KeyThisTypeInTheBaseNamesTheBase) {
+  const hldb::ClassDefn *const keySelf = getUnitClass("KeySelf");
+  ASSERT_NE(keySelf, nullptr);
+  EXPECT_EQ(getHandleClass("key_self_default_handle"), keySelf);
+
+  const hldb::TypedefTypespec *const thisTypedef = getMemberTypedefTypespec(keySelf, "self_handle");
+  const hldb::ClassTypespec *const thisType = getTypedefAliasClassTypespec(thisTypedef);
+  ASSERT_NE(thisType, nullptr);
+  EXPECT_EQ(thisType->getClassDefn(), keySelf);
+}
+
+TEST_F(StaticElaborationTest, KeyThisTypeInASpecializationNamesThatSpecialization) {
+  const hldb::ClassDefn *const keySelf = getUnitClass("KeySelf");
+  const hldb::ClassDefn *const keySelfByte = getHandleClass("key_self_byte_handle");
+  ASSERT_NE(keySelf, nullptr);
+  ASSERT_NE(keySelfByte, nullptr);
+  EXPECT_NE(keySelfByte, keySelf);
+  EXPECT_TRUE(keySelfByte->getIsSpecialization());
+  EXPECT_EQ(keySelfByte->getSpecializedFrom(), keySelf);
+
+  // The specialization's own this_type typedef (each specialization owns its members) names it.
+  const hldb::TypedefTypespec *const thisTypedef = getMemberTypedefTypespec(keySelfByte, "self_handle");
+  ASSERT_NE(thisTypedef, nullptr);
+  EXPECT_NE(thisTypedef, getMemberTypedefTypespec(keySelf, "self_handle"));
+  const hldb::ClassTypespec *const thisType = getTypedefAliasClassTypespec(thisTypedef);
+  ASSERT_NE(thisType, nullptr);
+  EXPECT_EQ(thisType->getClassDefn(), keySelfByte);
+}
+
+TEST_F(StaticElaborationTest, KeyDependentNameWithTheDefaultProviderNamesKeyClsOfByte) {
+  const hldb::ClassDefn *const keyDepHost = getUnitClass("KeyDepHost");
+  ASSERT_NE(keyDepHost, nullptr);
+  EXPECT_EQ(getHandleClass("key_dep_default_handle"), keyDepHost);
+
+  // P::item_t with P = KeyItemProvider is byte: the same specialization as KeyCls #(byte).
+  const hldb::ClassTypespec *const depType = getMemberClassTypespec(keyDepHost, "dep_handle");
+  ASSERT_NE(depType, nullptr);
+  ASSERT_NE(getHandleClass("key_byte_handle"), nullptr);
+  EXPECT_EQ(depType->getClassDefn(), getHandleClass("key_byte_handle"));
+}
+
+TEST_F(StaticElaborationTest, KeyDependentNameWithAnOverriddenProviderNamesKeyClsOfShortint) {
+  const hldb::ClassDefn *const keyCls = getUnitClass("KeyCls");
+  const hldb::ClassDefn *const keyDepHost = getUnitClass("KeyDepHost");
+  const hldb::ClassDefn *const keyDepWide = getHandleClass("key_dep_wide_handle");
+  ASSERT_NE(keyCls, nullptr);
+  ASSERT_NE(keyDepHost, nullptr);
+  ASSERT_NE(keyDepWide, nullptr);
+  EXPECT_NE(keyDepWide, keyDepHost);
+  EXPECT_TRUE(keyDepWide->getIsSpecialization());
+  EXPECT_EQ(keyDepWide->getSpecializedFrom(), keyDepHost);
+
+  // In the specialization, P is KeyItemProviderWide, so P::item_t is shortint.
+  const hldb::ClassTypespec *const depType = getMemberClassTypespec(keyDepWide, "dep_handle");
+  ASSERT_NE(depType, nullptr);
+  const hldb::ClassDefn *const keyShortint = depType->getClassDefn();
+  ASSERT_NE(keyShortint, nullptr);
+  EXPECT_TRUE(keyShortint->getIsSpecialization());
+  EXPECT_EQ(keyShortint->getSpecializedFrom(), keyCls);
+  EXPECT_NE(keyShortint, getHandleClass("key_byte_handle"));
+
+  const hldb::Typespec *const t = followTypedefs(getTypeParameterValue(keyShortint, "T"));
+  ASSERT_NE(t, nullptr);
+  EXPECT_EQ(t->getAnyType(), hldb::AnyType::ShortIntTypespec);
+}
+
+// =============================================================================================
 // Whole-graph object counts. A coarser, complementary check to every dedup/identity assertion
 // above: those each confirm a handful of SPECIFIC use sites resolve to the right (shared, or
 // correctly distinct) object, but none of them notices a stray EXTRA object sitting elsewhere
@@ -1368,22 +1698,23 @@ TEST_F(StaticElaborationTest, TotalProgramSpecializationCount) {
 
 TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hldb::Package>(), 7u); }
 
-// ---- ClassDefn: the complex one -- 15 base declarations, 18 specializations (one per distinct
-// (baseDef, override) pair actually requested anywhere in the file), and 6 further,
+// ---- ClassDefn: the complex one -- 22 base declarations, 25 specializations (one per distinct
+// (baseDef, parameter values) pair actually requested anywhere in the file), and 6 further,
 // UNSPECIALIZED clones that come along for free as a byproduct of cloning a WHOLE subtree
-// whenever ITS OWN enclosing class gets specialized (a clone is only counted as one of the 18
+// whenever ITS OWN enclosing class gets specialized (a clone is only counted as one of the 25
 // "specializations" above if it is ITSELF the direct target of its own getOrCreateSpecialization()
 // call -- an intermediate clone reached only by walking INTO an already-specialized parent is
-// not). 15 + 18 + 6 = 39 total.
+// not). 22 + 25 + 6 = 53 total.
 //
-// Base declarations (15): param_cls; pkg_a::PkgWidget; pkg_b::PkgWidget; OuterCls;
+// Base declarations (22): param_cls; pkg_a::PkgWidget; pkg_b::PkgWidget; OuterCls;
 // OuterCls::InnerCls; OtherOuterCls; OtherOuterCls::InnerCls; pkg_deep::Level1;
 // pkg_deep::Level1::Level2; pkg_deep::Level1::Level2::Level3; TdOuter; TdOuter::TdMid;
 // TdOuter::TdMid::TdInner; pkg_import_a::ImportShadowCls; pkg_import_b::ImportShadowCls (Task
 // 11's own shadowing regression -- pkg_import_b's own copy is declared but never referenced
-// with an override, so it never itself gets specialized).
+// with an override, so it never itself gets specialized); SuperBase; SuperDerived; KeyCls;
+// KeySelf; KeyItemProvider; KeyItemProviderWide; KeyDepHost.
 //
-// Specializations (18), grouped by base:
+// Specializations (25), grouped by base:
 //   param_cls -- 6 distinct override values requested across the file: #(9) (cls_wide_handle),
 //     #(40) (pkg_alias_t's own underlying type), #(41) (bare_alias_t's own underlying type --
 //     chained_alias_t aliases bare_alias_t itself, not param_cls directly, so it dedupes to
@@ -1411,22 +1742,34 @@ TEST_F(StaticElaborationTest, TotalPackageCountInGraph) { EXPECT_EQ(countAll<hld
 //   pkg_import_a::ImportShadowCls -- #(31) (import_explicit_handle, resolved via the explicit
 //     import -- Task 11) = 1 specialization. pkg_import_b's own, identically-named
 //     ImportShadowCls contributes zero (never referenced with an override anywhere).
-//   6 + 1 + 1 + 2 + 1 + 3 + 3 + 1 = 18.
+//   SuperDerived -- #(bit) (super_bit_handle) = 1 specialization. SuperBase -- #(bit), from the
+//     extends clause of THAT specialization (SuperBase #(T) with T=bit there) = 1 specialization.
+//     The default SuperDerived's own extends clause is SuperBase #(int), int being SuperBase's own
+//     default for T: SuperBase's default specialization, i.e. SuperBase itself, adding nothing.
+//   KeyCls -- 3: T=byte (key_byte_handle, and every other spelling of it: key_named_byte_handle,
+//     key_byte_full_handle, both typedef handles, and KeyDepHost's own dep_handle, P::item_t being
+//     byte there); W=8 (key_w8_handle, key_w8_ordered_handle, key_w8_reversed_handle); T=shortint
+//     (the dep_handle of KeyDepHost #(KeyItemProviderWide)). The four spellings of the defaults add
+//     nothing: they name KeyCls itself.
+//   KeySelf -- #(byte) (key_self_byte_handle) = 1; its own this_type names it, adding nothing, and
+//     the base's this_type names the base.
+//   KeyDepHost -- #(KeyItemProviderWide) (key_dep_wide_handle) = 1.
+//   6 + 1 + 1 + 2 + 1 + 3 + 3 + 1 + 1 + 1 + 3 + 1 + 1 = 25.
 //
 // Unspecialized transitive clones (6): Level1#(11)'s own clone step clones Level2 AND (nested
 // within that) Level3 = 2; Level2#(22)'s own clone step clones Level3 (a SECOND, independent
 // Level3 clone, nested inside the Level2 specialization rather than inside the bare Level1
 // clone) = 1; Level3#(33) has no nested classes to clone = 0. Same shape for TdOuter's own
 // chain: TdOuter#(80) clones TdMid and (nested) TdInner = 2; TdMid#(81) clones TdInner again
-// (nested inside the TdMid specialization) = 1; TdInner#(82) clones nothing = 0. OuterCls::InnerCls
-// and pkg_import_a::ImportShadowCls both have no nested classes of their own, so none of their
-// specializations (#(12), #(15), #(31)) adds any further transitive clone.
+// (nested inside the TdMid specialization) = 1; TdInner#(82) clones nothing = 0. OuterCls::InnerCls,
+// pkg_import_a::ImportShadowCls, SuperBase, SuperDerived, KeyCls, KeySelf and KeyDepHost have no
+// nested classes of their own, so none of their specializations adds any further transitive clone.
 // 2 + 1 + 0 + 2 + 1 + 0 = 6.
 
-TEST_F(StaticElaborationTest, TotalClassDefnCountInGraph) { EXPECT_EQ(countAll<hldb::ClassDefn>(), 39u); }
+TEST_F(StaticElaborationTest, TotalClassDefnCountInGraph) { EXPECT_EQ(countAll<hldb::ClassDefn>(), 53u); }
 
 TEST_F(StaticElaborationTest, TotalClassDefnSpecializationCount) {
-  EXPECT_EQ(countSpecializations<hldb::ClassDefn>(), 18u);
+  EXPECT_EQ(countSpecializations<hldb::ClassDefn>(), 25u);
 }
 
 // ---- TypedefTypespec: pkg_alias_t, unit_scope_alias_t, bare_alias_t, chained_alias_t,
@@ -1434,13 +1777,17 @@ TEST_F(StaticElaborationTest, TotalClassDefnSpecializationCount) {
 // regression), import_explicit_alias_t (Task 11's explicit-import regression -- wrapped in a
 // typedef specifically to sidestep a real, separate grammar-level ambiguity between a
 // class-typed declaration and a net declaration's own delay control; see its own comment in
-// dut.sv) = 8 total. Confirmed never cloned regardless of how many times their own enclosing
-// scope gets specialized -- Phase3Cloner explicitly shares (never duplicates) a TypedefTypespec,
-// exactly like every other "reference-shaped" typespec kind, so this count is stable and never
-// multiplied by specialization the way ClassDefn's is.
+// dut.sv), key_byte_a_t, key_byte_b_t, KeySelf::this_type, KeyItemProvider::item_t,
+// KeyItemProviderWide::item_t = 13 written. A typedef declared in a parameterized definition is a
+// member of each specialization of it -- its aliased type may depend on that specialization's
+// parameters -- so each specialization owns its own copy: outer_scope_alias_t is declared in
+// TdOuter, and TdOuterAlias specializes TdOuter#(80), which owns a second outer_scope_alias_t;
+// this_type is declared in KeySelf, and KeySelf #(byte) owns a second this_type. 13 + 2 = 15. The
+// typedefs declared outside any parameterized definition (packages, $unit, module dut, the
+// unparameterized KeyItemProvider classes) are never copied.
 
 TEST_F(StaticElaborationTest, TotalTypedefTypespecCountInGraph) {
-  EXPECT_EQ(countAll<hldb::TypedefTypespec>(), 8u);
+  EXPECT_EQ(countAll<hldb::TypedefTypespec>(), 15u);
 }
 
 // ---- Sanity check: every UnsupportedTypespec Phase2 ever built as a placeholder for this file

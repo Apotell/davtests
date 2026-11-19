@@ -38,9 +38,7 @@
 // the string-typed parameter Tname, are an end-to-end check of exactly that requirement.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -106,9 +104,9 @@ TEST_F(BuildOVMPkgTest, OvmPkgCompilesAndBindsCoreClasses) {
   ASSERT_NE(pkg->getClassDefns(), nullptr);
   EXPECT_NE(pkg->getClassDefns()->size(), 0U);
 
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "ovm_objection"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "ovm_object_registry"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "ovm_test_done_objection"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "ovm_objection"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "ovm_object_registry"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "ovm_test_done_objection"), nullptr);
 
   ASSERT_NE(getClass("ovm_objection"), nullptr);
   ASSERT_NE(getClass("ovm_test_done_objection"), nullptr);

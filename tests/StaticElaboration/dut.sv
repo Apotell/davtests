@@ -230,6 +230,65 @@ package pkg_import_c;
   typedef param_cls #(42) import_wildcard_alias_t;
 endpackage
 
+// ---- extends whose override depends on the deriving class's own parameter -------
+//
+// IEEE 1800-2023 Sec 8.15: `super` refers to the class the current class extends. A
+// specialization of SuperDerived is its own class type (Sec 8.25) that still extends what
+// SuperDerived extends -- here SuperBase #(T), with T being THAT specialization's own value of T.
+// So inside SuperDerived #(bit), `super` is SuperBase #(bit); inside the default SuperDerived it
+// is SuperBase #(int), which is SuperBase's own default specialization, i.e. SuperBase itself
+// (T's default there is also int). A specialization never extends the definition it was built
+// from.
+class SuperBase #(type T = int);
+  T base_value;
+  function void base_fn();
+  endfunction
+endclass
+
+class SuperDerived #(type T = int) extends SuperBase #(T);
+  function void derived_fn();
+    super.base_fn();
+  endfunction
+endclass
+
+// ---- Canonical specialization keys ---------------------------------------------
+//
+// A specialization of a parameterized class is identified by its parameter values (IEEE 1800-2023
+// Sec 8.25), not by how they are spelled: `KeyCls`, `KeyCls #(int)`, `KeyCls #(.T(int))` and
+// `KeyCls #(.W(4))` all name KeyCls with its defaults, i.e. KeyCls itself; `KeyCls #(byte)`,
+// `KeyCls #(.T(byte))`, `KeyCls #(byte, 4)` and `KeyCls #(t)` for any typedef t of byte (Sec 6.18: a
+// typedef names the same type) all name one and the same specialization. Named overrides match
+// formals by name whatever their order (Sec 23.10.2).
+class KeyCls #(type T = int, int W = 4);
+  T value;
+endclass
+
+typedef byte key_byte_a_t;
+typedef byte key_byte_b_t;
+
+// Inside a class, the class's own name with its own parameters names the current specialization:
+// in KeySelf #(byte), this_type is KeySelf #(byte); in KeySelf (defaults), KeySelf itself.
+class KeySelf #(type T = int);
+  typedef KeySelf #(T) this_type;
+  this_type self_handle;
+endclass
+
+// A dependent qualified name: P::item_t, P a type parameter, names item_t in whatever class P is
+// (the class scope resolution operator applied to a type parameter's value). In KeyDepHost (P defaulting to
+// KeyItemProvider) dep_handle is KeyCls #(byte); in KeyDepHost #(KeyItemProviderWide), KeyCls
+// #(shortint).
+class KeyItemProvider;
+  typedef byte item_t;
+endclass
+
+class KeyItemProviderWide;
+  typedef shortint item_t;
+endclass
+
+class KeyDepHost #(type P = KeyItemProvider);
+  KeyCls #(P::item_t) dep_handle;
+endclass
+
 // ---- Top ----------------------------------------------------------------------
 
 module dut;
@@ -359,6 +418,36 @@ module dut;
   // wildcard tier.
   import pkg_import_c::*;
   import_wildcard_alias_t import_wildcard_alias_handle;
+
+  // `super` inside a specialization whose extends clause depends on its own parameter.
+  SuperDerived super_default_handle;
+  SuperDerived #(bit) super_bit_handle;
+
+  // Canonical keys: every spelling of KeyCls's defaults names KeyCls itself.
+  KeyCls key_bare_handle;
+  KeyCls #(int) key_ordered_default_handle;
+  KeyCls #(.T(int)) key_named_default_handle;
+  KeyCls #(.W(4)) key_named_w_default_handle;
+
+  // Every spelling of T = byte (W default) names one specialization.
+  KeyCls #(byte) key_byte_handle;
+  KeyCls #(.T(byte)) key_named_byte_handle;
+  KeyCls #(byte, 4) key_byte_full_handle;
+  KeyCls #(key_byte_a_t) key_typedef_a_handle;
+  KeyCls #(key_byte_b_t) key_typedef_b_handle;
+
+  // W = 8 (T default) is a different specialization, whatever the spelling or order.
+  KeyCls #(.W(8)) key_w8_handle;
+  KeyCls #(int, 8) key_w8_ordered_handle;
+  KeyCls #(.W(8), .T(int)) key_w8_reversed_handle;
+
+  // this_type inside a specialization names that specialization.
+  KeySelf key_self_default_handle;
+  KeySelf #(byte) key_self_byte_handle;
+
+  // A dependent qualified name, P::item_t, with P's default and with an override.
+  KeyDepHost key_dep_default_handle;
+  KeyDepHost #(KeyItemProviderWide) key_dep_wide_handle;
 
   // Module within module -- a parameterized module instantiated from a
   // non-top-level module.
