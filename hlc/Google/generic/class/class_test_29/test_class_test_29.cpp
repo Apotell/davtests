@@ -510,7 +510,7 @@ TEST_F(ClassTest29Test, Lines25To26ModuleIsAccepted) {
 TEST_F(ClassTest29Test, ReportsNoPackageDiagnostics) {
   EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedPackage), nullptr);
   EXPECT_EQ(findEvent(EventType::CompUndefinedPackage), nullptr);
-  // EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);  // ElabUndefinedPackage retired 2026-11-20, never raised
+  EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);
 }
 
 // The four classes are each declared once, Base, Pkg::Bar and Baz are

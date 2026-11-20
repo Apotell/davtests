@@ -55,7 +55,7 @@
 //     package must be declared before a name in it can be referenced), so
 //     the reference cannot be resolved. HLC's dedicated diagnostic is
 //     "Undefined package" (CompUndefinedPackage, or
-//     ElabUndefinedPackage when found during elaboration; now retired).
+//     ElabUndefinedPackage when found during elaboration).
 //   - base2#(N): base2 names no class, so the specialization names no
 //     interface class type (8.26.3). HLC's dedicated diagnostic is
 //     CompUndefinedBaseClass ('Undefined base class "%s" extended by
@@ -313,8 +313,8 @@ TEST_F(IfaceClassTest5Test, ReportsUndefinedPackageAndBaseClass) {
   const EventListener::Stats stats = eventListener->getStats();
   EXPECT_GE(stats.m_errors, 1) << "undeclared base interface classes are an error";
 
-  const bool packageReported = (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr);
-  // || (findEvent(EventType::ElabUndefinedPackage, "pkg1", 6) != nullptr);  // ElabUndefinedPackage retired 2026-11-20, never raised
+  const bool packageReported = (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr) ||
+                               (findEvent(EventType::ElabUndefinedPackage, "pkg1", 6) != nullptr);
   EXPECT_TRUE(packageReported) << "26.3: pkg1 (line 6) names no package;"
                                << describeEvents(eventListener, EventSeverity::Error);
   EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "base2", 6), nullptr)
