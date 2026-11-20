@@ -421,13 +421,36 @@ TEST_F(ApbSlaveTest, InstantiatesApbSlaveWithWildcardPortConnect) {
   ASSERT_NE(mt, nullptr);
   EXPECT_EQ(mt->getName(), "apb_slave");
 
+  // The ".*" as written, then (Sec 23.3.2.4: ".*" is ".name" for every port not connected explicitly) one
+  // connection for each of the eight ports of apb_slave, each named after its port and bound to the signal
+  // of that name declared in the testbench, in port order.
   ASSERT_NE(inst->getArguments(), nullptr);
-  ASSERT_EQ(inst->getArguments()->size(), 1u) << "'.*' elaborates as a single port entry, not per-signal connections";
+  const std::vector<std::string_view> ports = {"clk", "rst_n", "paddr", "pwrite", "psel", "penable", "pwdata", "prdata"};
+  ASSERT_EQ(inst->getArguments()->size(), 1u + ports.size());
   const hldb::NamedArgument *const wildcardPort = inst->getArguments()->at(0);
   ASSERT_NE(wildcardPort, nullptr);
+  EXPECT_FALSE(wildcardPort->getWildcardConn());
   const hldb::RefObj *const highConn = wildcardPort->getHighConn<hldb::RefObj>();
   ASSERT_NE(highConn, nullptr);
-  EXPECT_EQ(highConn->getName(), ".*");
+  EXPECT_EQ(highConn->getName(), std::string_view(".*"));
+  for (size_t i = 0; i < ports.size(); ++i) {
+    const hldb::NamedArgument *const connection = inst->getArguments()->at(1 + i);
+    ASSERT_NE(connection, nullptr) << ports[i];
+    EXPECT_TRUE(connection->getWildcardConn()) << ports[i];
+    EXPECT_TRUE(connection->getConnByName()) << ports[i];
+    const hldb::RefObj *const low = connection->getLowConn<hldb::RefObj>();
+    const hldb::RefObj *const high = connection->getHighConn<hldb::RefObj>();
+    ASSERT_NE(low, nullptr) << ports[i];
+    ASSERT_NE(high, nullptr) << ports[i];
+    EXPECT_EQ(low->getName(), ports[i]);
+    EXPECT_EQ(high->getName(), ports[i]);
+    ASSERT_NE(low->getActual(), nullptr) << ports[i];
+    EXPECT_EQ(low->getActual()->getAnyType(), hldb::AnyType::Port) << ports[i];
+    EXPECT_EQ(low->getActual()->getName(), ports[i]);
+    ASSERT_NE(high->getActual(), nullptr) << ports[i];
+    EXPECT_EQ(high->getActual()->getName(), ports[i]);
+    EXPECT_EQ(high->getActual()->getParent(), tb) << ports[i];
+  }
 }
 
 TEST_F(ApbSlaveTest, WriteTaskHasFiveIODeclsWithThreeDefaults) {

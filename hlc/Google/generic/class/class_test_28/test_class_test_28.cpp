@@ -439,23 +439,12 @@ TEST_F(ClassTest28Test, Lines21To22ModuleIsAccepted) {
   EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest28Test, ReportsNoMisreadingDiagnostics) {
-  // Every declaration matches the grammar (A.1.2), and the file uses no
-  // preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // Base, Bar, Foo and test are no keywords (5.6.2, Table B.1), and the
-  // longest, Base and test, have 4 characters, within any limit an
-  // implementation may set, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // The three classes are each declared once, Base and Bar are declared before
 // Foo names them (6.18, 8.26.4), and no endclass has a label, so none of

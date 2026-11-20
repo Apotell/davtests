@@ -296,25 +296,11 @@ TEST_F(PragmaInvalidTest, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for line 17.
-TEST_F(PragmaInvalidTest, ReportsNoMisreadingDiagnostics) {
-  // The file has no design element, and 22.11 does not restrict where a
-  // `pragma may appear.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `pragma is a compiler directive (22.1), not a usage of a text macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
-
-  // Line 17 has no pragma_name at all, so it names no protect pragma and
-  // starts no protected envelope (22.11.1, Clause 34).
-  EXPECT_EQ(findEvent(EventType::PpIllegalProtectPragma), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpDecryptionFailed), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

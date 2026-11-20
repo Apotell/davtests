@@ -613,15 +613,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_parameter_access.v:8:1: Compile interface "test_if".
 [INF:CP5804] $Source01/t_interface_parameter_access.v:30:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
-[WRN:CP5811] $Source01/t_interface_parameter_access.v:58:15: Port "intf" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/t_interface_parameter_access.v:59:12: Port "intf_no_mp" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:62:25: Failed to bind "intf".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "FOO".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:74:11: Failed to bind "intf".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "FOO".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:75:46: Failed to bind "intf".
-[WRN:DV8514] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "FOO".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -784,11 +776,20 @@ Design name:unnamed:
         Modport name:mp start:14:12 end:14:14:
           vpiParent: Interface name:test_if #(.FOO(1))
           vpiName Identifier name:mp:
-          vpiIODecl (1 items):
+          vpiIODecl (2 items):
+            IODecl name:getFoo start:15:23 end:15:29:
+              vpiParent: Modport name:mp
+              vpiName: getFoo
+              vpiImportExport: imported (3150)
             IODecl name:data start:16:16 end:16:20:
               vpiParent: Modport name:mp
               vpiName: data
               vpiDirection: output (2)
+              vpiExpr RefObj name:data start:16:16 end:16:20:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: test_if #(.FOO(1)).mp.data.data
+                vpiActual: Variable name:data
           vpiInterface: Interface name:test_if #(.FOO(1))
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_parameter_access.v start:30:1 end:52:10:
@@ -821,10 +822,11 @@ Design name:unnamed:
                 vpiFullName: t.THE_TOP_FOO.FOO
                 vpiActual: Parameter name:FOO
             vpiActual: Parameter name:FOO
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
+        InterfaceTypespec name:test_if #(.FOO(identity(5))):
         ModuleTypespec name:testmod:
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -933,11 +935,11 @@ Design name:unnamed:
         RefInstance name:the_interface start:36:36 end:36:49:
           vpiParent: Module name:t
           vpiName: the_interface
-          vpiTypespec RefTypespec name:test_if start:36:4 end:36:11:
+          vpiTypespec RefTypespec name:test_if #(.FOO(identity(5))) start:36:4 end:36:11:
             vpiParent: RefInstance name:the_interface
-            vpiName: test_if
-            vpiFullName: t.the_interface.test_if
-            vpiActual: InterfaceTypespec name:test_if
+            vpiName: test_if #(.FOO(identity(5)))
+            vpiFullName: t.the_interface.test_if #(.FOO(identity(5)))
+            vpiActual: InterfaceTypespec name:test_if #(.FOO(identity(5)))
         RefInstance name:testmod_i start:38:12 end:38:21:
           vpiParent: Module name:t
           vpiName: testmod_i
@@ -1009,10 +1011,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:intf.FOO
                 vpiName: intf
                 vpiFullName: testmod.THE_FOO.intf
+                vpiActual: Modport name:mp
               RefObj name:FOO start:62:30 end:62:33:
                 vpiParent: RefObj name:intf.FOO
                 vpiName: FOO
                 vpiFullName: testmod.THE_FOO.FOO
+                vpiActual: Parameter name:FOO
+            vpiActual: Parameter name:FOO
         Parameter name:THE_OTHER_FOO start:63:15 end:63:28:
           vpiParent: Module name:testmod
           vpiName: THE_OTHER_FOO
@@ -1031,7 +1036,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:intf_no_mp.FOO
                 vpiName: intf_no_mp
                 vpiFullName: testmod.THE_OTHER_FOO.intf_no_mp
-                vpiActual: Net name:intf_no_mp
+                vpiActual: Interface name:test_if #(.FOO(1))
               RefObj name:FOO start:63:42 end:63:45:
                 vpiParent: RefObj name:intf_no_mp.FOO
                 vpiName: FOO
@@ -1056,7 +1061,7 @@ Design name:unnamed:
         vpiFullName: testmod.work
         vpiActual: Library name:work
       vpiCell: testmod
-      vpiNet (2 items):
+      vpiNet (1 items):
         Net name:clk start:57:10 end:57:13:
           vpiParent: Module name:testmod
           vpiName: clk
@@ -1067,17 +1072,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiFullName: testmod.clk
             vpiActual: LogicTypespec
-        Net name:intf_no_mp start:59:12 end:59:22:
-          vpiParent: Module name:testmod
-          vpiName: intf_no_mp
-          vpiFullName: testmod.intf_no_mp
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:test_if start:59:4 end:59:11:
-            vpiParent: Net name:intf_no_mp
-            vpiName: test_if
-            vpiFullName: testmod.intf_no_mp.test_if
-            vpiActual: InterfaceTypespec name:test_if
       vpiUnit: Unit
       vpiPort (3 items):
         Port name:clk start:57:10 end:57:13:
@@ -1099,25 +1093,26 @@ Design name:unnamed:
           vpiName: intf
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf start:58:15 end:58:19:
             vpiParent: Port name:intf
             vpiName: intf
             vpiFullName: testmod.intf.intf
-          vpiTypespec RefTypespec name:test_if #(.FOO(1))::mp start:58:4 end:58:14:
+            vpiActual: Modport name:mp
+          vpiTypespec RefTypespec name:test_if::mp start:58:4 end:58:14:
             vpiParent: Port name:intf
-            vpiName: test_if #(.FOO(1))::mp
-            vpiFullName: testmod.intf.test_if #(.FOO(1))::mp
+            vpiName: test_if::mp
+            vpiFullName: testmod.intf.test_if::mp
             vpiPathElem (2 items):
               RefObj name:test_if start:58:4 end:58:11:
-                vpiParent: RefTypespec name:test_if #(.FOO(1))::mp
+                vpiParent: RefTypespec name:test_if::mp
                 vpiName: test_if
                 vpiFullName: testmod.intf.test_if
                 vpiActual: Interface name:test_if #(.FOO(1))
               RefTypespec name:mp start:58:12 end:58:14:
-                vpiParent: RefTypespec name:test_if #(.FOO(1))::mp
+                vpiParent: RefTypespec name:test_if::mp
                 vpiName: mp
-                vpiFullName: testmod.intf.test_if #(.FOO(1))::mp.mp
+                vpiFullName: testmod.intf.test_if::mp.mp
                 vpiActual: InterfaceTypespec name:mp
             vpiActual: InterfaceTypespec name:mp
         Port name:intf_no_mp start:59:12 end:59:22:
@@ -1125,12 +1120,13 @@ Design name:unnamed:
           vpiName: intf_no_mp
           vpiPortIndex: 2
           vpiPortType: interface port (1)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf_no_mp start:59:12 end:59:22:
             vpiParent: Port name:intf_no_mp
             vpiName: intf_no_mp
             vpiFullName: testmod.intf_no_mp.intf_no_mp
-            vpiActual: Net name:intf_no_mp
+            vpiGeneric: true
+            vpiActual: Interface name:test_if #(.FOO(1))
           vpiTypespec RefTypespec name:test_if start:59:4 end:59:11:
             vpiParent: Port name:intf_no_mp
             vpiName: test_if
@@ -1273,10 +1269,13 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf.FOO
                             vpiName: intf
                             vpiFullName: testmod.intf
+                            vpiActual: Modport name:mp
                           RefObj name:FOO start:74:16 end:74:19:
                             vpiParent: RefObj name:intf.FOO
                             vpiName: FOO
                             vpiFullName: testmod.FOO
+                            vpiActual: Parameter name:FOO
+                        vpiActual: Parameter name:FOO
                       Constant start:74:23 end:74:24:
                         vpiParent: Operation
                         vpiConstType: int (7)
@@ -1318,10 +1317,13 @@ Design name:unnamed:
                                   vpiParent: RefObj name:intf.FOO
                                   vpiName: intf
                                   vpiFullName: testmod.intf
+                                  vpiActual: Modport name:mp
                                 RefObj name:FOO start:75:51 end:75:54:
                                   vpiParent: RefObj name:intf.FOO
                                   vpiName: FOO
                                   vpiFullName: testmod.FOO
+                                  vpiActual: Parameter name:FOO
+                              vpiActual: Parameter name:FOO
                       SysTaskCall name:$stop start:76:3 end:76:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:76:3 end:76:8:
@@ -1341,7 +1343,7 @@ Design name:unnamed:
                             vpiParent: RefObj name:intf_no_mp.FOO
                             vpiName: intf_no_mp
                             vpiFullName: testmod.intf_no_mp
-                            vpiActual: Net name:intf_no_mp
+                            vpiActual: Interface name:test_if #(.FOO(1))
                           RefObj name:FOO start:78:22 end:78:25:
                             vpiParent: RefObj name:intf_no_mp.FOO
                             vpiName: FOO
@@ -1389,7 +1391,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:intf_no_mp.FOO
                                   vpiName: intf_no_mp
                                   vpiFullName: testmod.intf_no_mp
-                                  vpiActual: Net name:intf_no_mp
+                                  vpiActual: Interface name:test_if #(.FOO(1))
                                 RefObj name:FOO start:79:63 end:79:66:
                                   vpiParent: RefObj name:intf_no_mp.FOO
                                   vpiName: FOO
@@ -1421,6 +1423,46 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:87:7 end:87:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiIODecl (2 items):
+        IODecl name:intf start:58:15 end:58:19:
+          vpiParent: Module name:testmod
+          vpiName: intf
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf start:58:15 end:58:19:
+            vpiParent: IODecl name:intf
+            vpiName: intf
+            vpiFullName: testmod.intf.intf
+            vpiActual: Modport name:mp
+          vpiTypespec RefTypespec name:test_if::mp start:58:4 end:58:14:
+            vpiParent: IODecl name:intf
+            vpiName: test_if::mp
+            vpiFullName: testmod.intf.test_if::mp
+            vpiPathElem (2 items):
+              RefObj name:test_if start:58:4 end:58:11:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: test_if
+                vpiFullName: testmod.intf.test_if
+                vpiActual: Interface name:test_if #(.FOO(1))
+              RefTypespec name:mp start:58:12 end:58:14:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: mp
+                vpiFullName: testmod.intf.test_if::mp.mp
+                vpiActual: InterfaceTypespec name:mp
+            vpiActual: InterfaceTypespec name:mp
+        IODecl name:intf_no_mp start:59:12 end:59:22:
+          vpiParent: Module name:testmod
+          vpiName: intf_no_mp
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf_no_mp start:59:12 end:59:22:
+            vpiParent: IODecl name:intf_no_mp
+            vpiName: intf_no_mp
+            vpiFullName: testmod.intf_no_mp.intf_no_mp
+            vpiActual: Interface name:test_if #(.FOO(1))
+          vpiTypespec RefTypespec name:test_if start:59:4 end:59:11:
+            vpiParent: IODecl name:intf_no_mp
+            vpiName: test_if
+            vpiFullName: testmod.intf_no_mp.test_if
+            vpiActual: InterfaceTypespec name:test_if
       vpiSysTaskCall (10 items):
         SysTaskCall name:$display:
         SysTaskCall name:$stop:
@@ -1432,7 +1474,7 @@ Design name:unnamed:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (5 items):
+  vpiTypespec (6 items):
     InterfaceTypespec name:test_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_if start:8:11 end:8:18:
@@ -1453,6 +1495,37 @@ Design name:unnamed:
       vpiName Identifier name:testmod start:55:8 end:55:15:
       vpiDefName: testmod
       vpiModule: Module name:testmod
+    InterfaceTypespec name:test_if #(.FOO(identity(5))) start:36:4 end:36:35:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:test_if #(.FOO(identity(5))):
+      vpiDefName: test_if
+      vpiParamAssign (1 items):
+        ParamAssign start:36:15 end:36:33:
+          vpiParent: InterfaceTypespec name:test_if #(.FOO(identity(5)))
+          vpiConnByName: true
+          vpiLhs RefObj name:FOO start:36:16 end:36:19:
+            vpiParent: ParamAssign
+            vpiName: FOO
+            vpiFullName: test_if #(.FOO(identity(5))).FOO
+            vpiActual: Parameter name:FOO
+          vpiRhs FuncCall name:identity start:36:21 end:36:32:
+            vpiParent: ParamAssign
+            vpiName Identifier name:identity start:36:21 end:36:29:
+            vpiTaskFunc: Function name:identity
+            vpiArgument (1 items):
+              NamedArgument start:36:30 end:36:31:
+                vpiParent: FuncCall name:identity
+                vpiHighConn Constant start:36:30 end:36:31:
+                  vpiParent: NamedArgument
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "5"
+                  vpiValue: 5
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: test_if #(.FOO(identity(5)))
+                    vpiActual: IntTypespec
+      vpiInterface: Interface name:test_if #(.FOO(1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1461,7 +1534,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1476,25 +1549,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/mounts.json
 
 
-{'result': {'coverage': 98.17,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 20,
+            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 0,
                                                                           'pre_len': 1094}},
-            'post_len': 20,
+            'post_len': 0,
             'pre_len': 1094,
             'test_name': 'Verilator/t_interface_parameter_access'}}
 
 +-------------------------------------------------+----------+-----------+
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
-| $Output/lib/work/t_interface_parameter_access.v |     1094 |        20 |
+| $Output/lib/work/t_interface_parameter_access.v |     1094 |         0 |
 +=================================================+==========+===========+
-|                                                 |     1094 |        20 |
+|                                                 |     1094 |         0 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.17
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1505,7 +1578,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             201     201       0         0
+Others                             218     218       0         0
 ----------------------------------------------------------------
-                                   201     201       0         0
+                                   218     218       0         0
 ===================== END REDUCTION RESULT =====================

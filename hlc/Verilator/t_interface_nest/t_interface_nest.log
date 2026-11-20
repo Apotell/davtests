@@ -585,7 +585,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_nest.v:6:1: Compile interface "if1".
 [INF:CP5805] $Source01/t_interface_nest.v:10:1: Compile interface "if2".
 [INF:CP5804] $Source01/t_interface_nest.v:15:1: Compile module "mod1".
-[WRN:CP5811] $Source01/t_interface_nest.v:19:8: Port "foo" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_nest.v:37:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/t_interface_nest.v:26:18: Failed to bind "i1".
@@ -732,7 +731,7 @@ Design name:unnamed:
         vpiFullName: mod1.work
         vpiActual: Library name:work
       vpiCell: mod1
-      vpiNet (3 items):
+      vpiNet (2 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:mod1
           vpiName: clk
@@ -753,17 +752,6 @@ Design name:unnamed:
             vpiParent: Net name:modnum
             vpiFullName: mod1.modnum
             vpiActual: IntegerTypespec
-        Net name:foo start:19:8 end:19:11:
-          vpiParent: Module name:mod1
-          vpiName: foo
-          vpiFullName: mod1.foo
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:if2 start:19:4 end:19:7:
-            vpiParent: Net name:foo
-            vpiName: if2
-            vpiFullName: mod1.foo.if2
-            vpiActual: InterfaceTypespec name:if2
       vpiUnit: Unit
       vpiPort (3 items):
         Port name:clk start:17:10 end:17:13:
@@ -800,12 +788,13 @@ Design name:unnamed:
           vpiName: foo
           vpiPortIndex: 2
           vpiPortType: interface port (1)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:foo start:19:8 end:19:11:
             vpiParent: Port name:foo
             vpiName: foo
             vpiFullName: mod1.foo.foo
-            vpiActual: Net name:foo
+            vpiGeneric: true
+            vpiActual: Interface name:if2
           vpiTypespec RefTypespec name:if2 start:19:4 end:19:7:
             vpiParent: Port name:foo
             vpiName: if2
@@ -869,7 +858,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:foo.i1.var1
                                   vpiName: foo
                                   vpiFullName: mod1.foo
-                                  vpiActual: Net name:foo
+                                  vpiActual: Interface name:if2
                                 RefObj name:i1 start:26:18 end:26:20:
                                   vpiParent: RefObj name:foo.i1.var1
                                   vpiName: i1
@@ -907,7 +896,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:foo.var2
                                   vpiName: foo
                                   vpiFullName: mod1.foo
-                                  vpiActual: Net name:foo
+                                  vpiActual: Interface name:if2
                                 RefObj name:var2 start:27:18 end:27:22:
                                   vpiParent: RefObj name:foo.var2
                                   vpiName: var2
@@ -968,7 +957,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:foo.i1.var1
                                   vpiName: foo
                                   vpiFullName: mod1.foo
-                                  vpiActual: Net name:foo
+                                  vpiActual: Interface name:if2
                                 RefObj name:i1 start:30:18 end:30:20:
                                   vpiParent: RefObj name:foo.i1.var1
                                   vpiName: i1
@@ -1006,7 +995,7 @@ Design name:unnamed:
                                   vpiParent: RefObj name:foo.var2
                                   vpiName: foo
                                   vpiFullName: mod1.foo
-                                  vpiActual: Net name:foo
+                                  vpiActual: Interface name:if2
                                 RefObj name:var2 start:31:18 end:31:22:
                                   vpiParent: RefObj name:foo.var2
                                   vpiName: var2
@@ -1028,6 +1017,21 @@ Design name:unnamed:
                           vpiName Identifier name:$stop start:31:29 end:31:34:
                           vpiIsProperty: true
           vpiAlwaysType: ff (3)
+      vpiIODecl (1 items):
+        IODecl name:foo start:19:8 end:19:11:
+          vpiParent: Module name:mod1
+          vpiName: foo
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:foo start:19:8 end:19:11:
+            vpiParent: IODecl name:foo
+            vpiName: foo
+            vpiFullName: mod1.foo.foo
+            vpiActual: Interface name:if2
+          vpiTypespec RefTypespec name:if2 start:19:4 end:19:7:
+            vpiParent: IODecl name:foo
+            vpiName: if2
+            vpiFullName: mod1.foo.if2
+            vpiActual: InterfaceTypespec name:if2
       vpiSysTaskCall (4 items):
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
@@ -1483,7 +1487,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1528,10 +1532,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      16       2         2
 Operation                           10       8       0         2
-RefObj                              53      51       0         2
+RefObj                              54      52       0         2
 RefTypespec                         34      34       2         2
 ----------------------------------------------------------------
 Others                              86      86       0         0
 ----------------------------------------------------------------
-                                   199     195       4         8
+                                   200     196       4         8
 ===================== END REDUCTION RESULT =====================

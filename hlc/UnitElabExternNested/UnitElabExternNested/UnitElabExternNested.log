@@ -617,7 +617,6 @@ Design name:unnamed:
           vpiName: q1
           vpiFullName: dff_nested.q1
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:q1
@@ -628,7 +627,6 @@ Design name:unnamed:
           vpiName: nq1
           vpiFullName: dff_nested.nq1
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:nq1
@@ -639,7 +637,6 @@ Design name:unnamed:
           vpiName: nq2
           vpiFullName: dff_nested.nq2
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:nq2
@@ -869,7 +866,6 @@ Design name:unnamed:
               vpiName: q2
               vpiFullName: dff_nested.ff2.q2
               vpiConstantSelect: true
-              vpiNetDeclAssign: true
               vpiNetType: wire (1)
               vpiTypespec RefTypespec:
                 vpiParent: Net name:q2
@@ -1113,6 +1109,7 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: m
       vpiUnit: Unit
+      vpiExtern: true
       vpiPort (4 items):
         Port name:a start:2:18 end:2:19:
           vpiParent: Module name:m
@@ -1256,6 +1253,7 @@ Design name:unnamed:
             vpiFullName: a #(.size(8), .TP(logic [7:0])).a
             vpiActual: LogicTypespec
       vpiUnit: Unit
+      vpiExtern: true
       vpiPort (2 items):
         Port name:a start:13:11 end:13:12:
           vpiParent: Module name:a #(.size(8), .TP(logic [7:0]))
@@ -1378,7 +1376,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: top.a
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:20:1 end:20:6:
             vpiParent: Net name:a
@@ -1389,7 +1386,6 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: top.c
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:c
@@ -1400,7 +1396,6 @@ Design name:unnamed:
           vpiName: d
           vpiFullName: top.d
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:d
@@ -1421,13 +1416,69 @@ Design name:unnamed:
             vpiName: m
             vpiFullName: top.mm.m
             vpiActual: ModuleTypespec name:m
-          vpiArgument (1 items):
+          vpiArgument (5 items):
             NamedArgument start:26:7 end:26:9:
               vpiParent: RefInstance name:mm
               vpiHighConn RefObj name:.* start:26:7 end:26:9:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: top.mm..*
+            NamedArgument start:26:7 end:26:9:
+              vpiParent: RefInstance name:mm
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:a start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: top.mm.a
+                vpiActual: Port name:a
+              vpiHighConn RefObj name:a start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: top.mm.a
+                vpiActual: Net name:a
+            NamedArgument start:26:7 end:26:9:
+              vpiParent: RefInstance name:mm
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:b start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.mm.b
+                vpiActual: Port name:b
+              vpiHighConn RefObj name:b start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.mm.b
+                vpiActual: Variable name:b
+            NamedArgument start:26:7 end:26:9:
+              vpiParent: RefInstance name:mm
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:c start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: c
+                vpiFullName: top.mm.c
+                vpiActual: Port name:c
+              vpiHighConn RefObj name:c start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: c
+                vpiFullName: top.mm.c
+                vpiActual: Net name:c
+            NamedArgument start:26:7 end:26:9:
+              vpiParent: RefInstance name:mm
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:d start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: d
+                vpiFullName: top.mm.d
+                vpiActual: Port name:d
+              vpiHighConn RefObj name:d start:26:7 end:26:9:
+                vpiParent: NamedArgument
+                vpiName: d
+                vpiFullName: top.mm.d
+                vpiActual: Net name:d
         RefInstance name:aa start:27:3 end:27:5:
           vpiParent: Module name:top
           vpiName: aa
@@ -1436,13 +1487,41 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: top.aa.a
             vpiActual: ModuleTypespec name:a
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:27:7 end:27:9:
               vpiParent: RefInstance name:aa
               vpiHighConn RefObj name:.* start:27:7 end:27:9:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: top.aa..*
+            NamedArgument start:27:7 end:27:9:
+              vpiParent: RefInstance name:aa
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:a start:27:7 end:27:9:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: top.aa.a
+                vpiActual: Port name:a
+              vpiHighConn RefObj name:a start:27:7 end:27:9:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: top.aa.a
+                vpiActual: Net name:a
+            NamedArgument start:27:7 end:27:9:
+              vpiParent: RefInstance name:aa
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:b start:27:7 end:27:9:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.aa.b
+                vpiActual: Port name:b
+              vpiHighConn RefObj name:b start:27:7 end:27:9:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.aa.b
+                vpiActual: Variable name:b
   vpiTypespec (11 items):
     ModuleTypespec name:dff_nested:
       vpiParent: Design name:unnamed
@@ -1534,7 +1613,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2071    2071       0         0
+Others                            2089    2089       0         0
 ----------------------------------------------------------------
-                                  2071    2071       0         0
+                                  2089    2089       0         0
 ===================== END REDUCTION RESULT =====================

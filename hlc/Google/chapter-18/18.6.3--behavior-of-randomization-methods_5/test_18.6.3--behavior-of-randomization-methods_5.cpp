@@ -252,6 +252,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1156,15 +1157,12 @@ TEST_F(BehaviorOfRandomizationMethods5Test, InitialCallsRunTestFromUvmPkg) {
 // Diagnostics -- the point of this file
 // ---------------------------------------------------------------------------
 
-// Expected to fail until HLC is fixed -- see KNOWN FAILURE (neither illegality
-// is rejected) in the file header.
+// IEEE 1800-2023 18.6.3 (p.551): "The randomize() method is built-in and cannot be overridden."
+// The class declares `function void randomize();` on line 25, column 5.
 TEST_F(BehaviorOfRandomizationMethods5Test, RandomizeOverrideIsReportedAsError) {
-  size_t onOverride = 0;
-  for (const uint32_t line : getErrorLinesInThisFile()) {
-    if (line >= kOverrideFirstLine && line <= kOverrideLastLine) ++onOverride;
-  }
-  EXPECT_GE(onOverride, 1u) << "18.6.3: \"The randomize() method is built-in and cannot be overridden.\" -- "
-                               "the declaration on lines 25-27 must draw a fatal, syntax or error diagnostic";
+  EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "randomize", 25, 5), nullptr)
+      << "18.6.3: \"The randomize() method is built-in and cannot be overridden.\" -- the declaration on "
+         "line 25 must be reported";
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (neither illegality

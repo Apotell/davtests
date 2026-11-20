@@ -213,7 +213,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/23--error_rules.sv:26:1: Compile interface "r864_I".
 [WRN:PA5506] $Source01/23--error_rules.sv:26:1: No timescale set for "r864_I".
 [INF:CP5804] $Source01/23--error_rules.sv:27:1: Compile module "r864_sub".
-[WRN:CP5811] $Source01/23--error_rules.sv:27:25: Port "i" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/23--error_rules.sv:27:1: No timescale set for "r864_sub".
 [INF:CP5804] $Source01/23--error_rules.sv:28:1: Compile module "r864_top".
 [WRN:PA5506] $Source01/23--error_rules.sv:28:1: No timescale set for "r864_top".
@@ -223,6 +222,8 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/23--error_rules.sv:36:1: No timescale set for "r881_sub".
 [INF:CP5804] $Source01/23--error_rules.sv:37:1: Compile module "r881_top".
 [WRN:PA5506] $Source01/23--error_rules.sv:37:1: No timescale set for "r881_top".
+[ERR:CP5948] $Source01/23--error_rules.sv:20:12: Missing argument for formal r.
+[ERR:CP5948] $Source01/23--error_rules.sv:29:12: Missing argument for formal i.
 [ERR:CP5929] $Source01/23--error_rules.sv:40:12: Illegal expression in this context: r881_top.
 ====== HLDB =======
 Design name:unnamed:
@@ -313,6 +314,20 @@ Design name:unnamed:
             vpiParent: Port name:r
             vpiFullName: r862_sub.r
             vpiActual: IntTypespec
+      vpiIODecl (1 items):
+        IODecl name:r start:18:26 end:18:27:
+          vpiParent: Module name:r862_sub
+          vpiName: r
+          vpiDirection: ref (6)
+          vpiExpr RefObj name:r start:18:26 end:18:27:
+            vpiParent: IODecl name:r
+            vpiName: r
+            vpiFullName: r862_sub.r.r
+            vpiActual: Variable name:r
+          vpiTypespec RefTypespec start:18:22 end:18:25:
+            vpiParent: IODecl name:r
+            vpiFullName: r862_sub.r
+            vpiActual: IntTypespec
     Module name:r862_top file:$Source01/23--error_rules.sv start:19:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r862_top start:19:8 end:19:16:
@@ -357,32 +372,36 @@ Design name:unnamed:
         vpiFullName: r864_sub.work
         vpiActual: Library name:work
       vpiCell: r864_sub
-      vpiNet (1 items):
-        Net name:i start:27:25 end:27:26:
-          vpiParent: Module name:r864_sub
-          vpiName: i
-          vpiFullName: r864_sub.i
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:r864_I start:27:18 end:27:24:
-            vpiParent: Net name:i
-            vpiName: r864_I
-            vpiFullName: r864_sub.i.r864_I
-            vpiActual: InterfaceTypespec name:r864_I
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:i start:27:25 end:27:26:
           vpiParent: Module name:r864_sub
           vpiName: i
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:i start:27:25 end:27:26:
             vpiParent: Port name:i
             vpiName: i
             vpiFullName: r864_sub.i.i
-            vpiActual: Net name:i
+            vpiGeneric: true
+            vpiActual: Interface name:r864_I
           vpiTypespec RefTypespec name:r864_I start:27:18 end:27:24:
             vpiParent: Port name:i
+            vpiName: r864_I
+            vpiFullName: r864_sub.i.r864_I
+            vpiActual: InterfaceTypespec name:r864_I
+      vpiIODecl (1 items):
+        IODecl name:i start:27:25 end:27:26:
+          vpiParent: Module name:r864_sub
+          vpiName: i
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:i start:27:25 end:27:26:
+            vpiParent: IODecl name:i
+            vpiName: i
+            vpiFullName: r864_sub.i.i
+            vpiActual: Interface name:r864_I
+          vpiTypespec RefTypespec name:r864_I start:27:18 end:27:24:
+            vpiParent: IODecl name:i
             vpiName: r864_I
             vpiFullName: r864_sub.i.r864_I
             vpiActual: InterfaceTypespec name:r864_I
@@ -617,8 +636,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 9
+[  ERROR] : 3
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -662,7 +681,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-23/23--error_rules/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    83      83       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

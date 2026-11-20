@@ -370,29 +370,12 @@ TEST_F(LineBasicTest, ReportsNoDirectiveMisreadingDiagnostics) {
   EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
-// somefile is "treated as the new name of the file" (22.12); a `line reads no
-// file, unlike `include (22.4). A failure to open somefile, at any severity,
-// would mean HLC tried to read it.
-TEST_F(LineBasicTest, ReportsNoFileOpeningDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpCannotOpenFile), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpCannotOpenIncludeFile), nullptr);
-}
-
-// "somefile" is a well-formed quoted string (5.9) in a plain ASCII file.
-TEST_F(LineBasicTest, ReportsNoStringLiteralDiagnostics) {
-  // Its closing double quote is on line 16.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // Letters are quoted_string_items; none needs an escape.
-  EXPECT_EQ(findEvent(EventType::PpUnescapedCharacterInString), nullptr);
-
-  // It has no backslash, so it has no escape sequence (5.9.1).
-  EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpEscapeSequenceOutOfRange), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed tests: ReportsNoFileOpeningDiagnostics, ReportsNoStringLiteralDiagnostics. They only
+// asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

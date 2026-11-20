@@ -101,6 +101,10 @@
 //   ReportsAnErrorForStaticAfterClass   at least one fatal, syntax or error
 //                                       diagnostic on line 6, other than the
 //                                       23.3.1 one
+//   ReportsTheLifetimeOnTheClassDeclaration
+//                                       CompIllegalClassLifetime at the
+//                                       static keyword, naming Foo (A.1.2:
+//                                       class_declaration has no lifetime)
 //   NoErrorsOnTheLegalLines1To5         no fatal, syntax or error diagnostic
 //                                       outside elaboration on lines 1-5
 //   NoCascadeErrors                     HLC error recovery, not an LRM rule:
@@ -118,7 +122,8 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Which code, which error-class severity, which phase and how many
+//   - Beyond the one HLC event asserted by ReportsTheLifetimeOnTheClassDeclaration:
+//     which code, which error-class severity, which phase and how many
 //     diagnostics line 6 draws, and their message text and column. The LRM
 //     requires no particular form for a diagnostic: "The compiler shall
 //     maintain the current line number and file name of the file being
@@ -335,6 +340,14 @@ class ClassTest2Test : public Test {
 // 23.3.1 one satisfies it.
 TEST_F(ClassTest2Test, ReportsAnErrorForStaticAfterClass) {
   EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
+}
+
+// IEEE 1800-2023 A.1.2 (p.1174): "class_declaration ::= [ virtual ] class [ final_specifier ]
+// class_identifier ..." -- unlike "package [ lifetime ] package_identifier", the class production has
+// no lifetime between `class` and the identifier, so the `static` at 6:7 is not allowed there.
+TEST_F(ClassTest2Test, ReportsTheLifetimeOnTheClassDeclaration) {
+  ASSERT_NE(findEvent(EventType::CompIllegalClassLifetime, "Foo", 6, 7), nullptr)
+      << "A.1.2: class_declaration has no lifetime, so `class static Foo` must be reported";
 }
 
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would

@@ -321,6 +321,12 @@ TEST_F(ClassTest23Test, ReportsAnErrorForTheUndeclaredInterfaceClass) {
   EXPECT_GE(countRequiredErrorCandidatesOnLine(kIllegalLine), 1u) << "no error on line 6;" << describeAllEvents();
 }
 
+// IEEE 1800-2023 8.26 (p.211): "An interface class shall be declared before it is implemented or
+// extended."
+TEST_F(ClassTest23Test, ReportsTheUndefinedBaseClass) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "Bar", 6, 22), nullptr);
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest23Test, NoErrorsOnTheLegalLines1To5) {

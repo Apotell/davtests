@@ -16,3 +16,16 @@ module r460_m;
   int a, b;
   initial mb.get(a + b); // illegal: message argument is not a valid left-hand expression
 endmodule
+
+
+// catalog row 460 | 15.4.6, 15.4.8 | COMP
+// try_get() and try_peek() are functions, so their calls are method function
+// calls; the same requirement holds for their ref message argument.
+module r460_f_m;
+  mailbox mb = new();
+  int a, b, n;
+  initial begin
+    n = mb.try_get(a + b);  // illegal: message argument is not a valid left-hand expression
+    n = mb.try_peek(a + b); // illegal: message argument is not a valid left-hand expression
+  end
+endmodule

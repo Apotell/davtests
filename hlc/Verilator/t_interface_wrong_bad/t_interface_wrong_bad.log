@@ -184,9 +184,9 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_wrong_bad.v:7:1: Compile interface "foo_intf".
 [INF:CP5805] $Source01/t_interface_wrong_bad.v:11:1: Compile interface "bar_intf".
 [INF:CP5804] $Source01/t_interface_wrong_bad.v:15:1: Compile module "foo_mod".
-[WRN:CP5811] $Source01/t_interface_wrong_bad.v:15:26: Port "foo_port" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_wrong_bad.v:21:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:CP6010] $Source01/t_interface_wrong_bad.v:31:18: Illegal connection of "bar" to interface port "foo_port".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -332,32 +332,36 @@ Design name:unnamed:
         vpiFullName: foo_mod.work
         vpiActual: Library name:work
       vpiCell: foo_mod
-      vpiNet (1 items):
-        Net name:foo_port start:15:26 end:15:34:
-          vpiParent: Module name:foo_mod
-          vpiName: foo_port
-          vpiFullName: foo_mod.foo_port
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:foo_intf start:15:17 end:15:25:
-            vpiParent: Net name:foo_port
-            vpiName: foo_intf
-            vpiFullName: foo_mod.foo_port.foo_intf
-            vpiActual: InterfaceTypespec name:foo_intf
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:foo_port start:15:26 end:15:34:
           vpiParent: Module name:foo_mod
           vpiName: foo_port
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:foo_port start:15:26 end:15:34:
             vpiParent: Port name:foo_port
             vpiName: foo_port
             vpiFullName: foo_mod.foo_port.foo_port
-            vpiActual: Net name:foo_port
+            vpiGeneric: true
+            vpiActual: Interface name:foo_intf
           vpiTypespec RefTypespec name:foo_intf start:15:17 end:15:25:
             vpiParent: Port name:foo_port
+            vpiName: foo_intf
+            vpiFullName: foo_mod.foo_port.foo_intf
+            vpiActual: InterfaceTypespec name:foo_intf
+      vpiIODecl (1 items):
+        IODecl name:foo_port start:15:26 end:15:34:
+          vpiParent: Module name:foo_mod
+          vpiName: foo_port
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:foo_port start:15:26 end:15:34:
+            vpiParent: IODecl name:foo_port
+            vpiName: foo_port
+            vpiFullName: foo_mod.foo_port.foo_port
+            vpiActual: Interface name:foo_intf
+          vpiTypespec RefTypespec name:foo_intf start:15:17 end:15:25:
+            vpiParent: IODecl name:foo_port
             vpiName: foo_intf
             vpiFullName: foo_mod.foo_port.foo_intf
             vpiActual: InterfaceTypespec name:foo_intf
@@ -489,8 +493,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 1
+[  ERROR] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -534,7 +538,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_wrong_bad/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

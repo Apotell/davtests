@@ -192,14 +192,10 @@ n<$Source01/adrdec.sv> u<178> t<Top_level_rule> c<1> l<8:1> el<42:1>
   n<// adrdec> u<177> t<LINE_COMMENT> p<178> l<41:11> el<41:20>
 AST_DEBUG_END
 [INF:CP5804] $Source01/adrdec.sv:8:1: Compile module "adrdec".
-[WRN:CP5811] $Source01/adrdec.sv:17:20: Port "dbus" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/adrdec.sv:17:3: Failed to bind "genbus_if".
-[WRN:DV8514] $Source01/adrdec.sv:30:17: Failed to bind "dbus".
 [WRN:DV8514] $Source01/adrdec.sv:30:22: Failed to bind "s_adr".
-[WRN:DV8514] $Source01/adrdec.sv:31:17: Failed to bind "dbus".
 [WRN:DV8514] $Source01/adrdec.sv:31:22: Failed to bind "s_adr".
-[WRN:DV8514] $Source01/adrdec.sv:34:7: Failed to bind "dbus".
 [WRN:DV8514] $Source01/adrdec.sv:34:12: Failed to bind "s_sel".
 [ERR:DL2510] $Source01/adrdec.sv:17:3: Unknown or undefined type "genbus_if::adrdec".
 ====== HLDB =======
@@ -263,11 +259,12 @@ Design name:unnamed:
           vpiParent: Module name:adrdec #(.NSLAVES(2))
           vpiName: dbus
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:dbus start:17:20 end:17:24:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: adrdec #(.NSLAVES(2)).dbus.dbus
+            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::adrdec start:17:3 end:17:19:
             vpiParent: Port name:dbus
             vpiName: genbus_if::adrdec
@@ -365,6 +362,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:dbus.s_adr[1][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec #(.NSLAVES(2)).dbus
+                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[1][7:4] start:30:27 end:30:35:
                           vpiParent: RefObj name:dbus.s_adr[1][7:4]
                           vpiName: s_adr[1][7:4]
@@ -456,6 +454,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:dbus.s_adr[2][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec #(.NSLAVES(2)).dbus
+                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[2][7:4] start:31:27 end:31:35:
                           vpiParent: RefObj name:dbus.s_adr[2][7:4]
                           vpiName: s_adr[2][7:4]
@@ -523,6 +522,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:dbus.s_sel
                       vpiName: dbus
                       vpiFullName: adrdec #(.NSLAVES(2)).dbus
+                      vpiActual: Port name:dbus
                     RefObj name:s_sel start:34:12 end:34:17:
                       vpiParent: RefObj name:dbus.s_sel
                       vpiName: s_sel
@@ -533,6 +533,28 @@ Design name:unnamed:
                   vpiFullName: adrdec #(.NSLAVES(2)).sel
                   vpiActual: Variable name:sel
           vpiAlwaysType: comb (2)
+      vpiIODecl (1 items):
+        IODecl name:dbus start:17:20 end:17:24:
+          vpiParent: Module name:adrdec #(.NSLAVES(2))
+          vpiName: dbus
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:dbus start:17:20 end:17:24:
+            vpiParent: IODecl name:dbus
+            vpiName: dbus
+            vpiFullName: adrdec #(.NSLAVES(2)).dbus.dbus
+          vpiTypespec RefTypespec name:genbus_if::adrdec start:17:3 end:17:19:
+            vpiParent: IODecl name:dbus
+            vpiName: genbus_if::adrdec
+            vpiFullName: adrdec #(.NSLAVES(2)).dbus.genbus_if::adrdec
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:17:3 end:17:12:
+                vpiParent: RefTypespec name:genbus_if::adrdec
+                vpiName: genbus_if
+                vpiFullName: adrdec #(.NSLAVES(2)).dbus.genbus_if
+              RefTypespec name:adrdec start:17:13 end:17:19:
+                vpiParent: RefTypespec name:genbus_if::adrdec
+                vpiName: adrdec
+                vpiFullName: adrdec #(.NSLAVES(2)).dbus.genbus_if::adrdec.adrdec
   vpiTypespec (3 items):
     ModuleTypespec name:adrdec:
       vpiParent: Design name:unnamed
@@ -552,7 +574,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 8
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -596,7 +618,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/adrdec/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              77      77       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    77      77       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

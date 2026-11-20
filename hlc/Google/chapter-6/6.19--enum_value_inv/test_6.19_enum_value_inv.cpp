@@ -65,6 +65,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -204,21 +205,14 @@ TEST_F(EnumValueInvTest, NoProcesses) {
 // ---------------------------------------------------------------------------
 // The actual point of the file: sized-literal/enum-base size mismatch is illegal
 // ---------------------------------------------------------------------------
-TEST_F(EnumValueInvTest, CompilerShouldRejectSizeMismatchButDoesNot) {
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  // NOTE: deliberately still a coarse error-count assertion, unlike the sibling gap tests
-  // in this suite which were narrowed to findEvent(). No event definition expresses
-  // this rule: CompIllegalEnumValue covers x/z values only, and
-  // ElabEnumValueOutOfRange covers a VALUE exceeding the base type -- here the values
-  // (2 and 3) fit the 3-bit base perfectly and only the literals' declared SIZE (4) differs.
-  // Naming either code would assert the wrong rule, so this stays coarse until a code for
-  // the size rule exists.
-  const EventListener::Stats stats = m_session->getEventListener()->getStats();
-  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
-      << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
-         "shall be an error if the size is different from the enum base type' -- Global=4'h2 and "
-         "Local=4'h3 are 4-bit literals on a 3-bit (logic[2:0]) base, matching this file's own "
-         ":should_fail_because: tag -- HLC currently accepts it with zero diagnostics";
+// IEEE 1800-2023 6.19 (p.120): "If the integer value expression is a sized literal constant, it shall
+// be an error if the size is different from the enum base type, even if the value is within the
+// representable range." The base type logic [2:0] is 3 bits; 4'h2 and 4'h3 are 4-bit sized literals.
+TEST_F(EnumValueInvTest, SizedLiteralSizeDiffersFromBaseType) {
+  EXPECT_NE(findEvent(EventType::EnumConstSizeMismatch, "Global", 24, 4), nullptr)
+      << "6.19: Global = 4'h2 is a 4-bit sized literal on a 3-bit base";
+  EXPECT_NE(findEvent(EventType::EnumConstSizeMismatch, "Local", 25, 4), nullptr)
+      << "6.19: Local = 4'h3 is a 4-bit sized literal on a 3-bit base";
 }
 
 }  // namespace hlc

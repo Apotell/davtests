@@ -588,11 +588,8 @@ n<$Source01/t_array_interface.v> u<573> t<Top_level_rule> c<1> l<6:1> el<65:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/t_array_interface.v:6:1: Compile interface "intf".
 [INF:CP5804] $Source01/t_array_interface.v:12:1: Compile module "modify_interface".
-[WRN:CP5811] $Source01/t_array_interface.v:15:13: Port "intf_inst" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_array_interface.v:24:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_array_interface.v:17:8: Failed to bind "intf_inst".
-[WRN:DV8514] $Source01/t_array_interface.v:17:18: Failed to bind "logic_in_intf".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -698,6 +695,11 @@ Design name:unnamed:
               vpiParent: Modport name:source
               vpiName: logic_in_intf
               vpiDirection: output (2)
+              vpiExpr RefObj name:logic_in_intf start:8:27 end:8:40:
+                vpiParent: IODecl name:logic_in_intf
+                vpiName: logic_in_intf
+                vpiFullName: intf.source.logic_in_intf.logic_in_intf
+                vpiActual: Variable name:logic_in_intf
           vpiInterface: Interface name:intf
         Modport name:sink start:9:13 end:9:17:
           vpiParent: Interface name:intf
@@ -707,6 +709,11 @@ Design name:unnamed:
               vpiParent: Modport name:sink
               vpiName: logic_in_intf
               vpiDirection: input (1)
+              vpiExpr RefObj name:logic_in_intf start:9:24 end:9:37:
+                vpiParent: IODecl name:logic_in_intf
+                vpiName: logic_in_intf
+                vpiFullName: intf.sink.logic_in_intf.logic_in_intf
+                vpiActual: Variable name:logic_in_intf
           vpiInterface: Interface name:intf
   vpiAllModules (2 items):
     Module name:modify_interface file:$Source01/t_array_interface.v start:12:1 end:18:10:
@@ -763,11 +770,12 @@ Design name:unnamed:
           vpiName: intf_inst
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:intf_inst start:15:13 end:15:22:
             vpiParent: Port name:intf_inst
             vpiName: intf_inst
             vpiFullName: modify_interface.intf_inst.intf_inst
+            vpiActual: Modport name:source
           vpiTypespec RefTypespec name:intf::source start:15:1 end:15:12:
             vpiParent: Port name:intf_inst
             vpiName: intf::source
@@ -798,15 +806,44 @@ Design name:unnamed:
                 vpiParent: RefObj name:intf_inst.logic_in_intf
                 vpiName: intf_inst
                 vpiFullName: modify_interface.intf_inst
+                vpiActual: Modport name:source
               RefObj name:logic_in_intf start:17:18 end:17:31:
                 vpiParent: RefObj name:intf_inst.logic_in_intf
                 vpiName: logic_in_intf
                 vpiFullName: modify_interface.logic_in_intf
+                vpiActual: Variable name:logic_in_intf
+            vpiActual: Variable name:logic_in_intf
           vpiRhs RefObj name:value start:17:34 end:17:39:
             vpiParent: ContAssign
             vpiName: value
             vpiFullName: modify_interface.value
             vpiActual: Net name:value
+      vpiIODecl (1 items):
+        IODecl name:intf_inst start:15:13 end:15:22:
+          vpiParent: Module name:modify_interface
+          vpiName: intf_inst
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:intf_inst start:15:13 end:15:22:
+            vpiParent: IODecl name:intf_inst
+            vpiName: intf_inst
+            vpiFullName: modify_interface.intf_inst.intf_inst
+            vpiActual: Modport name:source
+          vpiTypespec RefTypespec name:intf::source start:15:1 end:15:12:
+            vpiParent: IODecl name:intf_inst
+            vpiName: intf::source
+            vpiFullName: modify_interface.intf_inst.intf::source
+            vpiPathElem (2 items):
+              RefObj name:intf start:15:1 end:15:5:
+                vpiParent: RefTypespec name:intf::source
+                vpiName: intf
+                vpiFullName: modify_interface.intf_inst.intf
+                vpiActual: Interface name:intf
+              RefTypespec name:source start:15:6 end:15:12:
+                vpiParent: RefTypespec name:intf::source
+                vpiName: source
+                vpiFullName: modify_interface.intf_inst.intf::source.source
+                vpiActual: InterfaceTypespec name:source
+            vpiActual: InterfaceTypespec name:source
     Module name:t #(.N(6)) file:$Source01/t_array_interface.v start:24:1 end:64:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t #(.N(6)) start:24:8 end:24:9:
@@ -1593,7 +1630,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1638,10 +1675,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            23      18       4         9
 Operation                           12       8       0         4
-RefObj                              52      49       0         3
-RefTypespec                         37      31       3         9
+RefObj                              56      53       0         3
+RefTypespec                         39      33       3         9
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   226     208       7        25
+                                   233     215       7        25
 ===================== END REDUCTION RESULT =====================

@@ -822,12 +822,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_gen2.v:8:1: Compile module "t".
 [INF:CP5805] $Source01/t_interface_gen2.v:54:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface_gen2.v:64:1: Compile module "sub".
-[WRN:CP5811] $Source01/t_interface_gen2.v:66:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_gen2.v:69:26: Failed to bind "isub".
-[WRN:DV8514] $Source01/t_interface_gen2.v:69:31: Failed to bind "valueo".
-[WRN:DV8514] $Source01/t_interface_gen2.v:69:41: Failed to bind "isub".
-[WRN:DV8514] $Source01/t_interface_gen2.v:69:46: Failed to bind "valuei".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -989,10 +984,20 @@ Design name:unnamed:
               vpiParent: Modport name:out_modport
               vpiName: valuei
               vpiDirection: input (1)
+              vpiExpr RefObj name:valuei start:60:31 end:60:37:
+                vpiParent: IODecl name:valuei
+                vpiName: valuei
+                vpiFullName: ifc #(.WIDTH(1)).out_modport.valuei.valuei
+                vpiActual: Variable name:valuei
             IODecl name:valueo start:60:46 end:60:52:
               vpiParent: Modport name:out_modport
               vpiName: valueo
               vpiDirection: output (2)
+              vpiExpr RefObj name:valueo start:60:46 end:60:52:
+                vpiParent: IODecl name:valueo
+                vpiName: valueo
+                vpiFullName: ifc #(.WIDTH(1)).out_modport.valueo.valueo
+                vpiActual: Variable name:valueo
           vpiInterface: Interface name:ifc #(.WIDTH(1))
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_gen2.v start:8:1 end:52:10:
@@ -1020,13 +1025,15 @@ Design name:unnamed:
             vpiParent: Variable name:cyc
             vpiFullName: t.cyc
             vpiActual: IntegerTypespec
-      vpiTypespec (3 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
+        InterfaceTypespec name:ifc #(.WIDTH(2)):
+        InterfaceTypespec name:ifc #(.WIDTH(4)):
         ModuleTypespec name:sub:
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -1752,19 +1759,19 @@ Design name:unnamed:
         RefInstance name:itopa start:16:13 end:16:18:
           vpiParent: Module name:t
           vpiName: itopa
-          vpiTypespec RefTypespec name:ifc start:16:4 end:16:7:
+          vpiTypespec RefTypespec name:ifc #(2) start:16:4 end:16:7:
             vpiParent: RefInstance name:itopa
-            vpiName: ifc
-            vpiFullName: t.itopa.ifc
-            vpiActual: InterfaceTypespec name:ifc
+            vpiName: ifc #(2)
+            vpiFullName: t.itopa.ifc #(2)
+            vpiActual: InterfaceTypespec name:ifc #(.WIDTH(2))
         RefInstance name:itopb start:17:13 end:17:18:
           vpiParent: Module name:t
           vpiName: itopb
-          vpiTypespec RefTypespec name:ifc start:17:4 end:17:7:
+          vpiTypespec RefTypespec name:ifc #(4) start:17:4 end:17:7:
             vpiParent: RefInstance name:itopb
-            vpiName: ifc
-            vpiFullName: t.itopb.ifc
-            vpiActual: InterfaceTypespec name:ifc
+            vpiName: ifc #(4)
+            vpiFullName: t.itopb.ifc #(4)
+            vpiActual: InterfaceTypespec name:ifc #(.WIDTH(4))
         RefInstance name:ca start:19:8 end:19:10:
           vpiParent: Module name:t
           vpiName: ca
@@ -1795,6 +1802,11 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: t.ca.clk
                 vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:20:6 end:20:9:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: t.ca.clk
+                vpiActual: Net name:clk
         RefInstance name:cb start:21:8 end:21:10:
           vpiParent: Module name:t
           vpiName: cb
@@ -1825,6 +1837,11 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: t.cb.clk
                 vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:22:6 end:22:9:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: t.cb.clk
+                vpiActual: Net name:clk
     Module name:sub file:$Source01/t_interface_gen2.v start:64:1 end:70:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:64:8 end:64:11:
@@ -1864,25 +1881,26 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isub start:66:20 end:66:24:
             vpiParent: Port name:isub
             vpiName: isub
             vpiFullName: sub.isub.isub
-          vpiTypespec RefTypespec name:ifc #(.WIDTH(1))::out_modport start:66:4 end:66:19:
+            vpiActual: Modport name:out_modport
+          vpiTypespec RefTypespec name:ifc::out_modport start:66:4 end:66:19:
             vpiParent: Port name:isub
-            vpiName: ifc #(.WIDTH(1))::out_modport
-            vpiFullName: sub.isub.ifc #(.WIDTH(1))::out_modport
+            vpiName: ifc::out_modport
+            vpiFullName: sub.isub.ifc::out_modport
             vpiPathElem (2 items):
               RefObj name:ifc start:66:4 end:66:7:
-                vpiParent: RefTypespec name:ifc #(.WIDTH(1))::out_modport
+                vpiParent: RefTypespec name:ifc::out_modport
                 vpiName: ifc
                 vpiFullName: sub.isub.ifc
                 vpiActual: Interface name:ifc #(.WIDTH(1))
               RefTypespec name:out_modport start:66:8 end:66:19:
-                vpiParent: RefTypespec name:ifc #(.WIDTH(1))::out_modport
+                vpiParent: RefTypespec name:ifc::out_modport
                 vpiName: out_modport
-                vpiFullName: sub.isub.ifc #(.WIDTH(1))::out_modport.out_modport
+                vpiFullName: sub.isub.ifc::out_modport.out_modport
                 vpiActual: InterfaceTypespec name:out_modport
             vpiActual: InterfaceTypespec name:out_modport
         Port name:clk start:67:10 end:67:13:
@@ -1926,10 +1944,13 @@ Design name:unnamed:
                     vpiParent: RefObj name:isub.valueo
                     vpiName: isub
                     vpiFullName: sub.isub
+                    vpiActual: Modport name:out_modport
                   RefObj name:valueo start:69:31 end:69:37:
                     vpiParent: RefObj name:isub.valueo
                     vpiName: valueo
                     vpiFullName: sub.valueo
+                    vpiActual: Variable name:valueo
+                vpiActual: Variable name:valueo
               vpiRhs Operation start:69:41 end:69:56:
                 vpiParent: Assignment
                 vpiOpType: add (24)
@@ -1943,10 +1964,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:isub.valuei
                         vpiName: isub
                         vpiFullName: sub.isub
+                        vpiActual: Modport name:out_modport
                       RefObj name:valuei start:69:46 end:69:52:
                         vpiParent: RefObj name:isub.valuei
                         vpiName: valuei
                         vpiFullName: sub.valuei
+                        vpiActual: Variable name:valuei
+                    vpiActual: Variable name:valuei
                   Constant start:69:55 end:69:56:
                     vpiParent: Operation
                     vpiConstType: int (7)
@@ -1958,7 +1982,33 @@ Design name:unnamed:
                       vpiFullName: sub
                       vpiActual: IntTypespec
           vpiAlwaysType: always (1)
-  vpiTypespec (6 items):
+      vpiIODecl (1 items):
+        IODecl name:isub start:66:20 end:66:24:
+          vpiParent: Module name:sub
+          vpiName: isub
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isub start:66:20 end:66:24:
+            vpiParent: IODecl name:isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
+            vpiActual: Modport name:out_modport
+          vpiTypespec RefTypespec name:ifc::out_modport start:66:4 end:66:19:
+            vpiParent: IODecl name:isub
+            vpiName: ifc::out_modport
+            vpiFullName: sub.isub.ifc::out_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:66:4 end:66:7:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: ifc
+                vpiFullName: sub.isub.ifc
+                vpiActual: Interface name:ifc #(.WIDTH(1))
+              RefTypespec name:out_modport start:66:8 end:66:19:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: out_modport
+                vpiFullName: sub.isub.ifc::out_modport.out_modport
+                vpiActual: InterfaceTypespec name:out_modport
+            vpiActual: InterfaceTypespec name:out_modport
+  vpiTypespec (8 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
@@ -1981,6 +2031,52 @@ Design name:unnamed:
       vpiName Identifier name:sub start:64:8 end:64:11:
       vpiDefName: sub
       vpiModule: Module name:sub
+    InterfaceTypespec name:ifc #(.WIDTH(2)) start:16:4 end:16:12:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:ifc #(.WIDTH(2)):
+      vpiDefName: ifc
+      vpiParamAssign (1 items):
+        ParamAssign start:16:10 end:16:11:
+          vpiParent: InterfaceTypespec name:ifc #(.WIDTH(2))
+          vpiLhs RefObj name:WIDTH start:55:15 end:55:20:
+            vpiParent: ParamAssign
+            vpiName: WIDTH
+            vpiFullName: ifc #(.WIDTH(2)).WIDTH
+            vpiActual: Parameter name:WIDTH
+          vpiRhs Constant start:16:10 end:16:11:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "2"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: ifc #(.WIDTH(2))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:ifc #(.WIDTH(1))
+    InterfaceTypespec name:ifc #(.WIDTH(4)) start:17:4 end:17:12:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:ifc #(.WIDTH(4)):
+      vpiDefName: ifc
+      vpiParamAssign (1 items):
+        ParamAssign start:17:10 end:17:11:
+          vpiParent: InterfaceTypespec name:ifc #(.WIDTH(4))
+          vpiLhs RefObj name:WIDTH start:55:15 end:55:20:
+            vpiParent: ParamAssign
+            vpiName: WIDTH
+            vpiFullName: ifc #(.WIDTH(4)).WIDTH
+            vpiActual: Parameter name:WIDTH
+          vpiRhs Constant start:17:10 end:17:11:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: ifc #(.WIDTH(4))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:ifc #(.WIDTH(1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1989,7 +2085,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2004,25 +2100,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen2/mounts.json
 
 
-{'result': {'coverage': 99.79,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen2.v': {'post_len': 2,
+            'files': {'$Output/lib/work/t_interface_gen2.v': {'post_len': 0,
                                                               'pre_len': 967}},
-            'post_len': 2,
+            'post_len': 0,
             'pre_len': 967,
             'test_name': 'Verilator/t_interface_gen2'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen2.v |      967 |         2 |
+| $Output/lib/work/t_interface_gen2.v |      967 |         0 |
 +=====================================+==========+===========+
-|                                     |      967 |         2 |
+|                                     |      967 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.79
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2032,12 +2128,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen2/design.hldb ${HLC_DIR}
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            27      27       7         7
+Constant                            29      29       7         7
 Operation                           20      13       0         7
-RefObj                              69      62       0         7
-RefTypespec                         41      41       7         7
+RefObj                              77      70       0         7
+RefTypespec                         45      45       7         7
 ----------------------------------------------------------------
-Others                             118     118       0         0
+Others                             125     125       0         0
 ----------------------------------------------------------------
-                                   275     261      14        28
+                                   296     282      14        28
 ===================== END REDUCTION RESULT =====================

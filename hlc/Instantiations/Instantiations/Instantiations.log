@@ -7,6 +7,7 @@ VERSION: 1.84
 COMMAND: -wd ../../../tests/Instantiations -d db -d ast dut.sv -nobuiltin -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Instantiations/Instantiations
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
+[NTE:PP5229] $Source01/dut.sv:98:33: Non ASCII character detected, replaced by space.
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 AST_DEBUG_BEGIN
 Count: 956
@@ -1284,14 +1285,29 @@ Design name:unnamed:
               vpiParent: Modport name:master
               vpiName: data
               vpiDirection: output (2)
+              vpiExpr RefObj name:data start:31:25 end:31:29:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: bus_if #(.W(8)).master.data.data
+                vpiActual: Variable name:data
             IODecl name:valid start:31:31 end:31:36:
               vpiParent: Modport name:master
               vpiName: valid
               vpiDirection: output (2)
+              vpiExpr RefObj name:valid start:31:31 end:31:36:
+                vpiParent: IODecl name:valid
+                vpiName: valid
+                vpiFullName: bus_if #(.W(8)).master.valid.valid
+                vpiActual: Variable name:valid
             IODecl name:ready start:31:45 end:31:50:
               vpiParent: Modport name:master
               vpiName: ready
               vpiDirection: input (1)
+              vpiExpr RefObj name:ready start:31:45 end:31:50:
+                vpiParent: IODecl name:ready
+                vpiName: ready
+                vpiFullName: bus_if #(.W(8)).master.ready.ready
+                vpiActual: Variable name:ready
           vpiInterface: Interface name:bus_if #(.W(8))
         Modport name:slave start:32:11 end:32:16:
           vpiParent: Interface name:bus_if #(.W(8))
@@ -1301,14 +1317,29 @@ Design name:unnamed:
               vpiParent: Modport name:slave
               vpiName: data
               vpiDirection: input (1)
+              vpiExpr RefObj name:data start:32:25 end:32:29:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: bus_if #(.W(8)).slave.data.data
+                vpiActual: Variable name:data
             IODecl name:valid start:32:31 end:32:36:
               vpiParent: Modport name:slave
               vpiName: valid
               vpiDirection: input (1)
+              vpiExpr RefObj name:valid start:32:31 end:32:36:
+                vpiParent: IODecl name:valid
+                vpiName: valid
+                vpiFullName: bus_if #(.W(8)).slave.valid.valid
+                vpiActual: Variable name:valid
             IODecl name:ready start:32:45 end:32:50:
               vpiParent: Modport name:slave
               vpiName: ready
               vpiDirection: output (2)
+              vpiExpr RefObj name:ready start:32:45 end:32:50:
+                vpiParent: IODecl name:ready
+                vpiName: ready
+                vpiFullName: bus_if #(.W(8)).slave.ready.ready
+                vpiActual: Variable name:ready
           vpiInterface: Interface name:bus_if #(.W(8))
   vpiAllUdps (1 items):
     UdpDefn name:my_udp start:82:1 end:89:13:
@@ -2639,7 +2670,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 9
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2683,10 +2714,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       4         4
 Operation                           12       8       0         4
-RefObj                              78      74       0         4
+RefObj                              84      80       0         4
 RefTypespec                         60      60       4         4
 ----------------------------------------------------------------
 Others                             223     223       0         0
 ----------------------------------------------------------------
-                                   394     386       8        16
+                                   400     392       8        16
 ===================== END REDUCTION RESULT =====================

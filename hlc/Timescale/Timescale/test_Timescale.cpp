@@ -452,6 +452,10 @@ TEST_F(TimescaleTest, StepAsTimeUnitIsAnError) {
   // no step, so this is a syntax error; Sec 3.14.3 also says "a step cannot be used to
   // set or modify either the precision or the time unit." Any error is correct.
   EXPECT_TRUE(hasErrorAt("errors.sv", 20));
+  // IEEE 1800-2023 3.14.3 (p.61): "a step cannot be used to set or modify either the precision or the
+  // time unit." HLC reports it as an illegal timescale of the element e_step, at the timeunit.
+  ASSERT_NE(findEvent(EventType::CompIllegalTimescale, "e_step", 20, 3), nullptr)
+      << "3.14.3: `timeunit 1step;` cannot set the time unit";
 }
 
 TEST_F(TimescaleTest, TimeunitMagnitudeMustBe1Or10Or100) {

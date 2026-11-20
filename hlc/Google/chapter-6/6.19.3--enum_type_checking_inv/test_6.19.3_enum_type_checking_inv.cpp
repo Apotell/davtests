@@ -161,11 +161,9 @@ TEST_F(EnumTypeCheckingInvTest, AssignmentRhsIsIntegerConstant) {
 // ---------------------------------------------------------------------------
 // The actual point of the file: assigning a bare int to an enum var is illegal
 // ---------------------------------------------------------------------------
-TEST_F(EnumTypeCheckingInvTest, CompilerShouldRejectUncastIntAssignmentButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19.3: 'a variable of type enum cannot be directly assigned a value "
-                  "that lies outside the enumeration set unless an explicit cast is used'";
+TEST_F(EnumTypeCheckingInvTest, CompilerRejectsUncastIntAssignment) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes, "val", 22, 3), nullptr)
       << "IEEE 1800-2023 6.19.3: assigning a plain int to an enum variable without a cast "
          "violates the strict type checking the standard requires for enumerations.";
 }

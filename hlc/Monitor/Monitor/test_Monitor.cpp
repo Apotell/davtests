@@ -98,12 +98,14 @@
 #include <hldb/extends.h>
 #include <hldb/forever_stmt.h>
 #include <hldb/function.h>
+#include <hldb/if_stmt.h>
 #include <hldb/interface.h>
 #include <hldb/interface_typespec.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/port.h>
 #include <hldb/ref_instance.h>
+#include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/task.h>
 #include <hldb/unit.h>
@@ -248,6 +250,51 @@ TEST_F(MonitorTest, RunPhaseBodyIsForever) {
   ASSERT_NE(inner->getStmts(), nullptr);
   ASSERT_EQ(inner->getStmts()->size(), 2u);
   EXPECT_EQ(inner->getStmts()->at(0)->getAnyType(), hldb::AnyType::EventControl) << "'@_if.cb;'";
+}
+
+// IEEE 1800-2023 25.9.2 (p.804): "once a virtual interface is declared, its clocking block can be
+// referenced using dot notation", and 6.21 (p.134): "It is permissible to hierarchically reference any
+// static variable unless the variable is declared inside an unnamed block". `_if.cb.select` and
+// `_if.cb.data` are therefore legal; HLC models each as one path reference, elements as written.
+TEST_F(MonitorTest, ClockingBlockOfVirtualInterfaceIsReadThroughDotPath) {
+  const hldb::ClassDefn *const c = getClass("my_monitor");
+  ASSERT_NE(c, nullptr);
+  const hldb::Task *const t = hldb::findByName<hldb::Task>("run_phase", c->getMethods());
+  ASSERT_NE(t, nullptr);
+  const hldb::Any *body = t->getStmt();
+  if (const hldb::Begin *const blk = any_cast<hldb::Begin>(body)) {
+    ASSERT_NE(blk->getStmts(), nullptr);
+    ASSERT_EQ(blk->getStmts()->size(), 1u);
+    body = blk->getStmts()->at(0);
+  }
+  const hldb::ForeverStmt *const fe = any_cast<hldb::ForeverStmt>(body);
+  ASSERT_NE(fe, nullptr);
+  const hldb::Begin *const inner = fe->getStmt<hldb::Begin>();
+  ASSERT_NE(inner, nullptr);
+  ASSERT_NE(inner->getStmts(), nullptr);
+  ASSERT_EQ(inner->getStmts()->size(), 2u);
+
+  const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(inner->getStmts()->at(1));
+  ASSERT_NE(ifStmt, nullptr) << "'if (_if.cb.select)'";
+  const hldb::RefObj *const condition = ifStmt->getCondition<hldb::RefObj>();
+  ASSERT_NE(condition, nullptr);
+  EXPECT_EQ(condition->getName(), std::string_view("_if.cb.select"));
+  ASSERT_NE(condition->getPathElems(), nullptr);
+  ASSERT_EQ(condition->getPathElems()->size(), 3u);
+  EXPECT_EQ(condition->getPathElems()->at(0)->getName(), std::string_view("_if"));
+  EXPECT_EQ(condition->getPathElems()->at(1)->getName(), std::string_view("cb"));
+  EXPECT_EQ(condition->getPathElems()->at(2)->getName(), std::string_view("select"));
+
+  const hldb::Begin *const thenBlock = any_cast<hldb::Begin>(ifStmt->getStmt());
+  ASSERT_NE(thenBlock, nullptr);
+  const hldb::Variable *const pkt = hldb::findByName<hldb::Variable>("pkt", thenBlock->getVariables());
+  ASSERT_NE(pkt, nullptr) << "'int pkt = _if.cb.data;'";
+  const hldb::RefObj *const init = pkt->getValue<hldb::RefObj>();
+  ASSERT_NE(init, nullptr);
+  EXPECT_EQ(init->getName(), std::string_view("_if.cb.data"));
+  ASSERT_NE(init->getPathElems(), nullptr);
+  ASSERT_EQ(init->getPathElems()->size(), 3u);
+  EXPECT_EQ(init->getPathElems()->at(2)->getName(), std::string_view("data"));
 }
 
 // ===========================================================================

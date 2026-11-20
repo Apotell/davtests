@@ -30,10 +30,8 @@
 //   460 | 15.4.5 | CompIllegalAssignmentLhs
 //
 // Per project convention, no test below uses GTEST_SKIP(): the assertion
-// states the diagnostic IEEE 1800-2023 requires, even though
-// EventType::CompIllegalAssignmentLhs currently has zero call
-// sites anywhere in src/ (confirmed by grep) -- i.e. it is expected to be
-// red today. No test here asserts the absence of a diagnostic.
+// states the diagnostic IEEE 1800-2023 requires. No test here asserts the
+// absence of a diagnostic.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
@@ -57,9 +55,18 @@ TEST_F(Chapter15ErrorRulesTest, Row460_MailboxGetMessageArgumentMustBeAValidLhsE
   // shall be a valid left-hand expression; "mb.get(a + b);" binds an
   // arithmetic expression, which is not an lvalue. The error names the formal
   // it was bound to, so the symbol is "message", not the enclosing module.
-  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "message"), nullptr)
+  // get() is a task (15.4.5, line 17); try_get() (15.4.6, line 28) and try_peek() (15.4.8, line 29)
+  // are functions, each with the same sentence: "The message can be any singular expression, and it
+  // shall be a valid left-hand expression."
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "message", 17, 18), nullptr)
       << "the ref message argument of mailbox get() must be a valid left-hand expression "
          "(IEEE 1800-2023 15.4.5)";
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "message", 28, 20), nullptr)
+      << "the ref message argument of mailbox try_get() must be a valid left-hand expression "
+         "(IEEE 1800-2023 15.4.6)";
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "message", 29, 21), nullptr)
+      << "the ref message argument of mailbox try_peek() must be a valid left-hand expression "
+         "(IEEE 1800-2023 15.4.8)";
 }
 
 }  // namespace hlc

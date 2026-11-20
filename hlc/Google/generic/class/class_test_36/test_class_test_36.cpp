@@ -153,6 +153,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -339,6 +340,15 @@ TEST_F(ClassTest36Test, ReportsAnErrorForTheImportsInAClass) {
       << "no error on lines 7-8;" << describeAllEvents();
 }
 
+// IEEE 1800-2023 A.10 footnote 15 (p.1216): "It shall be illegal to have an import statement directly
+// within a class scope." Both import declarations (lines 7 and 8) are directly in the class body.
+TEST_F(ClassTest36Test, ReportsTheImportsDirectlyInTheClass) {
+  EXPECT_NE(findEvent(EventType::CompIllegalImportInClass, "fedex_pkg", 7, 10), nullptr)
+      << "A.10 footnote 15: import on line 7 is directly in a class scope";
+  EXPECT_NE(findEvent(EventType::CompIllegalImportInClass, "fedex_pkg", 8, 10), nullptr)
+      << "A.10 footnote 15: import on line 8 is directly in a class scope";
+}
+
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
 // mean HLC rejected legal text.
 TEST_F(ClassTest36Test, NoErrorsOnTheLegalLines1To5) {
@@ -354,21 +364,11 @@ TEST_F(ClassTest36Test, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics, at any severity, would mean HLC misread the
-// file, whatever it reports for lines 7-8.
-TEST_F(ClassTest36Test, ReportsNoMisreadingDiagnostics) {
-  // The file contains no grave accent (`), which begins every macro usage
-  // (22.5.1), so nothing in it is a macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
-
-  // The longest identifier, fedex_pkg, has 9 characters, within any limit,
-  // which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

@@ -39,10 +39,8 @@ class WrongCaseTest : public Test {
 };
 
 TEST_F(WrongCaseTest, WrongCaseIsRejected) {
-  GTEST_SKIP() << "`default_nettype Wire is illegal: SystemVerilog keywords are case-sensitive, so 'Wire' is not "
-                  "the keyword 'wire'.";
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue), nullptr)
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue, "Wire", 21, 18), nullptr)
       << "IEEE 1800-2023 22.8 with 5.2: SystemVerilog is case sensitive, so 'Wire' is not the "
          "keyword 'wire' and is not a legal default_nettype value.";
 }

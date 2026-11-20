@@ -167,11 +167,9 @@ TEST_F(Chapter8ErrorRulesTest, Row236_NestedClassCannotImplicitlyAccessOuterNonS
   // "A nested class shall not have implicit access to non-static properties
   // and methods of the containing class ... there is no implicit this handle
   // to the outer class." r236_inner::innerMethod() references r236_outer's
-  // 'outerProp' unqualified, on line 45, with no enclosing-instance handle
+  // 'outerProp' unqualified, on line 94, with no enclosing-instance handle
   // available.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.23 makes an unqualified reference to a "
-                  "non-static outer-class member from a nested class illegal";
-  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "outerProp", 45, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "outerProp", 94, 7), nullptr)
       << "a nested class has no implicit access to a non-static outer-class member "
          "(IEEE 1800-2023 8.23)";
 }

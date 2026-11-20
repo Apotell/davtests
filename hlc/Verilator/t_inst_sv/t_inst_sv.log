@@ -895,7 +895,6 @@ Design name:unnamed:
           vpiName: low
           vpiFullName: t.low
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: supply0 (11)
           vpiTypespec RefTypespec start:19:12 end:19:17:
             vpiParent: Net name:low
@@ -906,7 +905,6 @@ Design name:unnamed:
           vpiName: high
           vpiFullName: t.high
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: supply1 (10)
           vpiTypespec RefTypespec start:20:12 end:20:17:
             vpiParent: Net name:high
@@ -917,7 +915,6 @@ Design name:unnamed:
           vpiName: oonewire
           vpiFullName: t.oonewire
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:oonewire
@@ -928,7 +925,6 @@ Design name:unnamed:
           vpiName: osizedreg
           vpiFullName: t.osizedreg
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:26:9 end:26:14:
             vpiParent: Net name:osizedreg
@@ -1414,7 +1410,7 @@ Design name:unnamed:
             vpiName: t_inst
             vpiFullName: t.sub.t_inst
             vpiActual: ModuleTypespec name:t_inst
-          vpiArgument (4 items):
+          vpiArgument (5 items):
             NamedArgument start:30:7 end:30:17:
               vpiParent: RefInstance name:sub
               vpiConnByName: true
@@ -1423,6 +1419,11 @@ Design name:unnamed:
                 vpiName: osizedreg
                 vpiFullName: t.sub.osizedreg
                 vpiActual: Port name:osizedreg
+              vpiHighConn RefObj name:osizedreg start:30:8 end:30:17:
+                vpiParent: NamedArgument
+                vpiName: osizedreg
+                vpiFullName: t.sub.osizedreg
+                vpiActual: Net name:osizedreg
             NamedArgument start:31:7 end:31:16:
               vpiParent: RefInstance name:sub
               vpiConnByName: true
@@ -1431,6 +1432,11 @@ Design name:unnamed:
                 vpiName: oonewire
                 vpiFullName: t.sub.oonewire
                 vpiActual: Port name:oonewire
+              vpiHighConn RefObj name:oonewire start:31:8 end:31:16:
+                vpiParent: NamedArgument
+                vpiName: oonewire
+                vpiFullName: t.sub.oonewire
+                vpiActual: Net name:oonewire
             NamedArgument start:33:7 end:33:38:
               vpiParent: RefInstance name:sub
               vpiConnByName: true
@@ -1477,6 +1483,20 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub..*
+            NamedArgument start:34:7 end:34:9:
+              vpiParent: RefInstance name:sub
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:ionewire start:34:7 end:34:9:
+                vpiParent: NamedArgument
+                vpiName: ionewire
+                vpiFullName: t.sub.ionewire
+                vpiActual: Port name:ionewire
+              vpiHighConn RefObj name:ionewire start:34:7 end:34:9:
+                vpiParent: NamedArgument
+                vpiName: ionewire
+                vpiFullName: t.sub.ionewire
+                vpiActual: Variable name:ionewire
     Module name:t_inst file:$Source01/t_inst_sv.v start:65:1 end:79:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t_inst start:65:8 end:65:14:
@@ -1764,7 +1784,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_sv/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             236     236       0         0
+Others                             241     241       0         0
 ----------------------------------------------------------------
-                                   236     236       0         0
+                                   241     241       0         0
 ===================== END REDUCTION RESULT =====================

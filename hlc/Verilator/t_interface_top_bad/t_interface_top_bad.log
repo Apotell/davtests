@@ -129,7 +129,6 @@ n<$Source01/t_interface_top_bad.v> u<114> t<Top_level_rule> c<1> l<6:1> el<22:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_top_bad.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface_top_bad.v:13:1: Compile module "t".
-[WRN:CP5811] $Source01/t_interface_top_bad.v:16:19: Port "c_data" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -235,10 +234,20 @@ Design name:unnamed:
               vpiParent: Modport name:counter_mp
               vpiName: reset
               vpiDirection: input (1)
+              vpiExpr RefObj name:reset start:9:30 end:9:35:
+                vpiParent: IODecl name:reset
+                vpiName: reset
+                vpiFullName: ifc.counter_mp.reset.reset
+                vpiActual: Variable name:reset
             IODecl name:value start:9:44 end:9:49:
               vpiParent: Modport name:counter_mp
               vpiName: value
               vpiDirection: output (2)
+              vpiExpr RefObj name:value start:9:44 end:9:49:
+                vpiParent: IODecl name:value
+                vpiName: value
+                vpiFullName: ifc.counter_mp.value.value
+                vpiActual: Variable name:value
           vpiInterface: Interface name:ifc
         Modport name:core_mp start:10:12 end:10:19:
           vpiParent: Interface name:ifc
@@ -248,10 +257,20 @@ Design name:unnamed:
               vpiParent: Modport name:core_mp
               vpiName: reset
               vpiDirection: output (2)
+              vpiExpr RefObj name:reset start:10:28 end:10:33:
+                vpiParent: IODecl name:reset
+                vpiName: reset
+                vpiFullName: ifc.core_mp.reset.reset
+                vpiActual: Variable name:reset
             IODecl name:value start:10:41 end:10:46:
               vpiParent: Modport name:core_mp
               vpiName: value
               vpiDirection: input (1)
+              vpiExpr RefObj name:value start:10:41 end:10:46:
+                vpiParent: IODecl name:value
+                vpiName: value
+                vpiFullName: ifc.core_mp.value.value
+                vpiActual: Variable name:value
           vpiInterface: Interface name:ifc
   vpiAllModules (1 items):
     Module name:t file:$Source01/t_interface_top_bad.v start:13:1 end:21:10:
@@ -332,13 +351,40 @@ Design name:unnamed:
           vpiName: c_data
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:c_data start:16:19 end:16:25:
             vpiParent: Port name:c_data
             vpiName: c_data
             vpiFullName: t.c_data.c_data
+            vpiActual: Modport name:counter_mp
           vpiTypespec RefTypespec name:ifc::counter_mp start:16:4 end:16:18:
             vpiParent: Port name:c_data
+            vpiName: ifc::counter_mp
+            vpiFullName: t.c_data.ifc::counter_mp
+            vpiPathElem (2 items):
+              RefObj name:ifc start:16:4 end:16:7:
+                vpiParent: RefTypespec name:ifc::counter_mp
+                vpiName: ifc
+                vpiFullName: t.c_data.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:counter_mp start:16:8 end:16:18:
+                vpiParent: RefTypespec name:ifc::counter_mp
+                vpiName: counter_mp
+                vpiFullName: t.c_data.ifc::counter_mp.counter_mp
+                vpiActual: InterfaceTypespec name:counter_mp
+            vpiActual: InterfaceTypespec name:counter_mp
+      vpiIODecl (1 items):
+        IODecl name:c_data start:16:19 end:16:25:
+          vpiParent: Module name:t
+          vpiName: c_data
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:c_data start:16:19 end:16:25:
+            vpiParent: IODecl name:c_data
+            vpiName: c_data
+            vpiFullName: t.c_data.c_data
+            vpiActual: Modport name:counter_mp
+          vpiTypespec RefTypespec name:ifc::counter_mp start:16:4 end:16:18:
+            vpiParent: IODecl name:c_data
             vpiName: ifc::counter_mp
             vpiFullName: t.c_data.ifc::counter_mp
             vpiPathElem (2 items):
@@ -375,7 +421,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -419,7 +465,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

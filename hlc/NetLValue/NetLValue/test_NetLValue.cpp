@@ -169,11 +169,9 @@ TEST_F(NetLValueTest, TypedefSIsUnpackedStructWithIntMemberX) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NetLValueTest, PackedDimensionOnUnpackedStructIsDiagnosed) {
-  const bool found = (findEvent(EventType::CompIllegalPackedArrayType, 3) != nullptr) ||
-                     (findEvent(EventType::CompUnpackedInPacked, 3) != nullptr) ||
-                     (findEvent(EventType::IllegalPackedDimension, 3) != nullptr);
-  EXPECT_TRUE(found) << "Sec 7.4.1: packed arrays can only be made of single-bit types, enums, packed arrays "
-                        "and packed structures; 'S[1:0]' with unpacked S must be an error";
+  EXPECT_NE(findEvent(EventType::CompIllegalPackedArrayType, "s", 3, 4), nullptr)
+      << "Sec 7.4.1: packed arrays can only be made of single-bit types, enums, packed arrays "
+         "and packed structures; 'S[1:0]' with unpacked S must be an error";
 }
 
 TEST_F(NetLValueTest, SIsVariableNotNet) {

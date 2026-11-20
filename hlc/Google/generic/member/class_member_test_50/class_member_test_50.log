@@ -94,8 +94,8 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/class_member_test_50.sv:9:24: Failed to bind "N".
 [WRN:DV8514] $Source01/class_member_test_50.sv:9:26: Failed to bind "N".
 [ERR:DL2510] $Source01/class_member_test_50.sv:7:9: Unknown or undefined type "hinterface::some_mod_port".
-[ERR:DL2510] $Source01/class_member_test_50.sv:8:19: Unknown or undefined type "foo_if".
-[ERR:DL2510] $Source01/class_member_test_50.sv:9:9: Unknown or undefined type "disinterface".
+[ERR:CP5809] $Source01/class_member_test_50.sv:8:19: Undefined interface "foo_if".
+[ERR:CP5809] $Source01/class_member_test_50.sv:9:9: Undefined interface "disinterface".
 [ERR:CP5828] $Source01/class_member_test_50.sv:8:28: Undefined variable "J".
 [ERR:CP5828] $Source01/class_member_test_50.sv:8:30: Undefined variable "K".
 [ERR:CP5828] $Source01/class_member_test_50.sv:9:26: Undefined variable "N".
@@ -155,7 +155,7 @@ Design name:unnamed:
                 vpiParent: Variable name:bar_if
                 vpiName: foo_if
                 vpiFullName: myclass::bar_if::foo_if
-                vpiActual: UnsupportedTypespec name:foo_if
+                vpiActual: InterfaceTypespec name:foo_if
             Variable name:baz_if start:8:41 end:8:47:
               vpiParent: ClassDefn name:myclass
               vpiName: baz_if
@@ -167,7 +167,7 @@ Design name:unnamed:
                 vpiParent: Variable name:baz_if
                 vpiName: foo_if
                 vpiFullName: myclass::baz_if::foo_if
-                vpiActual: UnsupportedTypespec name:foo_if
+                vpiActual: InterfaceTypespec name:foo_if
             Variable name:blinterface start:9:44 end:9:55:
               vpiParent: ClassDefn name:myclass
               vpiName: blinterface
@@ -179,46 +179,34 @@ Design name:unnamed:
                 vpiParent: Variable name:blinterface
                 vpiName: disinterface
                 vpiFullName: myclass::blinterface::disinterface
-                vpiActual: UnsupportedTypespec name:disinterface
-          vpiTypespec (3 items):
-            UnsupportedTypespec name:foo_if start:8:19 end:8:32:
+                vpiActual: InterfaceTypespec name:disinterface
+          vpiTypespec (2 items):
+            InterfaceTypespec name:foo_if start:8:19 end:8:32:
               vpiParent: ClassDefn name:myclass
-              vpiName Identifier name:foo_if start:8:19 end:8:25:
+              vpiName Identifier name:foo_if:
+              vpiDefName: foo_if
+              vpiVirtual: true
               vpiParamAssign (2 items):
                 ParamAssign start:8:28 end:8:29:
-                  vpiParent: UnsupportedTypespec name:foo_if
+                  vpiParent: InterfaceTypespec name:foo_if
                   vpiRhs RefObj name:J start:8:28 end:8:29:
                     vpiParent: ParamAssign
                     vpiName: J
                     vpiFullName: myclass::foo_if::J
                 ParamAssign start:8:30 end:8:31:
-                  vpiParent: UnsupportedTypespec name:foo_if
+                  vpiParent: InterfaceTypespec name:foo_if
                   vpiRhs RefObj name:K start:8:30 end:8:31:
                     vpiParent: ParamAssign
                     vpiName: K
                     vpiFullName: myclass::foo_if::K
-            UnsupportedTypespec name:foo_if start:8:19 end:8:32:
+            InterfaceTypespec name:disinterface start:9:9 end:9:29:
               vpiParent: ClassDefn name:myclass
-              vpiName Identifier name:foo_if start:8:19 end:8:25:
-              vpiParamAssign (2 items):
-                ParamAssign start:8:28 end:8:29:
-                  vpiParent: UnsupportedTypespec name:foo_if
-                  vpiRhs RefObj name:J start:8:28 end:8:29:
-                    vpiParent: ParamAssign
-                    vpiName: J
-                    vpiFullName: myclass::foo_if::J
-                ParamAssign start:8:30 end:8:31:
-                  vpiParent: UnsupportedTypespec name:foo_if
-                  vpiRhs RefObj name:K start:8:30 end:8:31:
-                    vpiParent: ParamAssign
-                    vpiName: K
-                    vpiFullName: myclass::foo_if::K
-            UnsupportedTypespec name:disinterface start:9:9 end:9:29:
-              vpiParent: ClassDefn name:myclass
-              vpiName Identifier name:disinterface start:9:9 end:9:21:
+              vpiName Identifier name:disinterface:
+              vpiDefName: disinterface
+              vpiVirtual: true
               vpiParamAssign (1 items):
                 ParamAssign start:9:23 end:9:28:
-                  vpiParent: UnsupportedTypespec name:disinterface
+                  vpiParent: InterfaceTypespec name:disinterface
                   vpiConnByName: true
                   vpiLhs RefObj name:N start:9:24 end:9:25:
                     vpiParent: ParamAssign
@@ -289,7 +277,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_50/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

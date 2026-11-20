@@ -219,12 +219,9 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_mismodport_bad.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface_mismodport_bad.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_mismodport_bad.v:27:1: Compile module "counter_ansi".
-[WRN:CP5811] $Source01/t_interface_mismodport_bad.v:29:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_interface_mismodport_bad.v:34:7: Failed to bind "isub".
-[WRN:DV8514] $Source01/t_interface_mismodport_bad.v:34:12: Failed to bind "ok".
-[WRN:DV8514] $Source01/t_interface_mismodport_bad.v:35:7: Failed to bind "isub".
 [WRN:DV8514] $Source01/t_interface_mismodport_bad.v:35:12: Failed to bind "bad".
+[ERR:CP5997] $Source01/t_interface_mismodport_bad.v:35:12: Interface member "bad" is not accessible through modport "out_modport".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -297,6 +294,11 @@ Design name:unnamed:
               vpiParent: Modport name:out_modport
               vpiName: ok
               vpiDirection: output (2)
+              vpiExpr RefObj name:ok start:9:32 end:9:34:
+                vpiParent: IODecl name:ok
+                vpiName: ok
+                vpiFullName: ifc.out_modport.ok.ok
+                vpiActual: Variable name:ok
           vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_mismodport_bad.v start:12:1 end:25:10:
@@ -484,11 +486,12 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: isub
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isub start:29:20 end:29:24:
             vpiParent: Port name:isub
             vpiName: isub
             vpiFullName: counter_ansi.isub.isub
+            vpiActual: Modport name:out_modport
           vpiTypespec RefTypespec name:ifc::out_modport start:29:4 end:29:19:
             vpiParent: Port name:isub
             vpiName: ifc::out_modport
@@ -542,10 +545,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:isub.ok
                         vpiName: isub
                         vpiFullName: counter_ansi.isub
+                        vpiActual: Modport name:out_modport
                       RefObj name:ok start:34:12 end:34:14:
                         vpiParent: RefObj name:isub.ok
                         vpiName: ok
                         vpiFullName: counter_ansi.ok
+                        vpiActual: Variable name:ok
+                    vpiActual: Variable name:ok
                   vpiRhs RefObj name:i_value start:34:17 end:34:24:
                     vpiParent: Assignment
                     vpiName: i_value
@@ -564,6 +570,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:isub.bad
                         vpiName: isub
                         vpiFullName: counter_ansi.isub
+                        vpiActual: Modport name:out_modport
                       RefObj name:bad start:35:12 end:35:15:
                         vpiParent: RefObj name:isub.bad
                         vpiName: bad
@@ -575,6 +582,32 @@ Design name:unnamed:
                     vpiActual: Net name:i_value
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:isub start:29:20 end:29:24:
+          vpiParent: Module name:counter_ansi
+          vpiName: isub
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isub start:29:20 end:29:24:
+            vpiParent: IODecl name:isub
+            vpiName: isub
+            vpiFullName: counter_ansi.isub.isub
+            vpiActual: Modport name:out_modport
+          vpiTypespec RefTypespec name:ifc::out_modport start:29:4 end:29:19:
+            vpiParent: IODecl name:isub
+            vpiName: ifc::out_modport
+            vpiFullName: counter_ansi.isub.ifc::out_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:29:4 end:29:7:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: ifc
+                vpiFullName: counter_ansi.isub.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:out_modport start:29:8 end:29:19:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: out_modport
+                vpiFullName: counter_ansi.isub.ifc::out_modport.out_modport
+                vpiActual: InterfaceTypespec name:out_modport
+            vpiActual: InterfaceTypespec name:out_modport
   vpiTypespec (5 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -603,8 +636,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 5
+[  ERROR] : 1
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -648,7 +681,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_mismodport_bad/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                    82      82       0         0
+                                    88      88       0         0
 ===================== END REDUCTION RESULT =====================

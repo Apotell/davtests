@@ -57,10 +57,9 @@ TEST_F(Chapter19ErrorRulesTest, Row672_CovergroupNewMustSupplyEveryNonDefaultedA
   // When a covergroup specifies a list of formal arguments, its instances
   // shall provide to the new operator all the actual arguments that are not
   // defaulted. r672_cg takes (int a, int b), neither defaulted, but
-  // "r672_cg ci = new(1);" on line 16 supplies only one actual.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.3 requires every non-defaulted "
-                  "covergroup formal argument to be supplied to new()";
-  EXPECT_NE(findEvent(EventType::CompMissingArgument, "b", 16, 3), nullptr)
+  // "r672_cg ci = new(1);" on line 16 supplies only one actual; it is reported
+  // at the new() call (column 16).
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "b", 16, 16), nullptr)
       << "a covergroup new() call must supply every non-defaulted formal argument (IEEE 1800-2023 19.3)";
 }
 
@@ -169,9 +168,7 @@ TEST_F(Chapter19ErrorRulesTest, Row705_NegativeBinValueAgainstUnsignedCoverpoint
   // values. p1 is a 3-bit unsigned covering 0..7 and bin b2 on line 119 lists
   // -1. Note this is one of the few catalog rows the standard states as a
   // warning rather than an error, and the value is dropped, not rejected.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5.7 requires a warning when a "
-                  "signed negative bins value is given for an unsigned coverpoint expression";
-  EXPECT_NE(findEvent(EventType::CompUnmatchableBinValue, "b2", 119, 27), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnmatchableBinValue, "b2", 119, 32), nullptr)
       << "a negative bin value cannot match an unsigned coverpoint (IEEE 1800-2023 19.5.7)";
 }
 

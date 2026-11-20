@@ -135,10 +135,7 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/dut.sv:15:14: Port "rst" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:12:1: No timescale set for "ControllerIF".
 [INF:CP5804] $Source01/dut.sv:29:1: Compile module "BypassNetwork".
-[WRN:CP5811] $Source01/dut.sv:30:32: Port "ctrl" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:29:1: No timescale set for "BypassNetwork".
-[WRN:DV8514] $Source01/dut.sv:33:13: Failed to bind "ctrl".
-[WRN:DV8514] $Source01/dut.sv:33:18: Failed to bind "backEnd".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -290,6 +287,11 @@ Design name:unnamed:
               vpiParent: Modport name:BypassNetwork
               vpiName: backEnd
               vpiDirection: input (1)
+              vpiExpr RefObj name:backEnd start:22:11 end:22:18:
+                vpiParent: IODecl name:backEnd
+                vpiName: backEnd
+                vpiFullName: ControllerIF.BypassNetwork.backEnd.backEnd
+                vpiActual: Variable name:backEnd
           vpiInterface: Interface name:ControllerIF
       vpiPort (2 items):
         Port name:clk start:14:14 end:14:17:
@@ -344,11 +346,12 @@ Design name:unnamed:
           vpiParent: Module name:BypassNetwork
           vpiName: ctrl
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:ctrl start:30:32 end:30:36:
             vpiParent: Port name:ctrl
             vpiName: ctrl
             vpiFullName: BypassNetwork.ctrl.ctrl
+            vpiActual: Modport name:BypassNetwork
           vpiTypespec RefTypespec name:ControllerIF::BypassNetwork start:30:5 end:30:31:
             vpiParent: Port name:ctrl
             vpiName: ControllerIF::BypassNetwork
@@ -383,10 +386,39 @@ Design name:unnamed:
                 vpiParent: RefObj name:ctrl.backEnd
                 vpiName: ctrl
                 vpiFullName: BypassNetwork.ctrl
+                vpiActual: Modport name:BypassNetwork
               RefObj name:backEnd start:33:18 end:33:25:
                 vpiParent: RefObj name:ctrl.backEnd
                 vpiName: backEnd
                 vpiFullName: BypassNetwork.backEnd
+                vpiActual: Variable name:backEnd
+            vpiActual: Variable name:backEnd
+      vpiIODecl (1 items):
+        IODecl name:ctrl start:30:32 end:30:36:
+          vpiParent: Module name:BypassNetwork
+          vpiName: ctrl
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:ctrl start:30:32 end:30:36:
+            vpiParent: IODecl name:ctrl
+            vpiName: ctrl
+            vpiFullName: BypassNetwork.ctrl.ctrl
+            vpiActual: Modport name:BypassNetwork
+          vpiTypespec RefTypespec name:ControllerIF::BypassNetwork start:30:5 end:30:31:
+            vpiParent: IODecl name:ctrl
+            vpiName: ControllerIF::BypassNetwork
+            vpiFullName: BypassNetwork.ctrl.ControllerIF::BypassNetwork
+            vpiPathElem (2 items):
+              RefObj name:ControllerIF start:30:5 end:30:17:
+                vpiParent: RefTypespec name:ControllerIF::BypassNetwork
+                vpiName: ControllerIF
+                vpiFullName: BypassNetwork.ctrl.ControllerIF
+                vpiActual: Interface name:ControllerIF
+              RefTypespec name:BypassNetwork start:30:18 end:30:31:
+                vpiParent: RefTypespec name:ControllerIF::BypassNetwork
+                vpiName: BypassNetwork
+                vpiFullName: BypassNetwork.ctrl.ControllerIF::BypassNetwork.BypassNetwork
+                vpiActual: InterfaceTypespec name:BypassNetwork
+            vpiActual: InterfaceTypespec name:BypassNetwork
   vpiTypespec (3 items):
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -408,7 +440,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -452,7 +484,7 @@ COMMAND: ${HLC_DIR}/regression/InterfBinding/InterfBinding/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

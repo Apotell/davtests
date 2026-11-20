@@ -413,39 +413,12 @@ TEST_F(PragmaComplexTest, ReportsNoDirectiveMisreadingDiagnostics) {
   EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
-// foo is not protect, so line 16 is no protect pragma and starts no protected
-// envelope (22.11.1, Clause 34). Either diagnostic, at any severity, would
-// mean HLC took it for one.
-TEST_F(PragmaComplexTest, ReportsNoProtectPragmaDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpIllegalProtectPragma), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpDecryptionFailed), nullptr);
-}
-
-// foo, something and somethingelse are legal simple_identifiers (A.9.3).
-TEST_F(PragmaComplexTest, ReportsNoIdentifierDiagnostics) {
-  // None of them is a keyword (Table B.1).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-
-  // The longest, somethingelse, has 13 characters, within any limit an
-  // implementation may set, which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-}
-
-// "abcdef" is a well-formed quoted string (5.9) in a plain ASCII file.
-TEST_F(PragmaComplexTest, ReportsNoStringLiteralDiagnostics) {
-  // Its closing double quote is on line 16.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // Letters are quoted_string_items; none needs an escape.
-  EXPECT_EQ(findEvent(EventType::PpUnescapedCharacterInString), nullptr);
-
-  // It has no backslash, so it has no escape sequence (5.9.1).
-  EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpEscapeSequenceOutOfRange), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed tests: ReportsNoProtectPragmaDiagnostics, ReportsNoIdentifierDiagnostics,
+// ReportsNoStringLiteralDiagnostics. They only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // ---------------------------------------------------------------------------
 // The source file

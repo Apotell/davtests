@@ -42,6 +42,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -101,7 +102,9 @@ class AnsiRefNetTest : public Test {
 TEST_F(AnsiRefNetTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  ASSERT_NE(findEvent(EventType::CompIllegalNetOnRefPort, kIllegalLine), nullptr);
+  // IEEE 1800-2023 A.10 footnote 2 (p.1216) and 23.2.2.2: "a ref port shall be of a variable type".
+  ASSERT_NE(findEvent(EventType::CompIllegalNetOnRefPort, "x", kIllegalLine, 25), nullptr)
+      << "ref port x of net type wire must be reported at 19:25";
 }
 
 TEST_F(AnsiRefNetTest, NoErrorAfterTheIllegalCode) {

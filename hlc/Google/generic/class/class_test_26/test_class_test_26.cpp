@@ -496,23 +496,12 @@ TEST_F(ClassTest26Test, Lines20To21ModuleIsAccepted) {
   EXPECT_EQ(eventsOnLines(kModuleFirstLine, kModuleLastLine), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest26Test, ReportsNoMisreadingDiagnostics) {
-  // Every declaration matches the grammar (A.1.2, A.1.3, A.2.2.1), and the
-  // file uses no preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // Bar, N, Foo and test are no keywords (5.6.2, Table B.1), and the longest,
-  // test, has 4 characters, within any limit an implementation may set, which
-  // "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
+// That the file compiles without errors is checked by CompilesWithoutErrors.
 
 // Bar and Foo are each declared once, Bar is declared before Foo implements
 // it (8.26.4), Foo has no base class, and neither endclass has a label, so
@@ -524,20 +513,11 @@ TEST_F(ClassTest26Test, ReportsNoClassDiagnostics) {
   EXPECT_EQ(findEvent(EventType::CompUnmatchedLabel), nullptr);
 }
 
-// The two parameters named N are in different scopes, Bar's and the
-// compilation unit's (3.13); Bar's N is a parameter of a port list, which may
-// have no value (Annex A footnote 22); the local parameter N has the value 1;
-// the N in "#(N)" binds to it, declared on line 17, before line 18; and
-// "#(N)" gives Bar's one parameter one constant (23.10.2.1). So none of these
-// diagnostics applies, at any severity.
-TEST_F(ClassTest26Test, ReportsNoParameterDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedParameter), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompLocalparamNoValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompNotAConstantExpression), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabUnknownParameterOverride), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabMissingParameterOverride), nullptr);
-}
+// Removed test: ReportsNoParameterDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // The classes and the module are each declared once, nothing is
 // instantiated, and test is a top-level module (23.3.1), so none of these

@@ -228,13 +228,9 @@ n<$Source01/ac.sv> u<214> t<Top_level_rule> c<1> l<8:1> el<71:1>
   n<// ac> u<213> t<LINE_COMMENT> p<214> l<70:11> el<70:16>
 AST_DEBUG_END
 [INF:CP5804] $Source01/ac.sv:8:1: Compile module "ac".
-[WRN:CP5811] $Source01/ac.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/ac.sv:18:19: Port "padsif" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [WRN:DV8514] $Source01/ac.sv:17:3: Failed to bind "genbus_if".
 [WRN:DV8514] $Source01/ac.sv:18:3: Failed to bind "pads_if".
-[WRN:DV8514] $Source01/ac.sv:44:42: Failed to bind "dbus".
-[WRN:DV8514] $Source01/ac.sv:61:42: Failed to bind "padsif".
 [ERR:DL2510] $Source01/ac.sv:17:3: Unknown or undefined type "genbus_if::slave".
 [ERR:DL2510] $Source01/ac.sv:18:3: Unknown or undefined type "pads_if::mp_ana".
 [ERR:DL2510] $Source01/ac.sv:40:3: Unknown or undefined type "ac_dig".
@@ -362,11 +358,12 @@ Design name:unnamed:
           vpiParent: Module name:ac #(.ID(1))
           vpiName: dbus
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:dbus start:17:19 end:17:23:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: ac #(.ID(1)).dbus.dbus
+            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::slave start:17:3 end:17:18:
             vpiParent: Port name:dbus
             vpiName: genbus_if::slave
@@ -385,11 +382,12 @@ Design name:unnamed:
           vpiName: padsif
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:padsif start:18:19 end:18:25:
             vpiParent: Port name:padsif
             vpiName: padsif
             vpiFullName: ac #(.ID(1)).padsif.padsif
+            vpiActual: Port name:padsif
           vpiTypespec RefTypespec name:pads_if::mp_ana start:18:3 end:18:17:
             vpiParent: Port name:padsif
             vpiName: pads_if::mp_ana
@@ -433,6 +431,49 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiFullName: ac #(.ID(1)).rst
             vpiActual: LogicTypespec
+      vpiIODecl (2 items):
+        IODecl name:dbus start:17:19 end:17:23:
+          vpiParent: Module name:ac #(.ID(1))
+          vpiName: dbus
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:dbus start:17:19 end:17:23:
+            vpiParent: IODecl name:dbus
+            vpiName: dbus
+            vpiFullName: ac #(.ID(1)).dbus.dbus
+          vpiTypespec RefTypespec name:genbus_if::slave start:17:3 end:17:18:
+            vpiParent: IODecl name:dbus
+            vpiName: genbus_if::slave
+            vpiFullName: ac #(.ID(1)).dbus.genbus_if::slave
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:17:3 end:17:12:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: genbus_if
+                vpiFullName: ac #(.ID(1)).dbus.genbus_if
+              RefTypespec name:slave start:17:13 end:17:18:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: slave
+                vpiFullName: ac #(.ID(1)).dbus.genbus_if::slave.slave
+        IODecl name:padsif start:18:19 end:18:25:
+          vpiParent: Module name:ac #(.ID(1))
+          vpiName: padsif
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:padsif start:18:19 end:18:25:
+            vpiParent: IODecl name:padsif
+            vpiName: padsif
+            vpiFullName: ac #(.ID(1)).padsif.padsif
+          vpiTypespec RefTypespec name:pads_if::mp_ana start:18:3 end:18:17:
+            vpiParent: IODecl name:padsif
+            vpiName: pads_if::mp_ana
+            vpiFullName: ac #(.ID(1)).padsif.pads_if::mp_ana
+            vpiPathElem (2 items):
+              RefObj name:pads_if start:18:3 end:18:10:
+                vpiParent: RefTypespec name:pads_if::mp_ana
+                vpiName: pads_if
+                vpiFullName: ac #(.ID(1)).padsif.pads_if
+              RefTypespec name:mp_ana start:18:11 end:18:17:
+                vpiParent: RefTypespec name:pads_if::mp_ana
+                vpiName: mp_ana
+                vpiFullName: ac #(.ID(1)).padsif.pads_if::mp_ana.mp_ana
       vpiRefInstance (2 items):
         RefInstance name:i_ac_dig start:42:8 end:42:16:
           vpiParent: Module name:ac #(.ID(1))
@@ -454,6 +495,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dbus
                 vpiFullName: ac #(.ID(1)).i_ac_dig.dbus
+                vpiActual: Port name:dbus
             NamedArgument start:47:4 end:47:26:
               vpiParent: RefInstance name:i_ac_dig
               vpiConnByName: true
@@ -522,6 +564,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: padsif
                 vpiFullName: ac #(.ID(1)).i_ac_ana.padsif
+                vpiActual: Port name:padsif
             NamedArgument start:64:4 end:64:20:
               vpiParent: RefInstance name:i_ac_ana
               vpiConnByName: true
@@ -587,7 +630,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 4
-[WARNING] : 6
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -631,7 +674,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ac/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

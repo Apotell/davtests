@@ -89,7 +89,6 @@ n<$Source01/25.3-interface.sv> u<74> t<Top_level_rule> c<1> l<16:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/25.3-interface.sv:16:1: Compile interface "test_bus".
 [INF:CP5804] $Source01/25.3-interface.sv:20:1: Compile module "sub".
-[WRN:CP5811] $Source01/25.3-interface.sv:20:21: Port "iface" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/25.3-interface.sv:23:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -159,32 +158,36 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
-      vpiNet (1 items):
-        Net name:iface start:20:21 end:20:26:
-          vpiParent: Module name:sub
-          vpiName: iface
-          vpiFullName: sub.iface
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:test_bus start:20:12 end:20:20:
-            vpiParent: Net name:iface
-            vpiName: test_bus
-            vpiFullName: sub.iface.test_bus
-            vpiActual: InterfaceTypespec name:test_bus
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:iface start:20:21 end:20:26:
           vpiParent: Module name:sub
           vpiName: iface
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:iface start:20:21 end:20:26:
             vpiParent: Port name:iface
             vpiName: iface
             vpiFullName: sub.iface.iface
-            vpiActual: Net name:iface
+            vpiGeneric: true
+            vpiActual: Interface name:test_bus
           vpiTypespec RefTypespec name:test_bus start:20:12 end:20:20:
             vpiParent: Port name:iface
+            vpiName: test_bus
+            vpiFullName: sub.iface.test_bus
+            vpiActual: InterfaceTypespec name:test_bus
+      vpiIODecl (1 items):
+        IODecl name:iface start:20:21 end:20:26:
+          vpiParent: Module name:sub
+          vpiName: iface
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:iface start:20:21 end:20:26:
+            vpiParent: IODecl name:iface
+            vpiName: iface
+            vpiFullName: sub.iface.iface
+            vpiActual: Interface name:test_bus
+          vpiTypespec RefTypespec name:test_bus start:20:12 end:20:20:
+            vpiParent: IODecl name:iface
             vpiName: test_bus
             vpiFullName: sub.iface.test_bus
             vpiActual: InterfaceTypespec name:test_bus
@@ -235,6 +238,11 @@ Design name:unnamed:
                 vpiName: iface
                 vpiFullName: top.sub.iface
                 vpiActual: Port name:iface
+              vpiHighConn RefObj name:iface start:25:14 end:25:19:
+                vpiParent: NamedArgument
+                vpiName: iface
+                vpiFullName: top.sub.iface
+                vpiActual: RefInstance name:iface
   vpiTypespec (3 items):
     InterfaceTypespec name:test_bus:
       vpiParent: Design name:unnamed
@@ -259,7 +267,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -303,7 +311,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-25/25.3-interface/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

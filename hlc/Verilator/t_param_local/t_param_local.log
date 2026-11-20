@@ -386,13 +386,41 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test #(.C(2))
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:15:13 end:15:15:
               vpiParent: RefInstance name:test
               vpiHighConn RefObj name:.* start:15:13 end:15:15:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.test..*
+            NamedArgument start:15:13 end:15:15:
+              vpiParent: RefInstance name:test
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:a start:15:13 end:15:15:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: t.test.a
+                vpiActual: Port name:a
+              vpiHighConn RefObj name:a start:15:13 end:15:15:
+                vpiParent: NamedArgument
+                vpiName: a
+                vpiFullName: t.test.a
+                vpiActual: Net name:a
+            NamedArgument start:15:13 end:15:15:
+              vpiParent: RefInstance name:test
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:y start:15:13 end:15:15:
+                vpiParent: NamedArgument
+                vpiName: y
+                vpiFullName: t.test.y
+                vpiActual: Port name:y
+              vpiHighConn RefObj name:y start:15:13 end:15:15:
+                vpiParent: NamedArgument
+                vpiName: y
+                vpiFullName: t.test.y
+                vpiActual: Net name:y
     Module name:Test #(.C(3), .O(1 << C)) file:$Source01/t_param_local.v start:18:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Test #(.C(3), .O(1 << C)) start:18:8 end:18:12:
@@ -730,10 +758,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       4         4
 Operation                            4       0       0         4
-RefObj                              12       8       0         4
+RefObj                              16      12       0         4
 RefTypespec                         23      23       4         4
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                   100      92       8        16
+                                   106      98       8        16
 ===================== END REDUCTION RESULT =====================

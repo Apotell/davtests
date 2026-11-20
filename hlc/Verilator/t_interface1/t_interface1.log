@@ -339,7 +339,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface1.v:8:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface1.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface1.v:36:1: Compile module "sub".
-[WRN:CP5811] $Source01/t_interface1.v:38:8: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -748,18 +747,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
-      vpiNet (2 items):
-        Net name:isub start:38:8 end:38:12:
-          vpiParent: Module name:sub
-          vpiName: isub
-          vpiFullName: sub.isub
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:ifc start:38:4 end:38:7:
-            vpiParent: Net name:isub
-            vpiName: ifc
-            vpiFullName: sub.isub.ifc
-            vpiActual: InterfaceTypespec name:ifc
+      vpiNet (1 items):
         Net name:i_value start:39:22 end:39:29:
           vpiParent: Module name:sub
           vpiName: i_value
@@ -776,12 +764,13 @@ Design name:unnamed:
           vpiParent: Module name:sub
           vpiName: isub
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isub start:38:8 end:38:12:
             vpiParent: Port name:isub
             vpiName: isub
             vpiFullName: sub.isub.isub
-            vpiActual: Net name:isub
+            vpiGeneric: true
+            vpiActual: Interface name:ifc
           vpiTypespec RefTypespec name:ifc start:38:4 end:38:7:
             vpiParent: Port name:isub
             vpiName: ifc
@@ -824,7 +813,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:isub.value
                         vpiName: isub
                         vpiFullName: sub.isub
-                        vpiActual: Net name:isub
+                        vpiActual: Interface name:ifc
                       RefObj name:value start:43:12 end:43:17:
                         vpiParent: RefObj name:isub.value
                         vpiName: value
@@ -838,6 +827,21 @@ Design name:unnamed:
                     vpiActual: Net name:i_value
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
+      vpiIODecl (1 items):
+        IODecl name:isub start:38:8 end:38:12:
+          vpiParent: Module name:sub
+          vpiName: isub
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isub start:38:8 end:38:12:
+            vpiParent: IODecl name:isub
+            vpiName: isub
+            vpiFullName: sub.isub.isub
+            vpiActual: Interface name:ifc
+          vpiTypespec RefTypespec name:ifc start:38:4 end:38:7:
+            vpiParent: IODecl name:isub
+            vpiName: ifc
+            vpiFullName: sub.isub.ifc
+            vpiActual: InterfaceTypespec name:ifc
       vpiEndLabel Identifier name:sub start:45:13 end:45:16:
   vpiTypespec (6 items):
     InterfaceTypespec name:ifc:
@@ -870,7 +874,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -915,10 +919,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      11       2         2
 Operation                            5       3       0         2
-RefObj                              23      21       0         2
+RefObj                              24      22       0         2
 RefTypespec                         21      21       2         2
 ----------------------------------------------------------------
 Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   119     115       4         8
+                                   120     116       4         8
 ===================== END REDUCTION RESULT =====================

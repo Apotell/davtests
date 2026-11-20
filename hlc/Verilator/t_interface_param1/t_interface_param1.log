@@ -514,10 +514,20 @@ Design name:unnamed:
               vpiParent: Modport name:master
               vpiName: a
               vpiDirection: input (1)
+              vpiExpr RefObj name:a start:49:26 end:49:27:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: test_if #(.id(0)).master.a.a
+                vpiActual: Variable name:a
             IODecl name:b start:49:36 end:49:37:
               vpiParent: Modport name:master
               vpiName: b
               vpiDirection: output (2)
+              vpiExpr RefObj name:b start:49:36 end:49:37:
+                vpiParent: IODecl name:b
+                vpiName: b
+                vpiFullName: test_if #(.id(0)).master.b.b
+                vpiActual: Variable name:b
           vpiInterface: Interface name:test_if #(.id(0))
       vpiPort (1 items):
         Port start:33:4 end:33:6:
@@ -529,7 +539,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
@@ -559,6 +569,7 @@ Design name:unnamed:
                   vpiFullName: t
                   vpiActual: IntTypespec
           vpiVector: true
+        InterfaceTypespec name:test_if #(.id(3)):
         ModuleTypespec name:sub_test:
       vpiDefName: t
       vpiDefNetType: wire (1)
@@ -590,7 +601,6 @@ Design name:unnamed:
           vpiName: result
           vpiFullName: t.result
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec start:14:9 end:14:15:
             vpiParent: Net name:result
@@ -616,11 +626,11 @@ Design name:unnamed:
         RefInstance name:s start:15:23 end:15:24:
           vpiParent: Module name:t
           vpiName: s
-          vpiTypespec RefTypespec name:test_if start:15:4 end:15:11:
+          vpiTypespec RefTypespec name:test_if #(.id(3)) start:15:4 end:15:11:
             vpiParent: RefInstance name:s
-            vpiName: test_if
-            vpiFullName: t.s.test_if
-            vpiActual: InterfaceTypespec name:test_if
+            vpiName: test_if #(.id(3))
+            vpiFullName: t.s.test_if #(.id(3))
+            vpiActual: InterfaceTypespec name:test_if #(.id(3))
         RefInstance name:U_SUB_TEST start:16:13 end:16:23:
           vpiParent: Module name:t
           vpiName: U_SUB_TEST
@@ -809,7 +819,7 @@ Design name:unnamed:
             vpiName: b
             vpiFullName: sub_test.b
             vpiActual: Net name:b
-  vpiTypespec (4 items):
+  vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
@@ -827,6 +837,30 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test_if start:31:11 end:31:18:
       vpiDefName: test_if
+      vpiInterface: Interface name:test_if #(.id(0))
+    InterfaceTypespec name:test_if #(.id(3)) start:15:4 end:15:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:test_if #(.id(3)):
+      vpiDefName: test_if
+      vpiParamAssign (1 items):
+        ParamAssign start:15:15 end:15:21:
+          vpiParent: InterfaceTypespec name:test_if #(.id(3))
+          vpiConnByName: true
+          vpiLhs RefObj name:id start:15:16 end:15:18:
+            vpiParent: ParamAssign
+            vpiName: id
+            vpiFullName: test_if #(.id(3)).id
+            vpiActual: Parameter name:id
+          vpiRhs Constant start:15:19 end:15:20:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "3"
+            vpiValue: 3
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: test_if #(.id(3))
+              vpiActual: IntTypespec
       vpiInterface: Interface name:test_if #(.id(0))
   vpiLibrary (1 items):
     Library name:work:
@@ -851,25 +885,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_param1/mounts.json
 
 
-{'result': {'coverage': 99.1,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 4,
+            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 0,
                                                                 'pre_len': 442}},
-            'post_len': 4,
+            'post_len': 0,
             'pre_len': 442,
             'test_name': 'Verilator/t_interface_param1'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/t_interface_param1.v |      442 |         4 |
+| $Output/lib/work/t_interface_param1.v |      442 |         0 |
 +=======================================+==========+===========+
-|                                       |      442 |         4 |
+|                                       |      442 |         0 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.1
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -880,7 +914,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param1/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             123     123       0         0
+Others                             131     131       0         0
 ----------------------------------------------------------------
-                                   123     123       0         0
+                                   131     131       0         0
 ===================== END REDUCTION RESULT =====================

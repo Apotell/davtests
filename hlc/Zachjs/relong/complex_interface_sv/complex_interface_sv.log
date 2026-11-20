@@ -345,14 +345,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/relong/complex_interface.sv:1:1: Compile interface "CacheSetInterface".
 [INF:CP5804] $Source01/relong/complex_interface.sv:13:1: Compile module "CacheWithInterface".
 [INF:CP5804] $Source01/relong/complex_interface.sv:38:1: Compile module "CacheSet".
-[WRN:CP5811] $Source01/relong/complex_interface.sv:39:32: Port "data" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:45:13: Failed to bind "data".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:45:18: Failed to bind "response".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:47:13: Failed to bind "data".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:47:18: Failed to bind "response".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:47:31: Failed to bind "data".
-[WRN:DV8514] $Source01/relong/complex_interface.sv:47:36: Failed to bind "request".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -475,10 +468,20 @@ Design name:unnamed:
               vpiParent: Modport name:CacheSet
               vpiName: request
               vpiDirection: input (1)
+              vpiExpr RefObj name:request start:7:15 end:7:22:
+                vpiParent: IODecl name:request
+                vpiName: request
+                vpiFullName: CacheSetInterface.CacheSet.request.request
+                vpiActual: Net name:request
             IODecl name:response start:8:16 end:8:24:
               vpiParent: Modport name:CacheSet
               vpiName: response
               vpiDirection: output (2)
+              vpiExpr RefObj name:response start:8:16 end:8:24:
+                vpiParent: IODecl name:response
+                vpiName: response
+                vpiFullName: CacheSetInterface.CacheSet.response.response
+                vpiActual: Variable name:response
           vpiInterface: Interface name:CacheSetInterface
       vpiPort (2 items):
         Port name:request start:2:23 end:2:30:
@@ -867,6 +870,11 @@ Design name:unnamed:
                 vpiName: clock
                 vpiFullName: CacheWithInterface.set.clock
                 vpiActual: Port name:clock
+              vpiHighConn RefObj name:clock start:29:10 end:29:15:
+                vpiParent: NamedArgument
+                vpiName: clock
+                vpiFullName: CacheWithInterface.set.clock
+                vpiActual: Net name:clock
             NamedArgument start:30:9 end:30:15:
               vpiParent: RefInstance name:set
               vpiConnByName: true
@@ -875,6 +883,11 @@ Design name:unnamed:
                 vpiName: clear
                 vpiFullName: CacheWithInterface.set.clear
                 vpiActual: Port name:clear
+              vpiHighConn RefObj name:clear start:30:10 end:30:15:
+                vpiParent: NamedArgument
+                vpiName: clear
+                vpiFullName: CacheWithInterface.set.clear
+                vpiActual: Net name:clear
     Module name:CacheSet file:$Source01/relong/complex_interface.sv start:38:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CacheSet start:38:8 end:38:16:
@@ -924,11 +937,12 @@ Design name:unnamed:
           vpiParent: Module name:CacheSet
           vpiName: data
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:data start:39:32 end:39:36:
             vpiParent: Port name:data
             vpiName: data
             vpiFullName: CacheSet.data.data
+            vpiActual: Modport name:CacheSet
           vpiTypespec RefTypespec name:CacheSetInterface::CacheSet start:39:5 end:39:31:
             vpiParent: Port name:data
             vpiName: CacheSetInterface::CacheSet
@@ -1008,10 +1022,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
+                      vpiActual: Modport name:CacheSet
                     RefObj name:response start:45:18 end:45:26:
                       vpiParent: RefObj name:data.response
                       vpiName: response
                       vpiFullName: CacheSet.response
+                      vpiActual: Variable name:response
+                  vpiActual: Variable name:response
                 vpiRhs Constant start:45:30 end:45:34:
                   vpiParent: Assignment
                   vpiConstType: hexadecimal (5)
@@ -1034,10 +1051,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
+                      vpiActual: Modport name:CacheSet
                     RefObj name:response start:47:18 end:47:26:
                       vpiParent: RefObj name:data.response
                       vpiName: response
                       vpiFullName: CacheSet.response
+                      vpiActual: Variable name:response
+                  vpiActual: Variable name:response
                 vpiRhs Operation start:47:30 end:47:43:
                   vpiParent: Assignment
                   vpiOpType: bitwise negation (4)
@@ -1051,11 +1071,40 @@ Design name:unnamed:
                           vpiParent: RefObj name:data.request
                           vpiName: data
                           vpiFullName: CacheSet.data
+                          vpiActual: Modport name:CacheSet
                         RefObj name:request start:47:36 end:47:43:
                           vpiParent: RefObj name:data.request
                           vpiName: request
                           vpiFullName: CacheSet.request
+                          vpiActual: Net name:request
+                      vpiActual: Net name:request
           vpiAlwaysType: ff (3)
+      vpiIODecl (1 items):
+        IODecl name:data start:39:32 end:39:36:
+          vpiParent: Module name:CacheSet
+          vpiName: data
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:data start:39:32 end:39:36:
+            vpiParent: IODecl name:data
+            vpiName: data
+            vpiFullName: CacheSet.data.data
+            vpiActual: Modport name:CacheSet
+          vpiTypespec RefTypespec name:CacheSetInterface::CacheSet start:39:5 end:39:31:
+            vpiParent: IODecl name:data
+            vpiName: CacheSetInterface::CacheSet
+            vpiFullName: CacheSet.data.CacheSetInterface::CacheSet
+            vpiPathElem (2 items):
+              RefObj name:CacheSetInterface start:39:5 end:39:22:
+                vpiParent: RefTypespec name:CacheSetInterface::CacheSet
+                vpiName: CacheSetInterface
+                vpiFullName: CacheSet.data.CacheSetInterface
+                vpiActual: Interface name:CacheSetInterface
+              RefTypespec name:CacheSet start:39:23 end:39:31:
+                vpiParent: RefTypespec name:CacheSetInterface::CacheSet
+                vpiName: CacheSet
+                vpiFullName: CacheSet.data.CacheSetInterface::CacheSet.CacheSet
+                vpiActual: InterfaceTypespec name:CacheSet
+            vpiActual: InterfaceTypespec name:CacheSet
   vpiTypespec (5 items):
     InterfaceTypespec name:CacheSetInterface:
       vpiParent: Design name:unnamed
@@ -1085,7 +1134,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1129,7 +1178,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/complex_interface_sv/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             159     159       0         0
+Others                             168     168       0         0
 ----------------------------------------------------------------
-                                   159     159       0         0
+                                   168     168       0         0
 ===================== END REDUCTION RESULT =====================

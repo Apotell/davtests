@@ -688,16 +688,10 @@ n<$Source01/t_mod_interface_array2.v> u<673> t<Top_level_rule> c<1> l<6:1> el<65
 AST_DEBUG_END
 [INF:CP5805] $Source01/t_mod_interface_array2.v:9:1: Compile interface "a_if".
 [INF:CP5804] $Source01/t_mod_interface_array2.v:15:1: Compile module "intf_source".
-[WRN:CP5811] $Source01/t_mod_interface_array2.v:18:16: Port "i_intf_source" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_mod_interface_array2.v:27:1: Compile module "intf_sink".
 [NTE:CP5810] $Source01/t_mod_interface_array2.v:29:19: Implicit port type (wire) for "a_out".
-[WRN:CP5811] $Source01/t_mod_interface_array2.v:30:14: Port "i_intf_sink" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_mod_interface_array2.v:39:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:22:27: Failed to bind "long_name".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:22:10: Failed to bind "i_intf_source".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:34:36: Failed to bind "long_name".
-[WRN:DV8514] $Source01/t_mod_interface_array2.v:34:21: Failed to bind "i_intf_sink".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -809,6 +803,11 @@ Design name:unnamed:
               vpiParent: Modport name:source
               vpiName: long_name
               vpiDirection: output (2)
+              vpiExpr RefObj name:long_name start:11:27 end:11:36:
+                vpiParent: IODecl name:long_name
+                vpiName: long_name
+                vpiFullName: a_if #(.PARAM(0)).source.long_name.long_name
+                vpiActual: Variable name:long_name
           vpiInterface: Interface name:a_if #(.PARAM(0))
         Modport name:sink start:12:12 end:12:16:
           vpiParent: Interface name:a_if #(.PARAM(0))
@@ -818,6 +817,11 @@ Design name:unnamed:
               vpiParent: Modport name:sink
               vpiName: long_name
               vpiDirection: input (1)
+              vpiExpr RefObj name:long_name start:12:24 end:12:33:
+                vpiParent: IODecl name:long_name
+                vpiName: long_name
+                vpiFullName: a_if #(.PARAM(0)).sink.long_name.long_name
+                vpiActual: Variable name:long_name
           vpiInterface: Interface name:a_if #(.PARAM(0))
       vpiPort (1 items):
         Port start:9:39 end:9:41:
@@ -899,20 +903,20 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: intf_source
                     vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:a_if #(.PARAM(0))::source start:18:4 end:18:15:
+          vpiElemTypespec RefTypespec name:a_if::source start:18:4 end:18:15:
             vpiParent: ArrayTypespec
-            vpiName: a_if #(.PARAM(0))::source
-            vpiFullName: intf_source.a_if #(.PARAM(0))::source
+            vpiName: a_if::source
+            vpiFullName: intf_source.a_if::source
             vpiPathElem (2 items):
               RefObj name:a_if start:18:4 end:18:8:
-                vpiParent: RefTypespec name:a_if #(.PARAM(0))::source
+                vpiParent: RefTypespec name:a_if::source
                 vpiName: a_if
                 vpiFullName: intf_source.a_if
                 vpiActual: Interface name:a_if #(.PARAM(0))
               RefTypespec name:source start:18:9 end:18:15:
-                vpiParent: RefTypespec name:a_if #(.PARAM(0))::source
+                vpiParent: RefTypespec name:a_if::source
                 vpiName: source
-                vpiFullName: intf_source.a_if #(.PARAM(0))::source.source
+                vpiFullName: intf_source.a_if::source.source
                 vpiActual: InterfaceTypespec name:source
             vpiActual: InterfaceTypespec name:source
       vpiDefName: intf_source
@@ -961,15 +965,31 @@ Design name:unnamed:
           vpiName: i_intf_source
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: input (1)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:i_intf_source start:18:16 end:18:29:
             vpiParent: Port name:i_intf_source
             vpiName: i_intf_source
             vpiFullName: intf_source.i_intf_source.i_intf_source
-          vpiTypespec RefTypespec name:a_if #(.PARAM(0))::source [0:N-1] start:18:4 end:18:15:
+            vpiActual: Modport name:source
+          vpiTypespec RefTypespec name:a_if::source [0:N-1] start:18:4 end:18:15:
             vpiParent: Port name:i_intf_source
-            vpiName: a_if #(.PARAM(0))::source [0:N-1]
-            vpiFullName: intf_source.i_intf_source.a_if #(.PARAM(0))::source [0:N-1]
+            vpiName: a_if::source [0:N-1]
+            vpiFullName: intf_source.i_intf_source.a_if::source [0:N-1]
+            vpiActual: ArrayTypespec
+      vpiIODecl (1 items):
+        IODecl name:i_intf_source start:18:16 end:18:29:
+          vpiParent: Module name:intf_source
+          vpiName: i_intf_source
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:i_intf_source start:18:16 end:18:29:
+            vpiParent: IODecl name:i_intf_source
+            vpiName: i_intf_source
+            vpiFullName: intf_source.i_intf_source.i_intf_source
+            vpiActual: Modport name:source
+          vpiTypespec RefTypespec name:a_if::source [0:N-1] start:18:4 end:18:15:
+            vpiParent: IODecl name:i_intf_source
+            vpiName: a_if::source [0:N-1]
+            vpiFullName: intf_source.i_intf_source.a_if::source [0:N-1]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:20:4 end:24:15:
@@ -1046,6 +1066,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:i_intf_source[i]
                             vpiName: i_intf_source
                             vpiFullName: intf_source.i_intf_source[i].long_name.i_intf_source
+                            vpiActual: Modport name:source
                           vpiIndex RefObj name:i start:22:24 end:22:25:
                             vpiParent: BitSelect name:i_intf_source[i]
                             vpiName: i
@@ -1055,6 +1076,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:i_intf_source[i].long_name
                           vpiName: long_name
                           vpiFullName: intf_source.long_name
+                          vpiActual: Variable name:long_name
+                      vpiActual: Variable name:long_name
                     vpiRhs BitSelect name:intf_input[i] start:22:39 end:22:52:
                       vpiParent: ContAssign
                       vpiName: intf_input[i]
@@ -1144,20 +1167,20 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: intf_sink
                     vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:a_if #(.PARAM(0))::sink start:30:4 end:30:13:
+          vpiElemTypespec RefTypespec name:a_if::sink start:30:4 end:30:13:
             vpiParent: ArrayTypespec
-            vpiName: a_if #(.PARAM(0))::sink
-            vpiFullName: intf_sink.a_if #(.PARAM(0))::sink
+            vpiName: a_if::sink
+            vpiFullName: intf_sink.a_if::sink
             vpiPathElem (2 items):
               RefObj name:a_if start:30:4 end:30:8:
-                vpiParent: RefTypespec name:a_if #(.PARAM(0))::sink
+                vpiParent: RefTypespec name:a_if::sink
                 vpiName: a_if
                 vpiFullName: intf_sink.a_if
                 vpiActual: Interface name:a_if #(.PARAM(0))
               RefTypespec name:sink start:30:9 end:30:13:
-                vpiParent: RefTypespec name:a_if #(.PARAM(0))::sink
+                vpiParent: RefTypespec name:a_if::sink
                 vpiName: sink
-                vpiFullName: intf_sink.a_if #(.PARAM(0))::sink.sink
+                vpiFullName: intf_sink.a_if::sink.sink
                 vpiActual: InterfaceTypespec name:sink
             vpiActual: InterfaceTypespec name:sink
       vpiDefName: intf_sink
@@ -1206,15 +1229,31 @@ Design name:unnamed:
           vpiName: i_intf_sink
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: output (2)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:i_intf_sink start:30:14 end:30:25:
             vpiParent: Port name:i_intf_sink
             vpiName: i_intf_sink
             vpiFullName: intf_sink.i_intf_sink.i_intf_sink
-          vpiTypespec RefTypespec name:a_if #(.PARAM(0))::sink [0:N-1] start:30:4 end:30:13:
+            vpiActual: Modport name:sink
+          vpiTypespec RefTypespec name:a_if::sink [0:N-1] start:30:4 end:30:13:
             vpiParent: Port name:i_intf_sink
-            vpiName: a_if #(.PARAM(0))::sink [0:N-1]
-            vpiFullName: intf_sink.i_intf_sink.a_if #(.PARAM(0))::sink [0:N-1]
+            vpiName: a_if::sink [0:N-1]
+            vpiFullName: intf_sink.i_intf_sink.a_if::sink [0:N-1]
+            vpiActual: ArrayTypespec
+      vpiIODecl (1 items):
+        IODecl name:i_intf_sink start:30:14 end:30:25:
+          vpiParent: Module name:intf_sink
+          vpiName: i_intf_sink
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:i_intf_sink start:30:14 end:30:25:
+            vpiParent: IODecl name:i_intf_sink
+            vpiName: i_intf_sink
+            vpiFullName: intf_sink.i_intf_sink.i_intf_sink
+            vpiActual: Modport name:sink
+          vpiTypespec RefTypespec name:a_if::sink [0:N-1] start:30:4 end:30:13:
+            vpiParent: IODecl name:i_intf_sink
+            vpiName: a_if::sink [0:N-1]
+            vpiFullName: intf_sink.i_intf_sink.a_if::sink [0:N-1]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:32:4 end:36:15:
@@ -1306,6 +1345,7 @@ Design name:unnamed:
                             vpiParent: BitSelect name:i_intf_sink[i]
                             vpiName: i_intf_sink
                             vpiFullName: intf_sink.i_intf_sink[i].long_name.i_intf_sink
+                            vpiActual: Modport name:sink
                           vpiIndex RefObj name:i start:34:33 end:34:34:
                             vpiParent: BitSelect name:i_intf_sink[i]
                             vpiName: i
@@ -1315,6 +1355,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:i_intf_sink[i].long_name
                           vpiName: long_name
                           vpiFullName: intf_sink.long_name
+                          vpiActual: Variable name:long_name
+                      vpiActual: Variable name:long_name
     Module name:t file:$Source01/t_mod_interface_array2.v start:39:1 end:64:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:39:8 end:39:9:
@@ -1350,7 +1392,7 @@ Design name:unnamed:
             vpiParent: Variable name:ack_out
             vpiFullName: t.ack_out
             vpiActual: LogicTypespec
-      vpiTypespec (8 items):
+      vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
@@ -1493,11 +1535,12 @@ Design name:unnamed:
                     vpiParent: Constant
                     vpiFullName: t
                     vpiActual: IntTypespec
-          vpiElemTypespec RefTypespec name:a_if start:47:4 end:47:8:
+          vpiElemTypespec RefTypespec name:a_if #(.PARAM(1)) start:47:4 end:47:8:
             vpiParent: ArrayTypespec
-            vpiName: a_if
-            vpiFullName: t.a_if
-            vpiActual: InterfaceTypespec name:a_if
+            vpiName: a_if #(.PARAM(1))
+            vpiFullName: t.a_if #(.PARAM(1))
+            vpiActual: InterfaceTypespec name:a_if #(.PARAM(1))
+        InterfaceTypespec name:a_if #(.PARAM(1)):
         ModuleTypespec name:intf_source:
         ModuleTypespec name:intf_sink:
         BitTypespec:
@@ -1789,10 +1832,10 @@ Design name:unnamed:
         RefInstance name:tl_intf start:47:22 end:47:29:
           vpiParent: Module name:t
           vpiName: tl_intf
-          vpiTypespec RefTypespec name:a_if [0:N-1] start:47:4 end:47:8:
+          vpiTypespec RefTypespec name:a_if #(.PARAM(1)) [0:N-1] start:47:4 end:47:8:
             vpiParent: RefInstance name:tl_intf
-            vpiName: a_if [0:N-1]
-            vpiFullName: t.tl_intf.a_if [0:N-1]
+            vpiName: a_if #(.PARAM(1)) [0:N-1]
+            vpiFullName: t.tl_intf.a_if #(.PARAM(1)) [0:N-1]
             vpiActual: ArrayTypespec
         RefInstance name:source start:48:16 end:48:22:
           vpiParent: Module name:t
@@ -1860,7 +1903,7 @@ Design name:unnamed:
                 vpiName: tl_intf
                 vpiFullName: t.sink.tl_intf
                 vpiActual: RefInstance name:tl_intf
-  vpiTypespec (6 items):
+  vpiTypespec (7 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -1886,6 +1929,30 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
+    InterfaceTypespec name:a_if #(.PARAM(1)) start:47:4 end:47:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:a_if #(.PARAM(1)):
+      vpiDefName: a_if
+      vpiParamAssign (1 items):
+        ParamAssign start:47:11 end:47:20:
+          vpiParent: InterfaceTypespec name:a_if #(.PARAM(1))
+          vpiConnByName: true
+          vpiLhs RefObj name:PARAM start:47:12 end:47:17:
+            vpiParent: ParamAssign
+            vpiName: PARAM
+            vpiFullName: a_if #(.PARAM(1)).PARAM
+            vpiActual: Parameter name:PARAM
+          vpiRhs Constant start:47:18 end:47:19:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: a_if #(.PARAM(1))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:a_if #(.PARAM(0))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1894,7 +1961,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1909,25 +1976,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_mod_interface_array2/mounts.json
 
 
-{'result': {'coverage': 99.26,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_mod_interface_array2.v': {'post_len': 7,
+            'files': {'$Output/lib/work/t_mod_interface_array2.v': {'post_len': 0,
                                                                     'pre_len': 948}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 948,
             'test_name': 'Verilator/t_mod_interface_array2'}}
 
 +-------------------------------------------+----------+-----------+
 | INPUT                                     |   PRELEN |   POSTLEN |
 +===========================================+==========+===========+
-| $Output/lib/work/t_mod_interface_array2.v |      948 |         7 |
+| $Output/lib/work/t_mod_interface_array2.v |      948 |         0 |
 +===========================================+==========+===========+
-|                                           |      948 |         7 |
+|                                           |      948 |         0 |
 +-------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.26
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1937,12 +2004,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_interface_array2/design.hldb ${HL
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            28      24      10        14
+Constant                            29      25      10        14
 Operation                           25       9       0        16
-RefObj                              56      46       0        10
-RefTypespec                         50      44       8        14
+RefObj                              61      51       0        10
+RefTypespec                         53      47       8        14
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   268     232      18        54
+                                   282     246      18        54
 ===================== END REDUCTION RESULT =====================

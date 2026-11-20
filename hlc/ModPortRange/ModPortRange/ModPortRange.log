@@ -256,24 +256,16 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:1:1: Compile interface "MyInterface".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "MyInterface".
 [INF:CP5804] $Source01/dut.sv:9:1: Compile module "range_itf_port".
-[WRN:CP5811] $Source01/dut.sv:10:27: Port "my_port1" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "range_itf_port".
 [INF:CP5805] $Source01/dut.sv:17:1: Compile interface "mem_if".
 [WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "mem_if".
 [INF:CP5804] $Source01/dut.sv:25:1: Compile module "memory_ctrl1".
-[WRN:CP5811] $Source01/dut.sv:25:29: Port "sif1" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:25:49: Port "sif2" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:25:1: No timescale set for "memory_ctrl1".
 [INF:CP5805] $Source01/dut.sv:32:1: Compile interface "ConnectTB".
 [WRN:PA5506] $Source01/dut.sv:32:1: No timescale set for "ConnectTB".
 [INF:CP5804] $Source01/dut.sv:35:1: Compile module "middle".
-[WRN:CP5811] $Source01/dut.sv:35:26: Port "conn1" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:35:1: No timescale set for "middle".
 [INF:CP5804] $Source01/dut.sv:39:1: Compile module "range_itf_port2".
-[WRN:CP5811] $Source01/dut.sv:40:27: Port "my_port1" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:41:27: Port "my_port2" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:42:18: Port "my_port3" definition missing its direction (input, output, inout).
-[WRN:CP5811] $Source01/dut.sv:43:18: Port "my_port4" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:39:1: No timescale set for "range_itf_port2".
 ====== HLDB =======
 Design name:unnamed:
@@ -335,6 +327,11 @@ Design name:unnamed:
               vpiParent: Modport name:MyModPort
               vpiName: my_logic
               vpiDirection: output (2)
+              vpiExpr RefObj name:my_logic start:5:19 end:5:27:
+                vpiParent: IODecl name:my_logic
+                vpiName: my_logic
+                vpiFullName: MyInterface.MyModPort.my_logic.my_logic
+                vpiActual: Variable name:my_logic
           vpiInterface: Interface name:MyInterface
     Interface name:mem_if file:$Source01/dut.sv start:17:1 end:22:13:
       vpiParent: Design name:unnamed
@@ -388,6 +385,11 @@ Design name:unnamed:
               vpiParent: Modport name:system
               vpiName: clk
               vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:19:26 end:19:29:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.system.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
         Modport name:memory start:20:12 end:20:18:
           vpiParent: Interface name:mem_if
@@ -397,6 +399,11 @@ Design name:unnamed:
               vpiParent: Modport name:memory
               vpiName: clk
               vpiDirection: output (2)
+              vpiExpr RefObj name:clk start:20:27 end:20:30:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: mem_if.memory.clk.clk
+                vpiActual: Net name:clk
           vpiInterface: Interface name:mem_if
       vpiPort (1 items):
         Port name:clk start:17:30 end:17:33:
@@ -591,11 +598,12 @@ Design name:unnamed:
           vpiParent: Module name:range_itf_port
           vpiName: my_port1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:my_port1 start:10:27 end:10:35:
             vpiParent: Port name:my_port1
             vpiName: my_port1
             vpiFullName: range_itf_port.my_port1.my_port1
+            vpiActual: Modport name:MyModPort
           vpiTypespec RefTypespec name:MyInterface::MyModPort [1:0] start:10:5 end:10:26:
             vpiParent: Port name:my_port1
             vpiName: MyInterface::MyModPort [1:0]
@@ -617,6 +625,21 @@ Design name:unnamed:
             vpiName: logic [1:0]
             vpiFullName: range_itf_port.my_port2.logic [1:0]
             vpiActual: ArrayTypespec
+      vpiIODecl (1 items):
+        IODecl name:my_port1 start:10:27 end:10:35:
+          vpiParent: Module name:range_itf_port
+          vpiName: my_port1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:my_port1 start:10:27 end:10:35:
+            vpiParent: IODecl name:my_port1
+            vpiName: my_port1
+            vpiFullName: range_itf_port.my_port1.my_port1
+            vpiActual: Modport name:MyModPort
+          vpiTypespec RefTypespec name:MyInterface::MyModPort [1:0] start:10:5 end:10:26:
+            vpiParent: IODecl name:my_port1
+            vpiName: MyInterface::MyModPort [1:0]
+            vpiFullName: range_itf_port.my_port1.MyInterface::MyModPort [1:0]
+            vpiActual: ArrayTypespec
     Module name:memory_ctrl1 file:$Source01/dut.sv start:25:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl1 start:25:8 end:25:20:
@@ -633,30 +656,19 @@ Design name:unnamed:
         vpiFullName: memory_ctrl1.work
         vpiActual: Library name:work
       vpiCell: memory_ctrl1
-      vpiNet (1 items):
-        Net name:sif1 start:25:29 end:25:33:
-          vpiParent: Module name:memory_ctrl1
-          vpiName: sif1
-          vpiFullName: memory_ctrl1.sif1
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:mem_if start:25:22 end:25:28:
-            vpiParent: Net name:sif1
-            vpiName: mem_if
-            vpiFullName: memory_ctrl1.sif1.mem_if
-            vpiActual: InterfaceTypespec name:mem_if
       vpiUnit: Unit
       vpiPort (2 items):
         Port name:sif1 start:25:29 end:25:33:
           vpiParent: Module name:memory_ctrl1
           vpiName: sif1
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif1 start:25:29 end:25:33:
             vpiParent: Port name:sif1
             vpiName: sif1
             vpiFullName: memory_ctrl1.sif1.sif1
-            vpiActual: Net name:sif1
+            vpiGeneric: true
+            vpiActual: Interface name:mem_if
           vpiTypespec RefTypespec name:mem_if start:25:22 end:25:28:
             vpiParent: Port name:sif1
             vpiName: mem_if
@@ -667,13 +679,54 @@ Design name:unnamed:
           vpiName: sif2
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:sif2 start:25:49 end:25:53:
             vpiParent: Port name:sif2
             vpiName: sif2
             vpiFullName: memory_ctrl1.sif2.sif2
+            vpiActual: Modport name:system
           vpiTypespec RefTypespec name:mem_if::system start:25:35 end:25:48:
             vpiParent: Port name:sif2
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl1.sif2.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:25:35 end:25:41:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl1.sif2.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:25:42 end:25:48:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl1.sif2.mem_if::system.system
+                vpiActual: InterfaceTypespec name:system
+            vpiActual: InterfaceTypespec name:system
+      vpiIODecl (2 items):
+        IODecl name:sif1 start:25:29 end:25:33:
+          vpiParent: Module name:memory_ctrl1
+          vpiName: sif1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif1 start:25:29 end:25:33:
+            vpiParent: IODecl name:sif1
+            vpiName: sif1
+            vpiFullName: memory_ctrl1.sif1.sif1
+            vpiActual: Interface name:mem_if
+          vpiTypespec RefTypespec name:mem_if start:25:22 end:25:28:
+            vpiParent: IODecl name:sif1
+            vpiName: mem_if
+            vpiFullName: memory_ctrl1.sif1.mem_if
+            vpiActual: InterfaceTypespec name:mem_if
+        IODecl name:sif2 start:25:49 end:25:53:
+          vpiParent: Module name:memory_ctrl1
+          vpiName: sif2
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:sif2 start:25:49 end:25:53:
+            vpiParent: IODecl name:sif2
+            vpiName: sif2
+            vpiFullName: memory_ctrl1.sif2.sif2
+            vpiActual: Modport name:system
+          vpiTypespec RefTypespec name:mem_if::system start:25:35 end:25:48:
+            vpiParent: IODecl name:sif2
             vpiName: mem_if::system
             vpiFullName: memory_ctrl1.sif2.mem_if::system
             vpiPathElem (2 items):
@@ -735,32 +788,36 @@ Design name:unnamed:
         vpiFullName: middle.work
         vpiActual: Library name:work
       vpiCell: middle
-      vpiNet (1 items):
-        Net name:conn1 start:35:26 end:35:31:
-          vpiParent: Module name:middle
-          vpiName: conn1
-          vpiFullName: middle.conn1
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:ConnectTB [1:0] start:35:16 end:35:25:
-            vpiParent: Net name:conn1
-            vpiName: ConnectTB [1:0]
-            vpiFullName: middle.conn1.ConnectTB [1:0]
-            vpiActual: ArrayTypespec
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:conn1 start:35:26 end:35:31:
           vpiParent: Module name:middle
           vpiName: conn1
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:conn1 start:35:26 end:35:31:
             vpiParent: Port name:conn1
             vpiName: conn1
             vpiFullName: middle.conn1.conn1
-            vpiActual: Net name:conn1
+            vpiGeneric: true
+            vpiActual: Interface name:ConnectTB
           vpiTypespec RefTypespec name:ConnectTB [1:0] start:35:16 end:35:25:
             vpiParent: Port name:conn1
+            vpiName: ConnectTB [1:0]
+            vpiFullName: middle.conn1.ConnectTB [1:0]
+            vpiActual: ArrayTypespec
+      vpiIODecl (1 items):
+        IODecl name:conn1 start:35:26 end:35:31:
+          vpiParent: Module name:middle
+          vpiName: conn1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:conn1 start:35:26 end:35:31:
+            vpiParent: IODecl name:conn1
+            vpiName: conn1
+            vpiFullName: middle.conn1.conn1
+            vpiActual: Interface name:ConnectTB
+          vpiTypespec RefTypespec name:ConnectTB [1:0] start:35:16 end:35:25:
+            vpiParent: IODecl name:conn1
             vpiName: ConnectTB [1:0]
             vpiFullName: middle.conn1.ConnectTB [1:0]
             vpiActual: ArrayTypespec
@@ -852,40 +909,18 @@ Design name:unnamed:
         vpiFullName: range_itf_port2.work
         vpiActual: Library name:work
       vpiCell: range_itf_port2
-      vpiNet (2 items):
-        Net name:my_port3 start:42:18 end:42:26:
-          vpiParent: Module name:range_itf_port2
-          vpiName: my_port3
-          vpiFullName: range_itf_port2.my_port3
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:MyInterface start:42:5 end:42:16:
-            vpiParent: Net name:my_port3
-            vpiName: MyInterface
-            vpiFullName: range_itf_port2.my_port3.MyInterface
-            vpiActual: InterfaceTypespec name:MyInterface
-        Net name:my_port4 start:43:18 end:43:26:
-          vpiParent: Module name:range_itf_port2
-          vpiName: my_port4
-          vpiFullName: range_itf_port2.my_port4
-          vpiConstantSelect: true
-          vpiNetType: wire (1)
-          vpiTypespec RefTypespec name:MyInterface [1:0] start:43:5 end:43:16:
-            vpiParent: Net name:my_port4
-            vpiName: MyInterface [1:0]
-            vpiFullName: range_itf_port2.my_port4.MyInterface [1:0]
-            vpiActual: ArrayTypespec
       vpiUnit: Unit
       vpiPort (4 items):
         Port name:my_port1 start:40:27 end:40:35:
           vpiParent: Module name:range_itf_port2
           vpiName: my_port1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:my_port1 start:40:27 end:40:35:
             vpiParent: Port name:my_port1
             vpiName: my_port1
             vpiFullName: range_itf_port2.my_port1.my_port1
+            vpiActual: Modport name:MyModPort
           vpiTypespec RefTypespec name:MyInterface::MyModPort start:40:5 end:40:26:
             vpiParent: Port name:my_port1
             vpiName: MyInterface::MyModPort
@@ -907,11 +942,12 @@ Design name:unnamed:
           vpiName: my_port2
           vpiPortIndex: 1
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:my_port2 start:41:27 end:41:35:
             vpiParent: Port name:my_port2
             vpiName: my_port2
             vpiFullName: range_itf_port2.my_port2.my_port2
+            vpiActual: Modport name:MyModPort
           vpiTypespec RefTypespec name:MyInterface::MyModPort [1:0] start:41:5 end:41:26:
             vpiParent: Port name:my_port2
             vpiName: MyInterface::MyModPort [1:0]
@@ -922,12 +958,13 @@ Design name:unnamed:
           vpiName: my_port3
           vpiPortIndex: 2
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:my_port3 start:42:18 end:42:26:
             vpiParent: Port name:my_port3
             vpiName: my_port3
             vpiFullName: range_itf_port2.my_port3.my_port3
-            vpiActual: Net name:my_port3
+            vpiGeneric: true
+            vpiActual: Interface name:MyInterface
           vpiTypespec RefTypespec name:MyInterface start:42:5 end:42:16:
             vpiParent: Port name:my_port3
             vpiName: MyInterface
@@ -938,14 +975,83 @@ Design name:unnamed:
           vpiName: my_port4
           vpiPortIndex: 3
           vpiPortType: interface port (1)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:my_port4 start:43:18 end:43:26:
             vpiParent: Port name:my_port4
             vpiName: my_port4
             vpiFullName: range_itf_port2.my_port4.my_port4
-            vpiActual: Net name:my_port4
+            vpiGeneric: true
+            vpiActual: Interface name:MyInterface
           vpiTypespec RefTypespec name:MyInterface [1:0] start:43:5 end:43:16:
             vpiParent: Port name:my_port4
+            vpiName: MyInterface [1:0]
+            vpiFullName: range_itf_port2.my_port4.MyInterface [1:0]
+            vpiActual: ArrayTypespec
+      vpiIODecl (4 items):
+        IODecl name:my_port1 start:40:27 end:40:35:
+          vpiParent: Module name:range_itf_port2
+          vpiName: my_port1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:my_port1 start:40:27 end:40:35:
+            vpiParent: IODecl name:my_port1
+            vpiName: my_port1
+            vpiFullName: range_itf_port2.my_port1.my_port1
+            vpiActual: Modport name:MyModPort
+          vpiTypespec RefTypespec name:MyInterface::MyModPort start:40:5 end:40:26:
+            vpiParent: IODecl name:my_port1
+            vpiName: MyInterface::MyModPort
+            vpiFullName: range_itf_port2.my_port1.MyInterface::MyModPort
+            vpiPathElem (2 items):
+              RefObj name:MyInterface start:40:5 end:40:16:
+                vpiParent: RefTypespec name:MyInterface::MyModPort
+                vpiName: MyInterface
+                vpiFullName: range_itf_port2.my_port1.MyInterface
+                vpiActual: Interface name:MyInterface
+              RefTypespec name:MyModPort start:40:17 end:40:26:
+                vpiParent: RefTypespec name:MyInterface::MyModPort
+                vpiName: MyModPort
+                vpiFullName: range_itf_port2.my_port1.MyInterface::MyModPort.MyModPort
+                vpiActual: InterfaceTypespec name:MyModPort
+            vpiActual: InterfaceTypespec name:MyModPort
+        IODecl name:my_port2 start:41:27 end:41:35:
+          vpiParent: Module name:range_itf_port2
+          vpiName: my_port2
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:my_port2 start:41:27 end:41:35:
+            vpiParent: IODecl name:my_port2
+            vpiName: my_port2
+            vpiFullName: range_itf_port2.my_port2.my_port2
+            vpiActual: Modport name:MyModPort
+          vpiTypespec RefTypespec name:MyInterface::MyModPort [1:0] start:41:5 end:41:26:
+            vpiParent: IODecl name:my_port2
+            vpiName: MyInterface::MyModPort [1:0]
+            vpiFullName: range_itf_port2.my_port2.MyInterface::MyModPort [1:0]
+            vpiActual: ArrayTypespec
+        IODecl name:my_port3 start:42:18 end:42:26:
+          vpiParent: Module name:range_itf_port2
+          vpiName: my_port3
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:my_port3 start:42:18 end:42:26:
+            vpiParent: IODecl name:my_port3
+            vpiName: my_port3
+            vpiFullName: range_itf_port2.my_port3.my_port3
+            vpiActual: Interface name:MyInterface
+          vpiTypespec RefTypespec name:MyInterface start:42:5 end:42:16:
+            vpiParent: IODecl name:my_port3
+            vpiName: MyInterface
+            vpiFullName: range_itf_port2.my_port3.MyInterface
+            vpiActual: InterfaceTypespec name:MyInterface
+        IODecl name:my_port4 start:43:18 end:43:26:
+          vpiParent: Module name:range_itf_port2
+          vpiName: my_port4
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:my_port4 start:43:18 end:43:26:
+            vpiParent: IODecl name:my_port4
+            vpiName: my_port4
+            vpiFullName: range_itf_port2.my_port4.my_port4
+            vpiActual: Interface name:MyInterface
+          vpiTypespec RefTypespec name:MyInterface [1:0] start:43:5 end:43:16:
+            vpiParent: IODecl name:my_port4
             vpiName: MyInterface [1:0]
             vpiFullName: range_itf_port2.my_port4.MyInterface [1:0]
             vpiActual: ArrayTypespec
@@ -996,7 +1102,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 15
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1040,7 +1146,7 @@ COMMAND: ${HLC_DIR}/regression/ModPortRange/ModPortRange/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             156     156       0         0
+Others                             179     179       0         0
 ----------------------------------------------------------------
-                                   156     156       0         0
+                                   179     179       0         0
 ===================== END REDUCTION RESULT =====================

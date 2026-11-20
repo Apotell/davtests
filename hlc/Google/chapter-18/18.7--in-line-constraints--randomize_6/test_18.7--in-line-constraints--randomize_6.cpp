@@ -288,6 +288,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1338,6 +1339,13 @@ TEST_F(InLineConstraintsRandomize6Test, NoFatalSyntaxOrErrorDiagnostics) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 0) << "the source is legal SystemVerilog and should compile without errors";
+}
+
+// // IEEE 1800-2023 13.4.1 (p.342): "Calling a nonvoid function as if it has no return value shall
+// be legal, // but shall issue a warning." The statement "F(obj, y);" calls a function returning
+// int and discards the value.
+TEST_F(InLineConstraintsRandomize6Test, ReportsTheDiscardedReturnValue) {
+  EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "F", 41, 7), nullptr);
 }
 
 }  // namespace hlc

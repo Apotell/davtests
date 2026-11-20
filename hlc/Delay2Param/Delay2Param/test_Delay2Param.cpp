@@ -89,6 +89,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -177,6 +178,21 @@ TEST_F(Delay2ParamTest, ModulesExist) {
   EXPECT_NE(getModule("iNToRawFN"), nullptr) << "module 'iNToRawFN' not found";
   EXPECT_NE(getModule("iNToRawFN3"), nullptr) << "module 'iNToRawFN3' not found";
   EXPECT_NE(getModule("iNToRecFN"), nullptr) << "module 'iNToRecFN' not found";
+}
+
+// IEEE 1800-2023 23.2.2.1 (p.731): "Each port_identifier in a port_expression in the list of ports for
+// the module declaration shall also be declared in the body of the module as one of the following port
+// declarations: input, output, inout (bidirectional), ref, or as an interface port". The ports signedIn and sExp of
+// iNToRawFN (line 1) and iNToRawFN3 (line 6) are listed but never declared in the body.
+TEST_F(Delay2ParamTest, UndeclaredPortsAreReported) {
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "signedIn", 1, 44), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "signedIn", 1, 44), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "sExp", 1, 54), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "sExp", 1, 54), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "signedIn", 6, 70), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "signedIn", 6, 70), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "sExp", 6, 80), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "sExp", 6, 80), nullptr);
 }
 
 // --- iNToRawFN: parameter / localparam / net ----

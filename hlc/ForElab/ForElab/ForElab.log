@@ -457,7 +457,11 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/top.v:49:1: No timescale set for "tlul_socket_m1".
 [WRN:DV8514] $Source01/top.v:30:23: Failed to bind "req_i".
 [WRN:DV8514] $Source01/top.v:57:32: Failed to bind "tl_h2d_t".
+[WRN:DV8514] $Source01/top.v:59:8: Failed to bind "clk_i".
+[WRN:DV8514] $Source01/top.v:60:8: Failed to bind "rst_ni".
 [ERR:CP5828] $Source01/top.v:30:23: Undefined variable "req_i".
+[ERR:CP6007] $Source01/top.v:59:8: Implicit connection of port "clk_i" names no declaration made before the instance.
+[ERR:CP6007] $Source01/top.v:60:8: Implicit connection of port "rst_ni" names no declaration made before the instance.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1089,6 +1093,10 @@ Design name:unnamed:
                         vpiName: clk_i
                         vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.clk_i
                         vpiActual: Port name:clk_i
+                      vpiHighConn RefObj name:clk_i start:59:8 end:59:13:
+                        vpiParent: NamedArgument
+                        vpiName: clk_i
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.clk_i
                     NamedArgument start:60:7 end:60:14:
                       vpiParent: RefInstance name:u_reqarb
                       vpiConnByName: true
@@ -1097,6 +1105,10 @@ Design name:unnamed:
                         vpiName: rst_ni
                         vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.rst_ni
                         vpiActual: Port name:rst_ni
+                      vpiHighConn RefObj name:rst_ni start:60:8 end:60:14:
+                        vpiParent: NamedArgument
+                        vpiName: rst_ni
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.rst_ni
             vpiElseStmt GenBlock name:gen_unknown start:62:12 end:64:6:
               vpiParent: GenIfElse
               vpiName Identifier name:gen_unknown start:62:20 end:62:31:
@@ -1178,8 +1190,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 5
+[  ERROR] : 3
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1226,11 +1238,11 @@ Constant                            18      19       4         3
 Identifier                          16      15       0         1
 NamedArgument                        4       3       0         1
 Operation                           12       9       0         3
-RefObj                              31      27       0         4
+RefObj                              33      29       0         4
 RefTypespec                         31      31       3         3
 SysFuncCall                          2       1       0         1
 ----------------------------------------------------------------
 Others                              53      53       0         0
 ----------------------------------------------------------------
-                                   167     158       7        16
+                                   169     160       7        16
 ===================== END REDUCTION RESULT =====================

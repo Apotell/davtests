@@ -664,7 +664,6 @@ Design name:unnamed:
           vpiName: subin
           vpiFullName: t.subin
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:subin
@@ -675,7 +674,6 @@ Design name:unnamed:
           vpiName: subout
           vpiFullName: t.subout
           vpiConstantSelect: true
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:subout
@@ -833,13 +831,41 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiArgument (1 items):
+          vpiArgument (3 items):
             NamedArgument start:44:12 end:44:14:
               vpiParent: RefInstance name:sub
               vpiHighConn RefObj name:.* start:44:12 end:44:14:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub..*
+            NamedArgument start:44:12 end:44:14:
+              vpiParent: RefInstance name:sub
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:subin start:44:12 end:44:14:
+                vpiParent: NamedArgument
+                vpiName: subin
+                vpiFullName: t.sub.subin
+                vpiActual: Port name:subin
+              vpiHighConn RefObj name:subin start:44:12 end:44:14:
+                vpiParent: NamedArgument
+                vpiName: subin
+                vpiFullName: t.sub.subin
+                vpiActual: Net name:subin
+            NamedArgument start:44:12 end:44:14:
+              vpiParent: RefInstance name:sub
+              vpiConnByName: true
+              vpiWildcardConn: true
+              vpiLowConn RefObj name:subout start:44:12 end:44:14:
+                vpiParent: NamedArgument
+                vpiName: subout
+                vpiFullName: t.sub.subout
+                vpiActual: Port name:subout
+              vpiHighConn RefObj name:subout start:44:12 end:44:14:
+                vpiParent: NamedArgument
+                vpiName: subout
+                vpiFullName: t.sub.subout
+                vpiActual: Net name:subout
       vpiEndLabel Identifier name:t start:65:13 end:65:14:
     Module name:sub file:$Source01/t_vpi_get.v start:67:1 end:71:16:
       vpiParent: Design name:unnamed
@@ -984,7 +1010,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_vpi_get/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             134     134       0         0
+Others                             140     140       0         0
 ----------------------------------------------------------------
-                                   134     134       0         0
+                                   140     140       0         0
 ===================== END REDUCTION RESULT =====================

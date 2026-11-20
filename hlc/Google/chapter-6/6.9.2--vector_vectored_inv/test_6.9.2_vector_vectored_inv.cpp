@@ -39,7 +39,8 @@
 //   the true failure (the syntax error), not the tag's claimed one.
 //
 // What is checked:
-//   - a syntax error at "vectored" (line 17, column 7).
+//   - a syntax error at "vectored" (line 17, column 7) saying the keyword is only
+//     allowed in a net declaration (PaNetOnlyKeyword).
 //
 // What is NOT checked and why:
 //   - what the parser's error recovery leaves behind: the number of syntax
@@ -69,7 +70,7 @@ class VectorVectoredInvTest : public Test {
 
 TEST_F(VectorVectoredInvTest, VectoredOnAVariableIsASyntaxError) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 17, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::PaNetOnlyKeyword, "vectored", 17, 7), nullptr)
       << "\"vectored\" is only valid after a net_type (IEEE 1800-2023 6.7.1); \"logic vectored\" "
          "must be rejected";
 }

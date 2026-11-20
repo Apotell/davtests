@@ -130,9 +130,8 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_modport_bad.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_interface_modport_bad.v:11:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_modport_bad.v:20:1: Compile module "counter_ansi".
-[WRN:CP5811] $Source01/t_interface_modport_bad.v:22:20: Port "isub" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DL2510] $Source01/t_interface_modport_bad.v:22:4: Unknown or undefined type "ifc::oop_modport".
+[ERR:CP6003] $Source01/t_interface_modport_bad.v:22:8: Undefined modport "oop_modport" of interface "ifc".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -195,6 +194,11 @@ Design name:unnamed:
               vpiParent: Modport name:out_modport
               vpiName: ok
               vpiDirection: output (2)
+              vpiExpr RefObj name:ok start:8:32 end:8:34:
+                vpiParent: IODecl name:ok
+                vpiName: ok
+                vpiFullName: ifc.out_modport.ok.ok
+                vpiActual: Variable name:ok
           vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_modport_bad.v start:11:1 end:18:10:
@@ -334,11 +338,12 @@ Design name:unnamed:
           vpiParent: Module name:counter_ansi
           vpiName: isub
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:isub start:22:20 end:22:24:
             vpiParent: Port name:isub
             vpiName: isub
             vpiFullName: counter_ansi.isub.isub
+            vpiActual: Port name:isub
           vpiTypespec RefTypespec name:ifc::oop_modport start:22:4 end:22:19:
             vpiParent: Port name:isub
             vpiName: ifc::oop_modport
@@ -368,6 +373,29 @@ Design name:unnamed:
             vpiParent: Port name:i_value
             vpiFullName: counter_ansi.i_value
             vpiActual: LogicTypespec
+      vpiIODecl (1 items):
+        IODecl name:isub start:22:20 end:22:24:
+          vpiParent: Module name:counter_ansi
+          vpiName: isub
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:isub start:22:20 end:22:24:
+            vpiParent: IODecl name:isub
+            vpiName: isub
+            vpiFullName: counter_ansi.isub.isub
+          vpiTypespec RefTypespec name:ifc::oop_modport start:22:4 end:22:19:
+            vpiParent: IODecl name:isub
+            vpiName: ifc::oop_modport
+            vpiFullName: counter_ansi.isub.ifc::oop_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:22:4 end:22:7:
+                vpiParent: RefTypespec name:ifc::oop_modport
+                vpiName: ifc
+                vpiFullName: counter_ansi.isub.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:oop_modport start:22:8 end:22:19:
+                vpiParent: RefTypespec name:ifc::oop_modport
+                vpiName: oop_modport
+                vpiFullName: counter_ansi.isub.ifc::oop_modport.oop_modport
   vpiTypespec (5 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -397,7 +425,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -441,7 +469,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

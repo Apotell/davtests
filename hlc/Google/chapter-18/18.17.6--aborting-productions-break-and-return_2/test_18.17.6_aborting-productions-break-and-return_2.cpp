@@ -79,6 +79,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -171,6 +172,14 @@ TEST_F(AbortingProductionsBreakAndReturn2Test, CompilerRejectsUndefinedProductio
   EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "main uses production 'secondi', but only 'second' is defined: an rs_production_item names a "
          "production of the randsequence (IEEE 1800-2023 Sec 18.17, Syntax 18-13)";
+}
+
+// IEEE 1800-2023 18.17 (Syntax 18-13, p.566): "rs_production_item ::= rs_production_identifier [ ( list_of_arguments ) ]",
+// and p.567: "All production identifiers are local to the scope." The item `secondi` on line 20 names no
+// production of the randsequence (the productions are main, first, second and third), so it is undefined.
+TEST_F(AbortingProductionsBreakAndReturn2Test, UndefinedProductionSecondiIsReported) {
+  ASSERT_NE(findEvent(EventType::CompUndefinedProduction, "secondi", 20, 20), nullptr)
+      << "18.17: a production item must name a production of the randsequence";
 }
 
 // Check: compilation-unit function 'F' -- int return, no arguments, locals x, return_on.

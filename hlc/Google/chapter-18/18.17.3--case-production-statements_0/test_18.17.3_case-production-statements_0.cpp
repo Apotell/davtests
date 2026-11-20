@@ -57,6 +57,8 @@
 //      - coarse check: at least one fatal/syntax/error diagnostic exists.
 //      - specific check: an undefined-variable diagnostic
 //        (CompUndefinedVariable) names 'switch'.
+//      - specific check: an undefined-production diagnostic
+//        (CompUndefinedProduction) names 'zero' at 20:15.
 //   2. Apart from that, the model is still built as written: function 'F' at
 //      compilation-unit scope, not a class method, returns int, no argument,
 //      and its variables are the local 'int x' and the implicit return
@@ -81,15 +83,13 @@
 //     observable around the statement is checked (it is kept as exactly one
 //     statement, its code blocks are not flattened into the enclosing body,
 //     and production names do not leak into the enclosing scope).
-//   - Item 1b has no dedicated diagnostic check: there is no event
-//     specific to an undefined production, so only the coarse error
-//     check covers it.
 //   - The exact error wording/location: not defined by the standard.
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -247,6 +247,16 @@ TEST_F(CaseProductionStatements0Test, ProductionNamesAreLocalToTheRandsequence) 
         << "production '" << name << "' must not become a variable of function F";
     EXPECT_EQ(findUnitSubroutine(name), nullptr) << "production '" << name << "' must not become a subroutine";
   }
+}
+
+TEST_F(CaseProductionStatements0Test, CaseItemNamingAnUndefinedProductionIsReported) {
+  // IEEE 1800-2023 18.17 (Syntax 18-13, p.566): rs_production_item ::= rs_production_identifier; all
+  // production identifiers are local to the randsequence (p.567). The case item `0 : zero;` names
+  // 'zero', but only zero2, first, second and third are defined, so 'zero' is an undefined production.
+  // An error by inference from the grammar and the local scope; there is no explicit "shall be an
+  // error" sentence.
+  ASSERT_NE(findEvent(EventType::CompUndefinedProduction, "zero", 20, 15), nullptr)
+      << "the case item `0 : zero;` names a production that the randsequence does not define";
 }
 }  // namespace hlc
 

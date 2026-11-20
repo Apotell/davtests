@@ -435,28 +435,30 @@ TEST_F(KmacTest, WildcardConnectionCoversEveryPort) {
   const hldb::RefInstance *const core = m->getRefInstances()->at(0);
   ASSERT_NE(core, nullptr);
   ASSERT_NE(core->getArguments(), nullptr);
-  if (m_design->getElaborated()) {
-    ASSERT_EQ(core->getArguments()->size(), 2u)
-        << "23.3.2.4: .* is equivalent to an implicit .name connection for every port of kmac_core";
-    const std::vector<std::string_view> names = {"kmac_en_i", "strength_i"};
-    for (size_t i = 0; i < names.size(); ++i) {
-      const hldb::NamedArgument *const p = core->getArguments()->at(i);
-      ASSERT_NE(p, nullptr);
-      const hldb::RefObj *const lo = p->getLowConn<hldb::RefObj>();
-      const hldb::RefObj *const hi = p->getHighConn<hldb::RefObj>();
-      ASSERT_NE(lo, nullptr);
-      ASSERT_NE(hi, nullptr);
-      EXPECT_EQ(lo->getName(), names[i]);
-      EXPECT_EQ(hi->getName(), names[i]);
-    }
-  } else {
-    ASSERT_EQ(core->getArguments()->size(), 1u)
-        << "23.3.2.4: .* is equivalent to an implicit .name connection which is expanded only in elaborated mode";
-    const hldb::NamedArgument *const arg = core->getArguments()->at(0);
-    ASSERT_NE(arg, nullptr);
-    const hldb::RefObj *const p = arg->getHighConn<hldb::RefObj>();
-    ASSERT_NE(p, nullptr);
-    EXPECT_EQ(p->getName(), std::string_view(".*"));
+  // The ".*" as written, then (Sec 23.3.2.4: ".*" is ".name" for every port not connected explicitly) one
+  // connection for each port of kmac_core, named after the port and bound to the port of kmac of that name.
+  const std::vector<std::string_view> names = {"kmac_en_i", "strength_i"};
+  ASSERT_EQ(core->getArguments()->size(), 1u + names.size());
+  const hldb::NamedArgument *const wildcard = core->getArguments()->at(0);
+  ASSERT_NE(wildcard, nullptr);
+  EXPECT_FALSE(wildcard->getWildcardConn());
+  const hldb::RefObj *const wildcardRef = wildcard->getHighConn<hldb::RefObj>();
+  ASSERT_NE(wildcardRef, nullptr);
+  EXPECT_EQ(wildcardRef->getName(), std::string_view(".*"));
+  for (size_t i = 0; i < names.size(); ++i) {
+    const hldb::NamedArgument *const p = core->getArguments()->at(1 + i);
+    ASSERT_NE(p, nullptr) << names[i];
+    EXPECT_TRUE(p->getWildcardConn()) << names[i];
+    const hldb::RefObj *const lo = p->getLowConn<hldb::RefObj>();
+    const hldb::RefObj *const hi = p->getHighConn<hldb::RefObj>();
+    ASSERT_NE(lo, nullptr) << names[i];
+    ASSERT_NE(hi, nullptr) << names[i];
+    EXPECT_EQ(lo->getName(), names[i]);
+    EXPECT_EQ(hi->getName(), names[i]);
+    ASSERT_NE(lo->getActual(), nullptr) << names[i];
+    EXPECT_EQ(lo->getActual()->getAnyType(), hldb::AnyType::Port) << names[i];
+    ASSERT_NE(hi->getActual(), nullptr) << names[i];
+    EXPECT_EQ(hi->getActual()->getName(), names[i]);
   }
 }
 

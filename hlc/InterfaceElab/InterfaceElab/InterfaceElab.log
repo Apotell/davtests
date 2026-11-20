@@ -172,7 +172,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:2:1: Compile interface "REG_BUS".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "REG_BUS #(.ADDR_WIDTH(-1))".
 [INF:CP5804] $Source01/dut.sv:15:1: Compile module "apb_to_reg".
-[WRN:CP5811] $Source01/dut.sv:16:16: Port "reg_o" definition missing its direction (input, output, inout).
 [WRN:PA5506] $Source01/dut.sv:15:1: No timescale set for "apb_to_reg".
 [INF:CP5804] $Source01/dut.sv:21:1: Compile module "peripherals".
 [WRN:PA5506] $Source01/dut.sv:21:1: No timescale set for "peripherals".
@@ -308,6 +307,11 @@ Design name:unnamed:
               vpiParent: Modport name:out
               vpiName: addr
               vpiDirection: output (2)
+              vpiExpr RefObj name:addr start:11:23 end:11:27:
+                vpiParent: IODecl name:addr
+                vpiName: addr
+                vpiFullName: REG_BUS #(.ADDR_WIDTH(-1)).out.addr.addr
+                vpiActual: Variable name:addr
           vpiInterface: Interface name:REG_BUS #(.ADDR_WIDTH(-1))
       vpiPort (1 items):
         Port name:clk_i start:6:15 end:6:20:
@@ -347,32 +351,60 @@ Design name:unnamed:
           vpiParent: Module name:apb_to_reg
           vpiName: reg_o
           vpiPortType: modport (2)
-          vpiDirection: inout (3)
+          vpiDirection: no direction (5)
           vpiLowConn RefObj name:reg_o start:16:16 end:16:21:
             vpiParent: Port name:reg_o
             vpiName: reg_o
             vpiFullName: apb_to_reg.reg_o.reg_o
-          vpiTypespec RefTypespec name:REG_BUS #(.ADDR_WIDTH(-1))::out start:16:3 end:16:14:
+            vpiActual: Modport name:out
+          vpiTypespec RefTypespec name:REG_BUS::out start:16:3 end:16:14:
             vpiParent: Port name:reg_o
-            vpiName: REG_BUS #(.ADDR_WIDTH(-1))::out
-            vpiFullName: apb_to_reg.reg_o.REG_BUS #(.ADDR_WIDTH(-1))::out
+            vpiName: REG_BUS::out
+            vpiFullName: apb_to_reg.reg_o.REG_BUS::out
             vpiPathElem (2 items):
               RefObj name:REG_BUS start:16:3 end:16:10:
-                vpiParent: RefTypespec name:REG_BUS #(.ADDR_WIDTH(-1))::out
+                vpiParent: RefTypespec name:REG_BUS::out
                 vpiName: REG_BUS
                 vpiFullName: apb_to_reg.reg_o.REG_BUS
                 vpiActual: Interface name:REG_BUS #(.ADDR_WIDTH(-1))
               RefTypespec name:out start:16:11 end:16:14:
-                vpiParent: RefTypespec name:REG_BUS #(.ADDR_WIDTH(-1))::out
+                vpiParent: RefTypespec name:REG_BUS::out
                 vpiName: out
-                vpiFullName: apb_to_reg.reg_o.REG_BUS #(.ADDR_WIDTH(-1))::out.out
+                vpiFullName: apb_to_reg.reg_o.REG_BUS::out.out
+                vpiActual: InterfaceTypespec name:out
+            vpiActual: InterfaceTypespec name:out
+      vpiIODecl (1 items):
+        IODecl name:reg_o start:16:16 end:16:21:
+          vpiParent: Module name:apb_to_reg
+          vpiName: reg_o
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:reg_o start:16:16 end:16:21:
+            vpiParent: IODecl name:reg_o
+            vpiName: reg_o
+            vpiFullName: apb_to_reg.reg_o.reg_o
+            vpiActual: Modport name:out
+          vpiTypespec RefTypespec name:REG_BUS::out start:16:3 end:16:14:
+            vpiParent: IODecl name:reg_o
+            vpiName: REG_BUS::out
+            vpiFullName: apb_to_reg.reg_o.REG_BUS::out
+            vpiPathElem (2 items):
+              RefObj name:REG_BUS start:16:3 end:16:10:
+                vpiParent: RefTypespec name:REG_BUS::out
+                vpiName: REG_BUS
+                vpiFullName: apb_to_reg.reg_o.REG_BUS
+                vpiActual: Interface name:REG_BUS #(.ADDR_WIDTH(-1))
+              RefTypespec name:out start:16:11 end:16:14:
+                vpiParent: RefTypespec name:REG_BUS::out
+                vpiName: out
+                vpiFullName: apb_to_reg.reg_o.REG_BUS::out.out
                 vpiActual: InterfaceTypespec name:out
             vpiActual: InterfaceTypespec name:out
     Module name:peripherals file:$Source01/dut.sv start:21:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:peripherals start:21:8 end:21:19:
       vpiFullName: peripherals
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        InterfaceTypespec name:REG_BUS #(.ADDR_WIDTH(32)):
         ModuleTypespec name:apb_to_reg:
       vpiDefName: peripherals
       vpiDefNetType: wire (1)
@@ -396,11 +428,11 @@ Design name:unnamed:
         RefInstance name:reg_bus start:25:7 end:25:14:
           vpiParent: Module name:peripherals
           vpiName: reg_bus
-          vpiTypespec RefTypespec name:REG_BUS start:23:4 end:23:11:
+          vpiTypespec RefTypespec name:REG_BUS #(.ADDR_WIDTH(32)) start:23:4 end:23:11:
             vpiParent: RefInstance name:reg_bus
-            vpiName: REG_BUS
-            vpiFullName: peripherals.reg_bus.REG_BUS
-            vpiActual: InterfaceTypespec name:REG_BUS
+            vpiName: REG_BUS #(.ADDR_WIDTH(32))
+            vpiFullName: peripherals.reg_bus.REG_BUS #(.ADDR_WIDTH(32))
+            vpiActual: InterfaceTypespec name:REG_BUS #(.ADDR_WIDTH(32))
           vpiArgument (1 items):
             NamedArgument start:25:16 end:25:21:
               vpiParent: RefInstance name:reg_bus
@@ -468,7 +500,7 @@ Design name:unnamed:
             vpiName: peripherals
             vpiFullName: testharness.i_peripherals.peripherals
             vpiActual: ModuleTypespec name:peripherals
-  vpiTypespec (5 items):
+  vpiTypespec (6 items):
     InterfaceTypespec name:REG_BUS:
       vpiParent: Design name:unnamed
       vpiName Identifier name:REG_BUS start:2:11 end:2:18:
@@ -492,6 +524,30 @@ Design name:unnamed:
       vpiName Identifier name:testharness start:32:8 end:32:19:
       vpiDefName: testharness
       vpiModule: Module name:testharness
+    InterfaceTypespec name:REG_BUS #(.ADDR_WIDTH(32)) start:23:4 end:25:6:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:REG_BUS #(.ADDR_WIDTH(32)):
+      vpiDefName: REG_BUS
+      vpiParamAssign (1 items):
+        ParamAssign start:24:9 end:24:27:
+          vpiParent: InterfaceTypespec name:REG_BUS #(.ADDR_WIDTH(32))
+          vpiConnByName: true
+          vpiLhs RefObj name:ADDR_WIDTH start:24:10 end:24:20:
+            vpiParent: ParamAssign
+            vpiName: ADDR_WIDTH
+            vpiFullName: REG_BUS #(.ADDR_WIDTH(32)).ADDR_WIDTH
+            vpiActual: Parameter name:ADDR_WIDTH
+          vpiRhs Constant start:24:23 end:24:25:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "32"
+            vpiValue: 32
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: REG_BUS #(.ADDR_WIDTH(32))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:REG_BUS #(.ADDR_WIDTH(-1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -500,7 +556,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -515,25 +571,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/InterfaceElab/InterfaceElab/mounts.json
 
 
-{'result': {'coverage': 96.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 13,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 366}},
-            'post_len': 13,
+            'post_len': 0,
             'pre_len': 366,
             'test_name': 'InterfaceElab/InterfaceElab'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      366 |        13 |
+| $Output/lib/work/dut.sv |      366 |         0 |
 +=========================+==========+===========+
-|                         |      366 |        13 |
+|                         |      366 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -543,12 +599,12 @@ COMMAND: ${HLC_DIR}/regression/InterfaceElab/InterfaceElab/design.hldb ${HLC_DIR
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             3       3       2         2
+Constant                             4       4       2         2
 Operation                            2       0       0         2
-RefObj                              12      11       0         1
-RefTypespec                         12      12       2         2
+RefObj                              16      15       0         1
+RefTypespec                         15      15       2         2
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    70      67       4         7
+                                    82      79       4         7
 ===================== END REDUCTION RESULT =====================

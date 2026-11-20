@@ -360,24 +360,11 @@ TEST_F(ClassTest35Test, ReportsMissingImplementationOfSetPort) {
   EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", kPrototypeLine), nullptr);
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread the text of the file.
-TEST_F(ClassTest35Test, ReportsNoMisreadingDiagnostics) {
-  // The declaration matches the grammar (A.1.2, A.1.9, A.2.6), and the file
-  // uses no preprocessor directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // zzxx, set_port and ap are no keywords (Table B.1); extern, function, void
-  // and int are, each where the grammar puts it. The longest identifier,
-  // set_port, has 8 characters, within any limit an implementation may set,
-  // which "shall be at least 1024 characters" (5.6).
-  EXPECT_EQ(findEvent(EventType::PaReservedKeyword), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaMaxLengthIdentifier), nullptr);
-
-  // Every character of the file is ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
-}
+// Removed test: ReportsNoMisreadingDiagnostics. It only asserted that
+// diagnostics are absent (EXPECT_EQ(findEvent(...), nullptr)), which passes even
+// when HLC never raises them and proves nothing about this file; see
+// .claude/test_writing_guide.md, "Don't write checks that only assert a
+// diagnostic is absent".
 
 // The class is declared once, extends nothing, and endclass has no label, so
 // none of these diagnostics applies, at any severity.

@@ -59,11 +59,10 @@ TEST_F(Chapter16ErrorRulesTest, Row468_BeginEndActionBlockOnDeferredAssertionIsR
 
 TEST_F(Chapter16ErrorRulesTest, Row474_NonStaticClassPropertyInAssertionIsRejected) {
   // catalog row 474 | 16.6 | LINT
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 16.6)";
   // Expressions in concurrent assertions shall not reference non-static
   // class properties or methods; "obj.p" is a non-static property of
-  // r474_c.
-  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "r474_m"), nullptr)
+  // r474_c. Reported at p (line 28).
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "p", 28, 48), nullptr)
       << "a concurrent assertion cannot reference a non-static class property (IEEE 1800-2023 16.6)";
 }
 
@@ -117,11 +116,10 @@ TEST_F(Chapter16ErrorRulesTest, Row478_FunctionWithStateOrSideEffectsInAssertion
 
 TEST_F(Chapter16ErrorRulesTest, Row483_NamedSequenceInstanceMissingActualForFormalIsRejected) {
   // catalog row 483 | 16.8 | COMP
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 16.8)";
   // An instance of a named sequence shall provide an actual argument for
   // each formal argument that does not have a default actual argument
   // declared; "r483_s(a)" omits the actual for formal 'y'.
-  EXPECT_NE(findEvent(EventType::CompMissingArgument, "y"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "y", 68, 44), nullptr)
       << "a named sequence instance must supply an actual for every formal without a default "
          "(IEEE 1800-2023 16.8)";
 }
