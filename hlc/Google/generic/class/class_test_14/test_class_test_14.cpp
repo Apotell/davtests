@@ -323,7 +323,7 @@ TEST_F(ClassTest14Test, ReportsAnErrorForTheTypeDefaultOfT) {
 // form (constant_param_expression has a data_type alternative, A.2.2.1), so the error is derived from
 // 6.20.2, not from a sentence that says "shall be illegal".
 TEST_F(ClassTest14Test, ReportsADataTypeAssignedToValueParameter) {
-  ASSERT_NE(findEvent(EventType::CompMissingTypeKeyword, "T", 6, 15), nullptr)
+  ASSERT_NE(findEvent(EventType::CompIllegalValueParameterDefault, "T", 6, 15), nullptr)
       << "6.20.2: a value parameter cannot be set to a data type;" << describeAllEvents();
 }
 
