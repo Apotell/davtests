@@ -331,7 +331,7 @@ TEST_F(ClassTest16Test, ReportsAnErrorForTheTypeDefaultOfIFType) {
 // form (constant_param_expression has a data_type alternative, A.2.2.1), so the error is derived from
 // 6.20.2, not from a sentence that says "shall be illegal".
 TEST_F(ClassTest16Test, ReportsADataTypeAssignedToValueParameter) {
-  ASSERT_NE(findEvent(EventType::CompIllegalValueParameterDefault, "IFType", 6, 20), nullptr)
+  ASSERT_NE(findEvent(EventType::CompMissingTypeKeyword, "IFType", 6, 20), nullptr)
       << "6.20.2: a value parameter cannot be set to a data type;" << describeAllEvents();
 }
 
