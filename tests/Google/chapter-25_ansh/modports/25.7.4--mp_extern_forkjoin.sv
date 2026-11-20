@@ -25,7 +25,8 @@
 //   CHK2: extern (non forkjoin) task declared in the interface
 //   CHK3: two instances of the same module exporting countTargets
 //   CHK4: task exported through the modport and defined as a.countTargets
-//   CHK5: initiator calls the forkjoin task through its modport
+//   CHK5: initiator imports the task with its full prototype (defined in another
+//         module, Sec 25.7) and calls it through its modport
 
 interface simple_bus(input logic clk);
   logic req;
@@ -36,7 +37,7 @@ interface simple_bus(input logic clk);
 
   modport target (input req, clk, export countTargets);
   modport pinger (input clk, export Ping);
-  modport initiator (input clk, output req, import countTargets);
+  modport initiator (input clk, output req, import task countTargets());
 endinterface
 
 module memMod(interface a);

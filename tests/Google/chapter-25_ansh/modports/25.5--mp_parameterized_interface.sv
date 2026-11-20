@@ -24,7 +24,8 @@
 //   CHK1: modport on signals whose width depends on a parameter
 //   CHK2: module header uses a modport of a parameterized interface
 //   CHK3: instance with overridden parameter connected through modport
-//   CHK4: module reads the parameter through the modport port b.W
+//   CHK4: module reads the parameter through the modport port b.W in a
+//         non-constant (procedural) expression (Sec 25.10)
 //   CHK5: two instances with different parameters using the same modport module
 
 interface bus_if #(parameter int W = 8);
@@ -35,9 +36,9 @@ endinterface
 
 // CHK2 + CHK4
 module proc(bus_if.target b);
-  logic [b.W-1:0] tmp;
-  assign tmp = b.data;
-  assign b.result = ~tmp;
+  int w;
+  assign b.result = ~b.data;
+  initial w = b.W;
 endmodule
 
 module top;
