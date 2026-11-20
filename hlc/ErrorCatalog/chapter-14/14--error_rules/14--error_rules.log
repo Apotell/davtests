@@ -354,12 +354,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/14--error_rules.sv:52:1: Compile module "r450_sub".
 [INF:CP5804] $Source01/14--error_rules.sv:61:1: Compile module "r453_m".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DV8514] $Source01/14--error_rules.sv:15:15: Failed to bind "cb".
-[WRN:DV8514] $Source01/14--error_rules.sv:15:18: Failed to bind "b".
-[WRN:DV8514] $Source01/14--error_rules.sv:66:12: Failed to bind "cb".
-[WRN:DV8514] $Source01/14--error_rules.sv:66:15: Failed to bind "a".
-[WRN:DV8514] $Source01/14--error_rules.sv:66:18: Failed to bind "cb".
-[WRN:DV8514] $Source01/14--error_rules.sv:66:21: Failed to bind "b".
 [ERR:CP5949] $Source01/14--error_rules.sv:15:15: Illegal read of b.
 [ERR:CP5927] $Source01/14--error_rules.sv:27:12: Illegal left-hand side of assignment: w.
 ====== HLDB =======
@@ -455,10 +449,13 @@ Design name:unnamed:
                   vpiParent: RefObj name:cb.b
                   vpiName: cb
                   vpiFullName: r439_m.cb
+                  vpiActual: ClockingBlock name:cb
                 RefObj name:b start:15:18 end:15:19:
                   vpiParent: RefObj name:cb.b
                   vpiName: b
                   vpiFullName: r439_m.b
+                  vpiActual: ClockingIODecl name:b
+              vpiActual: ClockingIODecl name:b
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:12:3 end:14:14:
           vpiParent: Module name:r439_m
@@ -825,10 +822,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:cb.a
                       vpiName: cb
                       vpiFullName: r453_m.cb
+                      vpiActual: ClockingBlock name:cb
                     RefObj name:a start:66:15 end:66:16:
                       vpiParent: RefObj name:cb.a
                       vpiName: a
                       vpiFullName: r453_m.a
+                      vpiActual: ClockingIODecl name:a
+                  vpiActual: ClockingIODecl name:a
                 RefObj name:cb.b start:66:18 end:66:22:
                   vpiParent: Operation
                   vpiName: cb.b
@@ -838,10 +838,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:cb.b
                       vpiName: cb
                       vpiFullName: r453_m.cb
+                      vpiActual: ClockingBlock name:cb
                     RefObj name:b start:66:21 end:66:22:
                       vpiParent: RefObj name:cb.b
                       vpiName: b
                       vpiFullName: r453_m.b
+                      vpiActual: ClockingIODecl name:b
+                  vpiActual: ClockingIODecl name:b
             vpiRhs Constant start:66:27 end:66:32:
               vpiParent: Assignment
               vpiConstType: binary (3)
@@ -923,7 +926,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 6
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

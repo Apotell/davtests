@@ -12616,13 +12616,10 @@ AST_DEBUG_END
 [WRN:DV8514] $Source01/Coverage.sv:26:29: Failed to bind "length_kind".
 [WRN:DV8514] $Source01/Coverage.sv:26:41: Failed to bind "fcs_kind".
 [WRN:DV8514] $Source01/Coverage.sv:30:1: Failed to bind "switch_coverage".
-[WRN:DV8514] $Source01/Coverage.sv:36:1: Failed to bind "switch_coverage".
-[WRN:DV8514] $Source01/Coverage.sv:36:17: Failed to bind "sample".
 [WRN:DV8514] $Source01/Packet.sv:34:44: Failed to bind "size".
-[ERR:DL2516] $Source01/Coverage.sv:36:1: Model property "Begin/vpiStmt" has an invalid value of type "RefObj".
-[ERR:DV8504] $Source01/Coverage.sv:36:17: Null Actual: id:4035, type:MethodFuncCall, name:sample, relation:vpiPathElem.
 [ERR:CP5976] $Source01/Environemnt.sv:41:14: Illegal virtual interface use: input_intf.
 [ERR:CP5867] $Source01/interface.sv:16:35: Illegal data type for net clock.
+[ERR:CP5948] $Source01/Coverage.sv:36:1: Missing argument for formal pkt.
 [ERR:CP5867] $Source01/interface.sv:38:37: Illegal data type for net clock.
 [ERR:CP5867] $Source01/interface.sv:58:38: Illegal data type for net clock.
 ====== HLDB =======
@@ -17255,18 +17252,15 @@ Design name:unnamed:
                       vpiName: pkt
                       vpiFullName: coverage::sample::pkt
                       vpiActual: Variable name:pkt
-                  RefObj name:switch_coverage.sample() start:36:1 end:36:25:
+                  TaskCall name:sample start:36:1 end:36:25:
                     vpiParent: Begin
-                    vpiName: switch_coverage.sample()
-                    vpiFullName: coverage::sample::switch_coverage.sample()
-                    vpiPathElem (2 items):
-                      RefObj name:switch_coverage start:36:1 end:36:16:
-                        vpiParent: RefObj name:switch_coverage.sample()
-                        vpiName: switch_coverage
-                        vpiFullName: coverage::sample::switch_coverage
-                      MethodFuncCall name:sample start:36:17 end:36:25:
-                        vpiParent: RefObj name:switch_coverage.sample()
-                        vpiName Identifier name:sample start:36:17 end:36:23:
+                    vpiName Identifier name:sample start:36:17 end:36:23:
+                    vpiTaskFunc: Task name:sample
+                    vpiNameQualifier RefTypespec name:switch_coverage start:36:1 end:36:16:
+                      vpiParent: TaskCall name:sample
+                      vpiName: switch_coverage
+                      vpiFullName: coverage::sample::switch_coverage
+                      vpiActual: CoverGroupTypespec name:switch_coverage
               vpiEndLabel Identifier name:sample start:37:9 end:37:15:
         ClassDefn name:Scoreboard file:$Source01/Scoreboard.sv start:12:1 end:41:9:
           vpiParent: Unit
@@ -30805,8 +30799,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 6
-[WARNING] : 9
+[  ERROR] : 5
+[WARNING] : 7
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -30882,10 +30876,10 @@ Name                            Before   After   Added   Removed
 Constant                           465     464       9        10
 LongIntTypespec                      0       1       1         0
 Operation                          206     197       0         9
-RefObj                            1074    1066       0         8
-RefTypespec                       1352    1350       8        10
+RefObj                            1072    1064       0         8
+RefTypespec                       1351    1349       8        10
 ----------------------------------------------------------------
-Others                            2991    2991       0         0
+Others                            2988    2988       0         0
 ----------------------------------------------------------------
-                                  6088    6069      18        37
+                                  6082    6063      18        37
 ===================== END REDUCTION RESULT =====================
