@@ -37,7 +37,7 @@ interface simple_bus(input logic clk);
 
   modport target (input req, clk, export countTargets);
   modport pinger (input clk, export Ping);
-  modport initiator (input clk, output req, import countTargets);
+  modport initiator (input clk, output req, import task countTargets());
 endinterface
 
 module memMod(interface a);
