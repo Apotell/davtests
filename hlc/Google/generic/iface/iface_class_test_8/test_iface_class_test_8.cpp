@@ -58,7 +58,7 @@
 // function f and no package bhg, and the .hlc compiles no other source.
 //   - bhg::arr: the package prefix bhg names no package (26.3), an error.
 //     HLC's diagnostic is "Undefined package" (CompUndefinedPackage, or
-//     ElabUndefinedPackage when found during elaboration).
+//     ElabUndefinedPackage when found during elaboration; now retired).
 //   - f(...): a function call shall name a declared function (13.4); f
 //     names none, an error. HLC's diagnostic is "Undefined user
 //     task/function" (CompUndefinedUserFunction, or
@@ -329,7 +329,7 @@ TEST_F(IfaceClassTest8Test, PackageBhgIsReportedUndefined) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared names are errors";
-  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage}, "bhg", 9))
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedPackage /*, EventType::ElabUndefinedPackage (retired 2026-11-20) */}, "bhg", 9))
       << "26.3: bhg (line 9) names no package;" << describeReportedErrors();
 }
 

@@ -547,7 +547,7 @@ TEST_F(ClassTest49Test, Lines30To31ModuleIsAccepted) {
 TEST_F(ClassTest49Test, ReportsNoPackageDiagnostics) {
   EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedPackage), nullptr);
   EXPECT_EQ(findEvent(EventType::CompUndefinedPackage), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);
+  // EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);  // ElabUndefinedPackage retired 2026-11-20, never raised
 }
 
 // The class is declared once, extends nothing, and endclass has no label, so

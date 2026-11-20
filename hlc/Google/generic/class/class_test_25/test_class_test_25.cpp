@@ -447,7 +447,7 @@ TEST_F(ClassTest25Test, Lines21To22ModuleIsAccepted) {
 TEST_F(ClassTest25Test, ReportsNoPackageDiagnostics) {
   EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedPackage), nullptr);
   EXPECT_EQ(findEvent(EventType::CompUndefinedPackage), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);
+  // EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage), nullptr);  // ElabUndefinedPackage retired 2026-11-20, never raised
 }
 
 // Bar and Foo are each declared once, Package::Bar is declared before Foo
