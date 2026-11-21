@@ -525,8 +525,9 @@ TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
 // example d_unit_slash, n_outer), and each element below has no time unit and no precision from any rule (a-c),
 // declares neither, and its file has no compilation-unit timeunit. Not asserted, because the standard does not
 // settle whether they count as "specified": elements with only one of the two, with an illegal declaration
-// (errors.sv), with a `timescale written inside them (errors_timescale_inside.sv), or in a file whose
-// compilation-unit timeunit comes after them (errors_cu_late.sv).
+// (errors.sv), or in a file whose compilation-unit timeunit comes after them (errors_cu_late.sv). e_timescale_inside
+// (errors_timescale_inside.sv) is reported too, but only after the syntax error (PA5508) that drops the
+// `timescale written inside it, so it is not asserted.
 TEST_F(TimescaleTest, ElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
   // timescale.sv: after `resetall (22.3) the `timescale is gone, and no compilation-unit timeunit exists.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "t_after_resetall", 57, 1), nullptr);
