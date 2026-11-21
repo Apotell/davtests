@@ -331,6 +331,15 @@ TEST_F(LibraryInterconTest, CmpArrayBindsToRealLibCmp) {
       << fileName(bound);
 }
 
+// 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
+// others do not." driver.sv and cmp.svr declare 'timeunit 1ns/1ps'; cmp (cmp.sv), NetsPkg (nets.pkg) and top
+// (top.sv) declare none.
+TEST_F(LibraryInterconTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "cmp #(.hyst(0.65))", 2, 1), nullptr) << "cmp.sv";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "NetsPkg", 1, 1), nullptr) << "nets.pkg";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "top", 1, 1), nullptr) << "top.sv";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -53,8 +53,7 @@
 //       scenarios here share one ErrorType.
 //   (b) HLC does not diagnose it yet -- the assertion the standard requires is
 //       written out in full, with GTEST_SKIP() as the first statement citing
-//       the clause. Two of the twelve rows are in this state as of 2026-09-01
-//       (row 7 and row 12); that is the point of the catalog. No test here
+//       the clause. Row 7 is in this state; that is the point of the catalog. No test here
 //       asserts the absence of a diagnostic, which would lock the gap in.
 //
 // Behaviour observed while writing this file, none of it diagnosed today and
@@ -67,10 +66,8 @@
 //     "timeunit 1ns" instead of being rejected (row 10).
 //   - r13_m "timeunit 1step" is accepted and recorded as -12, i.e. "step" is
 //     treated as if it meant 1ps (row 13).
-//   - r12_b, declared after a `resetall, still inherits unit -9 / precision
-//     -12 from the `timescale before it, so the mixed have/have-not condition
-//     of 3.14.2.3 cannot even arise. That is a separate `resetall defect
-//     (IEEE 1800-2023 22.3), noted in row 12's skip message.
+//   - r12_b, declared after a `resetall, has no time unit or precision (22.3), so
+//     the mixed have/have-not condition of 3.14.2.3 arises (row 12).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
@@ -213,16 +210,35 @@ TEST_F(Chapter3ErrorRulesTest, Row11_TimeunitAfterOtherItemsIsRejected) {
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row12_MixedTimescaleAndNoTimescaleElementsAreRejected) {
-  // catalog row 12 | 3.14.2.3 | LINT
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14.2.3 makes it an error for some "
-                  "design elements to have a time unit and precision while others do not. Two "
-                  "defects stack here: no such whole-design check exists, and r12_b -- declared "
-                  "after a `resetall -- still inherits its timescale from the preceding "
-                  "`timescale, contrary to IEEE 1800-2023 22.3, so the mixed condition is not even "
-                  "represented in the model. There is no dedicated event code for this "
-                  "rule yet, so the assertion below names the nearest existing one";
-  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r12_b"), nullptr)
+  // catalog row 12 | 3.14.2.3 | COMP
+  // 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
+  // others do not." r12_a (3--error_rules_inv3.sv:19) has the `timescale 1ns/1ps; r12_b, declared after a
+  // `resetall (22.3), has none.
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r12_b", 23, 1), nullptr)
       << "either all design elements carry a timescale or none do (IEEE 1800-2023 3.14.2.3)";
+}
+
+TEST_F(Chapter3ErrorRulesTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
+  // 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
+  // others do not." This compilation is one unit (no -fileunit) and r12_a has a `timescale 1ns/1ps and r9_m a
+  // 'timeunit 1ns / 1us', so every design element without both a time unit and a precision is reported:
+  // those with neither (r5_dup, r6_p, r7_m, r8_m, r2_m, r2_prog, r3_sub) and those with only a time unit or
+  // a value HLC cannot read (r10_m, r11_m, r13_m).
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r5_dup", 31, 1), nullptr) << "module r5_dup";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r5_dup", 33, 1), nullptr) << "interface r5_dup";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r6_p", 39, 1), nullptr) << "package r6_p";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r6_p", 41, 1), nullptr) << "second package r6_p";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r7_m", 48, 1), nullptr) << "module r7_m";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r8_m", 55, 1), nullptr) << "module r8_m";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r10_m", 70, 1), nullptr)
+      << "r10_m: timeunit, no precision";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r11_m", 78, 1), nullptr)
+      << "r11_m: timeunit, no precision";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r13_m", 86, 1), nullptr) << "r13_m: 1step sets no unit";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r2_m", 99, 1), nullptr) << "module r2_m";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r2_prog", 102, 1), nullptr) << "program r2_prog";
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r3_sub", 18, 1), nullptr)
+      << "module r3_sub (3--error_rules_inv2.sv)";
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row13_StepCannotSetTheTimeUnit) {
