@@ -214,6 +214,13 @@ TEST_F(ForeachClassTest, RangeMinMaxAreReported) {
       << "'range.max' should not resolve: 'range' is a foreach iterator, not a class handle";
 }
 
+// 8.18 (p.194): "A member identified as local is available only to methods inside the class." The foreach in the
+// package function f1 (dut.sv:11) uses top_map.m_mems_by_offset, a local member of uvm_reg_map, from outside the
+// class. The standard has no "shall be an error" sentence for it; the rule is that the member is not available.
+TEST_F(ForeachClassTest, LocalMemberAccessedFromOutsideTheClassIsRejected) {
+  EXPECT_NE(findEvent(EventType::CompIllegalMemberAccess, "m_mems_by_offset", 11, 22), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
