@@ -1,0 +1,27 @@
+/*
+ Copyright 2020 Apotell
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+*/
+
+/*
+:name: if_modport_expr_const_output_err
+:description: a modport output port is bound to a constant expression
+:should_fail_because: the port expression shall be legal for the port direction; a constant cannot be an output
+:tags: 25.5.4
+*/
+
+interface I;
+  logic [7:0] r;
+  modport A (output .P(r), output .Q(2));
+endinterface
