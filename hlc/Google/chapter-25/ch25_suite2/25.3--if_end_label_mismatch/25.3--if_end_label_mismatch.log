@@ -1,0 +1,154 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/Google/chapter-25/ch25_suite2 -timescale=1ns/1ns -d ast -d db -nobuiltin 25.3--if_end_label_mismatch.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/25.3--if_end_label_mismatch.sv".
+[INF:PA5502] Parsing source file "$Source01/25.3--if_end_label_mismatch.sv".
+AST_DEBUG_BEGIN
+Count: 26
+LIB: work
+FILE<0>:$Source01/25.3--if_end_label_mismatch.sv
+n<$Source01/25.3--if_end_label_mismatch.sv> u<25> t<Top_level_rule> c<1> l<24:1> el<27:1>
+  n<> u<1> t<Null_rule> p<25> s<2> l<24:1> el<24:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<25> s<3> l<24:1> el<26:24>
+  n</*\n:name: if_end_label_mismatch\n:description: the endinterface label must match the interface name\n:should_fail_because: the end label of an interface shall be the same as the interface name\n:tags: 25.3\n*/> u<3> t<BLOCK_COMMENT> p<25> s<24> l<24:1> el<26:24>
+  n<> u<24> t<Source_text> p<25> c<23> l<24:1> el<26:24>
+    n<> u<23> t<Description> p<24> c<22> l<24:1> el<26:24>
+      n<> u<22> t<Interface_declaration> p<23> c<7> l<24:1> el<26:24>
+        n<> u<7> t<Interface_ansi_header> p<22> c<4> s<19> l<24:1> el<24:19>
+          n<> u<4> t<INTERFACE> p<7> s<5> l<24:1> el<24:10>
+          n<good_if> u<5> t<SIMPLE_IDENTIFIER> p<7> s<6> l<24:11> el<24:18>
+          n<> u<6> t<Package_import_declaration_list> p<7> l<24:18> el<24:18>
+        n<> u<19> t<Non_port_interface_item> p<22> c<18> s<21> l<25:3> el<25:11>
+          n<> u<18> t<Interface_or_generate_item> p<19> c<17> l<25:3> el<25:11>
+            n<> u<17> t<Module_common_item> p<18> c<16> l<25:3> el<25:11>
+              n<> u<16> t<Module_or_generate_item_declaration> p<17> c<15> l<25:3> el<25:11>
+                n<> u<15> t<Package_or_generate_item_declaration> p<16> c<14> l<25:3> el<25:11>
+                  n<> u<14> t<Data_declaration> p<15> c<13> l<25:3> el<25:11>
+                    n<> u<13> t<Variable_declaration> p<14> c<9> l<25:3> el<25:11>
+                      n<> u<9> t<Data_type> p<13> c<8> s<12> l<25:3> el<25:8>
+                        n<> u<8> t<LOGIC> p<9> l<25:3> el<25:8>
+                      n<> u<12> t<Variable_decl_assignment_list> p<13> c<11> l<25:9> el<25:10>
+                        n<> u<11> t<Variable_decl_assignment> p<12> c<10> l<25:9> el<25:10>
+                          n<s> u<10> t<SIMPLE_IDENTIFIER> p<11> l<25:9> el<25:10>
+        n<> u<21> t<ENDINTERFACE> p<22> s<20> l<26:1> el<26:13>
+        n<other_if> u<20> t<SIMPLE_IDENTIFIER> p<22> l<26:16> el<26:24>
+AST_DEBUG_END
+[INF:CP5805] $Source01/25.3--if_end_label_mismatch.sv:24:1: Compile interface "good_if".
+[ERR:CP5842] $Source01/25.3--if_end_label_mismatch.sv:24:11: Unmatched label "good_if",
+             $Source01/25.3--if_end_label_mismatch.sv:26:16: closing label "other_if".
+[INF:CM5028] Using global timescale: "1ns/1ns".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:25.3--if_end_label_mismatch.sv file:$Source01/25.3--if_end_label_mismatch.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "25.3--if_end_label_mismatch.sv"
+      vpiPreprocFile: "$Output/lib/work/25.3--if_end_label_mismatch.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:25.3--if_end_label_mismatch.sv:
+  vpiAllInterfaces (1 items):
+    Interface name:good_if file:$Source01/25.3--if_end_label_mismatch.sv start:24:1 end:26:24:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:good_if start:24:11 end:24:18:
+      vpiFullName: good_if
+      vpiVariable (1 items):
+        Variable name:s start:25:9 end:25:10:
+          vpiParent: Interface name:good_if
+          vpiName: s
+          vpiFullName: good_if.s
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:25:3 end:25:8:
+            vpiParent: Variable name:s
+            vpiFullName: good_if.s
+            vpiActual: LogicTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Interface name:good_if
+          vpiScalar: true
+      vpiDefName: good_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.3--if_end_label_mismatch.sv"
+      vpiDefLineNo: 24
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:24:11 end:24:18:
+        vpiParent: Interface name:good_if
+        vpiName: work
+        vpiFullName: good_if.work
+        vpiActual: Library name:work
+      vpiCell: good_if
+      vpiUnit: Unit
+      vpiEndLabel Identifier name:other_if start:26:16 end:26:24:
+  vpiTypespec (1 items):
+    InterfaceTypespec name:good_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:good_if start:24:11 end:24:18:
+      vpiDefName: good_if
+      vpiInterface: Interface name:good_if
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 1
+[WARNING] : 0
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/25.3--if_end_label_mismatch.sv': {'post_len': 0,
+                                                                          'pre_len': 49}},
+            'post_len': 0,
+            'pre_len': 49,
+            'test_name': 'Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch'}}
+
++-------------------------------------------------+----------+-----------+
+| INPUT                                           |   PRELEN |   POSTLEN |
++=================================================+==========+===========+
+| $Output/lib/work/25.3--if_end_label_mismatch.sv |       49 |         0 |
++=================================================+==========+===========+
+|                                                 |       49 |         0 |
++-------------------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch/design.hldb ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.3--if_end_label_mismatch/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              13      13       0         0
+----------------------------------------------------------------
+                                    13      13       0         0
+===================== END REDUCTION RESULT =====================
