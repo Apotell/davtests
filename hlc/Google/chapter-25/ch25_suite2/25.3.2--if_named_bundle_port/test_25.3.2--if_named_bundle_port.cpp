@@ -73,7 +73,9 @@ TEST_F(IfNamedBundlePortTest, PortTypedByBusIfWithoutModport) {
   ASSERT_NE(p->getTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = p->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr) << "port b is not typed by an interface";
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
   EXPECT_EQ(its->getModport(), nullptr) << "no modport is named in 'bus_if b'";
 }
 
@@ -109,7 +111,9 @@ TEST_F(IfNamedBundlePortTest, IODeclTypedByBusIf) {
   ASSERT_NE(io->getTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = io->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr);
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
 }
 
 }  // namespace hlc

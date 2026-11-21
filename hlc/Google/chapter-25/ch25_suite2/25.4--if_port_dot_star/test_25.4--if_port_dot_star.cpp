@@ -76,7 +76,9 @@ class IfPortDotStarTest : public Test {
         << name;
     const hldb::RefObj *const high = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(high, nullptr) << name;
-    EXPECT_EQ(high->getActual(), hldb::findByName<hldb::Variable>(name, getTop()->getVariables())) << name;
+    const hldb::Any *const expected = hldb::findByName<hldb::Variable>(name, getTop()->getVariables());
+    ASSERT_NE(expected, nullptr) << name;
+    EXPECT_EQ(high->getActual(), expected) << name;
   }
 };
 

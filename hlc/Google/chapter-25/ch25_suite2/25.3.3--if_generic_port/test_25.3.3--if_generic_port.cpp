@@ -81,7 +81,9 @@ TEST_F(IfGenericPortTest, TopInstantiatesGenIf) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = inst->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr);
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("gen_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("gen_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
 }
 
 TEST_F(IfGenericPortTest, GenIfHasVariableS) {
@@ -115,11 +117,15 @@ TEST_F(IfGenericPortTest, ConnectionNamesPortPAndBindsUGen) {
   const hldb::RefObj *const low = arg->getLowConn<hldb::RefObj>();
   ASSERT_NE(low, nullptr);
   EXPECT_EQ(low->getName(), "p");
-  EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Port>("p", sink->getPorts()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Port>("p", sink->getPorts());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(low->getActual(), expected);
   const hldb::RefObj *const high = arg->getHighConn<hldb::RefObj>();
   ASSERT_NE(high, nullptr);
   EXPECT_EQ(high->getName(), "u_gen");
-  EXPECT_EQ(high->getActual(), hldb::findByName<hldb::RefInstance>("u_gen", top->getRefInstances()));
+  const hldb::Any *const expected2 = hldb::findByName<hldb::RefInstance>("u_gen", top->getRefInstances());
+  ASSERT_NE(expected2, nullptr);
+  EXPECT_EQ(high->getActual(), expected2);
 }
 
 }  // namespace hlc

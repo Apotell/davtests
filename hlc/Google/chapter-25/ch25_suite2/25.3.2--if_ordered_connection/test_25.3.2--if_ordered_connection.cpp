@@ -92,7 +92,9 @@ TEST_F(IfOrderedConnectionTest, SbIsBusIfInstance) {
   ASSERT_NE(sb->getTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = sb->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr);
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
 }
 
 TEST_F(IfOrderedConnectionTest, ConnectionIsPositional) {
@@ -109,7 +111,9 @@ TEST_F(IfOrderedConnectionTest, FirstPositionIsPortB) {
   ASSERT_NE(arg, nullptr);
   const hldb::RefObj *const low = arg->getLowConn<hldb::RefObj>();
   ASSERT_NE(low, nullptr);
-  EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Port>("b", getModule("sink")->getPorts()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Port>("b", getModule("sink")->getPorts());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(low->getActual(), expected);
 }
 
 TEST_F(IfOrderedConnectionTest, ActualIsInstanceSb) {

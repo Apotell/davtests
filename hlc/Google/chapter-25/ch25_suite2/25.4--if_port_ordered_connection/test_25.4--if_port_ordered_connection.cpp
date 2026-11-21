@@ -64,10 +64,14 @@ class IfPortOrderedConnectionTest : public Test {
     EXPECT_FALSE(arg->getConnByName()) << portName;
     const hldb::RefObj *const low = arg->getLowConn<hldb::RefObj>();
     ASSERT_NE(low, nullptr) << portName;
-    EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Port>(portName, getInterface()->getPorts())) << portName;
+    const hldb::Any *const expected = hldb::findByName<hldb::Port>(portName, getInterface()->getPorts());
+    ASSERT_NE(expected, nullptr) << portName;
+    EXPECT_EQ(low->getActual(), expected) << portName;
     const hldb::RefObj *const high = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(high, nullptr) << portName;
-    EXPECT_EQ(high->getActual(), hldb::findByName<hldb::Variable>(varName, getTop()->getVariables())) << portName;
+    const hldb::Any *const expected2 = hldb::findByName<hldb::Variable>(varName, getTop()->getVariables());
+    ASSERT_NE(expected2, nullptr) << portName;
+    EXPECT_EQ(high->getActual(), expected2) << portName;
   }
 };
 
