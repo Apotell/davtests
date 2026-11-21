@@ -53,7 +53,7 @@
 //       scenarios here share one ErrorType.
 //   (b) HLC does not diagnose it yet -- the assertion the standard requires is
 //       written out in full, with GTEST_SKIP() as the first statement citing
-//       the clause. Row 7 is in this state; that is the point of the catalog. No test here
+//       the clause. No row is in this state now. No test here
 //       asserts the absence of a diagnostic, which would lock the gap in.
 //
 // Behaviour observed while writing this file, none of it diagnosed today and
@@ -220,21 +220,15 @@ TEST_F(Chapter3ErrorRulesTest, Row12_MixedTimescaleAndNoTimescaleElementsAreReje
 
 TEST_F(Chapter3ErrorRulesTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
   // 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-  // others do not." This compilation is one unit (no -fileunit) and r12_a has a `timescale 1ns/1ps and r9_m a
-  // 'timeunit 1ns / 1us', so every design element without both a time unit and a precision is reported:
-  // those with neither (r5_dup, r6_p, r7_m, r8_m, r2_m, r2_prog, r3_sub) and those with only a time unit or
-  // a value HLC cannot read (r10_m, r11_m, r13_m).
+  // others do not." r9_m declares both itself ('timeunit 1ns / 1us'), and each element below has no time unit
+  // and no precision from any rule and declares neither. r10_m, r11_m and r13_m (a time unit only, or an
+  // illegal one) are not asserted: whether they count as "specified" is not settled by the standard.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r5_dup", 31, 1), nullptr) << "module r5_dup";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r5_dup", 33, 1), nullptr) << "interface r5_dup";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r6_p", 39, 1), nullptr) << "package r6_p";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r6_p", 41, 1), nullptr) << "second package r6_p";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r7_m", 48, 1), nullptr) << "module r7_m";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r8_m", 55, 1), nullptr) << "module r8_m";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r10_m", 70, 1), nullptr)
-      << "r10_m: timeunit, no precision";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r11_m", 78, 1), nullptr)
-      << "r11_m: timeunit, no precision";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r13_m", 86, 1), nullptr) << "r13_m: 1step sets no unit";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r2_m", 99, 1), nullptr) << "module r2_m";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r2_prog", 102, 1), nullptr) << "program r2_prog";
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r3_sub", 18, 1), nullptr)

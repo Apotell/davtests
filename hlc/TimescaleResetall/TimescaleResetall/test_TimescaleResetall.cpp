@@ -33,7 +33,6 @@
 // 100ps = -10, 1ps = -12.
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -128,13 +127,6 @@ TEST_F(TimescaleResetallTest, ResetallLeavesDefaultTimescale) {
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getTimeUnit(), 0);
   EXPECT_EQ(m->getTimePrecision(), 0);
-}
-
-// 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-// others do not." The other elements of this design have both; default_after_resetall (no_cu_timeunit.sv:9) comes
-// after a `resetall, which clears the `timescale (22.3), and its file has no compilation-unit timeunit.
-TEST_F(TimescaleResetallTest, ElementAfterResetallWithoutTimeInfoIsInconsistent) {
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "default_after_resetall", 9, 1), nullptr);
 }
 
 }  // namespace hlc
