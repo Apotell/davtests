@@ -35,7 +35,8 @@
 //
 //   Besides reporting the redeclaration, HLC, confirmed by running the
 //   compiler directly on this file, MERGES both declarations into a
-//   single Net object: vpiNetType comes out as vpiWire (the second/"wire"
+//   single Net object (current HLC behaviour; the standard defines no
+//   model for illegal code, so these are not standard requirements): vpiNetType comes out as vpiWire (the second/"wire"
 //   declaration wins), and the typespec comes out as LogicTypespec (the
 //   "reg"/first declaration's type survives). The structural tests below
 //   describe this actual merged-object shape as ground truth for what
@@ -85,8 +86,8 @@ class VariableRedeclareTest : public Test {
 TEST_F(VariableRedeclareTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 // ---------------------------------------------------------------------------
-// Net -- reg v and wire v merge into a single Net named 'v' (the shape HLC
-// builds next to the error it reports for the redeclaration)
+// Net -- reg v and wire v merge into a single Net named 'v' (HLC's current
+// shape for this illegal code, documented as is, not required by the standard)
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclareTest, OneNetExists) {
   const hldb::Module *const top = getTop();

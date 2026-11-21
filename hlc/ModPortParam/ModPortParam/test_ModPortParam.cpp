@@ -50,8 +50,8 @@
 //         interface is PerformanceCounterIF and whose modport is CSR.
 //       * 37.14 detail 5: the low conn of an interface port is a RefObj;
 //         it binds to the CSR modport (see hldb_model_gaps.md Sec 2).
-//       * interface_port_header carries no port_direction, so the port has
-//         no direction (vpiNoDirection) and needs none.
+//       * interface_port_header carries no port_direction; an omitted
+//         direction is legal (23.2.2.3). Not asserted here.
 //       * no net or variable named perfCounter is materialized in CSR_Unit
 //         (an interface port is neither a net nor a variable port).
 //   - 25.3 / 23.3.2.1: module Core instantiates PerformanceCounterIF as
