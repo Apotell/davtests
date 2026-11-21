@@ -433,7 +433,6 @@ TEST_F(TimescaleTest, PrecisionWithoutTimeUnitIsAnError) {
   // precision specified and others do not." d_prec_only (decl.sv) has a timeprecision but no time unit, and
   // no `timescale, enclosing element or compilation-unit timeunit supplies one (rules a-c), while other
   // elements of this design specify both. A timeprecision alone is legal: rule d gives the default unit.
-  // timeprecision 1ps;
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "d_prec_only", 24, 1), nullptr);
 }
 

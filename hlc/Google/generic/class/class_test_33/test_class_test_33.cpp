@@ -106,6 +106,9 @@
 //   ReportsAnErrorForTheUndeclaredPackage  at least one fatal, syntax or
 //                                          error diagnostic of any category
 //                                          but the 23.3.1 one, on line 7
+//   ReportsThatTheExternMethodHasNoBody    CompMissingImplementation for the
+//                                          extern method on line 7: HLC's
+//                                          report (8.24 states no error)
 //   NoErrorsOnTheLegalLines1To5            no fatal, syntax or error
 //                                          diagnostic outside elaboration on
 //                                          lines 1-5
