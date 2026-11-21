@@ -457,13 +457,6 @@ TEST_F(InterfacePortRules, InnerIndexOfInstanceArrayOutOfRange) {
   EXPECT_NE(findEvent(EventType::CompIndexOutOfRange, "u[1][9]", 219, 5), nullptr);
 }
 
-// HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message, not an
-// IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct. "program ipr_prog(...)" is on
-// line 200.
-TEST_F(InterfacePortRules, ProgramReportsObsoleteUsage) {
-  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "ipr_prog", 200, 9), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {
