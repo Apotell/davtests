@@ -347,10 +347,11 @@ class ClassTest34Test : public Test {
 // ---------------------------------------------------------------------------
 
 // 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." No out-of-block body for set_port is anywhere in the compile, so HLC warns. It is a warning
-// because a body supplied by another compile is legal (no sentence makes a missing
-// body an error), so this checks what HLC says about this input, not an LRM error.
-TEST_F(ClassTest34Test, WarnsThatTheExternMethodHasNoBody) {
+// outside the declaration." and "An out-of-block declaration shall be declared in the same scope as the class
+// declaration and shall follow the class declaration." No out-of-block body for set_port is anywhere in the
+// compile, so HLC reports it as an error. The LRM has no sentence that says a missing body "shall be an error"
+// (compare 18.5.1 for constraint prototypes), so this checks HLC's report for this input.
+TEST_F(ClassTest34Test, ReportsThatTheExternMethodHasNoBody) {
   EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", 7, 8), nullptr);
 }
 
