@@ -336,7 +336,6 @@ TEST_F(MultContAssignTest, WandworXIsWorWithTwoAssigns) {
 }
 
 TEST_F(MultContAssignTest, Top2TwoIsUwireWithTwoAssigns) {
-  GTEST_SKIP() << "HLC doesn't implement implicit nets yet";
   const hldb::Module *const m = getModule("top2");
   ASSERT_NE(m, nullptr);
   const hldb::Net *const two = hldb::findByName<hldb::Net>("two", m->getNets());
