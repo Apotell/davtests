@@ -56,8 +56,8 @@
 //         and Constant 1; right = Constant 0)
 //       * its element typespec resolves to an InterfaceTypespec for
 //         r5p_bus_if with modport "man"
-//   - Sec 23.2.2.2: interface_port_header has no port_direction, so "m" has
-//     none (vpiNoDirection) and needs none
+//   - Sec 23.2.2.2: interface_port_header has no port_direction; an
+//     omitted direction is legal (23.2.2.3). Not asserted here
 //   - Sec 25.5: "man" (the modport) and "vld" (accessed through m[i]) are
 //     declared in r5p_bus_if, so no CompFailedToBind for either
 //   - Sec 6.10: "s_dec" is never declared. It appears only on the RHS of a
