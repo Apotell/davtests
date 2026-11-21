@@ -114,9 +114,6 @@
 //   ReportsAnErrorForTheUndeclaredNames    at least one fatal, syntax or
 //                                          error diagnostic of any category
 //                                          but the 23.3.1 one, on line 7
-//   ReportsThatTheExternMethodHasNoBody    CompMissingImplementation for the
-//                                          extern method on line 7: HLC's
-//                                          report (8.24 states no error)
 //   NoErrorsOnTheLegalLines1To5            no fatal, syntax or error
 //                                          diagnostic outside elaboration on
 //                                          lines 1-5
@@ -175,7 +172,6 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
-#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -348,15 +344,6 @@ class ClassTest34Test : public Test {
 // ---------------------------------------------------------------------------
 // Diagnostics
 // ---------------------------------------------------------------------------
-
-// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." and "An out-of-block declaration shall be declared in the same scope as the class
-// declaration and shall follow the class declaration." No out-of-block body for set_port is anywhere in the
-// compile, so HLC reports it as an error. The LRM has no sentence that says a missing body "shall be an error"
-// (compare 18.5.1 for constraint prototypes), so this checks HLC's report for this input.
-TEST_F(ClassTest34Test, ReportsThatTheExternMethodHasNoBody) {
-  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", 7, 8), nullptr);
-}
 
 // The argument type is dbg_pkg::analysis_port #(1,N), but "The left operand
 // of the scope resolution operator :: shall be a class type name, package name

@@ -92,9 +92,9 @@
 //     not exist; the test checks that it is not bound to a class.
 //   - Separate diagnostics for p and q: once yourpkg is unresolved, the LRM
 //     does not fix how many further diagnostics follow.
-//   - Whether the LRM makes the missing out-of-block body an error: no
-//     sentence says so (see class_member_test_16); the test checks HLC's
-//     report, ReportsThatTheExternMethodHasNoBody.
+//   - Whether an error is reported for the missing out-of-block body: no
+//     LRM sentence found makes a body-less extern prototype an error by
+//     itself (see class_member_test_16).
 //   - The prototype's lifetime flag: a prototype has no body whose
 //     variables a lifetime could govern.
 //   - subr's access (local/protected): none is written, so it is public
@@ -257,15 +257,6 @@ class ClassMemberTest17Test : public Test {
     return (m_unit == nullptr) ? nullptr : hldb::findByDefName<hldb::ClassDefn>("myclass", m_unit->getClassDefns());
   }
 };
-
-// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." and "An out-of-block declaration shall be declared in the same scope as the class
-// declaration and shall follow the class declaration." No out-of-block body for subr is anywhere in the
-// compile, so HLC reports it as an error. The LRM has no sentence that says a missing body "shall be an error"
-// (compare 18.5.1 for constraint prototypes), so this checks HLC's report for this input.
-TEST_F(ClassMemberTest17Test, ReportsThatTheExternMethodHasNoBody) {
-  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subr", 7, 8), nullptr);
-}
 
 // The grammar accepts lines 6-8 (A.1.9, A.2.2.1 class_type), so nothing is
 // fatal or a syntax error; the unresolved names are semantic errors.
