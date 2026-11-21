@@ -61,12 +61,15 @@
 //
 // Every assertion follows from the LRM, except NoCascadeErrorsAfterLine17,
 // which is labelled as HLC error recovery. PpIllegalDirectiveInDesignElement
-// is HLC's code for the 22.9 placement rule.
+// is HLC's code for the 22.9 placement rule, and PaUnconnectedDriveValue its
+// code for the rule that the directive takes pull1 or pull0.
 //
 // WHAT IS CHECKED (one fact per test)
 //
 //   ReportsAnErrorOnLine17            at least one fatal, syntax or error
 //                                     diagnostic on line 17
+//   ReportsTheIllegalArgumentPull2    PaUnconnectedDriveValue for pull2, on
+//                                     line 17
 //   NoErrorsOnTheLegalLines1To16      LRM: no such diagnostic (outside
 //                                     elaboration) on lines 1-16
 //   NoCascadeErrorsAfterLine17        HLC error recovery, not an LRM rule:
@@ -85,8 +88,8 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Which code, which error-class severity and how many diagnostics line 17
-//     draws, and their message text and column. The LRM requires an error but
+//   - How many diagnostics line 17 draws besides the one asserted by
+//     ReportsTheIllegalArgumentPull2, and their message text and column. The LRM requires an error but
 //     not its form, and it numbers lines (22.13) but not columns. Nearest
 //     assertion: ReportsAnErrorOnLine17.
 //   - Which drive applies to unconnected ports after line 17 or 18. The LRM

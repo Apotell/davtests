@@ -33,8 +33,8 @@
 //   variable AND a net) in one scope -- this is what makes the file
 //   illegal, distinct from an ordinary "same-type" redeclaration.
 //
-//   HLC's actual (buggy) behavior, confirmed by running the compiler
-//   directly on this file, is to silently MERGE both declarations into a
+//   Besides reporting the redeclaration, HLC, confirmed by running the
+//   compiler directly on this file, MERGES both declarations into a
 //   single Net object: vpiNetType comes out as vpiWire (the second/"wire"
 //   declaration wins), and the typespec comes out as LogicTypespec (the
 //   "reg"/first declaration's type survives). The structural tests below
@@ -55,9 +55,7 @@
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
-//     simulation, and the one runtime-dependent assertion (the bug test)
-//     is skipped only because it was already verified, not because it's
-//     unwritten.
+//     simulation.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -87,8 +85,8 @@ class VariableRedeclareTest : public Test {
 TEST_F(VariableRedeclareTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 // ---------------------------------------------------------------------------
-// Net -- reg v and wire v merge into a single Net named 'v' (HLC's actual,
-// buggy, current behavior -- documented as ground truth, not endorsed)
+// Net -- reg v and wire v merge into a single Net named 'v' (the shape HLC
+// builds next to the error it reports for the redeclaration)
 // ---------------------------------------------------------------------------
 TEST_F(VariableRedeclareTest, OneNetExists) {
   const hldb::Module *const top = getTop();
