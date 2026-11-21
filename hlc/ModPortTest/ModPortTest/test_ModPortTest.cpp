@@ -73,8 +73,8 @@
 //     CompFailedToBind for "system"; its port is a modport port
 //     (37.14 detail 1: vpiPortType vpiModportPort) whose typespec resolves
 //     to mem_if restricted to modport system.
-//   - 23.2.2: interface_port_header carries no direction; an omitted
-//     direction is legal (23.2.2.3). Not asserted here.
+//   - 23.2.2: interface_port_header carries no direction; see 23.2.2.2
+//     and A.1.3. Not asserted here.
 //   - 6.19: each memory_ctrl module has its own enum typedef fsm_t with
 //     constants IDLE, WRITE, READ, DONE (implicit values 0..3) and a variable
 //     state of that type. The labels being repeated across two modules is

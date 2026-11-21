@@ -64,8 +64,8 @@
 //         "Intf name" ports have vpiPortType vpiInterfacePort.
 //       * the modport identifier ("MyModPort", "system") resolves -- no
 //         CompFailedToBind for it.
-//       * interface_port_header has no port_direction; an omitted direction
-//         is legal (23.2.2.3). Not asserted here.
+//       * interface_port_header has no port_direction; see 23.2.2.2 and
+//         A.1.3. Not asserted here.
 //       * an interface port with an unpacked dimension [1:0] is an array of
 //         interface ports: its typespec is an unpacked ArrayTypespec over the
 //         interface typespec (with the named modport where given).
