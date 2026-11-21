@@ -59,11 +59,9 @@ TEST_F(Chapter25ErrorRulesTest, Row906_ImplicitPortConnectionCannotReferenceGene
 
 TEST_F(Chapter25ErrorRulesTest, Row912_RefDirectionModportSignalCannotBeSpecifyTerminal) {
   // catalog row 912 | 25.6 | LINT
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 25.6)";
-  // A ref port cannot be used as a terminal in a specify block; when an
-  // interface signal is accessed through a modport that gives it ref
-  // direction it is not a legal specify terminal.
-  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r912_dtype"), nullptr)
+  // 25.6 (p.792): "A ref port cannot be used as a terminal in a specify block." ch.d is a signal the modport
+  // flop gives ref direction, and $setup(ch.d, ...) on line 37 uses it as a timing-check terminal.
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecifyTerminal, "d", 37, 12), nullptr)
       << "a ref-direction modport signal cannot be a specify block terminal (IEEE 1800-2023 25.6)";
 }
 
