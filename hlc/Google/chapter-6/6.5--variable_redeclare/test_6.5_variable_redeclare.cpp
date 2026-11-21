@@ -41,22 +41,17 @@
 //   describe this actual merged-object shape as ground truth for what
 //   HLC currently produces -- they are not claiming this Net/Variable
 //   split is correct, only documenting current behavior. The real
-//   problem -- that HLC never reports any error for this conflicting
-//   redeclaration -- is captured by the last, flipped test.
+//   point of the file -- the error HLC reports for this conflicting
+//   redeclaration -- is checked by the last test.
 //
 // What is checked:
 //   - module top exists, has exactly 1 Net named "v" (vpiNetType=vpiWire)
 //   - the Net has a RefTypespec whose actual is LogicTypespec (the "reg"
 //     declaration's type)
 //   - top has no continuous assignments, no processes
-//   - THE POINT OF THIS FILE: the compiler currently reports zero errors
-//     for redeclaring "v" as both reg (variable) and wire (net) in the
-//     same scope -- a documented compiler bug, already personally
-//     verified by the user (by re-running this exact assertion with the
-//     skip removed, confirming it fails as expected), so it is kept as
-//     GTEST_SKIP() with the real assertion code underneath, per the
-//     established gating rule: skips are only added after personal user
-//     verification.
+//   - THE POINT OF THIS FILE: redeclaring "v" as both reg (variable) and wire
+//     (net) in the same scope is an error (IEEE 1800-2023 6.5), reported as
+//     CompDuplicateDeclaration at the later declaration, the wire on line 19.
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -165,11 +160,11 @@ TEST_F(VariableRedeclareTest, NoProcesses) {
 // ---------------------------------------------------------------------------
 // The actual point of this file: 'v' is redeclared as both reg and wire
 // ---------------------------------------------------------------------------
-TEST_F(VariableRedeclareTest, CompilerShouldRejectRedeclarationOfVButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
-                  "different kinds of thing (a variable via 'reg' and a net via 'wire') in the same "
-                  "scope. Compiler needs to report this as an error.";
-  EXPECT_NE(findEvent(EventType::CompMultiplyDefinedVariable, "v"), nullptr)
+TEST_F(VariableRedeclareTest, RedeclarationOfVAsNetIsRejected) {
+  // 6.5: "Within a name space (see 3.13), it shall be illegal to redeclare a name already declared by a net,
+  // variable, or other declaration." 'reg v;' (line 18) is the first declaration; 'wire v;' (line 19, column 7)
+  // redeclares it and is the one reported.
+  EXPECT_NE(findEvent(EventType::CompDuplicateDeclaration, "v", 19, 7), nullptr)
       << "IEEE 1800-2023 6.5: 'v' is declared twice in one scope, first as a variable via "
          "'reg' and then as a net via 'wire'.";
 }
