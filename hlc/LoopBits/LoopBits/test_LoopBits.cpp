@@ -179,7 +179,6 @@ TEST_F(LoopBitsTest, ModuleParametersSAndTAreNonlocal) {
 
 // 6.7: "wire [T-1:0] x;" has no net declaration assignment.
 TEST_F(LoopBitsTest, ModuleNetXIsPlainWireVector) {
-  GTEST_SKIP() << "HLC doesn't model implicit nets yet.";
   const hldb::Module *const m = getModule("Module");
   ASSERT_NE(m, nullptr);
   const hldb::Net *const x = hldb::findByName<hldb::Net>("x", m->getNets());
@@ -307,7 +306,6 @@ TEST_F(LoopBitsTest, DisplayHierarchicalRefModuleXBinds) {
 // ===========================================================================
 
 TEST_F(LoopBitsTest, TopNetXIsPlainWireVector) {
-  GTEST_SKIP() << "HLC doesn't model implicit nets yet.";
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
   const hldb::Net *const x = hldb::findByName<hldb::Net>("x", top->getNets());
@@ -343,7 +341,6 @@ TEST_F(LoopBitsTest, BlkHasLocalparamW) {
 
 // 23.9: blk's inner x is a net of block blk.
 TEST_F(LoopBitsTest, BlkDeclaresInnerNetX) {
-  GTEST_SKIP() << "HLC doesn't model implicit nets yet.";
   const hldb::GenBlock *const blk = getBlockBlk();
   ASSERT_NE(blk, nullptr);
   const hldb::Net *const x = hldb::findByName<hldb::Net>("x", blk->getNets());

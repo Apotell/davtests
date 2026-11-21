@@ -194,11 +194,6 @@ TEST_F(StringMethodReceiversTest, UserMethodWithStringMethodNameIsNotDisplaced) 
 // Known gap
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringTypespec) {
-  GTEST_SKIP() << "known gap: an element of an array/queue of strings does not bind. After a "
-                  "select path element the binder's context is the Variable, where q.len() "
-                  "(illegal) cannot be told apart from q[1].len() (legal per IEEE 1800-2023 "
-                  "Sec 6.16, the element being of type string). Needs the element-type "
-                  "resolution the queue and associative-array methods also require.";
   EXPECT_EQ(ownerOfCall("q[1].len"), std::string_view("StringTypespec"));
 }
 
