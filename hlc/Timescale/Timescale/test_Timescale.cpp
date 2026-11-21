@@ -521,19 +521,18 @@ TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
 }
 
 // 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-// others do not." Other elements of this design declare both themselves (for example d_unit_slash, n_outer),
-// and each element below has no time unit and no precision from any rule (a-c) and declares neither. Elements
-// with only one of the two, or with an illegal declaration, are not asserted: whether they count as
-// "specified" is not settled by the standard.
+// others do not." Other elements of this design declare a legal time unit and precision themselves (for
+// example d_unit_slash, n_outer), and each element below has no time unit and no precision from any rule (a-c),
+// declares neither, and its file has no compilation-unit timeunit. Not asserted, because the standard does not
+// settle whether they count as "specified": elements with only one of the two, with an illegal declaration
+// (errors.sv), with a `timescale written inside them (errors_timescale_inside.sv), or in a file whose
+// compilation-unit timeunit comes after them (errors_cu_late.sv).
 TEST_F(TimescaleTest, ElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
   // timescale.sv: after `resetall (22.3) the `timescale is gone, and no compilation-unit timeunit exists.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "t_after_resetall", 57, 1), nullptr);
   // nested.sv: n_inner_of_none inherits nothing from n_outer_none, which declares nothing.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "n_outer_none", 42, 1), nullptr);
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "n_inner_of_none", 43, 3), nullptr);
-  // errors_timescale_inside.sv and errors_cu_late.sv (e_cu_before comes before the compilation-unit timeunit).
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_timescale_inside", 5, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_cu_before", 6, 1), nullptr);
 }
 
 // HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
