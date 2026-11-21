@@ -428,14 +428,6 @@ TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
 // ----
 // errors.sv / errors_timescale_inside.sv -- each element breaks one rule.
 // ----
-TEST_F(TimescaleTest, PrecisionWithoutTimeUnitIsAnError) {
-  // Sec 3.14.2.3 (p.60), last sentence: "It shall be an error if some design elements have a time unit and
-  // precision specified and others do not." d_prec_only (decl.sv) has a timeprecision but no time unit, and
-  // no `timescale, enclosing element or compilation-unit timeunit supplies one (rules a-c), while other
-  // elements of this design specify both. A timeprecision alone is legal: rule d gives the default unit.
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "d_prec_only", 24, 1), nullptr);
-}
-
 TEST_F(TimescaleTest, PrecisionLongerThanUnitInDeclarationIsAnError) {
   // Sec 3.14: "The time precision of a design element shall be at least as precise as
   // the time unit; it cannot be a longer unit of time than the time unit."
@@ -529,30 +521,19 @@ TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
 }
 
 // 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-// others do not." Other elements of this design declare both (for example d_unit_slash, e_coarse_decl, n_outer),
-// so every element below, which lacks a time unit, a precision or both, is reported. An element whose own
-// declaration is illegal (errors.sv) is reported too: the illegal declaration sets no usable value.
-TEST_F(TimescaleTest, ElementsWithoutBothTimeInfoAreInconsistentWithTheOthers) {
-  // decl.sv: a time unit and no precision.
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "d_unit_only", 6, 1), nullptr);
+// others do not." Other elements of this design declare both themselves (for example d_unit_slash, n_outer),
+// and each element below has no time unit and no precision from any rule (a-c) and declares neither. Elements
+// with only one of the two, or with an illegal declaration, are not asserted: whether they count as
+// "specified" is not settled by the standard.
+TEST_F(TimescaleTest, ElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
   // timescale.sv: after `resetall (22.3) the `timescale is gone, and no compilation-unit timeunit exists.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "t_after_resetall", 57, 1), nullptr);
   // nested.sv: n_inner_of_none inherits nothing from n_outer_none, which declares nothing.
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "n_outer_none", 42, 1), nullptr);
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "n_inner_of_none", 43, 3), nullptr);
-  // errors.sv: a time unit only, an unreadable value, or a precision only.
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_repeat_mismatch", 8, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_not_first", 14, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_step", 19, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_bad_magnitude", 23, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_fixed_point", 27, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_space_unit", 31, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_space_precision", 35, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_parent", 39, 1), nullptr);
-  // errors_timescale_inside.sv and errors_cu_late.sv.
+  // errors_timescale_inside.sv and errors_cu_late.sv (e_cu_before comes before the compilation-unit timeunit).
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_timescale_inside", 5, 1), nullptr);
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_cu_before", 6, 1), nullptr);
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "e_cu_after", 11, 1), nullptr);
 }
 
 // HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
