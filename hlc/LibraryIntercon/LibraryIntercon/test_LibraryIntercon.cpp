@@ -340,6 +340,18 @@ TEST_F(LibraryInterconTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheO
   EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "top", 1, 1), nullptr) << "top.sv";
 }
 
+// 28.3.6 (p.833), which 23.3.2 applies to module instance arrays: "If the instance-array port expression is an
+// interconnect port or interconnect net expression, the bit-length of the port expression shall be the same as
+// the instance array length." ... "Too many or too few bits to connect to all the instances shall be considered
+// an error." aBus is 'interconnect [0:3][0:1]', 8 bits, connected to the 4-instance arrays on lines 5 and 7.
+// Note: the standard's own example (6.6.8, p.100) declares aBus with unpacked dimensions, which 23.3.3.5 matches
+// against the array; this fixture declares them packed, so the 28.3.6 sentence above applies as written. (A
+// reading that lets 23.3.3.5's part-select rule govern a packed interconnect would make it legal.)
+TEST_F(LibraryInterconTest, InterconnectWidthDiffersFromInstanceArrayLength) {
+  EXPECT_NE(findEvent(EventType::CompInterconnectInstanceArrayWidth, "aBus", 5, 25), nullptr) << "driverArray";
+  EXPECT_NE(findEvent(EventType::CompInterconnectInstanceArrayWidth, "aBus", 7, 19), nullptr) << "cmpArray";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
