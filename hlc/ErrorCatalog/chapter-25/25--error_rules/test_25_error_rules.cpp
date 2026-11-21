@@ -26,11 +26,9 @@
 // Fixture: 25--error_rules.sv (rows 906, 912), compiled in one run by
 // 25--error_rules.hlc.
 //
-// CompIllegalExpressionContext has no call site anywhere in src/ outside
-// its own events/*.yaml definition, so both assertions below are
-// expected to be red today -- that is the intended, documented state of this
-// exercise, not a bug for this file to work around. No test asserts the
-// absence of a diagnostic, which would lock the gap in.
+// Row 906 asserts CompIllegalExpressionContext and row 912 asserts
+// CompIllegalSpecifyTerminal (25--error_rules.sv:37:12). No test asserts the
+// absence of a diagnostic, which would lock a gap in.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
