@@ -153,9 +153,15 @@ TEST_F(IfPortDirectionsTest, PortLowConnsBindDeclarations) {
   ASSERT_NE(a->getLowConn<hldb::RefObj>(), nullptr);
   ASSERT_NE(b->getLowConn<hldb::RefObj>(), nullptr);
   ASSERT_NE(c->getLowConn<hldb::RefObj>(), nullptr);
-  EXPECT_EQ(a->getLowConn<hldb::RefObj>()->getActual(), hldb::findByName<hldb::Net>("a", iface->getNets()));
-  EXPECT_EQ(b->getLowConn<hldb::RefObj>()->getActual(), hldb::findByName<hldb::Variable>("b", iface->getVariables()));
-  EXPECT_EQ(c->getLowConn<hldb::RefObj>()->getActual(), hldb::findByName<hldb::Net>("c", iface->getNets()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Net>("a", iface->getNets());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(a->getLowConn<hldb::RefObj>()->getActual(), expected);
+  const hldb::Any *const expected2 = hldb::findByName<hldb::Variable>("b", iface->getVariables());
+  ASSERT_NE(expected2, nullptr);
+  EXPECT_EQ(b->getLowConn<hldb::RefObj>()->getActual(), expected2);
+  const hldb::Any *const expected3 = hldb::findByName<hldb::Net>("c", iface->getNets());
+  ASSERT_NE(expected3, nullptr);
+  EXPECT_EQ(c->getLowConn<hldb::RefObj>()->getActual(), expected3);
 }
 
 }  // namespace hlc

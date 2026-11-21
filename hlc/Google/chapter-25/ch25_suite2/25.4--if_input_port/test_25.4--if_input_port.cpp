@@ -96,7 +96,9 @@ TEST_F(IfInputPortTest, PortLowConnIsNetClk) {
   ASSERT_NE(p, nullptr);
   const hldb::RefObj *const low = p->getLowConn<hldb::RefObj>();
   ASSERT_NE(low, nullptr);
-  EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Net>("clk", iface->getNets()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Net>("clk", iface->getNets());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(low->getActual(), expected);
 }
 
 }  // namespace hlc

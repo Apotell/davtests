@@ -70,8 +70,9 @@ TEST_F(IfPortConnectionTest, InstanceHasOneNamedConnectionClk) {
   EXPECT_EQ(low->getName(), "clk");
   const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("clk_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
-  EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Port>("clk", iface->getPorts()))
-      << ".clk names port clk of clk_if";
+  const hldb::Any *const expected = hldb::findByName<hldb::Port>("clk", iface->getPorts());
+  ASSERT_NE(expected, nullptr) << ".clk names port clk of clk_if";
+  EXPECT_EQ(low->getActual(), expected) << ".clk names port clk of clk_if";
 }
 
 TEST_F(IfPortConnectionTest, ConnectionBindsTopVariableClk) {
@@ -83,7 +84,9 @@ TEST_F(IfPortConnectionTest, ConnectionBindsTopVariableClk) {
   ASSERT_EQ(inst->getArguments()->size(), 1u);
   const hldb::RefObj *const high = inst->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(high, nullptr) << "the actual of .clk(...) is a reference";
-  EXPECT_EQ(high->getActual(), hldb::findByName<hldb::Variable>("clk", top->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("clk", top->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(high->getActual(), expected);
 }
 
 TEST_F(IfPortConnectionTest, TopClkIsLogicVariable) {
@@ -107,7 +110,9 @@ TEST_F(IfPortConnectionTest, UIfIsOnlyInstanceTypedByClkIf) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = inst->getTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr);
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("clk_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("clk_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
 }
 
 }  // namespace hlc

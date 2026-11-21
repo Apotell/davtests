@@ -77,7 +77,9 @@ TEST_F(IfPortHierAccessTest, InstanceConnectsClkToC) {
   ASSERT_EQ(inst->getArguments()->size(), 1u);
   const hldb::RefObj *const high = inst->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(high, nullptr);
-  EXPECT_EQ(high->getActual(), hldb::findByName<hldb::Variable>("c", top->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("c", top->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(high->getActual(), expected);
 }
 
 TEST_F(IfPortHierAccessTest, AssignTargetsSeen) {
@@ -86,7 +88,9 @@ TEST_F(IfPortHierAccessTest, AssignTargetsSeen) {
   ASSERT_NE(ca, nullptr) << "top has exactly one continuous assignment";
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Variable>("seen", getTop()->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("seen", getTop()->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(lhs->getActual(), expected);
 }
 
 TEST_F(IfPortHierAccessTest, HierarchicalNameResolvesToPortNetClk) {
@@ -97,7 +101,9 @@ TEST_F(IfPortHierAccessTest, HierarchicalNameResolvesToPortNetClk) {
   ASSERT_NE(rhs, nullptr) << "u_if.clk is a reference";
   const hldb::Interface *const iface = hldb::findByDefName<hldb::Interface>("clk_if", m_design->getAllInterfaces());
   ASSERT_NE(iface, nullptr);
-  EXPECT_EQ(rhs->getActual(), hldb::findByName<hldb::Net>("clk", iface->getNets()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Net>("clk", iface->getNets());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(rhs->getActual(), expected);
 }
 
 }  // namespace hlc

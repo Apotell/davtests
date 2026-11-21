@@ -107,7 +107,9 @@ TEST_F(IfMemberAccessTest, AssignLhsIsR) {
   ASSERT_NE(ca, nullptr);
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Variable>("r", getSink()->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("r", getSink()->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(lhs->getActual(), expected);
 }
 
 TEST_F(IfMemberAccessTest, AssignRhsResolvesToBusIfReq) {

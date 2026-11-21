@@ -112,7 +112,9 @@ TEST_F(IfPortUsedInsideTest, EventIsPosedgeOfPortClk) {
   ASSERT_EQ(op->getOperands()->size(), 1u);
   const hldb::RefObj *const clk = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(clk, nullptr);
-  EXPECT_EQ(clk->getActual(), hldb::findByName<hldb::Net>("clk", getInterface()->getNets()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Net>("clk", getInterface()->getNets());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(clk->getActual(), expected);
 }
 
 TEST_F(IfPortUsedInsideTest, BodyIsNonblockingToCount) {

@@ -80,7 +80,9 @@ class IfGenericTwoTypesTest : public Test {
     EXPECT_TRUE(arg->getConnByName()) << instName;
     const hldb::RefObj *const low = arg->getLowConn<hldb::RefObj>();
     ASSERT_NE(low, nullptr) << instName;
-    EXPECT_EQ(low->getActual(), hldb::findByName<hldb::Port>("p", getModule("sink")->getPorts())) << instName;
+    const hldb::Any *const expected = hldb::findByName<hldb::Port>("p", getModule("sink")->getPorts());
+    ASSERT_NE(expected, nullptr) << instName;
+    EXPECT_EQ(low->getActual(), expected) << instName;
     const hldb::RefObj *const high = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(high, nullptr) << instName;
     EXPECT_EQ(high->getActual(), getTopInstance(actualName)) << instName;

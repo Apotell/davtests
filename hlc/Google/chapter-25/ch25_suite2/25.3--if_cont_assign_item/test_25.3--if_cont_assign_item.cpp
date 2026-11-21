@@ -95,7 +95,9 @@ TEST_F(IfContAssignItemTest, LhsIsNetY) {
   ASSERT_NE(ca, nullptr);
   const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Net>("y", getInterface()->getNets()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Net>("y", getInterface()->getNets());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(lhs->getActual(), expected);
 }
 
 TEST_F(IfContAssignItemTest, RhsIsBitwiseNotOfA) {
@@ -109,7 +111,9 @@ TEST_F(IfContAssignItemTest, RhsIsBitwiseNotOfA) {
   ASSERT_EQ(op->getOperands()->size(), 1u);
   const hldb::RefObj *const a = any_cast<hldb::RefObj>(op->getOperands()->at(0));
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getActual(), hldb::findByName<hldb::Variable>("a", getInterface()->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("a", getInterface()->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(a->getActual(), expected);
 }
 
 }  // namespace hlc

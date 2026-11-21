@@ -118,7 +118,9 @@ TEST_F(IfPortDefaultValueTest, InstanceConnectsOnlyClk) {
   const hldb::RefObj *const high = arg->getHighConn<hldb::RefObj>();
   ASSERT_NE(high, nullptr);
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
-  EXPECT_EQ(high->getActual(), hldb::findByName<hldb::Variable>("clk", top->getVariables()));
+  const hldb::Any *const expected = hldb::findByName<hldb::Variable>("clk", top->getVariables());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(high->getActual(), expected);
 }
 
 }  // namespace hlc

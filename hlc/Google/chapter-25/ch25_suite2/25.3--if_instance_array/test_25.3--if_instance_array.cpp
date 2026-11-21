@@ -106,7 +106,9 @@ TEST_F(IfInstanceArrayTest, ElementTypeIsBusIf) {
   ASSERT_NE(ats->getElemTypespec(), nullptr);
   const hldb::InterfaceTypespec *const its = ats->getElemTypespec()->getActual<hldb::InterfaceTypespec>();
   ASSERT_NE(its, nullptr);
-  EXPECT_EQ(its->getInterface(), hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces()));
+  const hldb::Any *const expected = hldb::findByDefName<hldb::Interface>("bus_if", m_design->getAllInterfaces());
+  ASSERT_NE(expected, nullptr);
+  EXPECT_EQ(its->getInterface(), expected);
 }
 
 TEST_F(IfInstanceArrayTest, InstanceHasNoConnections) {
