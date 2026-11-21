@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -163,6 +164,12 @@ TEST_F(PreprocLineTest, MissingIncludeFileIsReportedAsError) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 1) << "including the nonexistent 'line.vh' must be reported as exactly one error";
+}
+
+// 22.4 (p.705): `include inserts "the entire contents of a source file" in place of the directive. The included
+// file does not exist in the test directory, so there is nothing to insert, and HLC reports an error for it.
+TEST_F(PreprocLineTest, ReportsIncludeOfMissingFile) {
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, "line.vh", 7, 10), nullptr);
 }
 
 }  // namespace hlc

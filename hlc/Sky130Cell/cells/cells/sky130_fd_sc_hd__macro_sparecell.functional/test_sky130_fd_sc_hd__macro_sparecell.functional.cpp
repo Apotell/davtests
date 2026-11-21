@@ -17,6 +17,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -94,6 +95,14 @@ TEST_F(Sky130MacroSparecellFunctionalTest, IncludeGuardHasNoArguments) {
       "SKY130_FD_SC_HD__MACRO_SPARECELL_FUNCTIONAL_V", sf->getPreprocMacroDefinitions());
   ASSERT_NE(macro, nullptr);
   EXPECT_EQ(macro->getArguments(), nullptr) << "include guard is a flag macro with no argument list";
+}
+
+// 22.4 (p.705): `include inserts "the entire contents of a source file" in place of the directive. The included
+// file does not exist in the test directory, so there is nothing to insert, and HLC reports an error for it.
+TEST_F(Sky130MacroSparecellFunctionalTest, ReportsIncludeOfMissingFile) {
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, "../nor2/sky130_fd_sc_hd__nor2.v", 36, 1), nullptr);
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, "../inv/sky130_fd_sc_hd__inv.v", 37, 1), nullptr);
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, "../nand2/sky130_fd_sc_hd__nand2.v", 38, 1), nullptr);
 }
 
 }  // namespace hlc
