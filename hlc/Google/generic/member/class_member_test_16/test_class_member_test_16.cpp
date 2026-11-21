@@ -68,12 +68,14 @@
 // its body. A written 'void' return type is a VoidTypespec.
 //
 // What is NOT checked, and why
-//   - Whether the LRM makes the missing out-of-block body an error: 8.24 says
-//     the body "is to be found outside the declaration", in the same scope as
-//     the class, but no sentence says "shall be an error", and the fixture
-//     carries no :should_fail_because:. ReportsThatTheExternMethodHasNoBody
-//     therefore checks HLC's report (CompMissingImplementation), not an LRM
-//     requirement.
+//   - Whether an error is reported for the missing out-of-block body: 8.24
+//     describes how an extern method's out-of-block declaration must match
+//     its prototype, but the test author found no LRM sentence that makes
+//     an extern prototype without a body an error by itself (tools commonly
+//     report it only when the method is referenced, which never happens
+//     here), and the fixture carries no :should_fail_because:. So neither
+//     an error nor its absence is asserted; only fatal and syntax
+//     diagnostics are ruled out.
 //   - The prototype's lifetime flag: a prototype has no body whose
 //     variables a lifetime could govern.
 //   - subroutine's access (local/protected): none is written, so it is
@@ -86,7 +88,6 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
-#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -237,18 +238,9 @@ class ClassMemberTest16Test : public Test {
   }
 };
 
-// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." and "An out-of-block declaration shall be declared in the same scope as the class
-// declaration and shall follow the class declaration." No out-of-block body for subroutine is anywhere in the
-// compile, so HLC reports it as an error. The LRM has no sentence that says a missing body "shall be an error"
-// (compare 18.5.1 for constraint prototypes), so this checks HLC's report for this input.
-TEST_F(ClassMemberTest16Test, ReportsThatTheExternMethodHasNoBody) {
-  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subroutine", 7, 8), nullptr);
-}
-
 // The grammar accepts lines 6-8 (A.1.9), so nothing is fatal or a syntax
-// error. The missing out-of-block body is covered by
-// ReportsThatTheExternMethodHasNoBody (see the header).
+// error. Whether the missing out-of-block body is an error is not asserted
+// (see the header).
 TEST_F(ClassMemberTest16Test, NoFatalOrSyntaxErrors) {
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();

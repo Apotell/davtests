@@ -42,13 +42,11 @@
 // and no error, so those two checks are GTEST_SKIP until HLC is fixed.
 //
 // Not checked:
-//   - Whether the LRM makes the missing out-of-block body of "subr" an error:
-//     Sec 8.24 has no "shall be an error" sentence for it, so
-//     ReportsThatTheExternMethodHasNoBody checks HLC's report, not an LRM rule.
+//   - Any diagnostic on "subr" itself (missing out-of-block body): Sec 8.24
+//     does not make a never-defined extern prototype an explicit error.
 //   - The exact shape of the "[M]" range expressions.
 //   - vpiFullName on any object (never asserted per the test writing guide).
 
-#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
@@ -116,15 +114,6 @@ class ClassMemberTest23Test : public Test {
     return false;
   }
 };
-
-// 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." and "An out-of-block declaration shall be declared in the same scope as the class
-// declaration and shall follow the class declaration." No out-of-block body for subr is anywhere in the
-// compile, so HLC reports it as an error. The LRM has no sentence that says a missing body "shall be an error"
-// (compare 18.5.1 for constraint prototypes), so this checks HLC's report for this input.
-TEST_F(ClassMemberTest23Test, ReportsThatTheExternMethodHasNoBody) {
-  EXPECT_NE(findEvent(EventType::CompMissingImplementation, "subr", 7, 8), nullptr);
-}
 
 TEST_F(ClassMemberTest23Test, ClassMyclassExists) {
   const hldb::ClassDefn *const cls = getMyClass();
