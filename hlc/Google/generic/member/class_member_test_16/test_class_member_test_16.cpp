@@ -68,14 +68,12 @@
 // its body. A written 'void' return type is a VoidTypespec.
 //
 // What is NOT checked, and why
-//   - Whether an error is reported for the missing out-of-block body: 8.24
-//     describes how an extern method's out-of-block declaration must match
-//     its prototype, but the test author found no LRM sentence that makes
-//     an extern prototype without a body an error by itself (tools commonly
-//     report it only when the method is referenced, which never happens
-//     here), and the fixture carries no :should_fail_because:. So neither
-//     an error nor its absence is asserted; only fatal and syntax
-//     diagnostics are ruled out.
+//   - Whether the LRM makes the missing out-of-block body an error: 8.24 says
+//     the body "is to be found outside the declaration", in the same scope as
+//     the class, but no sentence says "shall be an error", and the fixture
+//     carries no :should_fail_because:. ReportsThatTheExternMethodHasNoBody
+//     therefore checks HLC's report (CompMissingImplementation), not an LRM
+//     requirement.
 //   - The prototype's lifetime flag: a prototype has no body whose
 //     variables a lifetime could govern.
 //   - subroutine's access (local/protected): none is written, so it is
@@ -249,8 +247,8 @@ TEST_F(ClassMemberTest16Test, ReportsThatTheExternMethodHasNoBody) {
 }
 
 // The grammar accepts lines 6-8 (A.1.9), so nothing is fatal or a syntax
-// error. Whether the missing out-of-block body is an error is not asserted
-// (see the header).
+// error. The missing out-of-block body is covered by
+// ReportsThatTheExternMethodHasNoBody (see the header).
 TEST_F(ClassMemberTest16Test, NoFatalOrSyntaxErrors) {
   ASSERT_NE(m_session, nullptr);
   const EventListener *const eventListener = m_session->getEventListener();

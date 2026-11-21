@@ -92,9 +92,9 @@
 //     not exist; the test checks that it is not bound to a class.
 //   - Separate diagnostics for p and q: once yourpkg is unresolved, the LRM
 //     does not fix how many further diagnostics follow.
-//   - Whether an error is reported for the missing out-of-block body: no
-//     LRM sentence found makes a body-less extern prototype an error by
-//     itself (see class_member_test_16).
+//   - Whether the LRM makes the missing out-of-block body an error: no
+//     sentence says so (see class_member_test_16); the test checks HLC's
+//     report, ReportsThatTheExternMethodHasNoBody.
 //   - The prototype's lifetime flag: a prototype has no body whose
 //     variables a lifetime could govern.
 //   - subr's access (local/protected): none is written, so it is public

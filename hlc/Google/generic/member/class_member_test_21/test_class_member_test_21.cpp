@@ -42,8 +42,9 @@
 // is fixed.
 //
 // Not checked:
-//   - Any diagnostic on "subr" itself (missing out-of-block body): Sec 8.24
-//     does not make a never-defined extern prototype an explicit error.
+//   - Whether the LRM makes the missing out-of-block body of "subr" an error:
+//     Sec 8.24 has no "shall be an error" sentence for it, so
+//     ReportsThatTheExternMethodHasNoBody checks HLC's report, not an LRM rule.
 //   - vpiFullName on any object (never asserted per the test writing guide).
 
 #include <hlc/Events/EventType.h>
