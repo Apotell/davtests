@@ -335,8 +335,8 @@ class ClassTest32Test : public Test {
 // ---------------------------------------------------------------------------
 
 // 8.24: "The extern qualifier indicates that the body of the method (its implementation) is to be found
-// outside the declaration." No out-of-block body for set_port is in this file, so HLC warns. It is a warning
-// because the body may legally be in another file of the compilation unit (no sentence makes a missing
+// outside the declaration." No out-of-block body for set_port is anywhere in the compile, so HLC warns. It is a warning
+// because a body supplied by another compile is legal (no sentence makes a missing
 // body an error), so this checks what HLC says about this input, not an LRM error.
 TEST_F(ClassTest32Test, WarnsThatTheExternMethodHasNoBody) {
   EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", 7, 8), nullptr);

@@ -355,7 +355,7 @@ class ClassTest35Test : public Test {
 TEST_F(ClassTest35Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 // Line 7: an extern method prototype (8.24, A.1.9, A.2.6) whose out-of-block
-// declaration the file never gives, so set_port has no body.
+// declaration the compile never gives, so set_port has no body anywhere.
 TEST_F(ClassTest35Test, ReportsMissingImplementationOfSetPort) {
   EXPECT_NE(findEvent(EventType::CompMissingImplementation, "set_port", kPrototypeLine), nullptr);
 }
