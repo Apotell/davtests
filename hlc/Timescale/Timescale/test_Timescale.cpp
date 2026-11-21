@@ -429,11 +429,12 @@ TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
 // errors.sv / errors_timescale_inside.sv -- each element breaks one rule.
 // ----
 TEST_F(TimescaleTest, PrecisionWithoutTimeUnitIsAnError) {
-  // Sec 3.14.2.3, last sentence: "It shall be an error if some design elements have a time unit and
-  // precision specified and others do not." d_prec_only has a timeprecision but no time unit, and none
-  // reaches it from a `timescale or the compilation unit (rules a-c), so it is reported (strict reading).
+  // Sec 3.14.2.3 (p.60), last sentence: "It shall be an error if some design elements have a time unit and
+  // precision specified and others do not." d_prec_only (decl.sv) has a timeprecision but no time unit, and
+  // no `timescale, enclosing element or compilation-unit timeunit supplies one (rules a-c), while other
+  // elements of this design specify both. A timeprecision alone is legal: rule d gives the default unit.
   // timeprecision 1ps;
-  EXPECT_NE(findEvent(EventType::PaMissingTimeunit, "d_prec_only", 24, 1), nullptr);
+  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "d_prec_only", 24, 1), nullptr);
 }
 
 TEST_F(TimescaleTest, PrecisionLongerThanUnitInDeclarationIsAnError) {
@@ -519,10 +520,11 @@ TEST_F(TimescaleTest, ElementWithoutTimeInfoIsReported) {
 }
 
 TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
-  GTEST_SKIP() << "Known HLC gap: Sec 3.14.2.3 \"It shall be an error if some design elements have a time "
-                  "unit and precision specified and others do not\", but PaNotimescaleInfo is a WARNING.";
-  ASSERT_NE(findEvent(EventType::PaNotimescaleInfo, "d_none"), nullptr);
-  const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), EventType::PaNotimescaleInfo);
+  // Sec 3.14.2.3 (p.60): "It shall be an error if some design elements have a time unit and precision
+  // specified and others do not." PaNotimescaleInfo is only the warning; the error is CompInconsistentTimescale.
+  ASSERT_NE(findEvent(EventType::CompInconsistentTimescale, "d_none"), nullptr);
+  const EventDefinition *const it =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::CompInconsistentTimescale);
   ASSERT_NE(it, nullptr);
   EXPECT_EQ(it->m_severity, EventSeverity::Error);
 }
