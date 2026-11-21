@@ -108,6 +108,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -277,6 +278,14 @@ class UnconnectedDriveInvalid2Test : public Test {
 // satisfies it.
 TEST_F(UnconnectedDriveInvalid2Test, ReportsAnErrorOnLine17) {
   EXPECT_GE(countErrorsOnLine(kIllegalLine), 1u) << "no error on line " << kIllegalLine << ";" << describeAllEvents();
+}
+
+// 22.9 (p.718): "The directive `unconnected_drive takes one of two arguments - pull1 or pull0." HLC reports the
+// illegal argument pull2 on line 17.
+TEST_F(UnconnectedDriveInvalid2Test, ReportsTheIllegalArgumentPull2) {
+  const Event *const event = findEvent(EventType::PaUnconnectedDriveValue, "pull2");
+  ASSERT_NE(event, nullptr) << describeAllEvents();
+  EXPECT_EQ(lineOf(*event), kIllegalLine);
 }
 
 // LRM: lines 1-16 are comments and blank lines, including the
