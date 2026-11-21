@@ -23,9 +23,13 @@
 //     this suite exercises getNetType() for supply0, so no exact-value
 //     assertion is made here either (matching the conservative precedent
 //     NetKeywords.cpp established for this exact net kind)
+//   - 22.8 (p.718) does not allow supply0 as a `default_nettype value (its list is wire, tri, tri0, tri1, wand,
+//     triand, wor, trior, trireg, uwire, none), so the directive is reported (PpIllegalDirectiveValue), whatever
+//     the fixture comments say about it being legal
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -46,6 +50,12 @@ TEST_F(DefaultNettypeSupply0Test, ImplicitNetExists) {
       hldb::findByDefName<hldb::Module>("default_nettype_supply0_test", m_design->getAllModules());
   ASSERT_NE(mod, nullptr);
   EXPECT_EQ(hldb::findByName<hldb::Net>("implicit_net_supply0", mod->getNets()), nullptr);
+}
+
+// 22.8 (p.718): default_nettype_value ::= wire | tri | tri0 | tri1 | wand | triand | wor | trior | trireg |
+// uwire | none. supply0 is not one of the allowed values, so the directive is illegal.
+TEST_F(DefaultNettypeSupply0Test, ReportsSupply0AsDefaultNettype) {
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue, "supply0", 26, 18), nullptr);
 }
 
 }  // namespace hlc
