@@ -1,0 +1,175 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../../tests/Google/chapter-25/ch25_suite2 -timescale=1ns/1ns -d ast -d db -nobuiltin 25.4--if_port_declared_twice_err.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/25.4--if_port_declared_twice_err.sv".
+[INF:PA5502] Parsing source file "$Source01/25.4--if_port_declared_twice_err.sv".
+AST_DEBUG_BEGIN
+Count: 34
+LIB: work
+FILE<0>:$Source01/25.4--if_port_declared_twice_err.sv
+n<$Source01/25.4--if_port_declared_twice_err.sv> u<33> t<Top_level_rule> c<1> l<24:1> el<28:1>
+  n<> u<1> t<Null_rule> p<33> s<2> l<24:1> el<24:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<33> s<3> l<24:1> el<27:13>
+  n</*\n:name: if_port_declared_twice_err\n:description: a non-ANSI interface port given two port declarations\n:should_fail_because: a port shall be declared only once\n:tags: 25.4\n*/> u<3> t<BLOCK_COMMENT> p<33> s<32> l<24:1> el<27:13>
+  n<> u<32> t<Source_text> p<33> c<31> l<24:1> el<27:13>
+    n<> u<31> t<Description> p<32> c<30> l<24:1> el<27:13>
+      n<> u<30> t<Interface_declaration> p<31> c<14> l<24:1> el<27:13>
+        n<> u<14> t<Interface_nonansi_header> p<30> c<4> s<21> l<24:1> el<24:21>
+          n<> u<4> t<INTERFACE> p<14> s<5> l<24:1> el<24:10>
+          n<dup_if> u<5> t<SIMPLE_IDENTIFIER> p<14> s<6> l<24:11> el<24:17>
+          n<> u<6> t<Package_import_declaration_list> p<14> s<13> l<24:17> el<24:17>
+          n<> u<13> t<Port_list> p<14> c<12> l<24:17> el<24:20>
+            n<> u<12> t<Port> p<13> c<11> l<24:18> el<24:19>
+              n<> u<11> t<Port_expression> p<12> c<10> l<24:18> el<24:19>
+                n<> u<10> t<Port_reference> p<11> c<7> l<24:18> el<24:19>
+                  n<q> u<7> t<SIMPLE_IDENTIFIER> p<10> s<9> l<24:18> el<24:19>
+                  n<> u<9> t<Constant_select> p<10> c<8> l<24:19> el<24:19>
+                    n<> u<8> t<Constant_bit_select> p<9> l<24:19> el<24:19>
+        n<> u<21> t<Interface_item> p<30> c<20> s<28> l<25:3> el<25:11>
+          n<> u<20> t<Port_declaration> p<21> c<19> l<25:3> el<25:10>
+            n<> u<19> t<Input_declaration> p<20> c<16> l<25:3> el<25:10>
+              n<> u<16> t<Net_port_type> p<19> c<15> s<18> l<25:9> el<25:9>
+                n<> u<15> t<Data_type_or_implicit> p<16> l<25:9> el<25:9>
+              n<> u<18> t<Port_identifier_list> p<19> c<17> l<25:9> el<25:10>
+                n<q> u<17> t<SIMPLE_IDENTIFIER> p<18> l<25:9> el<25:10>
+        n<> u<28> t<Interface_item> p<30> c<27> s<29> l<26:3> el<26:11>
+          n<> u<27> t<Port_declaration> p<28> c<26> l<26:3> el<26:10>
+            n<> u<26> t<Input_declaration> p<27> c<23> l<26:3> el<26:10>
+              n<> u<23> t<Net_port_type> p<26> c<22> s<25> l<26:9> el<26:9>
+                n<> u<22> t<Data_type_or_implicit> p<23> l<26:9> el<26:9>
+              n<> u<25> t<Port_identifier_list> p<26> c<24> l<26:9> el<26:10>
+                n<q> u<24> t<SIMPLE_IDENTIFIER> p<25> l<26:9> el<26:10>
+        n<> u<29> t<ENDINTERFACE> p<30> l<27:1> el<27:13>
+AST_DEBUG_END
+[INF:CP5805] $Source01/25.4--if_port_declared_twice_err.sv:24:1: Compile interface "dup_if".
+[ERR:CP5991] $Source01/25.4--if_port_declared_twice_err.sv:26:9: Port "q" is declared more than once: a port shall have only one port declaration.
+[INF:CM5028] Using global timescale: "1ns/1ns".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:25.4--if_port_declared_twice_err.sv file:$Source01/25.4--if_port_declared_twice_err.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "25.4--if_port_declared_twice_err.sv"
+      vpiPreprocFile: "$Output/lib/work/25.4--if_port_declared_twice_err.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:25.4--if_port_declared_twice_err.sv:
+  vpiAllInterfaces (1 items):
+    Interface name:dup_if file:$Source01/25.4--if_port_declared_twice_err.sv start:24:1 end:27:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dup_if start:24:11 end:24:17:
+      vpiFullName: dup_if
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Interface name:dup_if
+          vpiScalar: true
+      vpiDefName: dup_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.4--if_port_declared_twice_err.sv"
+      vpiDefLineNo: 24
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:24:11 end:24:17:
+        vpiParent: Interface name:dup_if
+        vpiName: work
+        vpiFullName: dup_if.work
+        vpiActual: Library name:work
+      vpiCell: dup_if
+      vpiNet (1 items):
+        Net name:q start:25:9 end:25:10:
+          vpiParent: Interface name:dup_if
+          vpiName: q
+          vpiFullName: dup_if.q
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:q
+            vpiFullName: dup_if.q
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:q start:24:18 end:24:19:
+          vpiParent: Interface name:dup_if
+          vpiName: q
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:q start:25:9 end:25:10:
+            vpiParent: Port name:q
+            vpiName: q
+            vpiFullName: dup_if.q.q
+            vpiActual: Net name:q
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:q
+            vpiFullName: dup_if.q
+            vpiActual: LogicTypespec
+  vpiTypespec (1 items):
+    InterfaceTypespec name:dup_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dup_if start:24:11 end:24:17:
+      vpiDefName: dup_if
+      vpiInterface: Interface name:dup_if
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 1
+[WARNING] : 0
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err/mounts.json
+
+
+{'result': {'coverage': 97.92,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/25.4--if_port_declared_twice_err.sv': {'post_len': 1,
+                                                                               'pre_len': 48}},
+            'post_len': 1,
+            'pre_len': 48,
+            'test_name': 'Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err'}}
+
++------------------------------------------------------+----------+-----------+
+| INPUT                                                |   PRELEN |   POSTLEN |
++======================================================+==========+===========+
+| $Output/lib/work/25.4--if_port_declared_twice_err.sv |       48 |         1 |
++======================================================+==========+===========+
+|                                                      |       48 |         1 |
++------------------------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 97.92
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err/design.hldb ${HLC_DIR}/regression/Google/chapter-25/ch25_suite2/25.4--if_port_declared_twice_err/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              15      15       0         0
+----------------------------------------------------------------
+                                    15      15       0         0
+===================== END REDUCTION RESULT =====================

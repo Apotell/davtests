@@ -1,0 +1,831 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-6 -timescale=1ns/1ns -d ast -d db 6.6.8--ic_scopes.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/6.6.8--ic_scopes.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
+[INF:PA5502] Parsing source file "$Source01/6.6.8--ic_scopes.sv".
+[INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
+AST_DEBUG_BEGIN
+Count: 261
+LIB: work
+FILE<0>:$Source01/6.6.8--ic_scopes.sv
+n<$Source01/6.6.8--ic_scopes.sv> u<260> t<Top_level_rule> c<1> l<30:1> el<66:1>
+  n<> u<1> t<Null_rule> p<260> s<2> l<30:1> el<30:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<260> s<3> l<30:1> el<65:10>
+  n</*\n:name: ic_scopes\n:description: interconnect nets declared in different scopes\n:tags: 6.6.8\n*/> u<3> t<BLOCK_COMMENT> p<260> s<4> l<30:1> el<65:10>
+  n<// Checks in this file:> u<4> t<LINE_COMMENT> p<260> s<5> l<23:1> el<23:24>
+  n<//   CHK1: interconnect declared inside a generate for loop> u<5> t<LINE_COMMENT> p<260> s<6> l<24:1> el<24:60>
+  n<//   CHK2: interconnect declared inside a generate if block> u<6> t<LINE_COMMENT> p<260> s<7> l<25:1> el<25:60>
+  n<//   CHK3: interconnect declared inside a nested module> u<7> t<LINE_COMMENT> p<260> s<8> l<26:1> el<26:56>
+  n<//   CHK4: interconnect declared inside an interface and connected by hierarchical name> u<8> t<LINE_COMMENT> p<260> s<9> l<27:1> el<27:88>
+  n<//   CHK5: interconnect port on an interface> u<9> t<LINE_COMMENT> p<260> s<259> l<28:1> el<28:45>
+  n<> u<259> t<Source_text> p<260> c<24> l<30:1> el<65:10>
+    n<> u<24> t<Description> p<259> c<23> s<25> l<30:1> el<31:10>
+      n<> u<23> t<Module_declaration> p<24> c<21> l<30:1> el<31:10>
+        n<> u<21> t<Module_ansi_header> p<23> c<10> s<22> l<30:1> el<30:27>
+          n<module> u<10> t<MODULE> p<21> s<11> l<30:1> el<30:7>
+          n<leaf> u<11> t<SIMPLE_IDENTIFIER> p<21> s<12> l<30:8> el<30:12>
+          n<> u<12> t<Package_import_declaration_list> p<21> s<20> l<30:12> el<30:12>
+          n<> u<20> t<Port_declaration_list> p<21> c<19> l<30:12> el<30:26>
+            n<> u<19> t<Ansi_port_declaration> p<20> c<17> l<30:13> el<30:25>
+              n<> u<17> t<Net_port_header> p<19> c<13> s<18> l<30:13> el<30:23>
+                n<> u<13> t<INOUT> p<17> s<16> l<30:13> el<30:18>
+                n<> u<16> t<Net_port_type> p<17> c<14> l<30:19> el<30:23>
+                  n<> u<14> t<WIRE> p<16> s<15> l<30:19> el<30:23>
+                  n<> u<15> t<Data_type_or_implicit> p<16> l<30:24> el<30:24>
+              n<p> u<18> t<SIMPLE_IDENTIFIER> p<19> l<30:24> el<30:25>
+        n<> u<22> t<ENDMODULE> p<23> l<31:1> el<31:10>
+    n<// CHK4> u<25> t<LINE_COMMENT> p<259> s<41> l<33:1> el<33:8>
+    n<> u<41> t<Description> p<259> c<40> s<42> l<34:1> el<36:13>
+      n<> u<40> t<Interface_declaration> p<41> c<29> l<34:1> el<36:13>
+        n<> u<29> t<Interface_ansi_header> p<40> c<26> s<38> l<34:1> el<34:17>
+          n<> u<26> t<INTERFACE> p<29> s<27> l<34:1> el<34:10>
+          n<ic_if> u<27> t<SIMPLE_IDENTIFIER> p<29> s<28> l<34:11> el<34:16>
+          n<> u<28> t<Package_import_declaration_list> p<29> l<34:16> el<34:16>
+        n<> u<38> t<Non_port_interface_item> p<40> c<37> s<39> l<35:3> el<35:22>
+          n<> u<37> t<Interface_or_generate_item> p<38> c<36> l<35:3> el<35:22>
+            n<> u<36> t<Module_common_item> p<37> c<35> l<35:3> el<35:22>
+              n<> u<35> t<Module_or_generate_item_declaration> p<36> c<34> l<35:3> el<35:22>
+                n<> u<34> t<Package_or_generate_item_declaration> p<35> c<33> l<35:3> el<35:22>
+                  n<> u<33> t<Net_declaration> p<34> c<32> l<35:3> el<35:22>
+                    n<> u<32> t<INTERCONNECT> p<33> s<30> l<35:3> el<35:15>
+                    n<> u<30> t<Implicit_data_type> p<33> s<31> l<35:16> el<35:16>
+                    n<inner> u<31> t<SIMPLE_IDENTIFIER> p<33> l<35:16> el<35:21>
+        n<> u<39> t<ENDINTERFACE> p<40> l<36:1> el<36:13>
+    n<// CHK5> u<42> t<LINE_COMMENT> p<259> s<57> l<38:1> el<38:8>
+    n<> u<57> t<Description> p<259> c<56> s<258> l<39:1> el<40:13>
+      n<> u<56> t<Interface_declaration> p<57> c<54> l<39:1> el<40:13>
+        n<> u<54> t<Interface_ansi_header> p<56> c<43> s<55> l<39:1> el<39:43>
+          n<> u<43> t<INTERFACE> p<54> s<44> l<39:1> el<39:10>
+          n<port_if> u<44> t<SIMPLE_IDENTIFIER> p<54> s<45> l<39:11> el<39:18>
+          n<> u<45> t<Package_import_declaration_list> p<54> s<53> l<39:18> el<39:18>
+          n<> u<53> t<Port_declaration_list> p<54> c<52> l<39:18> el<39:42>
+            n<> u<52> t<Ansi_port_declaration> p<53> c<50> l<39:19> el<39:41>
+              n<> u<50> t<Net_port_header> p<52> c<46> s<51> l<39:19> el<39:37>
+                n<> u<46> t<INOUT> p<50> s<49> l<39:19> el<39:24>
+                n<> u<49> t<Net_port_type> p<50> c<48> l<39:25> el<39:37>
+                  n<> u<48> t<INTERCONNECT> p<49> s<47> l<39:25> el<39:37>
+                  n<> u<47> t<Implicit_data_type> p<49> l<39:38> el<39:38>
+              n<ext> u<51> t<SIMPLE_IDENTIFIER> p<52> l<39:38> el<39:41>
+        n<> u<55> t<ENDINTERFACE> p<56> l<40:1> el<40:13>
+    n<> u<258> t<Description> p<259> c<257> l<42:1> el<65:10>
+      n<> u<257> t<Module_declaration> p<258> c<76> l<42:1> el<65:10>
+        n<> u<76> t<Module_ansi_header> p<257> c<58> s<77> l<42:1> el<42:36>
+          n<module> u<58> t<MODULE> p<76> s<59> l<42:1> el<42:7>
+          n<top> u<59> t<SIMPLE_IDENTIFIER> p<76> s<60> l<42:8> el<42:11>
+          n<> u<60> t<Package_import_declaration_list> p<76> s<75> l<42:12> el<42:12>
+          n<> u<75> t<Parameter_port_list> p<76> c<74> l<42:12> el<42:35>
+            n<> u<74> t<Parameter_port_declaration> p<75> c<73> l<42:14> el<42:34>
+              n<> u<73> t<Parameter_declaration> p<74> c<63> l<42:14> el<42:34>
+                n<> u<63> t<Data_type_or_implicit> p<73> c<62> s<72> l<42:24> el<42:27>
+                  n<> u<62> t<Data_type> p<63> c<61> l<42:24> el<42:27>
+                    n<> u<61> t<BIT> p<62> l<42:24> el<42:27>
+                n<> u<72> t<Param_assignment_list> p<73> c<71> l<42:28> el<42:34>
+                  n<> u<71> t<Param_assignment> p<72> c<64> l<42:28> el<42:34>
+                    n<EN> u<64> t<SIMPLE_IDENTIFIER> p<71> s<70> l<42:28> el<42:30>
+                    n<> u<70> t<Constant_param_expression> p<71> c<69> l<42:33> el<42:34>
+                      n<> u<69> t<Constant_mintypmax_expression> p<70> c<68> l<42:33> el<42:34>
+                        n<> u<68> t<Constant_expression> p<69> c<67> l<42:33> el<42:34>
+                          n<> u<67> t<Constant_primary> p<68> c<66> l<42:33> el<42:34>
+                            n<> u<66> t<Primary_literal> p<67> c<65> l<42:33> el<42:34>
+                              n<1> u<65> t<INTEGRAL_NUMBER> p<66> l<42:33> el<42:34>
+        n<// CHK1> u<77> t<LINE_COMMENT> p<257> s<127> l<43:3> el<43:10>
+        n<> u<127> t<Non_port_module_item> p<257> c<126> s<128> l<44:3> el<47:6>
+          n<> u<126> t<Module_or_generate_item> p<127> c<125> l<44:3> el<47:6>
+            n<> u<125> t<Module_common_item> p<126> c<124> l<44:3> el<47:6>
+              n<> u<124> t<Loop_generate_construct> p<125> c<84> l<44:3> el<47:6>
+                n<> u<84> t<Genvar_initialization> p<124> c<83> s<94> l<44:8> el<44:20>
+                  n<> u<83> t<GENVAR> p<84> s<78> l<44:8> el<44:14>
+                  n<i> u<78> t<SIMPLE_IDENTIFIER> p<84> s<82> l<44:15> el<44:16>
+                  n<> u<82> t<Constant_expression> p<84> c<81> l<44:19> el<44:20>
+                    n<> u<81> t<Constant_primary> p<82> c<80> l<44:19> el<44:20>
+                      n<> u<80> t<Primary_literal> p<81> c<79> l<44:19> el<44:20>
+                        n<0> u<79> t<INTEGRAL_NUMBER> p<80> l<44:19> el<44:20>
+                n<> u<94> t<Constant_expression> p<124> c<88> s<97> l<44:22> el<44:27>
+                  n<> u<88> t<Constant_expression> p<94> c<87> s<93> l<44:22> el<44:23>
+                    n<> u<87> t<Constant_primary> p<88> c<86> l<44:22> el<44:23>
+                      n<> u<86> t<Primary_literal> p<87> c<85> l<44:22> el<44:23>
+                        n<i> u<85> t<SIMPLE_IDENTIFIER> p<86> l<44:22> el<44:23>
+                  n<> u<93> t<LESS> p<94> s<92> l<44:24> el<44:25>
+                  n<> u<92> t<Constant_expression> p<94> c<91> l<44:26> el<44:27>
+                    n<> u<91> t<Constant_primary> p<92> c<90> l<44:26> el<44:27>
+                      n<> u<90> t<Primary_literal> p<91> c<89> l<44:26> el<44:27>
+                        n<2> u<89> t<INTEGRAL_NUMBER> p<90> l<44:26> el<44:27>
+                n<> u<97> t<Genvar_iteration> p<124> c<95> s<123> l<44:29> el<44:32>
+                  n<i> u<95> t<SIMPLE_IDENTIFIER> p<97> s<96> l<44:29> el<44:30>
+                  n<> u<96> t<PLUSPLUS> p<97> l<44:30> el<44:32>
+                n<> u<123> t<Generate_item> p<124> c<122> l<44:34> el<47:6>
+                  n<> u<122> t<Generate_begin_end_block> p<123> c<98> l<44:34> el<47:6>
+                    n<g> u<98> t<SIMPLE_IDENTIFIER> p<122> s<107> l<44:42> el<44:43>
+                    n<> u<107> t<Generate_item> p<122> c<106> s<120> l<45:5> el<45:20>
+                      n<> u<106> t<Module_or_generate_item> p<107> c<105> l<45:5> el<45:20>
+                        n<> u<105> t<Module_common_item> p<106> c<104> l<45:5> el<45:20>
+                          n<> u<104> t<Module_or_generate_item_declaration> p<105> c<103> l<45:5> el<45:20>
+                            n<> u<103> t<Package_or_generate_item_declaration> p<104> c<102> l<45:5> el<45:20>
+                              n<> u<102> t<Net_declaration> p<103> c<101> l<45:5> el<45:20>
+                                n<> u<101> t<INTERCONNECT> p<102> s<99> l<45:5> el<45:17>
+                                n<> u<99> t<Implicit_data_type> p<102> s<100> l<45:18> el<45:18>
+                                n<n> u<100> t<SIMPLE_IDENTIFIER> p<102> l<45:18> el<45:19>
+                    n<> u<120> t<Generate_item> p<122> c<119> s<121> l<46:5> el<46:15>
+                      n<> u<119> t<Module_or_generate_item> p<120> c<118> l<46:5> el<46:15>
+                        n<> u<118> t<Module_instantiation> p<119> c<108> l<46:5> el<46:15>
+                          n<leaf> u<108> t<SIMPLE_IDENTIFIER> p<118> s<117> l<46:5> el<46:9>
+                          n<> u<117> t<Hierarchical_instance> p<118> c<110> l<46:10> el<46:14>
+                            n<> u<110> t<Name_of_instance> p<117> c<109> s<116> l<46:10> el<46:11>
+                              n<u> u<109> t<SIMPLE_IDENTIFIER> p<110> l<46:10> el<46:11>
+                            n<> u<116> t<Port_connection_list> p<117> c<115> l<46:12> el<46:13>
+                              n<> u<115> t<Ordered_port_connection> p<116> c<114> l<46:12> el<46:13>
+                                n<> u<114> t<Expression> p<115> c<113> l<46:12> el<46:13>
+                                  n<> u<113> t<Primary> p<114> c<112> l<46:12> el<46:13>
+                                    n<> u<112> t<Primary_literal> p<113> c<111> l<46:12> el<46:13>
+                                      n<n> u<111> t<SIMPLE_IDENTIFIER> p<112> l<46:12> el<46:13>
+                    n<> u<121> t<END> p<122> l<47:3> el<47:6>
+        n<// CHK2> u<128> t<LINE_COMMENT> p<257> s<164> l<48:3> el<48:10>
+        n<> u<164> t<Non_port_module_item> p<257> c<163> s<165> l<49:3> el<52:6>
+          n<> u<163> t<Module_or_generate_item> p<164> c<162> l<49:3> el<52:6>
+            n<> u<162> t<Module_common_item> p<163> c<161> l<49:3> el<52:6>
+              n<> u<161> t<Conditional_generate_construct> p<162> c<160> l<49:3> el<52:6>
+                n<> u<160> t<If_generate_construct> p<161> c<159> l<49:3> el<52:6>
+                  n<> u<159> t<IF> p<160> s<132> l<49:3> el<49:5>
+                  n<> u<132> t<Constant_expression> p<160> c<131> s<158> l<49:7> el<49:9>
+                    n<> u<131> t<Constant_primary> p<132> c<130> l<49:7> el<49:9>
+                      n<> u<130> t<Primary_literal> p<131> c<129> l<49:7> el<49:9>
+                        n<EN> u<129> t<SIMPLE_IDENTIFIER> p<130> l<49:7> el<49:9>
+                  n<> u<158> t<Generate_item> p<160> c<157> l<49:11> el<52:6>
+                    n<> u<157> t<Generate_begin_end_block> p<158> c<133> l<49:11> el<52:6>
+                      n<g_en> u<133> t<SIMPLE_IDENTIFIER> p<157> s<142> l<49:19> el<49:23>
+                      n<> u<142> t<Generate_item> p<157> c<141> s<155> l<50:5> el<50:20>
+                        n<> u<141> t<Module_or_generate_item> p<142> c<140> l<50:5> el<50:20>
+                          n<> u<140> t<Module_common_item> p<141> c<139> l<50:5> el<50:20>
+                            n<> u<139> t<Module_or_generate_item_declaration> p<140> c<138> l<50:5> el<50:20>
+                              n<> u<138> t<Package_or_generate_item_declaration> p<139> c<137> l<50:5> el<50:20>
+                                n<> u<137> t<Net_declaration> p<138> c<136> l<50:5> el<50:20>
+                                  n<> u<136> t<INTERCONNECT> p<137> s<134> l<50:5> el<50:17>
+                                  n<> u<134> t<Implicit_data_type> p<137> s<135> l<50:18> el<50:18>
+                                  n<n> u<135> t<SIMPLE_IDENTIFIER> p<137> l<50:18> el<50:19>
+                      n<> u<155> t<Generate_item> p<157> c<154> s<156> l<51:5> el<51:15>
+                        n<> u<154> t<Module_or_generate_item> p<155> c<153> l<51:5> el<51:15>
+                          n<> u<153> t<Module_instantiation> p<154> c<143> l<51:5> el<51:15>
+                            n<leaf> u<143> t<SIMPLE_IDENTIFIER> p<153> s<152> l<51:5> el<51:9>
+                            n<> u<152> t<Hierarchical_instance> p<153> c<145> l<51:10> el<51:14>
+                              n<> u<145> t<Name_of_instance> p<152> c<144> s<151> l<51:10> el<51:11>
+                                n<u> u<144> t<SIMPLE_IDENTIFIER> p<145> l<51:10> el<51:11>
+                              n<> u<151> t<Port_connection_list> p<152> c<150> l<51:12> el<51:13>
+                                n<> u<150> t<Ordered_port_connection> p<151> c<149> l<51:12> el<51:13>
+                                  n<> u<149> t<Expression> p<150> c<148> l<51:12> el<51:13>
+                                    n<> u<148> t<Primary> p<149> c<147> l<51:12> el<51:13>
+                                      n<> u<147> t<Primary_literal> p<148> c<146> l<51:12> el<51:13>
+                                        n<n> u<146> t<SIMPLE_IDENTIFIER> p<147> l<51:12> el<51:13>
+                      n<> u<156> t<END> p<157> l<52:3> el<52:6>
+        n<// CHK3> u<165> t<LINE_COMMENT> p<257> s<194> l<53:3> el<53:10>
+        n<> u<194> t<Non_port_module_item> p<257> c<193> s<203> l<54:3> el<57:12>
+          n<> u<193> t<Module_declaration> p<194> c<169> l<54:3> el<57:12>
+            n<> u<169> t<Module_ansi_header> p<193> c<166> s<178> l<54:3> el<54:20>
+              n<module> u<166> t<MODULE> p<169> s<167> l<54:3> el<54:9>
+              n<inner_mod> u<167> t<SIMPLE_IDENTIFIER> p<169> s<168> l<54:10> el<54:19>
+              n<> u<168> t<Package_import_declaration_list> p<169> l<54:19> el<54:19>
+            n<> u<178> t<Non_port_module_item> p<193> c<177> s<191> l<55:5> el<55:20>
+              n<> u<177> t<Module_or_generate_item> p<178> c<176> l<55:5> el<55:20>
+                n<> u<176> t<Module_common_item> p<177> c<175> l<55:5> el<55:20>
+                  n<> u<175> t<Module_or_generate_item_declaration> p<176> c<174> l<55:5> el<55:20>
+                    n<> u<174> t<Package_or_generate_item_declaration> p<175> c<173> l<55:5> el<55:20>
+                      n<> u<173> t<Net_declaration> p<174> c<172> l<55:5> el<55:20>
+                        n<> u<172> t<INTERCONNECT> p<173> s<170> l<55:5> el<55:17>
+                        n<> u<170> t<Implicit_data_type> p<173> s<171> l<55:18> el<55:18>
+                        n<n> u<171> t<SIMPLE_IDENTIFIER> p<173> l<55:18> el<55:19>
+            n<> u<191> t<Non_port_module_item> p<193> c<190> s<192> l<56:5> el<56:15>
+              n<> u<190> t<Module_or_generate_item> p<191> c<189> l<56:5> el<56:15>
+                n<> u<189> t<Module_instantiation> p<190> c<179> l<56:5> el<56:15>
+                  n<leaf> u<179> t<SIMPLE_IDENTIFIER> p<189> s<188> l<56:5> el<56:9>
+                  n<> u<188> t<Hierarchical_instance> p<189> c<181> l<56:10> el<56:14>
+                    n<> u<181> t<Name_of_instance> p<188> c<180> s<187> l<56:10> el<56:11>
+                      n<u> u<180> t<SIMPLE_IDENTIFIER> p<181> l<56:10> el<56:11>
+                    n<> u<187> t<Port_connection_list> p<188> c<186> l<56:12> el<56:13>
+                      n<> u<186> t<Ordered_port_connection> p<187> c<185> l<56:12> el<56:13>
+                        n<> u<185> t<Expression> p<186> c<184> l<56:12> el<56:13>
+                          n<> u<184> t<Primary> p<185> c<183> l<56:12> el<56:13>
+                            n<> u<183> t<Primary_literal> p<184> c<182> l<56:12> el<56:13>
+                              n<n> u<182> t<SIMPLE_IDENTIFIER> p<183> l<56:12> el<56:13>
+            n<> u<192> t<ENDMODULE> p<193> l<57:3> el<57:12>
+        n<> u<203> t<Non_port_module_item> p<257> c<202> s<213> l<58:3> el<58:23>
+          n<> u<202> t<Module_or_generate_item> p<203> c<201> l<58:3> el<58:23>
+            n<> u<201> t<Module_instantiation> p<202> c<195> l<58:3> el<58:23>
+              n<inner_mod> u<195> t<SIMPLE_IDENTIFIER> p<201> s<200> l<58:3> el<58:12>
+              n<> u<200> t<Hierarchical_instance> p<201> c<197> l<58:13> el<58:22>
+                n<> u<197> t<Name_of_instance> p<200> c<196> s<199> l<58:13> el<58:20>
+                  n<u_inner> u<196> t<SIMPLE_IDENTIFIER> p<197> l<58:13> el<58:20>
+                n<> u<199> t<Port_connection_list> p<200> c<198> l<58:21> el<58:21>
+                  n<> u<198> t<Ordered_port_connection> p<199> l<58:21> el<58:21>
+        n<> u<213> t<Non_port_module_item> p<257> c<212> s<230> l<60:3> el<60:16>
+          n<> u<212> t<Module_or_generate_item> p<213> c<211> l<60:3> el<60:16>
+            n<> u<211> t<Interface_instantiation> p<212> c<205> l<60:3> el<60:16>
+              n<ic_if> u<205> t<Interface_identifier> p<211> c<204> s<210> l<60:3> el<60:8>
+                n<ic_if> u<204> t<SIMPLE_IDENTIFIER> p<205> l<60:3> el<60:8>
+              n<> u<210> t<Hierarchical_instance> p<211> c<207> l<60:9> el<60:15>
+                n<> u<207> t<Name_of_instance> p<210> c<206> s<209> l<60:9> el<60:13>
+                  n<u_if> u<206> t<SIMPLE_IDENTIFIER> p<207> l<60:9> el<60:13>
+                n<> u<209> t<Port_connection_list> p<210> c<208> l<60:14> el<60:14>
+                  n<> u<208> t<Ordered_port_connection> p<209> l<60:14> el<60:14>
+        n<> u<230> t<Non_port_module_item> p<257> c<229> s<241> l<61:3> el<61:27>
+          n<> u<229> t<Module_or_generate_item> p<230> c<228> l<61:3> el<61:27>
+            n<> u<228> t<Module_instantiation> p<229> c<214> l<61:3> el<61:27>
+              n<leaf> u<214> t<SIMPLE_IDENTIFIER> p<228> s<227> l<61:3> el<61:7>
+              n<> u<227> t<Hierarchical_instance> p<228> c<216> l<61:8> el<61:26>
+                n<> u<216> t<Name_of_instance> p<227> c<215> s<226> l<61:8> el<61:14>
+                  n<u_hier> u<215> t<SIMPLE_IDENTIFIER> p<216> l<61:8> el<61:14>
+                n<> u<226> t<Port_connection_list> p<227> c<225> l<61:15> el<61:25>
+                  n<> u<225> t<Ordered_port_connection> p<226> c<224> l<61:15> el<61:25>
+                    n<> u<224> t<Expression> p<225> c<223> l<61:15> el<61:25>
+                      n<> u<223> t<Primary> p<224> c<222> l<61:15> el<61:25>
+                        n<> u<222> t<Subroutine_call> p<223> c<217> l<61:15> el<61:25>
+                          n<u_if> u<217> t<SIMPLE_IDENTIFIER> p<222> s<218> l<61:15> el<61:19>
+                          n<> u<218> t<Constant_bit_select> p<222> s<219> l<61:19> el<61:19>
+                          n<inner> u<219> t<SIMPLE_IDENTIFIER> p<222> s<221> l<61:20> el<61:25>
+                          n<> u<221> t<Select> p<222> c<220> l<61:25> el<61:25>
+                            n<> u<220> t<Bit_select> p<221> l<61:25> el<61:25>
+        n<> u<241> t<Non_port_module_item> p<257> c<240> s<255> l<63:3> el<63:10>
+          n<> u<240> t<Module_or_generate_item> p<241> c<239> l<63:3> el<63:10>
+            n<> u<239> t<Module_common_item> p<240> c<238> l<63:3> el<63:10>
+              n<> u<238> t<Module_or_generate_item_declaration> p<239> c<237> l<63:3> el<63:10>
+                n<> u<237> t<Package_or_generate_item_declaration> p<238> c<236> l<63:3> el<63:10>
+                  n<> u<236> t<Net_declaration> p<237> c<231> l<63:3> el<63:10>
+                    n<> u<231> t<WIRE> p<236> s<232> l<63:3> el<63:7>
+                    n<> u<232> t<Data_type_or_implicit> p<236> s<235> l<63:8> el<63:8>
+                    n<> u<235> t<Net_decl_assignment_list> p<236> c<234> l<63:8> el<63:9>
+                      n<> u<234> t<Net_decl_assignment> p<235> c<233> l<63:8> el<63:9>
+                        n<w> u<233> t<SIMPLE_IDENTIFIER> p<234> l<63:8> el<63:9>
+        n<> u<255> t<Non_port_module_item> p<257> c<254> s<256> l<64:3> el<64:20>
+          n<> u<254> t<Module_or_generate_item> p<255> c<253> l<64:3> el<64:20>
+            n<> u<253> t<Interface_instantiation> p<254> c<243> l<64:3> el<64:20>
+              n<port_if> u<243> t<Interface_identifier> p<253> c<242> s<252> l<64:3> el<64:10>
+                n<port_if> u<242> t<SIMPLE_IDENTIFIER> p<243> l<64:3> el<64:10>
+              n<> u<252> t<Hierarchical_instance> p<253> c<245> l<64:11> el<64:19>
+                n<> u<245> t<Name_of_instance> p<252> c<244> s<251> l<64:11> el<64:16>
+                  n<u_pif> u<244> t<SIMPLE_IDENTIFIER> p<245> l<64:11> el<64:16>
+                n<> u<251> t<Port_connection_list> p<252> c<250> l<64:17> el<64:18>
+                  n<> u<250> t<Ordered_port_connection> p<251> c<249> l<64:17> el<64:18>
+                    n<> u<249> t<Expression> p<250> c<248> l<64:17> el<64:18>
+                      n<> u<248> t<Primary> p<249> c<247> l<64:17> el<64:18>
+                        n<> u<247> t<Primary_literal> p<248> c<246> l<64:17> el<64:18>
+                          n<w> u<246> t<SIMPLE_IDENTIFIER> p<247> l<64:17> el<64:18>
+        n<> u<256> t<ENDMODULE> p<257> l<65:1> el<65:10>
+AST_DEBUG_END
+[INF:CP5804] $Source01/6.6.8--ic_scopes.sv:30:1: Compile module "leaf".
+[NTE:CP5810] $Source01/6.6.8--ic_scopes.sv:30:24: Implicit port type (wire) for "p".
+[INF:CP5805] $Source01/6.6.8--ic_scopes.sv:34:1: Compile interface "ic_if".
+[INF:CP5805] $Source01/6.6.8--ic_scopes.sv:39:1: Compile interface "port_if".
+[INF:CP5804] $Source01/6.6.8--ic_scopes.sv:42:1: Compile module "top".
+[INF:CP5836] $Source01/6.6.8--ic_scopes.sv:44:42: Compile generate block "g".
+[INF:CP5836] $Source01/6.6.8--ic_scopes.sv:49:19: Compile generate block "g_en".
+[INF:CP5804] $Source01/6.6.8--ic_scopes.sv:54:3: Compile module "inner_mod".
+[INF:CM5028] Using global timescale: "1ns/1ns".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:6.6.8--ic_scopes.sv file:$Source01/6.6.8--ic_scopes.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "6.6.8--ic_scopes.sv"
+      vpiPreprocFile: "$Output/lib/work/6.6.8--ic_scopes.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:6.6.8--ic_scopes.sv:
+  vpiAllInterfaces (2 items):
+    Interface name:ic_if file:$Source01/6.6.8--ic_scopes.sv start:34:1 end:36:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:ic_if start:34:11 end:34:16:
+      vpiFullName: ic_if
+      vpiDefName: ic_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/6.6.8--ic_scopes.sv"
+      vpiDefLineNo: 34
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:34:11 end:34:16:
+        vpiParent: Interface name:ic_if
+        vpiName: work
+        vpiFullName: ic_if.work
+        vpiActual: Library name:work
+      vpiCell: ic_if
+      vpiNet (1 items):
+        Net name:inner start:35:16 end:35:21:
+          vpiParent: Interface name:ic_if
+          vpiName: inner
+          vpiFullName: ic_if.inner
+          vpiConstantSelect: true
+          vpiNetType: interconnect (16)
+      vpiUnit: Unit
+    Interface name:port_if file:$Source01/6.6.8--ic_scopes.sv start:39:1 end:40:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:port_if start:39:11 end:39:18:
+      vpiFullName: port_if
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Interface name:port_if
+          vpiScalar: true
+      vpiDefName: port_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/6.6.8--ic_scopes.sv"
+      vpiDefLineNo: 39
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:39:11 end:39:18:
+        vpiParent: Interface name:port_if
+        vpiName: work
+        vpiFullName: port_if.work
+        vpiActual: Library name:work
+      vpiCell: port_if
+      vpiNet (1 items):
+        Net name:ext start:39:38 end:39:41:
+          vpiParent: Interface name:port_if
+          vpiName: ext
+          vpiFullName: port_if.ext
+          vpiConstantSelect: true
+          vpiNetType: interconnect (16)
+          vpiTypespec RefTypespec start:39:38 end:39:38:
+            vpiParent: Net name:ext
+            vpiFullName: port_if.ext
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:ext start:39:38 end:39:41:
+          vpiParent: Interface name:port_if
+          vpiName: ext
+          vpiPortType: port (44)
+          vpiDirection: inout (3)
+          vpiLowConn RefObj name:ext start:39:38 end:39:41:
+            vpiParent: Port name:ext
+            vpiName: ext
+            vpiFullName: port_if.ext.ext
+            vpiActual: Net name:ext
+          vpiTypespec RefTypespec start:39:38 end:39:38:
+            vpiParent: Port name:ext
+            vpiFullName: port_if.ext
+            vpiActual: LogicTypespec
+  vpiAllModules (2 items):
+    Module name:leaf file:$Source01/6.6.8--ic_scopes.sv start:30:1 end:31:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:leaf start:30:8 end:30:12:
+      vpiFullName: leaf
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:leaf
+          vpiScalar: true
+      vpiDefName: leaf
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/6.6.8--ic_scopes.sv"
+      vpiDefLineNo: 30
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:30:8 end:30:12:
+        vpiParent: Module name:leaf
+        vpiName: work
+        vpiFullName: leaf.work
+        vpiActual: Library name:work
+      vpiCell: leaf
+      vpiNet (1 items):
+        Net name:p start:30:24 end:30:25:
+          vpiParent: Module name:leaf
+          vpiName: p
+          vpiFullName: leaf.p
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:p
+            vpiFullName: leaf.p
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:p start:30:24 end:30:25:
+          vpiParent: Module name:leaf
+          vpiName: p
+          vpiPortType: port (44)
+          vpiDirection: inout (3)
+          vpiLowConn RefObj name:p start:30:24 end:30:25:
+            vpiParent: Port name:p
+            vpiName: p
+            vpiFullName: leaf.p.p
+            vpiActual: Net name:p
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:p
+            vpiFullName: leaf.p
+            vpiActual: LogicTypespec
+    Module name:top #(.EN(1)) file:$Source01/6.6.8--ic_scopes.sv start:42:1 end:65:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top #(.EN(1)) start:42:8 end:42:11:
+      vpiFullName: top #(.EN(1))
+      vpiParameter (1 items):
+        Parameter name:EN start:42:28 end:42:30:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: EN
+          vpiFullName: top #(.EN(1)).EN
+          vpiTypespec RefTypespec start:42:24 end:42:27:
+            vpiParent: Parameter name:EN
+            vpiFullName: top #(.EN(1)).EN
+            vpiActual: BitTypespec
+          vpiExpr Constant start:42:33 end:42:34:
+            vpiParent: Parameter name:EN
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top #(.EN(1)).EN
+              vpiActual: IntTypespec
+      vpiTypespec (4 items):
+        BitTypespec:
+          vpiParent: Module name:top #(.EN(1))
+          vpiScalar: true
+        ModuleTypespec name:inner_mod:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName Identifier name:inner_mod start:54:10 end:54:19:
+          vpiDefName: inner_mod
+          vpiModule: Module name:inner_mod
+        ModuleTypespec name:leaf:
+        LogicTypespec:
+          vpiParent: Module name:top #(.EN(1))
+          vpiScalar: true
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/6.6.8--ic_scopes.sv"
+      vpiDefLineNo: 42
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:42:8 end:42:11:
+        vpiParent: Module name:top #(.EN(1))
+        vpiName: work
+        vpiFullName: top #(.EN(1)).work
+        vpiActual: Library name:work
+      vpiCell: top
+      vpiNet (1 items):
+        Net name:w start:63:8 end:63:9:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: w
+          vpiFullName: top #(.EN(1)).w
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:w
+            vpiFullName: top #(.EN(1)).w
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiModule (1 items):
+        Module name:inner_mod file:$Source01/6.6.8--ic_scopes.sv start:54:3 end:57:12:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName Identifier name:inner_mod start:54:10 end:54:19:
+          vpiFullName: inner_mod
+          vpiTypespec (1 items):
+            ModuleTypespec name:leaf:
+          vpiDefName: inner_mod
+          vpiDefNetType: wire (1)
+          vpiDefFile: "$Source01/6.6.8--ic_scopes.sv"
+          vpiDefLineNo: 54
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -9
+          vpiTimeUnit: -9
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:54:10 end:54:19:
+            vpiParent: Module name:inner_mod
+            vpiName: work
+            vpiFullName: top #(.EN(1)).inner_mod.work
+            vpiActual: Library name:work
+          vpiCell: inner_mod
+          vpiNet (1 items):
+            Net name:n start:55:18 end:55:19:
+              vpiParent: Module name:inner_mod
+              vpiName: n
+              vpiFullName: top #(.EN(1)).inner_mod.n
+              vpiConstantSelect: true
+              vpiNetType: interconnect (16)
+          vpiUnit: Unit
+          vpiRefInstance (1 items):
+            RefInstance name:u start:56:10 end:56:11:
+              vpiParent: Module name:inner_mod
+              vpiName: u
+              vpiTypespec RefTypespec name:leaf start:56:5 end:56:9:
+                vpiParent: RefInstance name:u
+                vpiName: leaf
+                vpiFullName: top #(.EN(1)).inner_mod.u.leaf
+                vpiActual: ModuleTypespec name:leaf
+              vpiArgument (1 items):
+                NamedArgument start:56:12 end:56:13:
+                  vpiParent: RefInstance name:u
+                  vpiLowConn RefObj name:p:
+                    vpiParent: NamedArgument
+                    vpiName: p
+                    vpiFullName: top #(.EN(1)).inner_mod.u.p
+                    vpiActual: Port name:p
+                  vpiHighConn RefObj name:n start:56:12 end:56:13:
+                    vpiParent: NamedArgument
+                    vpiName: n
+                    vpiFullName: top #(.EN(1)).inner_mod.u.n
+                    vpiActual: Net name:n
+      vpiRefInstance (4 items):
+        RefInstance name:u_inner start:58:13 end:58:20:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: u_inner
+          vpiTypespec RefTypespec name:inner_mod start:58:3 end:58:12:
+            vpiParent: RefInstance name:u_inner
+            vpiName: inner_mod
+            vpiFullName: top #(.EN(1)).u_inner.inner_mod
+            vpiActual: ModuleTypespec name:inner_mod
+        RefInstance name:u_if start:60:9 end:60:13:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: u_if
+          vpiTypespec RefTypespec name:ic_if start:60:3 end:60:8:
+            vpiParent: RefInstance name:u_if
+            vpiName: ic_if
+            vpiFullName: top #(.EN(1)).u_if.ic_if
+            vpiActual: InterfaceTypespec name:ic_if
+        RefInstance name:u_hier start:61:8 end:61:14:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: u_hier
+          vpiTypespec RefTypespec name:leaf start:61:3 end:61:7:
+            vpiParent: RefInstance name:u_hier
+            vpiName: leaf
+            vpiFullName: top #(.EN(1)).u_hier.leaf
+            vpiActual: ModuleTypespec name:leaf
+          vpiArgument (1 items):
+            NamedArgument start:61:15 end:61:25:
+              vpiParent: RefInstance name:u_hier
+              vpiLowConn RefObj name:p:
+                vpiParent: NamedArgument
+                vpiName: p
+                vpiFullName: top #(.EN(1)).u_hier.p
+                vpiActual: Port name:p
+              vpiHighConn RefObj name:u_if.inner start:61:15 end:61:25:
+                vpiParent: NamedArgument
+                vpiName: u_if.inner
+                vpiFullName: top #(.EN(1)).u_hier.u_if.inner
+                vpiPathElem (2 items):
+                  RefObj name:u_if start:61:15 end:61:19:
+                    vpiParent: RefObj name:u_if.inner
+                    vpiName: u_if
+                    vpiFullName: top #(.EN(1)).u_hier.u_if
+                    vpiActual: RefInstance name:u_if
+                  RefObj name:inner start:61:20 end:61:25:
+                    vpiParent: RefObj name:u_if.inner
+                    vpiName: inner
+                    vpiFullName: top #(.EN(1)).u_hier.inner
+                    vpiActual: Net name:inner
+                vpiActual: Net name:inner
+        RefInstance name:u_pif start:64:11 end:64:16:
+          vpiParent: Module name:top #(.EN(1))
+          vpiName: u_pif
+          vpiTypespec RefTypespec name:port_if start:64:3 end:64:10:
+            vpiParent: RefInstance name:u_pif
+            vpiName: port_if
+            vpiFullName: top #(.EN(1)).u_pif.port_if
+            vpiActual: InterfaceTypespec name:port_if
+          vpiArgument (1 items):
+            NamedArgument start:64:17 end:64:18:
+              vpiParent: RefInstance name:u_pif
+              vpiLowConn RefObj name:ext:
+                vpiParent: NamedArgument
+                vpiName: ext
+                vpiFullName: top #(.EN(1)).u_pif.ext
+                vpiActual: Port name:ext
+              vpiHighConn RefObj name:w start:64:17 end:64:18:
+                vpiParent: NamedArgument
+                vpiName: w
+                vpiFullName: top #(.EN(1)).u_pif.w
+                vpiActual: Net name:w
+      vpiGenStmt (2 items):
+        GenFor start:44:3 end:47:6:
+          vpiParent: Module name:top #(.EN(1))
+          vpiFullName: top #(.EN(1))
+          vpiVariable (1 items):
+            Variable name:i start:44:15 end:44:16:
+              vpiParent: GenFor
+              vpiName: i
+              vpiFullName: top #(.EN(1)).i
+              vpiRandType: (1)
+              vpiVisibility: public (1)
+          vpiForInitStmt (1 items):
+            Assignment start:44:15 end:44:20:
+              vpiParent: GenFor
+              vpiOpType: assignment (96)
+              vpiLhs: Variable name:i
+              vpiRhs Constant start:44:19 end:44:20:
+                vpiParent: Assignment
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top #(.EN(1))
+                  vpiActual: IntTypespec
+          vpiForIncStmt (1 items):
+            Operation start:44:29 end:44:32:
+              vpiParent: GenFor
+              vpiOpType: post inc (64)
+              vpiOperand (1 items):
+                RefObj name:i start:44:29 end:44:30:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: top #(.EN(1)).i
+                  vpiActual: Variable name:i
+          vpiCondition Operation start:44:22 end:44:27:
+            vpiParent: GenFor
+            vpiOpType: less than (20)
+            vpiOperand (2 items):
+              RefObj name:i start:44:22 end:44:23:
+                vpiParent: Operation
+                vpiName: i
+                vpiFullName: top #(.EN(1)).i
+                vpiActual: Variable name:i
+              Constant start:44:26 end:44:27:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "2"
+                vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top #(.EN(1))
+                  vpiActual: IntTypespec
+          vpiStmt GenBlock name:g start:44:34 end:47:6:
+            vpiParent: GenFor
+            vpiName Identifier name:g start:44:42 end:44:43:
+            vpiFullName: top #(.EN(1)).g
+            vpiTypespec (1 items):
+              ModuleTypespec name:leaf:
+            vpiNet (1 items):
+              Net name:n start:45:18 end:45:19:
+                vpiParent: GenBlock name:g
+                vpiName: n
+                vpiFullName: top #(.EN(1)).g.n
+                vpiConstantSelect: true
+                vpiNetType: interconnect (16)
+            vpiStmt (1 items):
+              RefInstance name:u start:46:10 end:46:11:
+                vpiParent: GenBlock name:g
+                vpiName: u
+                vpiTypespec RefTypespec name:leaf start:46:5 end:46:9:
+                  vpiParent: RefInstance name:u
+                  vpiName: leaf
+                  vpiFullName: top #(.EN(1)).g.u.leaf
+                  vpiActual: ModuleTypespec name:leaf
+                vpiArgument (1 items):
+                  NamedArgument start:46:12 end:46:13:
+                    vpiParent: RefInstance name:u
+                    vpiLowConn RefObj name:p:
+                      vpiParent: NamedArgument
+                      vpiName: p
+                      vpiFullName: top #(.EN(1)).g.u.p
+                      vpiActual: Port name:p
+                    vpiHighConn RefObj name:n start:46:12 end:46:13:
+                      vpiParent: NamedArgument
+                      vpiName: n
+                      vpiFullName: top #(.EN(1)).g.u.n
+                      vpiActual: Net name:n
+        GenIf start:49:3 end:52:6:
+          vpiParent: Module name:top #(.EN(1))
+          vpiCondition RefObj name:EN start:49:7 end:49:9:
+            vpiParent: GenIf
+            vpiName: EN
+            vpiFullName: top #(.EN(1)).EN
+            vpiActual: Parameter name:EN
+          vpiStmt GenBlock name:g_en start:49:11 end:52:6:
+            vpiParent: GenIf
+            vpiName Identifier name:g_en start:49:19 end:49:23:
+            vpiFullName: top #(.EN(1)).g_en
+            vpiTypespec (1 items):
+              ModuleTypespec name:leaf:
+            vpiNet (1 items):
+              Net name:n start:50:18 end:50:19:
+                vpiParent: GenBlock name:g_en
+                vpiName: n
+                vpiFullName: top #(.EN(1)).g_en.n
+                vpiConstantSelect: true
+                vpiNetType: interconnect (16)
+            vpiStmt (1 items):
+              RefInstance name:u start:51:10 end:51:11:
+                vpiParent: GenBlock name:g_en
+                vpiName: u
+                vpiTypespec RefTypespec name:leaf start:51:5 end:51:9:
+                  vpiParent: RefInstance name:u
+                  vpiName: leaf
+                  vpiFullName: top #(.EN(1)).g_en.u.leaf
+                  vpiActual: ModuleTypespec name:leaf
+                vpiArgument (1 items):
+                  NamedArgument start:51:12 end:51:13:
+                    vpiParent: RefInstance name:u
+                    vpiLowConn RefObj name:p:
+                      vpiParent: NamedArgument
+                      vpiName: p
+                      vpiFullName: top #(.EN(1)).g_en.u.p
+                      vpiActual: Port name:p
+                    vpiHighConn RefObj name:n start:51:12 end:51:13:
+                      vpiParent: NamedArgument
+                      vpiName: n
+                      vpiFullName: top #(.EN(1)).g_en.u.n
+                      vpiActual: Net name:n
+  vpiTypespec (11 items):
+    ModuleTypespec name:leaf:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:leaf start:30:8 end:30:12:
+      vpiDefName: leaf
+      vpiModule: Module name:leaf
+    InterfaceTypespec name:ic_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:ic_if start:34:11 end:34:16:
+      vpiDefName: ic_if
+      vpiInterface: Interface name:ic_if
+    InterfaceTypespec name:port_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:port_if start:39:11 end:39:18:
+      vpiDefName: port_if
+      vpiInterface: Interface name:port_if
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:42:8 end:42:11:
+      vpiDefName: top
+      vpiModule: Module name:top #(.EN(1))
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 0
+[WARNING] : 0
+[   NOTE] : 1
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Google/chapter-6/6.6.8--ic_scopes
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/6.6.8--ic_scopes.sv': {'post_len': 0,
+                                                               'pre_len': 428}},
+            'post_len': 0,
+            'pre_len': 428,
+            'test_name': 'Google/chapter-6/6.6.8--ic_scopes'}}
+
++--------------------------------------+----------+-----------+
+| INPUT                                |   PRELEN |   POSTLEN |
++======================================+==========+===========+
+| $Output/lib/work/6.6.8--ic_scopes.sv |      428 |         0 |
++======================================+==========+===========+
+|                                      |      428 |         0 |
++--------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes/design.hldb ${HLC_DIR}/regression/Google/chapter-6/6.6.8--ic_scopes/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                            1958    1958       0         0
+----------------------------------------------------------------
+                                  1958    1958       0         0
+===================== END REDUCTION RESULT =====================

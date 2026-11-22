@@ -1,0 +1,1591 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-25 -timescale=1ns/1ns -d ast -d db 25.5.5--mp_clocking_blocks.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/25.5.5--mp_clocking_blocks.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
+[INF:PA5502] Parsing source file "$Source01/25.5.5--mp_clocking_blocks.sv".
+[INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
+AST_DEBUG_BEGIN
+Count: 459
+LIB: work
+FILE<0>:$Source01/25.5.5--mp_clocking_blocks.sv
+n<$Source01/25.5.5--mp_clocking_blocks.sv> u<458> t<Top_level_rule> c<1> l<30:1> el<78:1>
+  n<> u<1> t<Null_rule> p<458> s<2> l<30:1> el<30:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<458> s<3> l<30:1> el<77:10>
+  n</*\n:name: mp_clocking_blocks\n:description: clocking blocks referenced from modports (LRM A_Bus example)\n:tags: 25.5.5\n*/> u<3> t<BLOCK_COMMENT> p<458> s<4> l<30:1> el<77:10>
+  n<// Checks in this file:> u<4> t<LINE_COMMENT> p<458> s<5> l<23:1> el<23:24>
+  n<//   CHK1: modport containing only a clocking block (STB)> u<5> t<LINE_COMMENT> p<458> s<6> l<24:1> el<24:58>
+  n<//   CHK2: asynchronous modports without the clocking block (DUT, TB)> u<6> t<LINE_COMMENT> p<458> s<7> l<25:1> el<25:70>
+  n<//   CHK3: program with two clocking-modport ports driving b.sb.req> u<7> t<LINE_COMMENT> p<458> s<8> l<26:1> el<26:68>
+  n<//   CHK4: wait on a clocking block input through the modport> u<8> t<LINE_COMMENT> p<458> s<9> l<27:1> el<27:62>
+  n<//   CHK5: assert property declared inside the clocking block via b1.sb.p1> u<9> t<LINE_COMMENT> p<458> s<457> l<28:1> el<28:75>
+  n<> u<457> t<Source_text> p<458> c<176> l<30:1> el<77:10>
+    n<> u<176> t<Description> p<457> c<175> s<191> l<30:1> el<47:13>
+      n<> u<175> t<Interface_declaration> p<176> c<22> l<30:1> el<47:13>
+        n<> u<22> t<Interface_ansi_header> p<175> c<10> s<35> l<30:1> el<30:34>
+          n<> u<10> t<INTERFACE> p<22> s<11> l<30:1> el<30:10>
+          n<A_Bus> u<11> t<SIMPLE_IDENTIFIER> p<22> s<12> l<30:11> el<30:16>
+          n<> u<12> t<Package_import_declaration_list> p<22> s<21> l<30:16> el<30:16>
+          n<> u<21> t<Port_declaration_list> p<22> c<20> l<30:16> el<30:33>
+            n<> u<20> t<Ansi_port_declaration> p<21> c<18> l<30:17> el<30:32>
+              n<> u<18> t<Net_port_header> p<20> c<13> s<19> l<30:17> el<30:28>
+                n<> u<13> t<INPUT> p<18> s<17> l<30:17> el<30:22>
+                n<> u<17> t<Net_port_type> p<18> c<16> l<30:23> el<30:28>
+                  n<> u<16> t<Data_type_or_implicit> p<17> c<15> l<30:23> el<30:28>
+                    n<> u<15> t<Data_type> p<16> c<14> l<30:23> el<30:28>
+                      n<> u<14> t<LOGIC> p<15> l<30:23> el<30:28>
+              n<clk> u<19> t<SIMPLE_IDENTIFIER> p<20> l<30:29> el<30:32>
+        n<> u<35> t<Non_port_interface_item> p<175> c<34> s<58> l<31:3> el<31:17>
+          n<> u<34> t<Interface_or_generate_item> p<35> c<33> l<31:3> el<31:17>
+            n<> u<33> t<Module_common_item> p<34> c<32> l<31:3> el<31:17>
+              n<> u<32> t<Module_or_generate_item_declaration> p<33> c<31> l<31:3> el<31:17>
+                n<> u<31> t<Package_or_generate_item_declaration> p<32> c<30> l<31:3> el<31:17>
+                  n<> u<30> t<Net_declaration> p<31> c<23> l<31:3> el<31:17>
+                    n<> u<23> t<WIRE> p<30> s<24> l<31:3> el<31:7>
+                    n<> u<24> t<Data_type_or_implicit> p<30> s<29> l<31:8> el<31:8>
+                    n<> u<29> t<Net_decl_assignment_list> p<30> c<26> l<31:8> el<31:16>
+                      n<> u<26> t<Net_decl_assignment> p<29> c<25> s<28> l<31:8> el<31:11>
+                        n<req> u<25> t<SIMPLE_IDENTIFIER> p<26> l<31:8> el<31:11>
+                      n<> u<28> t<Net_decl_assignment> p<29> c<27> l<31:13> el<31:16>
+                        n<gnt> u<27> t<SIMPLE_IDENTIFIER> p<28> l<31:13> el<31:16>
+        n<> u<58> t<Non_port_interface_item> p<175> c<57> s<120> l<32:3> el<32:25>
+          n<> u<57> t<Interface_or_generate_item> p<58> c<56> l<32:3> el<32:25>
+            n<> u<56> t<Module_common_item> p<57> c<55> l<32:3> el<32:25>
+              n<> u<55> t<Module_or_generate_item_declaration> p<56> c<54> l<32:3> el<32:25>
+                n<> u<54> t<Package_or_generate_item_declaration> p<55> c<53> l<32:3> el<32:25>
+                  n<> u<53> t<Net_declaration> p<54> c<36> l<32:3> el<32:25>
+                    n<> u<36> t<WIRE> p<53> s<47> l<32:3> el<32:7>
+                    n<> u<47> t<Data_type_or_implicit> p<53> c<46> s<52> l<32:8> el<32:13>
+                      n<> u<46> t<Packed_dimension> p<47> c<45> l<32:8> el<32:13>
+                        n<> u<45> t<Constant_range> p<46> c<40> l<32:9> el<32:12>
+                          n<> u<40> t<Constant_expression> p<45> c<39> s<44> l<32:9> el<32:10>
+                            n<> u<39> t<Constant_primary> p<40> c<38> l<32:9> el<32:10>
+                              n<> u<38> t<Primary_literal> p<39> c<37> l<32:9> el<32:10>
+                                n<7> u<37> t<INTEGRAL_NUMBER> p<38> l<32:9> el<32:10>
+                          n<> u<44> t<Constant_expression> p<45> c<43> l<32:11> el<32:12>
+                            n<> u<43> t<Constant_primary> p<44> c<42> l<32:11> el<32:12>
+                              n<> u<42> t<Primary_literal> p<43> c<41> l<32:11> el<32:12>
+                                n<0> u<41> t<INTEGRAL_NUMBER> p<42> l<32:11> el<32:12>
+                    n<> u<52> t<Net_decl_assignment_list> p<53> c<49> l<32:14> el<32:24>
+                      n<> u<49> t<Net_decl_assignment> p<52> c<48> s<51> l<32:14> el<32:18>
+                        n<addr> u<48> t<SIMPLE_IDENTIFIER> p<49> l<32:14> el<32:18>
+                      n<> u<51> t<Net_decl_assignment> p<52> c<50> l<32:20> el<32:24>
+                        n<data> u<50> t<SIMPLE_IDENTIFIER> p<51> l<32:20> el<32:24>
+        n<> u<120> t<Non_port_interface_item> p<175> c<119> s<121> l<34:3> el<39:14>
+          n<> u<119> t<Interface_or_generate_item> p<120> c<118> l<34:3> el<39:14>
+            n<> u<118> t<Module_common_item> p<119> c<117> l<34:3> el<39:14>
+              n<> u<117> t<Module_or_generate_item_declaration> p<118> c<116> l<34:3> el<39:14>
+                n<> u<116> t<Clocking_declaration> p<117> c<59> l<34:3> el<39:14>
+                  n<sb> u<59> t<SIMPLE_IDENTIFIER> p<116> s<66> l<34:12> el<34:14>
+                  n<> u<66> t<Clocking_event> p<116> c<65> s<71> l<34:15> el<34:29>
+                    n<> u<65> t<Event_expression> p<66> c<60> l<34:17> el<34:28>
+                      n<> u<60> t<POSEDGE> p<65> s<64> l<34:17> el<34:24>
+                      n<> u<64> t<Expression> p<65> c<63> l<34:25> el<34:28>
+                        n<> u<63> t<Primary> p<64> c<62> l<34:25> el<34:28>
+                          n<> u<62> t<Primary_literal> p<63> c<61> l<34:25> el<34:28>
+                            n<clk> u<61> t<SIMPLE_IDENTIFIER> p<62> l<34:25> el<34:28>
+                  n<> u<71> t<Clocking_item> p<116> c<67> s<78> l<35:5> el<35:15>
+                    n<> u<67> t<ClockingDir_Input> p<71> s<70> l<35:5> el<35:10>
+                    n<> u<70> t<Clocking_decl_assign_list> p<71> c<69> l<35:11> el<35:14>
+                      n<> u<69> t<Clocking_decl_assign> p<70> c<68> l<35:11> el<35:14>
+                        n<gnt> u<68> t<SIMPLE_IDENTIFIER> p<69> l<35:11> el<35:14>
+                  n<> u<78> t<Clocking_item> p<116> c<72> s<83> l<36:5> el<36:22>
+                    n<> u<72> t<ClockingDir_Output> p<78> s<77> l<36:5> el<36:11>
+                    n<> u<77> t<Clocking_decl_assign_list> p<78> c<74> l<36:12> el<36:21>
+                      n<> u<74> t<Clocking_decl_assign> p<77> c<73> s<76> l<36:12> el<36:15>
+                        n<req> u<73> t<SIMPLE_IDENTIFIER> p<74> l<36:12> el<36:15>
+                      n<> u<76> t<Clocking_decl_assign> p<77> c<75> l<36:17> el<36:21>
+                        n<addr> u<75> t<SIMPLE_IDENTIFIER> p<76> l<36:17> el<36:21>
+                  n<> u<83> t<Clocking_item> p<116> c<79> s<114> l<37:5> el<37:16>
+                    n<> u<79> t<ClockingDir_Inout> p<83> s<82> l<37:5> el<37:10>
+                    n<> u<82> t<Clocking_decl_assign_list> p<83> c<81> l<37:11> el<37:15>
+                      n<> u<81> t<Clocking_decl_assign> p<82> c<80> l<37:11> el<37:15>
+                        n<data> u<80> t<SIMPLE_IDENTIFIER> p<81> l<37:11> el<37:15>
+                  n<> u<114> t<Clocking_item> p<116> c<113> s<115> l<38:5> el<38:46>
+                    n<> u<113> t<Concurrent_assertion_item_declaration> p<114> c<112> l<38:5> el<38:46>
+                      n<> u<112> t<Property_declaration> p<113> c<84> l<38:5> el<38:46>
+                        n<p1> u<84> t<SIMPLE_IDENTIFIER> p<112> s<110> l<38:14> el<38:16>
+                        n<> u<110> t<Property_spec> p<112> c<109> s<111> l<38:18> el<38:33>
+                          n<> u<109> t<Property_expr> p<110> c<108> l<38:18> el<38:33>
+                            n<> u<108> t<Sequence_expr> p<109> c<90> l<38:18> el<38:33>
+                              n<> u<90> t<Sequence_expr> p<108> c<89> s<101> l<38:18> el<38:21>
+                                n<> u<89> t<Expression_or_dist> p<90> c<88> l<38:18> el<38:21>
+                                  n<> u<88> t<Expression> p<89> c<87> l<38:18> el<38:21>
+                                    n<> u<87> t<Primary> p<88> c<86> l<38:18> el<38:21>
+                                      n<> u<86> t<Primary_literal> p<87> c<85> l<38:18> el<38:21>
+                                        n<req> u<85> t<SIMPLE_IDENTIFIER> p<86> l<38:18> el<38:21>
+                              n<> u<101> t<Cycle_delay_range> p<108> c<100> s<107> l<38:22> el<38:29>
+                                n<##> u<100> t<POUND_POUND_DELAY> p<101> s<99> l<38:22> el<38:24>
+                                n<> u<99> t<Cycle_delay_const_range_expression> p<101> c<94> l<38:25> el<38:28>
+                                  n<> u<94> t<Constant_expression> p<99> c<93> s<98> l<38:25> el<38:26>
+                                    n<> u<93> t<Constant_primary> p<94> c<92> l<38:25> el<38:26>
+                                      n<> u<92> t<Primary_literal> p<93> c<91> l<38:25> el<38:26>
+                                        n<1> u<91> t<INTEGRAL_NUMBER> p<92> l<38:25> el<38:26>
+                                  n<> u<98> t<Constant_expression> p<99> c<97> l<38:27> el<38:28>
+                                    n<> u<97> t<Constant_primary> p<98> c<96> l<38:27> el<38:28>
+                                      n<> u<96> t<Primary_literal> p<97> c<95> l<38:27> el<38:28>
+                                        n<3> u<95> t<INTEGRAL_NUMBER> p<96> l<38:27> el<38:28>
+                              n<> u<107> t<Sequence_expr> p<108> c<106> l<38:30> el<38:33>
+                                n<> u<106> t<Expression_or_dist> p<107> c<105> l<38:30> el<38:33>
+                                  n<> u<105> t<Expression> p<106> c<104> l<38:30> el<38:33>
+                                    n<> u<104> t<Primary> p<105> c<103> l<38:30> el<38:33>
+                                      n<> u<103> t<Primary_literal> p<104> c<102> l<38:30> el<38:33>
+                                        n<gnt> u<102> t<SIMPLE_IDENTIFIER> p<103> l<38:30> el<38:33>
+                        n<> u<111> t<ENDPROPERTY> p<112> l<38:35> el<38:46>
+                  n<> u<115> t<ENDCLOCKING> p<116> l<39:3> el<39:14>
+        n<// CHK2> u<121> t<LINE_COMMENT> p<175> s<144> l<41:3> el<41:10>
+        n<> u<144> t<Non_port_interface_item> p<175> c<143> s<145> l<42:3> el<42:62>
+          n<> u<143> t<Interface_or_generate_item> p<144> c<142> l<42:3> el<42:62>
+            n<> u<142> t<Modport_item> p<143> c<122> l<42:11> el<42:61>
+              n<DUT> u<122> t<SIMPLE_IDENTIFIER> p<142> s<131> l<42:11> el<42:14>
+              n<> u<131> t<Modport_ports_declaration> p<142> c<130> s<136> l<42:16> el<42:36>
+                n<> u<130> t<Modport_simple_ports_declaration> p<131> c<123> l<42:16> el<42:36>
+                  n<> u<123> t<INPUT> p<130> s<125> l<42:16> el<42:21>
+                  n<> u<125> t<Modport_simple_port> p<130> c<124> s<127> l<42:22> el<42:25>
+                    n<clk> u<124> t<SIMPLE_IDENTIFIER> p<125> l<42:22> el<42:25>
+                  n<> u<127> t<Modport_simple_port> p<130> c<126> s<129> l<42:27> el<42:30>
+                    n<req> u<126> t<SIMPLE_IDENTIFIER> p<127> l<42:27> el<42:30>
+                  n<> u<129> t<Modport_simple_port> p<130> c<128> l<42:32> el<42:36>
+                    n<addr> u<128> t<SIMPLE_IDENTIFIER> p<129> l<42:32> el<42:36>
+              n<> u<136> t<Modport_ports_declaration> p<142> c<135> s<141> l<42:38> el<42:48>
+                n<> u<135> t<Modport_simple_ports_declaration> p<136> c<132> l<42:38> el<42:48>
+                  n<> u<132> t<OUTPUT> p<135> s<134> l<42:38> el<42:44>
+                  n<> u<134> t<Modport_simple_port> p<135> c<133> l<42:45> el<42:48>
+                    n<gnt> u<133> t<SIMPLE_IDENTIFIER> p<134> l<42:45> el<42:48>
+              n<> u<141> t<Modport_ports_declaration> p<142> c<140> l<42:50> el<42:60>
+                n<> u<140> t<Modport_simple_ports_declaration> p<141> c<137> l<42:50> el<42:60>
+                  n<> u<137> t<INOUT> p<140> s<139> l<42:50> el<42:55>
+                  n<> u<139> t<Modport_simple_port> p<140> c<138> l<42:56> el<42:60>
+                    n<data> u<138> t<SIMPLE_IDENTIFIER> p<139> l<42:56> el<42:60>
+        n<// CHK1> u<145> t<LINE_COMMENT> p<175> s<151> l<43:3> el<43:10>
+        n<> u<151> t<Non_port_interface_item> p<175> c<150> s<152> l<44:3> el<44:29>
+          n<> u<150> t<Interface_or_generate_item> p<151> c<149> l<44:3> el<44:29>
+            n<> u<149> t<Modport_item> p<150> c<146> l<44:11> el<44:28>
+              n<STB> u<146> t<SIMPLE_IDENTIFIER> p<149> s<148> l<44:11> el<44:14>
+              n<> u<148> t<Modport_ports_declaration> p<149> c<147> l<44:16> el<44:27>
+                n<sb> u<147> t<SIMPLE_IDENTIFIER> p<148> l<44:25> el<44:27>
+        n<// CHK2> u<152> t<LINE_COMMENT> p<175> s<173> l<45:3> el<45:10>
+        n<> u<173> t<Non_port_interface_item> p<175> c<172> s<174> l<46:3> el<46:56>
+          n<> u<172> t<Interface_or_generate_item> p<173> c<171> l<46:3> el<46:56>
+            n<> u<171> t<Modport_item> p<172> c<153> l<46:11> el<46:55>
+              n<TB> u<153> t<SIMPLE_IDENTIFIER> p<171> s<158> l<46:11> el<46:13>
+              n<> u<158> t<Modport_ports_declaration> p<171> c<157> s<165> l<46:15> el<46:24>
+                n<> u<157> t<Modport_simple_ports_declaration> p<158> c<154> l<46:15> el<46:24>
+                  n<> u<154> t<INPUT> p<157> s<156> l<46:15> el<46:20>
+                  n<> u<156> t<Modport_simple_port> p<157> c<155> l<46:21> el<46:24>
+                    n<gnt> u<155> t<SIMPLE_IDENTIFIER> p<156> l<46:21> el<46:24>
+              n<> u<165> t<Modport_ports_declaration> p<171> c<164> s<170> l<46:26> el<46:42>
+                n<> u<164> t<Modport_simple_ports_declaration> p<165> c<159> l<46:26> el<46:42>
+                  n<> u<159> t<OUTPUT> p<164> s<161> l<46:26> el<46:32>
+                  n<> u<161> t<Modport_simple_port> p<164> c<160> s<163> l<46:33> el<46:36>
+                    n<req> u<160> t<SIMPLE_IDENTIFIER> p<161> l<46:33> el<46:36>
+                  n<> u<163> t<Modport_simple_port> p<164> c<162> l<46:38> el<46:42>
+                    n<addr> u<162> t<SIMPLE_IDENTIFIER> p<163> l<46:38> el<46:42>
+              n<> u<170> t<Modport_ports_declaration> p<171> c<169> l<46:44> el<46:54>
+                n<> u<169> t<Modport_simple_ports_declaration> p<170> c<166> l<46:44> el<46:54>
+                  n<> u<166> t<INOUT> p<169> s<168> l<46:44> el<46:49>
+                  n<> u<168> t<Modport_simple_port> p<169> c<167> l<46:50> el<46:54>
+                    n<data> u<167> t<SIMPLE_IDENTIFIER> p<168> l<46:50> el<46:54>
+        n<> u<174> t<ENDINTERFACE> p<175> l<47:1> el<47:13>
+    n<> u<191> t<Description> p<457> c<190> s<206> l<49:1> el<50:10>
+      n<> u<190> t<Module_declaration> p<191> c<188> l<49:1> el<50:10>
+        n<> u<188> t<Module_ansi_header> p<190> c<177> s<189> l<49:1> el<49:26>
+          n<module> u<177> t<MODULE> p<188> s<178> l<49:1> el<49:7>
+          n<dev1> u<178> t<SIMPLE_IDENTIFIER> p<188> s<179> l<49:8> el<49:12>
+          n<> u<179> t<Package_import_declaration_list> p<188> s<187> l<49:12> el<49:12>
+          n<> u<187> t<Port_declaration_list> p<188> c<186> l<49:12> el<49:25>
+            n<> u<186> t<Ansi_port_declaration> p<187> c<184> l<49:13> el<49:24>
+              n<> u<184> t<Interface_port_header> p<186> c<183> s<185> l<49:13> el<49:22>
+                n<> u<183> t<Interface_identifier> p<184> c<180> l<49:13> el<49:22>
+                  n<A_Bus> u<180> t<SIMPLE_IDENTIFIER> p<183> s<181> l<49:13> el<49:18>
+                  n<> u<181> t<Constant_bit_select> p<183> s<182> l<49:18> el<49:18>
+                  n<DUT> u<182> t<SIMPLE_IDENTIFIER> p<183> l<49:19> el<49:22>
+              n<b> u<185> t<SIMPLE_IDENTIFIER> p<186> l<49:23> el<49:24>
+        n<> u<189> t<ENDMODULE> p<190> l<50:1> el<50:10>
+    n<> u<206> t<Description> p<457> c<205> s<207> l<52:1> el<53:10>
+      n<> u<205> t<Module_declaration> p<206> c<203> l<52:1> el<53:10>
+        n<> u<203> t<Module_ansi_header> p<205> c<192> s<204> l<52:1> el<52:26>
+          n<module> u<192> t<MODULE> p<203> s<193> l<52:1> el<52:7>
+          n<dev2> u<193> t<SIMPLE_IDENTIFIER> p<203> s<194> l<52:8> el<52:12>
+          n<> u<194> t<Package_import_declaration_list> p<203> s<202> l<52:12> el<52:12>
+          n<> u<202> t<Port_declaration_list> p<203> c<201> l<52:12> el<52:25>
+            n<> u<201> t<Ansi_port_declaration> p<202> c<199> l<52:13> el<52:24>
+              n<> u<199> t<Interface_port_header> p<201> c<198> s<200> l<52:13> el<52:22>
+                n<> u<198> t<Interface_identifier> p<199> c<195> l<52:13> el<52:22>
+                  n<A_Bus> u<195> t<SIMPLE_IDENTIFIER> p<198> s<196> l<52:13> el<52:18>
+                  n<> u<196> t<Constant_bit_select> p<198> s<197> l<52:18> el<52:18>
+                  n<DUT> u<197> t<SIMPLE_IDENTIFIER> p<198> l<52:19> el<52:22>
+              n<b> u<200> t<SIMPLE_IDENTIFIER> p<201> l<52:23> el<52:24>
+        n<> u<204> t<ENDMODULE> p<205> l<53:1> el<53:10>
+    n<// CHK3> u<207> t<LINE_COMMENT> p<457> s<364> l<55:1> el<55:8>
+    n<> u<364> t<Description> p<457> c<363> s<456> l<56:1> el<68:11>
+      n<> u<363> t<Program_declaration> p<364> c<226> l<56:1> el<68:11>
+        n<> u<226> t<Program_ansi_header> p<363> c<208> s<227> l<56:1> el<56:39>
+          n<> u<208> t<PROGRAM> p<226> s<209> l<56:1> el<56:8>
+          n<T> u<209> t<SIMPLE_IDENTIFIER> p<226> s<210> l<56:9> el<56:10>
+          n<> u<210> t<Package_import_declaration_list> p<226> s<225> l<56:10> el<56:10>
+          n<> u<225> t<Port_declaration_list> p<226> c<217> l<56:10> el<56:38>
+            n<> u<217> t<Ansi_port_declaration> p<225> c<215> s<224> l<56:11> el<56:23>
+              n<> u<215> t<Interface_port_header> p<217> c<214> s<216> l<56:11> el<56:20>
+                n<> u<214> t<Interface_identifier> p<215> c<211> l<56:11> el<56:20>
+                  n<A_Bus> u<211> t<SIMPLE_IDENTIFIER> p<214> s<212> l<56:11> el<56:16>
+                  n<> u<212> t<Constant_bit_select> p<214> s<213> l<56:16> el<56:16>
+                  n<STB> u<213> t<SIMPLE_IDENTIFIER> p<214> l<56:17> el<56:20>
+              n<b1> u<216> t<SIMPLE_IDENTIFIER> p<217> l<56:21> el<56:23>
+            n<> u<224> t<Ansi_port_declaration> p<225> c<222> l<56:25> el<56:37>
+              n<> u<222> t<Interface_port_header> p<224> c<221> s<223> l<56:25> el<56:34>
+                n<> u<221> t<Interface_identifier> p<222> c<218> l<56:25> el<56:34>
+                  n<A_Bus> u<218> t<SIMPLE_IDENTIFIER> p<221> s<219> l<56:25> el<56:30>
+                  n<> u<219> t<Constant_bit_select> p<221> s<220> l<56:30> el<56:30>
+                  n<STB> u<220> t<SIMPLE_IDENTIFIER> p<221> l<56:31> el<56:34>
+              n<b2> u<223> t<SIMPLE_IDENTIFIER> p<224> l<56:35> el<56:37>
+        n<// CHK5> u<227> t<LINE_COMMENT> p<363> s<247> l<57:3> el<57:10>
+        n<> u<247> t<Non_port_program_item> p<363> c<246> s<361> l<58:3> el<58:30>
+          n<> u<246> t<Concurrent_assertion_item> p<247> c<245> l<58:3> el<58:30>
+            n<> u<245> t<Concurrent_assertion_statement> p<246> c<244> l<58:3> el<58:30>
+              n<> u<244> t<Assert_property_statement> p<245> c<241> l<58:3> el<58:30>
+                n<> u<241> t<Property_spec> p<244> c<240> s<243> l<58:20> el<58:28>
+                  n<> u<240> t<Property_expr> p<241> c<239> l<58:20> el<58:28>
+                    n<> u<239> t<Sequence_expr> p<240> c<238> l<58:20> el<58:28>
+                      n<> u<238> t<Expression_or_dist> p<239> c<237> l<58:20> el<58:28>
+                        n<> u<237> t<Expression> p<238> c<236> l<58:20> el<58:28>
+                          n<> u<236> t<Primary> p<237> c<235> l<58:20> el<58:28>
+                            n<> u<235> t<Subroutine_call> p<236> c<228> l<58:20> el<58:28>
+                              n<b1> u<228> t<SIMPLE_IDENTIFIER> p<235> s<229> l<58:20> el<58:22>
+                              n<> u<229> t<Constant_bit_select> p<235> s<230> l<58:22> el<58:22>
+                              n<sb> u<230> t<SIMPLE_IDENTIFIER> p<235> s<231> l<58:23> el<58:25>
+                              n<> u<231> t<Constant_bit_select> p<235> s<232> l<58:25> el<58:25>
+                              n<p1> u<232> t<SIMPLE_IDENTIFIER> p<235> s<234> l<58:26> el<58:28>
+                              n<> u<234> t<Select> p<235> c<233> l<58:28> el<58:28>
+                                n<> u<233> t<Bit_select> p<234> l<58:28> el<58:28>
+                n<> u<243> t<Action_block> p<244> c<242> l<58:29> el<58:30>
+                  n<> u<242> t<Statement_or_null> p<243> l<58:29> el<58:30>
+        n<> u<361> t<Non_port_program_item> p<363> c<360> s<362> l<59:3> el<67:6>
+          n<> u<360> t<Initial_construct> p<361> c<359> l<59:3> el<67:6>
+            n<> u<359> t<Statement_or_null> p<360> c<358> l<59:11> el<67:6>
+              n<> u<358> t<Statement> p<359> c<357> l<59:11> el<67:6>
+                n<> u<357> t<Statement_item> p<358> c<356> l<59:11> el<67:6>
+                  n<> u<356> t<Seq_block> p<357> c<263> l<59:11> el<67:6>
+                    n<> u<263> t<Statement_or_null> p<356> c<262> s<264> l<60:5> el<60:20>
+                      n<> u<262> t<Statement> p<263> c<261> l<60:5> el<60:20>
+                        n<> u<261> t<Statement_item> p<262> c<260> l<60:5> el<60:20>
+                          n<> u<260> t<Nonblocking_assignment> p<261> c<255> l<60:5> el<60:19>
+                            n<> u<255> t<Variable_lvalue> p<260> c<249> s<259> l<60:5> el<60:14>
+                              n<> u<249> t<Ps_or_hierarchical_identifier> p<255> c<248> s<254> l<60:5> el<60:7>
+                                n<b1> u<248> t<SIMPLE_IDENTIFIER> p<249> l<60:5> el<60:7>
+                              n<> u<254> t<Select> p<255> c<250> l<60:7> el<60:14>
+                                n<sb> u<250> t<SIMPLE_IDENTIFIER> p<254> s<251> l<60:8> el<60:10>
+                                n<> u<251> t<Bit_select> p<254> s<252> l<60:10> el<60:10>
+                                n<req> u<252> t<SIMPLE_IDENTIFIER> p<254> s<253> l<60:11> el<60:14>
+                                n<> u<253> t<Bit_select> p<254> l<60:15> el<60:15>
+                            n<> u<259> t<Expression> p<260> c<258> l<60:18> el<60:19>
+                              n<> u<258> t<Primary> p<259> c<257> l<60:18> el<60:19>
+                                n<> u<257> t<Primary_literal> p<258> c<256> l<60:18> el<60:19>
+                                  n<1> u<256> t<INTEGRAL_NUMBER> p<257> l<60:18> el<60:19>
+                    n<// CHK4> u<264> t<LINE_COMMENT> p<356> s<285> l<61:5> el<61:12>
+                    n<> u<285> t<Statement_or_null> p<356> c<284> s<301> l<62:5> el<62:27>
+                      n<> u<284> t<Statement> p<285> c<283> l<62:5> el<62:27>
+                        n<> u<283> t<Statement_item> p<284> c<282> l<62:5> el<62:27>
+                          n<> u<282> t<Wait_statement> p<283> c<280> l<62:5> el<62:27>
+                            n<> u<280> t<Expression> p<282> c<274> s<281> l<62:11> el<62:25>
+                              n<> u<274> t<Expression> p<280> c<273> s<279> l<62:11> el<62:20>
+                                n<> u<273> t<Primary> p<274> c<272> l<62:11> el<62:20>
+                                  n<> u<272> t<Subroutine_call> p<273> c<265> l<62:11> el<62:20>
+                                    n<b1> u<265> t<SIMPLE_IDENTIFIER> p<272> s<266> l<62:11> el<62:13>
+                                    n<> u<266> t<Constant_bit_select> p<272> s<267> l<62:13> el<62:13>
+                                    n<sb> u<267> t<SIMPLE_IDENTIFIER> p<272> s<268> l<62:14> el<62:16>
+                                    n<> u<268> t<Constant_bit_select> p<272> s<269> l<62:16> el<62:16>
+                                    n<gnt> u<269> t<SIMPLE_IDENTIFIER> p<272> s<271> l<62:17> el<62:20>
+                                    n<> u<271> t<Select> p<272> c<270> l<62:21> el<62:21>
+                                      n<> u<270> t<Bit_select> p<271> l<62:21> el<62:21>
+                              n<> u<279> t<EQUIV> p<280> s<278> l<62:21> el<62:23>
+                              n<> u<278> t<Expression> p<280> c<277> l<62:24> el<62:25>
+                                n<> u<277> t<Primary> p<278> c<276> l<62:24> el<62:25>
+                                  n<> u<276> t<Primary_literal> p<277> c<275> l<62:24> el<62:25>
+                                    n<1> u<275> t<INTEGRAL_NUMBER> p<276> l<62:24> el<62:25>
+                            n<> u<281> t<Statement_or_null> p<282> l<62:26> el<62:27>
+                    n<> u<301> t<Statement_or_null> p<356> c<300> s<317> l<63:5> el<63:20>
+                      n<> u<300> t<Statement> p<301> c<299> l<63:5> el<63:20>
+                        n<> u<299> t<Statement_item> p<300> c<298> l<63:5> el<63:20>
+                          n<> u<298> t<Nonblocking_assignment> p<299> c<293> l<63:5> el<63:19>
+                            n<> u<293> t<Variable_lvalue> p<298> c<287> s<297> l<63:5> el<63:14>
+                              n<> u<287> t<Ps_or_hierarchical_identifier> p<293> c<286> s<292> l<63:5> el<63:7>
+                                n<b1> u<286> t<SIMPLE_IDENTIFIER> p<287> l<63:5> el<63:7>
+                              n<> u<292> t<Select> p<293> c<288> l<63:7> el<63:14>
+                                n<sb> u<288> t<SIMPLE_IDENTIFIER> p<292> s<289> l<63:8> el<63:10>
+                                n<> u<289> t<Bit_select> p<292> s<290> l<63:10> el<63:10>
+                                n<req> u<290> t<SIMPLE_IDENTIFIER> p<292> s<291> l<63:11> el<63:14>
+                                n<> u<291> t<Bit_select> p<292> l<63:15> el<63:15>
+                            n<> u<297> t<Expression> p<298> c<296> l<63:18> el<63:19>
+                              n<> u<296> t<Primary> p<297> c<295> l<63:18> el<63:19>
+                                n<> u<295> t<Primary_literal> p<296> c<294> l<63:18> el<63:19>
+                                  n<0> u<294> t<INTEGRAL_NUMBER> p<295> l<63:18> el<63:19>
+                    n<> u<317> t<Statement_or_null> p<356> c<316> s<338> l<64:5> el<64:20>
+                      n<> u<316> t<Statement> p<317> c<315> l<64:5> el<64:20>
+                        n<> u<315> t<Statement_item> p<316> c<314> l<64:5> el<64:20>
+                          n<> u<314> t<Nonblocking_assignment> p<315> c<309> l<64:5> el<64:19>
+                            n<> u<309> t<Variable_lvalue> p<314> c<303> s<313> l<64:5> el<64:14>
+                              n<> u<303> t<Ps_or_hierarchical_identifier> p<309> c<302> s<308> l<64:5> el<64:7>
+                                n<b2> u<302> t<SIMPLE_IDENTIFIER> p<303> l<64:5> el<64:7>
+                              n<> u<308> t<Select> p<309> c<304> l<64:7> el<64:14>
+                                n<sb> u<304> t<SIMPLE_IDENTIFIER> p<308> s<305> l<64:8> el<64:10>
+                                n<> u<305> t<Bit_select> p<308> s<306> l<64:10> el<64:10>
+                                n<req> u<306> t<SIMPLE_IDENTIFIER> p<308> s<307> l<64:11> el<64:14>
+                                n<> u<307> t<Bit_select> p<308> l<64:15> el<64:15>
+                            n<> u<313> t<Expression> p<314> c<312> l<64:18> el<64:19>
+                              n<> u<312> t<Primary> p<313> c<311> l<64:18> el<64:19>
+                                n<> u<311> t<Primary_literal> p<312> c<310> l<64:18> el<64:19>
+                                  n<1> u<310> t<INTEGRAL_NUMBER> p<311> l<64:18> el<64:19>
+                    n<> u<338> t<Statement_or_null> p<356> c<337> s<354> l<65:5> el<65:27>
+                      n<> u<337> t<Statement> p<338> c<336> l<65:5> el<65:27>
+                        n<> u<336> t<Statement_item> p<337> c<335> l<65:5> el<65:27>
+                          n<> u<335> t<Wait_statement> p<336> c<333> l<65:5> el<65:27>
+                            n<> u<333> t<Expression> p<335> c<327> s<334> l<65:11> el<65:25>
+                              n<> u<327> t<Expression> p<333> c<326> s<332> l<65:11> el<65:20>
+                                n<> u<326> t<Primary> p<327> c<325> l<65:11> el<65:20>
+                                  n<> u<325> t<Subroutine_call> p<326> c<318> l<65:11> el<65:20>
+                                    n<b2> u<318> t<SIMPLE_IDENTIFIER> p<325> s<319> l<65:11> el<65:13>
+                                    n<> u<319> t<Constant_bit_select> p<325> s<320> l<65:13> el<65:13>
+                                    n<sb> u<320> t<SIMPLE_IDENTIFIER> p<325> s<321> l<65:14> el<65:16>
+                                    n<> u<321> t<Constant_bit_select> p<325> s<322> l<65:16> el<65:16>
+                                    n<gnt> u<322> t<SIMPLE_IDENTIFIER> p<325> s<324> l<65:17> el<65:20>
+                                    n<> u<324> t<Select> p<325> c<323> l<65:21> el<65:21>
+                                      n<> u<323> t<Bit_select> p<324> l<65:21> el<65:21>
+                              n<> u<332> t<EQUIV> p<333> s<331> l<65:21> el<65:23>
+                              n<> u<331> t<Expression> p<333> c<330> l<65:24> el<65:25>
+                                n<> u<330> t<Primary> p<331> c<329> l<65:24> el<65:25>
+                                  n<> u<329> t<Primary_literal> p<330> c<328> l<65:24> el<65:25>
+                                    n<1> u<328> t<INTEGRAL_NUMBER> p<329> l<65:24> el<65:25>
+                            n<> u<334> t<Statement_or_null> p<335> l<65:26> el<65:27>
+                    n<> u<354> t<Statement_or_null> p<356> c<353> s<355> l<66:5> el<66:20>
+                      n<> u<353> t<Statement> p<354> c<352> l<66:5> el<66:20>
+                        n<> u<352> t<Statement_item> p<353> c<351> l<66:5> el<66:20>
+                          n<> u<351> t<Nonblocking_assignment> p<352> c<346> l<66:5> el<66:19>
+                            n<> u<346> t<Variable_lvalue> p<351> c<340> s<350> l<66:5> el<66:14>
+                              n<> u<340> t<Ps_or_hierarchical_identifier> p<346> c<339> s<345> l<66:5> el<66:7>
+                                n<b2> u<339> t<SIMPLE_IDENTIFIER> p<340> l<66:5> el<66:7>
+                              n<> u<345> t<Select> p<346> c<341> l<66:7> el<66:14>
+                                n<sb> u<341> t<SIMPLE_IDENTIFIER> p<345> s<342> l<66:8> el<66:10>
+                                n<> u<342> t<Bit_select> p<345> s<343> l<66:10> el<66:10>
+                                n<req> u<343> t<SIMPLE_IDENTIFIER> p<345> s<344> l<66:11> el<66:14>
+                                n<> u<344> t<Bit_select> p<345> l<66:15> el<66:15>
+                            n<> u<350> t<Expression> p<351> c<349> l<66:18> el<66:19>
+                              n<> u<349> t<Primary> p<350> c<348> l<66:18> el<66:19>
+                                n<> u<348> t<Primary_literal> p<349> c<347> l<66:18> el<66:19>
+                                  n<0> u<347> t<INTEGRAL_NUMBER> p<348> l<66:18> el<66:19>
+                    n<> u<355> t<END> p<356> l<67:3> el<67:6>
+        n<> u<362> t<ENDPROGRAM> p<363> l<68:1> el<68:11>
+    n<> u<456> t<Description> p<457> c<455> l<70:1> el<77:10>
+      n<> u<455> t<Module_declaration> p<456> c<368> l<70:1> el<77:10>
+        n<> u<368> t<Module_ansi_header> p<455> c<365> s<380> l<70:1> el<70:12>
+          n<module> u<365> t<MODULE> p<368> s<366> l<70:1> el<70:7>
+          n<top> u<366> t<SIMPLE_IDENTIFIER> p<368> s<367> l<70:8> el<70:11>
+          n<> u<367> t<Package_import_declaration_list> p<368> l<70:11> el<70:11>
+        n<> u<380> t<Non_port_module_item> p<455> c<379> s<394> l<71:3> el<71:13>
+          n<> u<379> t<Module_or_generate_item> p<380> c<378> l<71:3> el<71:13>
+            n<> u<378> t<Module_common_item> p<379> c<377> l<71:3> el<71:13>
+              n<> u<377> t<Module_or_generate_item_declaration> p<378> c<376> l<71:3> el<71:13>
+                n<> u<376> t<Package_or_generate_item_declaration> p<377> c<375> l<71:3> el<71:13>
+                  n<> u<375> t<Data_declaration> p<376> c<374> l<71:3> el<71:13>
+                    n<> u<374> t<Variable_declaration> p<375> c<370> l<71:3> el<71:13>
+                      n<> u<370> t<Data_type> p<374> c<369> s<373> l<71:3> el<71:8>
+                        n<> u<369> t<LOGIC> p<370> l<71:3> el<71:8>
+                      n<> u<373> t<Variable_decl_assignment_list> p<374> c<372> l<71:9> el<71:12>
+                        n<> u<372> t<Variable_decl_assignment> p<373> c<371> l<71:9> el<71:12>
+                          n<clk> u<371> t<SIMPLE_IDENTIFIER> p<372> l<71:9> el<71:12>
+        n<> u<394> t<Non_port_module_item> p<455> c<393> s<408> l<72:3> el<72:17>
+          n<> u<393> t<Module_or_generate_item> p<394> c<392> l<72:3> el<72:17>
+            n<> u<392> t<Interface_instantiation> p<393> c<382> l<72:3> el<72:17>
+              n<A_Bus> u<382> t<Interface_identifier> p<392> c<381> s<391> l<72:3> el<72:8>
+                n<A_Bus> u<381> t<SIMPLE_IDENTIFIER> p<382> l<72:3> el<72:8>
+              n<> u<391> t<Hierarchical_instance> p<392> c<384> l<72:9> el<72:16>
+                n<> u<384> t<Name_of_instance> p<391> c<383> s<390> l<72:9> el<72:11>
+                  n<b1> u<383> t<SIMPLE_IDENTIFIER> p<384> l<72:9> el<72:11>
+                n<> u<390> t<Port_connection_list> p<391> c<389> l<72:12> el<72:15>
+                  n<> u<389> t<Ordered_port_connection> p<390> c<388> l<72:12> el<72:15>
+                    n<> u<388> t<Expression> p<389> c<387> l<72:12> el<72:15>
+                      n<> u<387> t<Primary> p<388> c<386> l<72:12> el<72:15>
+                        n<> u<386> t<Primary_literal> p<387> c<385> l<72:12> el<72:15>
+                          n<clk> u<385> t<SIMPLE_IDENTIFIER> p<386> l<72:12> el<72:15>
+        n<> u<408> t<Non_port_module_item> p<455> c<407> s<421> l<73:3> el<73:17>
+          n<> u<407> t<Module_or_generate_item> p<408> c<406> l<73:3> el<73:17>
+            n<> u<406> t<Interface_instantiation> p<407> c<396> l<73:3> el<73:17>
+              n<A_Bus> u<396> t<Interface_identifier> p<406> c<395> s<405> l<73:3> el<73:8>
+                n<A_Bus> u<395> t<SIMPLE_IDENTIFIER> p<396> l<73:3> el<73:8>
+              n<> u<405> t<Hierarchical_instance> p<406> c<398> l<73:9> el<73:16>
+                n<> u<398> t<Name_of_instance> p<405> c<397> s<404> l<73:9> el<73:11>
+                  n<b2> u<397> t<SIMPLE_IDENTIFIER> p<398> l<73:9> el<73:11>
+                n<> u<404> t<Port_connection_list> p<405> c<403> l<73:12> el<73:15>
+                  n<> u<403> t<Ordered_port_connection> p<404> c<402> l<73:12> el<73:15>
+                    n<> u<402> t<Expression> p<403> c<401> l<73:12> el<73:15>
+                      n<> u<401> t<Primary> p<402> c<400> l<73:12> el<73:15>
+                        n<> u<400> t<Primary_literal> p<401> c<399> l<73:12> el<73:15>
+                          n<clk> u<399> t<SIMPLE_IDENTIFIER> p<400> l<73:12> el<73:15>
+        n<> u<421> t<Non_port_module_item> p<455> c<420> s<434> l<74:3> el<74:15>
+          n<> u<420> t<Module_or_generate_item> p<421> c<419> l<74:3> el<74:15>
+            n<> u<419> t<Module_instantiation> p<420> c<409> l<74:3> el<74:15>
+              n<dev1> u<409> t<SIMPLE_IDENTIFIER> p<419> s<418> l<74:3> el<74:7>
+              n<> u<418> t<Hierarchical_instance> p<419> c<411> l<74:8> el<74:14>
+                n<> u<411> t<Name_of_instance> p<418> c<410> s<417> l<74:8> el<74:10>
+                  n<d1> u<410> t<SIMPLE_IDENTIFIER> p<411> l<74:8> el<74:10>
+                n<> u<417> t<Port_connection_list> p<418> c<416> l<74:11> el<74:13>
+                  n<> u<416> t<Ordered_port_connection> p<417> c<415> l<74:11> el<74:13>
+                    n<> u<415> t<Expression> p<416> c<414> l<74:11> el<74:13>
+                      n<> u<414> t<Primary> p<415> c<413> l<74:11> el<74:13>
+                        n<> u<413> t<Primary_literal> p<414> c<412> l<74:11> el<74:13>
+                          n<b1> u<412> t<SIMPLE_IDENTIFIER> p<413> l<74:11> el<74:13>
+        n<> u<434> t<Non_port_module_item> p<455> c<433> s<453> l<75:3> el<75:15>
+          n<> u<433> t<Module_or_generate_item> p<434> c<432> l<75:3> el<75:15>
+            n<> u<432> t<Module_instantiation> p<433> c<422> l<75:3> el<75:15>
+              n<dev2> u<422> t<SIMPLE_IDENTIFIER> p<432> s<431> l<75:3> el<75:7>
+              n<> u<431> t<Hierarchical_instance> p<432> c<424> l<75:8> el<75:14>
+                n<> u<424> t<Name_of_instance> p<431> c<423> s<430> l<75:8> el<75:10>
+                  n<d2> u<423> t<SIMPLE_IDENTIFIER> p<424> l<75:8> el<75:10>
+                n<> u<430> t<Port_connection_list> p<431> c<429> l<75:11> el<75:13>
+                  n<> u<429> t<Ordered_port_connection> p<430> c<428> l<75:11> el<75:13>
+                    n<> u<428> t<Expression> p<429> c<427> l<75:11> el<75:13>
+                      n<> u<427> t<Primary> p<428> c<426> l<75:11> el<75:13>
+                        n<> u<426> t<Primary_literal> p<427> c<425> l<75:11> el<75:13>
+                          n<b2> u<425> t<SIMPLE_IDENTIFIER> p<426> l<75:11> el<75:13>
+        n<> u<453> t<Non_port_module_item> p<455> c<452> s<454> l<76:3> el<76:16>
+          n<> u<452> t<Module_or_generate_item> p<453> c<451> l<76:3> el<76:16>
+            n<> u<451> t<Module_common_item> p<452> c<450> l<76:3> el<76:16>
+              n<> u<450> t<Program_instantiation> p<451> c<435> l<76:3> el<76:16>
+                n<T> u<435> t<SIMPLE_IDENTIFIER> p<450> s<449> l<76:3> el<76:4>
+                n<> u<449> t<Hierarchical_instance> p<450> c<437> l<76:5> el<76:15>
+                  n<> u<437> t<Name_of_instance> p<449> c<436> s<448> l<76:5> el<76:7>
+                    n<tb> u<436> t<SIMPLE_IDENTIFIER> p<437> l<76:5> el<76:7>
+                  n<> u<448> t<Port_connection_list> p<449> c<442> l<76:8> el<76:14>
+                    n<> u<442> t<Ordered_port_connection> p<448> c<441> s<447> l<76:8> el<76:10>
+                      n<> u<441> t<Expression> p<442> c<440> l<76:8> el<76:10>
+                        n<> u<440> t<Primary> p<441> c<439> l<76:8> el<76:10>
+                          n<> u<439> t<Primary_literal> p<440> c<438> l<76:8> el<76:10>
+                            n<b1> u<438> t<SIMPLE_IDENTIFIER> p<439> l<76:8> el<76:10>
+                    n<> u<447> t<Ordered_port_connection> p<448> c<446> l<76:12> el<76:14>
+                      n<> u<446> t<Expression> p<447> c<445> l<76:12> el<76:14>
+                        n<> u<445> t<Primary> p<446> c<444> l<76:12> el<76:14>
+                          n<> u<444> t<Primary_literal> p<445> c<443> l<76:12> el<76:14>
+                            n<b2> u<443> t<SIMPLE_IDENTIFIER> p<444> l<76:12> el<76:14>
+        n<> u<454> t<ENDMODULE> p<455> l<77:1> el<77:10>
+AST_DEBUG_END
+[INF:CP5805] $Source01/25.5.5--mp_clocking_blocks.sv:30:1: Compile interface "A_Bus".
+[INF:CP5804] $Source01/25.5.5--mp_clocking_blocks.sv:49:1: Compile module "dev1".
+[INF:CP5804] $Source01/25.5.5--mp_clocking_blocks.sv:52:1: Compile module "dev2".
+[INF:CP5807] $Source01/25.5.5--mp_clocking_blocks.sv:56:9: Compile program "T".
+[WRN:CP5815] $Source01/25.5.5--mp_clocking_blocks.sv:56:9: Using programs is discouraged "T", programs are obsoleted by UVM.
+[INF:CP5804] $Source01/25.5.5--mp_clocking_blocks.sv:70:1: Compile module "top".
+[INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DL2516] $Source01/25.5.5--mp_clocking_blocks.sv:58:20: Model property "PropertySpec/vpiPropertyExpr" has an invalid value of type "RefObj".
+[ERR:DL2516] $Source01/25.5.5--mp_clocking_blocks.sv:58:26: Model property "RefObj/vpiPathElem" has an invalid value of type "RefObj".
+[ERR:DL2516] $Source01/25.5.5--mp_clocking_blocks.sv:38:5: Model property "RefObj/vpiActual" has an invalid value of type "PropertyDecl".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:25.5.5--mp_clocking_blocks.sv file:$Source01/25.5.5--mp_clocking_blocks.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "25.5.5--mp_clocking_blocks.sv"
+      vpiPreprocFile: "$Output/lib/work/25.5.5--mp_clocking_blocks.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:25.5.5--mp_clocking_blocks.sv:
+  vpiAllInterfaces (1 items):
+    Interface name:A_Bus file:$Source01/25.5.5--mp_clocking_blocks.sv start:30:1 end:47:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:A_Bus start:30:11 end:30:16:
+      vpiFullName: A_Bus
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Interface name:A_Bus
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Interface name:A_Bus
+          vpiRange (1 items):
+            Range start:32:8 end:32:13:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:32:9 end:32:10:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "7"
+                vpiValue: 7
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: A_Bus
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:32:11 end:32:12:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: A_Bus
+                  vpiActual: IntTypespec
+          vpiVector: true
+        ClockingBlockTypespec name:sb:
+          vpiParent: Interface name:A_Bus
+          vpiName: sb
+          vpiClockingBlock: ClockingBlock name:sb
+        InterfaceTypespec name:DUT start:42:11 end:42:14:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:DUT start:42:11 end:42:14:
+          vpiDefName: A_Bus
+          vpiModport: Modport name:DUT
+          vpiInterface: Interface name:A_Bus
+        InterfaceTypespec name:STB start:44:11 end:44:14:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:STB start:44:11 end:44:14:
+          vpiDefName: A_Bus
+          vpiModport: Modport name:STB
+          vpiInterface: Interface name:A_Bus
+        InterfaceTypespec name:TB start:46:11 end:46:13:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:TB start:46:11 end:46:13:
+          vpiDefName: A_Bus
+          vpiModport: Modport name:TB
+          vpiInterface: Interface name:A_Bus
+      vpiDefName: A_Bus
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5.5--mp_clocking_blocks.sv"
+      vpiDefLineNo: 30
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:30:11 end:30:16:
+        vpiParent: Interface name:A_Bus
+        vpiName: work
+        vpiFullName: A_Bus.work
+        vpiActual: Library name:work
+      vpiCell: A_Bus
+      vpiNet (5 items):
+        Net name:clk start:30:29 end:30:32:
+          vpiParent: Interface name:A_Bus
+          vpiName: clk
+          vpiFullName: A_Bus.clk
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:30:23 end:30:28:
+            vpiParent: Net name:clk
+            vpiFullName: A_Bus.clk
+            vpiActual: LogicTypespec
+        Net name:req start:31:8 end:31:11:
+          vpiParent: Interface name:A_Bus
+          vpiName: req
+          vpiFullName: A_Bus.req
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:req
+            vpiFullName: A_Bus.req
+            vpiActual: LogicTypespec
+        Net name:gnt start:31:13 end:31:16:
+          vpiParent: Interface name:A_Bus
+          vpiName: gnt
+          vpiFullName: A_Bus.gnt
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:gnt
+            vpiFullName: A_Bus.gnt
+            vpiActual: LogicTypespec
+        Net name:addr start:32:14 end:32:18:
+          vpiParent: Interface name:A_Bus
+          vpiName: addr
+          vpiFullName: A_Bus.addr
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:32:8 end:32:13:
+            vpiParent: Net name:addr
+            vpiFullName: A_Bus.addr
+            vpiActual: LogicTypespec
+        Net name:data start:32:20 end:32:24:
+          vpiParent: Interface name:A_Bus
+          vpiName: data
+          vpiFullName: A_Bus.data
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:32:8 end:32:13:
+            vpiParent: Net name:data
+            vpiFullName: A_Bus.data
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiModport (3 items):
+        Modport name:DUT start:42:11 end:42:14:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:DUT:
+          vpiIODecl (5 items):
+            IODecl name:clk start:42:22 end:42:25:
+              vpiParent: Modport name:DUT
+              vpiName: clk
+              vpiDirection: input (1)
+              vpiExpr RefObj name:clk start:42:22 end:42:25:
+                vpiParent: IODecl name:clk
+                vpiName: clk
+                vpiFullName: A_Bus.DUT.clk.clk
+                vpiActual: Net name:clk
+            IODecl name:req start:42:27 end:42:30:
+              vpiParent: Modport name:DUT
+              vpiName: req
+              vpiDirection: input (1)
+              vpiExpr RefObj name:req start:42:27 end:42:30:
+                vpiParent: IODecl name:req
+                vpiName: req
+                vpiFullName: A_Bus.DUT.req.req
+                vpiActual: Net name:req
+            IODecl name:addr start:42:32 end:42:36:
+              vpiParent: Modport name:DUT
+              vpiName: addr
+              vpiDirection: input (1)
+              vpiExpr RefObj name:addr start:42:32 end:42:36:
+                vpiParent: IODecl name:addr
+                vpiName: addr
+                vpiFullName: A_Bus.DUT.addr.addr
+                vpiActual: Net name:addr
+            IODecl name:gnt start:42:45 end:42:48:
+              vpiParent: Modport name:DUT
+              vpiName: gnt
+              vpiDirection: output (2)
+              vpiExpr RefObj name:gnt start:42:45 end:42:48:
+                vpiParent: IODecl name:gnt
+                vpiName: gnt
+                vpiFullName: A_Bus.DUT.gnt.gnt
+                vpiActual: Net name:gnt
+            IODecl name:data start:42:56 end:42:60:
+              vpiParent: Modport name:DUT
+              vpiName: data
+              vpiDirection: inout (3)
+              vpiExpr RefObj name:data start:42:56 end:42:60:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: A_Bus.DUT.data.data
+                vpiActual: Net name:data
+          vpiInterface: Interface name:A_Bus
+        Modport name:STB start:44:11 end:44:14:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:STB:
+          vpiIODecl (1 items):
+            IODecl name:sb start:44:25 end:44:27:
+              vpiParent: Modport name:STB
+              vpiName: sb
+              vpiExpr RefObj name:sb start:44:25 end:44:27:
+                vpiParent: IODecl name:sb
+                vpiName: sb
+                vpiFullName: A_Bus.STB.sb.sb
+                vpiActual: ClockingBlock name:sb
+              vpiClocking: true
+          vpiInterface: Interface name:A_Bus
+        Modport name:TB start:46:11 end:46:13:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:TB:
+          vpiIODecl (4 items):
+            IODecl name:gnt start:46:21 end:46:24:
+              vpiParent: Modport name:TB
+              vpiName: gnt
+              vpiDirection: input (1)
+              vpiExpr RefObj name:gnt start:46:21 end:46:24:
+                vpiParent: IODecl name:gnt
+                vpiName: gnt
+                vpiFullName: A_Bus.TB.gnt.gnt
+                vpiActual: Net name:gnt
+            IODecl name:req start:46:33 end:46:36:
+              vpiParent: Modport name:TB
+              vpiName: req
+              vpiDirection: output (2)
+              vpiExpr RefObj name:req start:46:33 end:46:36:
+                vpiParent: IODecl name:req
+                vpiName: req
+                vpiFullName: A_Bus.TB.req.req
+                vpiActual: Net name:req
+            IODecl name:addr start:46:38 end:46:42:
+              vpiParent: Modport name:TB
+              vpiName: addr
+              vpiDirection: output (2)
+              vpiExpr RefObj name:addr start:46:38 end:46:42:
+                vpiParent: IODecl name:addr
+                vpiName: addr
+                vpiFullName: A_Bus.TB.addr.addr
+                vpiActual: Net name:addr
+            IODecl name:data start:46:50 end:46:54:
+              vpiParent: Modport name:TB
+              vpiName: data
+              vpiDirection: inout (3)
+              vpiExpr RefObj name:data start:46:50 end:46:54:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: A_Bus.TB.data.data
+                vpiActual: Net name:data
+          vpiInterface: Interface name:A_Bus
+      vpiClockingBlock (1 items):
+        ClockingBlock name:sb start:34:3 end:39:14:
+          vpiParent: Interface name:A_Bus
+          vpiName Identifier name:sb start:34:12 end:34:14:
+          vpiFullName: A_Bus.sb
+          vpiPropertyDecl (1 items):
+            PropertyDecl name:p1 start:38:5 end:38:46:
+              vpiParent: ClockingBlock name:sb
+              vpiName Identifier name:p1 start:38:14 end:38:16:
+              vpiFullName: A_Bus.sb.p1
+              vpiPropertySpec PropertySpec start:38:18 end:38:33:
+                vpiParent: PropertyDecl name:p1
+                vpiPropertyExpr Operation start:38:18 end:38:33:
+                  vpiParent: PropertySpec
+                  vpiOpType: binary cycle delay (71)
+                  vpiOperand (4 items):
+                    RefObj name:req start:38:18 end:38:21:
+                      vpiParent: Operation
+                      vpiName: req
+                      vpiFullName: A_Bus.sb.p1.req
+                      vpiActual: Net name:req
+                    RefObj name:gnt start:38:30 end:38:33:
+                      vpiParent: Operation
+                      vpiName: gnt
+                      vpiFullName: A_Bus.sb.p1.gnt
+                      vpiActual: Net name:gnt
+                    Constant start:38:25 end:38:26:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: A_Bus.sb.p1
+                        vpiActual: IntTypespec
+                    Constant start:38:27 end:38:28:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "3"
+                      vpiValue: 3
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: A_Bus.sb.p1
+                        vpiActual: IntTypespec
+          vpiTypespec (1 items):
+            PropertyTypespec name:p1:
+              vpiParent: ClockingBlock name:sb
+              vpiName: p1
+              vpiPropertyDecl: PropertyDecl name:p1
+          vpiClockingEvent EventControl start:34:15 end:34:29:
+            vpiParent: ClockingBlock name:sb
+            vpiCondition Operation start:34:17 end:34:28:
+              vpiParent: EventControl
+              vpiOpType: posedge (39)
+              vpiOperand (1 items):
+                RefObj name:clk start:34:25 end:34:28:
+                  vpiParent: Operation
+                  vpiName: clk
+                  vpiFullName: A_Bus.sb.clk
+                  vpiActual: Net name:clk
+          vpiClockingIODecl (4 items):
+            ClockingIODecl name:gnt start:35:11 end:35:14:
+              vpiParent: ClockingBlock name:sb
+              vpiName Identifier name:gnt:
+              vpiDirection: input (1)
+            ClockingIODecl name:req start:36:12 end:36:15:
+              vpiParent: ClockingBlock name:sb
+              vpiName Identifier name:req:
+              vpiDirection: output (2)
+            ClockingIODecl name:addr start:36:17 end:36:21:
+              vpiParent: ClockingBlock name:sb
+              vpiName Identifier name:addr:
+              vpiDirection: output (2)
+            ClockingIODecl name:data start:37:11 end:37:15:
+              vpiParent: ClockingBlock name:sb
+              vpiName Identifier name:data:
+              vpiDirection: inout (3)
+      vpiPort (1 items):
+        Port name:clk start:30:29 end:30:32:
+          vpiParent: Interface name:A_Bus
+          vpiName: clk
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:30:29 end:30:32:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: A_Bus.clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec start:30:23 end:30:28:
+            vpiParent: Port name:clk
+            vpiFullName: A_Bus.clk
+            vpiActual: LogicTypespec
+  vpiAllPrograms (1 items):
+    Program name:T file:$Source01/25.5.5--mp_clocking_blocks.sv start:56:1 end:68:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:T start:56:9 end:56:10:
+      vpiFullName: T
+      vpiConcurrentAssertions (1 items):
+        Assert start:58:3 end:58:30:
+          vpiParent: Program name:T
+          vpiStmt NullStmt:
+            vpiParent: Assert
+          vpiProperty PropertySpec start:58:20 end:58:28:
+            vpiParent: Assert
+            vpiPropertyExpr RefObj name:b1.sb.p1 start:58:20 end:58:28:
+              vpiParent: PropertySpec
+              vpiName: b1.sb.p1
+              vpiFullName: T.b1.sb.p1
+              vpiPathElem (3 items):
+                RefObj name:b1 start:58:20 end:58:22:
+                  vpiParent: RefObj name:b1.sb.p1
+                  vpiName: b1
+                  vpiFullName: T.b1
+                  vpiActual: Modport name:STB
+                RefObj name:sb start:58:23 end:58:25:
+                  vpiParent: RefObj name:b1.sb.p1
+                  vpiName: sb
+                  vpiFullName: T.sb
+                  vpiActual: ClockingBlock name:sb
+                RefObj name:p1 start:58:26 end:58:28:
+                  vpiParent: RefObj name:b1.sb.p1
+                  vpiName: p1
+                  vpiFullName: T.p1
+                  vpiActual: PropertyDecl name:p1
+              vpiActual: PropertyDecl name:p1
+      vpiDefName: T
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5.5--mp_clocking_blocks.sv"
+      vpiDefLineNo: 56
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:56:9 end:56:10:
+        vpiParent: Program name:T
+        vpiName: work
+        vpiFullName: T.work
+        vpiActual: Library name:work
+      vpiCell: T
+      vpiUnit: Unit
+      vpiProcess (1 items):
+        Initial start:59:3 end:67:6:
+          vpiParent: Program name:T
+          vpiStmt Begin start:59:11 end:67:6:
+            vpiParent: Initial
+            vpiFullName: T
+            vpiStmt (6 items):
+              Assignment start:60:5 end:60:19:
+                vpiParent: Begin
+                vpiOpType: assignment (96)
+                vpiLhs RefObj name:b1.sb.req start:60:5 end:60:14:
+                  vpiParent: Assignment
+                  vpiName: b1.sb.req
+                  vpiFullName: T.b1.sb.req
+                  vpiPathElem (3 items):
+                    RefObj name:b1 start:60:5 end:60:7:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: b1
+                      vpiFullName: T.b1
+                      vpiActual: Modport name:STB
+                    RefObj name:sb start:60:8 end:60:10:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: sb
+                      vpiFullName: T.sb
+                      vpiActual: ClockingBlock name:sb
+                    RefObj name:req start:60:11 end:60:14:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: req
+                      vpiFullName: T.req
+                      vpiActual: ClockingIODecl name:req
+                  vpiActual: ClockingIODecl name:req
+                vpiRhs Constant start:60:18 end:60:19:
+                  vpiParent: Assignment
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: T
+                    vpiActual: IntTypespec
+              WaitStmt start:62:5 end:62:27:
+                vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: WaitStmt
+                vpiCondition Operation start:62:11 end:62:25:
+                  vpiParent: WaitStmt
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:b1.sb.gnt start:62:11 end:62:20:
+                      vpiParent: Operation
+                      vpiName: b1.sb.gnt
+                      vpiFullName: T.b1.sb.gnt
+                      vpiPathElem (3 items):
+                        RefObj name:b1 start:62:11 end:62:13:
+                          vpiParent: RefObj name:b1.sb.gnt
+                          vpiName: b1
+                          vpiFullName: T.b1
+                          vpiActual: Modport name:STB
+                        RefObj name:sb start:62:14 end:62:16:
+                          vpiParent: RefObj name:b1.sb.gnt
+                          vpiName: sb
+                          vpiFullName: T.sb
+                          vpiActual: ClockingBlock name:sb
+                        RefObj name:gnt start:62:17 end:62:20:
+                          vpiParent: RefObj name:b1.sb.gnt
+                          vpiName: gnt
+                          vpiFullName: T.gnt
+                          vpiActual: ClockingIODecl name:gnt
+                      vpiActual: ClockingIODecl name:gnt
+                    Constant start:62:24 end:62:25:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: T
+                        vpiActual: IntTypespec
+              Assignment start:63:5 end:63:19:
+                vpiParent: Begin
+                vpiOpType: assignment (96)
+                vpiLhs RefObj name:b1.sb.req start:63:5 end:63:14:
+                  vpiParent: Assignment
+                  vpiName: b1.sb.req
+                  vpiFullName: T.b1.sb.req
+                  vpiPathElem (3 items):
+                    RefObj name:b1 start:63:5 end:63:7:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: b1
+                      vpiFullName: T.b1
+                      vpiActual: Modport name:STB
+                    RefObj name:sb start:63:8 end:63:10:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: sb
+                      vpiFullName: T.sb
+                      vpiActual: ClockingBlock name:sb
+                    RefObj name:req start:63:11 end:63:14:
+                      vpiParent: RefObj name:b1.sb.req
+                      vpiName: req
+                      vpiFullName: T.req
+                      vpiActual: ClockingIODecl name:req
+                  vpiActual: ClockingIODecl name:req
+                vpiRhs Constant start:63:18 end:63:19:
+                  vpiParent: Assignment
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: T
+                    vpiActual: IntTypespec
+              Assignment start:64:5 end:64:19:
+                vpiParent: Begin
+                vpiOpType: assignment (96)
+                vpiLhs RefObj name:b2.sb.req start:64:5 end:64:14:
+                  vpiParent: Assignment
+                  vpiName: b2.sb.req
+                  vpiFullName: T.b2.sb.req
+                  vpiPathElem (3 items):
+                    RefObj name:b2 start:64:5 end:64:7:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: b2
+                      vpiFullName: T.b2
+                      vpiActual: Modport name:STB
+                    RefObj name:sb start:64:8 end:64:10:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: sb
+                      vpiFullName: T.sb
+                      vpiActual: ClockingBlock name:sb
+                    RefObj name:req start:64:11 end:64:14:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: req
+                      vpiFullName: T.req
+                      vpiActual: ClockingIODecl name:req
+                  vpiActual: ClockingIODecl name:req
+                vpiRhs Constant start:64:18 end:64:19:
+                  vpiParent: Assignment
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: T
+                    vpiActual: IntTypespec
+              WaitStmt start:65:5 end:65:27:
+                vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: WaitStmt
+                vpiCondition Operation start:65:11 end:65:25:
+                  vpiParent: WaitStmt
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:b2.sb.gnt start:65:11 end:65:20:
+                      vpiParent: Operation
+                      vpiName: b2.sb.gnt
+                      vpiFullName: T.b2.sb.gnt
+                      vpiPathElem (3 items):
+                        RefObj name:b2 start:65:11 end:65:13:
+                          vpiParent: RefObj name:b2.sb.gnt
+                          vpiName: b2
+                          vpiFullName: T.b2
+                          vpiActual: Modport name:STB
+                        RefObj name:sb start:65:14 end:65:16:
+                          vpiParent: RefObj name:b2.sb.gnt
+                          vpiName: sb
+                          vpiFullName: T.sb
+                          vpiActual: ClockingBlock name:sb
+                        RefObj name:gnt start:65:17 end:65:20:
+                          vpiParent: RefObj name:b2.sb.gnt
+                          vpiName: gnt
+                          vpiFullName: T.gnt
+                          vpiActual: ClockingIODecl name:gnt
+                      vpiActual: ClockingIODecl name:gnt
+                    Constant start:65:24 end:65:25:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: T
+                        vpiActual: IntTypespec
+              Assignment start:66:5 end:66:19:
+                vpiParent: Begin
+                vpiOpType: assignment (96)
+                vpiLhs RefObj name:b2.sb.req start:66:5 end:66:14:
+                  vpiParent: Assignment
+                  vpiName: b2.sb.req
+                  vpiFullName: T.b2.sb.req
+                  vpiPathElem (3 items):
+                    RefObj name:b2 start:66:5 end:66:7:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: b2
+                      vpiFullName: T.b2
+                      vpiActual: Modport name:STB
+                    RefObj name:sb start:66:8 end:66:10:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: sb
+                      vpiFullName: T.sb
+                      vpiActual: ClockingBlock name:sb
+                    RefObj name:req start:66:11 end:66:14:
+                      vpiParent: RefObj name:b2.sb.req
+                      vpiName: req
+                      vpiFullName: T.req
+                      vpiActual: ClockingIODecl name:req
+                  vpiActual: ClockingIODecl name:req
+                vpiRhs Constant start:66:18 end:66:19:
+                  vpiParent: Assignment
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: T
+                    vpiActual: IntTypespec
+      vpiPort (2 items):
+        Port name:b1 start:56:21 end:56:23:
+          vpiParent: Program name:T
+          vpiName: b1
+          vpiPortType: modport (2)
+          vpiDirection: no direction (5)
+          vpiLowConn RefObj name:b1 start:56:21 end:56:23:
+            vpiParent: Port name:b1
+            vpiName: b1
+            vpiFullName: T.b1.b1
+            vpiActual: Modport name:STB
+          vpiTypespec RefTypespec name:A_Bus::STB start:56:11 end:56:20:
+            vpiParent: Port name:b1
+            vpiName: A_Bus::STB
+            vpiFullName: T.b1.A_Bus::STB
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:56:11 end:56:16:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: A_Bus
+                vpiFullName: T.b1.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:STB start:56:17 end:56:20:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: STB
+                vpiFullName: T.b1.A_Bus::STB.STB
+                vpiActual: InterfaceTypespec name:STB
+            vpiActual: InterfaceTypespec name:STB
+        Port name:b2 start:56:35 end:56:37:
+          vpiParent: Program name:T
+          vpiName: b2
+          vpiPortIndex: 1
+          vpiPortType: modport (2)
+          vpiDirection: no direction (5)
+          vpiLowConn RefObj name:b2 start:56:35 end:56:37:
+            vpiParent: Port name:b2
+            vpiName: b2
+            vpiFullName: T.b2.b2
+            vpiActual: Modport name:STB
+          vpiTypespec RefTypespec name:A_Bus::STB start:56:25 end:56:34:
+            vpiParent: Port name:b2
+            vpiName: A_Bus::STB
+            vpiFullName: T.b2.A_Bus::STB
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:56:25 end:56:30:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: A_Bus
+                vpiFullName: T.b2.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:STB start:56:31 end:56:34:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: STB
+                vpiFullName: T.b2.A_Bus::STB.STB
+                vpiActual: InterfaceTypespec name:STB
+            vpiActual: InterfaceTypespec name:STB
+      vpiIODecl (2 items):
+        IODecl name:b1 start:56:21 end:56:23:
+          vpiParent: Program name:T
+          vpiName: b1
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:b1 start:56:21 end:56:23:
+            vpiParent: IODecl name:b1
+            vpiName: b1
+            vpiFullName: T.b1.b1
+            vpiActual: Modport name:STB
+          vpiTypespec RefTypespec name:A_Bus::STB start:56:11 end:56:20:
+            vpiParent: IODecl name:b1
+            vpiName: A_Bus::STB
+            vpiFullName: T.b1.A_Bus::STB
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:56:11 end:56:16:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: A_Bus
+                vpiFullName: T.b1.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:STB start:56:17 end:56:20:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: STB
+                vpiFullName: T.b1.A_Bus::STB.STB
+                vpiActual: InterfaceTypespec name:STB
+            vpiActual: InterfaceTypespec name:STB
+        IODecl name:b2 start:56:35 end:56:37:
+          vpiParent: Program name:T
+          vpiName: b2
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:b2 start:56:35 end:56:37:
+            vpiParent: IODecl name:b2
+            vpiName: b2
+            vpiFullName: T.b2.b2
+            vpiActual: Modport name:STB
+          vpiTypespec RefTypespec name:A_Bus::STB start:56:25 end:56:34:
+            vpiParent: IODecl name:b2
+            vpiName: A_Bus::STB
+            vpiFullName: T.b2.A_Bus::STB
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:56:25 end:56:30:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: A_Bus
+                vpiFullName: T.b2.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:STB start:56:31 end:56:34:
+                vpiParent: RefTypespec name:A_Bus::STB
+                vpiName: STB
+                vpiFullName: T.b2.A_Bus::STB.STB
+                vpiActual: InterfaceTypespec name:STB
+            vpiActual: InterfaceTypespec name:STB
+  vpiAllModules (3 items):
+    Module name:dev1 file:$Source01/25.5.5--mp_clocking_blocks.sv start:49:1 end:50:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dev1 start:49:8 end:49:12:
+      vpiFullName: dev1
+      vpiDefName: dev1
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5.5--mp_clocking_blocks.sv"
+      vpiDefLineNo: 49
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:49:8 end:49:12:
+        vpiParent: Module name:dev1
+        vpiName: work
+        vpiFullName: dev1.work
+        vpiActual: Library name:work
+      vpiCell: dev1
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:b start:49:23 end:49:24:
+          vpiParent: Module name:dev1
+          vpiName: b
+          vpiPortType: modport (2)
+          vpiDirection: no direction (5)
+          vpiLowConn RefObj name:b start:49:23 end:49:24:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: dev1.b.b
+            vpiActual: Modport name:DUT
+          vpiTypespec RefTypespec name:A_Bus::DUT start:49:13 end:49:22:
+            vpiParent: Port name:b
+            vpiName: A_Bus::DUT
+            vpiFullName: dev1.b.A_Bus::DUT
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:49:13 end:49:18:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: A_Bus
+                vpiFullName: dev1.b.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:DUT start:49:19 end:49:22:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: DUT
+                vpiFullName: dev1.b.A_Bus::DUT.DUT
+                vpiActual: InterfaceTypespec name:DUT
+            vpiActual: InterfaceTypespec name:DUT
+      vpiIODecl (1 items):
+        IODecl name:b start:49:23 end:49:24:
+          vpiParent: Module name:dev1
+          vpiName: b
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:b start:49:23 end:49:24:
+            vpiParent: IODecl name:b
+            vpiName: b
+            vpiFullName: dev1.b.b
+            vpiActual: Modport name:DUT
+          vpiTypespec RefTypespec name:A_Bus::DUT start:49:13 end:49:22:
+            vpiParent: IODecl name:b
+            vpiName: A_Bus::DUT
+            vpiFullName: dev1.b.A_Bus::DUT
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:49:13 end:49:18:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: A_Bus
+                vpiFullName: dev1.b.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:DUT start:49:19 end:49:22:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: DUT
+                vpiFullName: dev1.b.A_Bus::DUT.DUT
+                vpiActual: InterfaceTypespec name:DUT
+            vpiActual: InterfaceTypespec name:DUT
+    Module name:dev2 file:$Source01/25.5.5--mp_clocking_blocks.sv start:52:1 end:53:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dev2 start:52:8 end:52:12:
+      vpiFullName: dev2
+      vpiDefName: dev2
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5.5--mp_clocking_blocks.sv"
+      vpiDefLineNo: 52
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:52:8 end:52:12:
+        vpiParent: Module name:dev2
+        vpiName: work
+        vpiFullName: dev2.work
+        vpiActual: Library name:work
+      vpiCell: dev2
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:b start:52:23 end:52:24:
+          vpiParent: Module name:dev2
+          vpiName: b
+          vpiPortType: modport (2)
+          vpiDirection: no direction (5)
+          vpiLowConn RefObj name:b start:52:23 end:52:24:
+            vpiParent: Port name:b
+            vpiName: b
+            vpiFullName: dev2.b.b
+            vpiActual: Modport name:DUT
+          vpiTypespec RefTypespec name:A_Bus::DUT start:52:13 end:52:22:
+            vpiParent: Port name:b
+            vpiName: A_Bus::DUT
+            vpiFullName: dev2.b.A_Bus::DUT
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:52:13 end:52:18:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: A_Bus
+                vpiFullName: dev2.b.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:DUT start:52:19 end:52:22:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: DUT
+                vpiFullName: dev2.b.A_Bus::DUT.DUT
+                vpiActual: InterfaceTypespec name:DUT
+            vpiActual: InterfaceTypespec name:DUT
+      vpiIODecl (1 items):
+        IODecl name:b start:52:23 end:52:24:
+          vpiParent: Module name:dev2
+          vpiName: b
+          vpiDirection: no direction (5)
+          vpiExpr RefObj name:b start:52:23 end:52:24:
+            vpiParent: IODecl name:b
+            vpiName: b
+            vpiFullName: dev2.b.b
+            vpiActual: Modport name:DUT
+          vpiTypespec RefTypespec name:A_Bus::DUT start:52:13 end:52:22:
+            vpiParent: IODecl name:b
+            vpiName: A_Bus::DUT
+            vpiFullName: dev2.b.A_Bus::DUT
+            vpiPathElem (2 items):
+              RefObj name:A_Bus start:52:13 end:52:18:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: A_Bus
+                vpiFullName: dev2.b.A_Bus
+                vpiActual: Interface name:A_Bus
+              RefTypespec name:DUT start:52:19 end:52:22:
+                vpiParent: RefTypespec name:A_Bus::DUT
+                vpiName: DUT
+                vpiFullName: dev2.b.A_Bus::DUT.DUT
+                vpiActual: InterfaceTypespec name:DUT
+            vpiActual: InterfaceTypespec name:DUT
+    Module name:top file:$Source01/25.5.5--mp_clocking_blocks.sv start:70:1 end:77:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:70:8 end:70:11:
+      vpiFullName: top
+      vpiVariable (1 items):
+        Variable name:clk start:71:9 end:71:12:
+          vpiParent: Module name:top
+          vpiName: clk
+          vpiFullName: top.clk
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:71:3 end:71:8:
+            vpiParent: Variable name:clk
+            vpiFullName: top.clk
+            vpiActual: LogicTypespec
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Module name:top
+          vpiScalar: true
+        ModuleTypespec name:dev1:
+        ModuleTypespec name:dev2:
+        ProgramTypespec name:T:
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5.5--mp_clocking_blocks.sv"
+      vpiDefLineNo: 70
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:70:8 end:70:11:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+        vpiActual: Library name:work
+      vpiCell: top
+      vpiUnit: Unit
+      vpiRefInstance (5 items):
+        RefInstance name:b1 start:72:9 end:72:11:
+          vpiParent: Module name:top
+          vpiName: b1
+          vpiTypespec RefTypespec name:A_Bus start:72:3 end:72:8:
+            vpiParent: RefInstance name:b1
+            vpiName: A_Bus
+            vpiFullName: top.b1.A_Bus
+            vpiActual: InterfaceTypespec name:A_Bus
+          vpiArgument (1 items):
+            NamedArgument start:72:12 end:72:15:
+              vpiParent: RefInstance name:b1
+              vpiLowConn RefObj name:clk:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: top.b1.clk
+                vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:72:12 end:72:15:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: top.b1.clk
+                vpiActual: Variable name:clk
+        RefInstance name:b2 start:73:9 end:73:11:
+          vpiParent: Module name:top
+          vpiName: b2
+          vpiTypespec RefTypespec name:A_Bus start:73:3 end:73:8:
+            vpiParent: RefInstance name:b2
+            vpiName: A_Bus
+            vpiFullName: top.b2.A_Bus
+            vpiActual: InterfaceTypespec name:A_Bus
+          vpiArgument (1 items):
+            NamedArgument start:73:12 end:73:15:
+              vpiParent: RefInstance name:b2
+              vpiLowConn RefObj name:clk:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: top.b2.clk
+                vpiActual: Port name:clk
+              vpiHighConn RefObj name:clk start:73:12 end:73:15:
+                vpiParent: NamedArgument
+                vpiName: clk
+                vpiFullName: top.b2.clk
+                vpiActual: Variable name:clk
+        RefInstance name:d1 start:74:8 end:74:10:
+          vpiParent: Module name:top
+          vpiName: d1
+          vpiTypespec RefTypespec name:dev1 start:74:3 end:74:7:
+            vpiParent: RefInstance name:d1
+            vpiName: dev1
+            vpiFullName: top.d1.dev1
+            vpiActual: ModuleTypespec name:dev1
+          vpiArgument (1 items):
+            NamedArgument start:74:11 end:74:13:
+              vpiParent: RefInstance name:d1
+              vpiLowConn RefObj name:b:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.d1.b
+                vpiActual: Port name:b
+              vpiHighConn RefObj name:b1 start:74:11 end:74:13:
+                vpiParent: NamedArgument
+                vpiName: b1
+                vpiFullName: top.d1.b1
+                vpiActual: RefInstance name:b1
+        RefInstance name:d2 start:75:8 end:75:10:
+          vpiParent: Module name:top
+          vpiName: d2
+          vpiTypespec RefTypespec name:dev2 start:75:3 end:75:7:
+            vpiParent: RefInstance name:d2
+            vpiName: dev2
+            vpiFullName: top.d2.dev2
+            vpiActual: ModuleTypespec name:dev2
+          vpiArgument (1 items):
+            NamedArgument start:75:11 end:75:13:
+              vpiParent: RefInstance name:d2
+              vpiLowConn RefObj name:b:
+                vpiParent: NamedArgument
+                vpiName: b
+                vpiFullName: top.d2.b
+                vpiActual: Port name:b
+              vpiHighConn RefObj name:b2 start:75:11 end:75:13:
+                vpiParent: NamedArgument
+                vpiName: b2
+                vpiFullName: top.d2.b2
+                vpiActual: RefInstance name:b2
+        RefInstance name:tb start:76:5 end:76:7:
+          vpiParent: Module name:top
+          vpiName: tb
+          vpiTypespec RefTypespec name:T start:76:3 end:76:4:
+            vpiParent: RefInstance name:tb
+            vpiName: T
+            vpiFullName: top.tb.T
+            vpiActual: ProgramTypespec name:T
+          vpiArgument (2 items):
+            NamedArgument start:76:8 end:76:10:
+              vpiParent: RefInstance name:tb
+              vpiLowConn RefObj name:b1:
+                vpiParent: NamedArgument
+                vpiName: b1
+                vpiFullName: top.tb.b1
+                vpiActual: Port name:b1
+              vpiHighConn RefObj name:b1 start:76:8 end:76:10:
+                vpiParent: NamedArgument
+                vpiName: b1
+                vpiFullName: top.tb.b1
+                vpiActual: RefInstance name:b1
+            NamedArgument start:76:12 end:76:14:
+              vpiParent: RefInstance name:tb
+              vpiLowConn RefObj name:b2:
+                vpiParent: NamedArgument
+                vpiName: b2
+                vpiFullName: top.tb.b2
+                vpiActual: Port name:b2
+              vpiHighConn RefObj name:b2 start:76:12 end:76:14:
+                vpiParent: NamedArgument
+                vpiName: b2
+                vpiFullName: top.tb.b2
+                vpiActual: RefInstance name:b2
+  vpiTypespec (12 items):
+    InterfaceTypespec name:A_Bus:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:A_Bus start:30:11 end:30:16:
+      vpiDefName: A_Bus
+      vpiInterface: Interface name:A_Bus
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    ModuleTypespec name:dev1:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dev1 start:49:8 end:49:12:
+      vpiDefName: dev1
+      vpiModule: Module name:dev1
+    ModuleTypespec name:dev2:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:dev2 start:52:8 end:52:12:
+      vpiDefName: dev2
+      vpiModule: Module name:dev2
+    ProgramTypespec name:T:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:T start:56:9 end:56:10:
+      vpiDefName: T
+      vpiProgram: Program name:T
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:70:8 end:70:11:
+      vpiDefName: top
+      vpiModule: Module name:top
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 3
+[WARNING] : 1
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Google/chapter-25/25.5.5--mp_clocking_blocks
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/25.5.5--mp_clocking_blocks.sv': {'post_len': 0,
+                                                                         'pre_len': 694}},
+            'post_len': 0,
+            'pre_len': 694,
+            'test_name': 'Google/chapter-25/25.5.5--mp_clocking_blocks'}}
+
++------------------------------------------------+----------+-----------+
+| INPUT                                          |   PRELEN |   POSTLEN |
++================================================+==========+===========+
+| $Output/lib/work/25.5.5--mp_clocking_blocks.sv |      694 |         0 |
++================================================+==========+===========+
+|                                                |      694 |         0 |
++------------------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks/design.hldb ${HLC_DIR}/regression/Google/chapter-25/25.5.5--mp_clocking_blocks/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                            2089    2089       0         0
+----------------------------------------------------------------
+                                  2089    2089       0         0
+===================== END REDUCTION RESULT =====================

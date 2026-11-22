@@ -1,0 +1,991 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/Google/chapter-25 -timescale=1ns/1ns -d ast -d db 25.5--mp_err_duplicates.sv -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/25.5--mp_err_duplicates.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
+[INF:PA5502] Parsing source file "$Source01/25.5--mp_err_duplicates.sv".
+[INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
+AST_DEBUG_BEGIN
+Count: 316
+LIB: work
+FILE<0>:$Source01/25.5--mp_err_duplicates.sv
+n<$Source01/25.5--mp_err_duplicates.sv> u<315> t<Top_level_rule> c<1> l<32:1> el<70:1>
+  n<> u<1> t<Null_rule> p<315> s<2> l<32:1> el<32:1>
+  n</*\n Copyright 2020 Apotell\n\n Licensed under the Apache License, Version 2.0 (the "License");\n you may not use this file except in compliance with the License.\n You may obtain a copy of the License at\n\n http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an "AS IS" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n*/> u<2> t<BLOCK_COMMENT> p<315> s<3> l<32:1> el<69:10>
+  n</*\n:name: mp_err_duplicates\n:description: duplicate names inside and between modports\n:should_fail_because: a modport name or modport port identifier shall not be defined twice\n:tags: 25.5\n*/> u<3> t<BLOCK_COMMENT> p<315> s<4> l<32:1> el<69:10>
+  n<// Errors in this file:> u<4> t<LINE_COMMENT> p<315> s<5> l<24:1> el<24:24>
+  n<//   ERR1: two modports with the same name in one interface> u<5> t<LINE_COMMENT> p<315> s<6> l<25:1> el<25:60>
+  n<//   ERR2: same signal listed twice in one modport> u<6> t<LINE_COMMENT> p<315> s<7> l<26:1> el<26:51>
+  n<//   ERR3: same signal listed under two different directions in one modport> u<7> t<LINE_COMMENT> p<315> s<8> l<27:1> el<27:76>
+  n<//   ERR4: same port expression name .P defined twice in one modport> u<8> t<LINE_COMMENT> p<315> s<9> l<28:1> el<28:69>
+  n<//   ERR5: port expression name equal to a simple port name in the same modport> u<9> t<LINE_COMMENT> p<315> s<10> l<29:1> el<29:80>
+  n<// ERR1> u<10> t<LINE_COMMENT> p<315> s<314> l<31:1> el<31:8>
+  n<> u<314> t<Source_text> p<315> c<49> l<32:1> el<69:10>
+    n<> u<49> t<Description> p<314> c<48> s<50> l<32:1> el<36:13>
+      n<> u<48> t<Interface_declaration> p<49> c<14> l<32:1> el<36:13>
+        n<> u<14> t<Interface_ansi_header> p<48> c<11> s<28> l<32:1> el<32:19>
+          n<> u<11> t<INTERFACE> p<14> s<12> l<32:1> el<32:10>
+          n<if_err1> u<12> t<SIMPLE_IDENTIFIER> p<14> s<13> l<32:11> el<32:18>
+          n<> u<13> t<Package_import_declaration_list> p<14> l<32:18> el<32:18>
+        n<> u<28> t<Non_port_interface_item> p<48> c<27> s<37> l<33:3> el<33:14>
+          n<> u<27> t<Interface_or_generate_item> p<28> c<26> l<33:3> el<33:14>
+            n<> u<26> t<Module_common_item> p<27> c<25> l<33:3> el<33:14>
+              n<> u<25> t<Module_or_generate_item_declaration> p<26> c<24> l<33:3> el<33:14>
+                n<> u<24> t<Package_or_generate_item_declaration> p<25> c<23> l<33:3> el<33:14>
+                  n<> u<23> t<Data_declaration> p<24> c<22> l<33:3> el<33:14>
+                    n<> u<22> t<Variable_declaration> p<23> c<16> l<33:3> el<33:14>
+                      n<> u<16> t<Data_type> p<22> c<15> s<21> l<33:3> el<33:8>
+                        n<> u<15> t<LOGIC> p<16> l<33:3> el<33:8>
+                      n<> u<21> t<Variable_decl_assignment_list> p<22> c<18> l<33:9> el<33:13>
+                        n<> u<18> t<Variable_decl_assignment> p<21> c<17> s<20> l<33:9> el<33:10>
+                          n<a> u<17> t<SIMPLE_IDENTIFIER> p<18> l<33:9> el<33:10>
+                        n<> u<20> t<Variable_decl_assignment> p<21> c<19> l<33:12> el<33:13>
+                          n<b> u<19> t<SIMPLE_IDENTIFIER> p<20> l<33:12> el<33:13>
+        n<> u<37> t<Non_port_interface_item> p<48> c<36> s<46> l<34:3> el<34:24>
+          n<> u<36> t<Interface_or_generate_item> p<37> c<35> l<34:3> el<34:24>
+            n<> u<35> t<Modport_item> p<36> c<29> l<34:11> el<34:23>
+              n<mp> u<29> t<SIMPLE_IDENTIFIER> p<35> s<34> l<34:11> el<34:13>
+              n<> u<34> t<Modport_ports_declaration> p<35> c<33> l<34:15> el<34:22>
+                n<> u<33> t<Modport_simple_ports_declaration> p<34> c<30> l<34:15> el<34:22>
+                  n<> u<30> t<INPUT> p<33> s<32> l<34:15> el<34:20>
+                  n<> u<32> t<Modport_simple_port> p<33> c<31> l<34:21> el<34:22>
+                    n<a> u<31> t<SIMPLE_IDENTIFIER> p<32> l<34:21> el<34:22>
+        n<> u<46> t<Non_port_interface_item> p<48> c<45> s<47> l<35:3> el<35:25>
+          n<> u<45> t<Interface_or_generate_item> p<46> c<44> l<35:3> el<35:25>
+            n<> u<44> t<Modport_item> p<45> c<38> l<35:11> el<35:24>
+              n<mp> u<38> t<SIMPLE_IDENTIFIER> p<44> s<43> l<35:11> el<35:13>
+              n<> u<43> t<Modport_ports_declaration> p<44> c<42> l<35:15> el<35:23>
+                n<> u<42> t<Modport_simple_ports_declaration> p<43> c<39> l<35:15> el<35:23>
+                  n<> u<39> t<OUTPUT> p<42> s<41> l<35:15> el<35:21>
+                  n<> u<41> t<Modport_simple_port> p<42> c<40> l<35:22> el<35:23>
+                    n<b> u<40> t<SIMPLE_IDENTIFIER> p<41> l<35:22> el<35:23>
+        n<> u<47> t<ENDINTERFACE> p<48> l<36:1> el<36:13>
+    n<// ERR2> u<50> t<LINE_COMMENT> p<314> s<80> l<38:1> el<38:8>
+    n<> u<80> t<Description> p<314> c<79> s<81> l<39:1> el<42:13>
+      n<> u<79> t<Interface_declaration> p<80> c<54> l<39:1> el<42:13>
+        n<> u<54> t<Interface_ansi_header> p<79> c<51> s<66> l<39:1> el<39:19>
+          n<> u<51> t<INTERFACE> p<54> s<52> l<39:1> el<39:10>
+          n<if_err2> u<52> t<SIMPLE_IDENTIFIER> p<54> s<53> l<39:11> el<39:18>
+          n<> u<53> t<Package_import_declaration_list> p<54> l<39:18> el<39:18>
+        n<> u<66> t<Non_port_interface_item> p<79> c<65> s<77> l<40:3> el<40:11>
+          n<> u<65> t<Interface_or_generate_item> p<66> c<64> l<40:3> el<40:11>
+            n<> u<64> t<Module_common_item> p<65> c<63> l<40:3> el<40:11>
+              n<> u<63> t<Module_or_generate_item_declaration> p<64> c<62> l<40:3> el<40:11>
+                n<> u<62> t<Package_or_generate_item_declaration> p<63> c<61> l<40:3> el<40:11>
+                  n<> u<61> t<Data_declaration> p<62> c<60> l<40:3> el<40:11>
+                    n<> u<60> t<Variable_declaration> p<61> c<56> l<40:3> el<40:11>
+                      n<> u<56> t<Data_type> p<60> c<55> s<59> l<40:3> el<40:8>
+                        n<> u<55> t<LOGIC> p<56> l<40:3> el<40:8>
+                      n<> u<59> t<Variable_decl_assignment_list> p<60> c<58> l<40:9> el<40:10>
+                        n<> u<58> t<Variable_decl_assignment> p<59> c<57> l<40:9> el<40:10>
+                          n<a> u<57> t<SIMPLE_IDENTIFIER> p<58> l<40:9> el<40:10>
+        n<> u<77> t<Non_port_interface_item> p<79> c<76> s<78> l<41:3> el<41:27>
+          n<> u<76> t<Interface_or_generate_item> p<77> c<75> l<41:3> el<41:27>
+            n<> u<75> t<Modport_item> p<76> c<67> l<41:11> el<41:26>
+              n<mp> u<67> t<SIMPLE_IDENTIFIER> p<75> s<74> l<41:11> el<41:13>
+              n<> u<74> t<Modport_ports_declaration> p<75> c<73> l<41:15> el<41:25>
+                n<> u<73> t<Modport_simple_ports_declaration> p<74> c<68> l<41:15> el<41:25>
+                  n<> u<68> t<INPUT> p<73> s<70> l<41:15> el<41:20>
+                  n<> u<70> t<Modport_simple_port> p<73> c<69> s<72> l<41:21> el<41:22>
+                    n<a> u<69> t<SIMPLE_IDENTIFIER> p<70> l<41:21> el<41:22>
+                  n<> u<72> t<Modport_simple_port> p<73> c<71> l<41:24> el<41:25>
+                    n<a> u<71> t<SIMPLE_IDENTIFIER> p<72> l<41:24> el<41:25>
+        n<> u<78> t<ENDINTERFACE> p<79> l<42:1> el<42:13>
+    n<// ERR3> u<81> t<LINE_COMMENT> p<314> s<114> l<44:1> el<44:8>
+    n<> u<114> t<Description> p<314> c<113> s<115> l<45:1> el<48:13>
+      n<> u<113> t<Interface_declaration> p<114> c<85> l<45:1> el<48:13>
+        n<> u<85> t<Interface_ansi_header> p<113> c<82> s<97> l<45:1> el<45:19>
+          n<> u<82> t<INTERFACE> p<85> s<83> l<45:1> el<45:10>
+          n<if_err3> u<83> t<SIMPLE_IDENTIFIER> p<85> s<84> l<45:11> el<45:18>
+          n<> u<84> t<Package_import_declaration_list> p<85> l<45:18> el<45:18>
+        n<> u<97> t<Non_port_interface_item> p<113> c<96> s<111> l<46:3> el<46:11>
+          n<> u<96> t<Interface_or_generate_item> p<97> c<95> l<46:3> el<46:11>
+            n<> u<95> t<Module_common_item> p<96> c<94> l<46:3> el<46:11>
+              n<> u<94> t<Module_or_generate_item_declaration> p<95> c<93> l<46:3> el<46:11>
+                n<> u<93> t<Package_or_generate_item_declaration> p<94> c<92> l<46:3> el<46:11>
+                  n<> u<92> t<Data_declaration> p<93> c<91> l<46:3> el<46:11>
+                    n<> u<91> t<Variable_declaration> p<92> c<87> l<46:3> el<46:11>
+                      n<> u<87> t<Data_type> p<91> c<86> s<90> l<46:3> el<46:8>
+                        n<> u<86> t<LOGIC> p<87> l<46:3> el<46:8>
+                      n<> u<90> t<Variable_decl_assignment_list> p<91> c<89> l<46:9> el<46:10>
+                        n<> u<89> t<Variable_decl_assignment> p<90> c<88> l<46:9> el<46:10>
+                          n<a> u<88> t<SIMPLE_IDENTIFIER> p<89> l<46:9> el<46:10>
+        n<> u<111> t<Non_port_interface_item> p<113> c<110> s<112> l<47:3> el<47:34>
+          n<> u<110> t<Interface_or_generate_item> p<111> c<109> l<47:3> el<47:34>
+            n<> u<109> t<Modport_item> p<110> c<98> l<47:11> el<47:33>
+              n<mp> u<98> t<SIMPLE_IDENTIFIER> p<109> s<103> l<47:11> el<47:13>
+              n<> u<103> t<Modport_ports_declaration> p<109> c<102> s<108> l<47:15> el<47:22>
+                n<> u<102> t<Modport_simple_ports_declaration> p<103> c<99> l<47:15> el<47:22>
+                  n<> u<99> t<INPUT> p<102> s<101> l<47:15> el<47:20>
+                  n<> u<101> t<Modport_simple_port> p<102> c<100> l<47:21> el<47:22>
+                    n<a> u<100> t<SIMPLE_IDENTIFIER> p<101> l<47:21> el<47:22>
+              n<> u<108> t<Modport_ports_declaration> p<109> c<107> l<47:24> el<47:32>
+                n<> u<107> t<Modport_simple_ports_declaration> p<108> c<104> l<47:24> el<47:32>
+                  n<> u<104> t<OUTPUT> p<107> s<106> l<47:24> el<47:30>
+                  n<> u<106> t<Modport_simple_port> p<107> c<105> l<47:31> el<47:32>
+                    n<a> u<105> t<SIMPLE_IDENTIFIER> p<106> l<47:31> el<47:32>
+        n<> u<112> t<ENDINTERFACE> p<113> l<48:1> el<48:13>
+    n<// ERR4> u<115> t<LINE_COMMENT> p<314> s<189> l<50:1> el<50:8>
+    n<> u<189> t<Description> p<314> c<188> s<190> l<51:1> el<54:13>
+      n<> u<188> t<Interface_declaration> p<189> c<119> l<51:1> el<54:13>
+        n<> u<119> t<Interface_ansi_header> p<188> c<116> s<141> l<51:1> el<51:19>
+          n<> u<116> t<INTERFACE> p<119> s<117> l<51:1> el<51:10>
+          n<if_err4> u<117> t<SIMPLE_IDENTIFIER> p<119> s<118> l<51:11> el<51:18>
+          n<> u<118> t<Package_import_declaration_list> p<119> l<51:18> el<51:18>
+        n<> u<141> t<Non_port_interface_item> p<188> c<140> s<186> l<52:3> el<52:17>
+          n<> u<140> t<Interface_or_generate_item> p<141> c<139> l<52:3> el<52:17>
+            n<> u<139> t<Module_common_item> p<140> c<138> l<52:3> el<52:17>
+              n<> u<138> t<Module_or_generate_item_declaration> p<139> c<137> l<52:3> el<52:17>
+                n<> u<137> t<Package_or_generate_item_declaration> p<138> c<136> l<52:3> el<52:17>
+                  n<> u<136> t<Data_declaration> p<137> c<135> l<52:3> el<52:17>
+                    n<> u<135> t<Variable_declaration> p<136> c<131> l<52:3> el<52:17>
+                      n<> u<131> t<Data_type> p<135> c<120> s<134> l<52:3> el<52:14>
+                        n<> u<120> t<LOGIC> p<131> s<130> l<52:3> el<52:8>
+                        n<> u<130> t<Packed_dimension> p<131> c<129> l<52:9> el<52:14>
+                          n<> u<129> t<Constant_range> p<130> c<124> l<52:10> el<52:13>
+                            n<> u<124> t<Constant_expression> p<129> c<123> s<128> l<52:10> el<52:11>
+                              n<> u<123> t<Constant_primary> p<124> c<122> l<52:10> el<52:11>
+                                n<> u<122> t<Primary_literal> p<123> c<121> l<52:10> el<52:11>
+                                  n<7> u<121> t<INTEGRAL_NUMBER> p<122> l<52:10> el<52:11>
+                            n<> u<128> t<Constant_expression> p<129> c<127> l<52:12> el<52:13>
+                              n<> u<127> t<Constant_primary> p<128> c<126> l<52:12> el<52:13>
+                                n<> u<126> t<Primary_literal> p<127> c<125> l<52:12> el<52:13>
+                                  n<0> u<125> t<INTEGRAL_NUMBER> p<126> l<52:12> el<52:13>
+                      n<> u<134> t<Variable_decl_assignment_list> p<135> c<133> l<52:15> el<52:16>
+                        n<> u<133> t<Variable_decl_assignment> p<134> c<132> l<52:15> el<52:16>
+                          n<r> u<132> t<SIMPLE_IDENTIFIER> p<133> l<52:15> el<52:16>
+        n<> u<186> t<Non_port_interface_item> p<188> c<185> s<187> l<53:3> el<53:46>
+          n<> u<185> t<Interface_or_generate_item> p<186> c<184> l<53:3> el<53:46>
+            n<> u<184> t<Modport_item> p<185> c<142> l<53:11> el<53:45>
+              n<mp> u<142> t<SIMPLE_IDENTIFIER> p<184> s<183> l<53:11> el<53:13>
+              n<> u<183> t<Modport_ports_declaration> p<184> c<182> l<53:15> el<53:44>
+                n<> u<182> t<Modport_simple_ports_declaration> p<183> c<143> l<53:15> el<53:44>
+                  n<> u<143> t<OUTPUT> p<182> s<162> l<53:15> el<53:21>
+                  n<> u<162> t<Modport_simple_port> p<182> c<161> s<181> l<53:22> el<53:32>
+                    n<> u<161> t<DOT> p<162> s<144> l<53:22> el<53:23>
+                    n<P> u<144> t<SIMPLE_IDENTIFIER> p<162> s<160> l<53:23> el<53:24>
+                    n<> u<160> t<Expression> p<162> c<159> l<53:25> el<53:31>
+                      n<> u<159> t<Primary> p<160> c<158> l<53:25> el<53:31>
+                        n<> u<158> t<Subroutine_call> p<159> c<145> l<53:25> el<53:31>
+                          n<r> u<145> t<SIMPLE_IDENTIFIER> p<158> s<157> l<53:25> el<53:26>
+                          n<> u<157> t<Select> p<158> c<146> l<53:26> el<53:31>
+                            n<> u<146> t<Bit_select> p<157> s<156> l<53:26> el<53:26>
+                            n<> u<156> t<Part_select_range> p<157> c<155> l<53:27> el<53:30>
+                              n<> u<155> t<Constant_range> p<156> c<150> l<53:27> el<53:30>
+                                n<> u<150> t<Constant_expression> p<155> c<149> s<154> l<53:27> el<53:28>
+                                  n<> u<149> t<Constant_primary> p<150> c<148> l<53:27> el<53:28>
+                                    n<> u<148> t<Primary_literal> p<149> c<147> l<53:27> el<53:28>
+                                      n<3> u<147> t<INTEGRAL_NUMBER> p<148> l<53:27> el<53:28>
+                                n<> u<154> t<Constant_expression> p<155> c<153> l<53:29> el<53:30>
+                                  n<> u<153> t<Constant_primary> p<154> c<152> l<53:29> el<53:30>
+                                    n<> u<152> t<Primary_literal> p<153> c<151> l<53:29> el<53:30>
+                                      n<0> u<151> t<INTEGRAL_NUMBER> p<152> l<53:29> el<53:30>
+                  n<> u<181> t<Modport_simple_port> p<182> c<180> l<53:34> el<53:44>
+                    n<> u<180> t<DOT> p<181> s<163> l<53:34> el<53:35>
+                    n<P> u<163> t<SIMPLE_IDENTIFIER> p<181> s<179> l<53:35> el<53:36>
+                    n<> u<179> t<Expression> p<181> c<178> l<53:37> el<53:43>
+                      n<> u<178> t<Primary> p<179> c<177> l<53:37> el<53:43>
+                        n<> u<177> t<Subroutine_call> p<178> c<164> l<53:37> el<53:43>
+                          n<r> u<164> t<SIMPLE_IDENTIFIER> p<177> s<176> l<53:37> el<53:38>
+                          n<> u<176> t<Select> p<177> c<165> l<53:38> el<53:43>
+                            n<> u<165> t<Bit_select> p<176> s<175> l<53:38> el<53:38>
+                            n<> u<175> t<Part_select_range> p<176> c<174> l<53:39> el<53:42>
+                              n<> u<174> t<Constant_range> p<175> c<169> l<53:39> el<53:42>
+                                n<> u<169> t<Constant_expression> p<174> c<168> s<173> l<53:39> el<53:40>
+                                  n<> u<168> t<Constant_primary> p<169> c<167> l<53:39> el<53:40>
+                                    n<> u<167> t<Primary_literal> p<168> c<166> l<53:39> el<53:40>
+                                      n<7> u<166> t<INTEGRAL_NUMBER> p<167> l<53:39> el<53:40>
+                                n<> u<173> t<Constant_expression> p<174> c<172> l<53:41> el<53:42>
+                                  n<> u<172> t<Constant_primary> p<173> c<171> l<53:41> el<53:42>
+                                    n<> u<171> t<Primary_literal> p<172> c<170> l<53:41> el<53:42>
+                                      n<4> u<170> t<INTEGRAL_NUMBER> p<171> l<53:41> el<53:42>
+        n<> u<187> t<ENDINTERFACE> p<188> l<54:1> el<54:13>
+    n<// ERR5> u<190> t<LINE_COMMENT> p<314> s<256> l<56:1> el<56:8>
+    n<> u<256> t<Description> p<314> c<255> s<313> l<57:1> el<61:13>
+      n<> u<255> t<Interface_declaration> p<256> c<194> l<57:1> el<61:13>
+        n<> u<194> t<Interface_ansi_header> p<255> c<191> s<216> l<57:1> el<57:19>
+          n<> u<191> t<INTERFACE> p<194> s<192> l<57:1> el<57:10>
+          n<if_err5> u<192> t<SIMPLE_IDENTIFIER> p<194> s<193> l<57:11> el<57:18>
+          n<> u<193> t<Package_import_declaration_list> p<194> l<57:18> el<57:18>
+        n<> u<216> t<Non_port_interface_item> p<255> c<215> s<228> l<58:3> el<58:17>
+          n<> u<215> t<Interface_or_generate_item> p<216> c<214> l<58:3> el<58:17>
+            n<> u<214> t<Module_common_item> p<215> c<213> l<58:3> el<58:17>
+              n<> u<213> t<Module_or_generate_item_declaration> p<214> c<212> l<58:3> el<58:17>
+                n<> u<212> t<Package_or_generate_item_declaration> p<213> c<211> l<58:3> el<58:17>
+                  n<> u<211> t<Data_declaration> p<212> c<210> l<58:3> el<58:17>
+                    n<> u<210> t<Variable_declaration> p<211> c<206> l<58:3> el<58:17>
+                      n<> u<206> t<Data_type> p<210> c<195> s<209> l<58:3> el<58:14>
+                        n<> u<195> t<LOGIC> p<206> s<205> l<58:3> el<58:8>
+                        n<> u<205> t<Packed_dimension> p<206> c<204> l<58:9> el<58:14>
+                          n<> u<204> t<Constant_range> p<205> c<199> l<58:10> el<58:13>
+                            n<> u<199> t<Constant_expression> p<204> c<198> s<203> l<58:10> el<58:11>
+                              n<> u<198> t<Constant_primary> p<199> c<197> l<58:10> el<58:11>
+                                n<> u<197> t<Primary_literal> p<198> c<196> l<58:10> el<58:11>
+                                  n<7> u<196> t<INTEGRAL_NUMBER> p<197> l<58:10> el<58:11>
+                            n<> u<203> t<Constant_expression> p<204> c<202> l<58:12> el<58:13>
+                              n<> u<202> t<Constant_primary> p<203> c<201> l<58:12> el<58:13>
+                                n<> u<201> t<Primary_literal> p<202> c<200> l<58:12> el<58:13>
+                                  n<0> u<200> t<INTEGRAL_NUMBER> p<201> l<58:12> el<58:13>
+                      n<> u<209> t<Variable_decl_assignment_list> p<210> c<208> l<58:15> el<58:16>
+                        n<> u<208> t<Variable_decl_assignment> p<209> c<207> l<58:15> el<58:16>
+                          n<r> u<207> t<SIMPLE_IDENTIFIER> p<208> l<58:15> el<58:16>
+        n<> u<228> t<Non_port_interface_item> p<255> c<227> s<253> l<59:3> el<59:11>
+          n<> u<227> t<Interface_or_generate_item> p<228> c<226> l<59:3> el<59:11>
+            n<> u<226> t<Module_common_item> p<227> c<225> l<59:3> el<59:11>
+              n<> u<225> t<Module_or_generate_item_declaration> p<226> c<224> l<59:3> el<59:11>
+                n<> u<224> t<Package_or_generate_item_declaration> p<225> c<223> l<59:3> el<59:11>
+                  n<> u<223> t<Data_declaration> p<224> c<222> l<59:3> el<59:11>
+                    n<> u<222> t<Variable_declaration> p<223> c<218> l<59:3> el<59:11>
+                      n<> u<218> t<Data_type> p<222> c<217> s<221> l<59:3> el<59:8>
+                        n<> u<217> t<LOGIC> p<218> l<59:3> el<59:8>
+                      n<> u<221> t<Variable_decl_assignment_list> p<222> c<220> l<59:9> el<59:10>
+                        n<> u<220> t<Variable_decl_assignment> p<221> c<219> l<59:9> el<59:10>
+                          n<R> u<219> t<SIMPLE_IDENTIFIER> p<220> l<59:9> el<59:10>
+        n<> u<253> t<Non_port_interface_item> p<255> c<252> s<254> l<60:3> el<60:41>
+          n<> u<252> t<Interface_or_generate_item> p<253> c<251> l<60:3> el<60:41>
+            n<> u<251> t<Modport_item> p<252> c<229> l<60:11> el<60:40>
+              n<mp> u<229> t<SIMPLE_IDENTIFIER> p<251> s<234> l<60:11> el<60:13>
+              n<> u<234> t<Modport_ports_declaration> p<251> c<233> s<250> l<60:15> el<60:22>
+                n<> u<233> t<Modport_simple_ports_declaration> p<234> c<230> l<60:15> el<60:22>
+                  n<> u<230> t<INPUT> p<233> s<232> l<60:15> el<60:20>
+                  n<> u<232> t<Modport_simple_port> p<233> c<231> l<60:21> el<60:22>
+                    n<R> u<231> t<SIMPLE_IDENTIFIER> p<232> l<60:21> el<60:22>
+              n<> u<250> t<Modport_ports_declaration> p<251> c<249> l<60:24> el<60:39>
+                n<> u<249> t<Modport_simple_ports_declaration> p<250> c<235> l<60:24> el<60:39>
+                  n<> u<235> t<OUTPUT> p<249> s<248> l<60:24> el<60:30>
+                  n<> u<248> t<Modport_simple_port> p<249> c<247> l<60:31> el<60:39>
+                    n<> u<247> t<DOT> p<248> s<236> l<60:31> el<60:32>
+                    n<R> u<236> t<SIMPLE_IDENTIFIER> p<248> s<246> l<60:32> el<60:33>
+                    n<> u<246> t<Expression> p<248> c<245> l<60:34> el<60:38>
+                      n<> u<245> t<Primary> p<246> c<244> l<60:34> el<60:38>
+                        n<> u<244> t<Subroutine_call> p<245> c<237> l<60:34> el<60:38>
+                          n<r> u<237> t<SIMPLE_IDENTIFIER> p<244> s<243> l<60:34> el<60:35>
+                          n<> u<243> t<Select> p<244> c<242> l<60:35> el<60:38>
+                            n<> u<242> t<Bit_select> p<243> c<241> l<60:35> el<60:38>
+                              n<> u<241> t<Expression> p<242> c<240> l<60:36> el<60:37>
+                                n<> u<240> t<Primary> p<241> c<239> l<60:36> el<60:37>
+                                  n<> u<239> t<Primary_literal> p<240> c<238> l<60:36> el<60:37>
+                                    n<0> u<238> t<INTEGRAL_NUMBER> p<239> l<60:36> el<60:37>
+        n<> u<254> t<ENDINTERFACE> p<255> l<61:1> el<61:13>
+    n<> u<313> t<Description> p<314> c<312> l<63:1> el<69:10>
+      n<> u<312> t<Module_declaration> p<313> c<260> l<63:1> el<69:10>
+        n<> u<260> t<Module_ansi_header> p<312> c<257> s<270> l<63:1> el<63:12>
+          n<module> u<257> t<MODULE> p<260> s<258> l<63:1> el<63:7>
+          n<top> u<258> t<SIMPLE_IDENTIFIER> p<260> s<259> l<63:8> el<63:11>
+          n<> u<259> t<Package_import_declaration_list> p<260> l<63:11> el<63:11>
+        n<> u<270> t<Non_port_module_item> p<312> c<269> s<280> l<64:3> el<64:16>
+          n<> u<269> t<Module_or_generate_item> p<270> c<268> l<64:3> el<64:16>
+            n<> u<268> t<Interface_instantiation> p<269> c<262> l<64:3> el<64:16>
+              n<if_err1> u<262> t<Interface_identifier> p<268> c<261> s<267> l<64:3> el<64:10>
+                n<if_err1> u<261> t<SIMPLE_IDENTIFIER> p<262> l<64:3> el<64:10>
+              n<> u<267> t<Hierarchical_instance> p<268> c<264> l<64:11> el<64:15>
+                n<> u<264> t<Name_of_instance> p<267> c<263> s<266> l<64:11> el<64:13>
+                  n<u1> u<263> t<SIMPLE_IDENTIFIER> p<264> l<64:11> el<64:13>
+                n<> u<266> t<Port_connection_list> p<267> c<265> l<64:14> el<64:14>
+                  n<> u<265> t<Ordered_port_connection> p<266> l<64:14> el<64:14>
+        n<> u<280> t<Non_port_module_item> p<312> c<279> s<290> l<65:3> el<65:16>
+          n<> u<279> t<Module_or_generate_item> p<280> c<278> l<65:3> el<65:16>
+            n<> u<278> t<Interface_instantiation> p<279> c<272> l<65:3> el<65:16>
+              n<if_err2> u<272> t<Interface_identifier> p<278> c<271> s<277> l<65:3> el<65:10>
+                n<if_err2> u<271> t<SIMPLE_IDENTIFIER> p<272> l<65:3> el<65:10>
+              n<> u<277> t<Hierarchical_instance> p<278> c<274> l<65:11> el<65:15>
+                n<> u<274> t<Name_of_instance> p<277> c<273> s<276> l<65:11> el<65:13>
+                  n<u2> u<273> t<SIMPLE_IDENTIFIER> p<274> l<65:11> el<65:13>
+                n<> u<276> t<Port_connection_list> p<277> c<275> l<65:14> el<65:14>
+                  n<> u<275> t<Ordered_port_connection> p<276> l<65:14> el<65:14>
+        n<> u<290> t<Non_port_module_item> p<312> c<289> s<300> l<66:3> el<66:16>
+          n<> u<289> t<Module_or_generate_item> p<290> c<288> l<66:3> el<66:16>
+            n<> u<288> t<Interface_instantiation> p<289> c<282> l<66:3> el<66:16>
+              n<if_err3> u<282> t<Interface_identifier> p<288> c<281> s<287> l<66:3> el<66:10>
+                n<if_err3> u<281> t<SIMPLE_IDENTIFIER> p<282> l<66:3> el<66:10>
+              n<> u<287> t<Hierarchical_instance> p<288> c<284> l<66:11> el<66:15>
+                n<> u<284> t<Name_of_instance> p<287> c<283> s<286> l<66:11> el<66:13>
+                  n<u3> u<283> t<SIMPLE_IDENTIFIER> p<284> l<66:11> el<66:13>
+                n<> u<286> t<Port_connection_list> p<287> c<285> l<66:14> el<66:14>
+                  n<> u<285> t<Ordered_port_connection> p<286> l<66:14> el<66:14>
+        n<> u<300> t<Non_port_module_item> p<312> c<299> s<310> l<67:3> el<67:16>
+          n<> u<299> t<Module_or_generate_item> p<300> c<298> l<67:3> el<67:16>
+            n<> u<298> t<Interface_instantiation> p<299> c<292> l<67:3> el<67:16>
+              n<if_err4> u<292> t<Interface_identifier> p<298> c<291> s<297> l<67:3> el<67:10>
+                n<if_err4> u<291> t<SIMPLE_IDENTIFIER> p<292> l<67:3> el<67:10>
+              n<> u<297> t<Hierarchical_instance> p<298> c<294> l<67:11> el<67:15>
+                n<> u<294> t<Name_of_instance> p<297> c<293> s<296> l<67:11> el<67:13>
+                  n<u4> u<293> t<SIMPLE_IDENTIFIER> p<294> l<67:11> el<67:13>
+                n<> u<296> t<Port_connection_list> p<297> c<295> l<67:14> el<67:14>
+                  n<> u<295> t<Ordered_port_connection> p<296> l<67:14> el<67:14>
+        n<> u<310> t<Non_port_module_item> p<312> c<309> s<311> l<68:3> el<68:16>
+          n<> u<309> t<Module_or_generate_item> p<310> c<308> l<68:3> el<68:16>
+            n<> u<308> t<Interface_instantiation> p<309> c<302> l<68:3> el<68:16>
+              n<if_err5> u<302> t<Interface_identifier> p<308> c<301> s<307> l<68:3> el<68:10>
+                n<if_err5> u<301> t<SIMPLE_IDENTIFIER> p<302> l<68:3> el<68:10>
+              n<> u<307> t<Hierarchical_instance> p<308> c<304> l<68:11> el<68:15>
+                n<> u<304> t<Name_of_instance> p<307> c<303> s<306> l<68:11> el<68:13>
+                  n<u5> u<303> t<SIMPLE_IDENTIFIER> p<304> l<68:11> el<68:13>
+                n<> u<306> t<Port_connection_list> p<307> c<305> l<68:14> el<68:14>
+                  n<> u<305> t<Ordered_port_connection> p<306> l<68:14> el<68:14>
+        n<> u<311> t<ENDMODULE> p<312> l<69:1> el<69:10>
+AST_DEBUG_END
+[INF:CP5805] $Source01/25.5--mp_err_duplicates.sv:32:1: Compile interface "if_err1".
+[INF:CP5805] $Source01/25.5--mp_err_duplicates.sv:39:1: Compile interface "if_err2".
+[INF:CP5805] $Source01/25.5--mp_err_duplicates.sv:45:1: Compile interface "if_err3".
+[INF:CP5805] $Source01/25.5--mp_err_duplicates.sv:51:1: Compile interface "if_err4".
+[INF:CP5805] $Source01/25.5--mp_err_duplicates.sv:57:1: Compile interface "if_err5".
+[INF:CP5804] $Source01/25.5--mp_err_duplicates.sv:63:1: Compile module "top".
+[INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:CP5941] $Source01/25.5--mp_err_duplicates.sv:35:11: Duplicate mp,
+             $Source01/25.5--mp_err_duplicates.sv:34:11: previous declaration.
+[ERR:CP5941] $Source01/25.5--mp_err_duplicates.sv:41:24: Duplicate a,
+             $Source01/25.5--mp_err_duplicates.sv:41:21: previous declaration.
+[ERR:CP5941] $Source01/25.5--mp_err_duplicates.sv:47:31: Duplicate a,
+             $Source01/25.5--mp_err_duplicates.sv:47:21: previous declaration.
+[ERR:CP5941] $Source01/25.5--mp_err_duplicates.sv:53:35: Duplicate P,
+             $Source01/25.5--mp_err_duplicates.sv:53:23: previous declaration.
+[ERR:CP5941] $Source01/25.5--mp_err_duplicates.sv:60:32: Duplicate R,
+             $Source01/25.5--mp_err_duplicates.sv:60:21: previous declaration.
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:25.5--mp_err_duplicates.sv file:$Source01/25.5--mp_err_duplicates.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "25.5--mp_err_duplicates.sv"
+      vpiPreprocFile: "$Output/lib/work/25.5--mp_err_duplicates.sv"
+  vpiUnit (1 items):
+    Unit:
+      vpiParent: Design name:unnamed
+      vpiSourceFile (1 items):
+        SourceFile name:25.5--mp_err_duplicates.sv:
+  vpiAllInterfaces (5 items):
+    Interface name:if_err1 file:$Source01/25.5--mp_err_duplicates.sv start:32:1 end:36:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err1 start:32:11 end:32:18:
+      vpiFullName: if_err1
+      vpiVariable (2 items):
+        Variable name:a start:33:9 end:33:10:
+          vpiParent: Interface name:if_err1
+          vpiName: a
+          vpiFullName: if_err1.a
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:33:3 end:33:8:
+            vpiParent: Variable name:a
+            vpiFullName: if_err1.a
+            vpiActual: LogicTypespec
+        Variable name:b start:33:12 end:33:13:
+          vpiParent: Interface name:if_err1
+          vpiName: b
+          vpiFullName: if_err1.b
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:33:3 end:33:8:
+            vpiParent: Variable name:b
+            vpiFullName: if_err1.b
+            vpiActual: LogicTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Interface name:if_err1
+          vpiScalar: true
+        InterfaceTypespec name:mp start:34:11 end:34:13:
+          vpiParent: Interface name:if_err1
+          vpiName Identifier name:mp start:34:11 end:34:13:
+          vpiDefName: if_err1
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err1
+        InterfaceTypespec name:mp start:35:11 end:35:13:
+          vpiParent: Interface name:if_err1
+          vpiName Identifier name:mp start:35:11 end:35:13:
+          vpiDefName: if_err1
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err1
+      vpiDefName: if_err1
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 32
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:32:11 end:32:18:
+        vpiParent: Interface name:if_err1
+        vpiName: work
+        vpiFullName: if_err1.work
+        vpiActual: Library name:work
+      vpiCell: if_err1
+      vpiUnit: Unit
+      vpiModport (2 items):
+        Modport name:mp start:34:11 end:34:13:
+          vpiParent: Interface name:if_err1
+          vpiName Identifier name:mp:
+          vpiIODecl (1 items):
+            IODecl name:a start:34:21 end:34:22:
+              vpiParent: Modport name:mp
+              vpiName: a
+              vpiDirection: input (1)
+              vpiExpr RefObj name:a start:34:21 end:34:22:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: if_err1.mp.a.a
+                vpiActual: Variable name:a
+          vpiInterface: Interface name:if_err1
+        Modport name:mp start:35:11 end:35:13:
+          vpiParent: Interface name:if_err1
+          vpiName Identifier name:mp:
+          vpiIODecl (1 items):
+            IODecl name:b start:35:22 end:35:23:
+              vpiParent: Modport name:mp
+              vpiName: b
+              vpiDirection: output (2)
+              vpiExpr RefObj name:b start:35:22 end:35:23:
+                vpiParent: IODecl name:b
+                vpiName: b
+                vpiFullName: if_err1.mp.b.b
+                vpiActual: Variable name:b
+          vpiInterface: Interface name:if_err1
+    Interface name:if_err2 file:$Source01/25.5--mp_err_duplicates.sv start:39:1 end:42:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err2 start:39:11 end:39:18:
+      vpiFullName: if_err2
+      vpiVariable (1 items):
+        Variable name:a start:40:9 end:40:10:
+          vpiParent: Interface name:if_err2
+          vpiName: a
+          vpiFullName: if_err2.a
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:40:3 end:40:8:
+            vpiParent: Variable name:a
+            vpiFullName: if_err2.a
+            vpiActual: LogicTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Interface name:if_err2
+          vpiScalar: true
+        InterfaceTypespec name:mp start:41:11 end:41:13:
+          vpiParent: Interface name:if_err2
+          vpiName Identifier name:mp start:41:11 end:41:13:
+          vpiDefName: if_err2
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err2
+      vpiDefName: if_err2
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 39
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:39:11 end:39:18:
+        vpiParent: Interface name:if_err2
+        vpiName: work
+        vpiFullName: if_err2.work
+        vpiActual: Library name:work
+      vpiCell: if_err2
+      vpiUnit: Unit
+      vpiModport (1 items):
+        Modport name:mp start:41:11 end:41:13:
+          vpiParent: Interface name:if_err2
+          vpiName Identifier name:mp:
+          vpiIODecl (2 items):
+            IODecl name:a start:41:21 end:41:22:
+              vpiParent: Modport name:mp
+              vpiName: a
+              vpiDirection: input (1)
+              vpiExpr RefObj name:a start:41:21 end:41:22:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: if_err2.mp.a.a
+                vpiActual: Variable name:a
+            IODecl name:a start:41:24 end:41:25:
+              vpiParent: Modport name:mp
+              vpiName: a
+              vpiDirection: input (1)
+              vpiExpr RefObj name:a start:41:24 end:41:25:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: if_err2.mp.a.a
+                vpiActual: Variable name:a
+          vpiInterface: Interface name:if_err2
+    Interface name:if_err3 file:$Source01/25.5--mp_err_duplicates.sv start:45:1 end:48:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err3 start:45:11 end:45:18:
+      vpiFullName: if_err3
+      vpiVariable (1 items):
+        Variable name:a start:46:9 end:46:10:
+          vpiParent: Interface name:if_err3
+          vpiName: a
+          vpiFullName: if_err3.a
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:46:3 end:46:8:
+            vpiParent: Variable name:a
+            vpiFullName: if_err3.a
+            vpiActual: LogicTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Interface name:if_err3
+          vpiScalar: true
+        InterfaceTypespec name:mp start:47:11 end:47:13:
+          vpiParent: Interface name:if_err3
+          vpiName Identifier name:mp start:47:11 end:47:13:
+          vpiDefName: if_err3
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err3
+      vpiDefName: if_err3
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 45
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:45:11 end:45:18:
+        vpiParent: Interface name:if_err3
+        vpiName: work
+        vpiFullName: if_err3.work
+        vpiActual: Library name:work
+      vpiCell: if_err3
+      vpiUnit: Unit
+      vpiModport (1 items):
+        Modport name:mp start:47:11 end:47:13:
+          vpiParent: Interface name:if_err3
+          vpiName Identifier name:mp:
+          vpiIODecl (2 items):
+            IODecl name:a start:47:21 end:47:22:
+              vpiParent: Modport name:mp
+              vpiName: a
+              vpiDirection: input (1)
+              vpiExpr RefObj name:a start:47:21 end:47:22:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: if_err3.mp.a.a
+                vpiActual: Variable name:a
+            IODecl name:a start:47:31 end:47:32:
+              vpiParent: Modport name:mp
+              vpiName: a
+              vpiDirection: output (2)
+              vpiExpr RefObj name:a start:47:31 end:47:32:
+                vpiParent: IODecl name:a
+                vpiName: a
+                vpiFullName: if_err3.mp.a.a
+                vpiActual: Variable name:a
+          vpiInterface: Interface name:if_err3
+    Interface name:if_err4 file:$Source01/25.5--mp_err_duplicates.sv start:51:1 end:54:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err4 start:51:11 end:51:18:
+      vpiFullName: if_err4
+      vpiVariable (1 items):
+        Variable name:r start:52:15 end:52:16:
+          vpiParent: Interface name:if_err4
+          vpiName: r
+          vpiFullName: if_err4.r
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:52:3 end:52:14:
+            vpiParent: Variable name:r
+            vpiFullName: if_err4.r
+            vpiActual: LogicTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Interface name:if_err4
+          vpiRange (1 items):
+            Range start:52:9 end:52:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:52:10 end:52:11:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "7"
+                vpiValue: 7
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: if_err4
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:52:12 end:52:13:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: if_err4
+                  vpiActual: IntTypespec
+          vpiVector: true
+        InterfaceTypespec name:mp start:53:11 end:53:13:
+          vpiParent: Interface name:if_err4
+          vpiName Identifier name:mp start:53:11 end:53:13:
+          vpiDefName: if_err4
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err4
+      vpiDefName: if_err4
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 51
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:51:11 end:51:18:
+        vpiParent: Interface name:if_err4
+        vpiName: work
+        vpiFullName: if_err4.work
+        vpiActual: Library name:work
+      vpiCell: if_err4
+      vpiUnit: Unit
+      vpiModport (1 items):
+        Modport name:mp start:53:11 end:53:13:
+          vpiParent: Interface name:if_err4
+          vpiName Identifier name:mp:
+          vpiIODecl (2 items):
+            IODecl name:P start:53:23 end:53:24:
+              vpiParent: Modport name:mp
+              vpiName: P
+              vpiDirection: output (2)
+              vpiExpr PartSelect name:r[3:0] start:53:25 end:53:31:
+                vpiParent: IODecl name:P
+                vpiName: r[3:0]
+                vpiFullName: if_err4.mp.P.r[3:0]
+                vpiConstantSelect: true
+                vpiPrefix RefObj name:r start:53:25 end:53:26:
+                  vpiParent: PartSelect name:r[3:0]
+                  vpiName: r
+                  vpiFullName: if_err4.mp.P.r[3:0].r
+                  vpiActual: Variable name:r
+                vpiRange Range start:53:27 end:53:30:
+                  vpiParent: PartSelect name:r[3:0]
+                  vpiLeftRange Constant start:53:27 end:53:28:
+                    vpiParent: Range
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: if_err4.mp.P.r[3:0]
+                      vpiActual: IntTypespec
+                  vpiRightRange Constant start:53:29 end:53:30:
+                    vpiParent: Range
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: if_err4.mp.P.r[3:0]
+                      vpiActual: IntTypespec
+            IODecl name:P start:53:35 end:53:36:
+              vpiParent: Modport name:mp
+              vpiName: P
+              vpiDirection: output (2)
+              vpiExpr PartSelect name:r[7:4] start:53:37 end:53:43:
+                vpiParent: IODecl name:P
+                vpiName: r[7:4]
+                vpiFullName: if_err4.mp.P.r[7:4]
+                vpiConstantSelect: true
+                vpiPrefix RefObj name:r start:53:37 end:53:38:
+                  vpiParent: PartSelect name:r[7:4]
+                  vpiName: r
+                  vpiFullName: if_err4.mp.P.r[7:4].r
+                  vpiActual: Variable name:r
+                vpiRange Range start:53:39 end:53:42:
+                  vpiParent: PartSelect name:r[7:4]
+                  vpiLeftRange Constant start:53:39 end:53:40:
+                    vpiParent: Range
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: if_err4.mp.P.r[7:4]
+                      vpiActual: IntTypespec
+                  vpiRightRange Constant start:53:41 end:53:42:
+                    vpiParent: Range
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: if_err4.mp.P.r[7:4]
+                      vpiActual: IntTypespec
+          vpiInterface: Interface name:if_err4
+    Interface name:if_err5 file:$Source01/25.5--mp_err_duplicates.sv start:57:1 end:61:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err5 start:57:11 end:57:18:
+      vpiFullName: if_err5
+      vpiVariable (2 items):
+        Variable name:r start:58:15 end:58:16:
+          vpiParent: Interface name:if_err5
+          vpiName: r
+          vpiFullName: if_err5.r
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:58:3 end:58:14:
+            vpiParent: Variable name:r
+            vpiFullName: if_err5.r
+            vpiActual: LogicTypespec
+        Variable name:R start:59:9 end:59:10:
+          vpiParent: Interface name:if_err5
+          vpiName: R
+          vpiFullName: if_err5.R
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:59:3 end:59:8:
+            vpiParent: Variable name:R
+            vpiFullName: if_err5.R
+            vpiActual: LogicTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Interface name:if_err5
+          vpiRange (1 items):
+            Range start:58:9 end:58:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:58:10 end:58:11:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "7"
+                vpiValue: 7
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: if_err5
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:58:12 end:58:13:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: if_err5
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:if_err5
+          vpiScalar: true
+        InterfaceTypespec name:mp start:60:11 end:60:13:
+          vpiParent: Interface name:if_err5
+          vpiName Identifier name:mp start:60:11 end:60:13:
+          vpiDefName: if_err5
+          vpiModport: Modport name:mp
+          vpiInterface: Interface name:if_err5
+      vpiDefName: if_err5
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 57
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:57:11 end:57:18:
+        vpiParent: Interface name:if_err5
+        vpiName: work
+        vpiFullName: if_err5.work
+        vpiActual: Library name:work
+      vpiCell: if_err5
+      vpiUnit: Unit
+      vpiModport (1 items):
+        Modport name:mp start:60:11 end:60:13:
+          vpiParent: Interface name:if_err5
+          vpiName Identifier name:mp:
+          vpiIODecl (2 items):
+            IODecl name:R start:60:21 end:60:22:
+              vpiParent: Modport name:mp
+              vpiName: R
+              vpiDirection: input (1)
+              vpiExpr RefObj name:R start:60:21 end:60:22:
+                vpiParent: IODecl name:R
+                vpiName: R
+                vpiFullName: if_err5.mp.R.R
+                vpiActual: Variable name:R
+            IODecl name:R start:60:32 end:60:33:
+              vpiParent: Modport name:mp
+              vpiName: R
+              vpiDirection: output (2)
+              vpiExpr BitSelect name:r[0] start:60:34 end:60:38:
+                vpiParent: IODecl name:R
+                vpiName: r[0]
+                vpiFullName: if_err5.mp.R.r[0]
+                vpiConstantSelect: true
+                vpiPrefix RefObj name:r start:60:34 end:60:35:
+                  vpiParent: BitSelect name:r[0]
+                  vpiName: r
+                  vpiFullName: if_err5.mp.R.r
+                  vpiActual: Variable name:r
+                vpiIndex Constant start:60:36 end:60:37:
+                  vpiParent: BitSelect name:r[0]
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "0"
+                  vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: if_err5.mp.R.r[0]
+                    vpiActual: IntTypespec
+          vpiInterface: Interface name:if_err5
+  vpiAllModules (1 items):
+    Module name:top file:$Source01/25.5--mp_err_duplicates.sv start:63:1 end:69:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:63:8 end:63:11:
+      vpiFullName: top
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.5--mp_err_duplicates.sv"
+      vpiDefLineNo: 63
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:63:8 end:63:11:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+        vpiActual: Library name:work
+      vpiCell: top
+      vpiUnit: Unit
+      vpiRefInstance (5 items):
+        RefInstance name:u1 start:64:11 end:64:13:
+          vpiParent: Module name:top
+          vpiName: u1
+          vpiTypespec RefTypespec name:if_err1 start:64:3 end:64:10:
+            vpiParent: RefInstance name:u1
+            vpiName: if_err1
+            vpiFullName: top.u1.if_err1
+            vpiActual: InterfaceTypespec name:if_err1
+        RefInstance name:u2 start:65:11 end:65:13:
+          vpiParent: Module name:top
+          vpiName: u2
+          vpiTypespec RefTypespec name:if_err2 start:65:3 end:65:10:
+            vpiParent: RefInstance name:u2
+            vpiName: if_err2
+            vpiFullName: top.u2.if_err2
+            vpiActual: InterfaceTypespec name:if_err2
+        RefInstance name:u3 start:66:11 end:66:13:
+          vpiParent: Module name:top
+          vpiName: u3
+          vpiTypespec RefTypespec name:if_err3 start:66:3 end:66:10:
+            vpiParent: RefInstance name:u3
+            vpiName: if_err3
+            vpiFullName: top.u3.if_err3
+            vpiActual: InterfaceTypespec name:if_err3
+        RefInstance name:u4 start:67:11 end:67:13:
+          vpiParent: Module name:top
+          vpiName: u4
+          vpiTypespec RefTypespec name:if_err4 start:67:3 end:67:10:
+            vpiParent: RefInstance name:u4
+            vpiName: if_err4
+            vpiFullName: top.u4.if_err4
+            vpiActual: InterfaceTypespec name:if_err4
+        RefInstance name:u5 start:68:11 end:68:13:
+          vpiParent: Module name:top
+          vpiName: u5
+          vpiTypespec RefTypespec name:if_err5 start:68:3 end:68:10:
+            vpiParent: RefInstance name:u5
+            vpiName: if_err5
+            vpiFullName: top.u5.if_err5
+            vpiActual: InterfaceTypespec name:if_err5
+  vpiTypespec (13 items):
+    InterfaceTypespec name:if_err1:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err1 start:32:11 end:32:18:
+      vpiDefName: if_err1
+      vpiInterface: Interface name:if_err1
+    InterfaceTypespec name:if_err2:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err2 start:39:11 end:39:18:
+      vpiDefName: if_err2
+      vpiInterface: Interface name:if_err2
+    InterfaceTypespec name:if_err3:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err3 start:45:11 end:45:18:
+      vpiDefName: if_err3
+      vpiInterface: Interface name:if_err3
+    InterfaceTypespec name:if_err4:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err4 start:51:11 end:51:18:
+      vpiDefName: if_err4
+      vpiInterface: Interface name:if_err4
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    InterfaceTypespec name:if_err5:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:if_err5 start:57:11 end:57:18:
+      vpiDefName: if_err5
+      vpiInterface: Interface name:if_err5
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:63:8 end:63:11:
+      vpiDefName: top
+      vpiModule: Module name:top
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 5
+[WARNING] : 0
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Google/chapter-25/25.5--mp_err_duplicates
+   test-dirpath: ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates
+  hldb-filepath: ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/25.5--mp_err_duplicates.sv': {'post_len': 0,
+                                                                      'pre_len': 477}},
+            'post_len': 0,
+            'pre_len': 477,
+            'test_name': 'Google/chapter-25/25.5--mp_err_duplicates'}}
+
++---------------------------------------------+----------+-----------+
+| INPUT                                       |   PRELEN |   POSTLEN |
++=============================================+==========+===========+
+| $Output/lib/work/25.5--mp_err_duplicates.sv |      477 |         0 |
++=============================================+==========+===========+
+|                                             |      477 |         0 |
++---------------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates/design.hldb ${HLC_DIR}/regression/Google/chapter-25/25.5--mp_err_duplicates/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                            1990    1990       0         0
+----------------------------------------------------------------
+                                  1990    1990       0         0
+===================== END REDUCTION RESULT =====================
