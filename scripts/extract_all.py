@@ -38,7 +38,11 @@ def _main():
       help='Parallel jobs passed through to each extract.py invocation.')
   parser.add_argument(
       '--skip-noise', dest='skip_noise', action='store_true',
-      help='Passed through to each extract.py invocation -- see extract.py --help. Off by default.')
+      help='Passed through to each extract.py invocation -- see extract.py --help. On by default.')
+  parser.add_argument(
+      '--no-skip-noise', dest='skip_noise', action='store_false',
+      help='Passed through to each extract.py invocation to disable --skip-noise.')
+  parser.set_defaults(skip_noise=True)
   args = parser.parse_args()
 
   input_path = Path(args.input_path).resolve()
@@ -84,8 +88,7 @@ def _main():
     if args.jobs is not None:
       cmd += ['--jobs', str(args.jobs)]
 
-    if args.skip_noise:
-      cmd += ['--skip-noise']
+    cmd += ['--skip-noise' if args.skip_noise else '--no-skip-noise']
 
     result = subprocess.run(cmd)
     total_failures += result.returncode

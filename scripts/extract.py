@@ -98,7 +98,7 @@ def _extract_worker(params):
                     src_log_strm = test_strm.extractfile(src_log_filepath)
                     new_bytes = src_log_strm.read() # pyright: ignore[reportOptionalMemberAccess]
 
-                    # Only with --skip-noise: if a log already sits at dst_log_filepath and holds
+                    # With skip-noise (default; off with --no-skip-noise): if a log already sits at dst_log_filepath and holds
                     # the same events as the fresh one, write the fresh one with its events in the
                     # existing order (see log_compare.py), so event-order noise never shows up as
                     # a change. Whatever else differs is left for git diff.
@@ -213,7 +213,11 @@ def _main():
       '--skip-noise', dest='skip_noise', action='store_true',
       help='For \'log\' mode: if a log already exists at the destination and holds the same events as the freshly '
            'extracted one, write the fresh log with its events in the existing order (see log_compare.py), so '
-           'event-order noise does not show up as a change. Off by default -- logs are written as extracted.')
+           'event-order noise does not show up as a change. On by default.')
+  parser.add_argument(
+      '--no-skip-noise', dest='skip_noise', action='store_false',
+      help='Disable --skip-noise -- logs are written exactly as extracted.')
+  parser.set_defaults(skip_noise=True)
   args = parser.parse_args()
 
   args.modes = sorted(set(args.modes))
