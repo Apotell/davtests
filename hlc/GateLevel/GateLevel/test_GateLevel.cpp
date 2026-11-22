@@ -177,7 +177,7 @@ TEST_F(GateLevelTest, ModuleExists) { ASSERT_NE(getModule("LogicGates"), nullptr
 // declarations: input, output, inout (bidirectional), ref, or as an interface port". The port y10 of LogicGates is listed
 // (line 1, column 53) but only y1-y9 are declared as outputs.
 TEST_F(GateLevelTest, UndeclaredPortY10IsReported) {
-  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "y10", 1, 53), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "y10", 1, 53), nullptr);
 }
 
 // --- unnamed gates: correct vpiPrimType and, per Sec 28.4, no name ----

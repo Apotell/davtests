@@ -33,7 +33,7 @@
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
-//   IllegalCodeIsAnError             CompUnspecifiedPort for b on line 21,
+//   IllegalCodeIsAnError             CompUndeclaredPort for b on line 21,
 //                                    where b is listed in the header
 //   NoErrorAfterTheIllegalCode       none on line 24 or later
 //
@@ -102,8 +102,7 @@ class NonAnsiUndeclaredPortTest : public Test {
 TEST_F(NonAnsiUndeclaredPortTest, IllegalCodeIsAnError) {
   ASSERT_NE(m_session, nullptr);
   ASSERT_NE(m_session->getEventListener(), nullptr);
-  // 23.2.2.1 (p.731): the port is declared nowhere in the body, so its type is unspecified.
-  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "b", kIllegalFirstLine, 13), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "b", kIllegalFirstLine, 13), nullptr);
 }
 
 TEST_F(NonAnsiUndeclaredPortTest, NoErrorAfterTheIllegalCode) {

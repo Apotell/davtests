@@ -100,7 +100,7 @@ TEST_F(InterfacePortRules, NamedConnectionToUnknownPort) {
 
 TEST_F(InterfacePortRules, PortOfTheListWithoutDeclaration) {
   // "module undeclared (a, b); input a;" -- Sec 23.2.2.1.
-  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "b", 53, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "b", 53, 23), nullptr);
 }
 
 TEST_F(InterfacePortRules, InterfaceInstanceWithoutParentheses) {
