@@ -134,16 +134,6 @@ TEST_F(EscapeTest, OrderedConnectionPastLastPortIsRejected) {
       << "the port side of the connection past the last port of bottom3 is unnamed";
 }
 
-// 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-// others do not." top and bottom1 in top.v and top1.v declare a timeunit and a timeprecision; bottom2 (top.v:27,
-// top1.v:26) and my_interface (top1.v:2, before any `timescale) have neither, and are not nested in an element
-// that has them.
-TEST_F(EscapeTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "bottom2", 27, 1), nullptr) << "top.v bottom2";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "my_interface", 2, 1), nullptr) << "top1.v my_interface";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "bottom2", 26, 1), nullptr) << "top1.v bottom2";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

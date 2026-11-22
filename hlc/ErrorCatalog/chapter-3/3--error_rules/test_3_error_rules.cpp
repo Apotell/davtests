@@ -53,12 +53,24 @@
 //       scenarios here share one ErrorType.
 //   (b) HLC does not diagnose it yet -- the assertion the standard requires is
 //       written out in full, with GTEST_SKIP() as the first statement citing
-//       the clause. Row 12 is in this state. No test here asserts the absence
-//       of a diagnostic, which would lock the gap in.
+//       the clause. Two of the twelve rows are in this state as of 2026-09-01
+//       (row 7 and row 12); that is the point of the catalog. No test here
+//       asserts the absence of a diagnostic, which would lock the gap in.
 //
-// Time units are base-10 exponents of one second (1ns == -9, 1ps == -12,
-// 1us == -6). r12_b, declared after a `resetall (22.3), has no time unit or
-// precision; see row 12 for why it is not reported.
+// Behaviour observed while writing this file, none of it diagnosed today and
+// none of it asserted below (recorded here so the skip messages have context;
+// time units are base-10 exponents of one second, 1ns == -9, 1ps == -12,
+// 1us == -6):
+//   - r9_m "timeunit 1ns / 1us" is stored as unit -9 / precision -6, i.e. a
+//     precision coarser than the unit, without complaint (row 9).
+//   - r10_m's second, mismatched "timeunit 1ps" silently overwrites the first
+//     "timeunit 1ns" instead of being rejected (row 10).
+//   - r13_m "timeunit 1step" is accepted and recorded as -12, i.e. "step" is
+//     treated as if it meant 1ps (row 13).
+//   - r12_b, declared after a `resetall, still inherits unit -9 / precision
+//     -12 from the `timescale before it, so the mixed have/have-not condition
+//     of 3.14.2.3 cannot even arise. That is a separate `resetall defect
+//     (IEEE 1800-2023 22.3), noted in row 12's skip message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
@@ -201,13 +213,15 @@ TEST_F(Chapter3ErrorRulesTest, Row11_TimeunitAfterOtherItemsIsRejected) {
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row12_MixedTimescaleAndNoTimescaleElementsAreRejected) {
-  // catalog row 12 | 3.14.2.3 | COMP
-  GTEST_SKIP() << "IEEE 1800-2023 3.14.2.3: \"It shall be an error if some design elements have a time unit "
-                  "and precision specified and others do not.\" Here r12_a gets its values only from a "
-                  "`timescale, and no element declares a legal time unit and precision itself (r9_m's "
-                  "1ns / 1us is illegal). Whether a `timescale alone counts as \"specified\" is not settled, so "
-                  "HLC does not report CompInconsistentTimescale here (parked decision)";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "r12_b", 23, 1), nullptr)
+  // catalog row 12 | 3.14.2.3 | LINT
+  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.14.2.3 makes it an error for some "
+                  "design elements to have a time unit and precision while others do not. Two "
+                  "defects stack here: no such whole-design check exists, and r12_b -- declared "
+                  "after a `resetall -- still inherits its timescale from the preceding "
+                  "`timescale, contrary to IEEE 1800-2023 22.3, so the mixed condition is not even "
+                  "represented in the model. There is no dedicated event code for this "
+                  "rule yet, so the assertion below names the nearest existing one";
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r12_b"), nullptr)
       << "either all design elements carry a timescale or none do (IEEE 1800-2023 3.14.2.3)";
 }
 

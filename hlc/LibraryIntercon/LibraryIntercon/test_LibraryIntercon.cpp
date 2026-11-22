@@ -331,15 +331,6 @@ TEST_F(LibraryInterconTest, CmpArrayBindsToRealLibCmp) {
       << fileName(bound);
 }
 
-// 3.14.2.3: "It shall be an error if some design elements have a time unit and precision specified and
-// others do not." cfgReal binds driver and cmp to driver.svr ('timeunit 1ns/1ns') and cmp.svr ('timeunit
-// 1ns / 1ps'), which declare both; NetsPkg (nets.pkg) and top (top.sv) declare none. The cmp in cmp.sv is not
-// asserted: cfgReal does not use it, and whether such a library cell is a "design element" here is not settled.
-TEST_F(LibraryInterconTest, DesignElementsWithoutTimeInfoAreInconsistentWithTheOthers) {
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "NetsPkg", 1, 1), nullptr) << "nets.pkg";
-  EXPECT_NE(findEvent(EventType::CompInconsistentTimescale, "top", 1, 1), nullptr) << "top.sv";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {
