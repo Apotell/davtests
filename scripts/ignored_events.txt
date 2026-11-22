@@ -40,3 +40,44 @@ LintInvalidSelectIndex
 LintGotOrphanNames
 LintGotOrphanNodes
 LintWeakRefNodes
+
+# Checks that no test can reach (reviewed 2026-11-20; a test was written where one was possible, e.g.
+# PaMaxLengthIdentifier in Google/chapter-5/max_length_identifier).
+#
+# "Unescaped character in string" (PP5218): the lexer only forms a string token that ends at an
+# unescaped '"', so a string never holds one. The only legal SV form with an unescaped '"' inside is the
+# IEEE 1800-2023 Sec 5.9 triple-quoted string ("""a"b"""), which HLC does not lex yet (a syntax error).
+# Once triple-quoted strings are supported, this check would flag them wrongly and needs revisiting.
+PpUnescapedCharacterInString
+# "Cannot open file" (PP5201): raised only when an existing source cannot be read. A missing file or a
+# directory is stopped earlier by CmdVerilogFileDoesNotExist (CM5008); an unreadable file needs OS
+# permission changes that a portable test cannot make.
+PpCannotOpenFile
+# "Cannot split file" (PA5501): raised only by AnalyzeFile (src/SourceCompile/AnalyzeFile.cpp), which
+# nothing calls.
+PaCannotSplitFile
+# "Cache capacity exceeded" (CM5029): the cache file format holds at most 0x0FFFFFFF (~268 million)
+# objects per file; a test would need a source of that size (see the comment in ParseCache::save).
+CmdCacheCapacityExceeded
+
+# Internal guards (reviewed 2026-11-20): raised only for an inconsistent HLC model or an internal
+# indexing error, never for any SystemVerilog input, and not seen in any golden log. They report HLC
+# defects, not a diagnostic the standard requires. (LintInvalidSelectName, LN7722, is produced in ~300
+# logs and stays counted.)
+#
+# Duplicate object in a model collection (IntegrityChecker / hldb Linter).
+CollectionHasDuplicates
+# A function call whose callee carries a return typespec the Linter does not expect.
+LintUnexpectedTypespec
+# A call bound to a task where a function is required (model-shape check, off by default).
+LintInvalidActualType
+# Part-select / indexed-select model fields missing or malformed (base, range, width).
+LintInvalidSelectBaseExpr
+LintInvalidSelectRange
+LintInvalidSelectWidthExpr
+# Phase2ModelBuilder could not find the model an earlier build stage should have created.
+PaInternalError
+# File/line location cache index out of range (ParseFile).
+PaInternalWarning
+# Object index out of range in FileContent.
+CompInternalErrorOutOfBound

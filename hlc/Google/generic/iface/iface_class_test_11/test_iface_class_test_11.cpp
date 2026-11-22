@@ -60,10 +60,9 @@
 //     methods share one name space with the class's other members, and an
 //     identifier shall be declared only once in a scope (3.13), so the
 //     second declaration is an error. HLC's diagnostics for this are
-//     CompMultiplyDefinedTask, CompMultiplyDefinedFunction and
-//     CompDuplicateDeclaration; any of them naming pure_task1 on line 9
-//     or 10 is accepted (the LRM does not say which declaration is
-//     reported).
+//     CompMultiplyDefinedTaskFunc and CompDuplicateDeclaration;
+//     any of them naming pure_task1 on line 9 or 10 is accepted
+//     (the LRM does not say which declaration is reported).
 // The syntax of every line is legal, so there is no syntax error.
 //
 // The file declares no module, so there is no top-level instance (23.3.1),
@@ -366,7 +365,7 @@ TEST_F(IfaceClassTest11Test, SomeClassIsReportedUndefined) {
 TEST_F(IfaceClassTest11Test, PureTask1IsReportedMultiplyDefined) {
   GTEST_SKIP() << "HLC Gap: Need to account for virtual, pure, declarations and actual definitions";
   EXPECT_TRUE(reportsAnyOf(
-      {EventType::CompMultiplyDefinedTask, EventType::CompMultiplyDefinedFunction, EventType::CompDuplicateDeclaration},
+      {EventType::CompMultiplyDefinedTaskFunc, EventType::CompDuplicateDeclaration},
       "pure_task1", {9, 10}))
       << "3.13: pure_task1 is declared twice in base_ic (lines 9 and 10);" << describeReportedErrors();
 }
