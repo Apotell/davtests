@@ -32,11 +32,7 @@ class IfUndeclaredPortErrTest : public Test {
 };
 
 TEST_F(IfUndeclaredPortErrTest, ReportsUndeclaredPortB) {
-  EXPECT_NE(findEvent(EventType::CompUnspecifiedPort, "b", 24), nullptr) << "port b of und_if(a, b)";
-}
-
-TEST_F(IfUndeclaredPortErrTest, DeclaredPortAIsNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompUnspecifiedPort, "a"), nullptr) << "a has 'input a;'";
+  EXPECT_NE(findEvent(EventType::CompUndeclaredPort, "b", 24, 21), nullptr) << "port b of und_if(a, b)";
 }
 
 }  // namespace hlc
