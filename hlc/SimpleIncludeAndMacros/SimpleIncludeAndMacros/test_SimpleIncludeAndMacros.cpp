@@ -242,6 +242,18 @@ TEST_F(SimpleIncludeAndMacrosTest, MacroExpansionHasContextNote) {
   }
 }
 
+// IEEE 1800-2023 22.7: "It shall be illegal for the `timescale directive to be specified within a design
+// element." 22.3: the same for `resetall. `BLOB (mode.vh) expands to `timescale 10ns/10ps (N is defined, M1
+// and M2 are not) inside module top of every top file; the event is at the invocation. top.v also has a
+// `resetall before its endmodule. The 22:1 check matches top.v, top_1.v and top_2.v.
+TEST_F(SimpleIncludeAndMacrosTest, DirectivesInsideModuleAreReported) {
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 22, 1), nullptr)
+      << "`BLOB in top.v, top_1.v, top_2.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 25, 1), nullptr) << "`BLOB in top_3.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 34, 1), nullptr) << "`BLOB in top_4.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`resetall", 39, 1), nullptr) << "top.v";
+}
+
 // An event outside any inclusion or macro expansion has no context notes: `undef multipl at 15:8 in
 // top.v, top_1.v, top_2.v and top_4.v.
 TEST_F(SimpleIncludeAndMacrosTest, TopLevelEventHasNoContextNotes) {

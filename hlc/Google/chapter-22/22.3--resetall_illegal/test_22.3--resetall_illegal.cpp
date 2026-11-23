@@ -114,6 +114,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -165,6 +166,8 @@ class ResetallIllegalTest : public Test {
 TEST_F(ResetallIllegalTest, IllegalResetallReportedOnceAtLine19) {
   // Sec 22.3: only the `resetall inside 'module top' (line 19) is illegal;
   // the one on line 17 precedes the module and must not be reported.
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`resetall", 19, 1), nullptr)
+      << "22.3: \"It shall be illegal for the `resetall directive to be specified within a design element.\"";
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const std::vector<const Event *> errors = errorsOfType(EventType::PpIllegalDirectiveInDesignElement);
   ASSERT_EQ(errors.size(), 1u) << "exactly one `resetall (line 19) is inside a design element";

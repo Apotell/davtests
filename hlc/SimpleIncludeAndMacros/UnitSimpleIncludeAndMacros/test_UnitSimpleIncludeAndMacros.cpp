@@ -179,6 +179,18 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, UnknownEscapedSequenceIsReported) {
       << "5.9.1: '\\p' is not in Table 5-1 and is reported as a warning";
 }
 
+// IEEE 1800-2023 22.7: "It shall be illegal for the `timescale directive to be specified within a design
+// element." 22.3: the same for `resetall. `BLOB (mode.vh) expands to `timescale 10ns/10ps (N is defined, M1
+// and M2 are not) inside module top of every top file; the event is at the invocation. top.v also has a
+// `resetall before its endmodule. The 22:1 check matches top.v, top_1.v and top_2.v.
+TEST_F(UnitSimpleIncludeAndMacrosTest, DirectivesInsideModuleAreReported) {
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 22, 1), nullptr)
+      << "`BLOB in top.v, top_1.v, top_2.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 25, 1), nullptr) << "`BLOB in top_3.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale", 34, 1), nullptr) << "`BLOB in top_4.v";
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`resetall", 39, 1), nullptr) << "top.v";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
