@@ -1,96 +1,48 @@
-# hldb — UHDM Code Generator Overview
+# HLDB -- What davtests Uses
 
-**hldb** is the UHDM (Universal Hardware Data Model) project — a **code generator**, not a hand-written library. It lives at `third_party/hldb/` as a git submodule.
+HLDB is the object model HLC builds: one C++ class per IEEE 1800-2023 object (Ch. 37, VPI object
+model), owned by a database, with typed accessors, a VPI layer, serialization and tools. davtests
+uses only what the HLDB installation provides; this file describes that and nothing else.
 
-**Why it exists:** Provides a canonical IEEE SystemVerilog object model that hlc populates during elaboration. Tools like Yosys, Verilator, linters, and formal tools consume the UHDM graph via VPI or C++ API.
+**Rule:** refer only to installed HLDB headers, classes and accessors. Never name HLDB's model
+sources, generators, templates or private implementation functions -- they are not public.
 
-**Key rule:** Any change to the object model starts in `model/*.yaml`. Never hand-edit `src/` or generated headers — CMake runs `generate.py` automatically before compilation.
+## Installation layout
 
-## What it generates
-
-From ~160 YAML model files:
-- C++ class headers + implementations (one per SV object type)
-- VPI facades (C-level IEEE interface)
-- Cap'n Proto serialization/deserialization
-- Visitor/Listener traversal patterns
-- Linter with `isFiltered()` type validation
-- Python bindings (pybind11 → `pyhldb`)
-
-## Directory structure
-
-| Dir | Role |
+| Path | Content |
 |---|---|
-| `model/` | ~160 YAML files — source of truth for all object types |
-| `scripts/` | Python generator modules; `generate.py` is the dispatcher (8 parallel workers) |
-| `templates/` | Hand-written C++ skeletons that generators fill in |
-| `include/hldb/` | Generated headers + hand-written foundations (`any.h`, `RTTI.h`, `vpi_user.h`) |
-| `src/` | Generated C++ implementations (never edit) |
-| `python/` | pybind11 wrappers (mostly generated) |
-| `tests/` | C++ unit tests + Python pytest tests |
+| `include/hldb/` | Every model class header, snake_case (`module.h`, `ref_obj.h`, `class_typespec.h`, ...), plus the headers below |
+| `include/hldb/hldb.h` | Master include |
+| `include/hldb/vpi_user.h`, `sv_vpi_user.h`, `hldb_vpi_user.h` | VPI constants (IEEE, SV extensions, HLDB extensions) |
+| `share/hldb/HLDB.capnp` | Serialization schema of a saved design (`design.hldb`) |
+| `share/hldb/events.json` | HLDB's own events (codes, messages) |
+| `bin/hldb-dump`, `hldb-cmp`, `hldb-equiv`, `hldb-lint`, `hldb-gc`, `hldb-reduce` | Tools over a saved design |
+| `lib/cmake/HLDB/` | `HLDBConfig.cmake` |
 
-## Code generation pipeline
+## Headers davtests uses
 
-```
-model/*.yaml → scripts/loader.py (parse + validate) → scripts/classes.py + 28 other generators
-             → include/hldb/*.h + src/*.cpp + python/py_*.cpp
-```
-
-Key scripts:
-- `scripts/loader.py` — YAML parser; validates all cross-references (`group_ref` → `group_def`, etc.)
-- `scripts/config.py` — naming conventions: `make_class_name()`, `make_func_name()`, `make_var_name()`
-- `scripts/classes.py` — generates bulk of C++ class definitions, accessors, `isFiltered()` stubs
-- `scripts/Linter.py` — generates `Linter.h/cpp` that walks the object graph calling `isFiltered()`
-- `scripts/generate.py` — dispatcher; runs workers in parallel
-
-All scripts use **2-space indentation**.
-
-## YAML model concepts
-
-| Key | Meaning |
+| Header | What it gives |
 |---|---|
-| `obj_def` | Concrete (leaf) allocatable SV object (e.g., `module`, `net`, `variable`) |
-| `class_def` | Abstract/virtual class for inheritance (e.g., `instance`, `scope`, `expr`) |
-| `property` | Scalar field (string/int/bool); accessed via `vpi_get()` |
-| `obj_ref` | Strongly-typed reference to a specific obj_def; `card: 1` or `card: any` |
-| `class_ref` | Polymorphic reference to any subclass of a class_def |
-| `group_def` | Named union of allowed types (filter list using `includes:` / `excludes:`) |
-| `group_ref` | Polymorphic field typed to a group_def; generates `isFiltered()` + `Any*` member |
-| `extends` | Inheritance: `module extends instance extends scope` |
+| `<class_name>.h` | The class: typed accessors (`getName()`, `getActual()`, `getParamAssigns()`, ...) |
+| `any.h` | `hldb::Any`, the base of every object: `getAnyType()`, `getParent()`, location (`getFile()`, `getStartLine()`, ...) |
+| `RTTI.h` | `any_cast<T>()`, `isa<T>()` |
+| `Utils.h` | `findByName<T>()`, `findByDefName<T>()`, `getActual<T>()`, `getTypespec<T>()`, `getDefName()`, `getNets()`/`getPorts()`/`getVariables()`/`getParameters()`, `getLexicalParent()`, `getCompilationUnit()`, ... |
+| `ExprEval.h`, `Reducer.h` | Expression evaluation and reduction |
+| `Finder.h` | Hierarchical lookup |
+| `Pruner.h`, `GarbageCollector.h` | Typespec merging, removal of unreachable objects |
+| `Serializer.h` | `make<T>()`, `save()`, `restore()` |
+| `Visitor.h`, `Listener.h` | Graph traversal |
+| `Linter.h` | Model checks; each class's `isFiltered()` tells whether an object is allowed in a relation |
 
-Example from `variable.yaml`:
-```yaml
-- group_def: drivers_group
-  includes: [assign_stmt, cont_assign, force, ports]
-- group_ref: driver
-  vpi: vpiDriver
-  type: drivers_group
-  card: any
-```
-→ Generates `AnyCollection* m_drivers`, getter, and `isFiltered()` checking `isa<AssignStmt>() || ...`
+## Model notes
 
-## The Serializer (factory + owner)
-
-```cpp
-Serializer s;
-Module *m = s.make<Module>();   // allocate; Serializer owns lifetime
-s.save("design.hldb");          // Cap'n Proto binary save
-s.restore("design.hldb");       // reload
-```
-All objects are owned by `Serializer`; delete only via `erase()` or `purge()`. No reference counting — pointers are raw.
-
-## The Linter
-
-- `isFiltered(const Any* data, int32_t relation)` — base in `any.h` returns `true` (permissive default)
-- Generated override in each class: validates polymorphic `group_ref` fields against their filter
-- `Linter.cpp` walks the full object graph calling `isFiltered()` and reporting violations via `EventListener`
-
-## VPI layer
-
-Generated per `obj_def`: `getVpiType()`, `getByVpiName()`, `getByVpiType()`, `getVpiPropertyValue()`. C-level functions (`vpi_get`, `vpi_handle`, `vpi_iterate`, `vpi_scan`) delegate to these methods.
-
-## Tests
-
-- C++: `ctest --test-dir out/build -C Release --output-on-failure`
-- Python: `pytest tests/ -v` (requires `pyhldb` installed: `pip install -e .`)
-
-See [hldb_key_files.md](hldb_key_files.md) for a breakdown of hand-written vs. generated files.
+- Objects are owned by the database/serializer; pointers are raw, there is no reference counting.
+- A reference (`RefObj`, `RefTypespec`) points at what it names through `getActual()`; follow it
+  with `hldb::getActual<T>()`.
+- A class's type is `getAnyType()` (`hldb::AnyType::Module`, ...); use it to check a type.
+- Use the typed accessors, never the VPI layer (`getVpiPropertyValue()`, `getByVpiType()`), except
+  in tests of the VPI API itself. VPI constants are the right way to spell expected values
+  (`EXPECT_EQ(port->getDirection(), vpiInput)`).
+- Use `getName()`, never `getFullName()`/`vpiFullName`. Definitions, instances and
+  module/interface/program/class typespecs carry a decorated name (`C#(.W(8))`); look them up
+  with `findByDefName<T>()` and compare `getDefName()`.

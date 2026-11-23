@@ -28,7 +28,7 @@ davtests/
   - `GTest::gtest`, `GTest::gmock`, `GTest::gtest_main`
   - `Threads::Threads`
   - `dl` on Linux only
-- `Test.cpp` is NOT compiled here — it ships in the hlc install under `src/` and is compiled as part of `hlc::hlc`.
+- The `Test` fixture's implementation is not compiled here -- it is part of the installed hlc libraries (`hlc::hlc`); only `hlc/Tests/Test.h` is included.
 
 ## Updating the build symlink
 

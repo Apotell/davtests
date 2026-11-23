@@ -14,7 +14,13 @@ so the gap is visible as pending work rather than silently passing against wrong
 
 **Except in exceptional cases, don't base tests on what the `.log` dump produces -- avoid reading the log to write tests at all.** A log only captures what the tool *currently* does, which is exactly the same "locks in a bug" trap as trusting tool output directly. Use the header files under `build/include/hldb/` to understand the object model and API surface instead (see Steps 1-3 below). Reading the log is only appropriate for narrow, exceptional confirmations (e.g. the exact wording/location of a diagnostic whose text isn't standard-mandated) -- never as the primary basis for what shape a test should expect.
 
-**When a newly found limitation/bug/missing-feature isn't local to one test file** (a systemic gap likely to recur elsewhere in the suite), document it in the hlc_01 repo's `.claude/instructions/` folder (e.g. `library_discrepancies.md` or a new file) rather than leaving it buried in a single `GTEST_SKIP()` message.
+**This repository is public; HLC and HLDB are not.** Tests, comments, `GTEST_SKIP()` reasons and failure messages may refer only to the public installation of HLC and HLDB (see [hlc_overview.md](hlc_overview.md), [hldb_overview.md](hldb_overview.md)), to the HLDB model, and to the IEEE standard. Never name:
+- HLC's or HLDB's internal classes, passes or functions (the model builders, the binder, internal lint checks, private helpers), or describe which internal step does something;
+- their source files, grammar files, model/YAML files, generators or templates, or line numbers in them;
+- their documentation, issue notes, task numbers, branch names, or local paths of a developer's checkout.
+Describe instead what HLC does, observably, in terms of the model and the standard: "HLC models `super.new(...)` as a method call on the base class", not "the builder's handler for that grammar rule lowers it". A known gap is explained in its own words with a small SystemVerilog example, never by pointing at a gap list.
+
+**When a newly found limitation/bug/missing-feature isn't local to one test file** (a systemic gap likely to recur elsewhere in the suite), report it to the HLC maintainers rather than leaving it buried in a single `GTEST_SKIP()` message.
 
 **Never call `getFullName()` / assert on `vpiFullName`.** It's a computed property that is currently wrong in HLC. Use `getName()` only.
 
@@ -38,7 +44,7 @@ EXPECT_EQ(stats.m_errors, 0);
 ```
 Beyond that coarse check, don't count errors/warnings: a count breaks the moment reporting improves elsewhere (a previously silent case starts correctly flagging something unrelated to this file), turning a genuine improvement into an apparent regression.
 
-**HLC's diagnostics themselves (`ObjectBinder`'s error reporting, the event definitions in `events/*.yaml`) are a teammate's area -- don't add, extend, or "fix" them unprompted.** Writing a `findEvent()` assertion against an existing event is fine; changing when/whether HLC raises a given event is not your call to make unprompted. If you find a problem in the diagnostics themselves, flag it (as a finding/doc note) rather than fixing it; wait for explicit go-ahead, and check whether it's already being handled first.
+**HLC's diagnostics themselves (when and whether an event is reported, and the event definitions) are a teammate's area -- don't add, extend, or "fix" them unprompted.** Writing a `findEvent()` assertion against an existing event is fine; changing when/whether HLC raises a given event is not your call to make unprompted. If you find a problem in the diagnostics themselves, flag it (as a finding/doc note) rather than fixing it; wait for explicit go-ahead, and check whether it's already being handled first.
 
 **Compare strings as `std::string_view`, never as a bare C-string literal.** Write `EXPECT_EQ(object->getName(), std::string_view("blahblah"))`, not `EXPECT_EQ(object->getName(), "blahblah")`. With a bare literal, a failing expectation can print the literal as a pointer value instead of its text; wrapped in `std::string_view`, gtest prints both strings, so the failure shows what was expected and what came back. The same applies to `ASSERT_EQ`/`EXPECT_NE` and to any other accessor returning text (`getDefName()`, `getValue()`, `getDecompile()`, ...).
 
@@ -58,15 +64,15 @@ The `.hlc` file and the SV file under `tests/` must already exist before writing
 -wd ../../../tests/<Group> -parse -d db -d ast <testname>.sv -nobuiltin
 ```
 
-## Step 1 -- Read the SV source and grammar
+## Step 1 -- Read the SV source and the standard
 
-Read the `.sv` file under `tests/` to understand what SystemVerilog constructs are being tested. Then cross-reference `grammar/SV3_1aParser.g4` to understand the parse structure that HLC will build.
+Read the `.sv` file under `tests/` to understand what SystemVerilog constructs are being tested. Then look the constructs up in IEEE 1800-2023: the clause that defines them, the formal syntax (Annex A) and the VPI object model (Ch. 37).
 
-The grammar tells you which rules fire for a given construct -- e.g., `sequence_declaration`, `property_declaration`, `concurrent_assertion_statement` -- and therefore which UHDM objects will be created. Look for the relevant grammar rules and trace how the SV constructs map to UHDM object types.
+The syntax tells you which productions a construct uses -- e.g., `sequence_declaration`, `property_declaration`, `concurrent_assertion_statement` -- and Ch. 37 which objects and relations represent it. Trace how the SV constructs map to HLDB object types.
 
-## Step 2 -- Map grammar constructs to UHDM objects and C++ API
+## Step 2 -- Map constructs to HLDB objects and C++ API
 
-The UHDM object model is generated from YAML files. Headers live in `build/include/hldb/`. **Always read the actual header before using an API -- never guess method names.**
+HLDB headers live in `build/include/hldb/`. **Always read the actual header before using an API -- never guess method names.**
 
 Common construct-to-object mappings:
 
@@ -215,7 +221,7 @@ Depend on order only where it actually matters -- function/task arguments, ports
 
 So do not write file-local `findPortByName` / `findNetByName` / `hasObjectNamed` loops over a collection: use `hldb::findByName<hldb::Port>("a", module->getPorts())`. "Has an object named x" is `hldb::findByName<T>("x", collection) != nullptr`. The only lookups `findByName` cannot do are positional ones -- an unnamed port, or the n-th of several ports sharing a name -- and those are indexed on purpose (see above). If a helper is genuinely missing and more than one test would use it, propose adding it to `hldb/Utils.h` instead of copying it from file to file.
 
-**Use the typed accessors, not the VPI layer.** Don't write helpers like `integerProperty(object, vpiX)` (around `getVpiPropertyValue()`) or `relationSize(object, vpiX)` / `relatedObject(object, vpiX)` (around `getByVpiType()`) to read the model. Call the concrete accessor on the concrete class: `port->getPortIndex()` not `integerProperty(port, vpiPortIndex)`, `port->getDirection()` not `integerProperty(port, vpiDirection)`, `port->getLowConn() != nullptr` not `relationSize(port, vpiLowConn) == 1u`. Check an object's class with `getAnyType()` (`EXPECT_EQ(ts->getAnyType(), hldb::AnyType::IntTypespec)`), not `getVpiType() == vpiIntTypespec`. The VPI layer is loosely typed and largely untested, so going through it hides type errors and can fail silently: a property the class doesn't have comes back as "undefined" rather than a compile error, and a test written that way can pass or fail for the wrong reason. The `vpiXxx` constants are still the right way to spell the expected *values* (`EXPECT_EQ(port->getDirection(), vpiInput)`). If the class has no accessor for what the standard requires (e.g. a port's `vpiSize`), that is a model gap: `GTEST_SKIP()` with the reason (and record it in hlc's `.claude/instructions/hldb_model_gaps.md`) rather than reaching for the VPI call. Tests that exercise the VPI API itself are the only exception.
+**Use the typed accessors, not the VPI layer.** Don't write helpers like `integerProperty(object, vpiX)` (around `getVpiPropertyValue()`) or `relationSize(object, vpiX)` / `relatedObject(object, vpiX)` (around `getByVpiType()`) to read the model. Call the concrete accessor on the concrete class: `port->getPortIndex()` not `integerProperty(port, vpiPortIndex)`, `port->getDirection()` not `integerProperty(port, vpiDirection)`, `port->getLowConn() != nullptr` not `relationSize(port, vpiLowConn) == 1u`. Check an object's class with `getAnyType()` (`EXPECT_EQ(ts->getAnyType(), hldb::AnyType::IntTypespec)`), not `getVpiType() == vpiIntTypespec`. The VPI layer is loosely typed and largely untested, so going through it hides type errors and can fail silently: a property the class doesn't have comes back as "undefined" rather than a compile error, and a test written that way can pass or fail for the wrong reason. The `vpiXxx` constants are still the right way to spell the expected *values* (`EXPECT_EQ(port->getDirection(), vpiInput)`). If the class has no accessor for what the standard requires (e.g. a port's `vpiSize`), that is a model gap: `GTEST_SKIP()` with the reason (and report it to the HLC maintainers) rather than reaching for the VPI call. Tests that exercise the VPI API itself are the only exception.
 
 ## Look beyond existence and name
 
