@@ -106,7 +106,7 @@ TEST_F(HierPathUnpackedInPackedTest, ModuleTopExists) { EXPECT_NE(getTop(), null
 // The illegal unpacked-in-packed member must be diagnosed at its
 // declaration (line 10, member 'pair'), per IEEE 1800-2023 Sec 7.2.1.
 TEST_F(HierPathUnpackedInPackedTest, IllegalUnpackedMemberInPackedStructIsReported) {
-  ASSERT_NE(findEvent(EventType::CompUnpackedInPacked, "pair"), nullptr)
+  ASSERT_NE(findEvent(EventType::CompIllegalStructUnionMember, "pair", 10, 17), nullptr)
       << "expected an error for the unpacked dimension on 'pair' inside packed struct 'foo_t'";
 }
 
