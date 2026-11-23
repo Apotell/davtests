@@ -137,6 +137,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_math_real_public.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_math_real_public.v:10:1: Compile module "sub".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/t_math_real_public.v:6:1: Top level module "t".
+[NTE:EL6904] $Source01/t_math_real_public.v:10:1: Top level module "sub".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -150,7 +153,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:t_math_real_public.v:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:t file:$Source01/t_math_real_public.v start:6:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
@@ -166,7 +169,9 @@ Design name:unnamed:
             vpiParent: Variable name:sub
             vpiName: sub
             vpiFullName: t.sub.sub
-            vpiActual: ModuleTypespec name:sub
+            vpiActual: ModuleTypespec name:sub #(.REAL(2.0))
+      vpiTypespec (1 items):
+        ModuleTypespec name:sub #(.REAL(2.0)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_math_real_public.v"
@@ -283,7 +288,110 @@ Design name:unnamed:
         SysTaskCall name:$display:
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (4 items):
+    Module name:sub #(.REAL(2.0)) file:$Source01/t_math_real_public.v start:10:1 end:21:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:sub #(.REAL(2.0)) start:10:8 end:10:11:
+      vpiFullName: sub #(.REAL(2.0))
+      vpiParameter (1 items):
+        Parameter name:REAL start:14:14 end:14:18:
+          vpiParent: Module name:sub #(.REAL(2.0))
+          vpiName: REAL
+          vpiFullName: sub #(.REAL(2.0)).REAL
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:REAL
+            vpiFullName: sub #(.REAL(2.0)).REAL
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:7:16 end:7:19:
+            vpiParent: Parameter name:REAL
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "2.0"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub #(.REAL(2.0)).REAL
+              vpiActual: RealTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:sub #(.REAL(2.0))
+          vpiScalar: true
+      vpiDefName: sub
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_math_real_public.v"
+      vpiDefLineNo: 10
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:11:
+        vpiParent: Module name:sub #(.REAL(2.0))
+        vpiName: work
+        vpiFullName: sub #(.REAL(2.0)).work
+        vpiActual: Library name:work
+      vpiCell: sub
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:10:12 end:10:14:
+          vpiParent: Module name:sub #(.REAL(2.0))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiProcess (1 items):
+        Initial start:16:4 end:20:7:
+          vpiParent: Module name:sub #(.REAL(2.0))
+          vpiStmt Begin start:16:12 end:20:7:
+            vpiParent: Initial
+            vpiFullName: sub #(.REAL(2.0))
+            vpiStmt (3 items):
+              SysTaskCall name:$display start:17:7 end:17:32:
+                vpiParent: Begin
+                vpiName Identifier name:$display start:17:7 end:17:15:
+                vpiArgument (2 items):
+                  NamedArgument start:17:16 end:17:25:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn Constant start:17:16 end:17:25:
+                      vpiParent: NamedArgument
+                      vpiConstType: string (6)
+                      vpiSize: 56
+                      vpiDecompile: "\"REAL %g\""
+                      vpiValue: REAL %g
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: sub #(.REAL(2.0))
+                        vpiActual: StringTypespec
+                  NamedArgument start:17:27 end:17:31:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:REAL start:17:27 end:17:31:
+                      vpiParent: NamedArgument
+                      vpiName: REAL
+                      vpiFullName: sub #(.REAL(2.0)).REAL
+                      vpiActual: Parameter name:REAL
+              SysTaskCall name:$write start:18:7 end:18:39:
+                vpiParent: Begin
+                vpiName Identifier name:$write start:18:7 end:18:13:
+                vpiArgument (1 items):
+                  NamedArgument start:18:14 end:18:38:
+                    vpiParent: SysTaskCall name:$write
+                    vpiHighConn Constant start:18:14 end:18:38:
+                      vpiParent: NamedArgument
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: sub #(.REAL(2.0))
+                        vpiActual: StringTypespec
+              SysTaskCall name:$finish start:19:7 end:19:14:
+                vpiParent: Begin
+                vpiName Identifier name:$finish start:19:7 end:19:14:
+                vpiIsProperty: true
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:sub
+  vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
@@ -298,6 +406,30 @@ Design name:unnamed:
       vpiModule: Module name:sub
     StringTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:sub #(.REAL(2.0)) start:7:4 end:7:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:sub #(.REAL(2.0)):
+      vpiDefName: sub
+      vpiParamAssign (1 items):
+        ParamAssign start:7:10 end:7:20:
+          vpiParent: ModuleTypespec name:sub #(.REAL(2.0))
+          vpiConnByName: true
+          vpiLhs RefObj name:REAL start:7:11 end:7:15:
+            vpiParent: ParamAssign
+            vpiName: REAL
+            vpiFullName: sub #(.REAL(2.0)).REAL
+            vpiActual: Parameter name:REAL
+          vpiRhs Constant start:7:16 end:7:19:
+            vpiParent: ParamAssign
+            vpiConstType: real (2)
+            vpiSize: 64
+            vpiDecompile: "2.0"
+            vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub #(.REAL(2.0))
+              vpiActual: RealTypespec
+      vpiModule: Module name:sub #(.REAL(2.0))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -307,7 +439,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -350,7 +482,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_math_real_public/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

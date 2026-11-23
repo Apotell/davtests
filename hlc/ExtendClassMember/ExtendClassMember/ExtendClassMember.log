@@ -134,9 +134,12 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "pkg".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pkg".
 [WRN:DV8514] $Source01/dut.sv:9:90: Failed to bind "RSP".
+[ERR:CP5820] $Source01/dut.sv:9:1: Multiply defined class "uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))",
+             $Source01/dut.sv:9:1: previous definition.
 [ERR:DL2510] $Source01/dut.sv:9:48: Unknown or undefined type "uvm_sequence_item".
 [ERR:DL2510] $Source01/dut.sv:12:45: Unknown or undefined type "uvm_sequence_item".
 [ERR:CP5829] $Source01/dut.sv:13:58: Undefined base class "uvm_sequencer_base" extended by "uvm_sequencer_param_base".
+[ERR:DL2510] $Source01/dut.sv:15:33: Unknown or undefined type "uvm_sequence_item".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -199,7 +202,7 @@ Design name:unnamed:
         vpiFullName: pkg::work
         vpiActual: Library name:work
       vpiCell: pkg
-      vpiClassDefn (3 items):
+      vpiClassDefn (4 items):
         ClassDefn name:uvm_tlm_fifo file:$Source01/dut.sv start:3:1 end:7:9:
           vpiParent: Package name:pkg
           vpiName Identifier name:uvm_tlm_fifo start:3:7 end:3:19:
@@ -239,7 +242,8 @@ Design name:unnamed:
             vpiFullName: pkg::uvm_tlm_fifo::work
             vpiActual: Library name:work
           vpiCell: uvm_tlm_fifo
-          vpiDerivedClasses (1 items):
+          vpiDerivedClasses (2 items):
+            ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item)):
             ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item)):
         ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item)) file:$Source01/dut.sv start:9:1 end:10:9:
           vpiParent: Package name:pkg
@@ -370,6 +374,41 @@ Design name:unnamed:
               vpiReturn RefTypespec:
                 vpiParent: Function name:new
                 vpiFullName: pkg::uvm_sequencer_param_base #(.REQ(uvm_sequence_item), .RSP(REQ))::new
+        ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item)) file:$Source01/dut.sv start:9:1 end:10:9:
+          vpiParent: Package name:pkg
+          vpiName Identifier name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item)) start:9:7 end:9:34:
+          vpiFullName: pkg::uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))
+          vpiParameter (1 items):
+            TypeParameter name:RSP start:9:42 end:9:45:
+              vpiParent: ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))
+              vpiName: RSP
+              vpiFullName: pkg::uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))::RSP
+              vpiExpr RefTypespec name:uvm_sequence_item start:15:33 end:15:36:
+                vpiParent: TypeParameter name:RSP
+                vpiName: uvm_sequence_item
+                vpiFullName: pkg::uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))::RSP::uvm_sequence_item
+          vpiTypespec (2 items):
+            TypeParameter name:RSP:
+            ClassTypespec name:uvm_tlm_fifo:
+          vpiDefName: uvm_sequencer_analysis_fifo
+          vpiAutomatic: true
+          vpiClassType: userdefined class (3)
+          vpiExtends Extends start:9:67 end:9:74:
+            vpiParent: ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))
+            vpiClassTypespec (1 items):
+              RefTypespec name:uvm_tlm_fifo #(RSP) start:9:75 end:9:94:
+                vpiParent: Extends
+                vpiName: uvm_tlm_fifo #(RSP)
+                vpiFullName: pkg::uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))::uvm_tlm_fifo #(RSP)
+                vpiActual: ClassTypespec name:uvm_tlm_fifo
+          vpiLibrary RefObj name:work start:9:7 end:9:34:
+            vpiParent: ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))
+            vpiName: work
+            vpiFullName: pkg::uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))::work
+            vpiActual: Library name:work
+          vpiCell: uvm_sequencer_analysis_fifo
+          vpiIsSpecialization: true
+          vpiSpecializedFrom: ClassDefn name:uvm_sequencer_analysis_fifo #(.RSP(uvm_sequence_item))
       vpiUnit: Unit
   vpiTypespec (1 items):
     IntTypespec:
@@ -382,7 +421,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 5
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -427,7 +466,7 @@ COMMAND: ${HLC_DIR}/regression/ExtendClassMember/ExtendClassMember/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

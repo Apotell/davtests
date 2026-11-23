@@ -520,6 +520,15 @@ AST_DEBUG_END
              $Source01/top.v:13:1: previous usage.
 [ERR:CP5835] $Source01/top1.v:297:1: Colliding compilation unit name: "bottom3",
              $Source01/top.v:22:1: previous usage.
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/top1.v:32:1: Top level module "splice1".
+[NTE:EL6904] $Source01/top1.v:122:1: Top level module "splice1".
+[NTE:EL6904] $Source01/top1.v:194:1: Top level module "splice1".
+[NTE:EL6904] $Source01/top1.v:253:1: Top level module "splice1".
+[NTE:EL6904] $Source01/top1.v:265:1: Top level module "top".
+[NTE:EL6904] $Source01/top1.v:272:1: Top level module "bottom1".
+[NTE:EL6904] $Source01/top1.v:277:1: Top level module "bottom2".
+[NTE:EL6904] $Source01/top1.v:297:1: Top level module "bottom3".
 [WRN:DV8514] $Source01/top.v:26:17: Failed to bind "capture".
 [WRN:DV8514] $Source01/top.v:27:13: Failed to bind "clk".
 [WRN:DV8514] $Source01/top.v:89:17: Failed to bind "capture".
@@ -755,12 +764,13 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom1 start:3:8 end:3:15:
       vpiFullName: bottom1
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:bottom1
           vpiScalar: true
         ModuleTypespec name:bottom2:
         ModuleTypespec name:bottom3:
+        InterfaceTypespec name:my_interface:
       vpiDefName: bottom1
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -979,10 +989,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:13:8 end:13:15:
       vpiFullName: bottom2
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:bottom2
           vpiScalar: true
+        ModuleTypespec name:middle:
       vpiDefName: bottom2
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top.v"
@@ -1483,6 +1494,8 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom3 start:297:8 end:297:15:
       vpiFullName: bottom3
+      vpiTypespec (1 items):
+        ModuleTypespec name:bottom4:
       vpiDefName: bottom3
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/top1.v"
@@ -1623,7 +1636,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 13
 [WARNING] : 11
-[   NOTE] : 0
+[   NOTE] : 9
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

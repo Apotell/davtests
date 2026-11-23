@@ -121,6 +121,7 @@ n<$Source01/8.5--parameters.sv> u<106> t<Top_level_rule> c<1> l<16:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.5--parameters.sv:16:1: Compile module "class_tb".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/8.5--parameters.sv:16:1: Top level module "class_tb".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -179,7 +180,7 @@ Design name:unnamed:
                   vpiParent: Constant
                   vpiFullName: class_tb.test_cls #(.a(34))
                   vpiActual: IntTypespec
-          vpiClassDefn: ClassDefn name:test_cls #(.a(12))
+          vpiClassDefn: ClassDefn name:test_cls #(.a(34))
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/8.5--parameters.sv"
@@ -194,7 +195,7 @@ Design name:unnamed:
         vpiFullName: class_tb.work
         vpiActual: Library name:work
       vpiCell: class_tb
-      vpiClassDefn (1 items):
+      vpiClassDefn (2 items):
         ClassDefn name:test_cls #(.a(12)) file:$Source01/8.5--parameters.sv start:17:2 end:18:10:
           vpiParent: Module name:class_tb
           vpiName Identifier name:test_cls #(.a(12)) start:17:8 end:17:16:
@@ -231,6 +232,44 @@ Design name:unnamed:
             vpiFullName: class_tb::test_cls #(.a(12))::work
             vpiActual: Library name:work
           vpiCell: test_cls
+        ClassDefn name:test_cls #(.a(34)) file:$Source01/8.5--parameters.sv start:17:2 end:18:10:
+          vpiParent: Module name:class_tb
+          vpiName Identifier name:test_cls #(.a(34)) start:17:8 end:17:16:
+          vpiFullName: class_tb::test_cls #(.a(34))
+          vpiParameter (1 items):
+            Parameter name:a start:17:29 end:17:30:
+              vpiParent: ClassDefn name:test_cls #(.a(34))
+              vpiName: a
+              vpiFullName: class_tb::test_cls #(.a(34))::a
+              vpiTypespec RefTypespec:
+                vpiParent: Parameter name:a
+                vpiFullName: class_tb::test_cls #(.a(34))::a
+                vpiActual: LogicTypespec
+              vpiExpr Constant start:20:13 end:20:15:
+                vpiParent: Parameter name:a
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "34"
+                vpiValue: 34
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: class_tb::test_cls #(.a(34))::a
+                  vpiActual: IntTypespec
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: ClassDefn name:test_cls #(.a(34))
+              vpiScalar: true
+          vpiDefName: test_cls
+          vpiAutomatic: true
+          vpiClassType: userdefined class (3)
+          vpiLibrary RefObj name:work start:17:8 end:17:16:
+            vpiParent: ClassDefn name:test_cls #(.a(34))
+            vpiName: work
+            vpiFullName: class_tb::test_cls #(.a(34))::work
+            vpiActual: Library name:work
+          vpiCell: test_cls
+          vpiIsSpecialization: true
+          vpiSpecializedFrom: ClassDefn name:test_cls #(.a(12))
       vpiUnit: Unit
       vpiPort (1 items):
         Port start:16:17 end:16:19:
@@ -313,7 +352,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -356,7 +395,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.5--parameters/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    45      45       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1660,6 +1660,12 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/write_firrtl_paramod/testbench.v:17:9: Implicit port type (wire) for "o".
 [INF:CP5804] $Source01/write_firrtl_paramod/testbench.v:23:1: Compile module "testbench".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_equal".
+[NTE:EL6904] $Source01/common.v:12:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:24:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:36:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/write_firrtl_paramod/testbench.v:23:1: Top level module "testbench".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1683,7 +1689,7 @@ Design name:unnamed:
         SourceFile name:common.v:
         SourceFile name:top.v:
         SourceFile name:testbench.v:
-  vpiAllModules (11 items):
+  vpiAllModules (13 items):
     Module name:assert_equal file:$Source01/common.v start:1:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assert_equal start:1:8 end:1:20:
@@ -3694,7 +3700,7 @@ Design name:unnamed:
             vpiParent: Variable name:patt_A
             vpiFullName: testbench.patt_A
             vpiActual: LogicTypespec
-      vpiTypespec (4 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiRange (1 items):
@@ -3727,6 +3733,8 @@ Design name:unnamed:
           vpiParent: Module name:testbench
           vpiScalar: true
         "ModuleTypespec name:middle_tb #(.Y(1'b0))":
+        ModuleTypespec name:top:
+        ModuleTypespec name:assert_comb:
       vpiDefName: testbench
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/write_firrtl_paramod/testbench.v"
@@ -4439,6 +4447,350 @@ Design name:unnamed:
                 vpiName: A
                 vpiFullName: testbench.out_test.A
                 vpiActual: Net name:A
+    "Module name:middle_tb #(.Y(1'b0)) file:$Source01/write_firrtl_paramod/testbench.v start:1:1 end:11:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:middle_tb #(.Y(1'b0)) start:1:8 end:1:17":
+      vpiFullName: "middle_tb #(.Y(1'b0))"
+      vpiParameter (1 items):
+        Parameter name:Y start:8:11 end:8:12:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: Y
+          vpiFullName: "middle_tb #(.Y(1'b0)).Y"
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:Y
+            vpiFullName: "middle_tb #(.Y(1'b0)).Y"
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:56:13 end:56:17:
+            vpiParent: Parameter name:Y
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b0"
+            vpiValue: "0"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "middle_tb #(.Y(1'b0)).Y"
+              vpiActual: BitTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiScalar: true
+        BitTypespec:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+        ModuleTypespec name:urtl_tb:
+      vpiDefName: middle_tb
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/write_firrtl_paramod/testbench.v"
+      vpiDefLineNo: 1
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:1:8 end:1:17:
+        vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+        vpiName: work
+        vpiFullName: "middle_tb #(.Y(1'b0)).work"
+        vpiActual: Library name:work
+      vpiCell: middle_tb
+      vpiNet (3 items):
+        Net name:x start:3:8 end:3:9:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: x
+          vpiFullName: "middle_tb #(.Y(1'b0)).x"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:x
+            vpiFullName: "middle_tb #(.Y(1'b0)).x"
+            vpiActual: LogicTypespec
+        Net name:y start:4:8 end:4:9:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: y
+          vpiFullName: "middle_tb #(.Y(1'b0)).y"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:y
+            vpiFullName: "middle_tb #(.Y(1'b0)).y"
+            vpiActual: LogicTypespec
+        Net name:o start:5:9 end:5:10:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: o
+          vpiFullName: "middle_tb #(.Y(1'b0)).o"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:o
+            vpiFullName: "middle_tb #(.Y(1'b0)).o"
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (3 items):
+        Port name:x start:3:8 end:3:9:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: x
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:x start:3:8 end:3:9:
+            vpiParent: Port name:x
+            vpiName: x
+            vpiFullName: "middle_tb #(.Y(1'b0)).x.x"
+            vpiActual: Net name:x
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:x
+            vpiFullName: "middle_tb #(.Y(1'b0)).x"
+            vpiActual: LogicTypespec
+        Port name:y start:4:8 end:4:9:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: y
+          vpiPortIndex: 1
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:y start:4:8 end:4:9:
+            vpiParent: Port name:y
+            vpiName: y
+            vpiFullName: "middle_tb #(.Y(1'b0)).y.y"
+            vpiActual: Net name:y
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:y
+            vpiFullName: "middle_tb #(.Y(1'b0)).y"
+            vpiActual: LogicTypespec
+        Port name:o start:5:9 end:5:10:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: o
+          vpiPortIndex: 2
+          vpiPortType: port (44)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:o start:5:9 end:5:10:
+            vpiParent: Port name:o
+            vpiName: o
+            vpiFullName: "middle_tb #(.Y(1'b0)).o.o"
+            vpiActual: Net name:o
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:o
+            vpiFullName: "middle_tb #(.Y(1'b0)).o"
+            vpiActual: LogicTypespec
+      vpiRefInstance (1 items):
+        RefInstance name:u_urtl start:10:9 end:10:15:
+          vpiParent: "Module name:middle_tb #(.Y(1'b0))"
+          vpiName: u_urtl
+          vpiTypespec RefTypespec name:urtl_tb start:10:1 end:10:8:
+            vpiParent: RefInstance name:u_urtl
+            vpiName: urtl_tb
+            vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.urtl_tb"
+            vpiActual: ModuleTypespec name:urtl_tb
+          vpiArgument (3 items):
+            NamedArgument start:10:17 end:10:22:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:x start:10:18 end:10:19:
+                vpiParent: NamedArgument
+                vpiName: x
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.x"
+                vpiActual: Port name:x
+              vpiHighConn RefObj name:x start:10:20 end:10:21:
+                vpiParent: NamedArgument
+                vpiName: x
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.x"
+                vpiActual: Net name:x
+            NamedArgument start:10:23 end:10:28:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:o start:10:24 end:10:25:
+                vpiParent: NamedArgument
+                vpiName: o
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.o"
+                vpiActual: Port name:o
+              vpiHighConn RefObj name:o start:10:26 end:10:27:
+                vpiParent: NamedArgument
+                vpiName: o
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.o"
+                vpiActual: Net name:o
+            NamedArgument start:10:29 end:10:34:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:y start:10:30 end:10:31:
+                vpiParent: NamedArgument
+                vpiName: y
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.y"
+                vpiActual: Port name:y
+              vpiHighConn RefObj name:Y start:10:32 end:10:33:
+                vpiParent: NamedArgument
+                vpiName: Y
+                vpiFullName: "middle_tb #(.Y(1'b0)).u_urtl.Y"
+                vpiActual: Parameter name:Y
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:middle_tb
+    "Module name:middle #(.Y(1'b0)) file:$Source01/write_firrtl_paramod/top.v start:29:1 end:39:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:middle #(.Y(1'b0)) start:29:8 end:29:14":
+      vpiFullName: "middle #(.Y(1'b0))"
+      vpiParameter (1 items):
+        Parameter name:Y start:36:11 end:36:12:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: Y
+          vpiFullName: "middle #(.Y(1'b0)).Y"
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:Y
+            vpiFullName: "middle #(.Y(1'b0)).Y"
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:19:10 end:19:14:
+            vpiParent: Parameter name:Y
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b0"
+            vpiValue: "0"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "middle #(.Y(1'b0)).Y"
+              vpiActual: BitTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiScalar: true
+        BitTypespec:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+        ModuleTypespec name:urtl:
+      vpiDefName: middle
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/write_firrtl_paramod/top.v"
+      vpiDefLineNo: 29
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:29:8 end:29:14:
+        vpiParent: "Module name:middle #(.Y(1'b0))"
+        vpiName: work
+        vpiFullName: "middle #(.Y(1'b0)).work"
+        vpiActual: Library name:work
+      vpiCell: middle
+      vpiNet (3 items):
+        Net name:x start:31:8 end:31:9:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: x
+          vpiFullName: "middle #(.Y(1'b0)).x"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:x
+            vpiFullName: "middle #(.Y(1'b0)).x"
+            vpiActual: LogicTypespec
+        Net name:y start:32:8 end:32:9:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: y
+          vpiFullName: "middle #(.Y(1'b0)).y"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:y
+            vpiFullName: "middle #(.Y(1'b0)).y"
+            vpiActual: LogicTypespec
+        Net name:o start:33:9 end:33:10:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: o
+          vpiFullName: "middle #(.Y(1'b0)).o"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:o
+            vpiFullName: "middle #(.Y(1'b0)).o"
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (3 items):
+        Port name:x start:31:8 end:31:9:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: x
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:x start:31:8 end:31:9:
+            vpiParent: Port name:x
+            vpiName: x
+            vpiFullName: "middle #(.Y(1'b0)).x.x"
+            vpiActual: Net name:x
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:x
+            vpiFullName: "middle #(.Y(1'b0)).x"
+            vpiActual: LogicTypespec
+        Port name:y start:32:8 end:32:9:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: y
+          vpiPortIndex: 1
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:y start:32:8 end:32:9:
+            vpiParent: Port name:y
+            vpiName: y
+            vpiFullName: "middle #(.Y(1'b0)).y.y"
+            vpiActual: Net name:y
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:y
+            vpiFullName: "middle #(.Y(1'b0)).y"
+            vpiActual: LogicTypespec
+        Port name:o start:33:9 end:33:10:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: o
+          vpiPortIndex: 2
+          vpiPortType: port (44)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:o start:33:9 end:33:10:
+            vpiParent: Port name:o
+            vpiName: o
+            vpiFullName: "middle #(.Y(1'b0)).o.o"
+            vpiActual: Net name:o
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:o
+            vpiFullName: "middle #(.Y(1'b0)).o"
+            vpiActual: LogicTypespec
+      vpiRefInstance (1 items):
+        RefInstance name:u_urtl start:38:6 end:38:12:
+          vpiParent: "Module name:middle #(.Y(1'b0))"
+          vpiName: u_urtl
+          vpiTypespec RefTypespec name:urtl start:38:1 end:38:5:
+            vpiParent: RefInstance name:u_urtl
+            vpiName: urtl
+            vpiFullName: "middle #(.Y(1'b0)).u_urtl.urtl"
+            vpiActual: ModuleTypespec name:urtl
+          vpiArgument (3 items):
+            NamedArgument start:38:14 end:38:19:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:x start:38:15 end:38:16:
+                vpiParent: NamedArgument
+                vpiName: x
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.x"
+                vpiActual: Port name:x
+              vpiHighConn RefObj name:x start:38:17 end:38:18:
+                vpiParent: NamedArgument
+                vpiName: x
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.x"
+                vpiActual: Net name:x
+            NamedArgument start:38:20 end:38:25:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:o start:38:21 end:38:22:
+                vpiParent: NamedArgument
+                vpiName: o
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.o"
+                vpiActual: Port name:o
+              vpiHighConn RefObj name:o start:38:23 end:38:24:
+                vpiParent: NamedArgument
+                vpiName: o
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.o"
+                vpiActual: Net name:o
+            NamedArgument start:38:26 end:38:31:
+              vpiParent: RefInstance name:u_urtl
+              vpiConnByName: true
+              vpiLowConn RefObj name:y start:38:27 end:38:28:
+                vpiParent: NamedArgument
+                vpiName: y
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.y"
+                vpiActual: Port name:y
+              vpiHighConn RefObj name:Y start:38:29 end:38:30:
+                vpiParent: NamedArgument
+                vpiName: Y
+                vpiFullName: "middle #(.Y(1'b0)).u_urtl.Y"
+                vpiActual: Parameter name:Y
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:middle
   vpiTypespec (16 items):
     ModuleTypespec name:assert_equal:
       vpiParent: Design name:unnamed
@@ -4524,7 +4876,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: "middle #(.Y(1'b0))"
               vpiActual: BitTypespec
-      vpiModule: Module name:middle
+      vpiModule: "Module name:middle #(.Y(1'b0))"
     "ModuleTypespec name:middle_tb #(.Y(1'b0)) start:56:1 end:56:10":
       vpiParent: Design name:unnamed
       "vpiName Identifier name:middle_tb #(.Y(1'b0)) start:56:1 end:56:10":
@@ -4547,7 +4899,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: "middle_tb #(.Y(1'b0))"
               vpiActual: BitTypespec
-      vpiModule: Module name:middle_tb
+      vpiModule: "Module name:middle_tb #(.Y(1'b0))"
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -4557,7 +4909,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 5
+[   NOTE] : 11
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -4606,7 +4958,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_paramod/write_fi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             654     654       0         0
+Others                             724     724       0         0
 ----------------------------------------------------------------
-                                   654     654       0         0
+                                   724     724       0         0
 ===================== END REDUCTION RESULT =====================

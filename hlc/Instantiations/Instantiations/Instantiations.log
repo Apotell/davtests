@@ -993,6 +993,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:143:1: Compile module "gen_top".
 [INF:CP5836] $Source01/dut.sv:146:37: Compile generate block "gen_lane".
 [WRN:PA5506] $Source01/dut.sv:143:1: No timescale set for "gen_top #(.N(2))".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/dut.sv:94:1: Top level module "top".
+[NTE:EL6904] $Source01/dut.sv:143:1: Top level module "gen_top".
 [ERR:DL2510] $Source01/dut.sv:124:3: Unknown or undefined type "black_box".
 ====== HLDB =======
 Design name:unnamed:
@@ -1117,7 +1120,7 @@ Design name:unnamed:
               vpiName: s
               vpiDirection: input (1)
               vpiFormalType: sequence (2)
-  vpiAllInterfaces (2 items):
+  vpiAllInterfaces (3 items):
     Interface name:simple_if file:$Source01/dut.sv start:22:1 end:25:15:
       vpiParent: Design name:unnamed
       vpiName Identifier name:simple_if start:22:11 end:22:20:
@@ -1341,6 +1344,180 @@ Design name:unnamed:
                 vpiFullName: bus_if #(.W(8)).slave.ready.ready
                 vpiActual: Variable name:ready
           vpiInterface: Interface name:bus_if #(.W(8))
+    Interface name:bus_if #(.W(16)) file:$Source01/dut.sv start:27:1 end:33:15:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:bus_if #(.W(16)) start:19:41 end:19:47:
+      vpiFullName: bus_if #(.W(16))
+      vpiVariable (3 items):
+        Variable name:data start:28:17 end:28:21:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName: data
+          vpiFullName: bus_if #(.W(16)).data
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:28:3 end:28:16:
+            vpiParent: Variable name:data
+            vpiFullName: bus_if #(.W(16)).data
+            vpiActual: LogicTypespec
+        Variable name:valid start:29:17 end:29:22:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName: valid
+          vpiFullName: bus_if #(.W(16)).valid
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:29:3 end:29:8:
+            vpiParent: Variable name:valid
+            vpiFullName: bus_if #(.W(16)).valid
+            vpiActual: LogicTypespec
+        Variable name:ready start:30:17 end:30:22:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName: ready
+          vpiFullName: bus_if #(.W(16)).ready
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:30:3 end:30:8:
+            vpiParent: Variable name:ready
+            vpiFullName: bus_if #(.W(16)).ready
+            vpiActual: LogicTypespec
+      vpiParameter (1 items):
+        Parameter name:W start:27:42 end:27:43:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName: W
+          vpiFullName: bus_if #(.W(16)).W
+          vpiTypespec RefTypespec start:27:38 end:27:41:
+            vpiParent: Parameter name:W
+            vpiFullName: bus_if #(.W(16)).W
+            vpiActual: IntTypespec
+          vpiExpr Constant start:102:15 end:102:17:
+            vpiParent: Parameter name:W
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: bus_if #(.W(16)).W
+              vpiActual: IntTypespec
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiRange (1 items):
+            Range start:28:9 end:28:16:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:28:10 end:28:13:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:W start:28:10 end:28:11:
+                    vpiParent: Operation
+                    vpiName: W
+                    vpiFullName: bus_if #(.W(16)).W
+                    vpiActual: Parameter name:W
+                  Constant start:28:12 end:28:13:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: bus_if #(.W(16))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:28:14 end:28:15:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: bus_if #(.W(16))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiScalar: true
+        InterfaceTypespec name:master:
+        InterfaceTypespec name:slave:
+      vpiDefName: bus_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 27
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:19:41 end:19:47:
+        vpiParent: Interface name:bus_if #(.W(16))
+        vpiName: work
+        vpiFullName: bus_if #(.W(16)).work
+        vpiActual: Library name:work
+      vpiCell: bus_if
+      vpiUnit: Unit
+      vpiModport (2 items):
+        Modport name:master start:31:11 end:31:17:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName Identifier name:master:
+          vpiIODecl (3 items):
+            IODecl name:data start:31:25 end:31:29:
+              vpiParent: Modport name:master
+              vpiName: data
+              vpiDirection: output (2)
+              vpiExpr RefObj name:data start:31:25 end:31:29:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: bus_if #(.W(16)).master.data.data
+                vpiActual: Variable name:data
+            IODecl name:valid start:31:31 end:31:36:
+              vpiParent: Modport name:master
+              vpiName: valid
+              vpiDirection: output (2)
+              vpiExpr RefObj name:valid start:31:31 end:31:36:
+                vpiParent: IODecl name:valid
+                vpiName: valid
+                vpiFullName: bus_if #(.W(16)).master.valid.valid
+                vpiActual: Variable name:valid
+            IODecl name:ready start:31:45 end:31:50:
+              vpiParent: Modport name:master
+              vpiName: ready
+              vpiDirection: input (1)
+              vpiExpr RefObj name:ready start:31:45 end:31:50:
+                vpiParent: IODecl name:ready
+                vpiName: ready
+                vpiFullName: bus_if #(.W(16)).master.ready.ready
+                vpiActual: Variable name:ready
+          vpiInterface: Interface name:bus_if #(.W(16))
+        Modport name:slave start:32:11 end:32:16:
+          vpiParent: Interface name:bus_if #(.W(16))
+          vpiName Identifier name:slave:
+          vpiIODecl (3 items):
+            IODecl name:data start:32:25 end:32:29:
+              vpiParent: Modport name:slave
+              vpiName: data
+              vpiDirection: input (1)
+              vpiExpr RefObj name:data start:32:25 end:32:29:
+                vpiParent: IODecl name:data
+                vpiName: data
+                vpiFullName: bus_if #(.W(16)).slave.data.data
+                vpiActual: Variable name:data
+            IODecl name:valid start:32:31 end:32:36:
+              vpiParent: Modport name:slave
+              vpiName: valid
+              vpiDirection: input (1)
+              vpiExpr RefObj name:valid start:32:31 end:32:36:
+                vpiParent: IODecl name:valid
+                vpiName: valid
+                vpiFullName: bus_if #(.W(16)).slave.valid.valid
+                vpiActual: Variable name:valid
+            IODecl name:ready start:32:45 end:32:50:
+              vpiParent: Modport name:slave
+              vpiName: ready
+              vpiDirection: output (2)
+              vpiExpr RefObj name:ready start:32:45 end:32:50:
+                vpiParent: IODecl name:ready
+                vpiName: ready
+                vpiFullName: bus_if #(.W(16)).slave.ready.ready
+                vpiActual: Variable name:ready
+          vpiInterface: Interface name:bus_if #(.W(16))
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Interface name:bus_if #(.W(8))
   vpiAllUdps (1 items):
     UdpDefn name:my_udp start:82:1 end:89:13:
       vpiParent: Design name:unnamed
@@ -1949,7 +2126,7 @@ Design name:unnamed:
             vpiParent: Variable name:data_sum
             vpiFullName: top.data_sum
             vpiActual: LogicTypespec
-      vpiTypespec (8 items):
+      vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:top
           vpiScalar: true
@@ -1990,6 +2167,8 @@ Design name:unnamed:
         UnsupportedTypespec name:black_box start:124:3 end:124:12:
           vpiParent: Module name:top
           vpiName Identifier name:black_box start:124:3 end:124:12:
+        InterfaceTypespec name:bus_if #(.W(16)):
+        ModuleTypespec name:macro_mod:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/dut.sv"
@@ -2174,7 +2353,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:u_bus
             vpiName: bus_if
             vpiFullName: top.u_bus.bus_if
-            vpiActual: InterfaceTypespec name:bus_if
+            vpiActual: InterfaceTypespec name:bus_if #(.W(16))
         RefInstance name:u_pt start:105:12 end:105:16:
           vpiParent: Module name:top
           vpiName: u_pt
@@ -2587,7 +2766,7 @@ Design name:unnamed:
                           vpiName: out_data
                           vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.out_data
                           vpiActual: Port name:out_data
-  vpiTypespec (12 items):
+  vpiTypespec (13 items):
     InterfaceTypespec name:simple_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:simple_if start:22:11 end:22:20:
@@ -2637,6 +2816,30 @@ Design name:unnamed:
       vpiName Identifier name:gen_top start:143:8 end:143:15:
       vpiDefName: gen_top
       vpiModule: Module name:gen_top #(.N(2))
+    InterfaceTypespec name:bus_if #(.W(16)) start:102:3 end:102:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:bus_if #(.W(16)):
+      vpiDefName: bus_if
+      vpiParamAssign (1 items):
+        ParamAssign start:102:12 end:102:18:
+          vpiParent: InterfaceTypespec name:bus_if #(.W(16))
+          vpiConnByName: true
+          vpiLhs RefObj name:W start:102:13 end:102:14:
+            vpiParent: ParamAssign
+            vpiName: W
+            vpiFullName: bus_if #(.W(16)).W
+            vpiActual: Parameter name:W
+          vpiRhs Constant start:102:15 end:102:17:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: bus_if #(.W(16))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:bus_if #(.W(16))
     ModuleTypespec name:adder #(.W(8)) start:108:3 end:108:8:
       vpiParent: Design name:unnamed
       vpiName Identifier name:adder #(.W(8)) start:108:3 end:108:8:
@@ -2670,7 +2873,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 9
-[   NOTE] : 1
+[   NOTE] : 4
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -2684,25 +2887,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Instantiations/Instantiations/mounts.json
 
 
-{'result': {'coverage': 99.74,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 4,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 1523}},
-            'post_len': 4,
+            'post_len': 0,
             'pre_len': 1523,
             'test_name': 'Instantiations/Instantiations'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |     1523 |         4 |
+| $Output/lib/work/dut.sv |     1523 |         0 |
 +=========================+==========+===========+
-|                         |     1523 |         4 |
+|                         |     1523 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.74
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2712,12 +2915,12 @@ COMMAND: ${HLC_DIR}/regression/Instantiations/Instantiations/design.hldb ${HLC_D
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            21      21       4         4
-Operation                           12       8       0         4
-RefObj                              84      80       0         4
-RefTypespec                         60      60       4         4
+Constant                            25      25       5         5
+Operation                           13       8       0         5
+RefObj                              93      88       0         5
+RefTypespec                         68      68       5         5
 ----------------------------------------------------------------
-Others                             223     223       0         0
+Others                             245     245       0         0
 ----------------------------------------------------------------
-                                   400     392       8        16
+                                   444     434      10        20
 ===================== END REDUCTION RESULT =====================

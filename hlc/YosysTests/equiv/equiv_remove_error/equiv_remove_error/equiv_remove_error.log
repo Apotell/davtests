@@ -1678,6 +1678,14 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5835] $Source01/equiv_remove_error/top.v:1:1: Colliding compilation unit name: "top",
              $Source01/equiv_remove_error/synth_top.v:3:1: previous usage.
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:12:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:24:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/common.v:36:1: Top level module "assert_comb".
+[NTE:EL6904] $Source01/equiv_remove_error/logic.v:4:1: Top level module "NOR2_X0X2".
+[NTE:EL6904] $Source01/equiv_remove_error/top.v:1:1: Top level module "top".
+[NTE:EL6904] $Source01/equiv_remove_error/testbench.v:1:1: Top level module "testbench".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -3284,10 +3292,13 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:4:8 end:4:11:
       vpiFullName: top
-      vpiTypespec (1 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
           vpiScalar: true
+        ModuleTypespec name:INV_X2X2:
+        ModuleTypespec name:TIEHL:
+        ModuleTypespec name:DFFARAS_X2X2:
       vpiAttribute (1 items):
         Attribute name:src start:3:4 end:3:19:
           vpiParent: Module name:top
@@ -3836,11 +3847,12 @@ Design name:unnamed:
             vpiParent: Variable name:rst
             vpiFullName: testbench.rst
             vpiActual: LogicTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiScalar: true
         ModuleTypespec name:assert_expr:
+        ModuleTypespec name:top:
       vpiDefName: testbench
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/equiv_remove_error/testbench.v"
@@ -4386,7 +4398,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 8
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************

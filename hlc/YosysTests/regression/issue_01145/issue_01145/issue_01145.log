@@ -1494,6 +1494,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/issue_01145/top.sv:59:1: Compile module "SubModule1".
 [INF:CP5804] $Source01/issue_01145/top.sv:94:1: Compile module "SubModule2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:13:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:25:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/common.v:37:1: Top level module "assert_X".
+[NTE:EL6904] $Source01/common.v:49:1: Top level module "assert_comb".
+[NTE:EL6904] $Source01/issue_01145/top.sv:3:1: Top level module "TopModule".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1512,7 +1519,7 @@ Design name:unnamed:
       vpiSourceFile (2 items):
         SourceFile name:common.v:
         SourceFile name:top.sv:
-  vpiAllInterfaces (1 items):
+  vpiAllInterfaces (3 items):
     Interface name:MyInterface #(.WIDTH(3)) file:$Source01/issue_01145/top.sv start:31:1 end:56:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MyInterface #(.WIDTH(3)) start:31:11 end:31:22:
@@ -1782,6 +1789,528 @@ Design name:unnamed:
           vpiParent: Interface name:MyInterface #(.WIDTH(3))
           vpiPortType: port (44)
           vpiDirection: no direction (5)
+    Interface name:MyInterface #(.WIDTH(4)) file:$Source01/issue_01145/top.sv start:31:1 end:56:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:MyInterface #(.WIDTH(4)) start:31:11 end:31:22:
+      vpiFullName: MyInterface #(.WIDTH(4))
+      vpiVariable (4 items):
+        Variable name:setting start:35:9 end:35:16:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName: setting
+          vpiFullName: MyInterface #(.WIDTH(4)).setting
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:35:3 end:35:8:
+            vpiParent: Variable name:setting
+            vpiFullName: MyInterface #(.WIDTH(4)).setting
+            vpiActual: LogicTypespec
+        Variable name:other_setting start:36:21 end:36:34:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName: other_setting
+          vpiFullName: MyInterface #(.WIDTH(4)).other_setting
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:36:3 end:36:20:
+            vpiParent: Variable name:other_setting
+            vpiFullName: MyInterface #(.WIDTH(4)).other_setting
+            vpiActual: LogicTypespec
+        Variable name:mysig_out start:38:15 end:38:24:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName: mysig_out
+          vpiFullName: MyInterface #(.WIDTH(4)).mysig_out
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:38:3 end:38:14:
+            vpiParent: Variable name:mysig_out
+            vpiFullName: MyInterface #(.WIDTH(4)).mysig_out
+            vpiActual: LogicTypespec
+        Variable name:passThrough start:40:16 end:40:27:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName: passThrough
+          vpiFullName: MyInterface #(.WIDTH(4)).passThrough
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:40:3 end:40:15:
+            vpiParent: Variable name:passThrough
+            vpiFullName: MyInterface #(.WIDTH(4)).passThrough
+            vpiActual: LogicTypespec
+      vpiParameter (1 items):
+        Parameter name:WIDTH start:32:13 end:32:18:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName: WIDTH
+          vpiFullName: MyInterface #(.WIDTH(4)).WIDTH
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:WIDTH
+            vpiFullName: MyInterface #(.WIDTH(4)).WIDTH
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:12:24 end:12:25:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: MyInterface #(.WIDTH(4)).WIDTH
+              vpiActual: IntTypespec
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiRange (1 items):
+            Range start:36:9 end:36:20:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:36:10 end:36:17:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:WIDTH start:36:10 end:36:15:
+                    vpiParent: Operation
+                    vpiName: WIDTH
+                    vpiFullName: MyInterface #(.WIDTH(4)).WIDTH
+                    vpiActual: Parameter name:WIDTH
+                  Constant start:36:16 end:36:17:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: MyInterface #(.WIDTH(4))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:36:18 end:36:19:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(4))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiRange (1 items):
+            Range start:38:9 end:38:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:38:10 end:38:11:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(4))
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:38:12 end:38:13:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(4))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiRange (1 items):
+            Range start:40:9 end:40:15:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:40:10 end:40:12:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "15"
+                vpiValue: 15
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(4))
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:40:13 end:40:14:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(4))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        InterfaceTypespec name:submodule1:
+        InterfaceTypespec name:submodule2:
+      vpiDefName: MyInterface
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_01145/top.sv"
+      vpiDefLineNo: 31
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:11 end:31:22:
+        vpiParent: Interface name:MyInterface #(.WIDTH(4))
+        vpiName: work
+        vpiFullName: MyInterface #(.WIDTH(4)).work
+        vpiActual: Library name:work
+      vpiCell: MyInterface
+      vpiUnit: Unit
+      vpiModport (2 items):
+        Modport name:submodule1 start:42:13 end:42:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName Identifier name:submodule1:
+          vpiIODecl (4 items):
+            IODecl name:setting start:43:16 end:43:23:
+              vpiParent: Modport name:submodule1
+              vpiName: setting
+              vpiDirection: input (1)
+              vpiExpr RefObj name:setting start:43:16 end:43:23:
+                vpiParent: IODecl name:setting
+                vpiName: setting
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule1.setting.setting
+                vpiActual: Variable name:setting
+            IODecl name:other_setting start:44:16 end:44:29:
+              vpiParent: Modport name:submodule1
+              vpiName: other_setting
+              vpiDirection: output (2)
+              vpiExpr RefObj name:other_setting start:44:16 end:44:29:
+                vpiParent: IODecl name:other_setting
+                vpiName: other_setting
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule1.other_setting.other_setting
+                vpiActual: Variable name:other_setting
+            IODecl name:mysig_out start:45:16 end:45:25:
+              vpiParent: Modport name:submodule1
+              vpiName: mysig_out
+              vpiDirection: output (2)
+              vpiExpr RefObj name:mysig_out start:45:16 end:45:25:
+                vpiParent: IODecl name:mysig_out
+                vpiName: mysig_out
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule1.mysig_out.mysig_out
+                vpiActual: Variable name:mysig_out
+            IODecl name:passThrough start:46:16 end:46:27:
+              vpiParent: Modport name:submodule1
+              vpiName: passThrough
+              vpiDirection: output (2)
+              vpiExpr RefObj name:passThrough start:46:16 end:46:27:
+                vpiParent: IODecl name:passThrough
+                vpiName: passThrough
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule1.passThrough.passThrough
+                vpiActual: Variable name:passThrough
+          vpiInterface: Interface name:MyInterface #(.WIDTH(4))
+        Modport name:submodule2 start:49:13 end:49:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiName Identifier name:submodule2:
+          vpiIODecl (4 items):
+            IODecl name:setting start:50:16 end:50:23:
+              vpiParent: Modport name:submodule2
+              vpiName: setting
+              vpiDirection: input (1)
+              vpiExpr RefObj name:setting start:50:16 end:50:23:
+                vpiParent: IODecl name:setting
+                vpiName: setting
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule2.setting.setting
+                vpiActual: Variable name:setting
+            IODecl name:other_setting start:51:16 end:51:29:
+              vpiParent: Modport name:submodule2
+              vpiName: other_setting
+              vpiDirection: output (2)
+              vpiExpr RefObj name:other_setting start:51:16 end:51:29:
+                vpiParent: IODecl name:other_setting
+                vpiName: other_setting
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule2.other_setting.other_setting
+                vpiActual: Variable name:other_setting
+            IODecl name:mysig_out start:52:16 end:52:25:
+              vpiParent: Modport name:submodule2
+              vpiName: mysig_out
+              vpiDirection: input (1)
+              vpiExpr RefObj name:mysig_out start:52:16 end:52:25:
+                vpiParent: IODecl name:mysig_out
+                vpiName: mysig_out
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule2.mysig_out.mysig_out
+                vpiActual: Variable name:mysig_out
+            IODecl name:passThrough start:53:16 end:53:27:
+              vpiParent: Modport name:submodule2
+              vpiName: passThrough
+              vpiDirection: output (2)
+              vpiExpr RefObj name:passThrough start:53:16 end:53:27:
+                vpiParent: IODecl name:passThrough
+                vpiName: passThrough
+                vpiFullName: MyInterface #(.WIDTH(4)).submodule2.passThrough.passThrough
+                vpiActual: Variable name:passThrough
+          vpiInterface: Interface name:MyInterface #(.WIDTH(4))
+      vpiPort (1 items):
+        Port start:32:23 end:33:4:
+          vpiParent: Interface name:MyInterface #(.WIDTH(4))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Interface name:MyInterface #(.WIDTH(3))
+    Interface name:MyInterface #(.WIDTH(22)) file:$Source01/issue_01145/top.sv start:31:1 end:56:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:MyInterface #(.WIDTH(22)) start:31:11 end:31:22:
+      vpiFullName: MyInterface #(.WIDTH(22))
+      vpiVariable (4 items):
+        Variable name:setting start:35:9 end:35:16:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName: setting
+          vpiFullName: MyInterface #(.WIDTH(22)).setting
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:35:3 end:35:8:
+            vpiParent: Variable name:setting
+            vpiFullName: MyInterface #(.WIDTH(22)).setting
+            vpiActual: LogicTypespec
+        Variable name:other_setting start:36:21 end:36:34:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName: other_setting
+          vpiFullName: MyInterface #(.WIDTH(22)).other_setting
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:36:3 end:36:20:
+            vpiParent: Variable name:other_setting
+            vpiFullName: MyInterface #(.WIDTH(22)).other_setting
+            vpiActual: LogicTypespec
+        Variable name:mysig_out start:38:15 end:38:24:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName: mysig_out
+          vpiFullName: MyInterface #(.WIDTH(22)).mysig_out
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:38:3 end:38:14:
+            vpiParent: Variable name:mysig_out
+            vpiFullName: MyInterface #(.WIDTH(22)).mysig_out
+            vpiActual: LogicTypespec
+        Variable name:passThrough start:40:16 end:40:27:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName: passThrough
+          vpiFullName: MyInterface #(.WIDTH(22)).passThrough
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:40:3 end:40:15:
+            vpiParent: Variable name:passThrough
+            vpiFullName: MyInterface #(.WIDTH(22)).passThrough
+            vpiActual: LogicTypespec
+      vpiParameter (1 items):
+        Parameter name:WIDTH start:32:13 end:32:18:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName: WIDTH
+          vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:WIDTH
+            vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:78:24 end:78:26:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "22"
+            vpiValue: 22
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
+              vpiActual: IntTypespec
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiRange (1 items):
+            Range start:36:9 end:36:20:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:36:10 end:36:17:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:WIDTH start:36:10 end:36:15:
+                    vpiParent: Operation
+                    vpiName: WIDTH
+                    vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
+                    vpiActual: Parameter name:WIDTH
+                  Constant start:36:16 end:36:17:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: MyInterface #(.WIDTH(22))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:36:18 end:36:19:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(22))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiRange (1 items):
+            Range start:38:9 end:38:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:38:10 end:38:11:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(22))
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:38:12 end:38:13:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(22))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiRange (1 items):
+            Range start:40:9 end:40:15:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:40:10 end:40:12:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "15"
+                vpiValue: 15
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(22))
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:40:13 end:40:14:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyInterface #(.WIDTH(22))
+                  vpiActual: IntTypespec
+          vpiVector: true
+        InterfaceTypespec name:submodule1:
+        InterfaceTypespec name:submodule2:
+      vpiDefName: MyInterface
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_01145/top.sv"
+      vpiDefLineNo: 31
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:11 end:31:22:
+        vpiParent: Interface name:MyInterface #(.WIDTH(22))
+        vpiName: work
+        vpiFullName: MyInterface #(.WIDTH(22)).work
+        vpiActual: Library name:work
+      vpiCell: MyInterface
+      vpiUnit: Unit
+      vpiModport (2 items):
+        Modport name:submodule1 start:42:13 end:42:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName Identifier name:submodule1:
+          vpiIODecl (4 items):
+            IODecl name:setting start:43:16 end:43:23:
+              vpiParent: Modport name:submodule1
+              vpiName: setting
+              vpiDirection: input (1)
+              vpiExpr RefObj name:setting start:43:16 end:43:23:
+                vpiParent: IODecl name:setting
+                vpiName: setting
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule1.setting.setting
+                vpiActual: Variable name:setting
+            IODecl name:other_setting start:44:16 end:44:29:
+              vpiParent: Modport name:submodule1
+              vpiName: other_setting
+              vpiDirection: output (2)
+              vpiExpr RefObj name:other_setting start:44:16 end:44:29:
+                vpiParent: IODecl name:other_setting
+                vpiName: other_setting
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule1.other_setting.other_setting
+                vpiActual: Variable name:other_setting
+            IODecl name:mysig_out start:45:16 end:45:25:
+              vpiParent: Modport name:submodule1
+              vpiName: mysig_out
+              vpiDirection: output (2)
+              vpiExpr RefObj name:mysig_out start:45:16 end:45:25:
+                vpiParent: IODecl name:mysig_out
+                vpiName: mysig_out
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule1.mysig_out.mysig_out
+                vpiActual: Variable name:mysig_out
+            IODecl name:passThrough start:46:16 end:46:27:
+              vpiParent: Modport name:submodule1
+              vpiName: passThrough
+              vpiDirection: output (2)
+              vpiExpr RefObj name:passThrough start:46:16 end:46:27:
+                vpiParent: IODecl name:passThrough
+                vpiName: passThrough
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule1.passThrough.passThrough
+                vpiActual: Variable name:passThrough
+          vpiInterface: Interface name:MyInterface #(.WIDTH(22))
+        Modport name:submodule2 start:49:13 end:49:23:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiName Identifier name:submodule2:
+          vpiIODecl (4 items):
+            IODecl name:setting start:50:16 end:50:23:
+              vpiParent: Modport name:submodule2
+              vpiName: setting
+              vpiDirection: input (1)
+              vpiExpr RefObj name:setting start:50:16 end:50:23:
+                vpiParent: IODecl name:setting
+                vpiName: setting
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule2.setting.setting
+                vpiActual: Variable name:setting
+            IODecl name:other_setting start:51:16 end:51:29:
+              vpiParent: Modport name:submodule2
+              vpiName: other_setting
+              vpiDirection: output (2)
+              vpiExpr RefObj name:other_setting start:51:16 end:51:29:
+                vpiParent: IODecl name:other_setting
+                vpiName: other_setting
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule2.other_setting.other_setting
+                vpiActual: Variable name:other_setting
+            IODecl name:mysig_out start:52:16 end:52:25:
+              vpiParent: Modport name:submodule2
+              vpiName: mysig_out
+              vpiDirection: input (1)
+              vpiExpr RefObj name:mysig_out start:52:16 end:52:25:
+                vpiParent: IODecl name:mysig_out
+                vpiName: mysig_out
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule2.mysig_out.mysig_out
+                vpiActual: Variable name:mysig_out
+            IODecl name:passThrough start:53:16 end:53:27:
+              vpiParent: Modport name:submodule2
+              vpiName: passThrough
+              vpiDirection: output (2)
+              vpiExpr RefObj name:passThrough start:53:16 end:53:27:
+                vpiParent: IODecl name:passThrough
+                vpiName: passThrough
+                vpiFullName: MyInterface #(.WIDTH(22)).submodule2.passThrough.passThrough
+                vpiActual: Variable name:passThrough
+          vpiInterface: Interface name:MyInterface #(.WIDTH(22))
+      vpiPort (1 items):
+        Port start:32:23 end:33:4:
+          vpiParent: Interface name:MyInterface #(.WIDTH(22))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Interface name:MyInterface #(.WIDTH(3))
   vpiAllModules (8 items):
     Module name:assert_dff file:$Source01/common.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
@@ -4355,30 +4884,6 @@ Design name:unnamed:
       vpiName Identifier name:SubModule2 start:94:8 end:94:18:
       vpiDefName: SubModule2
       vpiModule: Module name:SubModule2
-    InterfaceTypespec name:MyInterface #(.WIDTH(22)) start:78:3 end:78:28:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:MyInterface #(.WIDTH(22)):
-      vpiDefName: MyInterface
-      vpiParamAssign (1 items):
-        ParamAssign start:78:17 end:78:27:
-          vpiParent: InterfaceTypespec name:MyInterface #(.WIDTH(22))
-          vpiConnByName: true
-          vpiLhs RefObj name:WIDTH start:78:18 end:78:23:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:78:24 end:78:26:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "22"
-            vpiValue: 22
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: MyInterface #(.WIDTH(22))
-              vpiActual: IntTypespec
-      vpiInterface: Interface name:MyInterface #(.WIDTH(3))
     InterfaceTypespec name:MyInterface #(.WIDTH(4)) start:12:3 end:12:27:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MyInterface #(.WIDTH(4)):
@@ -4402,7 +4907,31 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: MyInterface #(.WIDTH(4))
               vpiActual: IntTypespec
-      vpiInterface: Interface name:MyInterface #(.WIDTH(3))
+      vpiInterface: Interface name:MyInterface #(.WIDTH(4))
+    InterfaceTypespec name:MyInterface #(.WIDTH(22)) start:78:3 end:78:28:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:MyInterface #(.WIDTH(22)):
+      vpiDefName: MyInterface
+      vpiParamAssign (1 items):
+        ParamAssign start:78:17 end:78:27:
+          vpiParent: InterfaceTypespec name:MyInterface #(.WIDTH(22))
+          vpiConnByName: true
+          vpiLhs RefObj name:WIDTH start:78:18 end:78:23:
+            vpiParent: ParamAssign
+            vpiName: WIDTH
+            vpiFullName: MyInterface #(.WIDTH(22)).WIDTH
+            vpiActual: Parameter name:WIDTH
+          vpiRhs Constant start:78:24 end:78:26:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "22"
+            vpiValue: 22
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: MyInterface #(.WIDTH(22))
+              vpiActual: IntTypespec
+      vpiInterface: Interface name:MyInterface #(.WIDTH(22))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -4412,7 +4941,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 7
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -4457,12 +4986,12 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_01145/issue_01145/des
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            59      59       1         1
-Operation                           17      16       0         1
-RefObj                             160     159       0         1
-RefTypespec                        130     130       1         1
+Constant                            73      73       3         3
+Operation                           19      16       0         3
+RefObj                             180     177       0         3
+RefTypespec                        154     154       3         3
 ----------------------------------------------------------------
-Others                             286     286       0         0
+Others                             340     340       0         0
 ----------------------------------------------------------------
-                                   652     650       2         4
+                                   766     760       6        12
 ===================== END REDUCTION RESULT =====================

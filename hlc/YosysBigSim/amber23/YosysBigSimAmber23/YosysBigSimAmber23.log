@@ -91260,6 +91260,11 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/rtl/generic_sram_line_en.v:42:1: No timescale set for "generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))".
 [INF:CP5804] $Source01/sim/bench.v:2:1: Compile module "testbench".
 [WRN:PA5506] $Source01/sim/bench.v:2:1: No timescale set for "testbench".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/rtl/a23_barrel_shift_fpga.v:46:1: Top level module "a23_barrel_shift_fpga".
+[NTE:EL6904] $Source01/rtl/a23_decompile.v:45:1: Top level module "a23_decompile".
+[NTE:EL6904] $Source01/rtl/a23_ram_register_bank.v:44:1: Top level module "a23_ram_register_bank".
+[NTE:EL6904] $Source01/sim/bench.v:2:1: Top level module "testbench".
 [WRN:DV8514] $Source01/rtl/a23_functions.v:88:28: Failed to bind "SVC".
 [WRN:DV8514] $Source01/rtl/a23_functions.v:88:43: Failed to bind "OH_SVC".
 [WRN:DV8514] $Source01/rtl/a23_functions.v:89:28: Failed to bind "IRQ".
@@ -156812,6 +156817,9 @@ Design name:unnamed:
                 vpiParent: GenFor
                 vpiName Identifier name:rams start:513:39 end:513:43:
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams
+                vpiTypespec (2 items):
+                  ModuleTypespec name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)):
+                  ModuleTypespec name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)):
                 vpiStmt (5 items):
                   RefInstance name:u_tag start:532:9 end:532:14:
                     vpiParent: GenBlock name:rams
@@ -156820,7 +156828,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:u_tag
                       vpiName: generic_sram_line_en
                       vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.generic_sram_line_en
-                      vpiActual: ModuleTypespec name:generic_sram_line_en
+                      vpiActual: ModuleTypespec name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
                     vpiArgument (5 items):
                       NamedArgument start:533:13 end:533:66:
                         vpiParent: RefInstance name:u_tag
@@ -156914,7 +156922,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:u_data
                       vpiName: generic_sram_byte_en
                       vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.generic_sram_byte_en
-                      vpiActual: ModuleTypespec name:generic_sram_byte_en
+                      vpiActual: ModuleTypespec name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
                     vpiArgument (6 items):
                       NamedArgument start:558:13 end:558:74:
                         vpiParent: RefInstance name:u_data
@@ -163590,7 +163598,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a23_core start:43:8 end:43:16:
       vpiFullName: a23_core
-      vpiTypespec (51 items):
+      vpiTypespec (55 items):
         LogicTypespec:
           vpiParent: Module name:a23_core
           vpiScalar: true
@@ -164894,6 +164902,10 @@ Design name:unnamed:
                   vpiFullName: a23_core
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:a23_fetch:
+        ModuleTypespec name:a23_decode:
+        ModuleTypespec name:a23_execute:
+        ModuleTypespec name:a23_coprocessor:
       vpiDefName: a23_core
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/rtl/a23_core.v"
@@ -199582,7 +199594,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: a23_execute.OH_SVC
               vpiActual: IntTypespec
-      vpiTypespec (78 items):
+      vpiTypespec (82 items):
         LogicTypespec:
           vpiParent: Module name:a23_execute
           vpiScalar: true
@@ -201588,6 +201600,10 @@ Design name:unnamed:
                   vpiFullName: a23_execute
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:a23_barrel_shift:
+        ModuleTypespec name:a23_alu:
+        ModuleTypespec name:a23_multiply:
+        ModuleTypespec name:a23_register_bank:
       vpiDefName: a23_execute
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/rtl/a23_execute.v"
@@ -210508,7 +210524,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: a23_fetch.TEST_BASE
               vpiActual: IntTypespec
-      vpiTypespec (12 items):
+      vpiTypespec (14 items):
         LogicTypespec:
           vpiParent: Module name:a23_fetch
           vpiScalar: true
@@ -210798,6 +210814,8 @@ Design name:unnamed:
                   vpiFullName: a23_fetch
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:a23_cache:
+        ModuleTypespec name:a23_wishbone:
       vpiDefName: a23_fetch
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/rtl/a23_fetch.v"
@@ -242317,7 +242335,7 @@ Design name:unnamed:
                   vpiParent: Constant
                   vpiFullName: testbench.mem_size
                   vpiActual: IntTypespec
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiScalar: true
@@ -242577,6 +242595,7 @@ Design name:unnamed:
                   vpiFullName: testbench
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:a23_core:
       vpiDefName: testbench
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/sim/bench.v"
@@ -246358,7 +246377,7 @@ Design name:unnamed:
                 vpiName: globrst
                 vpiFullName: testbench.UUT.globrst
                 vpiActual: Variable name:globrst
-  vpiTypespec (22 items):
+  vpiTypespec (24 items):
     ModuleTypespec name:a23_alu:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a23_alu start:43:8 end:43:15:
@@ -246455,6 +246474,70 @@ Design name:unnamed:
       vpiName Identifier name:testbench start:2:8 end:2:17:
       vpiDefName: testbench
       vpiModule: Module name:testbench
+    ModuleTypespec name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)) start:551:9 end:551:29:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)):
+      vpiDefName: generic_sram_byte_en
+      vpiParamAssign (2 items):
+        ParamAssign start:555:13 end:555:47:
+          vpiParent: ModuleTypespec name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
+          vpiConnByName: true
+          vpiLhs RefObj name:DATA_WIDTH start:555:14 end:555:24:
+            vpiParent: ParamAssign
+            vpiName: DATA_WIDTH
+            vpiFullName: generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).DATA_WIDTH
+            vpiActual: Parameter name:DATA_WIDTH
+          vpiRhs RefObj name:CACHE_LINE_WIDTH start:555:30 end:555:46:
+            vpiParent: ParamAssign
+            vpiName: CACHE_LINE_WIDTH
+            vpiFullName: generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).CACHE_LINE_WIDTH
+            vpiActual: Parameter name:CACHE_LINE_WIDTH
+        ParamAssign start:556:13 end:556:47:
+          vpiParent: ModuleTypespec name:generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
+          vpiConnByName: true
+          vpiLhs RefObj name:ADDRESS_WIDTH start:556:14 end:556:27:
+            vpiParent: ParamAssign
+            vpiName: ADDRESS_WIDTH
+            vpiFullName: generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).ADDRESS_WIDTH
+            vpiActual: Parameter name:ADDRESS_WIDTH
+          vpiRhs RefObj name:CACHE_ADDR_WIDTH start:556:30 end:556:46:
+            vpiParent: ParamAssign
+            vpiName: CACHE_ADDR_WIDTH
+            vpiFullName: generic_sram_byte_en #(.DATA_WIDTH(CACHE_LINE_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).CACHE_ADDR_WIDTH
+            vpiActual: Parameter name:CACHE_ADDR_WIDTH
+      vpiModule: Module name:generic_sram_byte_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7))
+    ModuleTypespec name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)) start:525:9 end:525:29:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)):
+      vpiDefName: generic_sram_line_en
+      vpiParamAssign (2 items):
+        ParamAssign start:529:13 end:529:66:
+          vpiParent: ModuleTypespec name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
+          vpiConnByName: true
+          vpiLhs RefObj name:DATA_WIDTH start:529:14 end:529:24:
+            vpiParent: ParamAssign
+            vpiName: DATA_WIDTH
+            vpiFullName: generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).DATA_WIDTH
+            vpiActual: Parameter name:DATA_WIDTH
+          vpiRhs RefObj name:TAG_WIDTH start:529:43 end:529:52:
+            vpiParent: ParamAssign
+            vpiName: TAG_WIDTH
+            vpiFullName: generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).TAG_WIDTH
+            vpiActual: Parameter name:TAG_WIDTH
+        ParamAssign start:531:13 end:531:66:
+          vpiParent: ModuleTypespec name:generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH))
+          vpiConnByName: true
+          vpiLhs RefObj name:ADDRESS_WIDTH start:531:14 end:531:27:
+            vpiParent: ParamAssign
+            vpiName: ADDRESS_WIDTH
+            vpiFullName: generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).ADDRESS_WIDTH
+            vpiActual: Parameter name:ADDRESS_WIDTH
+          vpiRhs RefObj name:CACHE_ADDR_WIDTH start:531:43 end:531:59:
+            vpiParent: ParamAssign
+            vpiName: CACHE_ADDR_WIDTH
+            vpiFullName: generic_sram_line_en #(.DATA_WIDTH(TAG_WIDTH), .ADDRESS_WIDTH(CACHE_ADDR_WIDTH)).CACHE_ADDR_WIDTH
+            vpiActual: Parameter name:CACHE_ADDR_WIDTH
+      vpiModule: Module name:generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -246464,7 +246547,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 26
 [WARNING] : 43
-[   NOTE] : 49
+[   NOTE] : 54
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -246478,7 +246561,7 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/mounts.json
 
 
-{'result': {'coverage': 99.92,
+{'result': {'coverage': 99.99,
             'error_count': 0,
             'file_count': 23,
             'files': {'$Output/lib/work/rtl/a23_alu.v': {'post_len': 0,
@@ -246487,7 +246570,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/mo
                                                                   'pre_len': 10167},
                       '$Output/lib/work/rtl/a23_barrel_shift_fpga.v': {'post_len': 0,
                                                                        'pre_len': 5032},
-                      '$Output/lib/work/rtl/a23_cache.v': {'post_len': 127,
+                      '$Output/lib/work/rtl/a23_cache.v': {'post_len': 20,
                                                            'pre_len': 18888},
                       '$Output/lib/work/rtl/a23_config_defines.v': {'post_len': 0,
                                                                     'pre_len': 0},
@@ -246527,7 +246610,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/mo
                                                                       'pre_len': 1808},
                       '$Output/lib/work/sim/bench.v': {'post_len': 0,
                                                        'pre_len': 3511}},
-            'post_len': 127,
+            'post_len': 20,
             'pre_len': 165600,
             'test_name': 'YosysBigSim/amber23/YosysBigSimAmber23'}}
 
@@ -246537,7 +246620,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/mo
 | $Output/lib/work/rtl/a23_alu.v               |     2208 |         0 |
 | $Output/lib/work/rtl/a23_barrel_shift.v      |    10167 |         0 |
 | $Output/lib/work/rtl/a23_barrel_shift_fpga.v |     5032 |         0 |
-| $Output/lib/work/rtl/a23_cache.v             |    18888 |       127 |
+| $Output/lib/work/rtl/a23_cache.v             |    18888 |        20 |
 | $Output/lib/work/rtl/a23_config_defines.v    |        0 |         0 |
 | $Output/lib/work/rtl/a23_coprocessor.v       |     2063 |         0 |
 | $Output/lib/work/rtl/a23_core.v              |    16024 |         0 |
@@ -246558,11 +246641,11 @@ mounts-filepath: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/mo
 | $Output/lib/work/rtl/memory_configuration.v  |     1808 |         0 |
 | $Output/lib/work/sim/bench.v                 |     3511 |         0 |
 +==============================================+==========+===========+
-|                                              |   165600 |       127 |
+|                                              |   165600 |        20 |
 +----------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.92
+[COVERAGE] : 99.99
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -246575,10 +246658,10 @@ Name                            Before   After   Added   Removed
 Constant                          6744    6148     603      1199
 LogicTypespec                      780     781       1         0
 Operation                         3399    2439       0       960
-RefObj                            5945    5561       0       384
+RefObj                            5953    5569       0       384
 RefTypespec                       8800    8188     587      1199
 ----------------------------------------------------------------
-Others                            8693    8693       0         0
+Others                            8701    8701       0         0
 ----------------------------------------------------------------
-                                 34361   31810    1191      3742
+                                 34377   31826    1191      3742
 ===================== END REDUCTION RESULT =====================

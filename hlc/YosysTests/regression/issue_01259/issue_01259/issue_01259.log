@@ -698,6 +698,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/issue_01259/top.v:7:1: Compile module "empty".
 [NTE:CP5810] $Source01/issue_01259/top.v:7:52: Implicit port type (wire) for "x".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:13:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:25:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/common.v:37:1: Top level module "assert_X".
+[NTE:EL6904] $Source01/common.v:49:1: Top level module "assert_comb".
+[NTE:EL6904] $Source01/issue_01259/top.v:1:1: Top level module "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -716,7 +723,7 @@ Design name:unnamed:
       vpiSourceFile (2 items):
         SourceFile name:common.v:
         SourceFile name:top.v:
-  vpiAllModules (7 items):
+  vpiAllModules (8 items):
     Module name:assert_dff file:$Source01/common.v start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assert_dff start:1:8 end:1:18:
@@ -1844,6 +1851,111 @@ Design name:unnamed:
             vpiParent: Port name:x
             vpiFullName: empty #(.W(0)).x
             vpiActual: LogicTypespec
+    Module name:empty #(.W(10)) file:$Source01/issue_01259/top.v start:7:1 end:8:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:empty #(.W(10)) start:7:8 end:7:13:
+      vpiFullName: empty #(.W(10))
+      vpiParameter (1 items):
+        Parameter name:W start:7:25 end:7:26:
+          vpiParent: Module name:empty #(.W(10))
+          vpiName: W
+          vpiFullName: empty #(.W(10)).W
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:W
+            vpiFullName: empty #(.W(10)).W
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:2:16 end:2:18:
+            vpiParent: Parameter name:W
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: empty #(.W(10)).W
+              vpiActual: IntTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:empty #(.W(10))
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Module name:empty #(.W(10))
+          vpiRange (1 items):
+            Range start:7:44 end:7:51:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:7:45 end:7:48:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:W start:7:45 end:7:46:
+                    vpiParent: Operation
+                    vpiName: W
+                    vpiFullName: empty #(.W(10)).W
+                    vpiActual: Parameter name:W
+                  Constant start:7:47 end:7:48:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: empty #(.W(10))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:7:49 end:7:50:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: empty #(.W(10))
+                  vpiActual: IntTypespec
+          vpiVector: true
+      vpiDefName: empty
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_01259/top.v"
+      vpiDefLineNo: 7
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:7:8 end:7:13:
+        vpiParent: Module name:empty #(.W(10))
+        vpiName: work
+        vpiFullName: empty #(.W(10)).work
+        vpiActual: Library name:work
+      vpiCell: empty
+      vpiNet (1 items):
+        Net name:x start:7:52 end:7:53:
+          vpiParent: Module name:empty #(.W(10))
+          vpiName: x
+          vpiFullName: empty #(.W(10)).x
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:7:44 end:7:51:
+            vpiParent: Net name:x
+            vpiFullName: empty #(.W(10)).x
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port name:x start:7:52 end:7:53:
+          vpiParent: Module name:empty #(.W(10))
+          vpiName: x
+          vpiPortType: port (44)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:x start:7:52 end:7:53:
+            vpiParent: Port name:x
+            vpiName: x
+            vpiFullName: empty #(.W(10)).x.x
+            vpiActual: Net name:x
+          vpiTypespec RefTypespec start:7:44 end:7:51:
+            vpiParent: Port name:x
+            vpiFullName: empty #(.W(10)).x
+            vpiActual: LogicTypespec
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:empty #(.W(0))
   vpiTypespec (11 items):
     ModuleTypespec name:assert_dff:
       vpiParent: Design name:unnamed
@@ -1905,7 +2017,7 @@ Design name:unnamed:
             vpiName: W
             vpiFullName: empty #(.W(W)).W
             vpiActual: Parameter name:W
-      vpiModule: Module name:empty #(.W(0))
+      vpiModule: Module name:empty #(.W(10))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1915,7 +2027,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 1
+[   NOTE] : 8
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1960,12 +2072,12 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_01259/issue_01259/des
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            21      21       2         2
-Operation                           11       9       0         2
-RefObj                              44      42       0         2
-RefTypespec                         51      51       2         2
+Constant                            24      24       3         3
+Operation                           12       9       0         3
+RefObj                              47      44       0         3
+RefTypespec                         57      57       3         3
 ----------------------------------------------------------------
-Others                             163     163       0         0
+Others                             171     171       0         0
 ----------------------------------------------------------------
-                                   290     286       4         8
+                                   311     305       6        12
 ===================== END REDUCTION RESULT =====================

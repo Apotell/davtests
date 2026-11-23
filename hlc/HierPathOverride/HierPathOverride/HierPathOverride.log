@@ -372,6 +372,7 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:32:1: No timescale set for "prim_pad_attr".
 [INF:CP5804] $Source01/dut.sv:44:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:44:1: No timescale set for "top".
+[NTE:EL6904] $Source01/dut.sv:44:1: Top level module "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -641,7 +642,7 @@ Design name:unnamed:
       vpiCell: pinmux_pkg
       vpiUnit: Unit
       vpiEndLabel Identifier name:pinmux_pkg start:20:14 end:20:24:
-  vpiAllModules (3 items):
+  vpiAllModules (4 items):
     Module name:prim_generic_pad_attr file:$Source01/dut.sv start:23:1 end:29:34:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_generic_pad_attr start:23:8 end:23:29:
@@ -874,6 +875,88 @@ Design name:unnamed:
             vpiName: prim_pad_attr
             vpiFullName: top.u_prim_pad_attr.prim_pad_attr
             vpiActual: ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type[0]))
+    Module name:prim_generic_pad_attr #(.PadType(A)) file:$Source01/dut.sv start:23:1 end:29:34:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:prim_generic_pad_attr #(.PadType(A)) start:23:8 end:23:29:
+      vpiFullName: prim_generic_pad_attr #(.PadType(A))
+      vpiParameter (1 items):
+        Parameter name:PadType start:25:25 end:25:32:
+          vpiParent: Module name:prim_generic_pad_attr #(.PadType(A))
+          vpiName: PadType
+          vpiFullName: prim_generic_pad_attr #(.PadType(A)).PadType
+          vpiTypespec RefTypespec name:pad_type_e start:25:14 end:25:24:
+            vpiParent: Parameter name:PadType
+            vpiName: pad_type_e
+            vpiFullName: prim_generic_pad_attr #(.PadType(A)).PadType.pad_type_e
+            vpiActual: TypedefTypespec name:pad_type_e
+          vpiExpr RefObj name:A start:34:35 end:34:36:
+            vpiParent: Parameter name:PadType
+            vpiName: A
+            vpiFullName: prim_generic_pad_attr #(.PadType(A)).PadType.A
+            vpiActual: EnumConst name:A
+      vpiTypespec (1 items):
+        ImportTypespec name:prim_pad_wrapper_pkg:
+      vpiDefName: prim_generic_pad_attr
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 23
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:23:8 end:23:29:
+        vpiParent: Module name:prim_generic_pad_attr #(.PadType(A))
+        vpiName: work
+        vpiFullName: prim_generic_pad_attr #(.PadType(A)).work
+        vpiActual: Library name:work
+      vpiCell: prim_generic_pad_attr
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:23:29 end:23:31:
+          vpiParent: Module name:prim_generic_pad_attr #(.PadType(A))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiGenStmt (1 items):
+        GenIf start:26:4 end:28:7:
+          vpiParent: Module name:prim_generic_pad_attr #(.PadType(A))
+          vpiCondition Operation start:26:8 end:26:20:
+            vpiParent: GenIf
+            vpiOpType: equal (14)
+            vpiOperand (2 items):
+              RefObj name:PadType start:26:8 end:26:15:
+                vpiParent: Operation
+                vpiName: PadType
+                vpiFullName: prim_generic_pad_attr #(.PadType(A)).PadType
+                vpiActual: Parameter name:PadType
+              RefObj name:B start:26:19 end:26:20:
+                vpiParent: Operation
+                vpiName: B
+                vpiFullName: prim_generic_pad_attr #(.PadType(A)).B
+                vpiActual: EnumConst name:B
+          vpiStmt GenBlock name:gen_assign start:26:22 end:28:7:
+            vpiParent: GenIf
+            vpiName Identifier name:gen_assign start:26:30 end:26:40:
+            vpiFullName: prim_generic_pad_attr #(.PadType(A)).gen_assign
+            vpiStmt (1 items):
+              ContAssign start:27:14 end:27:19:
+                vpiParent: GenBlock name:gen_assign
+                vpiStrength0: strong (64)
+                vpiStrength1: strong (64)
+                vpiLhs RefObj name:a start:27:14 end:27:15:
+                  vpiParent: ContAssign
+                  vpiName: a
+                  vpiFullName: prim_generic_pad_attr #(.PadType(A)).gen_assign.a
+                vpiRhs Constant start:27:18 end:27:19:
+                  vpiParent: ContAssign
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: prim_generic_pad_attr #(.PadType(A)).gen_assign
+                    vpiActual: IntTypespec
+      vpiEndLabel Identifier name:prim_generic_pad_attr start:29:13 end:29:34:
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:prim_generic_pad_attr
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -915,7 +998,7 @@ Design name:unnamed:
             vpiName: PadType
             vpiFullName: prim_generic_pad_attr #(.PadType(PadType)).PadType
             vpiActual: Parameter name:PadType
-      vpiModule: Module name:prim_generic_pad_attr
+      vpiModule: Module name:prim_generic_pad_attr #(.PadType(A))
     ModuleTypespec name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type[0])) start:47:5 end:47:18:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_pad_attr #(.PadType(TargetCfg.dio_pad_type[0])) start:47:5 end:47:18:
@@ -969,7 +1052,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 5
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1011,13 +1094,13 @@ COMMAND: ${HLC_DIR}/regression/HierPathOverride/HierPathOverride/design.hldb ${H
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            14      16       3         1
+Constant                            15      18       4         1
 LogicTypespec                        1       2       1         0
-Operation                            5       1       0         4
-RefObj                              21      16       0         5
-RefTypespec                         26      27       2         1
+Operation                            6       1       0         5
+RefObj                              26      19       0         7
+RefTypespec                         28      30       3         1
 ----------------------------------------------------------------
-Others                              79      79       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                   146     141       6        11
+                                   164     158       8        14
 ===================== END REDUCTION RESULT =====================

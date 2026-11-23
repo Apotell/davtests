@@ -1268,6 +1268,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/shregmap_resetable/testbench.v:1:1: Compile module "testbench".
 [INF:CP5804] $Source01/shregmap_resetable/testbench.v:46:1: Compile module "assert_expr".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:13:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:25:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/common.v:37:1: Top level module "assert_X".
+[NTE:EL6904] $Source01/common.v:49:1: Top level module "assert_comb".
+[NTE:EL6904] $Source01/shregmap_resetable/testbench.v:1:1: Top level module "testbench".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2678,11 +2685,12 @@ Design name:unnamed:
             vpiParent: Variable name:rst
             vpiFullName: testbench.rst
             vpiActual: LogicTypespec
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiScalar: true
         ModuleTypespec name:assert_expr:
+        ModuleTypespec name:top #(.N(8)):
       vpiDefName: testbench
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/shregmap_resetable/testbench.v"
@@ -2957,7 +2965,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:uut
             vpiName: top
             vpiFullName: testbench.uut.top
-            vpiActual: ModuleTypespec name:top
+            vpiActual: ModuleTypespec name:top #(.N(8))
           vpiArgument (4 items):
             NamedArgument start:23:21 end:23:30:
               vpiParent: RefInstance name:uut
@@ -3212,7 +3220,7 @@ Design name:unnamed:
         SysFuncCall name:$time:
         SysTaskCall name:$display:
         SysTaskCall name:$stop:
-  vpiTypespec (11 items):
+  vpiTypespec (12 items):
     ModuleTypespec name:assert_dff:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assert_dff start:1:8 end:1:18:
@@ -3260,6 +3268,29 @@ Design name:unnamed:
       vpiName Identifier name:assert_expr start:46:8 end:46:19:
       vpiDefName: assert_expr
       vpiModule: Module name:assert_expr
+    ModuleTypespec name:top #(.N(8)) start:23:5 end:23:8:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top #(.N(8)):
+      vpiDefName: top
+      vpiParamAssign (1 items):
+        ParamAssign start:23:11 end:23:12:
+          vpiParent: ModuleTypespec name:top #(.N(8))
+          vpiLhs RefObj name:N start:2:16 end:2:17:
+            vpiParent: ParamAssign
+            vpiName: N
+            vpiFullName: top #(.N(8)).N
+            vpiActual: Parameter name:N
+          vpiRhs Constant start:23:11 end:23:12:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top #(.N(8))
+              vpiActual: IntTypespec
+      vpiModule: Module name:top #(.N(8))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -3269,7 +3300,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 1
+[   NOTE] : 8
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -3283,16 +3314,16 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/simple/shregmap_resetable/shregmap_resetable/mounts.json
 
 
-{'result': {'coverage': 99.94,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 822},
-                      '$Output/lib/work/shregmap_resetable/testbench.v': {'post_len': 1,
+                      '$Output/lib/work/shregmap_resetable/testbench.v': {'post_len': 0,
                                                                           'pre_len': 480},
                       '$Output/lib/work/shregmap_resetable/top.v': {'post_len': 0,
                                                                     'pre_len': 278}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 1580,
             'test_name': 'YosysTests/simple/shregmap_resetable/shregmap_resetable'}}
 
@@ -3301,13 +3332,13 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/simple/shregmap_resetable/shre
 +=================================================+==========+===========+
 | $Output/lib/work/common.v                       |      822 |         0 |
 | $Output/lib/work/shregmap_resetable/top.v       |      278 |         0 |
-| $Output/lib/work/shregmap_resetable/testbench.v |      480 |         1 |
+| $Output/lib/work/shregmap_resetable/testbench.v |      480 |         0 |
 +=================================================+==========+===========+
-|                                                 |     1580 |         1 |
+|                                                 |     1580 |         0 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.94
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3317,12 +3348,12 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/simple/shregmap_resetable/shregmap_res
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            42      42       3         3
+Constant                            43      43       3         3
 Operation                           21      18       0         3
-RefObj                              81      78       0         3
-RefTypespec                         87      87       3         3
+RefObj                              82      79       0         3
+RefTypespec                         88      88       3         3
 ----------------------------------------------------------------
-Others                             241     241       0         0
+Others                             244     244       0         0
 ----------------------------------------------------------------
-                                   472     466       6        12
+                                   478     472       6        12
 ===================== END REDUCTION RESULT =====================

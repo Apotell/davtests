@@ -143,6 +143,8 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "dut".
 [INF:CP5804] $Source01/dut.sv:6:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:6:1: No timescale set for "top".
+[NTE:EL6904] $Source01/dut.sv:6:1: Top level module "top".
+[WRN:DV8514] $Source01/dut.sv:14:29: Failed to bind "a".
 [WRN:DV8514] $Source01/dut.sv:14:36: Failed to bind "b".
 ====== HLDB =======
 Design name:unnamed:
@@ -157,7 +159,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:dut.sv:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:dut file:$Source01/dut.sv start:1:1 end:4:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:1:8 end:1:11:
@@ -352,6 +354,102 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: top.u_dut.dut
             vpiActual: ModuleTypespec name:dut #(.A(X))
+    "Module name:dut #(.A('{a: '1, b: '0})) file:$Source01/dut.sv start:1:1 end:4:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:dut #(.A('{a: '1, b: '0})) start:1:8 end:1:11":
+      vpiFullName: "dut #(.A('{a: '1, b: '0}))"
+      vpiParameter (1 items):
+        Parameter name:A start:2:26 end:2:27:
+          vpiParent: "Module name:dut #(.A('{a: '1, b: '0}))"
+          vpiName: A
+          vpiFullName: "dut #(.A('{a: '1, b: '0})).A"
+          vpiTypespec RefTypespec start:2:14 end:2:25:
+            vpiParent: Parameter name:A
+            vpiFullName: "dut #(.A('{a: '1, b: '0})).A"
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:14:27 end:14:42:
+            vpiParent: Parameter name:A
+            vpiOpType: assign pattern (87)
+            vpiOperand (2 items):
+              TaggedPattern start:14:29 end:14:34:
+                vpiParent: Operation
+                vpiTag RefObj name:a start:14:29 end:14:30:
+                  vpiParent: TaggedPattern
+                  vpiName: a
+                  vpiFullName: "dut #(.A('{a: '1, b: '0})).A.a"
+                vpiPattern Constant start:14:32 end:14:34:
+                  vpiParent: TaggedPattern
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "'1"
+                  vpiValue: "1"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: "dut #(.A('{a: '1, b: '0})).A"
+                    vpiActual: BitTypespec
+              TaggedPattern start:14:36 end:14:41:
+                vpiParent: Operation
+                vpiTag RefObj name:b start:14:36 end:14:37:
+                  vpiParent: TaggedPattern
+                  vpiName: b
+                  vpiFullName: "dut #(.A('{a: '1, b: '0})).A.b"
+                vpiPattern Constant start:14:39 end:14:41:
+                  vpiParent: TaggedPattern
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "'0"
+                  vpiValue: "0"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: "dut #(.A('{a: '1, b: '0})).A"
+                    vpiActual: BitTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: "Module name:dut #(.A('{a: '1, b: '0}))"
+          vpiRange (1 items):
+            Range start:2:20 end:2:25:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:2:21 end:2:22:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "4"
+                vpiValue: 4
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "dut #(.A('{a: '1, b: '0}))"
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:2:23 end:2:24:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "dut #(.A('{a: '1, b: '0}))"
+                  vpiActual: IntTypespec
+          vpiVector: true
+      vpiDefName: dut
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 1
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:1:8 end:1:11:
+        vpiParent: "Module name:dut #(.A('{a: '1, b: '0}))"
+        vpiName: work
+        vpiFullName: "dut #(.A('{a: '1, b: '0})).work"
+        vpiActual: Library name:work
+      vpiCell: dut
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:1:11 end:1:13:
+          vpiParent: "Module name:dut #(.A('{a: '1, b: '0}))"
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:dut
   vpiTypespec (4 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
@@ -384,7 +482,7 @@ Design name:unnamed:
             vpiName: X
             vpiFullName: dut #(.A(X)).X
             vpiActual: Parameter name:X
-      vpiModule: Module name:dut
+      vpiModule: "Module name:dut #(.A('{a: '1, b: '0}))"
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -393,8 +491,8 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
-[   NOTE] : 0
+[WARNING] : 4
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -437,7 +535,7 @@ COMMAND: ${HLC_DIR}/regression/ParamNoDefault/ParamNoDefault/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    80      80       0         0
 ===================== END REDUCTION RESULT =====================

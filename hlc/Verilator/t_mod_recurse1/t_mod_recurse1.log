@@ -295,6 +295,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_mod_recurse1.v:12:1: Compile module "rec".
 [INF:CP5804] $Source01/t_mod_recurse1.v:28:1: Compile module "bottom".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/t_mod_recurse1.v:6:1: Top level module "t".
+[NTE:EL6904] $Source01/t_mod_recurse1.v:28:1: Top level module "bottom".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -425,7 +428,9 @@ Design name:unnamed:
                       vpiParent: Variable name:sub
                       vpiName: rec
                       vpiFullName: rec.sub.rec
-                      vpiActual: ModuleTypespec name:rec
+                      vpiActual: ModuleTypespec name:rec #(.DEPTH(DEPTH + 1))
+                vpiTypespec (1 items):
+                  ModuleTypespec name:rec #(.DEPTH(DEPTH + 1)):
                 vpiImplicitDecl: true
               vpiElseStmt GenIfElse start:19:12 end:24:10:
                 vpiParent: GenIfElse
@@ -462,7 +467,9 @@ Design name:unnamed:
                         vpiParent: Variable name:subb
                         vpiName: rec
                         vpiFullName: rec.subb.rec
-                        vpiActual: ModuleTypespec name:rec
+                        vpiActual: ModuleTypespec name:rec #(.DEPTH(DEPTH + 1))
+                  vpiTypespec (1 items):
+                    ModuleTypespec name:rec #(.DEPTH(DEPTH + 1)):
                   vpiImplicitDecl: true
                 vpiElseStmt GenIf start:22:12 end:24:10:
                   vpiParent: GenIfElse
@@ -499,7 +506,9 @@ Design name:unnamed:
                           vpiParent: Variable name:bot
                           vpiName: bottom
                           vpiFullName: rec.bot.bottom
-                          vpiActual: ModuleTypespec name:bottom
+                          vpiActual: ModuleTypespec name:bottom #(.DEPTH(DEPTH + 1))
+                    vpiTypespec (1 items):
+                      ModuleTypespec name:bottom #(.DEPTH(DEPTH + 1)):
                     vpiImplicitDecl: true
     Module name:bottom file:$Source01/t_mod_recurse1.v start:28:1 end:35:10:
       vpiParent: Design name:unnamed
@@ -599,7 +608,7 @@ Design name:unnamed:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (5 items):
+  vpiTypespec (7 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
@@ -620,6 +629,72 @@ Design name:unnamed:
       vpiModule: Module name:bottom
     StringTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:bottom #(.DEPTH(DEPTH + 1)) start:23:10 end:23:35:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:bottom #(.DEPTH(DEPTH + 1)):
+      vpiDefName: bottom
+      vpiParamAssign (1 items):
+        ParamAssign start:23:19 end:23:34:
+          vpiParent: ModuleTypespec name:bottom #(.DEPTH(DEPTH + 1))
+          vpiConnByName: true
+          vpiLhs RefObj name:DEPTH start:23:20 end:23:25:
+            vpiParent: ParamAssign
+            vpiName: DEPTH
+            vpiFullName: bottom #(.DEPTH(DEPTH + 1)).DEPTH
+            vpiActual: Parameter name:DEPTH
+          vpiRhs Operation start:23:26 end:23:33:
+            vpiParent: ParamAssign
+            vpiOpType: add (24)
+            vpiOperand (2 items):
+              RefObj name:DEPTH start:23:26 end:23:31:
+                vpiParent: Operation
+                vpiName: DEPTH
+                vpiFullName: bottom #(.DEPTH(DEPTH + 1)).DEPTH
+                vpiActual: Parameter name:DEPTH
+              Constant start:23:32 end:23:33:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: bottom #(.DEPTH(DEPTH + 1))
+                  vpiActual: IntTypespec
+      vpiModule: Module name:bottom
+    ModuleTypespec name:rec #(.DEPTH(DEPTH + 1)) start:17:10 end:17:32:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:rec #(.DEPTH(DEPTH + 1)):
+      vpiDefName: rec
+      vpiParamAssign (1 items):
+        ParamAssign start:17:16 end:17:31:
+          vpiParent: ModuleTypespec name:rec #(.DEPTH(DEPTH + 1))
+          vpiConnByName: true
+          vpiLhs RefObj name:DEPTH start:17:17 end:17:22:
+            vpiParent: ParamAssign
+            vpiName: DEPTH
+            vpiFullName: rec #(.DEPTH(DEPTH + 1)).DEPTH
+            vpiActual: Parameter name:DEPTH
+          vpiRhs Operation start:17:23 end:17:30:
+            vpiParent: ParamAssign
+            vpiOpType: add (24)
+            vpiOperand (2 items):
+              RefObj name:DEPTH start:17:23 end:17:28:
+                vpiParent: Operation
+                vpiName: DEPTH
+                vpiFullName: rec #(.DEPTH(DEPTH + 1)).DEPTH
+                vpiActual: Parameter name:DEPTH
+              Constant start:17:29 end:17:30:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: rec #(.DEPTH(DEPTH + 1))
+                  vpiActual: IntTypespec
+      vpiModule: Module name:rec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -629,7 +704,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -671,12 +746,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_recurse1/design.hldb ${HLC_DIR}/r
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             7       7       4         4
-Operation                            4       0       0         4
-RefObj                               7       3       0         4
-RefTypespec                         13      13       4         4
+Constant                             9       9       6         6
+Operation                            6       0       0         6
+RefObj                              11       5       0         6
+RefTypespec                         15      15       6         6
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              50      50       0         0
 ----------------------------------------------------------------
-                                    75      67       8        16
+                                    91      79      12        24
 ===================== END REDUCTION RESULT =====================

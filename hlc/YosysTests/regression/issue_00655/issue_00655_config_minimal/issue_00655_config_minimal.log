@@ -210321,6 +210321,19 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/issue_00655/testbench.v:1:1: Compile module "testbench".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DV8513] Found 75 weak node(s).
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/common.v:1:1: Top level module "assert_dff".
+[NTE:EL6904] $Source01/common.v:13:1: Top level module "assert_tri".
+[NTE:EL6904] $Source01/common.v:25:1: Top level module "assert_Z".
+[NTE:EL6904] $Source01/common.v:37:1: Top level module "assert_X".
+[NTE:EL6904] $Source01/common.v:49:1: Top level module "assert_comb".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/rtl/jtag_cores.v:31:1: Top level module "jtag_cores".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/rtl/lm32_dp_ram.v:37:1: Top level module "lm32_dp_ram".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/rtl/lm32_multiplier.v:56:1: Top level module "lm32_multiplier".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/rtl/lm32_ram.v:61:1: Top level module "lm32_ram".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/rtl/lm32_shifter.v:56:1: Top level module "lm32_shifter".
+[NTE:EL6904] $Source01/issue_00655/verilog/submodule/test/tb_lm32_system.v:33:1: Top level module "soc".
+[NTE:EL6904] $Source01/issue_00655/testbench.v:1:1: Top level module "testbench".
 [WRN:DV8514] $Source01/issue_00655/top.v:9905:3: Failed to bind "CLKFBOUT_MULT".
 [WRN:DV8514] $Source01/issue_00655/top.v:9906:3: Failed to bind "CLKIN1_PERIOD".
 [WRN:DV8514] $Source01/issue_00655/top.v:9907:3: Failed to bind "CLKOUT0_DIVIDE".
@@ -237132,7 +237145,7 @@ Design name:unnamed:
             vpiParent: Variable name:memadr_19
             vpiFullName: top.memadr_19
             vpiActual: LogicTypespec
-      vpiTypespec (1155 items):
+      vpiTypespec (1156 items):
         LogicTypespec:
           vpiParent: Module name:top
           vpiScalar: true
@@ -273059,6 +273072,7 @@ Design name:unnamed:
                   vpiParent: Constant
                   vpiFullName: top.FDPE
                   vpiActual: IntTypespec
+        "ModuleTypespec name:lm32_cpu #(.eba_reset(32'h00000000))":
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/top.v"
@@ -426091,7 +426105,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:lm32_cpu
             vpiName: lm32_cpu
             vpiFullName: top.lm32_cpu.lm32_cpu
-            vpiActual: ModuleTypespec name:lm32_cpu
+            vpiActual: "ModuleTypespec name:lm32_cpu #(.eba_reset(32'h00000000))"
           vpiArgument (27 items):
             NamedArgument start:9807:2 end:9807:33:
               vpiParent: RefInstance name:lm32_cpu
@@ -451160,7 +451174,7 @@ Design name:unnamed:
             vpiParent: Variable name:jtag_latched
             vpiFullName: jtag_cores.jtag_latched
             vpiActual: LogicTypespec
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:jtag_cores
           vpiRange (1 items):
@@ -451320,6 +451334,7 @@ Design name:unnamed:
                   vpiFullName: jtag_cores
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:jtag_tap:
       vpiDefName: jtag_cores
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/verilog/submodule/rtl/jtag_cores.v"
@@ -452421,7 +452436,7 @@ Design name:unnamed:
             vpiParent: Variable name:adder_overflow_x
             vpiFullName: lm32_adder.adder_overflow_x
             vpiActual: LogicTypespec
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:lm32_adder
           vpiScalar: true
@@ -452545,6 +452560,7 @@ Design name:unnamed:
                   vpiFullName: lm32_adder
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:lm32_addsub:
       vpiDefName: lm32_adder
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/verilog/submodule/rtl/lm32_adder.v"
@@ -454608,7 +454624,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: lm32_cpu.interrupts
               vpiActual: IntTypespec
-      vpiTypespec (75 items):
+      vpiTypespec (82 items):
         LogicTypespec:
           vpiParent: Module name:lm32_cpu
           vpiScalar: true
@@ -457831,6 +457847,13 @@ Design name:unnamed:
           vpiVector: true
         BitTypespec:
           vpiParent: Module name:lm32_cpu
+        ModuleTypespec name:lm32_decoder:
+        ModuleTypespec name:lm32_adder:
+        ModuleTypespec name:lm32_logic_op:
+        ModuleTypespec name:lm32_mc_arithmetic:
+        ModuleTypespec name:lm32_interrupt:
+        ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)):
+        ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)):
       vpiDefName: lm32_cpu
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/verilog/submodule/rtl/lm32_cpu.v"
@@ -469253,7 +469276,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:instruction_unit
             vpiName: lm32_instruction_unit
             vpiFullName: lm32_cpu.instruction_unit.lm32_instruction_unit
-            vpiActual: ModuleTypespec name:lm32_instruction_unit
+            vpiActual: ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit))
           vpiArgument (35 items):
             NamedArgument start:847:5 end:847:36:
               vpiParent: RefInstance name:instruction_unit
@@ -470233,7 +470256,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:load_store_unit
             vpiName: lm32_load_store_unit
             vpiFullName: lm32_cpu.load_store_unit.lm32_load_store_unit
-            vpiActual: ModuleTypespec name:lm32_load_store_unit
+            vpiActual: ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit))
           vpiArgument (34 items):
             NamedArgument start:1040:5 end:1040:36:
               vpiParent: RefInstance name:load_store_unit
@@ -496060,7 +496083,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:lm32_top start:56:8 end:56:16:
       vpiFullName: lm32_top
-      vpiTypespec (14 items):
+      vpiTypespec (15 items):
         LogicTypespec:
           vpiParent: Module name:lm32_top
           vpiScalar: true
@@ -496584,6 +496607,7 @@ Design name:unnamed:
                   vpiFullName: lm32_top
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:lm32_cpu:
       vpiDefName: lm32_top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/verilog/submodule/rtl/lm32_top.v"
@@ -497836,7 +497860,7 @@ Design name:unnamed:
             vpiParent: Variable name:tracefd
             vpiFullName: soc.tracefd
             vpiActual: IntegerTypespec
-      vpiTypespec (23 items):
+      vpiTypespec (24 items):
         IntegerTypespec:
           vpiParent: Module name:soc
           vpiSigned: true
@@ -498424,6 +498448,7 @@ Design name:unnamed:
                   vpiFullName: soc
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:lm32_top:
       vpiDefName: soc
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/verilog/submodule/test/tb_lm32_system.v"
@@ -503184,7 +503209,7 @@ Design name:unnamed:
             vpiParent: Variable name:spiflash_1x_miso
             vpiFullName: testbench.spiflash_1x_miso
             vpiActual: LogicTypespec
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiScalar: true
@@ -503344,6 +503369,7 @@ Design name:unnamed:
                   vpiFullName: testbench
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:top:
       vpiDefName: testbench
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/issue_00655/testbench.v"
@@ -504298,7 +504324,7 @@ Design name:unnamed:
                 vpiName: ddram_reset_n
                 vpiFullName: testbench.uut.ddram_reset_n
                 vpiActual: Net name:ddram_reset_n
-  vpiTypespec (30 items):
+  vpiTypespec (33 items):
     ModuleTypespec name:assert_dff:
       vpiParent: Design name:unnamed
       vpiName Identifier name:assert_dff start:1:8 end:1:18:
@@ -504433,6 +504459,133 @@ Design name:unnamed:
       vpiName Identifier name:testbench start:1:8 end:1:17:
       vpiDefName: testbench
       vpiModule: Module name:testbench
+    "ModuleTypespec name:lm32_cpu #(.eba_reset(32'h00000000)) start:9804:1 end:9804:9":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:lm32_cpu #(.eba_reset(32'h00000000))":
+      vpiDefName: lm32_cpu
+      vpiParamAssign (1 items):
+        ParamAssign start:9805:2 end:9805:26:
+          vpiParent: "ModuleTypespec name:lm32_cpu #(.eba_reset(32'h00000000))"
+          vpiConnByName: true
+          vpiLhs RefObj name:eba_reset start:9805:3 end:9805:12:
+            vpiParent: ParamAssign
+            vpiName: eba_reset
+            vpiFullName: "lm32_cpu #(.eba_reset(32'h00000000)).eba_reset"
+            vpiActual: Parameter name:eba_reset
+          vpiRhs Constant start:9805:13 end:9805:25:
+            vpiParent: ParamAssign
+            vpiConstType: hexadecimal (5)
+            vpiSize: 32
+            vpiDecompile: "32'h00000000"
+            vpiValue: "00000000"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "lm32_cpu #(.eba_reset(32'h00000000))"
+              vpiActual: IntTypespec
+      vpiModule: Module name:lm32_cpu
+    ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)) start:838:1 end:838:22:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)):
+      vpiDefName: lm32_instruction_unit
+      vpiParamAssign (4 items):
+        ParamAssign start:839:5 end:839:40:
+          vpiParent: ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:eba_reset start:839:6 end:839:15:
+            vpiParent: ParamAssign
+            vpiName: eba_reset
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).eba_reset
+            vpiActual: Parameter name:eba_reset
+          vpiRhs RefObj name:eba_reset start:839:30 end:839:39:
+            vpiParent: ParamAssign
+            vpiName: eba_reset
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).eba_reset
+            vpiActual: Parameter name:eba_reset
+        ParamAssign start:841:5 end:841:42:
+          vpiParent: ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:sets start:841:6 end:841:10:
+            vpiParent: ParamAssign
+            vpiName: sets
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).sets
+            vpiActual: Parameter name:sets
+          vpiRhs RefObj name:icache_sets start:841:30 end:841:41:
+            vpiParent: ParamAssign
+            vpiName: icache_sets
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).icache_sets
+            vpiActual: Parameter name:icache_sets
+        ParamAssign start:843:5 end:843:50:
+          vpiParent: ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:base_address start:843:6 end:843:18:
+            vpiParent: ParamAssign
+            vpiName: base_address
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).base_address
+            vpiActual: Parameter name:base_address
+          vpiRhs RefObj name:icache_base_address start:843:30 end:843:49:
+            vpiParent: ParamAssign
+            vpiName: icache_base_address
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).icache_base_address
+            vpiActual: Parameter name:icache_base_address
+        ParamAssign start:844:5 end:844:43:
+          vpiParent: ModuleTypespec name:lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:limit start:844:6 end:844:11:
+            vpiParent: ParamAssign
+            vpiName: limit
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).limit
+            vpiActual: Parameter name:limit
+          vpiRhs RefObj name:icache_limit start:844:30 end:844:42:
+            vpiParent: ParamAssign
+            vpiName: icache_limit
+            vpiFullName: lm32_instruction_unit #(.eba_reset(eba_reset), .sets(icache_sets), .base_address(icache_base_address), .limit(icache_limit)).icache_limit
+            vpiActual: Parameter name:icache_limit
+      vpiModule: Module name:lm32_instruction_unit
+    ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)) start:1032:1 end:1032:21:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)):
+      vpiDefName: lm32_load_store_unit
+      vpiParamAssign (3 items):
+        ParamAssign start:1033:5 end:1033:51:
+          vpiParent: ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:associativity start:1033:6 end:1033:19:
+            vpiParent: ParamAssign
+            vpiName: associativity
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).associativity
+            vpiActual: Parameter name:associativity
+          vpiRhs RefObj name:dcache_associativity start:1033:30 end:1033:50:
+            vpiParent: ParamAssign
+            vpiName: dcache_associativity
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).dcache_associativity
+            vpiActual: Parameter name:dcache_associativity
+        ParamAssign start:1035:5 end:1035:52:
+          vpiParent: ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:bytes_per_line start:1035:6 end:1035:20:
+            vpiParent: ParamAssign
+            vpiName: bytes_per_line
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).bytes_per_line
+            vpiActual: Parameter name:bytes_per_line
+          vpiRhs RefObj name:dcache_bytes_per_line start:1035:30 end:1035:51:
+            vpiParent: ParamAssign
+            vpiName: dcache_bytes_per_line
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).dcache_bytes_per_line
+            vpiActual: Parameter name:dcache_bytes_per_line
+        ParamAssign start:1037:5 end:1037:43:
+          vpiParent: ModuleTypespec name:lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit))
+          vpiConnByName: true
+          vpiLhs RefObj name:limit start:1037:6 end:1037:11:
+            vpiParent: ParamAssign
+            vpiName: limit
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).limit
+            vpiActual: Parameter name:limit
+          vpiRhs RefObj name:dcache_limit start:1037:30 end:1037:42:
+            vpiParent: ParamAssign
+            vpiName: dcache_limit
+            vpiFullName: lm32_load_store_unit #(.associativity(dcache_associativity), .bytes_per_line(dcache_bytes_per_line), .limit(dcache_limit)).dcache_limit
+            vpiActual: Parameter name:dcache_limit
+      vpiModule: Module name:lm32_load_store_unit
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -504442,7 +504595,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 119
 [WARNING] : 615
-[   NOTE] : 35
+[   NOTE] : 48
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -504456,14 +504609,14 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_00655_config_minimal/mounts.json
 
 
-{'result': {'coverage': 99.62,
+{'result': {'coverage': 99.66,
             'error_count': 0,
             'file_count': 29,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 812},
                       '$Output/lib/work/issue_00655/testbench.v': {'post_len': 0,
                                                                    'pre_len': 1278},
-                      '$Output/lib/work/issue_00655/top.v': {'post_len': 369,
+                      '$Output/lib/work/issue_00655/top.v': {'post_len': 347,
                                                              'pre_len': 489468},
                       '$Output/lib/work/issue_00655/verilog/config_minimal/lm32_config.v': {'post_len': 0,
                                                                                             'pre_len': 144},
@@ -504475,7 +504628,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_0
                                                                                           'pre_len': 886},
                       '$Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_addsub.v': {'post_len': 14,
                                                                                            'pre_len': 438},
-                      '$Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_cpu.v': {'post_len': 471,
+                      '$Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_cpu.v': {'post_len': 298,
                                                                                         'pre_len': 24155},
                       '$Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_dcache.v': {'post_len': 0,
                                                                                            'pre_len': 0},
@@ -504517,7 +504670,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_0
                                                                                             'pre_len': 0},
                       '$Output/lib/work/issue_00655/verilog/submodule/test/tb_lm32_system.v': {'post_len': 0,
                                                                                                'pre_len': 4910}},
-            'post_len': 2073,
+            'post_len': 1878,
             'pre_len': 550919,
             'test_name': 'YosysTests/regression/issue_00655/issue_00655_config_minimal'}}
 
@@ -504526,12 +504679,12 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_0
 +============================================================================+==========+===========+
 | $Output/lib/work/common.v                                                  |      812 |         0 |
 | $Output/lib/work/issue_00655/verilog/config_minimal/lm32_config.v          |      144 |         0 |
-| $Output/lib/work/issue_00655/top.v                                         |   489468 |       369 |
+| $Output/lib/work/issue_00655/top.v                                         |   489468 |       347 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/jtag_cores.v            |      811 |         0 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/jtag_tap_spartan6.v     |      351 |         0 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_adder.v            |      886 |        51 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_addsub.v           |      438 |        14 |
-| $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_cpu.v              |    24155 |       471 |
+| $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_cpu.v              |    24155 |       298 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_dcache.v           |        0 |         0 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_debug.v            |        0 |         0 |
 | $Output/lib/work/issue_00655/verilog/submodule/rtl/lm32_decoder.v          |     7625 |       482 |
@@ -504554,11 +504707,11 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_0
 | $Output/lib/work/issue_00655/verilog/submodule/test/tb_lm32_system.v       |     4910 |         0 |
 | $Output/lib/work/issue_00655/testbench.v                                   |     1278 |         0 |
 +============================================================================+==========+===========+
-|                                                                            |   550919 |      2073 |
+|                                                                            |   550919 |      1878 |
 +----------------------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.62
+[COVERAGE] : 99.66
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -504568,13 +504721,13 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/regression/issue_00655/issue_00655_con
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                         10552   10375     699       876
+Constant                         10553   10376     699       876
 LogicTypespec                     1257    1258       1         0
 Operation                         3938    2770       0      1168
-RefObj                           14790   14025       0       765
-RefTypespec                      14105   13832     603       876
+RefObj                           14805   14040       0       765
+RefTypespec                      14106   13833     603       876
 ----------------------------------------------------------------
-Others                           23620   23620       0         0
+Others                           23634   23634       0         0
 ----------------------------------------------------------------
-                                 68262   65880    1303      3685
+                                 68293   65911    1303      3685
 ===================== END REDUCTION RESULT =====================

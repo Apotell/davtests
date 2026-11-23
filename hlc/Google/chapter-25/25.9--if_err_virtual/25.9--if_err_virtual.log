@@ -381,6 +381,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/25.9--if_err_virtual.sv:42:1: Compile interface "h_if".
 [INF:CP5804] $Source01/25.9--if_err_virtual.sv:47:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/25.9--if_err_virtual.sv:47:1: Top level module "top".
 [ERR:CP5976] $Source01/25.9--if_err_virtual.sv:52:16: Illegal virtual interface use: u1.
 [ERR:CP5976] $Source01/25.9--if_err_virtual.sv:56:16: Illegal virtual interface use: u2.
 ====== HLDB =======
@@ -396,7 +397,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:25.9--if_err_virtual.sv:
-  vpiAllInterfaces (4 items):
+  vpiAllInterfaces (5 items):
     Interface name:p_if #(.W(8)) file:$Source01/25.9--if_err_virtual.sv start:30:1 end:32:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p_if #(.W(8)) start:30:11 end:30:15:
@@ -606,6 +607,92 @@ Design name:unnamed:
                 vpiFullName: h_if.ext
                 vpiActual: Variable name:ext
             vpiActual: Variable name:ext
+    Interface name:p_if #(.W(16)) file:$Source01/25.9--if_err_virtual.sv start:30:1 end:32:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:p_if #(.W(16)) start:30:11 end:30:15:
+      vpiFullName: p_if #(.W(16))
+      vpiVariable (1 items):
+        Variable name:data start:31:17 end:31:21:
+          vpiParent: Interface name:p_if #(.W(16))
+          vpiName: data
+          vpiFullName: p_if #(.W(16)).data
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:31:3 end:31:16:
+            vpiParent: Variable name:data
+            vpiFullName: p_if #(.W(16)).data
+            vpiActual: LogicTypespec
+      vpiParameter (1 items):
+        Parameter name:W start:30:32 end:30:33:
+          vpiParent: Interface name:p_if #(.W(16))
+          vpiName: W
+          vpiFullName: p_if #(.W(16)).W
+          vpiTypespec RefTypespec start:30:28 end:30:31:
+            vpiParent: Parameter name:W
+            vpiFullName: p_if #(.W(16)).W
+            vpiActual: IntTypespec
+          vpiExpr Constant start:50:10 end:50:12:
+            vpiParent: Parameter name:W
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "16"
+            vpiValue: 16
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: p_if #(.W(16)).W
+              vpiActual: IntTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Interface name:p_if #(.W(16))
+          vpiRange (1 items):
+            Range start:31:9 end:31:16:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:31:10 end:31:13:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:W start:31:10 end:31:11:
+                    vpiParent: Operation
+                    vpiName: W
+                    vpiFullName: p_if #(.W(16)).W
+                    vpiActual: Parameter name:W
+                  Constant start:31:12 end:31:13:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: p_if #(.W(16))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:31:14 end:31:15:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: p_if #(.W(16))
+                  vpiActual: IntTypespec
+          vpiVector: true
+      vpiDefName: p_if
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/25.9--if_err_virtual.sv"
+      vpiDefLineNo: 30
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:30:11 end:30:15:
+        vpiParent: Interface name:p_if #(.W(16))
+        vpiName: work
+        vpiFullName: p_if #(.W(16)).work
+        vpiActual: Library name:work
+      vpiCell: p_if
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Interface name:p_if #(.W(8))
   vpiAllModules (1 items):
     Module name:top file:$Source01/25.9--if_err_virtual.sv start:47:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -877,7 +964,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: p_if #(.W(16))
               vpiActual: IntTypespec
-      vpiInterface: Interface name:p_if #(.W(8))
+      vpiInterface: Interface name:p_if #(.W(16))
     InterfaceTypespec name:p_if #(.W(8)) start:51:11 end:51:20:
       vpiParent: Design name:unnamed
       vpiName Identifier name:p_if #(.W(8)):
@@ -911,7 +998,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 2
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -953,12 +1040,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-25/25.9--if_err_virtual/design.hld
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            20      20       1         1
-Operation                            1       0       0         1
-RefObj                              23      22       0         1
-RefTypespec                        633     633       1         1
+Constant                            23      23       2         2
+Operation                            2       0       0         2
+RefObj                              25      23       0         2
+RefTypespec                        638     638       2         2
 ----------------------------------------------------------------
-Others                            1290    1290       0         0
+Others                            1296    1296       0         0
 ----------------------------------------------------------------
-                                  1967    1965       2         4
+                                  1984    1980       4         8
 ===================== END REDUCTION RESULT =====================

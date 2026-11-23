@@ -99,6 +99,7 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 [INF:CP5804] $Source01/dut.sv:8:1: Compile module "parameter_module".
 [WRN:PA5506] $Source01/dut.sv:8:1: No timescale set for "parameter_module".
+[NTE:EL6904] $Source01/dut.sv:1:1: Top level module "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -112,7 +113,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:dut.sv:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:top file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
@@ -209,6 +210,71 @@ Design name:unnamed:
           vpiParent: Module name:parameter_module
           vpiPortType: port (44)
           vpiDirection: no direction (5)
+    "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\")) file:$Source01/dut.sv start:8:1 end:11:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\")) start:8:8 end:8:24":
+      vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE"))
+      vpiParameter (2 items):
+        Parameter name:FIRSTPARAMETER start:9:11 end:9:25:
+          vpiParent: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
+          vpiName: FIRSTPARAMETER
+          vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).FIRSTPARAMETER
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:FIRSTPARAMETER
+            vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).FIRSTPARAMETER
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:3:33 end:3:48:
+            vpiParent: Parameter name:FIRSTPARAMETER
+            vpiConstType: string (6)
+            vpiSize: 104
+            vpiDecompile: "\"TOPFIRSTVALUE\""
+            vpiValue: TOPFIRSTVALUE
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).FIRSTPARAMETER
+              vpiActual: StringTypespec
+        Parameter name:SECONDPARAMETER start:10:11 end:10:26:
+          vpiParent: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
+          vpiName: SECONDPARAMETER
+          vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).SECONDPARAMETER
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SECONDPARAMETER
+            vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).SECONDPARAMETER
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:4:34 end:4:50:
+            vpiParent: Parameter name:SECONDPARAMETER
+            vpiConstType: string (6)
+            vpiSize: 112
+            vpiDecompile: "\"TOPSECONDVALUE\""
+            vpiValue: TOPSECONDVALUE
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).SECONDPARAMETER
+              vpiActual: StringTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
+          vpiScalar: true
+      vpiDefName: parameter_module
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 8
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:8:8 end:8:24:
+        vpiParent: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
+        vpiName: work
+        vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE")).work
+        vpiActual: Library name:work
+      vpiCell: parameter_module
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:8:25 end:8:27:
+          vpiParent: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:parameter_module
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -263,7 +329,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: parameter_module #(.FIRSTPARAMETER("TOPFIRSTVALUE"), .SECONDPARAMETER("TOPSECONDVALUE"))
               vpiActual: StringTypespec
-      vpiModule: Module name:parameter_module
+      vpiModule: "Module name:parameter_module #(.FIRSTPARAMETER(\"TOPFIRSTVALUE\"), .SECONDPARAMETER(\"TOPSECONDVALUE\"))"
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -273,7 +339,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -316,7 +382,7 @@ COMMAND: ${HLC_DIR}/regression/StringParameter/StringParameter/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    51      51       0         0
 ===================== END REDUCTION RESULT =====================

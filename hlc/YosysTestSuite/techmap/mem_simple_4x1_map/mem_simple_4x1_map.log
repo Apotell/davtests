@@ -1895,6 +1895,7 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/mem_simple_4x1_map.v:81:40: Compile generate block "slice".
 [INF:CP5804] $Source01/mem_simple_4x1_map.v:97:1: Compile module "$__mem_4x1_generator".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/mem_simple_4x1_map.v:2:1: Top level module "$mem".
 [ERR:DL2510] $Source01/mem_simple_4x1_map.v:141:5: Unknown or undefined type "MEM4X1".
 ====== HLDB =======
 Design name:unnamed:
@@ -1909,7 +1910,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:mem_simple_4x1_map.v:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:$mem file:$Source01/mem_simple_4x1_map.v start:2:1 end:95:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:$mem start:2:8 end:2:20:
@@ -3492,6 +3493,8 @@ Design name:unnamed:
                 vpiParent: GenFor
                 vpiName Identifier name:slice start:81:40 end:81:45:
                 vpiFullName: "$mem.slice"
+                vpiTypespec (1 items):
+                  ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)):
                 vpiStmt (1 items):
                   RefInstance name:bit_slice start:85:5 end:85:14:
                     vpiParent: GenBlock name:slice
@@ -3500,7 +3503,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:bit_slice
                       vpiName: "$__mem_4x1_generator"
                       vpiFullName: "$mem.slice.bit_slice.$__mem_4x1_generator"
-                      vpiActual: ModuleTypespec name:$__mem_4x1_generator
+                      vpiActual: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE))
                     vpiArgument (6 items):
                       NamedArgument start:86:4 end:86:16:
                         vpiParent: RefInstance name:bit_slice
@@ -3947,10 +3950,11 @@ Design name:unnamed:
                       vpiParent: Variable name:delayed_abit
                       vpiFullName: "$__mem_4x1_generator.delayed_abit"
                       vpiActual: LogicTypespec
-                vpiTypespec (1 items):
+                vpiTypespec (2 items):
                   LogicTypespec:
                     vpiParent: GenBlock
                     vpiScalar: true
+                  "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))":
                 vpiImplicitDecl: true
                 vpiNet (2 items):
                   Net name:high_rd_data start:109:10 end:109:22:
@@ -4021,6 +4025,8 @@ Design name:unnamed:
                     vpiStmt GenBlock start:110:30 end:122:6:
                       vpiParent: GenIfElse
                       vpiFullName: "$__mem_4x1_generator"
+                      vpiTypespec (1 items):
+                        ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)):
                       vpiImplicitDecl: true
                       vpiStmt (1 items):
                         RefInstance name:part_high start:114:6 end:114:15:
@@ -4030,7 +4036,7 @@ Design name:unnamed:
                             vpiParent: RefInstance name:part_high
                             vpiName: "$__mem_4x1_generator"
                             vpiFullName: "$__mem_4x1_generator.part_high.$__mem_4x1_generator"
-                            vpiActual: ModuleTypespec name:$__mem_4x1_generator
+                            vpiActual: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))
                           vpiArgument (6 items):
                             NamedArgument start:115:5 end:115:14:
                               vpiParent: RefInstance name:part_high
@@ -4249,7 +4255,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:part_low
                       vpiName: "$__mem_4x1_generator"
                       vpiFullName: "$__mem_4x1_generator.part_low.$__mem_4x1_generator"
-                      vpiActual: ModuleTypespec name:$__mem_4x1_generator
+                      vpiActual: "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
                     vpiArgument (6 items):
                       NamedArgument start:129:4 end:129:13:
                         vpiParent: RefInstance name:part_low
@@ -4607,7 +4613,1004 @@ Design name:unnamed:
                           vpiName: WR_EN
                           vpiFullName: "$__mem_4x1_generator._TECHMAP_REPLACE_.WR_EN"
                           vpiActual: Net name:WR_EN
-  vpiTypespec (4 items):
+    Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256)) file:$Source01/mem_simple_4x1_map.v start:97:1 end:151:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256)) start:97:8 end:97:36:
+      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+      vpiParameter (2 items):
+        Parameter name:ABITS start:98:12 end:98:17:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: ABITS
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:ABITS
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:6:20 end:6:21:
+            vpiParent: Parameter name:ABITS
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+              vpiActual: IntTypespec
+        Parameter name:SIZE start:99:12 end:99:16:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: SIZE
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).SIZE"
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SIZE
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).SIZE"
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:4:19 end:4:22:
+            vpiParent: Parameter name:SIZE
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "256"
+            vpiValue: 256
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).SIZE"
+              vpiActual: IntTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiRange (1 items):
+            Range start:102:8 end:102:19:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:102:9 end:102:16:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:ABITS start:102:9 end:102:14:
+                    vpiParent: Operation
+                    vpiName: ABITS
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+                    vpiActual: Parameter name:ABITS
+                  Constant start:102:15 end:102:16:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:102:17 end:102:18:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                  vpiActual: IntTypespec
+          vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiRange (1 items):
+            Range start:105:7 end:105:15:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:105:8 end:105:12:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1023"
+                vpiValue: 1023
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:105:13 end:105:14:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                  vpiActual: IntTypespec
+          vpiVector: true
+      vpiDefName: "$__mem_4x1_generator"
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/mem_simple_4x1_map.v"
+      vpiDefLineNo: 97
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:97:8 end:97:36:
+        vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+        vpiName: work
+        vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).work"
+        vpiActual: Library name:work
+      vpiCell: "$__mem_4x1_generator"
+      vpiNet (7 items):
+        Net name:CLK start:101:8 end:101:11:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: CLK
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).CLK"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:CLK
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).CLK"
+            vpiActual: LogicTypespec
+        Net name:WR_DATA start:101:13 end:101:20:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_DATA
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_DATA"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:WR_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_DATA"
+            vpiActual: LogicTypespec
+        Net name:WR_EN start:101:22 end:101:27:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_EN
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_EN"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:WR_EN
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_EN"
+            vpiActual: LogicTypespec
+        Net name:RD_ADDR start:102:20 end:102:27:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: RD_ADDR
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:102:8 end:102:19:
+            vpiParent: Net name:RD_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR"
+            vpiActual: LogicTypespec
+        Net name:WR_ADDR start:102:29 end:102:36:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_ADDR
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_ADDR"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:102:8 end:102:19:
+            vpiParent: Net name:WR_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_ADDR"
+            vpiActual: LogicTypespec
+        Net name:RD_DATA start:103:9 end:103:16:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: RD_DATA
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_DATA"
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:RD_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_DATA"
+            vpiActual: LogicTypespec
+        Net name:_TECHMAP_DO_ start:105:16 end:105:28:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: "_TECHMAP_DO_"
+          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_DO_"
+          vpiConstantSelect: true
+          vpiNetDeclAssign: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:105:7 end:105:15:
+            vpiParent: Net name:_TECHMAP_DO_
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_DO_"
+            vpiActual: LogicTypespec
+          vpiValue Constant start:105:31 end:105:44:
+            vpiParent: Net name:_TECHMAP_DO_
+            vpiConstType: string (6)
+            vpiSize: 88
+            vpiDecompile: "\"proc; clean\""
+            vpiValue: proc; clean
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_DO_"
+              vpiActual: StringTypespec
+      vpiUnit: Unit
+      vpiPort (6 items):
+        Port name:CLK start:97:37 end:97:40:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: CLK
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:CLK start:101:8 end:101:11:
+            vpiParent: Port name:CLK
+            vpiName: CLK
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).CLK.CLK"
+            vpiActual: Net name:CLK
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:CLK
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).CLK"
+            vpiActual: LogicTypespec
+        Port name:RD_ADDR start:97:42 end:97:49:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: RD_ADDR
+          vpiPortIndex: 1
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:RD_ADDR start:102:20 end:102:27:
+            vpiParent: Port name:RD_ADDR
+            vpiName: RD_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR.RD_ADDR"
+            vpiActual: Net name:RD_ADDR
+          vpiTypespec RefTypespec start:102:8 end:102:19:
+            vpiParent: Port name:RD_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR"
+            vpiActual: LogicTypespec
+        Port name:RD_DATA start:97:51 end:97:58:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: RD_DATA
+          vpiPortIndex: 2
+          vpiPortType: port (44)
+          vpiDirection: output (2)
+          vpiLowConn RefObj name:RD_DATA start:103:9 end:103:16:
+            vpiParent: Port name:RD_DATA
+            vpiName: RD_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_DATA.RD_DATA"
+            vpiActual: Net name:RD_DATA
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:RD_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_DATA"
+            vpiActual: LogicTypespec
+        Port name:WR_ADDR start:97:60 end:97:67:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_ADDR
+          vpiPortIndex: 3
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:WR_ADDR start:102:29 end:102:36:
+            vpiParent: Port name:WR_ADDR
+            vpiName: WR_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_ADDR.WR_ADDR"
+            vpiActual: Net name:WR_ADDR
+          vpiTypespec RefTypespec start:102:8 end:102:19:
+            vpiParent: Port name:WR_ADDR
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_ADDR"
+            vpiActual: LogicTypespec
+        Port name:WR_DATA start:97:69 end:97:76:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_DATA
+          vpiPortIndex: 4
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:WR_DATA start:101:13 end:101:20:
+            vpiParent: Port name:WR_DATA
+            vpiName: WR_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_DATA.WR_DATA"
+            vpiActual: Net name:WR_DATA
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:WR_DATA
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_DATA"
+            vpiActual: LogicTypespec
+        Port name:WR_EN start:97:78 end:97:83:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiName: WR_EN
+          vpiPortIndex: 5
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:WR_EN start:101:22 end:101:27:
+            vpiParent: Port name:WR_EN
+            vpiName: WR_EN
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_EN.WR_EN"
+            vpiActual: Net name:WR_EN
+          vpiTypespec RefTypespec:
+            vpiParent: Port name:WR_EN
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).WR_EN"
+            vpiActual: LogicTypespec
+      vpiGenStmt (1 items):
+        GenRegion start:107:2 end:150:13:
+          vpiParent: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
+          vpiStmt (1 items):
+            GenIfElse start:108:4 end:149:7:
+              vpiParent: GenRegion
+              vpiCondition Operation start:108:8 end:108:17:
+                vpiParent: GenIfElse
+                vpiOpType: greater than (18)
+                vpiOperand (2 items):
+                  RefObj name:ABITS start:108:8 end:108:13:
+                    vpiParent: Operation
+                    vpiName: ABITS
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+                    vpiActual: Parameter name:ABITS
+                  Constant start:108:16 end:108:17:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock start:108:19 end:140:7:
+                vpiParent: GenIfElse
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                vpiVariable (1 items):
+                  Variable name:delayed_abit start:136:7 end:136:19:
+                    vpiParent: GenBlock
+                    vpiName: delayed_abit
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).delayed_abit"
+                    vpiRandType: (1)
+                    vpiVisibility: public (1)
+                    vpiTypespec RefTypespec start:136:3 end:136:6:
+                      vpiParent: Variable name:delayed_abit
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).delayed_abit"
+                      vpiActual: LogicTypespec
+                vpiTypespec (2 items):
+                  LogicTypespec:
+                    vpiParent: GenBlock
+                    vpiScalar: true
+                  "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))":
+                vpiImplicitDecl: true
+                vpiNet (2 items):
+                  Net name:high_rd_data start:109:10 end:109:22:
+                    vpiParent: GenBlock
+                    vpiName: high_rd_data
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).high_rd_data"
+                    vpiConstantSelect: true
+                    vpiNetType: wire (1)
+                    vpiTypespec RefTypespec:
+                      vpiParent: Net name:high_rd_data
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).high_rd_data"
+                      vpiActual: LogicTypespec
+                  Net name:low_rd_data start:109:24 end:109:35:
+                    vpiParent: GenBlock
+                    vpiName: low_rd_data
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).low_rd_data"
+                    vpiConstantSelect: true
+                    vpiNetType: wire (1)
+                    vpiTypespec RefTypespec:
+                      vpiParent: Net name:low_rd_data
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).low_rd_data"
+                      vpiActual: LogicTypespec
+                vpiStmt (4 items):
+                  GenIfElse start:110:5 end:124:6:
+                    vpiParent: GenBlock
+                    vpiCondition Operation start:110:9 end:110:28:
+                      vpiParent: GenIfElse
+                      vpiOpType: greater than (18)
+                      vpiOperand (2 items):
+                        RefObj name:SIZE start:110:9 end:110:13:
+                          vpiParent: Operation
+                          vpiName: SIZE
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).SIZE"
+                          vpiActual: Parameter name:SIZE
+                        Operation start:110:16 end:110:28:
+                          vpiParent: Operation
+                          vpiOpType: arith power (43)
+                          vpiOperand (2 items):
+                            Constant start:110:16 end:110:17:
+                              vpiParent: Operation
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "2"
+                              vpiValue: 2
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                                vpiActual: IntTypespec
+                            Operation start:110:20 end:110:27:
+                              vpiParent: Operation
+                              vpiOpType: subtract (11)
+                              vpiOperand (2 items):
+                                RefObj name:ABITS start:110:20 end:110:25:
+                                  vpiParent: Operation
+                                  vpiName: ABITS
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).ABITS"
+                                  vpiActual: Parameter name:ABITS
+                                Constant start:110:26 end:110:27:
+                                  vpiParent: Operation
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "1"
+                                  vpiValue: 1
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                                    vpiActual: IntTypespec
+                    vpiStmt GenBlock start:110:30 end:122:6:
+                      vpiParent: GenIfElse
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                      vpiTypespec (1 items):
+                        ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)):
+                      vpiImplicitDecl: true
+                      vpiStmt (1 items):
+                        RefInstance name:part_high start:114:6 end:114:15:
+                          vpiParent: GenBlock
+                          vpiName: part_high
+                          vpiTypespec RefTypespec name:$__mem_4x1_generator start:111:4 end:111:32:
+                            vpiParent: RefInstance name:part_high
+                            vpiName: "$__mem_4x1_generator"
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.$__mem_4x1_generator"
+                            vpiActual: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))
+                          vpiArgument (6 items):
+                            NamedArgument start:115:5 end:115:14:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:CLK start:115:6 end:115:9:
+                                vpiParent: NamedArgument
+                                vpiName: CLK
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.CLK"
+                                vpiActual: Port name:CLK
+                              vpiHighConn RefObj name:CLK start:115:10 end:115:13:
+                                vpiParent: NamedArgument
+                                vpiName: CLK
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.CLK"
+                                vpiActual: Net name:CLK
+                            NamedArgument start:116:5 end:116:33:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:RD_ADDR start:116:6 end:116:13:
+                                vpiParent: NamedArgument
+                                vpiName: RD_ADDR
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR"
+                                vpiActual: Port name:RD_ADDR
+                              vpiHighConn PartSelect name:RD_ADDR[ABITS-2:0] start:116:14 end:116:32:
+                                vpiParent: NamedArgument
+                                vpiName: RD_ADDR[ABITS-2:0]
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR[ABITS-2:0]"
+                                vpiConstantSelect: true
+                                vpiPrefix RefObj name:RD_ADDR start:116:14 end:116:21:
+                                  vpiParent: PartSelect name:RD_ADDR[ABITS-2:0]
+                                  vpiName: RD_ADDR
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR[ABITS-2:0].RD_ADDR"
+                                  vpiActual: Net name:RD_ADDR
+                                vpiRange Range start:116:22 end:116:31:
+                                  vpiParent: PartSelect name:RD_ADDR[ABITS-2:0]
+                                  vpiLeftRange Operation start:116:22 end:116:29:
+                                    vpiParent: Range
+                                    vpiOpType: subtract (11)
+                                    vpiOperand (2 items):
+                                      RefObj name:ABITS start:116:22 end:116:27:
+                                        vpiParent: Operation
+                                        vpiName: ABITS
+                                        vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR[ABITS-2:0].ABITS"
+                                        vpiActual: Parameter name:ABITS
+                                      Constant start:116:28 end:116:29:
+                                        vpiParent: Operation
+                                        vpiConstType: int (7)
+                                        vpiSize: 32
+                                        vpiDecompile: "2"
+                                        vpiValue: 2
+                                        vpiTypespec RefTypespec:
+                                          vpiParent: Constant
+                                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR[ABITS-2:0]"
+                                          vpiActual: IntTypespec
+                                  vpiRightRange Constant start:116:30 end:116:31:
+                                    vpiParent: Range
+                                    vpiConstType: int (7)
+                                    vpiSize: 32
+                                    vpiDecompile: "0"
+                                    vpiValue: 0
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_ADDR[ABITS-2:0]"
+                                      vpiActual: IntTypespec
+                            NamedArgument start:117:5 end:117:27:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:RD_DATA start:117:6 end:117:13:
+                                vpiParent: NamedArgument
+                                vpiName: RD_DATA
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.RD_DATA"
+                                vpiActual: Port name:RD_DATA
+                              vpiHighConn RefObj name:high_rd_data start:117:14 end:117:26:
+                                vpiParent: NamedArgument
+                                vpiName: high_rd_data
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.high_rd_data"
+                                vpiActual: Net name:high_rd_data
+                            NamedArgument start:118:5 end:118:33:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:WR_ADDR start:118:6 end:118:13:
+                                vpiParent: NamedArgument
+                                vpiName: WR_ADDR
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR"
+                                vpiActual: Port name:WR_ADDR
+                              vpiHighConn PartSelect name:WR_ADDR[ABITS-2:0] start:118:14 end:118:32:
+                                vpiParent: NamedArgument
+                                vpiName: WR_ADDR[ABITS-2:0]
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS-2:0]"
+                                vpiConstantSelect: true
+                                vpiPrefix RefObj name:WR_ADDR start:118:14 end:118:21:
+                                  vpiParent: PartSelect name:WR_ADDR[ABITS-2:0]
+                                  vpiName: WR_ADDR
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS-2:0].WR_ADDR"
+                                  vpiActual: Net name:WR_ADDR
+                                vpiRange Range start:118:22 end:118:31:
+                                  vpiParent: PartSelect name:WR_ADDR[ABITS-2:0]
+                                  vpiLeftRange Operation start:118:22 end:118:29:
+                                    vpiParent: Range
+                                    vpiOpType: subtract (11)
+                                    vpiOperand (2 items):
+                                      RefObj name:ABITS start:118:22 end:118:27:
+                                        vpiParent: Operation
+                                        vpiName: ABITS
+                                        vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS-2:0].ABITS"
+                                        vpiActual: Parameter name:ABITS
+                                      Constant start:118:28 end:118:29:
+                                        vpiParent: Operation
+                                        vpiConstType: int (7)
+                                        vpiSize: 32
+                                        vpiDecompile: "2"
+                                        vpiValue: 2
+                                        vpiTypespec RefTypespec:
+                                          vpiParent: Constant
+                                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS-2:0]"
+                                          vpiActual: IntTypespec
+                                  vpiRightRange Constant start:118:30 end:118:31:
+                                    vpiParent: Range
+                                    vpiConstType: int (7)
+                                    vpiSize: 32
+                                    vpiDecompile: "0"
+                                    vpiValue: 0
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS-2:0]"
+                                      vpiActual: IntTypespec
+                            NamedArgument start:119:5 end:119:22:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:WR_DATA start:119:6 end:119:13:
+                                vpiParent: NamedArgument
+                                vpiName: WR_DATA
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_DATA"
+                                vpiActual: Port name:WR_DATA
+                              vpiHighConn RefObj name:WR_DATA start:119:14 end:119:21:
+                                vpiParent: NamedArgument
+                                vpiName: WR_DATA
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_DATA"
+                                vpiActual: Net name:WR_DATA
+                            NamedArgument start:120:5 end:120:38:
+                              vpiParent: RefInstance name:part_high
+                              vpiConnByName: true
+                              vpiLowConn RefObj name:WR_EN start:120:6 end:120:11:
+                                vpiParent: NamedArgument
+                                vpiName: WR_EN
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_EN"
+                                vpiActual: Port name:WR_EN
+                              vpiHighConn Operation start:120:12 end:120:37:
+                                vpiParent: NamedArgument
+                                vpiOpType: logical and (26)
+                                vpiOperand (2 items):
+                                  RefObj name:WR_EN start:120:12 end:120:17:
+                                    vpiParent: Operation
+                                    vpiName: WR_EN
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_EN"
+                                    vpiActual: Net name:WR_EN
+                                  BitSelect name:WR_ADDR[ABITS - 1] start:120:21 end:120:37:
+                                    vpiParent: Operation
+                                    vpiName: WR_ADDR[ABITS - 1]
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS - 1]"
+                                    vpiConstantSelect: true
+                                    vpiPrefix RefObj name:WR_ADDR start:120:21 end:120:28:
+                                      vpiParent: BitSelect name:WR_ADDR[ABITS - 1]
+                                      vpiName: WR_ADDR
+                                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR"
+                                      vpiActual: Net name:WR_ADDR
+                                    vpiIndex Operation start:120:29 end:120:36:
+                                      vpiParent: BitSelect name:WR_ADDR[ABITS - 1]
+                                      vpiOpType: subtract (11)
+                                      vpiOperand (2 items):
+                                        RefObj name:ABITS start:120:29 end:120:34:
+                                          vpiParent: Operation
+                                          vpiName: ABITS
+                                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS - 1].ABITS"
+                                          vpiActual: Parameter name:ABITS
+                                        Constant start:120:35 end:120:36:
+                                          vpiParent: Operation
+                                          vpiConstType: int (7)
+                                          vpiSize: 32
+                                          vpiDecompile: "1"
+                                          vpiValue: 1
+                                          vpiTypespec RefTypespec:
+                                            vpiParent: Constant
+                                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_high.WR_ADDR[ABITS - 1]"
+                                            vpiActual: IntTypespec
+                    vpiElseStmt GenBlock start:122:12 end:124:6:
+                      vpiParent: GenIfElse
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                      vpiTypespec (1 items):
+                        BitTypespec:
+                          vpiParent: GenBlock
+                      vpiImplicitDecl: true
+                      vpiStmt (1 items):
+                        ContAssign start:123:11 end:123:30:
+                          vpiParent: GenBlock
+                          vpiStrength0: strong (64)
+                          vpiStrength1: strong (64)
+                          vpiLhs RefObj name:high_rd_data start:123:11 end:123:23:
+                            vpiParent: ContAssign
+                            vpiName: high_rd_data
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).high_rd_data"
+                            vpiActual: Net name:high_rd_data
+                          vpiRhs Constant start:123:26 end:123:30:
+                            vpiParent: ContAssign
+                            vpiConstType: binary (3)
+                            vpiSize: 1
+                            vpiDecompile: "1'bx"
+                            vpiValue: x
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                              vpiActual: BitTypespec
+                  RefInstance name:part_low start:128:5 end:128:13:
+                    vpiParent: GenBlock
+                    vpiName: part_low
+                    vpiTypespec RefTypespec name:$__mem_4x1_generator start:125:3 end:125:31:
+                      vpiParent: RefInstance name:part_low
+                      vpiName: "$__mem_4x1_generator"
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.$__mem_4x1_generator"
+                      vpiActual: "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                    vpiArgument (6 items):
+                      NamedArgument start:129:4 end:129:13:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:CLK start:129:5 end:129:8:
+                          vpiParent: NamedArgument
+                          vpiName: CLK
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.CLK"
+                          vpiActual: Port name:CLK
+                        vpiHighConn RefObj name:CLK start:129:9 end:129:12:
+                          vpiParent: NamedArgument
+                          vpiName: CLK
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.CLK"
+                          vpiActual: Net name:CLK
+                      NamedArgument start:130:4 end:130:32:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:RD_ADDR start:130:5 end:130:12:
+                          vpiParent: NamedArgument
+                          vpiName: RD_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR"
+                          vpiActual: Port name:RD_ADDR
+                        vpiHighConn PartSelect name:RD_ADDR[ABITS-2:0] start:130:13 end:130:31:
+                          vpiParent: NamedArgument
+                          vpiName: RD_ADDR[ABITS-2:0]
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR[ABITS-2:0]"
+                          vpiConstantSelect: true
+                          vpiPrefix RefObj name:RD_ADDR start:130:13 end:130:20:
+                            vpiParent: PartSelect name:RD_ADDR[ABITS-2:0]
+                            vpiName: RD_ADDR
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR[ABITS-2:0].RD_ADDR"
+                            vpiActual: Net name:RD_ADDR
+                          vpiRange Range start:130:21 end:130:30:
+                            vpiParent: PartSelect name:RD_ADDR[ABITS-2:0]
+                            vpiLeftRange Operation start:130:21 end:130:28:
+                              vpiParent: Range
+                              vpiOpType: subtract (11)
+                              vpiOperand (2 items):
+                                RefObj name:ABITS start:130:21 end:130:26:
+                                  vpiParent: Operation
+                                  vpiName: ABITS
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR[ABITS-2:0].ABITS"
+                                  vpiActual: Parameter name:ABITS
+                                Constant start:130:27 end:130:28:
+                                  vpiParent: Operation
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "2"
+                                  vpiValue: 2
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR[ABITS-2:0]"
+                                    vpiActual: IntTypespec
+                            vpiRightRange Constant start:130:29 end:130:30:
+                              vpiParent: Range
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "0"
+                              vpiValue: 0
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_ADDR[ABITS-2:0]"
+                                vpiActual: IntTypespec
+                      NamedArgument start:131:4 end:131:25:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:RD_DATA start:131:5 end:131:12:
+                          vpiParent: NamedArgument
+                          vpiName: RD_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.RD_DATA"
+                          vpiActual: Port name:RD_DATA
+                        vpiHighConn RefObj name:low_rd_data start:131:13 end:131:24:
+                          vpiParent: NamedArgument
+                          vpiName: low_rd_data
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.low_rd_data"
+                          vpiActual: Net name:low_rd_data
+                      NamedArgument start:132:4 end:132:32:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_ADDR start:132:5 end:132:12:
+                          vpiParent: NamedArgument
+                          vpiName: WR_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR"
+                          vpiActual: Port name:WR_ADDR
+                        vpiHighConn PartSelect name:WR_ADDR[ABITS-2:0] start:132:13 end:132:31:
+                          vpiParent: NamedArgument
+                          vpiName: WR_ADDR[ABITS-2:0]
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS-2:0]"
+                          vpiConstantSelect: true
+                          vpiPrefix RefObj name:WR_ADDR start:132:13 end:132:20:
+                            vpiParent: PartSelect name:WR_ADDR[ABITS-2:0]
+                            vpiName: WR_ADDR
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS-2:0].WR_ADDR"
+                            vpiActual: Net name:WR_ADDR
+                          vpiRange Range start:132:21 end:132:30:
+                            vpiParent: PartSelect name:WR_ADDR[ABITS-2:0]
+                            vpiLeftRange Operation start:132:21 end:132:28:
+                              vpiParent: Range
+                              vpiOpType: subtract (11)
+                              vpiOperand (2 items):
+                                RefObj name:ABITS start:132:21 end:132:26:
+                                  vpiParent: Operation
+                                  vpiName: ABITS
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS-2:0].ABITS"
+                                  vpiActual: Parameter name:ABITS
+                                Constant start:132:27 end:132:28:
+                                  vpiParent: Operation
+                                  vpiConstType: int (7)
+                                  vpiSize: 32
+                                  vpiDecompile: "2"
+                                  vpiValue: 2
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS-2:0]"
+                                    vpiActual: IntTypespec
+                            vpiRightRange Constant start:132:29 end:132:30:
+                              vpiParent: Range
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "0"
+                              vpiValue: 0
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS-2:0]"
+                                vpiActual: IntTypespec
+                      NamedArgument start:133:4 end:133:21:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_DATA start:133:5 end:133:12:
+                          vpiParent: NamedArgument
+                          vpiName: WR_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_DATA"
+                          vpiActual: Port name:WR_DATA
+                        vpiHighConn RefObj name:WR_DATA start:133:13 end:133:20:
+                          vpiParent: NamedArgument
+                          vpiName: WR_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_DATA"
+                          vpiActual: Net name:WR_DATA
+                      NamedArgument start:134:4 end:134:38:
+                        vpiParent: RefInstance name:part_low
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_EN start:134:5 end:134:10:
+                          vpiParent: NamedArgument
+                          vpiName: WR_EN
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_EN"
+                          vpiActual: Port name:WR_EN
+                        vpiHighConn Operation start:134:11 end:134:37:
+                          vpiParent: NamedArgument
+                          vpiOpType: logical and (26)
+                          vpiOperand (2 items):
+                            RefObj name:WR_EN start:134:11 end:134:16:
+                              vpiParent: Operation
+                              vpiName: WR_EN
+                              vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_EN"
+                              vpiActual: Net name:WR_EN
+                            Operation start:134:20 end:134:37:
+                              vpiParent: Operation
+                              vpiOpType: not (3)
+                              vpiOperand (1 items):
+                                BitSelect name:WR_ADDR[ABITS - 1] start:134:21 end:134:37:
+                                  vpiParent: Operation
+                                  vpiName: WR_ADDR[ABITS - 1]
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS - 1]"
+                                  vpiConstantSelect: true
+                                  vpiPrefix RefObj name:WR_ADDR start:134:21 end:134:28:
+                                    vpiParent: BitSelect name:WR_ADDR[ABITS - 1]
+                                    vpiName: WR_ADDR
+                                    vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR"
+                                    vpiActual: Net name:WR_ADDR
+                                  vpiIndex Operation start:134:29 end:134:36:
+                                    vpiParent: BitSelect name:WR_ADDR[ABITS - 1]
+                                    vpiOpType: subtract (11)
+                                    vpiOperand (2 items):
+                                      RefObj name:ABITS start:134:29 end:134:34:
+                                        vpiParent: Operation
+                                        vpiName: ABITS
+                                        vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS - 1].ABITS"
+                                        vpiActual: Parameter name:ABITS
+                                      Constant start:134:35 end:134:36:
+                                        vpiParent: Operation
+                                        vpiConstType: int (7)
+                                        vpiSize: 32
+                                        vpiDecompile: "1"
+                                        vpiValue: 1
+                                        vpiTypespec RefTypespec:
+                                          vpiParent: Constant
+                                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).part_low.WR_ADDR[ABITS - 1]"
+                                          vpiActual: IntTypespec
+                  Always start:137:3 end:138:37:
+                    vpiParent: GenBlock
+                    vpiStmt EventControl start:137:10 end:138:37:
+                      vpiParent: Always
+                      vpiCondition Operation start:137:12 end:137:23:
+                        vpiParent: EventControl
+                        vpiOpType: posedge (39)
+                        vpiOperand (1 items):
+                          RefObj name:CLK start:137:20 end:137:23:
+                            vpiParent: Operation
+                            vpiName: CLK
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).CLK"
+                            vpiActual: Net name:CLK
+                      vpiStmt Assignment start:138:4 end:138:36:
+                        vpiParent: EventControl
+                        vpiOpType: assignment (96)
+                        vpiLhs RefObj name:delayed_abit start:138:4 end:138:16:
+                          vpiParent: Assignment
+                          vpiName: delayed_abit
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).delayed_abit"
+                          vpiActual: Variable name:delayed_abit
+                        vpiRhs BitSelect name:RD_ADDR[ABITS - 1] start:138:20 end:138:36:
+                          vpiParent: Assignment
+                          vpiName: RD_ADDR[ABITS - 1]
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR[ABITS - 1]"
+                          vpiConstantSelect: true
+                          vpiPrefix RefObj name:RD_ADDR start:138:20 end:138:27:
+                            vpiParent: BitSelect name:RD_ADDR[ABITS - 1]
+                            vpiName: RD_ADDR
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR"
+                            vpiActual: Net name:RD_ADDR
+                          vpiIndex Operation start:138:28 end:138:35:
+                            vpiParent: BitSelect name:RD_ADDR[ABITS - 1]
+                            vpiOpType: subtract (11)
+                            vpiOperand (2 items):
+                              RefObj name:ABITS start:138:28 end:138:33:
+                                vpiParent: Operation
+                                vpiName: ABITS
+                                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR[ABITS - 1].ABITS"
+                                vpiActual: Parameter name:ABITS
+                              Constant start:138:34 end:138:35:
+                                vpiParent: Operation
+                                vpiConstType: int (7)
+                                vpiSize: 32
+                                vpiDecompile: "1"
+                                vpiValue: 1
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_ADDR[ABITS - 1]"
+                                  vpiActual: IntTypespec
+                    vpiAlwaysType: always (1)
+                  ContAssign start:139:10 end:139:61:
+                    vpiParent: GenBlock
+                    vpiStrength0: strong (64)
+                    vpiStrength1: strong (64)
+                    vpiLhs RefObj name:RD_DATA start:139:10 end:139:17:
+                      vpiParent: ContAssign
+                      vpiName: RD_DATA
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).RD_DATA"
+                      vpiActual: Net name:RD_DATA
+                    vpiRhs Operation start:139:20 end:139:61:
+                      vpiParent: ContAssign
+                      vpiOpType: condition (32)
+                      vpiOperand (3 items):
+                        RefObj name:delayed_abit start:139:20 end:139:32:
+                          vpiParent: Operation
+                          vpiName: delayed_abit
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).delayed_abit"
+                          vpiActual: Variable name:delayed_abit
+                        RefObj name:high_rd_data start:139:35 end:139:47:
+                          vpiParent: Operation
+                          vpiName: high_rd_data
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).high_rd_data"
+                          vpiActual: Net name:high_rd_data
+                        RefObj name:low_rd_data start:139:50 end:139:61:
+                          vpiParent: Operation
+                          vpiName: low_rd_data
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256)).low_rd_data"
+                          vpiActual: Net name:low_rd_data
+              vpiElseStmt GenBlock start:140:13 end:149:7:
+                vpiParent: GenIfElse
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))"
+                vpiTypespec (1 items):
+                  UnsupportedTypespec name:MEM4X1 start:141:5 end:141:11:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:MEM4X1 start:141:5 end:141:11:
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  RefInstance name:_TECHMAP_REPLACE_ start:141:12 end:141:29:
+                    vpiParent: GenBlock
+                    vpiName: "_TECHMAP_REPLACE_"
+                    vpiTypespec RefTypespec name:MEM4X1 start:141:5 end:141:11:
+                      vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                      vpiName: MEM4X1
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.MEM4X1"
+                      vpiActual: UnsupportedTypespec name:MEM4X1
+                    vpiArgument (6 items):
+                      NamedArgument start:142:4 end:142:13:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:CLK start:142:5 end:142:8:
+                          vpiParent: NamedArgument
+                          vpiName: CLK
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.CLK"
+                        vpiHighConn RefObj name:CLK start:142:9 end:142:12:
+                          vpiParent: NamedArgument
+                          vpiName: CLK
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.CLK"
+                          vpiActual: Net name:CLK
+                      NamedArgument start:143:4 end:143:21:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:RD_ADDR start:143:5 end:143:12:
+                          vpiParent: NamedArgument
+                          vpiName: RD_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.RD_ADDR"
+                        vpiHighConn RefObj name:RD_ADDR start:143:13 end:143:20:
+                          vpiParent: NamedArgument
+                          vpiName: RD_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.RD_ADDR"
+                          vpiActual: Net name:RD_ADDR
+                      NamedArgument start:144:4 end:144:21:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:RD_DATA start:144:5 end:144:12:
+                          vpiParent: NamedArgument
+                          vpiName: RD_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.RD_DATA"
+                        vpiHighConn RefObj name:RD_DATA start:144:13 end:144:20:
+                          vpiParent: NamedArgument
+                          vpiName: RD_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.RD_DATA"
+                          vpiActual: Net name:RD_DATA
+                      NamedArgument start:145:4 end:145:21:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_ADDR start:145:5 end:145:12:
+                          vpiParent: NamedArgument
+                          vpiName: WR_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_ADDR"
+                        vpiHighConn RefObj name:WR_ADDR start:145:13 end:145:20:
+                          vpiParent: NamedArgument
+                          vpiName: WR_ADDR
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_ADDR"
+                          vpiActual: Net name:WR_ADDR
+                      NamedArgument start:146:4 end:146:21:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_DATA start:146:5 end:146:12:
+                          vpiParent: NamedArgument
+                          vpiName: WR_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_DATA"
+                        vpiHighConn RefObj name:WR_DATA start:146:13 end:146:20:
+                          vpiParent: NamedArgument
+                          vpiName: WR_DATA
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_DATA"
+                          vpiActual: Net name:WR_DATA
+                      NamedArgument start:147:4 end:147:17:
+                        vpiParent: RefInstance name:_TECHMAP_REPLACE_
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:WR_EN start:147:5 end:147:10:
+                          vpiParent: NamedArgument
+                          vpiName: WR_EN
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_EN"
+                        vpiHighConn RefObj name:WR_EN start:147:11 end:147:16:
+                          vpiParent: NamedArgument
+                          vpiName: WR_EN
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(8), .SIZE(256))._TECHMAP_REPLACE_.WR_EN"
+                          vpiActual: Net name:WR_EN
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:$__mem_4x1_generator
+  vpiTypespec (7 items):
     ModuleTypespec name:$mem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:$mem start:2:8 end:2:20:
@@ -4623,6 +5626,246 @@ Design name:unnamed:
       vpiName Identifier name:$__mem_4x1_generator start:97:8 end:97:36:
       vpiDefName: "$__mem_4x1_generator"
       vpiModule: Module name:$__mem_4x1_generator
+    ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)) start:111:4 end:111:32:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)):
+      vpiDefName: "$__mem_4x1_generator"
+      vpiParamAssign (2 items):
+        ParamAssign start:112:5 end:112:20:
+          vpiParent: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))
+          vpiConnByName: true
+          vpiLhs RefObj name:ABITS start:112:6 end:112:11:
+            vpiParent: ParamAssign
+            vpiName: ABITS
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)).ABITS"
+            vpiActual: Parameter name:ABITS
+          vpiRhs Operation start:112:12 end:112:19:
+            vpiParent: ParamAssign
+            vpiOpType: subtract (11)
+            vpiOperand (2 items):
+              RefObj name:ABITS start:112:12 end:112:17:
+                vpiParent: Operation
+                vpiName: ABITS
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)).ABITS"
+                vpiActual: Parameter name:ABITS
+              Constant start:112:18 end:112:19:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))"
+                  vpiActual: IntTypespec
+        ParamAssign start:113:5 end:113:31:
+          vpiParent: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))
+          vpiConnByName: true
+          vpiLhs RefObj name:SIZE start:113:6 end:113:10:
+            vpiParent: ParamAssign
+            vpiName: SIZE
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)).SIZE"
+            vpiActual: Parameter name:SIZE
+          vpiRhs Operation start:113:11 end:113:30:
+            vpiParent: ParamAssign
+            vpiOpType: subtract (11)
+            vpiOperand (2 items):
+              RefObj name:SIZE start:113:11 end:113:15:
+                vpiParent: Operation
+                vpiName: SIZE
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)).SIZE"
+                vpiActual: Parameter name:SIZE
+              Operation start:113:18 end:113:30:
+                vpiParent: Operation
+                vpiOpType: arith power (43)
+                vpiOperand (2 items):
+                  Constant start:113:18 end:113:19:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))"
+                      vpiActual: IntTypespec
+                  Operation start:113:22 end:113:29:
+                    vpiParent: Operation
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:ABITS start:113:22 end:113:27:
+                        vpiParent: Operation
+                        vpiName: ABITS
+                        vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1)).ABITS"
+                        vpiActual: Parameter name:ABITS
+                      Constant start:113:28 end:113:29:
+                        vpiParent: Operation
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE - 2 ** ABITS - 1))"
+                          vpiActual: IntTypespec
+      vpiModule: Module name:$__mem_4x1_generator
+    "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)) start:125:3 end:125:31":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))":
+      vpiDefName: "$__mem_4x1_generator"
+      vpiParamAssign (2 items):
+        ParamAssign start:126:4 end:126:19:
+          vpiParent: "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+          vpiConnByName: true
+          vpiLhs RefObj name:ABITS start:126:5 end:126:10:
+            vpiParent: ParamAssign
+            vpiName: ABITS
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).ABITS"
+            vpiActual: Parameter name:ABITS
+          vpiRhs Operation start:126:11 end:126:18:
+            vpiParent: ParamAssign
+            vpiOpType: subtract (11)
+            vpiOperand (2 items):
+              RefObj name:ABITS start:126:11 end:126:16:
+                vpiParent: Operation
+                vpiName: ABITS
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).ABITS"
+                vpiActual: Parameter name:ABITS
+              Constant start:126:17 end:126:18:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                  vpiActual: IntTypespec
+        ParamAssign start:127:4 end:127:52:
+          vpiParent: "ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+          vpiConnByName: true
+          vpiLhs RefObj name:SIZE start:127:5 end:127:9:
+            vpiParent: ParamAssign
+            vpiName: SIZE
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).SIZE"
+            vpiActual: Parameter name:SIZE
+          vpiRhs Operation start:127:10 end:127:51:
+            vpiParent: ParamAssign
+            vpiOpType: condition (32)
+            vpiOperand (3 items):
+              Operation start:127:10 end:127:29:
+                vpiParent: Operation
+                vpiOpType: greater than (18)
+                vpiOperand (2 items):
+                  RefObj name:SIZE start:127:10 end:127:14:
+                    vpiParent: Operation
+                    vpiName: SIZE
+                    vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).SIZE"
+                    vpiActual: Parameter name:SIZE
+                  Operation start:127:17 end:127:29:
+                    vpiParent: Operation
+                    vpiOpType: arith power (43)
+                    vpiOperand (2 items):
+                      Constant start:127:17 end:127:18:
+                        vpiParent: Operation
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "2"
+                        vpiValue: 2
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                          vpiActual: IntTypespec
+                      Operation start:127:21 end:127:28:
+                        vpiParent: Operation
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:ABITS start:127:21 end:127:26:
+                            vpiParent: Operation
+                            vpiName: ABITS
+                            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).ABITS"
+                            vpiActual: Parameter name:ABITS
+                          Constant start:127:27 end:127:28:
+                            vpiParent: Operation
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                              vpiActual: IntTypespec
+              Operation start:127:32 end:127:44:
+                vpiParent: Operation
+                vpiOpType: arith power (43)
+                vpiOperand (2 items):
+                  Constant start:127:32 end:127:33:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                      vpiActual: IntTypespec
+                  Operation start:127:36 end:127:43:
+                    vpiParent: Operation
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:ABITS start:127:36 end:127:41:
+                        vpiParent: Operation
+                        vpiName: ABITS
+                        vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).ABITS"
+                        vpiActual: Parameter name:ABITS
+                      Constant start:127:42 end:127:43:
+                        vpiParent: Operation
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE))"
+                          vpiActual: IntTypespec
+              RefObj name:SIZE start:127:47 end:127:51:
+                vpiParent: Operation
+                vpiName: SIZE
+                vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS - 1), .SIZE(SIZE > 2 ** ABITS - 1 ? 2 ** ABITS - 1 : SIZE)).SIZE"
+                vpiActual: Parameter name:SIZE
+      vpiModule: Module name:$__mem_4x1_generator
+    ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)) start:82:3 end:82:31:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)):
+      vpiDefName: "$__mem_4x1_generator"
+      vpiParamAssign (2 items):
+        ParamAssign start:83:4 end:83:17:
+          vpiParent: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE))
+          vpiConnByName: true
+          vpiLhs RefObj name:ABITS start:83:5 end:83:10:
+            vpiParent: ParamAssign
+            vpiName: ABITS
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)).ABITS"
+            vpiActual: Parameter name:ABITS
+          vpiRhs RefObj name:ABITS start:83:11 end:83:16:
+            vpiParent: ParamAssign
+            vpiName: ABITS
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)).ABITS"
+            vpiActual: Parameter name:ABITS
+        ParamAssign start:84:4 end:84:15:
+          vpiParent: ModuleTypespec name:$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE))
+          vpiConnByName: true
+          vpiLhs RefObj name:SIZE start:84:5 end:84:9:
+            vpiParent: ParamAssign
+            vpiName: SIZE
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)).SIZE"
+            vpiActual: Parameter name:SIZE
+          vpiRhs RefObj name:SIZE start:84:10 end:84:14:
+            vpiParent: ParamAssign
+            vpiName: SIZE
+            vpiFullName: "$__mem_4x1_generator #(.ABITS(ABITS), .SIZE(SIZE)).SIZE"
+            vpiActual: Parameter name:SIZE
+      vpiModule: Module name:$__mem_4x1_generator #(.ABITS(8), .SIZE(256))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -4632,7 +5875,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -4646,25 +5889,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTestSuite/techmap/mem_simple_4x1_map/mounts.json
 
 
-{'result': {'coverage': 96.68,
+{'result': {'coverage': 99.97,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/mem_simple_4x1_map.v': {'post_len': 100,
+            'files': {'$Output/lib/work/mem_simple_4x1_map.v': {'post_len': 1,
                                                                 'pre_len': 3010}},
-            'post_len': 100,
+            'post_len': 1,
             'pre_len': 3010,
             'test_name': 'YosysTestSuite/techmap/mem_simple_4x1_map'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/mem_simple_4x1_map.v |     3010 |       100 |
+| $Output/lib/work/mem_simple_4x1_map.v |     3010 |         1 |
 +=======================================+==========+===========+
-|                                       |     3010 |       100 |
+|                                       |     3010 |         1 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.68
+[COVERAGE] : 99.97
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -4674,14 +5917,14 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/techmap/mem_simple_4x1_map/design.
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-BitTypespec                          3       4       1         0
-Constant                            82      82      25        25
-LogicTypespec                       15      17       2         0
-Operation                           55      12       0        43
-RefObj                             140     101       0        39
-RefTypespec                        141     140      24        25
+BitTypespec                          4       5       1         0
+Constant                           112     107      39        44
+LogicTypespec                       19      21       2         0
+Operation                           83      17       0        66
+RefObj                             220     162       0        58
+RefTypespec                        192     186      38        44
 ----------------------------------------------------------------
-Others                             171     171       0         0
+Others                             251     251       0         0
 ----------------------------------------------------------------
-                                   607     527      52       132
+                                   881     749      80       212
 ===================== END REDUCTION RESULT =====================

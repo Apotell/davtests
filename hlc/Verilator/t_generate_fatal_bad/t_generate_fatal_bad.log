@@ -490,6 +490,11 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_generate_fatal_bad.v:35:26: Compile generate block "cond_true".
 [INF:CP5836] $Source01/t_generate_fatal_bad.v:41:45: Compile generate block "nested_loop".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/t_generate_fatal_bad.v:24:1: Top level module "t".
+[WRN:DV8514] $Source01/t_generate_fatal_bad.v:28:22: Failed to bind "i".
+[WRN:DV8514] $Source01/t_generate_fatal_bad.v:42:23: Failed to bind "i".
+[ERR:CP5828] $Source01/t_generate_fatal_bad.v:28:22: Undefined variable "i".
+[ERR:CP5828] $Source01/t_generate_fatal_bad.v:42:23: Undefined variable "i".
 [ERR:DL2516] $Source01/t_generate_fatal_bad.v:28:22: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
 [ERR:DL2516] $Source01/t_generate_fatal_bad.v:42:23: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
 ====== HLDB =======
@@ -595,7 +600,7 @@ Design name:unnamed:
             vpiParent: Function name:get_baz
             vpiFullName: get_baz
             vpiActual: IntegerTypespec
-  vpiAllModules (3 items):
+  vpiAllModules (7 items):
     Module name:foo #(.BAR(0)) file:$Source01/t_generate_fatal_bad.v start:11:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo #(.BAR(0)) start:11:8 end:11:11:
@@ -1172,6 +1177,313 @@ Design name:unnamed:
                       vpiName: foo2
                       vpiFullName: t.nested_loop.foo2_inst.foo2
                       vpiActual: ModuleTypespec name:foo2 #(.QUX(i))
+    Module name:foo #(.BAR(i)) file:$Source01/t_generate_fatal_bad.v start:11:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo #(.BAR(i)) start:11:8 end:11:11:
+      vpiFullName: foo #(.BAR(i))
+      vpiParameter (2 items):
+        Parameter name:BAR start:11:24 end:11:27:
+          vpiParent: Module name:foo #(.BAR(i))
+          vpiName: BAR
+          vpiFullName: foo #(.BAR(i)).BAR
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BAR
+            vpiFullName: foo #(.BAR(i)).BAR
+            vpiActual: LogicTypespec
+          vpiExpr RefObj name:i start:28:22 end:28:23:
+            vpiParent: Parameter name:BAR
+            vpiName: i
+            vpiFullName: foo #(.BAR(i)).BAR.i
+        Parameter name:BAZ start:12:23 end:12:26:
+          vpiParent: Module name:foo #(.BAR(i))
+          vpiName: BAZ
+          vpiFullName: foo #(.BAR(i)).BAZ
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:12:15 end:12:22:
+            vpiParent: Parameter name:BAZ
+            vpiFullName: foo #(.BAR(i)).BAZ
+            vpiActual: IntegerTypespec
+          vpiExpr FuncCall name:get_baz start:12:29 end:12:41:
+            vpiParent: Parameter name:BAZ
+            vpiName Identifier name:get_baz start:12:29 end:12:36:
+            vpiTaskFunc: Function name:get_baz
+            vpiArgument (1 items):
+              NamedArgument start:12:37 end:12:40:
+                vpiParent: FuncCall name:get_baz
+                vpiHighConn RefObj name:BAR start:12:37 end:12:40:
+                  vpiParent: NamedArgument
+                  vpiName: BAR
+                  vpiFullName: foo #(.BAR(i)).BAZ.BAR
+                  vpiActual: Parameter name:BAR
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:foo #(.BAR(i))
+          vpiScalar: true
+        IntegerTypespec:
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_generate_fatal_bad.v"
+      vpiDefLineNo: 11
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:11:8 end:11:11:
+        vpiParent: Module name:foo #(.BAR(i))
+        vpiName: work
+        vpiFullName: foo #(.BAR(i)).work
+        vpiActual: Library name:work
+      vpiCell: foo
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:foo #(.BAR(0))
+    Module name:foo #(.BAR(6)) file:$Source01/t_generate_fatal_bad.v start:11:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo #(.BAR(6)) start:11:8 end:11:11:
+      vpiFullName: foo #(.BAR(6))
+      vpiParameter (2 items):
+        Parameter name:BAR start:11:24 end:11:27:
+          vpiParent: Module name:foo #(.BAR(6))
+          vpiName: BAR
+          vpiFullName: foo #(.BAR(6)).BAR
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BAR
+            vpiFullName: foo #(.BAR(6)).BAR
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:36:22 end:36:23:
+            vpiParent: Parameter name:BAR
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "6"
+            vpiValue: 6
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: foo #(.BAR(6)).BAR
+              vpiActual: IntTypespec
+        Parameter name:BAZ start:12:23 end:12:26:
+          vpiParent: Module name:foo #(.BAR(6))
+          vpiName: BAZ
+          vpiFullName: foo #(.BAR(6)).BAZ
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:12:15 end:12:22:
+            vpiParent: Parameter name:BAZ
+            vpiFullName: foo #(.BAR(6)).BAZ
+            vpiActual: IntegerTypespec
+          vpiExpr FuncCall name:get_baz start:12:29 end:12:41:
+            vpiParent: Parameter name:BAZ
+            vpiName Identifier name:get_baz start:12:29 end:12:36:
+            vpiTaskFunc: Function name:get_baz
+            vpiArgument (1 items):
+              NamedArgument start:12:37 end:12:40:
+                vpiParent: FuncCall name:get_baz
+                vpiHighConn RefObj name:BAR start:12:37 end:12:40:
+                  vpiParent: NamedArgument
+                  vpiName: BAR
+                  vpiFullName: foo #(.BAR(6)).BAZ.BAR
+                  vpiActual: Parameter name:BAR
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:foo #(.BAR(6))
+          vpiScalar: true
+        IntegerTypespec:
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_generate_fatal_bad.v"
+      vpiDefLineNo: 11
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:11:8 end:11:11:
+        vpiParent: Module name:foo #(.BAR(6))
+        vpiName: work
+        vpiFullName: foo #(.BAR(6)).work
+        vpiActual: Library name:work
+      vpiCell: foo
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:foo #(.BAR(0))
+    Module name:foo #(.BAR(7)) file:$Source01/t_generate_fatal_bad.v start:11:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo #(.BAR(7)) start:11:8 end:11:11:
+      vpiFullName: foo #(.BAR(7))
+      vpiParameter (2 items):
+        Parameter name:BAR start:11:24 end:11:27:
+          vpiParent: Module name:foo #(.BAR(7))
+          vpiName: BAR
+          vpiFullName: foo #(.BAR(7)).BAR
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BAR
+            vpiFullName: foo #(.BAR(7)).BAR
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:39:22 end:39:23:
+            vpiParent: Parameter name:BAR
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "7"
+            vpiValue: 7
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: foo #(.BAR(7)).BAR
+              vpiActual: IntTypespec
+        Parameter name:BAZ start:12:23 end:12:26:
+          vpiParent: Module name:foo #(.BAR(7))
+          vpiName: BAZ
+          vpiFullName: foo #(.BAR(7)).BAZ
+          vpiLocalParam: true
+          vpiTypespec RefTypespec start:12:15 end:12:22:
+            vpiParent: Parameter name:BAZ
+            vpiFullName: foo #(.BAR(7)).BAZ
+            vpiActual: IntegerTypespec
+          vpiExpr FuncCall name:get_baz start:12:29 end:12:41:
+            vpiParent: Parameter name:BAZ
+            vpiName Identifier name:get_baz start:12:29 end:12:36:
+            vpiTaskFunc: Function name:get_baz
+            vpiArgument (1 items):
+              NamedArgument start:12:37 end:12:40:
+                vpiParent: FuncCall name:get_baz
+                vpiHighConn RefObj name:BAR start:12:37 end:12:40:
+                  vpiParent: NamedArgument
+                  vpiName: BAR
+                  vpiFullName: foo #(.BAR(7)).BAZ.BAR
+                  vpiActual: Parameter name:BAR
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:foo #(.BAR(7))
+          vpiScalar: true
+        IntegerTypespec:
+      vpiDefName: foo
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_generate_fatal_bad.v"
+      vpiDefLineNo: 11
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:11:8 end:11:11:
+        vpiParent: Module name:foo #(.BAR(7))
+        vpiName: work
+        vpiFullName: foo #(.BAR(7)).work
+        vpiActual: Library name:work
+      vpiCell: foo
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:foo #(.BAR(0))
+    Module name:foo2 #(.QUX(i)) file:$Source01/t_generate_fatal_bad.v start:15:1 end:22:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo2 #(.QUX(i)) start:15:8 end:15:12:
+      vpiFullName: foo2 #(.QUX(i))
+      vpiVariable (1 items):
+        Variable name:x start:16:11 end:16:12:
+          vpiParent: Module name:foo2 #(.QUX(i))
+          vpiName: x
+          vpiFullName: foo2 #(.QUX(i)).x
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+      vpiParameter (1 items):
+        Parameter name:QUX start:15:25 end:15:28:
+          vpiParent: Module name:foo2 #(.QUX(i))
+          vpiName: QUX
+          vpiFullName: foo2 #(.QUX(i)).QUX
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:QUX
+            vpiFullName: foo2 #(.QUX(i)).QUX
+            vpiActual: LogicTypespec
+          vpiExpr RefObj name:i start:42:23 end:42:24:
+            vpiParent: Parameter name:QUX
+            vpiName: i
+            vpiFullName: foo2 #(.QUX(i)).QUX.i
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:foo2 #(.QUX(i))
+          vpiScalar: true
+      vpiDefName: foo2
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_generate_fatal_bad.v"
+      vpiDefLineNo: 15
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:15:8 end:15:12:
+        vpiParent: Module name:foo2 #(.QUX(i))
+        vpiName: work
+        vpiFullName: foo2 #(.QUX(i)).work
+        vpiActual: Library name:work
+      vpiCell: foo2
+      vpiUnit: Unit
+      vpiGenStmt (1 items):
+        GenRegion start:17:4 end:21:15:
+          vpiParent: Module name:foo2 #(.QUX(i))
+          vpiStmt (1 items):
+            GenFor start:18:7 end:20:10:
+              vpiParent: GenRegion
+              vpiFullName: foo2 #(.QUX(i))
+              vpiForInitStmt (1 items):
+                Assignment start:18:12 end:18:17:
+                  vpiParent: GenFor
+                  vpiOpType: assignment (96)
+                  vpiLhs RefObj name:x start:18:12 end:18:13:
+                    vpiParent: Assignment
+                    vpiName: x
+                    vpiFullName: foo2 #(.QUX(i)).x
+                    vpiActual: Variable name:x
+                  vpiRhs Constant start:18:16 end:18:17:
+                    vpiParent: Assignment
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo2 #(.QUX(i))
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Operation start:18:26 end:18:29:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:x start:18:26 end:18:27:
+                      vpiParent: Operation
+                      vpiName: x
+                      vpiFullName: foo2 #(.QUX(i)).x
+                      vpiActual: Variable name:x
+              vpiCondition Operation start:18:19 end:18:24:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:x start:18:19 end:18:20:
+                    vpiParent: Operation
+                    vpiName: x
+                    vpiFullName: foo2 #(.QUX(i)).x
+                    vpiActual: Variable name:x
+                  Constant start:18:23 end:18:24:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo2 #(.QUX(i))
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock name:foo2_loop start:18:31 end:20:10:
+                vpiParent: GenFor
+                vpiName Identifier name:foo2_loop start:18:38 end:18:47:
+                vpiFullName: foo2 #(.QUX(i)).foo2_loop
+                vpiTypespec (1 items):
+                  ModuleTypespec name:foo #(.BAR(QUX + x)):
+                vpiStmt (1 items):
+                  RefInstance name:foo_in_foo2_inst start:19:32 end:19:48:
+                    vpiParent: GenBlock name:foo2_loop
+                    vpiName: foo_in_foo2_inst
+                    vpiTypespec RefTypespec name:foo start:19:10 end:19:13:
+                      vpiParent: RefInstance name:foo_in_foo2_inst
+                      vpiName: foo
+                      vpiFullName: foo2 #(.QUX(i)).foo2_loop.foo_in_foo2_inst.foo
+                      vpiActual: ModuleTypespec name:foo #(.BAR(QUX + x))
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:foo2 #(.QUX(0))
   vpiTypespec (11 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1211,7 +1523,26 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: foo2 #(.QUX(i)).i
             vpiActual: Variable name:i
-      vpiModule: Module name:foo2 #(.QUX(0))
+      vpiModule: Module name:foo2 #(.QUX(i))
+    ModuleTypespec name:foo #(.BAR(i)) start:28:10 end:28:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:foo #(.BAR(i)) start:28:10 end:28:13:
+      vpiDefName: foo
+      vpiParamAssign (1 items):
+        ParamAssign start:28:16 end:28:24:
+          vpiParent: ModuleTypespec name:foo #(.BAR(i))
+          vpiConnByName: true
+          vpiLhs RefObj name:BAR start:28:17 end:28:20:
+            vpiParent: ParamAssign
+            vpiName: BAR
+            vpiFullName: foo #(.BAR(i)).BAR
+            vpiActual: Parameter name:BAR
+          vpiRhs RefObj name:i start:28:22 end:28:23:
+            vpiParent: ParamAssign
+            vpiName: i
+            vpiFullName: foo #(.BAR(i)).i
+            vpiActual: Variable name:i
+      vpiModule: Module name:foo #(.BAR(i))
     ModuleTypespec name:foo #(.BAR(6)) start:36:10 end:36:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo #(.BAR(6)) start:36:10 end:36:13:
@@ -1235,7 +1566,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: foo #(.BAR(6))
               vpiActual: IntTypespec
-      vpiModule: Module name:foo #(.BAR(0))
+      vpiModule: Module name:foo #(.BAR(6))
     ModuleTypespec name:foo #(.BAR(7)) start:39:10 end:39:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo #(.BAR(7)) start:39:10 end:39:13:
@@ -1259,7 +1590,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: foo #(.BAR(7))
               vpiActual: IntTypespec
-      vpiModule: Module name:foo #(.BAR(0))
+      vpiModule: Module name:foo #(.BAR(7))
     ModuleTypespec name:foo #(.BAR(QUX + x)) start:19:10 end:19:13:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo #(.BAR(QUX + x)) start:19:10 end:19:13:
@@ -1330,25 +1661,6 @@ Design name:unnamed:
                       vpiFullName: foo #(.BAR(i + j * 2))
                       vpiActual: IntTypespec
       vpiModule: Module name:foo #(.BAR(0))
-    ModuleTypespec name:foo #(.BAR(i)) start:28:10 end:28:13:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:foo #(.BAR(i)) start:28:10 end:28:13:
-      vpiDefName: foo
-      vpiParamAssign (1 items):
-        ParamAssign start:28:16 end:28:24:
-          vpiParent: ModuleTypespec name:foo #(.BAR(i))
-          vpiConnByName: true
-          vpiLhs RefObj name:BAR start:28:17 end:28:20:
-            vpiParent: ParamAssign
-            vpiName: BAR
-            vpiFullName: foo #(.BAR(i)).BAR
-            vpiActual: Parameter name:BAR
-          vpiRhs RefObj name:i start:28:22 end:28:23:
-            vpiParent: ParamAssign
-            vpiName: i
-            vpiFullName: foo #(.BAR(i)).i
-            vpiActual: Variable name:i
-      vpiModule: Module name:foo #(.BAR(0))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1356,9 +1668,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 0
-[   NOTE] : 0
+[  ERROR] : 4
+[WARNING] : 2
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1400,11 +1712,11 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_generate_fatal_bad/design.hldb ${HLC_
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            22      20       2         4
-Operation                           15      13       0         2
-RefTypespec                         35      33       2         4
+Constant                            26      24       2         4
+Operation                           17      15       0         2
+RefTypespec                         47      45       2         4
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             175     175       0         0
 ----------------------------------------------------------------
-                                   200     194       4        10
+                                   265     259       4        10
 ===================== END REDUCTION RESULT =====================

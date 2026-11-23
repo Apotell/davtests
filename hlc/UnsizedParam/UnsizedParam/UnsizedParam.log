@@ -155,6 +155,7 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "submodule".
 [INF:CP5804] $Source01/dut.sv:8:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:8:1: No timescale set for "top".
+[NTE:EL6904] $Source01/dut.sv:8:1: Top level module "top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -168,7 +169,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:dut.sv:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:submodule file:$Source01/dut.sv start:1:1 end:6:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:submodule start:1:8 end:1:17:
@@ -343,6 +344,140 @@ Design name:unnamed:
             vpiName: submodule
             vpiFullName: top.u_sub_5.submodule
             vpiActual: ModuleTypespec name:submodule #(.X(5))
+    "Module name:submodule #(.X(5), .Y('1)) file:$Source01/dut.sv start:1:1 end:6:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:submodule #(.X(5), .Y('1)) start:1:8 end:1:17":
+      vpiFullName: "submodule #(.X(5), .Y('1))"
+      vpiTypedef (1 items):
+        Typedef name:my_type_t start:3:4 end:3:36:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiName Identifier name:my_type_t start:3:26 end:3:35:
+          vpiTypedefAlias RefTypespec start:3:12 end:3:25:
+            vpiParent: Typedef name:my_type_t
+            vpiFullName: "submodule #(.X(5), .Y('1)).my_type_t"
+            vpiActual: LogicTypespec
+      vpiParameter (2 items):
+        Parameter name:X start:2:18 end:2:19:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiName: X
+          vpiFullName: "submodule #(.X(5), .Y('1)).X"
+          vpiTypespec RefTypespec start:2:14 end:2:17:
+            vpiParent: Parameter name:X
+            vpiFullName: "submodule #(.X(5), .Y('1)).X"
+            vpiActual: IntTypespec
+          vpiExpr Constant start:10:19 end:10:20:
+            vpiParent: Parameter name:X
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "5"
+            vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "submodule #(.X(5), .Y('1)).X"
+              vpiActual: IntTypespec
+        Parameter name:Y start:4:24 end:4:25:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiName: Y
+          vpiFullName: "submodule #(.X(5), .Y('1)).Y"
+          vpiTypespec RefTypespec name:my_type_t start:4:14 end:4:23:
+            vpiParent: Parameter name:Y
+            vpiName: my_type_t
+            vpiFullName: "submodule #(.X(5), .Y('1)).Y.my_type_t"
+            vpiActual: TypedefTypespec name:my_type_t
+          vpiExpr Constant start:4:28 end:4:30:
+            vpiParent: Parameter name:Y
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "'1"
+            vpiValue: "1"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "submodule #(.X(5), .Y('1)).Y"
+              vpiActual: BitTypespec
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiRange (1 items):
+            Range start:3:18 end:3:25:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:3:19 end:3:22:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:X start:3:19 end:3:20:
+                    vpiParent: Operation
+                    vpiName: X
+                    vpiFullName: "submodule #(.X(5), .Y('1)).X"
+                    vpiActual: Parameter name:X
+                  Constant start:3:21 end:3:22:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "submodule #(.X(5), .Y('1))"
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:3:23 end:3:24:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "submodule #(.X(5), .Y('1))"
+                  vpiActual: IntTypespec
+          vpiVector: true
+        TypedefTypespec name:my_type_t start:3:4 end:3:36:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiName Identifier name:my_type_t start:3:26 end:3:35:
+          vpiTypedef: Typedef name:my_type_t
+        BitTypespec:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+      vpiDefName: submodule
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 1
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:1:8 end:1:17:
+        vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+        vpiName: work
+        vpiFullName: "submodule #(.X(5), .Y('1)).work"
+        vpiActual: Library name:work
+      vpiCell: submodule
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:1:17 end:1:19:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiContAssign (1 items):
+        ContAssign start:5:11 end:5:22:
+          vpiParent: "Module name:submodule #(.X(5), .Y('1))"
+          vpiStrength0: strong (64)
+          vpiStrength1: strong (64)
+          vpiLhs RefObj name:a start:5:11 end:5:12:
+            vpiParent: ContAssign
+            vpiName: a
+            vpiFullName: "submodule #(.X(5), .Y('1)).a"
+          vpiRhs Operation start:5:15 end:5:22:
+            vpiParent: ContAssign
+            vpiOpType: cast (81)
+            vpiOperand (2 items):
+              RefTypespec start:5:15 end:5:18:
+                vpiParent: Operation
+                vpiFullName: "submodule #(.X(5), .Y('1))"
+                vpiActual: IntTypespec
+              RefObj name:Y start:5:20 end:5:21:
+                vpiParent: Operation
+                vpiName: Y
+                vpiFullName: "submodule #(.X(5), .Y('1)).Y"
+                vpiActual: Parameter name:Y
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:submodule
   vpiTypespec (4 items):
     ModuleTypespec name:submodule:
       vpiParent: Design name:unnamed
@@ -380,7 +515,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: submodule #(.X(5))
               vpiActual: IntTypespec
-      vpiModule: Module name:submodule
+      vpiModule: "Module name:submodule #(.X(5), .Y('1))"
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -390,7 +525,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -432,12 +567,12 @@ COMMAND: ${HLC_DIR}/regression/UnsizedParam/UnsizedParam/design.hldb ${HLC_DIR}/
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             5       6       2         1
-Operation                            2       0       0         2
-RefObj                               6       4       0         2
-RefTypespec                         11      10       1         2
+Constant                             9      11       4         2
+Operation                            4       0       0         4
+RefObj                              10       6       0         4
+RefTypespec                         19      17       2         4
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    54      50       3         7
+                                    85      77       6        14
 ===================== END REDUCTION RESULT =====================

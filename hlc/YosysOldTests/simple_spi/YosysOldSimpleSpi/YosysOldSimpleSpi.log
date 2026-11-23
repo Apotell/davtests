@@ -4055,6 +4055,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/rtl/simple_spi_top.v:77:1: Compile module "simple_spi_top".
 [NTE:CP5810] $Source01/rtl/simple_spi_top.v:92:21: Implicit port type (wire) for "mosi_o".
 [WRN:PA5506] $Source01/rtl/simple_spi_top.v:77:1: No timescale set for "simple_spi_top".
+[NTE:EL6904] $Source01/rtl/simple_spi_top.v:77:1: Top level module "simple_spi_top".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -5497,7 +5498,7 @@ Design name:unnamed:
             vpiParent: Variable name:tcnt
             vpiFullName: simple_spi_top.tcnt
             vpiActual: LogicTypespec
-      vpiTypespec (19 items):
+      vpiTypespec (20 items):
         LogicTypespec:
           vpiParent: Module name:simple_spi_top
           vpiScalar: true
@@ -5945,6 +5946,7 @@ Design name:unnamed:
                   vpiFullName: simple_spi_top
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:fifo4 #(.dw(8)):
       vpiDefName: simple_spi_top
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/rtl/simple_spi_top.v"
@@ -9739,7 +9741,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:rfifo
             vpiName: fifo4
             vpiFullName: simple_spi_top.rfifo.fifo4
-            vpiActual: ModuleTypespec name:fifo4
+            vpiActual: ModuleTypespec name:fifo4 #(.dw(8))
           vpiArgument (9 items):
             NamedArgument start:210:2 end:210:20:
               vpiParent: RefInstance name:rfifo
@@ -9992,7 +9994,7 @@ Design name:unnamed:
                 vpiName: wfempty
                 vpiFullName: simple_spi_top.wfifo.wfempty
                 vpiActual: Net name:wfempty
-  vpiTypespec (10 items):
+  vpiTypespec (11 items):
     ModuleTypespec name:fifo4:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fifo4 start:62:8 end:62:13:
@@ -10020,6 +10022,29 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:fifo4 #(.dw(8)) start:208:3 end:208:8:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:fifo4 #(.dw(8)):
+      vpiDefName: fifo4
+      vpiParamAssign (1 items):
+        ParamAssign start:208:11 end:208:12:
+          vpiParent: ModuleTypespec name:fifo4 #(.dw(8))
+          vpiLhs RefObj name:dw start:64:11 end:64:13:
+            vpiParent: ParamAssign
+            vpiName: dw
+            vpiFullName: fifo4 #(.dw(8)).dw
+            vpiActual: Parameter name:dw
+          vpiRhs Constant start:208:11 end:208:12:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "8"
+            vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fifo4 #(.dw(8))
+              vpiActual: IntTypespec
+      vpiModule: Module name:fifo4
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -10029,7 +10054,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 1
+[   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -10043,14 +10068,14 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi/mounts.json
 
 
-{'result': {'coverage': 99.76,
+{'result': {'coverage': 99.78,
             'error_count': 0,
             'file_count': 2,
             'files': {'$Output/lib/work/rtl/fifo4.v': {'post_len': 10,
                                                        'pre_len': 930},
-                      '$Output/lib/work/rtl/simple_spi_top.v': {'post_len': 1,
+                      '$Output/lib/work/rtl/simple_spi_top.v': {'post_len': 0,
                                                                 'pre_len': 3670}},
-            'post_len': 11,
+            'post_len': 10,
             'pre_len': 4600,
             'test_name': 'YosysOldTests/simple_spi/YosysOldSimpleSpi'}}
 
@@ -10058,13 +10083,13 @@ mounts-filepath: ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSp
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
 | $Output/lib/work/rtl/fifo4.v          |      930 |        10 |
-| $Output/lib/work/rtl/simple_spi_top.v |     3670 |         1 |
+| $Output/lib/work/rtl/simple_spi_top.v |     3670 |         0 |
 +=======================================+==========+===========+
-|                                       |     4600 |        11 |
+|                                       |     4600 |        10 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.76
+[COVERAGE] : 99.78
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -10075,7 +10100,7 @@ COMMAND: ${HLC_DIR}/regression/YosysOldTests/simple_spi/YosysOldSimpleSpi/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            3195    3195       0         0
+Others                            3201    3201       0         0
 ----------------------------------------------------------------
-                                  3195    3195       0         0
+                                  3201    3201       0         0
 ===================== END REDUCTION RESULT =====================

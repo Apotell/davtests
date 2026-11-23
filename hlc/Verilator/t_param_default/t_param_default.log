@@ -129,6 +129,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_default.v:6:1: Compile module "m".
 [INF:CP5804] $Source01/t_param_default.v:9:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/t_param_default.v:9:1: Top level module "t".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -142,7 +143,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:t_param_default.v:
-  vpiAllModules (2 items):
+  vpiAllModules (3 items):
     Module name:m #(.Foo()) file:$Source01/t_param_default.v start:6:1 end:7:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m #(.Foo()) start:6:8 end:6:9:
@@ -273,6 +274,46 @@ Design name:unnamed:
             vpiName: m
             vpiFullName: t.foo.m
             vpiActual: ModuleTypespec name:m #(.Foo(10))
+    Module name:m #(.Foo(10)) file:$Source01/t_param_default.v start:6:1 end:7:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:m #(.Foo(10)) start:6:8 end:6:9:
+      vpiFullName: m #(.Foo(10))
+      vpiParameter (1 items):
+        Parameter name:Foo start:6:26 end:6:29:
+          vpiParent: Module name:m #(.Foo(10))
+          vpiName: Foo
+          vpiFullName: m #(.Foo(10)).Foo
+          vpiTypespec RefTypespec start:6:22 end:6:25:
+            vpiParent: Parameter name:Foo
+            vpiFullName: m #(.Foo(10)).Foo
+            vpiActual: IntTypespec
+          vpiExpr Constant start:11:8 end:11:10:
+            vpiParent: Parameter name:Foo
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "10"
+            vpiValue: 10
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: m #(.Foo(10)).Foo
+              vpiActual: IntTypespec
+      vpiDefName: m
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_param_default.v"
+      vpiDefLineNo: 6
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:9:
+        vpiParent: Module name:m #(.Foo(10))
+        vpiName: work
+        vpiFullName: m #(.Foo(10)).work
+        vpiActual: Library name:work
+      vpiCell: m
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:m #(.Foo())
   vpiTypespec (5 items):
     ModuleTypespec name:m:
       vpiParent: Design name:unnamed
@@ -311,7 +352,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: m #(.Foo(10))
               vpiActual: IntTypespec
-      vpiModule: Module name:m #(.Foo())
+      vpiModule: Module name:m #(.Foo(10))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -321,7 +362,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -364,7 +405,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_default/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    45      45       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

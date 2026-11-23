@@ -150,6 +150,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_up_bad.v:18:1: Compile module "parent".
 [INF:CP5804] $Source01/t_param_up_bad.v:28:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/t_param_up_bad.v:28:1: Top level module "t".
 [WRN:DV8514] $Source01/t_param_up_bad.v:15:19: Failed to bind "bar".
 [WRN:DV8514] $Source01/t_param_up_bad.v:15:23: Failed to bind "foo".
 ====== HLDB =======
@@ -197,7 +198,7 @@ Design name:unnamed:
             vpiParent: Typedef name:some_struct_t
             vpiFullName: some_struct_t
             vpiActual: StructTypespec
-  vpiAllModules (3 items):
+  vpiAllModules (4 items):
     Module name:child file:$Source01/t_param_up_bad.v start:12:1 end:16:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:child start:12:8 end:12:13:
@@ -364,6 +365,77 @@ Design name:unnamed:
             vpiName: parent
             vpiFullName: t.p.parent
             vpiActual: ModuleTypespec name:parent #(.PARAM(1))
+    Module name:parent #(.PARAM(1)) file:$Source01/t_param_up_bad.v start:18:1 end:26:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:parent #(.PARAM(1)) start:18:8 end:18:14:
+      vpiFullName: parent #(.PARAM(1))
+      vpiVariable (1 items):
+        Variable name:bar start:24:18 end:24:21:
+          vpiParent: Module name:parent #(.PARAM(1))
+          vpiName: bar
+          vpiFullName: parent #(.PARAM(1)).bar
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec name:some_struct_t start:24:4 end:24:17:
+            vpiParent: Variable name:bar
+            vpiName: some_struct_t
+            vpiFullName: parent #(.PARAM(1)).bar.some_struct_t
+            vpiActual: TypedefTypespec name:some_struct_t
+      vpiParameter (1 items):
+        Parameter name:PARAM start:20:15 end:20:20:
+          vpiParent: Module name:parent #(.PARAM(1))
+          vpiName: PARAM
+          vpiFullName: parent #(.PARAM(1)).PARAM
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:PARAM
+            vpiFullName: parent #(.PARAM(1)).PARAM
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:30:14 end:30:15:
+            vpiParent: Parameter name:PARAM
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: parent #(.PARAM(1)).PARAM
+              vpiActual: IntTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:parent #(.PARAM(1))
+          vpiScalar: true
+        ModuleTypespec name:child:
+      vpiDefName: parent
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_param_up_bad.v"
+      vpiDefLineNo: 18
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:18:8 end:18:14:
+        vpiParent: Module name:parent #(.PARAM(1))
+        vpiName: work
+        vpiFullName: parent #(.PARAM(1)).work
+        vpiActual: Library name:work
+      vpiCell: parent
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:22:4 end:23:6:
+          vpiParent: Module name:parent #(.PARAM(1))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiRefInstance (1 items):
+        RefInstance name:c start:25:10 end:25:11:
+          vpiParent: Module name:parent #(.PARAM(1))
+          vpiName: c
+          vpiTypespec RefTypespec name:child start:25:4 end:25:9:
+            vpiParent: RefInstance name:c
+            vpiName: child
+            vpiFullName: parent #(.PARAM(1)).c.child
+            vpiActual: ModuleTypespec name:child
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:parent #(.PARAM(0))
   vpiTypespec (5 items):
     ModuleTypespec name:child:
       vpiParent: Design name:unnamed
@@ -405,7 +477,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: parent #(.PARAM(1))
               vpiActual: IntTypespec
-      vpiModule: Module name:parent #(.PARAM(0))
+      vpiModule: Module name:parent #(.PARAM(1))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -415,7 +487,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 2
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -458,7 +530,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_up_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

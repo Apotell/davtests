@@ -249,6 +249,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_const3_bad.v:15:1: Compile module "b9".
 [INF:CP5804] $Source01/t_func_const3_bad.v:25:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/t_func_const3_bad.v:6:1: Top level module "c9".
+[NTE:EL6904] $Source01/t_func_const3_bad.v:15:1: Top level module "b9".
+[NTE:EL6904] $Source01/t_func_const3_bad.v:25:1: Top level module "t".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -262,7 +266,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:t_func_const3_bad.v:
-  vpiAllModules (3 items):
+  vpiAllModules (8 items):
     Module name:c9 #(.A(1), .B(1)) file:$Source01/t_func_const3_bad.v start:6:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:c9 #(.A(1), .B(1)) start:6:8 end:6:10:
@@ -395,7 +399,7 @@ Design name:unnamed:
             vpiParent: Variable name:c9
             vpiName: c9
             vpiFullName: b9 #(.A(1)).c9.c9
-            vpiActual: ModuleTypespec name:c9
+            vpiActual: ModuleTypespec name:c9 #(.A(A), .B(9))
       vpiParameter (1 items):
         Parameter name:A start:16:16 end:16:17:
           vpiParent: Module name:b9 #(.A(1))
@@ -415,10 +419,11 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: b9 #(.A(1)).A
               vpiActual: IntTypespec
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:b9 #(.A(1))
           vpiScalar: true
+        ModuleTypespec name:c9 #(.A(A), .B(9)):
       vpiDefName: b9
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_func_const3_bad.v"
@@ -460,7 +465,7 @@ Design name:unnamed:
             vpiParent: Variable name:b900
             vpiName: b9
             vpiFullName: t.b900.b9
-            vpiActual: ModuleTypespec name:b9
+            vpiActual: ModuleTypespec name:b9 #(.A(100))
         Variable name:b9k start:29:20 end:29:23:
           vpiParent: Module name:t
           vpiName: b9k
@@ -471,7 +476,10 @@ Design name:unnamed:
             vpiParent: Variable name:b9k
             vpiName: b9
             vpiFullName: t.b9k.b9
-            vpiActual: ModuleTypespec name:b9
+            vpiActual: ModuleTypespec name:b9 #(.A(1000))
+      vpiTypespec (2 items):
+        ModuleTypespec name:b9 #(.A(100)):
+        ModuleTypespec name:b9 #(.A(1000)):
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/t_func_const3_bad.v"
@@ -517,7 +525,478 @@ Design name:unnamed:
       vpiSysTaskCall (2 items):
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
-  vpiTypespec (5 items):
+    Module name:c9 #(.A(1), .B(9)) file:$Source01/t_func_const3_bad.v start:6:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(1), .B(9)) start:6:8 end:6:10:
+      vpiFullName: c9 #(.A(1), .B(9))
+      vpiParameter (4 items):
+        Parameter name:A start:7:16 end:7:17:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+          vpiName: A
+          vpiFullName: c9 #(.A(1), .B(9)).A
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:A
+            vpiFullName: c9 #(.A(1), .B(9)).A
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:16:20 end:16:21:
+            vpiParent: Parameter name:A
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(1), .B(9)).A
+              vpiActual: IntTypespec
+        Parameter name:B start:8:16 end:8:17:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+          vpiName: B
+          vpiFullName: c9 #(.A(1), .B(9)).B
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:B
+            vpiFullName: c9 #(.A(1), .B(9)).B
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:20:10 end:20:11:
+            vpiParent: Parameter name:B
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(1), .B(9)).B
+              vpiActual: IntTypespec
+        Parameter name:BITS start:10:15 end:10:19:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+          vpiName: BITS
+          vpiFullName: c9 #(.A(1), .B(9)).BITS
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BITS
+            vpiFullName: c9 #(.A(1), .B(9)).BITS
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:10:22 end:10:25:
+            vpiParent: Parameter name:BITS
+            vpiOpType: multiply (25)
+            vpiOperand (2 items):
+              RefObj name:A start:10:22 end:10:23:
+                vpiParent: Operation
+                vpiName: A
+                vpiFullName: c9 #(.A(1), .B(9)).BITS.A
+                vpiActual: Parameter name:A
+              RefObj name:B start:10:24 end:10:25:
+                vpiParent: Operation
+                vpiName: B
+                vpiFullName: c9 #(.A(1), .B(9)).BITS.B
+                vpiActual: Parameter name:B
+        Parameter name:SOMEP start:11:15 end:11:20:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+          vpiName: SOMEP
+          vpiFullName: c9 #(.A(1), .B(9)).SOMEP
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SOMEP
+            vpiFullName: c9 #(.A(1), .B(9)).SOMEP
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:11:23 end:11:35:
+            vpiParent: Parameter name:SOMEP
+            vpiOpType: multi-concatenation (34)
+            vpiOperand (2 items):
+              RefObj name:BITS start:11:24 end:11:28:
+                vpiParent: Operation
+                vpiName: BITS
+                vpiFullName: c9 #(.A(1), .B(9)).SOMEP.BITS
+                vpiActual: Parameter name:BITS
+              Operation start:11:28 end:11:34:
+                vpiParent: Operation
+                vpiOpType: concatenation (33)
+                vpiOperand (1 items):
+                  Constant start:11:29 end:11:33:
+                    vpiParent: Operation
+                    vpiConstType: binary (3)
+                    vpiSize: 1
+                    vpiDecompile: "1'b0"
+                    vpiValue: "0"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: c9 #(.A(1), .B(9)).SOMEP
+                      vpiActual: BitTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+          vpiScalar: true
+        BitTypespec:
+          vpiParent: Module name:c9 #(.A(1), .B(9))
+      vpiDefName: c9
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_func_const3_bad.v"
+      vpiDefLineNo: 6
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:10:
+        vpiParent: Module name:c9 #(.A(1), .B(9))
+        vpiName: work
+        vpiFullName: c9 #(.A(1), .B(9)).work
+        vpiActual: Library name:work
+      vpiCell: c9
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:c9 #(.A(1), .B(1))
+    Module name:b9 #(.A(100)) file:$Source01/t_func_const3_bad.v start:15:1 end:23:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:b9 #(.A(100)) start:15:8 end:15:10:
+      vpiFullName: b9 #(.A(100))
+      vpiVariable (1 items):
+        Variable name:c9 start:21:4 end:21:6:
+          vpiParent: Module name:b9 #(.A(100))
+          vpiName: c9
+          vpiFullName: b9 #(.A(100)).c9
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec name:c9 start:18:4 end:20:13:
+            vpiParent: Variable name:c9
+            vpiName: c9
+            vpiFullName: b9 #(.A(100)).c9.c9
+            vpiActual: ModuleTypespec name:c9 #(.A(A), .B(9))
+      vpiParameter (1 items):
+        Parameter name:A start:16:16 end:16:17:
+          vpiParent: Module name:b9 #(.A(100))
+          vpiName: A
+          vpiFullName: b9 #(.A(100)).A
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:A
+            vpiFullName: b9 #(.A(100)).A
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:28:13 end:28:16:
+            vpiParent: Parameter name:A
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "100"
+            vpiValue: 100
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: b9 #(.A(100)).A
+              vpiActual: IntTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:b9 #(.A(100))
+          vpiScalar: true
+        ModuleTypespec name:c9 #(.A(A), .B(9)):
+      vpiDefName: b9
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_func_const3_bad.v"
+      vpiDefLineNo: 15
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:15:8 end:15:10:
+        vpiParent: Module name:b9 #(.A(100))
+        vpiName: work
+        vpiFullName: b9 #(.A(100)).work
+        vpiActual: Library name:work
+      vpiCell: b9
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:b9 #(.A(1))
+    Module name:b9 #(.A(1000)) file:$Source01/t_func_const3_bad.v start:15:1 end:23:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:b9 #(.A(1000)) start:15:8 end:15:10:
+      vpiFullName: b9 #(.A(1000))
+      vpiVariable (1 items):
+        Variable name:c9 start:21:4 end:21:6:
+          vpiParent: Module name:b9 #(.A(1000))
+          vpiName: c9
+          vpiFullName: b9 #(.A(1000)).c9
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiTypespec RefTypespec name:c9 start:18:4 end:20:13:
+            vpiParent: Variable name:c9
+            vpiName: c9
+            vpiFullName: b9 #(.A(1000)).c9.c9
+            vpiActual: ModuleTypespec name:c9 #(.A(A), .B(9))
+      vpiParameter (1 items):
+        Parameter name:A start:16:16 end:16:17:
+          vpiParent: Module name:b9 #(.A(1000))
+          vpiName: A
+          vpiFullName: b9 #(.A(1000)).A
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:A
+            vpiFullName: b9 #(.A(1000)).A
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:29:13 end:29:17:
+            vpiParent: Parameter name:A
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1000"
+            vpiValue: 1000
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: b9 #(.A(1000)).A
+              vpiActual: IntTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:b9 #(.A(1000))
+          vpiScalar: true
+        ModuleTypespec name:c9 #(.A(A), .B(9)):
+      vpiDefName: b9
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_func_const3_bad.v"
+      vpiDefLineNo: 15
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:15:8 end:15:10:
+        vpiParent: Module name:b9 #(.A(1000))
+        vpiName: work
+        vpiFullName: b9 #(.A(1000)).work
+        vpiActual: Library name:work
+      vpiCell: b9
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:b9 #(.A(1))
+    Module name:c9 #(.A(100), .B(9)) file:$Source01/t_func_const3_bad.v start:6:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(100), .B(9)) start:6:8 end:6:10:
+      vpiFullName: c9 #(.A(100), .B(9))
+      vpiParameter (4 items):
+        Parameter name:A start:7:16 end:7:17:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+          vpiName: A
+          vpiFullName: c9 #(.A(100), .B(9)).A
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:A
+            vpiFullName: c9 #(.A(100), .B(9)).A
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:28:13 end:28:16:
+            vpiParent: Parameter name:A
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "100"
+            vpiValue: 100
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(100), .B(9)).A
+              vpiActual: IntTypespec
+        Parameter name:B start:8:16 end:8:17:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+          vpiName: B
+          vpiFullName: c9 #(.A(100), .B(9)).B
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:B
+            vpiFullName: c9 #(.A(100), .B(9)).B
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:20:10 end:20:11:
+            vpiParent: Parameter name:B
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(100), .B(9)).B
+              vpiActual: IntTypespec
+        Parameter name:BITS start:10:15 end:10:19:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+          vpiName: BITS
+          vpiFullName: c9 #(.A(100), .B(9)).BITS
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BITS
+            vpiFullName: c9 #(.A(100), .B(9)).BITS
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:10:22 end:10:25:
+            vpiParent: Parameter name:BITS
+            vpiOpType: multiply (25)
+            vpiOperand (2 items):
+              RefObj name:A start:10:22 end:10:23:
+                vpiParent: Operation
+                vpiName: A
+                vpiFullName: c9 #(.A(100), .B(9)).BITS.A
+                vpiActual: Parameter name:A
+              RefObj name:B start:10:24 end:10:25:
+                vpiParent: Operation
+                vpiName: B
+                vpiFullName: c9 #(.A(100), .B(9)).BITS.B
+                vpiActual: Parameter name:B
+        Parameter name:SOMEP start:11:15 end:11:20:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+          vpiName: SOMEP
+          vpiFullName: c9 #(.A(100), .B(9)).SOMEP
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SOMEP
+            vpiFullName: c9 #(.A(100), .B(9)).SOMEP
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:11:23 end:11:35:
+            vpiParent: Parameter name:SOMEP
+            vpiOpType: multi-concatenation (34)
+            vpiOperand (2 items):
+              RefObj name:BITS start:11:24 end:11:28:
+                vpiParent: Operation
+                vpiName: BITS
+                vpiFullName: c9 #(.A(100), .B(9)).SOMEP.BITS
+                vpiActual: Parameter name:BITS
+              Operation start:11:28 end:11:34:
+                vpiParent: Operation
+                vpiOpType: concatenation (33)
+                vpiOperand (1 items):
+                  Constant start:11:29 end:11:33:
+                    vpiParent: Operation
+                    vpiConstType: binary (3)
+                    vpiSize: 1
+                    vpiDecompile: "1'b0"
+                    vpiValue: "0"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: c9 #(.A(100), .B(9)).SOMEP
+                      vpiActual: BitTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+          vpiScalar: true
+        BitTypespec:
+          vpiParent: Module name:c9 #(.A(100), .B(9))
+      vpiDefName: c9
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_func_const3_bad.v"
+      vpiDefLineNo: 6
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:10:
+        vpiParent: Module name:c9 #(.A(100), .B(9))
+        vpiName: work
+        vpiFullName: c9 #(.A(100), .B(9)).work
+        vpiActual: Library name:work
+      vpiCell: c9
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:c9 #(.A(1), .B(1))
+    Module name:c9 #(.A(1000), .B(9)) file:$Source01/t_func_const3_bad.v start:6:1 end:13:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(1000), .B(9)) start:6:8 end:6:10:
+      vpiFullName: c9 #(.A(1000), .B(9))
+      vpiParameter (4 items):
+        Parameter name:A start:7:16 end:7:17:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+          vpiName: A
+          vpiFullName: c9 #(.A(1000), .B(9)).A
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:A
+            vpiFullName: c9 #(.A(1000), .B(9)).A
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:29:13 end:29:17:
+            vpiParent: Parameter name:A
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1000"
+            vpiValue: 1000
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(1000), .B(9)).A
+              vpiActual: IntTypespec
+        Parameter name:B start:8:16 end:8:17:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+          vpiName: B
+          vpiFullName: c9 #(.A(1000), .B(9)).B
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:B
+            vpiFullName: c9 #(.A(1000), .B(9)).B
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:20:10 end:20:11:
+            vpiParent: Parameter name:B
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(1000), .B(9)).B
+              vpiActual: IntTypespec
+        Parameter name:BITS start:10:15 end:10:19:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+          vpiName: BITS
+          vpiFullName: c9 #(.A(1000), .B(9)).BITS
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:BITS
+            vpiFullName: c9 #(.A(1000), .B(9)).BITS
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:10:22 end:10:25:
+            vpiParent: Parameter name:BITS
+            vpiOpType: multiply (25)
+            vpiOperand (2 items):
+              RefObj name:A start:10:22 end:10:23:
+                vpiParent: Operation
+                vpiName: A
+                vpiFullName: c9 #(.A(1000), .B(9)).BITS.A
+                vpiActual: Parameter name:A
+              RefObj name:B start:10:24 end:10:25:
+                vpiParent: Operation
+                vpiName: B
+                vpiFullName: c9 #(.A(1000), .B(9)).BITS.B
+                vpiActual: Parameter name:B
+        Parameter name:SOMEP start:11:15 end:11:20:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+          vpiName: SOMEP
+          vpiFullName: c9 #(.A(1000), .B(9)).SOMEP
+          vpiLocalParam: true
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:SOMEP
+            vpiFullName: c9 #(.A(1000), .B(9)).SOMEP
+            vpiActual: LogicTypespec
+          vpiExpr Operation start:11:23 end:11:35:
+            vpiParent: Parameter name:SOMEP
+            vpiOpType: multi-concatenation (34)
+            vpiOperand (2 items):
+              RefObj name:BITS start:11:24 end:11:28:
+                vpiParent: Operation
+                vpiName: BITS
+                vpiFullName: c9 #(.A(1000), .B(9)).SOMEP.BITS
+                vpiActual: Parameter name:BITS
+              Operation start:11:28 end:11:34:
+                vpiParent: Operation
+                vpiOpType: concatenation (33)
+                vpiOperand (1 items):
+                  Constant start:11:29 end:11:33:
+                    vpiParent: Operation
+                    vpiConstType: binary (3)
+                    vpiSize: 1
+                    vpiDecompile: "1'b0"
+                    vpiValue: "0"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: c9 #(.A(1000), .B(9)).SOMEP
+                      vpiActual: BitTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+          vpiScalar: true
+        BitTypespec:
+          vpiParent: Module name:c9 #(.A(1000), .B(9))
+      vpiDefName: c9
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_func_const3_bad.v"
+      vpiDefLineNo: 6
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:10:
+        vpiParent: Module name:c9 #(.A(1000), .B(9))
+        vpiName: work
+        vpiFullName: c9 #(.A(1000), .B(9)).work
+        vpiActual: Library name:work
+      vpiCell: c9
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:c9 #(.A(1), .B(1))
+  vpiTypespec (10 items):
     ModuleTypespec name:c9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:c9 start:6:8 end:6:10:
@@ -538,6 +1017,165 @@ Design name:unnamed:
       vpiModule: Module name:t
     StringTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:b9 #(.A(100)) start:28:4 end:28:18:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:b9 #(.A(100)):
+      vpiDefName: b9
+      vpiParamAssign (1 items):
+        ParamAssign start:28:9 end:28:17:
+          vpiParent: ModuleTypespec name:b9 #(.A(100))
+          vpiConnByName: true
+          vpiLhs RefObj name:A start:28:10 end:28:11:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: b9 #(.A(100)).A
+            vpiActual: Parameter name:A
+          vpiRhs Constant start:28:13 end:28:16:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "100"
+            vpiValue: 100
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: b9 #(.A(100))
+              vpiActual: IntTypespec
+      vpiModule: Module name:b9 #(.A(100))
+    ModuleTypespec name:b9 #(.A(1000)) start:29:4 end:29:19:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:b9 #(.A(1000)):
+      vpiDefName: b9
+      vpiParamAssign (1 items):
+        ParamAssign start:29:9 end:29:18:
+          vpiParent: ModuleTypespec name:b9 #(.A(1000))
+          vpiConnByName: true
+          vpiLhs RefObj name:A start:29:10 end:29:11:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: b9 #(.A(1000)).A
+            vpiActual: Parameter name:A
+          vpiRhs Constant start:29:13 end:29:17:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1000"
+            vpiValue: 1000
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: b9 #(.A(1000))
+              vpiActual: IntTypespec
+      vpiModule: Module name:b9 #(.A(1000))
+    ModuleTypespec name:c9 #(.A(A), .B(9)) start:18:4 end:20:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(A), .B(9)):
+      vpiDefName: c9
+      vpiParamAssign (2 items):
+        ParamAssign start:19:6 end:19:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:A start:19:7 end:19:8:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+          vpiRhs RefObj name:A start:19:10 end:19:11:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+        ParamAssign start:20:6 end:20:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:B start:20:7 end:20:8:
+            vpiParent: ParamAssign
+            vpiName: B
+            vpiFullName: c9 #(.A(A), .B(9)).B
+            vpiActual: Parameter name:B
+          vpiRhs Constant start:20:10 end:20:11:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(A), .B(9))
+              vpiActual: IntTypespec
+      vpiModule: Module name:c9 #(.A(1), .B(9))
+    ModuleTypespec name:c9 #(.A(A), .B(9)) start:18:4 end:20:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(A), .B(9)):
+      vpiDefName: c9
+      vpiParamAssign (2 items):
+        ParamAssign start:19:6 end:19:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:A start:19:7 end:19:8:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+          vpiRhs RefObj name:A start:19:10 end:19:11:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+        ParamAssign start:20:6 end:20:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:B start:20:7 end:20:8:
+            vpiParent: ParamAssign
+            vpiName: B
+            vpiFullName: c9 #(.A(A), .B(9)).B
+            vpiActual: Parameter name:B
+          vpiRhs Constant start:20:10 end:20:11:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(A), .B(9))
+              vpiActual: IntTypespec
+      vpiModule: Module name:c9 #(.A(100), .B(9))
+    ModuleTypespec name:c9 #(.A(A), .B(9)) start:18:4 end:20:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c9 #(.A(A), .B(9)):
+      vpiDefName: c9
+      vpiParamAssign (2 items):
+        ParamAssign start:19:6 end:19:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:A start:19:7 end:19:8:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+          vpiRhs RefObj name:A start:19:10 end:19:11:
+            vpiParent: ParamAssign
+            vpiName: A
+            vpiFullName: c9 #(.A(A), .B(9)).A
+            vpiActual: Parameter name:A
+        ParamAssign start:20:6 end:20:12:
+          vpiParent: ModuleTypespec name:c9 #(.A(A), .B(9))
+          vpiConnByName: true
+          vpiLhs RefObj name:B start:20:7 end:20:8:
+            vpiParent: ParamAssign
+            vpiName: B
+            vpiFullName: c9 #(.A(A), .B(9)).B
+            vpiActual: Parameter name:B
+          vpiRhs Constant start:20:10 end:20:11:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "9"
+            vpiValue: 9
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: c9 #(.A(A), .B(9))
+              vpiActual: IntTypespec
+      vpiModule: Module name:c9 #(.A(1000), .B(9))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -547,7 +1185,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 4
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -561,25 +1199,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_func_const3_bad/mounts.json
 
 
-{'result': {'coverage': 97.2,
+{'result': {'coverage': 99.3,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_func_const3_bad.v': {'post_len': 8,
+            'files': {'$Output/lib/work/t_func_const3_bad.v': {'post_len': 2,
                                                                'pre_len': 286}},
-            'post_len': 8,
+            'post_len': 2,
             'pre_len': 286,
             'test_name': 'Verilator/t_func_const3_bad'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_func_const3_bad.v |      286 |         8 |
+| $Output/lib/work/t_func_const3_bad.v |      286 |         2 |
 +======================================+==========+===========+
-|                                      |      286 |         8 |
+|                                      |      286 |         2 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.2
+[COVERAGE] : 99.3
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -589,12 +1227,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const3_bad/design.hldb ${HLC_DIR
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             5       6       2         1
-Operation                            3       0       0         3
-RefObj                               6       3       0         3
-RefTypespec                         14      14       1         1
+Constant                            21      25       8         4
+Operation                           12       0       0        12
+RefObj                              31      19       0        12
+RefTypespec                         46      46       4         4
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    65      60       3         8
+                                   199     179      12        32
 ===================== END REDUCTION RESULT =====================

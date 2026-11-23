@@ -82,6 +82,7 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/class_test_27.sv:16:1: Compile package "Package".
 [INF:CP5804] $Source01/class_test_27.sv:22:1: Compile module "test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/class_test_27.sv:22:1: Top level module "test".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -106,6 +107,8 @@ Design name:unnamed:
           vpiParent: Unit
           vpiName Identifier name:Foo start:20:7 end:20:10:
           vpiFullName: Foo
+          vpiTypespec (1 items):
+            ClassTypespec name:Bar #(.A(1), .B(2)):
           vpiDefName: Foo
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -126,8 +129,8 @@ Design name:unnamed:
                     vpiParent: RefTypespec name:Package::Bar
                     vpiName: Bar
                     vpiFullName: Foo::Package::Bar::Bar
-                    vpiActual: ClassTypespec name:Bar
-                vpiActual: ClassTypespec name:Bar
+                    vpiActual: ClassTypespec name:Bar #(.A(1), .B(2))
+                vpiActual: ClassTypespec name:Bar #(.A(1), .B(2))
           vpiLibrary RefObj name:work start:20:7 end:20:10:
             vpiParent: ClassDefn name:Foo
             vpiName: work
@@ -139,11 +142,51 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Package start:16:9 end:16:16:
       vpiFullName: Package
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         ClassTypespec name:Bar start:17:19 end:17:22:
           vpiParent: Package name:Package
           vpiName Identifier name:Bar:
           vpiDefName: Bar
+          vpiClassDefn: ClassDefn name:Bar #(.A(), .B())
+        ClassTypespec name:Bar #(.A(1), .B(2)) start:20:31 end:20:34:
+          vpiParent: Package name:Package
+          vpiName Identifier name:Bar #(.A(1), .B(2)):
+          vpiDefName: Bar
+          vpiParamAssign (2 items):
+            ParamAssign start:20:36 end:20:37:
+              vpiParent: ClassTypespec name:Bar #(.A(1), .B(2))
+              vpiLhs RefObj name:A start:17:35 end:17:36:
+                vpiParent: ParamAssign
+                vpiName: A
+                vpiFullName: Package::Bar #(.A(1), .B(2))::A
+                vpiActual: Parameter name:A
+              vpiRhs Constant start:20:36 end:20:37:
+                vpiParent: ParamAssign
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Package::Bar #(.A(1), .B(2))
+                  vpiActual: IntTypespec
+            ParamAssign start:20:39 end:20:40:
+              vpiParent: ClassTypespec name:Bar #(.A(1), .B(2))
+              vpiLhs RefObj name:B start:17:38 end:17:39:
+                vpiParent: ParamAssign
+                vpiName: B
+                vpiFullName: Package::Bar #(.A(1), .B(2))::B
+                vpiActual: Parameter name:B
+              vpiRhs Constant start:20:39 end:20:40:
+                vpiParent: ParamAssign
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "2"
+                vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Package::Bar #(.A(1), .B(2))
+                  vpiActual: IntTypespec
           vpiClassDefn: ClassDefn name:Bar #(.A(), .B())
       vpiDefName: Package
       vpiDefNetType: wire (1)
@@ -232,7 +275,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -275,7 +318,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_27/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    32      32       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

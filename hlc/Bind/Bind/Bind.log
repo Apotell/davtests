@@ -17,7 +17,7 @@ n<$Source01/dut.sv> u<1404> t<Top_level_rule> c<1> l<29:1> el<195:1>
   n<> u<1> t<Null_rule> p<1404> s<2> l<29:1> el<29:1>
   n<// Comprehensive bind_directive test     IEEE 1800-2017   23.11> u<2> t<LINE_COMMENT> p<1404> s<3> l<1:1> el<1:64>
   n<//> u<3> t<LINE_COMMENT> p<1404> s<4> l<2:1> el<2:3>
-  n<// Surelog grammar (SV3_1aParser.g4):> u<4> t<LINE_COMMENT> p<1404> s<5> l<3:1> el<3:38>
+  n<// Grammar (IEEE 1800-2023 Annex A, as accepted by HLC):> u<4> t<LINE_COMMENT> p<1404> s<5> l<3:1> el<3:57>
   n<//   bind_directive :> u<5> t<LINE_COMMENT> p<1404> s<6> l<4:1> el<4:22>
   n<//     attribute_instance* BIND identifier COLON bind_target_instance> u<6> t<LINE_COMMENT> p<1404> s<7> l<5:1> el<5:70>
   n<//       (COMMA bind_target_instance)* bind_instantiation       // Form 1 with instance list> u<7> t<LINE_COMMENT> p<1404> s<8> l<6:1> el<6:93>
@@ -1434,6 +1434,10 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:185:18: Compile generate block "gen_inst".
 [INF:CP5836] $Source01/dut.sv:190:18: Compile generate block "gen_chk".
 [WRN:PA5506] $Source01/dut.sv:171:1: No timescale set for "top_generate_binds".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/dut.sv:50:1: Top level module "top_instances".
+[NTE:EL6904] $Source01/dut.sv:139:1: Top level module "top_module_binds".
+[NTE:EL6904] $Source01/dut.sv:171:1: Top level module "top_generate_binds".
 [WRN:DV8514] $Source01/dut.sv:92:18: Failed to bind "u0".
 [WRN:DV8514] $Source01/dut.sv:96:18: Failed to bind "u0".
 [WRN:DV8514] $Source01/dut.sv:96:22: Failed to bind "u1".
@@ -2316,7 +2320,7 @@ Design name:unnamed:
                   vpiParent: NamedArgument
                   vpiName: rxd
                   vpiFullName: bd_t16.rxd
-  vpiAllModules (6 items):
+  vpiAllModules (7 items):
     Module name:TargetMod file:$Source01/dut.sv start:29:1 end:30:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:TargetMod start:29:8 end:29:17:
@@ -3635,6 +3639,134 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: rxd
                         vpiFullName: top_generate_binds.gen_chk.bd_g3.rxd
+    Module name:AsrtParamMod #(.WIDTH(4)) file:$Source01/dut.sv start:37:1 end:40:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:AsrtParamMod #(.WIDTH(4)) start:37:8 end:37:20:
+      vpiFullName: AsrtParamMod #(.WIDTH(4))
+      vpiParameter (1 items):
+        Parameter name:WIDTH start:38:21 end:38:26:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiName: WIDTH
+          vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
+          vpiTypespec RefTypespec start:38:17 end:38:20:
+            vpiParent: Parameter name:WIDTH
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
+            vpiActual: IntTypespec
+          vpiExpr Constant start:163:40 end:163:41:
+            vpiParent: Parameter name:WIDTH
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
+              vpiActual: IntTypespec
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiScalar: true
+        LogicTypespec:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiRange (1 items):
+            Range start:39:35 end:39:46:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:39:36 end:39:43:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:WIDTH start:39:36 end:39:41:
+                    vpiParent: Operation
+                    vpiName: WIDTH
+                    vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
+                    vpiActual: Parameter name:WIDTH
+                  Constant start:39:42 end:39:43:
+                    vpiParent: Operation
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: AsrtParamMod #(.WIDTH(4))
+                      vpiActual: IntTypespec
+              vpiRightRange Constant start:39:44 end:39:45:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: AsrtParamMod #(.WIDTH(4))
+                  vpiActual: IntTypespec
+          vpiVector: true
+      vpiDefName: AsrtParamMod
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 37
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:37:8 end:37:20:
+        vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+        vpiName: work
+        vpiFullName: AsrtParamMod #(.WIDTH(4)).work
+        vpiActual: Library name:work
+      vpiCell: AsrtParamMod
+      vpiNet (2 items):
+        Net name:clk start:39:18 end:39:21:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiName: clk
+          vpiFullName: AsrtParamMod #(.WIDTH(4)).clk
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:39:12 end:39:17:
+            vpiParent: Net name:clk
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).clk
+            vpiActual: LogicTypespec
+        Net name:rxd start:39:47 end:39:50:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiName: rxd
+          vpiFullName: AsrtParamMod #(.WIDTH(4)).rxd
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:39:29 end:39:46:
+            vpiParent: Net name:rxd
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).rxd
+            vpiActual: LogicTypespec
+      vpiUnit: Unit
+      vpiPort (2 items):
+        Port name:clk start:39:18 end:39:21:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiName: clk
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:clk start:39:18 end:39:21:
+            vpiParent: Port name:clk
+            vpiName: clk
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).clk.clk
+            vpiActual: Net name:clk
+          vpiTypespec RefTypespec start:39:12 end:39:17:
+            vpiParent: Port name:clk
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).clk
+            vpiActual: LogicTypespec
+        Port name:rxd start:39:47 end:39:50:
+          vpiParent: Module name:AsrtParamMod #(.WIDTH(4))
+          vpiName: rxd
+          vpiPortIndex: 1
+          vpiPortType: port (44)
+          vpiDirection: input (1)
+          vpiLowConn RefObj name:rxd start:39:47 end:39:50:
+            vpiParent: Port name:rxd
+            vpiName: rxd
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).rxd.rxd
+            vpiActual: Net name:rxd
+          vpiTypespec RefTypespec start:39:29 end:39:46:
+            vpiParent: Port name:rxd
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).rxd
+            vpiActual: LogicTypespec
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:AsrtParamMod #(.WIDTH(8))
   vpiTypespec (9 items):
     ModuleTypespec name:TargetMod:
       vpiParent: Design name:unnamed
@@ -3669,30 +3801,6 @@ Design name:unnamed:
       vpiName Identifier name:top_generate_binds start:171:8 end:171:26:
       vpiDefName: top_generate_binds
       vpiModule: Module name:top_generate_binds
-    ModuleTypespec name:AsrtParamMod #(.WIDTH(4)) start:163:18 end:163:30:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:AsrtParamMod #(.WIDTH(4)) start:163:18 end:163:30:
-      vpiDefName: AsrtParamMod
-      vpiParamAssign (1 items):
-        ParamAssign start:163:33 end:163:42:
-          vpiParent: ModuleTypespec name:AsrtParamMod #(.WIDTH(4))
-          vpiConnByName: true
-          vpiLhs RefObj name:WIDTH start:163:34 end:163:39:
-            vpiParent: ParamAssign
-            vpiName: WIDTH
-            vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
-            vpiActual: Parameter name:WIDTH
-          vpiRhs Constant start:163:40 end:163:41:
-            vpiParent: ParamAssign
-            vpiConstType: int (7)
-            vpiSize: 32
-            vpiDecompile: "4"
-            vpiValue: 4
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: AsrtParamMod #(.WIDTH(4))
-              vpiActual: IntTypespec
-      vpiModule: Module name:AsrtParamMod #(.WIDTH(8))
     ModuleTypespec name:AsrtParamMod #(.WIDTH(8)) start:82:16 end:82:28:
       vpiParent: Design name:unnamed
       vpiName Identifier name:AsrtParamMod #(.WIDTH(8)) start:82:16 end:82:28:
@@ -3717,6 +3825,30 @@ Design name:unnamed:
               vpiFullName: AsrtParamMod #(.WIDTH(8))
               vpiActual: IntTypespec
       vpiModule: Module name:AsrtParamMod #(.WIDTH(8))
+    ModuleTypespec name:AsrtParamMod #(.WIDTH(4)) start:163:18 end:163:30:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:AsrtParamMod #(.WIDTH(4)) start:163:18 end:163:30:
+      vpiDefName: AsrtParamMod
+      vpiParamAssign (1 items):
+        ParamAssign start:163:33 end:163:42:
+          vpiParent: ModuleTypespec name:AsrtParamMod #(.WIDTH(4))
+          vpiConnByName: true
+          vpiLhs RefObj name:WIDTH start:163:34 end:163:39:
+            vpiParent: ParamAssign
+            vpiName: WIDTH
+            vpiFullName: AsrtParamMod #(.WIDTH(4)).WIDTH
+            vpiActual: Parameter name:WIDTH
+          vpiRhs Constant start:163:40 end:163:41:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "4"
+            vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: AsrtParamMod #(.WIDTH(4))
+              vpiActual: IntTypespec
+      vpiModule: Module name:AsrtParamMod #(.WIDTH(4))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -3726,7 +3858,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 20
-[   NOTE] : 1
+[   NOTE] : 5
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -3768,12 +3900,12 @@ COMMAND: ${HLC_DIR}/regression/Bind/Bind/design.hldb ${HLC_DIR}/regression/Bind/
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            36      36       1         1
-Operation                            1       0       0         1
-RefObj                             181     180       0         1
-RefTypespec                         91      91       1         1
+Constant                            39      39       2         2
+Operation                            2       0       0         2
+RefObj                             185     183       0         2
+RefTypespec                         99      99       2         2
 ----------------------------------------------------------------
-Others                             222     222       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   531     529       2         4
+                                   557     553       4         8
 ===================== END REDUCTION RESULT =====================

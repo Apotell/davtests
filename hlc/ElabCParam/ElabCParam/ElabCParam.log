@@ -602,6 +602,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:54:1: Compile module "all_zero".
 [INF:CP5836] $Source01/dut.sv:60:44: Compile generate block "gen_dfifo".
 [WRN:PA5506] $Source01/dut.sv:54:1: No timescale set for "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/dut.sv:38:1: Top level module "socket_1n".
+[NTE:EL6904] $Source01/dut.sv:54:1: Top level module "all_zero".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -615,7 +618,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:dut.sv:
-  vpiAllModules (4 items):
+  vpiAllModules (5 items):
     Module name:prim_fifo_sync #(.Depth(4)) file:$Source01/dut.sv start:2:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_fifo_sync #(.Depth(4)) start:2:8 end:2:22:
@@ -1411,6 +1414,146 @@ Design name:unnamed:
                   vpiName: fifo_sync
                   vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_d.fifo_sync"
                   vpiActual: ModuleTypespec name:fifo_sync #(.ReqDepth(DReqDepth[i*4+:4]))
+    Module name:prim_fifo_sync #(.Depth(6)) file:$Source01/dut.sv start:2:1 end:21:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:prim_fifo_sync #(.Depth(6)) start:2:8 end:2:22:
+      vpiFullName: prim_fifo_sync #(.Depth(6))
+      vpiParameter (1 items):
+        Parameter name:Depth start:3:26 end:3:31:
+          vpiParent: Module name:prim_fifo_sync #(.Depth(6))
+          vpiName: Depth
+          vpiFullName: prim_fifo_sync #(.Depth(6)).Depth
+          vpiTypespec RefTypespec start:3:13 end:3:25:
+            vpiParent: Parameter name:Depth
+            vpiFullName: prim_fifo_sync #(.Depth(6)).Depth
+            vpiActual: IntTypespec
+          vpiExpr Constant start:25:37 end:25:38:
+            vpiParent: Parameter name:Depth
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "6"
+            vpiValue: 6
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: prim_fifo_sync #(.Depth(6)).Depth
+              vpiActual: IntTypespec
+      vpiDefName: prim_fifo_sync
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 2
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:2:8 end:2:22:
+        vpiParent: Module name:prim_fifo_sync #(.Depth(6))
+        vpiName: work
+        vpiFullName: prim_fifo_sync #(.Depth(6)).work
+        vpiActual: Library name:work
+      vpiCell: prim_fifo_sync
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:4:3 end:5:2:
+          vpiParent: Module name:prim_fifo_sync #(.Depth(6))
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$clog2:
+        SysFuncCall name:$clog2:
+      vpiGenStmt (1 items):
+        GenIfElse start:8:3 end:20:6:
+          vpiParent: Module name:prim_fifo_sync #(.Depth(6))
+          vpiCondition Operation start:8:7 end:8:17:
+            vpiParent: GenIfElse
+            vpiOpType: equal (14)
+            vpiOperand (2 items):
+              RefObj name:Depth start:8:7 end:8:12:
+                vpiParent: Operation
+                vpiName: Depth
+                vpiFullName: prim_fifo_sync #(.Depth(6)).Depth
+                vpiActual: Parameter name:Depth
+              Constant start:8:16 end:8:17:
+                vpiParent: Operation
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: prim_fifo_sync #(.Depth(6))
+                  vpiActual: IntTypespec
+          vpiStmt GenBlock name:gen_passthru start:8:19 end:15:6:
+            vpiParent: GenIfElse
+            vpiName Identifier name:gen_passthru start:8:27 end:8:39:
+            vpiFullName: prim_fifo_sync #(.Depth(6)).gen_passthru
+            vpiTypespec (1 items):
+              BitTypespec:
+                vpiParent: GenBlock name:gen_passthru
+            vpiStmt (1 items):
+              ContAssign start:11:12 end:11:24:
+                vpiParent: GenBlock name:gen_passthru
+                vpiStrength0: strong (64)
+                vpiStrength1: strong (64)
+                vpiLhs RefObj name:depth start:11:12 end:11:17:
+                  vpiParent: ContAssign
+                  vpiName: depth
+                  vpiFullName: prim_fifo_sync #(.Depth(6)).gen_passthru.depth
+                vpiRhs Constant start:11:20 end:11:24:
+                  vpiParent: ContAssign
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "1'b0"
+                  vpiValue: "0"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: prim_fifo_sync #(.Depth(6)).gen_passthru
+                    vpiActual: BitTypespec
+          vpiElseStmt GenBlock name:gen_normal start:15:12 end:20:6:
+            vpiParent: GenIfElse
+            vpiName Identifier name:gen_normal start:15:20 end:15:30:
+            vpiFullName: prim_fifo_sync #(.Depth(6)).gen_normal
+            vpiParameter (1 items):
+              Parameter name:PTRV_W start:18:29 end:18:35:
+                vpiParent: GenBlock name:gen_normal
+                vpiName: PTRV_W
+                vpiFullName: prim_fifo_sync #(.Depth(6)).gen_normal.PTRV_W
+                vpiLocalParam: true
+                vpiTypespec RefTypespec start:18:16 end:18:28:
+                  vpiParent: Parameter name:PTRV_W
+                  vpiFullName: prim_fifo_sync #(.Depth(6)).gen_normal.PTRV_W
+                  vpiActual: IntTypespec
+                vpiExpr Operation start:18:41 end:18:72:
+                  vpiParent: Parameter name:PTRV_W
+                  vpiOpType: add (24)
+                  vpiOperand (2 items):
+                    SysFuncCall name:$clog2 start:18:41 end:18:54:
+                      vpiParent: Operation
+                      vpiName Identifier name:$clog2 start:18:41 end:18:47:
+                      vpiTaskFunc: Function name:$clog2
+                      vpiArgument (1 items):
+                        NamedArgument start:18:48 end:18:53:
+                          vpiParent: SysFuncCall name:$clog2
+                          vpiHighConn RefObj name:Depth start:18:48 end:18:53:
+                            vpiParent: NamedArgument
+                            vpiName: Depth
+                            vpiFullName: prim_fifo_sync #(.Depth(6)).gen_normal.PTRV_W.Depth
+                            vpiActual: Parameter name:Depth
+                    Operation start:18:57 end:18:72:
+                      vpiParent: Operation
+                      vpiOpType: unary nor (8)
+                      vpiOperand (1 items):
+                        SysFuncCall name:$clog2 start:18:59 end:18:72:
+                          vpiParent: Operation
+                          vpiName Identifier name:$clog2 start:18:59 end:18:65:
+                          vpiTaskFunc: Function name:$clog2
+                          vpiArgument (1 items):
+                            NamedArgument start:18:66 end:18:71:
+                              vpiParent: SysFuncCall name:$clog2
+                              vpiHighConn RefObj name:Depth start:18:66 end:18:71:
+                                vpiParent: NamedArgument
+                                vpiName: Depth
+                                vpiFullName: prim_fifo_sync #(.Depth(6)).gen_normal.PTRV_W.Depth
+                                vpiActual: Parameter name:Depth
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:prim_fifo_sync #(.Depth(4))
   vpiTypespec (14 items):
     ModuleTypespec name:prim_fifo_sync:
       vpiParent: Design name:unnamed
@@ -1577,7 +1720,7 @@ Design name:unnamed:
             vpiName: ReqDepth
             vpiFullName: prim_fifo_sync #(.Depth(ReqDepth)).ReqDepth
             vpiActual: Parameter name:ReqDepth
-      vpiModule: Module name:prim_fifo_sync #(.Depth(4))
+      vpiModule: Module name:prim_fifo_sync #(.Depth(6))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1587,7 +1730,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 4
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1629,15 +1772,15 @@ COMMAND: ${HLC_DIR}/regression/ElabCParam/ElabCParam/design.hldb ${HLC_DIR}/regr
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            49      48       7         8
-Identifier                         415     413       0         2
-NamedArgument                        2       0       0         2
-Operation                           17       9       0         8
-RefObj                              27      23       0         4
-RefTypespec                        662     658       4         8
-SysFuncCall                          2       0       0         2
+Constant                            52      53      10         9
+Identifier                         420     416       0         4
+NamedArgument                        4       0       0         4
+Operation                           20      10       0        10
+RefObj                              32      25       0         7
+RefTypespec                        667     664       6         9
+SysFuncCall                          4       0       0         4
 ----------------------------------------------------------------
-Others                             901     901       0         0
+Others                             910     910       0         0
 ----------------------------------------------------------------
-                                  2075    2052      11        34
+                                  2109    2078      16        47
 ===================== END REDUCTION RESULT =====================

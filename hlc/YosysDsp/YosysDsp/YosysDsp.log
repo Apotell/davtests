@@ -24067,6 +24067,24 @@ AST_DEBUG_END
 [ERR:CP5835] $Source01/slowfil_srl.vh:49:1: Colliding compilation unit name: "slowfil_srl",
              $Source01/slowfil_srl.v:49:1: previous usage,
              In file included from $Source01/slowfil_srl_fixedtaps.v:23.
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/boxcar.v:74:1: Top level module "boxcar".
+[NTE:EL6904] $Source01/delayw.v:42:1: Top level module "delayw".
+[NTE:EL6904] $Source01/dspswitch.v:40:1: Top level module "dspswitch".
+[NTE:EL6904] $Source01/fastfir_dynamictaps.v:1:1: Top level module "fastfir_dynamictaps".
+[NTE:EL6904] $Source01/fastfir_fixedtaps.v:1:1: Top level module "fastfir_fixedtaps".
+[NTE:EL6904] $Source01/genericfir.v:41:1: Top level module "genericfir".
+[NTE:EL6904] $Source01/iiravg.v:41:1: Top level module "iiravg".
+[NTE:EL6904] $Source01/lfsr.v:46:1: Top level module "lfsr".
+[NTE:EL6904] $Source01/lfsr_fib.v:41:1: Top level module "lfsr_fib".
+[NTE:EL6904] $Source01/lfsr_gal.v:41:1: Top level module "lfsr_gal".
+[NTE:EL6904] $Source01/shalfband.v:41:1: Top level module "shalfband".
+[NTE:EL6904] $Source01/slowfil_fixedtaps.v:1:1: Top level module "slowfil_fixedtaps".
+[NTE:EL6904] $Source01/slowfil_srl_fixedtaps.v:1:1: Top level module "slowfil_srl_fixedtaps".
+[NTE:EL6904] $Source01/slowfil_srl.vh:49:1: Top level module "slowfil_srl",
+             In file included from $Source01/slowfil_srl_fixedtaps.v:23.
+[NTE:EL6904] $Source01/slowsymf.v:45:1: Top level module "slowsymf".
+[NTE:EL6904] $Source01/smplfir.v:47:1: Top level module "smplfir".
 [ERR:DL2507] $Source01/smplfir.v:63:4: Illegal lhs of type wire "o_val".
 [ERR:DL2516] $Source01/smplfir.v:63:4: Model property "Assignment/vpiLhs" has an invalid value of type "RefObj".
 ====== HLDB =======
@@ -29573,7 +29591,7 @@ Design name:unnamed:
                 vpiParent: GenFor
                 vpiName Identifier name:FILTER start:86:9 end:86:15:
                 vpiFullName: fastfir.FILTER
-                vpiTypespec (1 items):
+                vpiTypespec (2 items):
                   LogicTypespec:
                     vpiParent: GenBlock name:FILTER
                     vpiRange (1 items):
@@ -29609,6 +29627,7 @@ Design name:unnamed:
                             vpiFullName: fastfir.FILTER
                             vpiActual: IntTypespec
                     vpiVector: true
+                  ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)):
                 vpiNet (1 items):
                   Net name:unused_tap start:105:19 end:105:29:
                     vpiParent: GenBlock name:FILTER
@@ -29628,7 +29647,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:tapk
                       vpiName: firtap
                       vpiFullName: fastfir.FILTER.tapk.firtap
-                      vpiActual: ModuleTypespec name:firtap
+                      vpiActual: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
                     vpiArgument (10 items):
                       NamedArgument start:91:9 end:91:14:
                         vpiParent: RefInstance name:tapk
@@ -30098,7 +30117,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: fastfir_dynamictaps.FIXED_TAPS
               vpiActual: IntTypespec
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:fastfir_dynamictaps
           vpiScalar: true
@@ -30233,6 +30252,7 @@ Design name:unnamed:
                   vpiFullName: fastfir_dynamictaps
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)):
       vpiDefName: fastfir_dynamictaps
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/fastfir_dynamictaps.v"
@@ -30430,7 +30450,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:fir
             vpiName: fastfir
             vpiFullName: fastfir_dynamictaps.fir.fastfir
-            vpiActual: ModuleTypespec name:fastfir
+            vpiActual: ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW))
           vpiArgument (7 items):
             NamedArgument start:17:66 end:17:79:
               vpiParent: RefInstance name:fir
@@ -30636,7 +30656,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: fastfir_fixedtaps.FIXED_TAPS
               vpiActual: IntTypespec
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:fastfir_fixedtaps
           vpiScalar: true
@@ -30771,6 +30791,7 @@ Design name:unnamed:
                   vpiFullName: fastfir_fixedtaps
                   vpiActual: IntTypespec
           vpiVector: true
+        ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)):
       vpiDefName: fastfir_fixedtaps
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/fastfir_fixedtaps.v"
@@ -30968,7 +30989,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:fir
             vpiName: fastfir
             vpiFullName: fastfir_fixedtaps.fir.fastfir
-            vpiActual: ModuleTypespec name:fastfir
+            vpiActual: ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW))
           vpiArgument (7 items):
             NamedArgument start:17:66 end:17:79:
               vpiParent: RefInstance name:fir
@@ -33426,7 +33447,7 @@ Design name:unnamed:
                 vpiParent: GenFor
                 vpiName Identifier name:FILTER start:77:9 end:77:15:
                 vpiFullName: genericfir.FILTER
-                vpiTypespec (1 items):
+                vpiTypespec (2 items):
                   LogicTypespec:
                     vpiParent: GenBlock name:FILTER
                     vpiRange (1 items):
@@ -33462,6 +33483,7 @@ Design name:unnamed:
                             vpiFullName: genericfir.FILTER
                             vpiActual: IntTypespec
                     vpiVector: true
+                  ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)):
                 vpiNet (1 items):
                   Net name:unused_tap start:95:19 end:95:29:
                     vpiParent: GenBlock name:FILTER
@@ -33481,7 +33503,7 @@ Design name:unnamed:
                       vpiParent: RefInstance name:tapk
                       vpiName: firtap
                       vpiFullName: genericfir.FILTER.tapk.firtap
-                      vpiActual: ModuleTypespec name:firtap
+                      vpiActual: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
                     vpiArgument (10 items):
                       NamedArgument start:82:9 end:82:14:
                         vpiParent: RefInstance name:tapk
@@ -44334,7 +44356,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: slowfil_fixedtaps.FIXED_TAPS
               vpiActual: IntTypespec
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:slowfil_fixedtaps
           vpiScalar: true
@@ -44469,6 +44491,7 @@ Design name:unnamed:
                   vpiFullName: slowfil_fixedtaps
                   vpiActual: IntTypespec
           vpiVector: true
+        "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))":
       vpiDefName: slowfil_fixedtaps
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/slowfil_fixedtaps.v"
@@ -44691,7 +44714,7 @@ Design name:unnamed:
             vpiParent: RefInstance name:fir
             vpiName: slowfil
             vpiFullName: slowfil_fixedtaps.fir.slowfil
-            vpiActual: ModuleTypespec name:slowfil
+            vpiActual: "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))"
           vpiArgument (8 items):
             NamedArgument start:18:95 end:18:108:
               vpiParent: RefInstance name:fir
@@ -55609,7 +55632,7 @@ Design name:unnamed:
                       vpiFullName: smplfir.delayed
                       vpiActual: Variable name:delayed
           vpiAlwaysType: always (1)
-  vpiTypespec (29 items):
+  vpiTypespec (34 items):
     ModuleTypespec name:boxcar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:boxcar start:74:8 end:74:14:
@@ -55727,6 +55750,261 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     TimeTypespec:
       vpiParent: Design name:unnamed
+    ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)) start:17:2 end:17:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)):
+      vpiDefName: fastfir
+      vpiParamAssign (3 items):
+        ParamAssign start:17:12 end:17:26:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:FIXED_TAPS start:17:13 end:17:23:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+          vpiRhs Constant start:17:24 end:17:25:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW))
+              vpiActual: IntTypespec
+        ParamAssign start:17:43 end:17:50:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:IW start:17:44 end:17:46:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)).IW
+            vpiActual: Parameter name:IW
+          vpiRhs RefObj name:IW start:17:47 end:17:49:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)).IW
+            vpiActual: Parameter name:IW
+        ParamAssign start:17:52 end:17:59:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:TW start:17:53 end:17:55:
+            vpiParent: ParamAssign
+            vpiName: TW
+            vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)).TW
+            vpiActual: Parameter name:TW
+          vpiRhs RefObj name:TW start:17:56 end:17:58:
+            vpiParent: ParamAssign
+            vpiName: TW
+            vpiFullName: fastfir #(.FIXED_TAPS(0), .IW(IW), .TW(TW)).TW
+            vpiActual: Parameter name:TW
+      vpiModule: Module name:fastfir
+    ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)) start:17:2 end:17:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)):
+      vpiDefName: fastfir
+      vpiParamAssign (3 items):
+        ParamAssign start:17:12 end:17:26:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:FIXED_TAPS start:17:13 end:17:23:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+          vpiRhs Constant start:17:24 end:17:25:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW))
+              vpiActual: IntTypespec
+        ParamAssign start:17:43 end:17:50:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:IW start:17:44 end:17:46:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)).IW
+            vpiActual: Parameter name:IW
+          vpiRhs RefObj name:IW start:17:47 end:17:49:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)).IW
+            vpiActual: Parameter name:IW
+        ParamAssign start:17:52 end:17:59:
+          vpiParent: ModuleTypespec name:fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW))
+          vpiConnByName: true
+          vpiLhs RefObj name:TW start:17:53 end:17:55:
+            vpiParent: ParamAssign
+            vpiName: TW
+            vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)).TW
+            vpiActual: Parameter name:TW
+          vpiRhs RefObj name:TW start:17:56 end:17:58:
+            vpiParent: ParamAssign
+            vpiName: TW
+            vpiFullName: fastfir #(.FIXED_TAPS(1), .IW(IW), .TW(TW)).TW
+            vpiActual: Parameter name:TW
+      vpiModule: Module name:fastfir
+    ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)) start:88:3 end:88:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)):
+      vpiDefName: firtap
+      vpiParamAssign (3 items):
+        ParamAssign start:88:12 end:88:35:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:FIXED_TAPS start:88:13 end:88:23:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+          vpiRhs RefObj name:FIXED_TAPS start:88:24 end:88:34:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+        ParamAssign start:89:14 end:89:21:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:OW start:89:15 end:89:17:
+            vpiParent: ParamAssign
+            vpiName: OW
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).OW
+            vpiActual: Parameter name:OW
+          vpiRhs RefObj name:OW start:89:18 end:89:20:
+            vpiParent: ParamAssign
+            vpiName: OW
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).OW
+            vpiActual: Parameter name:OW
+        ParamAssign start:90:5 end:90:22:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:INITIAL_VALUE start:90:6 end:90:19:
+            vpiParent: ParamAssign
+            vpiName: INITIAL_VALUE
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).INITIAL_VALUE
+            vpiActual: Parameter name:INITIAL_VALUE
+          vpiRhs Constant start:90:20 end:90:21:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+              vpiActual: IntTypespec
+      vpiModule: Module name:firtap
+    ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)) start:79:3 end:79:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)):
+      vpiDefName: firtap
+      vpiParamAssign (3 items):
+        ParamAssign start:79:12 end:79:35:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:FIXED_TAPS start:79:13 end:79:23:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+          vpiRhs RefObj name:FIXED_TAPS start:79:24 end:79:34:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+        ParamAssign start:80:14 end:80:21:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:OW start:80:15 end:80:17:
+            vpiParent: ParamAssign
+            vpiName: OW
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).OW
+            vpiActual: Parameter name:OW
+          vpiRhs RefObj name:OW start:80:18 end:80:20:
+            vpiParent: ParamAssign
+            vpiName: OW
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).OW
+            vpiActual: Parameter name:OW
+        ParamAssign start:81:5 end:81:22:
+          vpiParent: ModuleTypespec name:firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+          vpiConnByName: true
+          vpiLhs RefObj name:INITIAL_VALUE start:81:6 end:81:19:
+            vpiParent: ParamAssign
+            vpiName: INITIAL_VALUE
+            vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0)).INITIAL_VALUE
+            vpiActual: Parameter name:INITIAL_VALUE
+          vpiRhs Constant start:81:20 end:81:21:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "0"
+            vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: firtap #(.FIXED_TAPS(FIXED_TAPS), .OW(OW), .INITIAL_VALUE(0))
+              vpiActual: IntTypespec
+      vpiModule: Module name:firtap
+    "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\")) start:18:2 end:18:9":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))":
+      vpiDefName: slowfil
+      vpiParamAssign (3 items):
+        ParamAssign start:18:12 end:18:26:
+          vpiParent: "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))"
+          vpiConnByName: true
+          vpiLhs RefObj name:FIXED_TAPS start:18:13 end:18:23:
+            vpiParent: ParamAssign
+            vpiName: FIXED_TAPS
+            vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex")).FIXED_TAPS
+            vpiActual: Parameter name:FIXED_TAPS
+          vpiRhs Constant start:18:24 end:18:25:
+            vpiParent: ParamAssign
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex"))
+              vpiActual: IntTypespec
+        ParamAssign start:18:43 end:18:50:
+          vpiParent: "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))"
+          vpiConnByName: true
+          vpiLhs RefObj name:IW start:18:44 end:18:46:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex")).IW
+            vpiActual: Parameter name:IW
+          vpiRhs RefObj name:IW start:18:47 end:18:49:
+            vpiParent: ParamAssign
+            vpiName: IW
+            vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex")).IW
+            vpiActual: Parameter name:IW
+        ParamAssign start:18:61 end:18:88:
+          vpiParent: "ModuleTypespec name:slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS(\"taps.hex\"))"
+          vpiConnByName: true
+          vpiLhs RefObj name:INITIAL_COEFFS start:18:62 end:18:76:
+            vpiParent: ParamAssign
+            vpiName: INITIAL_COEFFS
+            vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex")).INITIAL_COEFFS
+            vpiActual: Parameter name:INITIAL_COEFFS
+          vpiRhs Constant start:18:77 end:18:87:
+            vpiParent: ParamAssign
+            vpiConstType: string (6)
+            vpiSize: 64
+            vpiDecompile: "\"taps.hex\""
+            vpiValue: taps.hex
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: slowfil #(.FIXED_TAPS(1), .IW(IW), .INITIAL_COEFFS("taps.hex"))
+              vpiActual: StringTypespec
+      vpiModule: Module name:slowfil
     "ModuleTypespec name:slowfil_srl #(.FIXED_TAPS(1), .NTAPS(NTAPS), .IW(IW), .TW(TW), .INITIAL_COEFFS(\"taps.hex\")) start:20:2 end:20:13":
       vpiParent: Design name:unnamed
       "vpiName Identifier name:slowfil_srl #(.FIXED_TAPS(1), .NTAPS(NTAPS), .IW(IW), .TW(TW), .INITIAL_COEFFS(\"taps.hex\")) start:20:2 end:20:13":
@@ -55817,7 +56095,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 8
 [WARNING] : 20
-[   NOTE] : 0
+[   NOTE] : 17
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -55831,7 +56109,7 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
 
 
-{'result': {'coverage': 99.14,
+{'result': {'coverage': 99.78,
             'error_count': 0,
             'file_count': 19,
             'files': {'$Output/lib/work/boxcar.v': {'post_len': 0,
@@ -55840,15 +56118,15 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
                                                     'pre_len': 1127},
                       '$Output/lib/work/dspswitch.v': {'post_len': 0,
                                                        'pre_len': 528},
-                      '$Output/lib/work/fastfir.v': {'post_len': 53,
+                      '$Output/lib/work/fastfir.v': {'post_len': 11,
                                                      'pre_len': 1150},
-                      '$Output/lib/work/fastfir_dynamictaps.v': {'post_len': 36,
+                      '$Output/lib/work/fastfir_dynamictaps.v': {'post_len': 11,
                                                                  'pre_len': 520},
-                      '$Output/lib/work/fastfir_fixedtaps.v': {'post_len': 36,
+                      '$Output/lib/work/fastfir_fixedtaps.v': {'post_len': 11,
                                                                'pre_len': 518},
                       '$Output/lib/work/firtap.v': {'post_len': 0,
                                                     'pre_len': 1229},
-                      '$Output/lib/work/genericfir.v': {'post_len': 53,
+                      '$Output/lib/work/genericfir.v': {'post_len': 11,
                                                         'pre_len': 1142},
                       '$Output/lib/work/iiravg.v': {'post_len': 0,
                                                     'pre_len': 610},
@@ -55862,7 +56140,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
                                                        'pre_len': 3917},
                       '$Output/lib/work/slowfil.v': {'post_len': 0,
                                                      'pre_len': 2598},
-                      '$Output/lib/work/slowfil_fixedtaps.v': {'post_len': 62,
+                      '$Output/lib/work/slowfil_fixedtaps.v': {'post_len': 17,
                                                                'pre_len': 594},
                       '$Output/lib/work/slowfil_srl.v': {'post_len': 0,
                                                          'pre_len': 2622},
@@ -55872,7 +56150,7 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
                                                       'pre_len': 3740},
                       '$Output/lib/work/smplfir.v': {'post_len': 0,
                                                      'pre_len': 342}},
-            'post_len': 240,
+            'post_len': 61,
             'pre_len': 27817,
             'test_name': 'YosysDsp/YosysDsp'}}
 
@@ -55882,28 +56160,28 @@ mounts-filepath: ${HLC_DIR}/regression/YosysDsp/YosysDsp/mounts.json
 | $Output/lib/work/boxcar.v                |     1949 |         0 |
 | $Output/lib/work/delayw.v                |     1127 |         0 |
 | $Output/lib/work/dspswitch.v             |      528 |         0 |
-| $Output/lib/work/fastfir.v               |     1150 |        53 |
-| $Output/lib/work/fastfir_dynamictaps.v   |      520 |        36 |
-| $Output/lib/work/fastfir_fixedtaps.v     |      518 |        36 |
+| $Output/lib/work/fastfir.v               |     1150 |        11 |
+| $Output/lib/work/fastfir_dynamictaps.v   |      520 |        11 |
+| $Output/lib/work/fastfir_fixedtaps.v     |      518 |        11 |
 | $Output/lib/work/firtap.v                |     1229 |         0 |
-| $Output/lib/work/genericfir.v            |     1142 |        53 |
+| $Output/lib/work/genericfir.v            |     1142 |        11 |
 | $Output/lib/work/iiravg.v                |      610 |         0 |
 | $Output/lib/work/lfsr.v                  |     1044 |         0 |
 | $Output/lib/work/lfsr_fib.v              |      463 |         0 |
 | $Output/lib/work/lfsr_gal.v              |      468 |         0 |
 | $Output/lib/work/shalfband.v             |     3917 |         0 |
 | $Output/lib/work/slowfil.v               |     2598 |         0 |
-| $Output/lib/work/slowfil_fixedtaps.v     |      594 |        62 |
+| $Output/lib/work/slowfil_fixedtaps.v     |      594 |        17 |
 | $Output/lib/work/slowfil_srl.v           |     2622 |         0 |
 | $Output/lib/work/slowfil_srl_fixedtaps.v |     3256 |         0 |
 | $Output/lib/work/slowsymf.v              |     3740 |         0 |
 | $Output/lib/work/smplfir.v               |      342 |         0 |
 +==========================================+==========+===========+
-|                                          |    27817 |       240 |
+|                                          |    27817 |        61 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.14
+[COVERAGE] : 99.78
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -55913,12 +56191,12 @@ COMMAND: ${HLC_DIR}/regression/YosysDsp/YosysDsp/design.hldb ${HLC_DIR}/regressi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                           918     927     268       259
+Constant                           924     933     268       259
 Operation                          728     386       0       342
-RefObj                            1705    1366       0       339
-RefTypespec                       2068    2069     260       259
+RefObj                            1729    1390       0       339
+RefTypespec                       2074    2075     260       259
 ----------------------------------------------------------------
-Others                            3655    3655       0         0
+Others                            3680    3680       0         0
 ----------------------------------------------------------------
-                                  9074    8403     528      1199
+                                  9135    8464     528      1199
 ===================== END REDUCTION RESULT =====================

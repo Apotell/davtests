@@ -170,9 +170,8 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pkg".
 [INF:CP5804] $Source01/dut.sv:27:1: Compile module "top".
 [WRN:PA5506] $Source01/dut.sv:27:1: No timescale set for "top".
+[NTE:EL6904] $Source01/dut.sv:27:1: Top level module "top".
 [WRN:DV8514] $Source01/dut.sv:19:52: Failed to bind "unique".
-[WRN:DV8514] $Source01/dut.sv:19:60: Failed to bind "cb_".
-[WRN:DV8514] $Source01/dut.sv:19:73: Failed to bind "cb_".
 [WRN:DV8514] $Source01/dut.sv:19:77: Failed to bind "get_inst_id".
 [ERR:DV8504] $Source01/dut.sv:19:32: Null Actual: id:65, type:MethodFuncCall, name:unique, relation:vpiRhs.
 ====== HLDB =======
@@ -391,13 +390,6 @@ Design name:unnamed:
                 vpiRhs MethodFuncCall name:unique start:19:32 end:19:90:
                   vpiParent: Assignment
                   vpiName Identifier name:unique start:19:52 end:19:58:
-                  vpiArgument (1 items):
-                    NamedArgument start:19:60 end:19:63:
-                      vpiParent: MethodFuncCall name:unique
-                      vpiHighConn RefObj name:cb_ start:19:60 end:19:63:
-                        vpiParent: NamedArgument
-                        vpiName: cb_
-                        vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::cb_
                   vpiWith RefObj name:cb_.get_inst_id start:19:73 end:19:88:
                     vpiParent: MethodFuncCall name:unique
                     vpiName: cb_.get_inst_id
@@ -407,14 +399,15 @@ Design name:unnamed:
                         vpiParent: RefObj name:cb_.get_inst_id
                         vpiName: cb_
                         vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::cb_
+                        vpiActual: Variable name:cb_
                       RefObj name:get_inst_id start:19:77 end:19:88:
                         vpiParent: RefObj name:cb_.get_inst_id
                         vpiName: get_inst_id
                         vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::get_inst_id
-                  vpiLoopVars Variable name:item start:19:73 end:19:88:
+                  vpiLoopVars Variable name:cb_ start:19:73 end:19:88:
                     vpiParent: MethodFuncCall name:unique
-                    vpiName: item
-                    vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::item
+                    vpiName: cb_
+                    vpiFullName: pkg::uvm_callbacks #(.T(uvm_object), .CB(uvm_callback))::get_all::cb_
                     vpiAutomatic: true
                     vpiIsIterator: true
                     vpiRandType: (1)
@@ -498,8 +491,8 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 6
-[   NOTE] : 0
+[WARNING] : 4
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -542,7 +535,7 @@ COMMAND: ${HLC_DIR}/regression/ArrayMethodIterator/ArrayMethodIterator/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              69      69       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    69      69       0         0
 ===================== END REDUCTION RESULT =====================

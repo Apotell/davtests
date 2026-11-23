@@ -400,6 +400,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:49:1: Compile module "aes".
 [INF:CP5836] $Source01/dut.sv:52:43: Compile generate block "gen_alert_tx".
 [WRN:PA5506] $Source01/dut.sv:49:1: No timescale set for "aes #(.AlertAsyncOn({4{{1'b1}}}))".
+[NTE:EL6905] Multiple top level modules in design.
+[NTE:EL6904] $Source01/dut.sv:7:1: Top level module "test".
+[NTE:EL6904] $Source01/dut.sv:41:1: Top level module "top".
 [ERR:DL2516] $Source01/dut.sv:55:16: Model property "ParamAssign/vpiRhs" has an invalid value of type "RefObj".
 ====== HLDB =======
 Design name:unnamed:
@@ -505,7 +508,7 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: alert_handler_reg_pkg
       vpiUnit: Unit
-  vpiAllModules (6 items):
+  vpiAllModules (7 items):
     Module name:test file:$Source01/dut.sv start:7:1 end:10:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:7:8 end:7:12:
@@ -968,6 +971,78 @@ Design name:unnamed:
                   vpiName: prim_alert_sender
                   vpiFullName: "aes #(.AlertAsyncOn({4{{1'b1}}})).gen_alert_tx.alert_sender.prim_alert_sender"
                   vpiActual: ModuleTypespec name:prim_alert_sender #(.AsyncOn(AlertAsyncOn[i]), .IsFatal(i))
+    "Module name:prim_diff_decode #(.AsyncOn(1'b1)) file:$Source01/dut.sv start:31:1 end:39:10":
+      vpiParent: Design name:unnamed
+      "vpiName Identifier name:prim_diff_decode #(.AsyncOn(1'b1)) start:31:8 end:31:24":
+      vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1))"
+      vpiParameter (1 items):
+        Parameter name:AsyncOn start:32:17 end:32:24:
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+          vpiName: AsyncOn
+          vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).AsyncOn"
+          vpiTypespec RefTypespec start:32:13 end:32:16:
+            vpiParent: Parameter name:AsyncOn
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).AsyncOn"
+            vpiActual: BitTypespec
+          vpiExpr Constant start:15:27 end:15:31:
+            vpiParent: Parameter name:AsyncOn
+            vpiConstType: binary (3)
+            vpiSize: 1
+            vpiDecompile: "1'b1"
+            vpiValue: "1"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).AsyncOn"
+              vpiActual: BitTypespec
+      vpiTypespec (2 items):
+        BitTypespec:
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+        BitTypespec:
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+          vpiScalar: true
+      vpiDefName: prim_diff_decode
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/dut.sv"
+      vpiDefLineNo: 31
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:8 end:31:24:
+        vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+        vpiName: work
+        vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).work"
+        vpiActual: Library name:work
+      vpiCell: prim_diff_decode
+      vpiUnit: Unit
+      vpiPort (1 items):
+        Port start:33:3 end:33:5:
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+          vpiPortType: port (44)
+          vpiDirection: no direction (5)
+      vpiGenStmt (1 items):
+        GenIf start:35:3 end:37:6:
+          vpiParent: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
+          vpiCondition RefObj name:AsyncOn start:35:7 end:35:14:
+            vpiParent: GenIf
+            vpiName: AsyncOn
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).AsyncOn"
+            vpiActual: Parameter name:AsyncOn
+          vpiStmt GenBlock name:gen_async start:35:16 end:37:6:
+            vpiParent: GenIf
+            vpiName Identifier name:gen_async start:35:24 end:35:33:
+            vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).gen_async"
+            vpiTypespec (1 items):
+              ModuleTypespec name:GOOD:
+            vpiStmt (1 items):
+              RefInstance name:good start:36:11 end:36:15:
+                vpiParent: GenBlock name:gen_async
+                vpiName: good
+                vpiTypespec RefTypespec name:GOOD start:36:6 end:36:10:
+                  vpiParent: RefInstance name:good
+                  vpiName: GOOD
+                  vpiFullName: "prim_diff_decode #(.AsyncOn(1'b1)).gen_async.good.GOOD"
+                  vpiActual: ModuleTypespec name:GOOD
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
   vpiTypespec (11 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -1121,7 +1196,7 @@ Design name:unnamed:
             vpiName: AsyncOn
             vpiFullName: prim_diff_decode #(.AsyncOn(AsyncOn)).AsyncOn
             vpiActual: Parameter name:AsyncOn
-      vpiModule: "Module name:prim_diff_decode #(.AsyncOn(1'b0))"
+      vpiModule: "Module name:prim_diff_decode #(.AsyncOn(1'b1))"
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1131,7 +1206,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 1
 [WARNING] : 7
-[   NOTE] : 0
+[   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -1173,12 +1248,12 @@ COMMAND: ${HLC_DIR}/regression/EarlgreyPackParam/EarlgreyPackParam/design.hldb $
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            18      16       3         5
+Constant                            19      17       3         5
 Operation                            6       2       0         4
-RefObj                              26      25       0         1
-RefTypespec                         29      26       2         5
+RefObj                              28      27       0         1
+RefTypespec                         32      29       2         5
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   164     154       5        15
+                                   180     170       5        15
 ===================== END REDUCTION RESULT =====================

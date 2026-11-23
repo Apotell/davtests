@@ -170,6 +170,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/z1.v:5:1: Compile module "baz".
 [INF:CP5804] $Source01/z1.v:10:1: Compile module "foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[NTE:EL6904] $Source01/z1.v:10:1: Top level module "foo".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -183,7 +184,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSourceFile (1 items):
         SourceFile name:z1.v:
-  vpiAllModules (3 items):
+  vpiAllModules (5 items):
     Module name:bar file:$Source01/z1.v start:1:1 end:3:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -374,6 +375,112 @@ Design name:unnamed:
             vpiName: baz
             vpiFullName: foo.baz2.baz
             vpiActual: ModuleTypespec name:baz #(.P(888), .Q(999))
+    Module name:bar #(.P(456)) file:$Source01/z1.v start:1:1 end:3:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:bar #(.P(456)) start:1:8 end:1:11:
+      vpiFullName: bar #(.P(456))
+      vpiParameter (1 items):
+        Parameter name:P start:2:13 end:2:14:
+          vpiParent: Module name:bar #(.P(456))
+          vpiName: P
+          vpiFullName: bar #(.P(456)).P
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:P
+            vpiFullName: bar #(.P(456)).P
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:12:9 end:12:12:
+            vpiParent: Parameter name:P
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "456"
+            vpiValue: 456
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: bar #(.P(456)).P
+              vpiActual: IntTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:bar #(.P(456))
+          vpiScalar: true
+      vpiDefName: bar
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/z1.v"
+      vpiDefLineNo: 1
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:1:8 end:1:11:
+        vpiParent: Module name:bar #(.P(456))
+        vpiName: work
+        vpiFullName: bar #(.P(456)).work
+        vpiActual: Library name:work
+      vpiCell: bar
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:bar
+    Module name:baz #(.P(888), .Q(999)) file:$Source01/z1.v start:5:1 end:8:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:baz #(.P(888), .Q(999)) start:5:8 end:5:11:
+      vpiFullName: baz #(.P(888), .Q(999))
+      vpiParameter (2 items):
+        Parameter name:P start:6:13 end:6:14:
+          vpiParent: Module name:baz #(.P(888), .Q(999))
+          vpiName: P
+          vpiFullName: baz #(.P(888), .Q(999)).P
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:P
+            vpiFullName: baz #(.P(888), .Q(999)).P
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:14:9 end:14:12:
+            vpiParent: Parameter name:P
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "888"
+            vpiValue: 888
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: baz #(.P(888), .Q(999)).P
+              vpiActual: IntTypespec
+        Parameter name:Q start:7:13 end:7:14:
+          vpiParent: Module name:baz #(.P(888), .Q(999))
+          vpiName: Q
+          vpiFullName: baz #(.P(888), .Q(999)).Q
+          vpiTypespec RefTypespec:
+            vpiParent: Parameter name:Q
+            vpiFullName: baz #(.P(888), .Q(999)).Q
+            vpiActual: LogicTypespec
+          vpiExpr Constant start:14:13 end:14:16:
+            vpiParent: Parameter name:Q
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "999"
+            vpiValue: 999
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: baz #(.P(888), .Q(999)).Q
+              vpiActual: IntTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:baz #(.P(888), .Q(999))
+          vpiScalar: true
+      vpiDefName: baz
+      vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/z1.v"
+      vpiDefLineNo: 5
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:5:8 end:5:11:
+        vpiParent: Module name:baz #(.P(888), .Q(999))
+        vpiName: work
+        vpiFullName: baz #(.P(888), .Q(999)).work
+        vpiActual: Library name:work
+      vpiCell: baz
+      vpiUnit: Unit
+      vpiIsSpecialization: true
+      vpiSpecializedFrom: Module name:baz
   vpiTypespec (7 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
@@ -417,7 +524,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: bar #(.P(456))
               vpiActual: IntTypespec
-      vpiModule: Module name:bar
+      vpiModule: Module name:bar #(.P(456))
     ModuleTypespec name:baz #(.P(888), .Q(999)) start:14:3 end:14:6:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baz #(.P(888), .Q(999)) start:14:3 end:14:6:
@@ -457,7 +564,7 @@ Design name:unnamed:
               vpiParent: Constant
               vpiFullName: baz #(.P(888), .Q(999))
               vpiActual: IntTypespec
-      vpiModule: Module name:baz
+      vpiModule: Module name:baz #(.P(888), .Q(999))
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -467,7 +574,7 @@ Design name:unnamed:
 [ SYNTAX] : 0
 [  ERROR] : 0
 [WARNING] : 0
-[   NOTE] : 0
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -509,7 +616,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/z1/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    67      67       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================
