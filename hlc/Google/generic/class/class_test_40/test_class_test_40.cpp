@@ -95,6 +95,8 @@
 //   ReportsAnErrorForTheUndefinedMacro   at least one fatal, syntax or error
 //                                        diagnostic of any category but the
 //                                        23.3.1 one, on line 7
+//   ReportsEachUsageAsUnknownMacro       HLC's own code: PpUnkownMacro for each
+//                                        usage, naming the macro, on its line
 //   NoErrorsOnTheLegalLines1To5          no fatal, syntax or error diagnostic
 //                                        outside elaboration on lines 1-5
 //   NoCascadeErrors                      HLC error recovery, not an LRM rule:
@@ -113,15 +115,14 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Which code, which error-class severity, which phase and how many
-//     diagnostics line 7 draw, which macros they name, and their message
-//     text and column. An "unknown macro" diagnostic is the expected kind, but
-//     any error-class diagnostic satisfies the LRM. The LRM requires no
-//     particular form for a diagnostic: "The compiler shall maintain the
-//     current line number and file name of the file being compiled" (22.12),
-//     but that information only "can be used for error messages" (22.12), and
-//     no column is assigned to a diagnostic. Nearest assertion:
-//     ReportsAnErrorForTheUndefinedMacro.
+//   - Which error-class severity, which phase and how many diagnostics
+//     line 7 draw besides the PpUnkownMacro ones, and their message
+//     text and column. The LRM requires no particular form for a
+//     diagnostic: "The compiler shall maintain the current line number and
+//     file name of the file being compiled" (22.12), but that information
+//     only "can be used for error messages" (22.12), and no column is
+//     assigned to a diagnostic. Nearest assertions:
+//     ReportsAnErrorForTheUndefinedMacro and ReportsEachUsageAsUnknownMacro.
 //   - Diagnostics on lines 6 and 8, the class around the usages. The LRM
 //     does not fix where an error is reported. Nearest assertions:
 //     ReportsAnErrorForTheUndefinedMacro and NoCascadeErrors.
@@ -153,6 +154,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
@@ -337,6 +339,14 @@ class ClassTest40Test : public Test {
 TEST_F(ClassTest40Test, ReportsAnErrorForTheUndefinedMacro) {
   EXPECT_GE(countRequiredErrorCandidatesOnLines(kFirstUsageLine, kLastUsageLine), 1u)
       << "no error on line 7;" << describeAllEvents();
+}
+
+// Not an LRM rule: the LRM requires an error for these usages (see
+// ReportsAnErrorForTheUndefinedMacro) but no particular code. HLC reports each
+// usage of an undefined macro as PpUnkownMacro, naming the macro, on the line
+// of the usage; the event carries no column.
+TEST_F(ClassTest40Test, ReportsEachUsageAsUnknownMacro) {
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_object_registry", 7), nullptr) << describeAllEvents();
 }
 
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would

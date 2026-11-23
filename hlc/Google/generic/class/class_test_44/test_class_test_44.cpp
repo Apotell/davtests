@@ -109,6 +109,8 @@
 //   ReportsAnErrorForTheUndefinedMacros  at least one fatal, syntax or error
 //                                        diagnostic of any category but the
 //                                        23.3.1 one, on one of lines 7-17
+//   ReportsEachUsageAsUnknownMacro       HLC's own code: PpUnkownMacro for each
+//                                        usage, naming the macro, on its line
 //   NoErrorsOnTheLegalLines1To5          no fatal, syntax or error diagnostic
 //                                        outside elaboration on lines 1-5
 //   NoCascadeErrors                      HLC error recovery, not an LRM rule:
@@ -127,15 +129,14 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - Which code, which error-class severity, which phase and how many
-//     diagnostics lines 7-17 draw, which macros they name, and their message
-//     text and column. An "unknown macro" diagnostic is the expected kind, but
-//     any error-class diagnostic satisfies the LRM. The LRM requires no
-//     particular form for a diagnostic: "The compiler shall maintain the
-//     current line number and file name of the file being compiled" (22.12),
-//     but that information only "can be used for error messages" (22.12), and
-//     no column is assigned to a diagnostic. Nearest assertion:
-//     ReportsAnErrorForTheUndefinedMacros.
+//   - Which error-class severity, which phase and how many diagnostics
+//     lines 7-17 draw besides the PpUnkownMacro ones, and their message
+//     text and column. The LRM requires no particular form for a
+//     diagnostic: "The compiler shall maintain the current line number and
+//     file name of the file being compiled" (22.12), but that information
+//     only "can be used for error messages" (22.12), and no column is
+//     assigned to a diagnostic. Nearest assertions:
+//     ReportsAnErrorForTheUndefinedMacros and ReportsEachUsageAsUnknownMacro.
 //   - Diagnostics on lines 6 and 18, the class around the usages. The LRM
 //     does not fix where an error is reported. Nearest assertions:
 //     ReportsAnErrorForTheUndefinedMacros and NoCascadeErrors.
@@ -167,6 +168,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
@@ -351,6 +353,24 @@ class ClassTest44Test : public Test {
 TEST_F(ClassTest44Test, ReportsAnErrorForTheUndefinedMacros) {
   EXPECT_GE(countRequiredErrorCandidatesOnLines(kFirstUsageLine, kLastUsageLine), 1u)
       << "no error on lines 7-17;" << describeAllEvents();
+}
+
+// Not an LRM rule: the LRM requires an error for these usages (see
+// ReportsAnErrorForTheUndefinedMacros) but no particular code. HLC reports each
+// usage of an undefined macro as PpUnkownMacro, naming the macro, on the line
+// of the usage; the event carries no column.
+TEST_F(ClassTest44Test, ReportsEachUsageAsUnknownMacro) {
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_utils_begin", 7), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_int", 8), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_real", 9), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_enum", 10), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_object", 11), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_event", 12), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_string", 13), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_array_int", 14), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_sarray_int", 15), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_aa_int_string", 16), nullptr) << describeAllEvents();
+  EXPECT_NE(findEvent(EventType::PpUnkownMacro, "uvm_field_utils_end", 17), nullptr) << describeAllEvents();
 }
 
 // LRM: lines 1-5 are one block comment (5.4). An error on any of them would
