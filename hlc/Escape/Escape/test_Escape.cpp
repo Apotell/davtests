@@ -134,6 +134,17 @@ TEST_F(EscapeTest, OrderedConnectionPastLastPortIsRejected) {
       << "the port side of the connection past the last port of bottom3 is unnamed";
 }
 
+// IEEE 1800-2023 Sec 23.3.2.4: "An implicit .* port connection is semantically equivalent to an implicit .name
+// port connection for every port declared in the instantiated module", except that "When using .*, however, the
+// default value shall be used if the name does not exist in the instantiating scope." Sec 23.3.2.3 makes an
+// undeclared .name an error. The ports of my_interface (top1.v) have no defaults, and bottom1 declares only a
+// and b.
+TEST_F(EscapeTest, WildcardConnectionOfUndeclaredNamesIsAnError) {
+  for (const std::string_view port : {"clock", "select", "data"}) {
+    EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, port, 23, 28), nullptr) << port;
+  }
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

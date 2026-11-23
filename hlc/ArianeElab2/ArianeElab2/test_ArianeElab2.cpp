@@ -249,6 +249,25 @@ TEST_F(ArianeElab2Test, UnresolvedReferenceCascadesToEveryEnclosingGenerateConst
       << "fpu_wrap's generate-if should also report it, at the top of the instance chain";
 }
 
+// IEEE 1800-2023 Sec 23.3.2.3: "It shall be an error if the name port_identifier has not been declared
+// (explicitly or implicitly) or imported from a package ... prior to the .port_identifier implicit port
+// connection." ex_stage declares no ports and none of these names; fpu_gen is always generated
+// (FP_PRESENT follows from package localparams).
+TEST_F(ArianeElab2Test, ImplicitNamedConnectionsOfUndeclaredNamesAreErrors) {
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "clk_i", 2092, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "rst_ni", 2093, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "flush_i", 2094, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_valid_i", 2095, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_ready_o", 2096, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_fmt_i", 2098, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_rm_i", 2099, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_frm_i", 2100, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_prec_i", 2101, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_trans_id_o", 2102, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_valid_o", 2104, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_exception_o", 2105, 18), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

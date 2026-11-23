@@ -267,6 +267,15 @@ TEST_F(ForElabTest, UndeclaredTypeTlH2dTFailsToBind) {
       << "Sec 6.3: 'tlul_pkg::tl_h2d_t' is never declared anywhere in tlul_pkg";
 }
 
+// IEEE 1800-2023 Sec 23.3.2.3: "It shall be an error if the name port_identifier has not been declared
+// (explicitly or implicitly) or imported from a package ... prior to the .port_identifier implicit port
+// connection." tlul_socket_m1 declares neither clk_i nor rst_ni; gen_tree_arb is always generated
+// (tlul_pkg::ArbiterImpl is a package parameter, i.e. a localparam, equal to "BINTREE").
+TEST_F(ForElabTest, ImplicitNamedConnectionsOfUndeclaredNamesAreErrors) {
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "clk_i", 59, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "rst_ni", 60, 8), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

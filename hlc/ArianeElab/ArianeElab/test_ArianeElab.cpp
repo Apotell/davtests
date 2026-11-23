@@ -59,6 +59,7 @@
 //     confirmed against the headers.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -340,6 +341,25 @@ TEST_F(ArianeElabTest, ExStageGenerateIfInstantiatesFpuWrapWhenFpPresent) {
   const hldb::ModuleTypespec *const mt = fpuI->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "fpu_i's typespec is not ModuleTypespec";
   EXPECT_EQ(mt->getName(), std::string_view("fpu_wrap"));
+}
+
+// IEEE 1800-2023 Sec 23.3.2.3: "It shall be an error if the name port_identifier has not been declared
+// (explicitly or implicitly) or imported from a package ... prior to the .port_identifier implicit port
+// connection." ex_stage declares no ports and none of these names; fpu_gen is always generated
+// (FP_PRESENT follows from package localparams).
+TEST_F(ArianeElabTest, ImplicitNamedConnectionsOfUndeclaredNamesAreErrors) {
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "clk_i", 2036, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "rst_ni", 2037, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "flush_i", 2038, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_valid_i", 2039, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_ready_o", 2040, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_fmt_i", 2042, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_rm_i", 2043, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_frm_i", 2044, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_prec_i", 2045, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_trans_id_o", 2046, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_valid_o", 2048, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompImplicitPortConnectionUndeclared, "fpu_exception_o", 2049, 18), nullptr);
 }
 
 }  // namespace hlc
