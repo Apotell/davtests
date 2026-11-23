@@ -405,15 +405,11 @@ TEST_F(Chapter6ErrorRulesTest, Row18_HierarchicalTypeReferenceIsRejected) {
 // --- row 25: statement precedes its variable's declaration (6.21) ---------
 
 TEST_F(Chapter6ErrorRulesTest, Row25_StatementBeforeDeclarationIsRejected) {
-  // catalog row 25 | 6.21 | PARSE
-  // See 6--error_rules_inv4.sv: HLC's grammar cannot parse a declaration
-  // following an ordinary statement in the same procedural block, so the
-  // rule is already enforced -- just as a syntax error rather than a
-  // semantic CompMisplacedDeclaration.
-  GTEST_SKIP() << "no diagnostic implemented";
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, 216, 8), nullptr)
-      << "a variable declaration must precede any statement referencing it (IEEE 1800-2023 6.21), "
-         "currently as a syntax error rather than a dedicated diagnostic";
+  // catalog row 25 | 6.21 | COMP
+  // Sec 6.21: "Variable declarations shall precede any statements within a
+  // procedural block." 'int r25_x;' (line 217) follows 'r25_x = 1;'.
+  EXPECT_NE(findEvent(EventType::CompMisplacedDeclaration, "begin", 217, 9), nullptr)
+      << "a variable declaration must precede any statement in its block (IEEE 1800-2023 6.21)";
 }
 
 }  // namespace hlc

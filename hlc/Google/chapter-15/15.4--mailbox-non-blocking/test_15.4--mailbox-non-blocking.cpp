@@ -98,6 +98,7 @@
 #include <hldb/sys_task_call.h>
 #include <hldb/variable.h>
 
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 namespace hlc {
@@ -180,6 +181,14 @@ TEST_F(MailboxNonBlockingTest, LocalStringVariablesShouldExistButDoNot) {
       << "'string r;' should declare a local Variable 'r'";
   EXPECT_NE(hldb::findByName<hldb::Variable>("r_peek", body->getVariables()), nullptr)
       << "'string r_peek;' should declare a local Variable 'r_peek'";
+}
+
+// Sec 6.21: "Variable declarations shall precede any statements within a procedural block." The three
+// string declarations (lines 21-23) follow the statement "m = new();" (line 20).
+TEST_F(MailboxNonBlockingTest, DeclarationsAfterStatementAreReported) {
+  EXPECT_NE(findEvent(EventType::CompMisplacedDeclaration, "begin", 21, 9), nullptr) << "string msg";
+  EXPECT_NE(findEvent(EventType::CompMisplacedDeclaration, "begin", 22, 9), nullptr) << "string r";
+  EXPECT_NE(findEvent(EventType::CompMisplacedDeclaration, "begin", 23, 9), nullptr) << "string r_peek";
 }
 
 TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArgumentButDoesNot) {
