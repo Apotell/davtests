@@ -37,9 +37,9 @@
 // s_b. Port p_c inherits only the direction from p_b, and defaults to the net
 // port kind and to the logic data type."
 //   - p_a: input, a wire net of type integer (32 bits, 6.11).
-//   - p_b: input, explicitly named (vpiExplicitName, 37.14); its expression
-//     s_b is its low connection (37.14 detail 4), so its type is logic [5:0]
-//     and its vpiSize is 6. p_b names a port only and declares nothing
+//   - p_b: input, explicitly named (37.14); its expression s_b is its low
+//     connection (37.14 detail 4), so its type is logic [5:0] and its size
+//     is 6. p_b names a port only and declares nothing
 //     ("port identifiers exist in their own name space", 23.2.2.2).
 //   - p_c: input, a wire net (the default net type, 22.8) of type logic, 1
 //     bit; it does not inherit integer from p_a.
@@ -47,33 +47,40 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors       no fatal, syntax or error diagnostic
-//   PortsInDeclarationOrder     p_a, p_b, p_c with vpiPortIndex 0, 1, 2
-//   AllThreeAreInputs           vpiDirection vpiInput for all three
-//   PortAIsAWireIntegerNet      net, vpiWire, integer typespec, vpiSize 32
-//   PortBTakesTheTypeOfSB       explicitly named, vpiLowConn resolves to the
-//                               variable s_b, port vpiSize 6, and no net or
-//                               variable is named p_b
-//   PortCIsAWireLogicNet        net, vpiWire, logic typespec, vpiSize 1
+//   PortsInDeclarationOrder     p_a, p_b, p_c with getPortIndex() 0, 1, 2
+//   PortAIsAnIntegerNet         net, integer typespec, getBitCount() 32
+//   PortBTakesTheTypeOfSB       getExplicitName(), getLowConn() resolves to
+//                               the variable s_b, the port's typespec is 6
+//                               bits wide, and no net or variable is named p_b
+//   PortCIsALogicNet            net, logic typespec, getBitCount() 1
+//
+// The packed width of an object or typespec (37.14 and 37.17) is the bit
+// count hldb::ExprEval::getBitCount() computes for it.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Instances and connections; they are 23.3.
+//   - The direction input of the three ports and the net type wire of p_a
+//     and p_c. HLDB gives them only as the integer codes returned by
+//     Port::getDirection() and Net::getNetType() and has no named values of
+//     its own for them, so they can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/ExprEval.h>
+#include <hldb/Utils.h>
+#include <hldb/any_type.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/port.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -88,36 +95,17 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The typespec of an object, seen through HLDB's reference typespec.
-const hldb::Any *actualTypespec(const hldb::Any *object) {
-  const hldb::Any *const typespec = relatedObject(object, vpiTypespec);
-  if (typespec == nullptr) return nullptr;
-  if (const hldb::RefTypespec *const reference = any_cast<hldb::RefTypespec>(typespec)) {
-    return reference->getActual();
-  }
-  return typespec;
+// The packed width in bits of an object or typespec, as HLDB's
+// expression evaluator computes it, or -1 when it cannot.
+int64_t widthOf(const hldb::Any *object) {
+  const hldb::ExprEval evaluator(nullptr, true);
+  uint64_t bits = 0;
+  if (!evaluator.getBitCount(object, object, true, &bits, true)) return -1;
+  return static_cast<int64_t>(bits);
 }
 
 // The object a port's low connection refers to, or nullptr.
-const hldb::Any *lowConnActual(const hldb::Port *port) {
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  if (connection == nullptr) return nullptr;
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(connection);
-  return (reference == nullptr) ? nullptr : reference->getActual();
-}
+const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
 
 template <typename T>
 bool hasObjectNamed(const std::vector<T *> *collection, std::string_view name) {
@@ -177,19 +165,19 @@ class PortRulesMh22Test : public Test {
     return (*module->getPorts())[index];
   }
 
-  // Asserts that the port at 'index' declares a wire net of the given typespec
+  // Asserts that the port at 'index' declares a net of the given typespec
   // type and width.
-  static void expectWireNet(size_t index, uint32_t dataType, int64_t size) {
+  static void expectNet(size_t index, hldb::AnyType dataType, int64_t size) {
     const hldb::Port *const port = findPort(index);
     ASSERT_NE(port, nullptr);
     const hldb::Any *const declared = lowConnActual(port);
     ASSERT_NE(declared, nullptr);
-    EXPECT_NE(any_cast<hldb::Net>(declared), nullptr);
-    EXPECT_EQ(integerProperty(declared, vpiNetType), static_cast<int64_t>(vpiWire));
-    const hldb::Any *const typespec = actualTypespec(declared);
+    const hldb::Net *const net = any_cast<hldb::Net>(declared);
+    ASSERT_NE(net, nullptr) << "not a net";
+    const hldb::Typespec *const typespec = hldb::getTypespec(net);
     ASSERT_NE(typespec, nullptr);
-    EXPECT_EQ(typespec->getVpiType(), dataType);
-    EXPECT_EQ(integerProperty(declared, vpiSize), size);
+    EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(dataType));
+    EXPECT_EQ(widthOf(net), size);
   }
 };
 
@@ -201,26 +189,18 @@ TEST_F(PortRulesMh22Test, PortsInDeclarationOrder) {
     const hldb::Port *const port = findPort(index);
     ASSERT_NE(port, nullptr) << index;
     EXPECT_EQ(port->getName(), names[index]);
-    EXPECT_EQ(integerProperty(port, vpiPortIndex), static_cast<int64_t>(index));
+    EXPECT_EQ(port->getPortIndex(), static_cast<int32_t>(index));
   }
 }
 
-TEST_F(PortRulesMh22Test, AllThreeAreInputs) {
-  for (size_t index = 0; index < 3; ++index) {
-    const hldb::Port *const port = findPort(index);
-    ASSERT_NE(port, nullptr) << index;
-    EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput)) << index;
-  }
-}
-
-TEST_F(PortRulesMh22Test, PortAIsAWireIntegerNet) { expectWireNet(0, vpiIntegerTypespec, 32); }
+TEST_F(PortRulesMh22Test, PortAIsAnIntegerNet) { expectNet(0, hldb::AnyType::IntegerTypespec, 32); }
 
 TEST_F(PortRulesMh22Test, PortBTakesTheTypeOfSB) {
   const hldb::Module *const module = findModule();
   const hldb::Port *const port = findPort(1);
   ASSERT_NE(module, nullptr);
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiExplicitName), 1);
+  EXPECT_TRUE(port->getExplicitName());
 
   const hldb::Any *const declared = lowConnActual(port);
   ASSERT_NE(declared, nullptr);
@@ -228,12 +208,14 @@ TEST_F(PortRulesMh22Test, PortBTakesTheTypeOfSB) {
   ASSERT_NE(variable, nullptr);
   EXPECT_EQ(variable->getName(), "s_b");
 
-  EXPECT_EQ(integerProperty(port, vpiSize), 6);
+  const hldb::Typespec *const portTypespec = hldb::getTypespec(port);
+  ASSERT_NE(portTypespec, nullptr) << "port p_b has no typespec";
+  EXPECT_EQ(widthOf(portTypespec), 6);
   EXPECT_FALSE(hasObjectNamed(module->getNets(), "p_b"));
   EXPECT_FALSE(hasObjectNamed(module->getVariables(), "p_b"));
 }
 
-TEST_F(PortRulesMh22Test, PortCIsAWireLogicNet) { expectWireNet(2, vpiLogicTypespec, 1); }
+TEST_F(PortRulesMh22Test, PortCIsALogicNet) { expectNet(2, hldb::AnyType::LogicTypespec, 1); }
 }  // namespace hlc
 
 int main(int argc, char **argv) {

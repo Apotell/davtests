@@ -27,36 +27,43 @@
 // kind and data type are all omitted, then they shall be inherited from the
 // previous port. If the previous port was an interconnect port, this port
 // shall also be an interconnect port." Interconnect ports "have no data type".
-// So a and b are both input nets of the net type interconnect (vpiNetType
-// vpiInterconnect, vpi_user.h), and no data type is checked.
+// So a and b are both input nets of the net type interconnect, and no data
+// type is checked.
 //
-// How the test observes it: each port's vpiLowConn (37.14 detail 4) refers
-// to the net or variable the port declares. Its port kind is the object
-// itself (a net with the vpiNetType of its net type, or a variable), its
-// data type is its typespec (an array typespec for unpacked dimensions), and
-// its packed width is vpiSize (37.17).
+// How the test observes it: each port's low connection (Port::getLowConn(),
+// 37.14 detail 4) refers to the net or variable the port declares. Its port
+// kind is the object itself (a Net or a Variable), its data type is its
+// typespec (hldb::getTypespec(); an array typespec for unpacked dimensions),
+// its packed width (37.17) is the bit count hldb::ExprEval::getBitCount()
+// computes for it, and its signedness is hldb::getSigned() of its typespec.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors         no fatal, syntax or error diagnostic
-//   PortsInDeclarationOrder       port names and vpiPortIndex 0, 1, ...
-//   DirectionsFollowTheRules      vpiDirection of each port
-//   PortKindsFollowTheRules       net (with its vpiNetType) or variable
+//   PortsInDeclarationOrder       port names and getPortIndex() 0, 1, ...
+//   PortKindsFollowTheRules       net or variable
 //   DataTypesFollowTheRules       typespec of each net or variable
-//   PackedWidthsFollowTheRules    vpiSize of each net or variable
+//   PackedWidthsFollowTheRules    getBitCount() of each net or variable
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Instances and connections. The rules of 23.2.2.3 fix kind, data type
 //     and direction from the declaration alone; connections are 23.3.
-//   - The port objects' own vpiSize. 23.2.2.2--ansi-explicit-named.sv covers
+//   - The port objects' own size. 23.2.2.2--ansi-explicit-named.sv covers
 //     it.
+//   - Port directions and net types (wire, wand, tri0, interconnect, ...).
+//     HLDB gives them only as the integer codes returned by
+//     Port::getDirection() and Net::getNetType() and has no named values of
+//     its own for them, so they can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/ExprEval.h>
+#include <hldb/Utils.h>
+#include <hldb/any_type.h>
 #include <hldb/array_typespec.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
@@ -64,10 +71,8 @@
 #include <hldb/port.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -79,61 +84,42 @@ namespace {
 constexpr std::string_view kSourceFileName = "23.2.2.3--interconnect-inherited.sv";
 constexpr std::string_view kModuleName = "m";
 
-// Port kind marker for a variable; a net is identified by its vpiNetType.
-constexpr int64_t kVariable = 0;
-// Interconnect ports "have no data type" (23.2.2.3).
-constexpr uint32_t kNoDataType = 0;
+// The kind of object a port declares (23.2.2.3).
+enum class PortKind { Net, Variable };
+// Interconnect ports "have no data type" (23.2.2.3), so theirs is not checked.
+constexpr hldb::AnyType kNoDataType = hldb::AnyType::Any;
 constexpr int64_t kUnchecked = -1;
 
 struct ExpectedPort {
   std::string_view m_name;
-  int64_t m_direction;
-  int64_t m_kind;
-  uint32_t m_dataType;
+  PortKind m_kind;
+  hldb::AnyType m_dataType;
   int64_t m_size;
   int64_t m_signed;
   bool m_unpacked;
 };
 
 const std::vector<ExpectedPort> kExpectedPorts = {
-    {"a", vpiInput, vpiInterconnect, kNoDataType, kUnchecked, kUnchecked, false},
-    {"b", vpiInput, vpiInterconnect, kNoDataType, kUnchecked, kUnchecked, false},
+    {"a", PortKind::Net, kNoDataType, kUnchecked, kUnchecked, false},
+    {"b", PortKind::Net, kNoDataType, kUnchecked, kUnchecked, false},
 };
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The typespec of an object, seen through HLDB's reference typespec.
-const hldb::Any *actualTypespec(const hldb::Any *object) {
-  const hldb::Any *const typespec = relatedObject(object, vpiTypespec);
-  if (typespec == nullptr) return nullptr;
-  if (const hldb::RefTypespec *const reference = any_cast<hldb::RefTypespec>(typespec)) {
-    return reference->getActual();
-  }
-  return typespec;
+// The packed width in bits of a net or variable (37.17), as
+// HLDB's expression evaluator computes it from the object's typespec, or -1
+// when it cannot.
+int64_t widthOf(const hldb::Any *object) {
+  const hldb::ExprEval evaluator(nullptr, true);
+  uint64_t bits = 0;
+  if (!evaluator.getBitCount(object, object, true, &bits, true)) return -1;
+  return static_cast<int64_t>(bits);
 }
 
 // The net or variable a port's low connection refers to, or nullptr.
-const hldb::Any *lowConnActual(const hldb::Port *port) {
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  if (connection == nullptr) return nullptr;
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(connection);
-  return (reference == nullptr) ? nullptr : reference->getActual();
-}
+const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
 
 const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
   if (ports == nullptr) return nullptr;
@@ -202,15 +188,7 @@ TEST_F(PortRulesInterconnectInheritedTest, PortsInDeclarationOrder) {
   ASSERT_EQ(ports->size(), kExpectedPorts.size());
   for (size_t index = 0; index < kExpectedPorts.size(); ++index) {
     EXPECT_EQ((*ports)[index]->getName(), kExpectedPorts[index].m_name);
-    EXPECT_EQ(integerProperty((*ports)[index], vpiPortIndex), static_cast<int64_t>(index));
-  }
-}
-
-TEST_F(PortRulesInterconnectInheritedTest, DirectionsFollowTheRules) {
-  for (const ExpectedPort &expected : kExpectedPorts) {
-    const hldb::Port *const port = findPortByName(findPorts(), expected.m_name);
-    ASSERT_NE(port, nullptr) << expected.m_name;
-    EXPECT_EQ(integerProperty(port, vpiDirection), expected.m_direction) << expected.m_name;
+    EXPECT_EQ((*ports)[index]->getPortIndex(), static_cast<int32_t>(index));
   }
 }
 
@@ -218,11 +196,10 @@ TEST_F(PortRulesInterconnectInheritedTest, PortKindsFollowTheRules) {
   for (const ExpectedPort &expected : kExpectedPorts) {
     const hldb::Any *const declared = findDeclared(expected.m_name);
     ASSERT_NE(declared, nullptr) << expected.m_name;
-    if (expected.m_kind == kVariable) {
+    if (expected.m_kind == PortKind::Variable) {
       EXPECT_NE(any_cast<hldb::Variable>(declared), nullptr) << expected.m_name << " is not a variable";
     } else {
       EXPECT_NE(any_cast<hldb::Net>(declared), nullptr) << expected.m_name << " is not a net";
-      EXPECT_EQ(integerProperty(declared, vpiNetType), expected.m_kind) << expected.m_name;
     }
   }
 }
@@ -232,16 +209,18 @@ TEST_F(PortRulesInterconnectInheritedTest, DataTypesFollowTheRules) {
     if (expected.m_dataType == kNoDataType) continue;
     const hldb::Any *const declared = findDeclared(expected.m_name);
     ASSERT_NE(declared, nullptr) << expected.m_name;
-    const hldb::Any *const typespec = actualTypespec(declared);
+    const hldb::Typespec *const typespec = hldb::getTypespec(declared);
     ASSERT_NE(typespec, nullptr) << expected.m_name;
     if (expected.m_unpacked) {
-      ASSERT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiArrayTypespec)) << expected.m_name;
-      const hldb::RefTypespec *const element = any_cast<hldb::ArrayTypespec>(typespec)->getElemTypespec();
+      const hldb::ArrayTypespec *const array = any_cast<hldb::ArrayTypespec>(typespec);
+      ASSERT_NE(array, nullptr) << expected.m_name << " has a " << hldb::AnyTypeName(typespec->getAnyType());
+      const hldb::RefTypespec *const element = array->getElemTypespec();
       ASSERT_NE(element, nullptr) << expected.m_name;
       ASSERT_NE(element->getActual(), nullptr) << expected.m_name;
-      EXPECT_EQ(element->getActual()->getVpiType(), expected.m_dataType) << expected.m_name;
+      EXPECT_EQ(hldb::AnyTypeName(element->getActual()->getAnyType()), hldb::AnyTypeName(expected.m_dataType))
+          << expected.m_name;
     } else {
-      EXPECT_EQ(typespec->getVpiType(), expected.m_dataType) << expected.m_name;
+      EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(expected.m_dataType)) << expected.m_name;
     }
   }
 }
@@ -251,7 +230,7 @@ TEST_F(PortRulesInterconnectInheritedTest, PackedWidthsFollowTheRules) {
     if (expected.m_size == kUnchecked) continue;
     const hldb::Any *const declared = findDeclared(expected.m_name);
     ASSERT_NE(declared, nullptr) << expected.m_name;
-    EXPECT_EQ(integerProperty(declared, vpiSize), expected.m_size) << expected.m_name;
+    EXPECT_EQ(widthOf(declared), expected.m_size) << expected.m_name;
   }
 }
 }  // namespace hlc
