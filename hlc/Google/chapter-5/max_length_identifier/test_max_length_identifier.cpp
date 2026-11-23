@@ -19,6 +19,7 @@
 // reported and the 1024-character one on line 21 is accepted.
 // Arguments: max_length_identifier.hlc
 
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
@@ -35,8 +36,11 @@ class MaxLengthIdentifierTest : public Test {
 };
 
 TEST_F(MaxLengthIdentifierTest, ReportsIdentifierOverMaximum) {
-  const std::string name(1025, 'a');
-  EXPECT_NE(findEvent(EventType::PaMaxLengthIdentifier, name, 20), nullptr) << "a 1025-character identifier";
+  // Sec 5.6: "If an identifier exceeds the implementation-specific length limit, an error shall be reported."
+  const Event *const event = findEvent(EventType::PaMaxLengthIdentifier, 20);
+  ASSERT_NE(event, nullptr) << "the 1025-character identifier on line 20 must be reported";
+  ASSERT_FALSE(event->getArguments().empty());
+  EXPECT_EQ(event->getArguments().front().m_value, std::string(1025, 'a'));
 }
 
 }  // namespace hlc
