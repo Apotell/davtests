@@ -17,12 +17,11 @@
 // IEEE 1800-2023 Sec 25.3.3: "An implicit port cannot be used to reference a generic interface. A
 // named port shall be used to reference a generic interface". "memMod mem (.*);" (line 34) leaves
 // the generic port sb_intf to the wildcard, even though top has an instance named sb_intf.
-// Note: HLC 2026-11 reports CompIllegalExpressionContext at the ".*" here, but it reports the same
-// error for the legal form ".*, .a(sb_intf)" (see 25.3.3--if_generic_partial_implicit).
 // Source: tests/Google/chapter-25/ch25_suite2/25.3.3--if_generic_implicit_port_err.sv
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Event.h>
@@ -55,6 +54,9 @@ TEST_F(IfGenericImplicitPortErrTest, ReportsErrorAtWildcard) {
   // Line 34: "memMod mem (.*);" -- ".*" starts at column 15.
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_TRUE(hasErrorAt(34, 15));
+  // Sec 25.3.3: "An implicit port cannot be used to reference a generic interface."
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "top", 34, 15), nullptr)
+      << "the .* leaves the generic interface port sb_intf to an implicit connection";
 }
 
 TEST_F(IfGenericImplicitPortErrTest, CompilerReportsAnError) {

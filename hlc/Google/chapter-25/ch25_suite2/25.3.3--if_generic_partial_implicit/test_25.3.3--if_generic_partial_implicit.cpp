@@ -59,8 +59,6 @@ class IfGenericPartialImplicitTest : public Test {
 };
 
 TEST_F(IfGenericPartialImplicitTest, CompilerReportsZeroErrors) {
-  GTEST_SKIP() << "HLC reports CompIllegalExpressionContext at the '.*' of '.*, .a(sb_intf)'; the "
-                  "partial implicit form is legal per IEEE 1800-2023 Sec 25.3.3. Fix pending.";
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_fatals, 0);
