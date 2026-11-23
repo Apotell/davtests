@@ -144,7 +144,7 @@ TEST_F(NonAnsiSamePortTest, TwoExplicitPortsAAndB) {
 
 TEST_F(NonAnsiSamePortTest, BothPortsAreInout) {
   GTEST_SKIP() << "Explicit non-ANSI ports (.a(i)) are not matched to the port declaration of i, so they get "
-                  "no direction (IEEE 1800-2023 23.2.2.1); see hldb_model_gaps.md #3";
+                  "no direction (IEEE 1800-2023 23.2.2.1)";
   const hldb::PortCollection *const ports = findPorts();
   ASSERT_NE(ports, nullptr);
   for (const hldb::Port *port : *ports) {
@@ -154,7 +154,7 @@ TEST_F(NonAnsiSamePortTest, BothPortsAreInout) {
 
 TEST_F(NonAnsiSamePortTest, OneNetI) {
   GTEST_SKIP() << "No net is created for an identifier referenced only by explicit non-ANSI ports (.a(i)) "
-                  "(IEEE 1800-2023 23.2.2.1); see hldb_model_gaps.md #3";
+                  "(IEEE 1800-2023 23.2.2.1)";
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   ASSERT_NE(module->getNets(), nullptr);
@@ -164,8 +164,7 @@ TEST_F(NonAnsiSamePortTest, OneNetI) {
 
 TEST_F(NonAnsiSamePortTest, BothPortsConnectToNetI) {
   GTEST_SKIP() << "The port expression of an explicit non-ANSI port (.a(i)) is built as the high connection, "
-                  "not the low connection, and is never bound (IEEE 1800-2023 37.14 detail 4); see "
-                  "hldb_model_gaps.md #3";
+                  "not the low connection, and is never bound (IEEE 1800-2023 37.14 detail 4)";
   const hldb::Module *const module = findModule();
   const hldb::PortCollection *const ports = findPorts();
   ASSERT_NE(module, nullptr);

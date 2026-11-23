@@ -53,8 +53,7 @@
 // block within an 'always' process.
 //
 // No .log file was consulted; accessor names were confirmed against the
-// real hldb headers under
-// E:\Davenche\hlc\hlc_03\out\install\x64-Debug\include\hldb.
+// installed hldb headers (include/hldb).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>

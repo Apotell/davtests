@@ -140,7 +140,7 @@ TEST_F(SequenceMethodsTest, TriggeredBindsToSequenceDeclAtEverySite) {
 }
 
 // The receiver is the sequence declaration itself, not a variable with a typespec, so
-// this is the check that the binder recognizes that shape.
+// this is the check that HLC resolves a receiver of that shape.
 TEST_F(SequenceMethodsTest, ReceiverIsTheSequenceDecl) {
   const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "triggered");
   ASSERT_FALSE(calls.empty());

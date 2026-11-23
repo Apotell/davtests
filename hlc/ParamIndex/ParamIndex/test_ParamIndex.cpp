@@ -77,6 +77,15 @@
 //     - u4 writes 4 ordered values whose last, UNDEF, is bound to nothing
 //     - every name in a named override is bound to the instantiated module's
 //       parameter (23.10.2.2)
+//   Specializations (static elaboration, reached from top)
+//     - u0 instantiates a specialization of mid whose own TP0 is int (TP0 =
+//       TPTOP = int) and whose DATA0 is of that TP0
+//     - that specialization's own u1, u2 and u3 each instantiate a distinct
+//       specialization of bottom
+//     - their parameters: TP1 = int and TP2 = int in all three; SIZE/PPP are
+//       10/1150 (u1), 20/1150 (u2) and 1120/1130 (u3)
+//     - each specialization's DATA1, DATA2 and 'a' use its own parameters
+//     - u4 is not checked: its UNDEF value makes it illegal
 //   Elaboration
 //     - DATATOP and u0's DATA0 are int; u1's DATA1 is int
 //     - 'a' is logic [10:0] in u1, [20:0] in u2 and [1120:0] in u3
@@ -89,24 +98,16 @@
 // Reduction and elaboration: the resolved types and values are checked only
 // when the design is elaborated, on Design::getTopModules(); the
 // declarations, bindings and overrides are asserted on the definitions in
-// every run.
+// every run. The definitions (getModule(), which skips specializations) are
+// the generic ones as written: mid itself is never instantiated, only its
+// specialization, so the definition's u1 to u4 bind to the generic bottom.
+// The specializations are reached through instance typespecs, from top.
 //
 // KNOWN COMPILER BUG (null port missing), not a defect in this test: HLC
 // models an empty port list '()' with no port at all, although 37.14 detail
 // 10 names "module M();" as declaring a null port.
 // EmptyPortListsDeclareOneNullPort is expected to fail until HLC is fixed;
 // it is intentionally not skipped or relaxed.
-//
-// KNOWN COMPILER BUG (type parameter names in overrides not bound), not a
-// defect in this test: in '.TP0(TPTOP)' and '.TP1(TP0)', HLC binds neither
-// the type parameter named before the parentheses nor the one written inside
-// them, and only warns "Failed to bind". 6.20.3 declares TPTOP in top and TP0
-// in mid, and 23.10.2.2 names the instantiated module's parameter, so every
-// one of these names has a declaration. Value parameters in the same
-// position ('.SIZE(20)') are bound. U0OverridesTp0WithTptop,
-// U1OverridesTp1WithTp0 and NamedOverridesBindToTargetParameters are
-// expected to fail until HLC is fixed; they are intentionally not skipped or
-// relaxed.
 //
 // KNOWN COMPILER BUG (undeclared name only warned), not a defect in this
 // test: HLC reports the undeclared UNDEF in u4's override with a warning
@@ -246,6 +247,34 @@ class ParamIndexTest : public Test {
   static const hldb::Variable *getVariable(const hldb::Scope *scope, std::string_view name) {
     if (scope == nullptr) return nullptr;
     return hldb::findByName<hldb::Variable>(name, scope->getVariables());
+  }
+
+  // The module the instance's typespec resolves to: the specialization static elaboration made for
+  // its overrides, or the definition itself.
+  static const hldb::Module *getInstantiatedModule(const hldb::RefInstance *inst) {
+    if ((inst == nullptr) || (inst->getTypespec() == nullptr)) return nullptr;
+    const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+    return (mt == nullptr) ? nullptr : mt->getModule();
+  }
+
+  // The instance 'name' declared in the body of 'module' (a definition or a specialization).
+  static const hldb::RefInstance *getInstanceIn(const hldb::Module *module, std::string_view name) {
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(name, module->getRefInstances());
+  }
+
+  // The specialization of mid that top's u0 instantiates.
+  static const hldb::Module *getSpecializedMid() { return getInstantiatedModule(getInstance("top", "u0")); }
+
+  // The type 'tp' stands for, following type parameters whose value names another type parameter
+  // (TP1 = TP0 = TPTOP = int). Bounded, so a binding cycle cannot hang the test.
+  static const hldb::Typespec *getResolvedType(const hldb::TypeParameter *tp) {
+    const hldb::Typespec *ts = tp;
+    for (int32_t depth = 0; (ts != nullptr) && (depth < 16); ++depth) {
+      const hldb::TypeParameter *const p = any_cast<hldb::TypeParameter>(ts);
+      if (p == nullptr) return ts;
+      ts = (p->getExpr() == nullptr) ? nullptr : p->getExpr()->getActual();
+    }
+    return nullptr;
   }
 
   // The elaborated instance at 'path' below the elaborated top.
@@ -464,15 +493,16 @@ TEST_F(ParamIndexTest, MidDeclaresTypeParameterTp0AndData0) {
   EXPECT_EQ(data->getTypespec()->getActual(), tp0) << "6.20.3: DATA0 is of type TP0";
 }
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (type
-// parameter names in overrides not bound) in the file header.
 TEST_F(ParamIndexTest, U0OverridesTp0WithTptop) {
   const hldb::RefInstance *const u0 = getInstance("top", "u0");
   ASSERT_NE(u0, nullptr) << "instance 'u0' not found";
   ASSERT_NE(u0->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = u0->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("mid"));
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("mid"));
   const std::vector<hldb::ParamAssign *> *const overrides = getOverrides(u0);
   ASSERT_NE(overrides, nullptr);
   ASSERT_EQ(overrides->size(), 1u);
@@ -496,8 +526,6 @@ TEST_F(ParamIndexTest, MidInstantiatesBottomFourTimes) {
   }
 }
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (type
-// parameter names in overrides not bound) in the file header.
 TEST_F(ParamIndexTest, U1OverridesTp1WithTp0) {
   const std::vector<hldb::ParamAssign *> *const overrides = getOverrides(getInstance("mid", "u1"));
   ASSERT_NE(overrides, nullptr);
@@ -519,8 +547,6 @@ TEST_F(ParamIndexTest, U2OverridesTp1WithIntAndSizeWithTwenty) {
   EXPECT_EQ(c->getDecompile(), "20");
 }
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (type
-// parameter names in overrides not bound) in the file header.
 TEST_F(ParamIndexTest, NamedOverridesBindToTargetParameters) {
   struct NamedOverride {
     std::string_view m_module;
@@ -535,17 +561,128 @@ TEST_F(ParamIndexTest, NamedOverridesBindToTargetParameters) {
                                      {"mid", "u2", 1, "bottom", "SIZE"}};
   for (const NamedOverride &o : overrides) {
     SCOPED_TRACE(testing::Message() << o.m_instance << " '." << o.m_param << "(...)'");
-    const std::vector<hldb::ParamAssign *> *const pas = getOverrides(getInstance(o.m_module, o.m_instance));
+    const hldb::RefInstance *const ri = getInstance(o.m_module, o.m_instance);
+    ASSERT_NE(ri, nullptr);
+    const hldb::RefTypespec *const rt = ri->getTypespec();
+    ASSERT_NE(rt, nullptr);
+    const hldb::ModuleTypespec *const mt = rt->getActual<hldb::ModuleTypespec>();
+    ASSERT_NE(mt, nullptr);
+    const std::vector<hldb::ParamAssign *> *const pas = mt->getParamAssigns();
     ASSERT_NE(pas, nullptr);
     ASSERT_GT(pas->size(), o.m_index);
-    const hldb::Module *const target = getModule(o.m_target);
+    // The override names a parameter of the module the instance's typespec resolves to: the
+    // specialization made for these overrides, or the definition itself when there is none.
+    const hldb::Module *const target = mt->getModule();
     ASSERT_NE(target, nullptr);
+    EXPECT_EQ(target->getDefName(), o.m_target);
     const hldb::Any *const declared = (getTypeParam(target, o.m_param) != nullptr)
                                           ? static_cast<const hldb::Any *>(getTypeParam(target, o.m_param))
                                           : static_cast<const hldb::Any *>(getParameter(target, o.m_param));
     ASSERT_NE(declared, nullptr);
     EXPECT_EQ(getLhsActual(pas->at(o.m_index)), declared)
-        << "23.10.2.2: the name in '." << o.m_param << "(...)' is " << o.m_target << "'s parameter";
+        << "23.10.2.2: the name in '." << o.m_param << "(...)' is a parameter of the instantiated " << o.m_target;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Specializations reached from top (static elaboration)
+// ---------------------------------------------------------------------------
+
+TEST_F(ParamIndexTest, U0SpecializesMidWithTp0Int) {
+  const hldb::Module *const mid = getSpecializedMid();
+  ASSERT_NE(mid, nullptr) << "top's u0 instantiates mid";
+  EXPECT_TRUE(mid->getIsSpecialization()) << "'.TP0(TPTOP)' gives mid a value other than its default";
+  EXPECT_EQ(mid->getSpecializedFrom(), getModule("mid"));
+  const hldb::TypeParameter *const tp0 = getTypeParam(mid, "TP0");
+  ASSERT_NE(tp0, nullptr) << "the specialization declares its own TP0";
+  EXPECT_NE(tp0, getTypeParam(getModule("mid"), "TP0")) << "not the definition's TP0";
+  EXPECT_NE(any_cast<hldb::IntTypespec>(getResolvedType(tp0)), nullptr) << "23.10.2.2: TP0 = TPTOP = int";
+  const hldb::Variable *const data0 = getVariable(mid, "DATA0");
+  ASSERT_NE(data0, nullptr);
+  ASSERT_NE(data0->getTypespec(), nullptr);
+  EXPECT_EQ(data0->getTypespec()->getActual(), tp0) << "6.20.3: DATA0 is of the specialization's TP0";
+}
+
+TEST_F(ParamIndexTest, SpecializedMidInstancesSpecializeBottom) {
+  const hldb::Module *const mid = getSpecializedMid();
+  ASSERT_NE(mid, nullptr);
+  ASSERT_NE(mid->getRefInstances(), nullptr);
+  EXPECT_EQ(mid->getRefInstances()->size(), 4u) << "the specialization has its own u1 to u4";
+  const hldb::Module *specializations[3] = {nullptr, nullptr, nullptr};
+  const std::string_view names[] = {"u1", "u2", "u3"};
+  for (size_t i = 0; i < 3; ++i) {
+    const hldb::RefInstance *const inst = getInstanceIn(mid, names[i]);
+    ASSERT_NE(inst, nullptr) << "instance '" << names[i] << "' not found in the specialization";
+    EXPECT_NE(inst, getInstance("mid", names[i])) << "not the definition's " << names[i];
+    const hldb::Module *const bottom = getInstantiatedModule(inst);
+    ASSERT_NE(bottom, nullptr) << names[i];
+    EXPECT_TRUE(bottom->getIsSpecialization()) << names[i] << " overrides bottom's parameters";
+    EXPECT_EQ(bottom->getSpecializedFrom(), getModule("bottom")) << names[i];
+    specializations[i] = bottom;
+  }
+  EXPECT_NE(specializations[0], specializations[1]) << "u1 and u2 give SIZE different values";
+  EXPECT_NE(specializations[0], specializations[2]) << "u1 and u3 give SIZE and PPP different values";
+  EXPECT_NE(specializations[1], specializations[2]) << "u2 and u3 give SIZE and PPP different values";
+}
+
+TEST_F(ParamIndexTest, SpecializedBottomParameterValues) {
+  struct Expected {
+    std::string_view m_instance;
+    std::string_view m_size;
+    std::string_view m_ppp;
+    std::string_view m_why;
+  };
+  const Expected expected[] = {
+      {"u1", "10", "1150", "23.10.2.2: '.TP1(TP0)'; SIZE and PPP keep their defaults"},
+      {"u2", "20", "1150", "23.10.2.2: '.TP1(int), .SIZE(20)'; PPP keeps its default"},
+      {"u3", "1120", "1130", "23.10.2.1: '#(int, 1120, int, 1130)' in declaration order"},
+  };
+  const hldb::Module *const mid = getSpecializedMid();
+  ASSERT_NE(mid, nullptr);
+  for (const Expected &e : expected) {
+    SCOPED_TRACE(testing::Message() << e.m_instance << ": " << e.m_why);
+    const hldb::Module *const bottom = getInstantiatedModule(getInstanceIn(mid, e.m_instance));
+    ASSERT_NE(bottom, nullptr);
+    EXPECT_NE(any_cast<hldb::IntTypespec>(getResolvedType(getTypeParam(bottom, "TP1"))), nullptr) << "TP1 is int";
+    EXPECT_NE(any_cast<hldb::IntTypespec>(getResolvedType(getTypeParam(bottom, "TP2"))), nullptr) << "TP2 is int";
+    const hldb::Parameter *const size = getParameter(bottom, "SIZE");
+    ASSERT_NE(size, nullptr);
+    ASSERT_NE(size->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(size->getExpr<hldb::Constant>()->getDecompile(), e.m_size);
+    const hldb::Parameter *const ppp = getParameter(bottom, "PPP");
+    ASSERT_NE(ppp, nullptr);
+    ASSERT_NE(ppp->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(ppp->getExpr<hldb::Constant>()->getDecompile(), e.m_ppp);
+  }
+}
+
+TEST_F(ParamIndexTest, SpecializedBottomBodiesUseTheirOwnParameters) {
+  const hldb::Module *const mid = getSpecializedMid();
+  ASSERT_NE(mid, nullptr);
+  for (std::string_view name : {"u1", "u2", "u3"}) {
+    SCOPED_TRACE(testing::Message() << name);
+    const hldb::Module *const bottom = getInstantiatedModule(getInstanceIn(mid, name));
+    ASSERT_NE(bottom, nullptr);
+    const hldb::Variable *const data1 = getVariable(bottom, "DATA1");
+    ASSERT_NE(data1, nullptr);
+    ASSERT_NE(data1->getTypespec(), nullptr);
+    ASSERT_NE(getTypeParam(bottom, "TP1"), nullptr);
+    EXPECT_EQ(data1->getTypespec()->getActual(), getTypeParam(bottom, "TP1")) << "DATA1 is of this TP1";
+    const hldb::Variable *const data2 = getVariable(bottom, "DATA2");
+    ASSERT_NE(data2, nullptr);
+    ASSERT_NE(data2->getTypespec(), nullptr);
+    ASSERT_NE(getTypeParam(bottom, "TP2"), nullptr);
+    EXPECT_EQ(data2->getTypespec()->getActual(), getTypeParam(bottom, "TP2")) << "DATA2 is of this TP2";
+    const hldb::Variable *const a = getVariable(bottom, "a");
+    ASSERT_NE(a, nullptr);
+    ASSERT_NE(a->getTypespec(), nullptr);
+    const hldb::LogicTypespec *const lt = a->getTypespec()->getActual<hldb::LogicTypespec>();
+    ASSERT_NE(lt, nullptr);
+    ASSERT_NE(lt->getRanges(), nullptr);
+    ASSERT_EQ(lt->getRanges()->size(), 1u);
+    const hldb::RefObj *const left = lt->getRanges()->at(0)->getLeftExpr<hldb::RefObj>();
+    ASSERT_NE(left, nullptr) << "unreduced, the left bound is the name 'SIZE'";
+    EXPECT_EQ(left->getActual(), getParameter(bottom, "SIZE")) << "'SIZE' is this specialization's own";
   }
 }
 

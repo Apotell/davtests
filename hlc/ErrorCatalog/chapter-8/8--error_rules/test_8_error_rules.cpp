@@ -29,7 +29,7 @@
 // overloads, which locate a diagnostic by event type plus the object
 // it names and/or its line:column.
 //
-// Two shapes of test appear below, per .claude/instructions/davtests.md:
+// Two shapes of test appear below, per .claude/davtests.md:
 //   (a) HLC already diagnoses the violation -- assert it live.
 //   (b) HLC does not diagnose it yet -- the assertion the standard requires is
 //       written out in full, with GTEST_SKIP() as the first statement citing
@@ -184,8 +184,8 @@ TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
   //
   // NOT IMPLEMENTED, deliberately: only the "shall follow" half of the
   // sentence is decidable after binding. The "same scope" half is not --
-  // Phase 2 re-parents an out-of-block body onto its ClassDefn without
-  // recording the scope it was written in, so a body written in the wrong
+  // HLC parents an out-of-block body to its ClassDefn without recording
+  // the scope it was written in, so a body written in the wrong
   // scope (class at $unit, body inside a package) is indistinguishable from
   // a legal one. Enforcing half a clause would read as "8.24 is checked"
   // while the other half silently accepts illegal code, so nothing is wired.

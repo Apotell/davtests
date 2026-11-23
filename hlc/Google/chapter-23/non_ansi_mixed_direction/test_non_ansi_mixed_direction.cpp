@@ -134,7 +134,7 @@ TEST_F(NonAnsiMixedDirectionTest, OneExplicitPortP) {
 
 TEST_F(NonAnsiMixedDirectionTest, PortPIsMixedIO) {
   GTEST_SKIP() << "The direction of an explicit non-ANSI port is not derived from the declarations of the names "
-                  "in its expression ({a, e}: vpiMixedIO) (IEEE 1800-2023 23.2.2.1); see hldb_model_gaps.md #3";
+                  "in its expression ({a, e}: vpiMixedIO) (IEEE 1800-2023 23.2.2.1)";
   const hldb::Port *const port = findPortP();
   ASSERT_NE(port, nullptr);
   EXPECT_EQ(port->getDirection(), vpiMixedIO);
@@ -142,7 +142,7 @@ TEST_F(NonAnsiMixedDirectionTest, PortPIsMixedIO) {
 
 TEST_F(NonAnsiMixedDirectionTest, PortPExpressionIsLowConn) {
   GTEST_SKIP() << "The port expression of an explicit non-ANSI port ({a, e}) is built as the high connection, "
-                  "not the low connection (IEEE 1800-2023 37.14 detail 4); see hldb_model_gaps.md #3";
+                  "not the low connection (IEEE 1800-2023 37.14 detail 4)";
   const hldb::Port *const port = findPortP();
   ASSERT_NE(port, nullptr);
   EXPECT_NE(port->getLowConn(), nullptr);

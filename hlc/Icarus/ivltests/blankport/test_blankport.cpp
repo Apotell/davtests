@@ -56,11 +56,8 @@
 // because nothing was written; the latter explicitly reserves N unconnected
 // positions (Sec 23.3.2).
 //
-// Known gap: this parser's own grammar rule (grammar/SV3_1aParser.g4:1832,
-// "OPEN_PARENS port_connection_list CLOSE_PARENS" with no "?" around the
-// list) always produces at least one ordered_port_connection node, even for
-// a bare "()" -- so Phase2ModelBuilder::enterPA_Port_connection_list
-// (src/DesignCompile/Phase2ModelBuilder.cpp) has to guess whether the whole
+// Known gap: HLC's parser always produces at least one ordered port
+// connection, even for a bare "()" -- so the model builder has to guess whether the whole
 // list is "genuinely nothing was written" or "N explicit blank positions" by
 // checking whether *any* connection in the list has content; if none do, it
 // disables visiting for all of them. This correctly collapses a bare "()" to

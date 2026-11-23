@@ -11,14 +11,12 @@
 
 // Regression coverage for IEEE 1800-2023 Sec 5.12 attribute_instance attachment.
 //
-// This file exercises every grammar production (per grammar/SV3_1aParser.g4) that carries its
+// This file exercises every grammar production (IEEE 1800-2023 Annex A) that carries its
 // own attribute_instance* prefix, one representative attribute per construct. The goal is NOT to
 // validate every detail of attribute semantics (name/value/type) -- that is covered elsewhere
 // (AttributesNets, DataAttrib, 5.12-attributes-variable). The goal is narrower: confirm that
-// whichever leaf model-builder is responsible for each construct actually calls
-// appendPendingAttributes() (or the equivalent per-item sibling-pairing mechanism for the
-// deliberately-excluded repeated-list forms) at all -- i.e. the attribute is not silently
-// dropped. Each attribute name below is unique and encodes the construct it targets so the
+// HLC attaches the attribute to the item it precedes for each construct at all -- i.e. the
+// attribute is not silently dropped. Each attribute name below is unique and encodes the construct it targets so the
 // companion test file can look it up unambiguously.
 //
 // Deliberately NOT covered: attribute_instance appearing inline between individual operators
@@ -29,11 +27,8 @@
 // underlying mechanism as a covered sibling alternative and would not exercise new code paths.
 //
 // NOT COVERED (grammar does not support it): streaming_concatenation
-// (`{ >> {...} }`) carries no attribute_instance anywhere in this parser's actual
-// streaming_concatenation/stream_operator/stream_concatenation/stream_expression rules --
-// confirmed by reading grammar/SV3_1aParser.g4 directly. An earlier draft of this file assumed
-// otherwise by misreading a commented-out (dead) alternate grammar block further up the same
-// file; that was a mistake, not a real construct.
+// (`{ >> {...} }`) carries no attribute_instance anywhere in the
+// streaming_concatenation/stream_operator/stream_concatenation/stream_expression productions.
 
 package Attributes2_pkg;
   // package_declaration: attribute_instance* PACKAGE identifier ...

@@ -62,8 +62,7 @@
 // module-level 'newspaper'/'clock'/'s0' should all bind cleanly.
 //
 // No .log file was consulted; accessor names were confirmed against the
-// real hldb headers under
-// E:\Davenche\hlc\hlc_03\out\install\x64-Debug\include\hldb. Per the test
+// installed hldb headers (include/hldb). Per the test
 // guide, error presence/absence is checked via Test::findEvent() rather
 // than counting m_errors/m_warnings.
 

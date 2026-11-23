@@ -81,19 +81,17 @@
 // FIXED COMPILER BUGS (previously tracked as KNOWN COMPILER BUG #1 class-lifetime
 // defaulting, #2 property-visibility defaulting, and #4 a method declared
 // directly in a class body not being flagged via getMethod()): all three are
-// confirmed fixed. Phase2ModelBuilder::enterPA_Class_declaration defaults a
-// class with no explicit lifetime keyword to automatic; leavePA_Class_property
-// defaults an unqualified property to vpiPublicVis (8.18: "unqualified class
-// properties and methods are public"); and leavePA_Class_method unconditionally
-// calls setMethod(true) for any Task/Function/constructor reached via the
-// Class_method AST production. ClassIsAutomaticByDefault, PropertyAIsPublicByDefault,
+// confirmed fixed. HLC models a class with no explicit lifetime keyword as
+// automatic; an unqualified property gets vpiPublicVis (8.18: "unqualified
+// class properties and methods are public"); and every Task/Function/constructor
+// declared as a class_method (paClass_method) has getMethod() set. ClassIsAutomaticByDefault, PropertyAIsPublicByDefault,
 // and TestMethodIsRecognizedAsClassMethod below assert this and now pass.
 //
 // Note on ClassIsAutomaticByDefault's citation: IEEE 1800-2023's class_declaration
 // grammar (8.3/Annex A.1.2) no longer has a [lifetime] slot at all -- it was
 // replaced by [final_specifier] for the new "final class" feature; only
 // 1800-2017 allowed an explicit "class automatic"/"class static" keyword. HLC's
-// own grammar (SV3_1aParser.g4's class_declaration rule) still accepts the
+// own grammar (its class_declaration rule) still accepts the
 // legacy lifetime keyword for backward compatibility. Either way, "class
 // test_cls;" here uses neither keyword, and getAutomatic() defaulting true
 // reflects 8.4's invariant that class objects are always created/destroyed

@@ -171,7 +171,7 @@ TEST_F(PreprocTestTest, NoErrorsReported) {
 //      enum_base_type).
 //   2. hlc's own builtin.sv (compiled into every design) has an anonymous,
 //      no-explicit-base "enum {...} state;" that never gets its implicit
-//      int base typespec -- see hldb_model_gaps.md item 6.
+//      int base typespec (Sec 6.19), a known HLC gap.
 //
 TEST_F(PreprocTestTest, KnownGap_EnumBaseTypespecResolution) {
   ASSERT_NE(m_session->getEventListener(), nullptr);

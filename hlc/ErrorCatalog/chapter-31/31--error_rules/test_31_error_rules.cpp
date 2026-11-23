@@ -27,8 +27,7 @@
 // Fixture: 31--error_rules.sv (all thirteen rows), compiled in one run by
 // 31--error_rules.hlc.
 //
-// CompValueOutOfRange has no call site anywhere in src/ outside its own
-// events/*.yaml definition, so every assertion below is expected to
+// HLC does not report CompValueOutOfRange yet, so every assertion below is expected to
 // be red today -- that is the intended, documented state of this exercise,
 // not a bug for this file to work around. No test asserts the absence of a
 // diagnostic, which would lock the gap in.

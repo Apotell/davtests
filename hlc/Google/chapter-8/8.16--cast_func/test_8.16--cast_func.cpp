@@ -174,8 +174,7 @@ TEST_F(ClassCastFuncTest, EnumConstsHaveNoExplicitValue) {
 
 TEST_F(ClassCastFuncTest, EnumTypespecBaseTypeDefaultsToInt) {
   GTEST_SKIP() << "IEEE 1800-2023 Sec 6.19: 'In the absence of a data type declaration, the default data type "
-                  "shall be int.' Phase2ModelBuilder's enum-typespec handling only calls setBaseTypespec() when "
-                  "an explicit paEnum_base_type AST node is present (Phase2ModelBuilder.cpp ~line 6289); this "
+                  "shall be int.' HLC sets the enum's base typespec only when a base type is written; this "
                   "anonymous 'enum { aaa, bbb, ccc, ddd, eee }' has no explicit base type, so getBaseTypespec() "
                   "stays permanently null instead of resolving to an implicit signed 32-bit int.";
   const hldb::EnumTypespec *const et = getEnumTypespec();

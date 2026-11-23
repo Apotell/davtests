@@ -55,7 +55,7 @@
 // Rule 5 -- The property expression in 'assert property (seq)' is a
 //   reference to the named sequence 'seq'. A bare sequence identifier with
 //   no argument list is represented as a RefObj whose getActual() resolves
-//   to the SequenceDecl (this tool's ObjectBinder pass resolves same-scope
+//   to the SequenceDecl (HLC resolves same-scope
 //   simple names without requiring full hierarchical elaboration).
 //
 // -- Declarations 'logic clk;' / 'logic a;' / 'logic b;' ----
@@ -97,7 +97,7 @@
 //         clockingEvent: null
 //         disableCondition: null
 //         propertyExpr: RefObj("seq")               // Rule 5
-//           actual: SequenceDecl("seq")              // resolved by ObjectBinder
+//           actual: SequenceDecl("seq")              // resolved by HLC
 //       }
 //     }
 
@@ -494,7 +494,7 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_NameIsSeq) {
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_ResolvesToSeqDecl) {
   // Rule 5: the RefObj's actual must resolve to the SequenceDecl 'seq' --
-  // this tool's ObjectBinder pass resolves same-scope simple names to their
+  // HLC resolves same-scope simple names to their
   // declaration without requiring full hierarchical elaboration.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);

@@ -50,6 +50,13 @@
 //     aes_core, so the by-name override RHS binds to the package parameter.
 //   - 23.10.2.2 parameter value assignment by name: u_aes_cipher_core
 //     overrides aes_cipher_core.RndCnstMaskingLfsrSeed.
+//   - static elaboration (23.10, parameter specialization): u_aes_cipher_core
+//     instantiates a specialization of aes_cipher_core whose own
+//     RndCnstMaskingLfsrSeed holds the override's value, the package
+//     parameter followed to its 160-bit literal (all 39 digits, 5.7.1), and
+//     whose body's part-select names that parameter; the override's name is
+//     bound to it (23.10.2.2: a parameter of the module the instance's
+//     typespec resolves to). aes_cipher_core itself keeps its default 0.
 //   - 6.11.1 / 7.4.3: "RndCnstMaskingLfsrSeed[31:0]" is a part-select of an
 //     integral parameter (allowed by 6.20.2 "Bit-selects and part-selects of
 //     parameters that are of integral types shall be allowed").
@@ -58,10 +65,9 @@
 //     net type shall be assumed" (default nettype is wire, 22.8).
 //
 // What is NOT checked and why:
-//   - the elaborated value of u_aes_cipher_core.RndCnstMaskingLfsrSeed: the
-//     .hlc requests no elaboration and the HLDB design here is the
-//     non-elaborated (folded) model, so per-instance parameter values do not
-//     exist to query.
+//   - an elaborated instance tree: the .hlc requests no elaboration, so the
+//     value is checked on the specialization static elaboration made for
+//     u_aes_cipher_core, not on an elaborated instance.
 //   - the exact textual encoding of Constant::getValue() (any "HEX:"-style
 //     prefix, letter case, leading zero padding) is an HLDB representation
 //     choice, not standard-mandated; only the significant hex digits are
@@ -119,6 +125,17 @@ class LongHexTest : public Test {
     const hldb::Module *const core = getModule("aes_cipher_core");
     if (core == nullptr) return nullptr;
     return hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeed", core->getParameters());
+  }
+
+  // The module u_aes_cipher_core instantiates: the specialization of aes_cipher_core for its override.
+  static const hldb::Module *getSpecializedCore() {
+    const hldb::Module *const top = getModule("aes_core");
+    if (top == nullptr) return nullptr;
+    const hldb::RefInstance *const inst =
+        hldb::findByName<hldb::RefInstance>("u_aes_cipher_core", top->getRefInstances());
+    if ((inst == nullptr) || (inst->getTypespec() == nullptr)) return nullptr;
+    const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+    return (mt == nullptr) ? nullptr : mt->getModule();
   }
 
   // Lowercase, strip any "XXX:" prefix and leading zeros.
@@ -292,9 +309,13 @@ TEST_F(LongHexTest, AesCoreInstantiatesCipherCore) {
   ASSERT_NE(rt, nullptr);
   const hldb::ModuleTypespec *const mt = rt->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getDefName(), "aes_cipher_core");
-  ASSERT_NE(mt->getModule(), nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("aes_cipher_core"));
+  EXPECT_EQ(mt->getDefName(), std::string_view("aes_cipher_core"));
+
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization()) << "the override gives the parameter a value other than its default";
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("aes_cipher_core"));
+  EXPECT_NE(module, getModule("aes_cipher_core"));
 }
 
 // 23.10.2.2 + 26.3/26.4
@@ -309,21 +330,69 @@ TEST_F(LongHexTest, OverrideByNameBindsBothSides) {
   ASSERT_NE(mt, nullptr);
   ASSERT_NE(mt->getParamAssigns(), nullptr);
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+
   const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName());
+
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+
+  const hldb::Parameter *const p =
+      hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeed", module->getParameters());
+  ASSERT_NE(p, nullptr);
+  ASSERT_NE(p, getCoreParam());
 
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "RndCnstMaskingLfsrSeed");
   ASSERT_NE(lhs->getActual(), nullptr);
-  EXPECT_EQ(lhs->getActual(), getCoreParam());
+  EXPECT_EQ(lhs->getActual(), p) << "23.10.2.2: a parameter of the module the instance's typespec resolves to";
 
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "RndCnstMaskingLfsrSeedDefault");
   ASSERT_NE(rhs->getActual(), nullptr) << "26.4: wildcard import makes the package parameter visible";
   EXPECT_EQ(rhs->getActual(), getPkgParam());
+}
+
+// ===========================================================================
+// The specialization of aes_cipher_core for u_aes_cipher_core
+// ===========================================================================
+
+// 23.10.2.2 + 5.7.1: the specialization's parameter holds the package parameter's value, the full
+// 160-bit literal.
+TEST_F(LongHexTest, SpecializedCoreParameterIsTheLongHexLiteral) {
+  const hldb::Module *const core = getSpecializedCore();
+  ASSERT_NE(core, nullptr);
+  const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeed", core->getParameters());
+  ASSERT_NE(p, nullptr);
+  EXPECT_FALSE(p->getLocalParam());
+  expectLogic159To0(p);
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
+  ASSERT_NE(c, nullptr) << "the override's value: RndCnstMaskingLfsrSeedDefault followed to its literal";
+  EXPECT_EQ(c->getSize(), 160);
+  EXPECT_EQ(normalizeHex(c->getValue()), "c132b5723c5a4cf4743b3c7c32d580f74f1713a")
+      << "5.7.1: no truncation through the override";
+
+  const hldb::Parameter *const generic = getCoreParam();
+  ASSERT_NE(generic, nullptr);
+  ASSERT_NE(generic->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(generic->getExpr<hldb::Constant>()->getDecompile(), "0") << "aes_cipher_core keeps its default";
+}
+
+TEST_F(LongHexTest, SpecializedCorePartSelectUsesItsOwnParameter) {
+  const hldb::Module *const core = getSpecializedCore();
+  ASSERT_NE(core, nullptr);
+  ASSERT_NE(core->getContAssigns(), nullptr);
+  ASSERT_EQ(core->getContAssigns()->size(), 1u);
+  const hldb::PartSelect *const ps = core->getContAssigns()->at(0)->getRhs<hldb::PartSelect>();
+  ASSERT_NE(ps, nullptr);
+  const hldb::RefObj *const prefix = ps->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr);
+  EXPECT_EQ(prefix->getActual(), hldb::findByName<hldb::Parameter>("RndCnstMaskingLfsrSeed", core->getParameters()))
+      << "inside the specialization, the name is its own parameter";
 }
 
 }  // namespace hlc

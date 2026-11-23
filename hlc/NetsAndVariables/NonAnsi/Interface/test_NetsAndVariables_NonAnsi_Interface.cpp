@@ -21,7 +21,7 @@
 // Checked:
 //   - nets_and_variables_if_nonansi exists
 //   - if_logic is a hldb::Variable (never duplicated as a Net) -- interface
-//     items follow module_common_item (grammar/SV3_1aParser.g4,
+//     items follow module_common_item (IEEE 1800-2023 Annex A,
 //     interface_or_generate_item -> module_common_item), so both nets and
 //     variables are legal interface-scoped declarations, same as a module
 //   - if_wire is a hldb::Net with vpiNetType == vpiWire (never duplicated

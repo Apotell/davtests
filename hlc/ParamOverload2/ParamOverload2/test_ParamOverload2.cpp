@@ -62,6 +62,12 @@
 //   Module top
 //     - has no port, and holds exactly 1 instance, u_keymgr of keymgr, whose
 //       only override is RndCnstLfsrPerm = 384'b1, and which connects no port
+//   Static elaboration
+//     - u_keymgr instantiates a specialization of keymgr; the override's name
+//       is bound to that specialization's RndCnstLfsrPerm (23.10.2.2)
+//     - that RndCnstLfsrPerm holds the 384-bit literal 384'b1 -- the
+//       override, not the default -- and keeps its type lfsr_perm_t; keymgr
+//       itself keeps its default
 //   Elaboration
 //     - on the elaborated package, the default is reduced to a 384-bit
 //       Constant (11.4.12)
@@ -292,7 +298,10 @@ TEST_F(ParamOverload2Test, UKeymgrOverridesWith384BitOne) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("keymgr"));
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("keymgr"));
   ASSERT_NE(mt->getParamAssigns(), nullptr);
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
   const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
@@ -301,6 +310,34 @@ TEST_F(ParamOverload2Test, UKeymgrOverridesWith384BitOne) {
   const hldb::Constant *const c = mt->getParamAssigns()->at(0)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "384'b1");
+}
+
+TEST_F(ParamOverload2Test, SpecializationHoldsTheOverrideNotTheDefault) {
+  const hldb::RefInstance *const inst = getUKeymgr();
+  ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const keymgr = mt->getModule();
+  ASSERT_NE(keymgr, nullptr);
+  const hldb::Parameter *const p = getParameter(keymgr, "RndCnstLfsrPerm");
+  ASSERT_NE(p, nullptr);
+  EXPECT_NE(p, getParameter(getModule("keymgr"), "RndCnstLfsrPerm")) << "the specialization declares its own";
+  EXPECT_TRUE(namesPermT(p->getTypespec())) << "the specialization's parameter keeps its type lfsr_perm_t";
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
+  ASSERT_NE(c, nullptr) << "23.10.2.2: the override replaces the default";
+  EXPECT_EQ(c->getDecompile(), "384'b1");
+  EXPECT_EQ(c->getSize(), 384) << "5.7.1: a sized literal keeps its size";
+
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+  const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), p) << "23.10.2.2: the parameter of the module the instance's typespec resolves to";
+
+  const hldb::Parameter *const generic = getParameter(getModule("keymgr"), "RndCnstLfsrPerm");
+  ASSERT_NE(generic, nullptr);
+  EXPECT_NE(generic->getExpr<hldb::RefObj>(), nullptr) << "keymgr keeps its default, RndCnstLfsrPermDefault";
 }
 
 TEST_F(ParamOverload2Test, UKeymgrConnectsNoPort) {

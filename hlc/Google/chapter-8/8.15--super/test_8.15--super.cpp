@@ -63,8 +63,8 @@
 // FIXED COMPILER BUG #8 (super method-call resolution): "super.incs()" is
 // parsed via the generic "Implicit_class_handle" ("super") + ordinary
 // subroutine call path, and "super.new(...)" via a dedicated
-// "Super_dot_new" grammar rule (Phase2ModelBuilder::leavePA_Super_dot_new)
-// -- both lower to the same node type, MethodFuncCall. getTaskFunc() on
+// "Super_dot_new" grammar rule (paSuper_dot_new)
+// -- HLC models both with the same node type, MethodFuncCall. getTaskFunc() on
 // "super.incs()" now correctly resolves to super_cls's base "incs", not
 // test_cls's own override, matching what "super." is supposed to
 // guarantee. TestIncsSecondStmtCallsSuperIncs below asserts this and now

@@ -51,8 +51,10 @@
 //
 // Checked:
 //   - design has module class_tb with exactly 1 variable: "super_obj"
-//   - the module has exactly 2 nested ClassDefns: "super_cls" and
-//     "test_cls"
+//   - the module holds 3 ClassDefns: "super_cls", "test_cls", and the
+//     specialization of test_cls for "#(.t(23))" (static elaboration, 8.25:
+//     a specialization is a class of its own, parented next to the class
+//     it was made from)
 //   - ClassDefn "super_cls": 1 property ("s", initializer "2"), 1
 //     constructor ("new(int def = 3)"); defaults to automatic lifetime, and
 //     property 's' defaults to public visibility (see the FIXED COMPILER
@@ -73,7 +75,9 @@
 //     $display
 //   - "$display(super_obj.s)": RefObj resolving "s" to super_cls's own
 //     property Variable
-//   - design-level: exactly 2 classes
+//   - the specialization test_cls #(.t(23)): made from test_cls, its own
+//     "t" is 23, it still extends super_cls, and its constructor's
+//     "a = def - t" uses its own "t" and "a"
 //
 // FIXED COMPILER BUG #1 (class lifetime defaulting) and FIXED COMPILER BUG
 // #2 (property visibility defaulting): cross-checked at the time across
@@ -86,11 +90,13 @@
 // FIXED COMPILER BUG #3 (typed/scoped constructor call resolution):
 // "test_cls#(.t(23))::new(.def(41))" -- the class-scope qualifier
 // "test_cls#(.t(23))" now resolves (via its RefTypespec -> ClassTypespec)
-// with the "t" ParamAssign's RefObj correctly bound to test_cls's own type
-// parameter, and the call (a FuncCall whose HLDB-only vpiNameQualifier is the
-// class -- a class scope is not a receiver object, so it is not a MethodFuncCall
-// and has no vpiPrefix) has getTaskFunc() resolve to
-// test_cls's constructor (consistent with the fix in
+// to the specialization of test_cls for t = 23, with the "t" ParamAssign's
+// RefObj bound to that specialization's own parameter "t" (23.10.2.2: a
+// parameter of the class the typespec resolves to), and the call (a
+// FuncCall whose HLDB-only vpiNameQualifier is the class -- a class scope
+// is not a receiver object, so it is not a MethodFuncCall and has no
+// vpiPrefix) has getTaskFunc() resolve to that specialization's
+// constructor (consistent with the fix in
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp for
 // ordinary "new" calls). AssignmentRhsScopeParamTResolvesToClassParameter
 // and AssignmentRhsNewCallResolvesToTestConstructor below both now pass; see
@@ -139,6 +145,8 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
+
 namespace hlc {
 
 class ClassTypedConstructorParamTest : public Test {
@@ -166,31 +174,31 @@ class ClassTypedConstructorParamTest : public Test {
   static const hldb::Variable *getSuperPropertyS() {
     const hldb::ClassDefn *const c = getSuperClsDefn();
     if (c == nullptr || c->getVariables() == nullptr || c->getVariables()->empty()) return nullptr;
-    return c->getVariables()->at(0);
+    return hldb::findByName<hldb::Variable>("s", c->getVariables());
   }
 
   static const hldb::Function *getSuperConstructor() {
     const hldb::ClassDefn *const c = getSuperClsDefn();
     if (c == nullptr || c->getMethods() == nullptr || c->getMethods()->empty()) return nullptr;
-    return any_cast<hldb::Function>(c->getMethods()->at(0));
+    return hldb::findByName<hldb::Function>("new", c->getMethods());
   }
 
   static const hldb::Variable *getTestPropertyA() {
     const hldb::ClassDefn *const c = getTestClsDefn();
     if (c == nullptr || c->getVariables() == nullptr || c->getVariables()->empty()) return nullptr;
-    return c->getVariables()->at(0);
+    return hldb::findByName<hldb::Variable>("a", c->getVariables());
   }
 
   static const hldb::Parameter *getTestClassParamT() {
     const hldb::ClassDefn *const c = getTestClsDefn();
     if (c == nullptr || c->getParameters() == nullptr || c->getParameters()->empty()) return nullptr;
-    return any_cast<hldb::Parameter>(c->getParameters()->at(0));
+    return hldb::findByName<hldb::Parameter>("t", c->getParameters());
   }
 
   static const hldb::Function *getTestConstructor() {
     const hldb::ClassDefn *const c = getTestClsDefn();
     if (c == nullptr || c->getMethods() == nullptr || c->getMethods()->empty()) return nullptr;
-    return any_cast<hldb::Function>(c->getMethods()->at(0));
+    return hldb::findByName<hldb::Function>("new", c->getMethods());
   }
 
   static const hldb::Variable *getVariableSuperObj() {
@@ -212,6 +220,17 @@ class ClassTypedConstructorParamTest : public Test {
     if (begin == nullptr || begin->getStmts() == nullptr || begin->getStmts()->empty()) return nullptr;
     return any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   }
+
+  // The class 'test_cls#(.t(23))::new' is qualified with: the specialization of test_cls for t = 23.
+  static const hldb::ClassDefn *getSpecializedTestCls() {
+    const hldb::Assignment *const assign = getAssignmentStmt();
+    const hldb::FuncCall *const newCall = (assign == nullptr) ? nullptr : assign->getRhs<hldb::FuncCall>();
+    if (newCall == nullptr) return nullptr;
+    const hldb::RefTypespec *const nq = newCall->getNameQualifier<hldb::RefTypespec>();
+    if (nq == nullptr) return nullptr;
+    const hldb::ClassTypespec *const ct = nq->getActual<hldb::ClassTypespec>();
+    return (ct == nullptr) ? nullptr : ct->getClassDefn();
+  }
 };
 
 // --- module / design shape ---------------------------------------------------
@@ -225,11 +244,19 @@ TEST_F(ClassTypedConstructorParamTest, ModuleHasOneVariable) {
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(ClassTypedConstructorParamTest, ModuleHasTwoClassDefns) {
+TEST_F(ClassTypedConstructorParamTest, ModuleHasTwoClassesAndOneSpecialization) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
-  EXPECT_EQ(top->getClassDefns()->size(), 2u);
+  ASSERT_EQ(top->getClassDefns()->size(), 3u) << "super_cls, test_cls, and test_cls #(.t(23))";
+  size_t specializations = 0;
+  for (const hldb::ClassDefn *const cd : *top->getClassDefns()) {
+    if (cd->getIsSpecialization()) ++specializations;
+  }
+  EXPECT_EQ(specializations, 1u);
+  ASSERT_NE(getSpecializedTestCls(), nullptr);
+  EXPECT_NE(std::find(top->getClassDefns()->cbegin(), top->getClassDefns()->cend(), getSpecializedTestCls()),
+            top->getClassDefns()->cend());
 }
 
 // --- class "super_cls" ---------------------------------------------------------
@@ -492,14 +519,26 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsHierPathResolvesToClassParam
   ASSERT_NE(ct, nullptr);
   ASSERT_NE(ct->getParamAssigns(), nullptr);
   ASSERT_EQ(ct->getParamAssigns()->size(), 1u);
+
   const hldb::ParamAssign *const pa = ct->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName()) << "'.t(23)' is a named (not positional) parameter assignment";
+
+  const hldb::ClassDefn *const cd = ct->getClassDefn();
+  ASSERT_NE(cd, nullptr);
+  EXPECT_TRUE(cd->getIsSpecialization()) << "8.25: '.t(23)' gives t a value other than its default 12";
+  EXPECT_EQ(cd->getSpecializedFrom(), getTestClsDefn());
+
+  const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("t", cd->getParameters());
+  ASSERT_NE(p, nullptr);
+  EXPECT_NE(p, getTestClassParamT()) << "the specialization declares its own 't'";
+
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("t"));
-  EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getTestClassParamT())
-      << "8.8: '.t(23)' must resolve 't' back to test_cls's OWN type parameter (see FIXED COMPILER BUG #3 above)";
+  EXPECT_EQ(lhs->getActual(), p) << "23.10.2.2: '.t(23)' names the parameter t of the class the qualifier "
+                                    "resolves to -- the specialization's own, not test_cls's";
+
   const hldb::Constant *const paRhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(paRhs, nullptr);
   EXPECT_EQ(paRhs->getDecompile(), std::string_view("23"));
@@ -510,8 +549,79 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNewCallResolvesToTestConstru
   ASSERT_NE(assign, nullptr);
   const hldb::FuncCall *const newCall = assign->getRhs<hldb::FuncCall>();
   ASSERT_NE(newCall, nullptr);
-  EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
-      << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor";
+  const hldb::RefTypespec *const nq = newCall->getNameQualifier<hldb::RefTypespec>();
+  ASSERT_NE(nq, nullptr);
+  const hldb::ClassTypespec *const ct = hldb::getResolvedTypespec<hldb::ClassTypespec>(nq);
+  ASSERT_NE(ct, nullptr);
+  const hldb::ClassDefn *const cd = ct->getClassDefn();
+  ASSERT_NE(cd, nullptr);
+  const hldb::Function *const f = hldb::findByName<hldb::Function>("new", cd->getMethods());
+  ASSERT_NE(f, nullptr);
+  EXPECT_NE(f, getTestConstructor()) << "the specialization has its own constructor";
+  EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), f)
+      << "8.8: 'test_cls#(.t(23))::new(...)' calls the constructor of test_cls #(.t(23))";
+}
+
+// ---------------------------------------------------------------------------
+// The specialization test_cls #(.t(23)) (8.25)
+// ---------------------------------------------------------------------------
+
+TEST_F(ClassTypedConstructorParamTest, SpecializationParameterTIsTwentyThree) {
+  const hldb::ClassDefn *const cd = getSpecializedTestCls();
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getParameters(), nullptr);
+  ASSERT_EQ(cd->getParameters()->size(), 1u);
+  const hldb::Parameter *const t = hldb::findByName<hldb::Parameter>("t", cd->getParameters());
+  ASSERT_NE(t, nullptr);
+  const hldb::Constant *const value = t->getExpr<hldb::Constant>();
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), std::string_view("23")) << "8.25: in test_cls #(.t(23)), t is 23";
+  ASSERT_NE(getTestClassParamT(), nullptr);
+  ASSERT_NE(getTestClassParamT()->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(getTestClassParamT()->getExpr<hldb::Constant>()->getDecompile(), std::string_view("12"))
+      << "test_cls itself keeps its default";
+}
+
+TEST_F(ClassTypedConstructorParamTest, SpecializationExtendsSuperCls) {
+  const hldb::ClassDefn *const cd = getSpecializedTestCls();
+  ASSERT_NE(cd, nullptr);
+  const hldb::Extends *const ext = cd->getExtends();
+  ASSERT_NE(ext, nullptr) << "8.25: a specialization extends what its class extends";
+  ASSERT_NE(ext->getClassTypespecs(), nullptr);
+  ASSERT_EQ(ext->getClassTypespecs()->size(), 1u);
+  const hldb::ClassTypespec *const baseCt = ext->getClassTypespecs()->at(0)->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(baseCt, nullptr);
+  EXPECT_EQ(baseCt->getClassDefn(), getSuperClsDefn());
+}
+
+TEST_F(ClassTypedConstructorParamTest, SpecializationConstructorUsesItsOwnTAndA) {
+  const hldb::ClassDefn *const cd = getSpecializedTestCls();
+  ASSERT_NE(cd, nullptr);
+  const hldb::Function *const ctor = hldb::findByName<hldb::Function>("new", cd->getMethods());
+  ASSERT_NE(ctor, nullptr);
+  const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr);
+  ASSERT_NE(body->getStmts(), nullptr);
+  ASSERT_EQ(body->getStmts()->size(), 2u);
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
+  ASSERT_NE(assign, nullptr) << "'a = def - t;'";
+
+  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", cd->getVariables());
+  ASSERT_NE(a, nullptr);
+  EXPECT_NE(a, getTestPropertyA());
+  EXPECT_EQ(lhs->getActual(), a) << "'a' is the specialization's own property";
+
+  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getOperands(), nullptr);
+  ASSERT_EQ(rhs->getOperands()->size(), 2u);
+  const hldb::RefObj *const tOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
+  ASSERT_NE(tOperand, nullptr);
+  EXPECT_EQ(tOperand->getName(), std::string_view("t"));
+  EXPECT_EQ(tOperand->getActual(), hldb::findByName<hldb::Parameter>("t", cd->getParameters()))
+      << "8.25: inside test_cls #(.t(23)), 't' is that specialization's t (23), not test_cls's (12)";
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) {

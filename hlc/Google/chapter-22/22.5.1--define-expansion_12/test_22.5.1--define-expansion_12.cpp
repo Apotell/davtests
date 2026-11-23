@@ -99,7 +99,7 @@
 //     which the LRM does not define. Nearest assertions: TopModule (the
 //     module itself, its lines and end label) and TopHasOneNullPort.
 //   - The null port's vpiSize 0 (37.14 detail 11): HLDB has no vpiSize on a
-//     port (hldb_model_gaps.md #8). NullPortHasSizeZero holds the assertion,
+//     port. NullPortHasSizeZero holds the assertion,
 //     skipped until the model has it.
 //   - How many diagnostics line 19 draws, and of which severity, beyond the
 //     required error. The LRM requires an error for the illegal usage but

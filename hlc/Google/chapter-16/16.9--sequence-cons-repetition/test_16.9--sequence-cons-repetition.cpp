@@ -83,8 +83,8 @@
 //
 // 'assert property (seq)' and 'assert property (seq_2)': a bare sequence
 // identifier with no argument list is represented as a RefObj whose
-// getActual() resolves to the corresponding SequenceDecl (this tool's
-// ObjectBinder pass resolves same-scope simple names without requiring
+// getActual() resolves to the corresponding SequenceDecl (HLC
+// resolves same-scope simple names without requiring
 // full hierarchical elaboration).
 //
 // NOTE: both '##1' and '##[n:m]' produce vpiCycleDelayOp(71).

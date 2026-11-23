@@ -78,6 +78,18 @@
 //     - ctrl_shadowed_reg instantiates prim_subreg_shadow and overrides
 //       RESVAL with the RefObj CTRL_RESET, bound through the import to
 //       aes_pkg's Parameter
+//   Static elaboration (the path aes_core instantiates)
+//     - ctrl_shadowed_reg instantiates a specialization of
+//       prim_subreg_shadow whose own RESVAL holds CTRL_RESET's value, the
+//       assignment pattern -- not the default '0; the override's name is
+//       bound to that RESVAL (23.10.2.2)
+//     - in that specialization, committed_reg's '.RESVAL(RESVAL)' value is
+//       the specialization's own RESVAL (23.9), and it instantiates a
+//       specialization of prim_subreg whose RESVAL holds the same pattern;
+//       the name is bound to that RESVAL
+//     - prim_subreg_shadow as written is reached only through its
+//       specialization, so its own committed_reg binds to prim_subreg as
+//       written
 //   Elaboration
 //     - both elaborated RESVAL parameters hold 0
 //     - aes_core is the only top-level instance (23.3.1)
@@ -189,11 +201,33 @@ class ParamNoSubstTest : public Test {
     const hldb::RefInstance *const ri = hldb::findByName<hldb::RefInstance>(inst, m->getRefInstances());
     if (ri == nullptr || ri->getTypespec() == nullptr) return nullptr;
     const hldb::ModuleTypespec *const mt = ri->getTypespec()->getActual<hldb::ModuleTypespec>();
-    if (mt == nullptr || mt->getModule() != getModule(target)) return nullptr;
+    // The instance's module is target itself, or the specialization of it made for the override.
+    if ((mt == nullptr) || (mt->getModule() == nullptr) || (mt->getModule()->getDefName() != target)) return nullptr;
     if (mt->getParamAssigns() == nullptr || mt->getParamAssigns()->size() != 1u) return nullptr;
     const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
     if (lhs == nullptr || lhs->getName() != "RESVAL") return nullptr;
     return mt->getParamAssigns()->at(0)->getRhs();
+  }
+
+  // The ModuleTypespec of instance 'inst' declared in 'module' (a definition or a specialization).
+  static const hldb::ModuleTypespec *getInstanceType(const hldb::Module *module, std::string_view inst) {
+    if (module == nullptr) return nullptr;
+    const hldb::RefInstance *const ri = hldb::findByName<hldb::RefInstance>(inst, module->getRefInstances());
+    if ((ri == nullptr) || (ri->getTypespec() == nullptr)) return nullptr;
+    return ri->getTypespec()->getActual<hldb::ModuleTypespec>();
+  }
+
+  // Verifies 'p' holds an assignment pattern: CTRL_RESET's value, not the default '0.
+  static void ExpectCtrlResetPattern(const hldb::Parameter *p, std::string_view why) {
+    ASSERT_NE(p, nullptr);
+    const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
+    ASSERT_NE(pattern, nullptr) << why << ": CTRL_RESET's value, not the default '0";
+    EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp) << why;
+    ASSERT_NE(pattern->getOperands(), nullptr);
+    ASSERT_EQ(pattern->getOperands()->size(), 1u);
+    const hldb::TaggedPattern *const item = any_cast<hldb::TaggedPattern>(pattern->getOperands()->at(0));
+    ASSERT_NE(item, nullptr);
+    EXPECT_EQ(getKey(item), "manual_operation") << why;
   }
 
   // Verifies module 'name' declares exactly 1 overridable logic [31:0]
@@ -353,6 +387,18 @@ TEST_F(ParamNoSubstTest, ShadowPassesItsOwnResvalToCommittedReg) {
   ASSERT_NE(getParameter(getModule("prim_subreg_shadow"), "RESVAL"), nullptr);
   EXPECT_EQ(resval->getActual(), getParameter(getModule("prim_subreg_shadow"), "RESVAL"))
       << "23.9: the override is written in prim_subreg_shadow's scope, so 'RESVAL' is its own parameter";
+
+  // prim_subreg_shadow as written is reached only through its specialization: its own committed_reg
+  // binds to prim_subreg as written.
+  const hldb::ModuleTypespec *const mt = getInstanceType(getModule("prim_subreg_shadow"), "committed_reg");
+  ASSERT_NE(mt, nullptr);
+  EXPECT_EQ(mt->getModule(), getModule("prim_subreg"));
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+  const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), getParameter(getModule("prim_subreg"), "RESVAL"))
+      << "23.10.2.2: the name is prim_subreg's parameter, never prim_subreg_shadow's (no self-reference)";
 }
 
 // ---------------------------------------------------------------------------
@@ -396,6 +442,56 @@ TEST_F(ParamNoSubstTest, AesCorePassesImportedCtrlReset) {
   EXPECT_EQ(reset->getName(), "CTRL_RESET");
   ASSERT_NE(getParameter(getPkg(), "CTRL_RESET"), nullptr);
   EXPECT_EQ(reset->getActual(), getParameter(getPkg(), "CTRL_RESET")) << "26.3: 'CTRL_RESET' is imported from aes_pkg";
+}
+
+// ---------------------------------------------------------------------------
+// Static elaboration: aes_core -> ctrl_shadowed_reg -> committed_reg
+// ---------------------------------------------------------------------------
+
+TEST_F(ParamNoSubstTest, ShadowSpecializationHoldsCtrlReset) {
+  const hldb::ModuleTypespec *const mt = getInstanceType(getModule("aes_core"), "ctrl_shadowed_reg");
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const shadow = mt->getModule();
+  ASSERT_NE(shadow, nullptr);
+  EXPECT_TRUE(shadow->getIsSpecialization()) << "CTRL_RESET is not RESVAL's default '0";
+  EXPECT_EQ(shadow->getSpecializedFrom(), getModule("prim_subreg_shadow"));
+  const hldb::Parameter *const resval = getParameter(shadow, "RESVAL");
+  ASSERT_NE(resval, nullptr);
+  ExpectCtrlResetPattern(resval, "ctrl_shadowed_reg's RESVAL");
+
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+  const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), resval) << "23.10.2.2: the RESVAL of the module the instance's typespec resolves to";
+}
+
+TEST_F(ParamNoSubstTest, CommittedRegInShadowSpecializationPassesItsOwnResval) {
+  const hldb::ModuleTypespec *const shadowTs = getInstanceType(getModule("aes_core"), "ctrl_shadowed_reg");
+  ASSERT_NE(shadowTs, nullptr);
+  const hldb::Module *const shadow = shadowTs->getModule();
+  ASSERT_NE(shadow, nullptr);
+
+  const hldb::ModuleTypespec *const mt = getInstanceType(shadow, "committed_reg");
+  ASSERT_NE(mt, nullptr) << "the specialization has its own committed_reg";
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+  const hldb::ParamAssign *const pa = mt->getParamAssigns()->at(0);
+  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getActual(), getParameter(shadow, "RESVAL"))
+      << "23.9: inside the specialization, 'RESVAL' is the specialization's own";
+
+  const hldb::Module *const subreg = mt->getModule();
+  ASSERT_NE(subreg, nullptr);
+  EXPECT_TRUE(subreg->getIsSpecialization());
+  EXPECT_EQ(subreg->getSpecializedFrom(), getModule("prim_subreg"));
+  const hldb::Parameter *const resval = getParameter(subreg, "RESVAL");
+  ASSERT_NE(resval, nullptr);
+  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), resval) << "23.10.2.2: the RESVAL of the instantiated prim_subreg";
+  ExpectCtrlResetPattern(resval, "committed_reg's RESVAL, passed down from ctrl_shadowed_reg");
 }
 
 // ---------------------------------------------------------------------------

@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Validates IEEE 1800-2017 Sec 19 covergroup HLDB model built by Phase2ModelBuilder.
+// Validates the IEEE 1800-2017 Sec 19 covergroup HLDB model HLC builds.
 // Tests covergroup declarations nested inside a module body so they are
 // reachable via module->getCoverGroups().
 //
@@ -30,7 +30,7 @@
 // getStmts() (bins_body_group, mirrors the covergroup_declaration stmt pattern).
 // All bins and options are accessible at parse time.
 //
-// NOTE: cross_item_list stores RefObj placeholders at Phase2 parse time.
+// NOTE: cross_item_list stores RefObj placeholders when first built.
 // CoverCross::getCrossItems() is only populated after elaboration (when RefObjs
 // are resolved to actual CoverPoint objects). Tests with -parse only cannot
 // verify cross item count; they verify cross existence/name instead.

@@ -52,4 +52,8 @@ DD t;
 
 endmodule
 
+module axi_top;
+  AXI_BUS axi();
+endmodule
+
 

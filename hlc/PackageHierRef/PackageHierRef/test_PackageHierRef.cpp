@@ -533,7 +533,7 @@ TEST_F(PackageHierRefTest, DottedName2IsMemberSelectOfPS2) {
 }
 
 TEST_F(PackageHierRefTest, DottedName3IsHierarchicalNamePFX) {
-  GTEST_SKIP() << "Known HLC gap: Sec 23.7 rule c) makes f.x equivalent to p::f.x, but ObjectBinder::bindPathElements looks x up in f's return typespec instead of f's scope, so x stays unbound.";
+  GTEST_SKIP() << "Known HLC gap: Sec 23.7 rule c) makes f.x equivalent to p::f.x, but HLC looks x up in f's return typespec instead of f's scope, so x stays unbound.";
   ExpectDottedName(getDottedName(3), "f", getF("p"), "x", getFLocalX("p"),
                    "23.7 rule c): f is the imported scope name p::f, so f.x is p::f.x, f's static local x");
 }

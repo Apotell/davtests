@@ -39,10 +39,15 @@
 //   - Sec 6.20.1: the declaration in "dut" omits the default value, so the
 //     Parameter RESVAL has no value (Parameter::getExpr() is null)
 //   - Sec 23.3.2/23.10.2.2: "top" contains the instance "u_dut" of module
-//     "dut"; the instance typespec resolves to a ModuleTypespec for "dut"
+//     "dut"; the instance typespec resolves to a ModuleTypespec for "dut",
+//     whose module is the specialization of dut static elaboration made for
+//     the override
 //   - Sec 23.10.2.2 (parameter value assignment by name): the override is a
 //     single ParamAssign on the instance's typespec, connected by name, whose LHS
-//     binds to dut's Parameter "RESVAL"
+//     binds to Parameter "RESVAL" of the module the typespec resolves to (the
+//     specialization)
+//   - the specialization's own RESVAL holds the override as written,
+//     ~(2'h0); dut's own RESVAL still has no value
 //   - Sec 11.4.8 (bitwise operators, unary ~) / Sec 5.7.1 (integer literal
 //     constants): the override RHS is Operation(vpiBitNegOp) with exactly
 //     one operand, the 2-bit hexadecimal Constant "2'h0" (parentheses do
@@ -52,8 +57,8 @@
 //
 // What is NOT checked and why:
 //   - The evaluated override value (~2'h0 in the 2-bit context of RESVAL is
-//     2'b11): constant evaluation of overrides is an elaboration result and
-//     this compile stops before elaboration.
+//     2'b11): static elaboration does not evaluate expressions, so the
+//     specialization holds the expression as written.
 //   - Sec 6.20.1 footnote 22 of Syntax 6-6: "It shall be legal to omit the
 //     constant_param_expression from a param_assignment ... only within a
 //     parameter_port_list." "parameter logic [1:0] RESVAL;" omits the
@@ -174,7 +179,10 @@ TEST_F(MaskNegTest, TopInstantiatesDutAsUDut) {
   const hldb::ModuleTypespec *const mt = getUDutTypespec();
   ASSERT_NE(mt, nullptr) << "'u_dut's typespec must resolve to a ModuleTypespec";
   EXPECT_EQ(mt->getDefName(), "dut");
-  EXPECT_EQ(mt->getModule(), getModule("dut")) << "'u_dut' is an instance of module 'dut'";
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("dut")) << "'u_dut' is an instance of module 'dut'";
 }
 
 // ---------------------------------------------------------------------------
@@ -190,11 +198,39 @@ TEST_F(MaskNegTest, OverrideIsNamedAndBindsToResval) {
   ASSERT_NE(pa, nullptr);
   EXPECT_TRUE(pa->getConnByName()) << "'.RESVAL(...)' is a named parameter assignment";
 
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("dut")) << "'u_dut' is an instance of module 'dut'";
+
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "RESVAL");
+
+  const hldb::Parameter *const rv = hldb::findByName<hldb::Parameter>("RESVAL", module->getParameters());
+  ASSERT_NE(rv, nullptr);
+  EXPECT_NE(rv, getResval()) << "the specialization declares its own RESVAL";
+  EXPECT_EQ(lhs->getActual(), rv) << "Sec 23.10.2.2: the RESVAL of the module the instance's typespec resolves to";
+}
+
+TEST_F(MaskNegTest, SpecializationResvalHoldsTheOverride) {
+  const hldb::ModuleTypespec *const mt = getUDutTypespec();
+  ASSERT_NE(mt, nullptr);
+  ASSERT_NE(mt->getModule(), nullptr);
+  const hldb::Parameter *const rv = hldb::findByName<hldb::Parameter>("RESVAL", mt->getModule()->getParameters());
+  ASSERT_NE(rv, nullptr);
+  EXPECT_FALSE(rv->getLocalParam());
+  const hldb::Operation *const op = rv->getExpr<hldb::Operation>();
+  ASSERT_NE(op, nullptr) << "the specialization's RESVAL is the override, unevaluated: ~(2'h0)";
+  EXPECT_EQ(op->getOpType(), vpiBitNegOp);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_EQ(op->getOperands()->size(), 1u);
+  const hldb::Constant *const c = any_cast<hldb::Constant>(op->getOperands()->at(0));
+  ASSERT_NE(c, nullptr);
+  EXPECT_EQ(c->getDecompile(), "2'h0");
+
   ASSERT_NE(getResval(), nullptr);
-  EXPECT_EQ(lhs->getActual(), getResval()) << "override must bind to dut's Parameter 'RESVAL'";
+  EXPECT_EQ(getResval()->getExpr(), nullptr) << "dut itself still has no default";
 }
 
 TEST_F(MaskNegTest, OverrideValueIsBitwiseNegationOfTwoBitHexZero) {

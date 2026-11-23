@@ -66,7 +66,7 @@
 //
 // 'a_seq: assert property (seq)': a bare sequence identifier with no
 // argument list is represented as a RefObj whose getActual() resolves to
-// the SequenceDecl 'seq' (this tool's ObjectBinder pass resolves
+// the SequenceDecl 'seq' (HLC resolves
 // same-scope simple names without requiring full hierarchical elaboration).
 
 #include <hlc/Common/Session.h>

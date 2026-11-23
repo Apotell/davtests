@@ -238,7 +238,7 @@ TEST_F(BuiltinMethodsArrays, SizeCallIsNotLegalOnFixedArray) {
 
 TEST_F(BuiltinMethodsArrays, SizeCallOnFixedArrayIsReported) {
   GTEST_SKIP() << "a method call on a resolved receiver without a callee is only reported as LintNullActual: "
-                  "ObjectBinder does not resolve every method of a receiver's type yet";
+                  "HLC does not resolve every method of a receiver's type yet";
   const Event *const event = findEvent(EventType::CompUndefinedUserFunction, "size");
   ASSERT_NE(event, nullptr) << "array.size() on a fixed-size array must be reported as an undefined method";
   ASSERT_FALSE(event->getArguments().empty());

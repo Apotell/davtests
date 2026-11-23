@@ -95,6 +95,12 @@
 //       pattern (10.9.2) of the RefObjs v1 and v2, bound to top's Parameters
 //     - u_ctrl_reg_shadowed instantiates prim_subreg_shadow and overrides
 //       RESVAL with the RefObj CTRL_RESET, bound to top's Parameter
+//   Static elaboration
+//     - CTRL_RESET's value names v1 and v2, which this pass does not evaluate
+//       (D5), so u_ctrl_reg_shadowed instantiates prim_subreg_shadow as
+//       written; in it, staged_reg's override is followed to the shadow's
+//       default pattern and instantiates a specialization of prim_subreg
+//       holding it, whose body uses its own RESVAL
 //   Elaboration
 //     - top's CTRL_RESET, u_ctrl_reg_shadowed's RESVAL and staged_reg's
 //       RESVAL all hold 8
@@ -197,15 +203,30 @@ class ParamOverloadingTest : public Test {
     return {};
   }
 
+  // The module the instance 'inst' of module 'module' instantiates: 'target'
+  // itself or a specialization static elaboration made of it.
+  static const hldb::Module *getInstantiated(std::string_view module, std::string_view inst) {
+    const hldb::Module *const m = getModule(module);
+    if (m == nullptr) return nullptr;
+    const hldb::RefInstance *const ri = hldb::findByName<hldb::RefInstance>(inst, m->getRefInstances());
+    if (ri == nullptr || ri->getTypespec() == nullptr) return nullptr;
+    const hldb::ModuleTypespec *const mt = ri->getTypespec()->getActual<hldb::ModuleTypespec>();
+    return (mt == nullptr) ? nullptr : mt->getModule();
+  }
+
   // The single override the unelaborated instance 'inst' of module 'module'
-  // writes, after verifying it instantiates 'target' and names RESVAL.
+  // writes, after verifying it instantiates 'target' (or a specialization of
+  // it) and names RESVAL.
   static const hldb::Any *getResvalOverride(std::string_view module, std::string_view inst, std::string_view target) {
     const hldb::Module *const m = getModule(module);
     if (m == nullptr) return nullptr;
     const hldb::RefInstance *const ri = hldb::findByName<hldb::RefInstance>(inst, m->getRefInstances());
     if (ri == nullptr || ri->getTypespec() == nullptr) return nullptr;
     const hldb::ModuleTypespec *const mt = ri->getTypespec()->getActual<hldb::ModuleTypespec>();
-    if (mt == nullptr || mt->getModule() != getModule(target)) return nullptr;
+    if (mt == nullptr || mt->getModule() == nullptr) return nullptr;
+    const hldb::Module *const base =
+        mt->getModule()->getIsSpecialization() ? mt->getModule()->getSpecializedFrom() : mt->getModule();
+    if (base != getModule(target)) return nullptr;
     if (mt->getParamAssigns() == nullptr || mt->getParamAssigns()->size() != 1u) return nullptr;
     const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
     if (lhs == nullptr || lhs->getName() != "RESVAL") return nullptr;
@@ -382,6 +403,41 @@ TEST_F(ParamOverloadingTest, ShadowPassesItsOwnResvalToStagedReg) {
       << "23.9: the override is written in prim_subreg_shadow's scope";
 }
 
+// Static elaboration: prim_subreg_shadow as written is reached (u_ctrl_reg_shadowed falls back to it,
+// see TopPassesCtrlResetToShadow), so staged_reg's override is followed to its value, the shadow's
+// own default '{a: '0, b: '1} -- not prim_subreg's '0 -- and staged_reg instantiates a specialization
+// of prim_subreg holding that pattern.
+TEST_F(ParamOverloadingTest, StagedRegInstantiatesSpecializationHoldingShadowDefault) {
+  const hldb::Module *const staged = getInstantiated("prim_subreg_shadow", "staged_reg");
+  ASSERT_NE(staged, nullptr);
+  EXPECT_TRUE(staged->getIsSpecialization()) << "the shadow's default is not prim_subreg's '0";
+  EXPECT_EQ(staged->getSpecializedFrom(), getModule("prim_subreg"));
+  const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("RESVAL", staged->getParameters());
+  ASSERT_NE(p, nullptr);
+  const hldb::Operation *const pattern = p->getExpr<hldb::Operation>();
+  ASSERT_NE(pattern, nullptr) << "the value of the shadow's RESVAL, followed -- not the name";
+  EXPECT_EQ(pattern->getOpType(), vpiAssignmentPatternOp);
+  ASSERT_NE(pattern->getOperands(), nullptr);
+  ASSERT_EQ(pattern->getOperands()->size(), 2u);
+  const std::string_view keys[] = {"a", "b"};
+  for (size_t i = 0; i < 2; ++i) {
+    const hldb::TaggedPattern *const item = any_cast<hldb::TaggedPattern>(pattern->getOperands()->at(i));
+    ASSERT_NE(item, nullptr);
+    EXPECT_EQ(getKey(item), keys[i]);
+  }
+  // In the specialization, 'a' casts its own RESVAL.
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", staged->getVariables());
+  ASSERT_NE(a, nullptr);
+  const hldb::Operation *const cast =
+      (a->getExpr() != nullptr) ? a->getExpr<hldb::Operation>() : any_cast<hldb::Operation>(a->getValue());
+  ASSERT_NE(cast, nullptr);
+  ASSERT_NE(cast->getOperands(), nullptr);
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+  const hldb::RefObj *const resval = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
+  ASSERT_NE(resval, nullptr);
+  EXPECT_EQ(resval->getActual(), p) << "the specialization's own RESVAL";
+}
+
 // ---------------------------------------------------------------------------
 // module top
 // ---------------------------------------------------------------------------
@@ -434,6 +490,10 @@ TEST_F(ParamOverloadingTest, TopPassesCtrlResetToShadow) {
   EXPECT_EQ(reset->getName(), "CTRL_RESET");
   ASSERT_NE(getParameter("top", "CTRL_RESET"), nullptr);
   EXPECT_EQ(reset->getActual(), getParameter("top", "CTRL_RESET")) << "top's own parameter";
+  // CTRL_RESET's value '{v1, v2} names parameters: not evaluated in this pass (static elaboration D5),
+  // so it is not specialized and u_ctrl_reg_shadowed instantiates prim_subreg_shadow as written.
+  EXPECT_EQ(getInstantiated("top", "u_ctrl_reg_shadowed"), getModule("prim_subreg_shadow"))
+      << "TODO(D5): a specialization holding '{v1, v2} once values are evaluated";
 }
 
 // ---------------------------------------------------------------------------

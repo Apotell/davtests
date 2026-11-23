@@ -155,7 +155,7 @@ TEST_F(NonAnsiEmptyPortTest, EmptyPortIsANullPort) {
 
 TEST_F(NonAnsiEmptyPortTest, EmptyPortHasSizeZero) {
   // Expected (37.14 detail 11): the size of port 1 is 0.
-  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14); see hldb_model_gaps.md #8";
+  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14)";
 }
 
 TEST_F(NonAnsiEmptyPortTest, PortCConnectsToNothing) {

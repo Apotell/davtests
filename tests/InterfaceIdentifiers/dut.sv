@@ -1,6 +1,6 @@
 // ============================================================
 // interface_identifier - coverage of every grammar permutation
-// Source: SV3_1aParser.g4 (IEEE 1800 SystemVerilog)
+// Source: IEEE 1800-2023 Annex A
 //
 // Grammar sites covered
 //   1  interface_port_header        line  279  ANSI port declarations

@@ -15,7 +15,7 @@
 */
 
 // Validates IEEE 1800-2023 Ch.30 specify block UHDM model produced by
-// Phase2ModelBuilder for the module in dut.sv.
+// HLC for the module in dut.sv.
 //
 // dut.sv's specify block produces 61 stmts total:
 //   21 SpecParam       -- specparam declarations (including multi-name forms)
@@ -132,9 +132,8 @@ TEST_F(SpecifyBlockTest, TchkCount_22) {
 }
 
 // --- specparam tRise = 1 (stmts[0]) ---
-// Data flow: visit_INTEGRAL_NUMBER -> Constant(1) bubbles up through
-// Primary_literal -> Constant_primary -> Constant_expression ->
-// Constant_mintypmax_expression; leavePA_Specparam_declaration extracts it.
+// The value 1 is a constant_mintypmax_expression in the grammar; HLC models it
+// as a Constant(1), the single entry of the SpecParam's getExprs().
 
 TEST_F(SpecifyBlockTest, SpecParam_ExistsInStmts) {
   const auto *sb = getSpecifyBlock();

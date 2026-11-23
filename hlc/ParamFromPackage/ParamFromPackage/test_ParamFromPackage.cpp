@@ -59,6 +59,13 @@
 //   Module top
 //     - has no port, and holds exactly 1 instance, u_aes_cipher_core of
 //       aes_cipher_core, whose only override is Z = 1 (23.10.2.2)
+//   Static elaboration
+//     - u_aes_cipher_core instantiates a specialization of aes_cipher_core;
+//       the override's name is bound to that specialization's Z
+//       (23.10.2.2: a parameter of the module the instance's typespec
+//       resolves to)
+//     - in the specialization Z is 1, and P keeps its default, the name X
+//       bound to aes_pkg's X: overriding Z must not disturb P
 //   Elaboration
 //     - u_aes_cipher_core has P = 32'habcd and Z = 1
 //     - top is the only top-level instance (23.3.1)
@@ -310,7 +317,10 @@ TEST_F(ParamFromPackageTest, TopInstantiatesCipherCore) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("aes_cipher_core"));
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("aes_cipher_core"));
 }
 
 TEST_F(ParamFromPackageTest, InstanceOverridesOnlyZWithOne) {
@@ -323,6 +333,37 @@ TEST_F(ParamFromPackageTest, InstanceOverridesOnlyZWithOne) {
   const hldb::Constant *const c = overrides->at(0)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "1");
+}
+
+TEST_F(ParamFromPackageTest, SpecializationHasZOneAndKeepsPDefault) {
+  const hldb::RefInstance *const inst = getInstance();
+  ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const core = mt->getModule();
+  ASSERT_NE(core, nullptr);
+  ASSERT_NE(core->getParameters(), nullptr);
+  EXPECT_EQ(core->getParameters()->size(), 2u);
+
+  const hldb::Parameter *const z = getParameter(core, "Z");
+  ASSERT_NE(z, nullptr);
+  EXPECT_NE(z, getParameter(getModule("aes_cipher_core"), "Z")) << "the specialization declares its own Z";
+  ASSERT_NE(z->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(z->getExpr<hldb::Constant>()->getDecompile(), "1") << "23.10.2.2: '.Z(1)'";
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+  const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), z) << "23.10.2.2: the Z of the module the instance's typespec resolves to";
+
+  const hldb::Parameter *const p = getParameter(core, "P");
+  ASSERT_NE(p, nullptr);
+  ExpectLogic(p->getTypespec(), {{"7", "0"}, {"3", "0"}}, "the specialization's P");
+  const hldb::RefObj *const x = p->getExpr<hldb::RefObj>();
+  ASSERT_NE(x, nullptr) << "P keeps its default, the name 'X'";
+  EXPECT_EQ(x->getName(), "X");
+  EXPECT_EQ(x->getActual(), getParameter(getPkg(), "X")) << "26.4: still aes_pkg's X";
 }
 
 // ---------------------------------------------------------------------------

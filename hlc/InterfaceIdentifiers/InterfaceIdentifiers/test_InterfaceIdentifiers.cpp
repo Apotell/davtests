@@ -15,7 +15,7 @@
 */
 
 // Validates HLDB graph nodes produced for interface_identifier grammar sites
-// (IEEE 1800 SV3_1aParser.g4):
+// (IEEE 1800-2023 Annex A):
 //   1  interface_port_header        (ANSI port declarations)
 //   2  interface_port_declaration   (non-ANSI port declarations)
 //   3  virtual-interface data_type  (variable declarations)

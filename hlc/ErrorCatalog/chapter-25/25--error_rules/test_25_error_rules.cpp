@@ -26,8 +26,7 @@
 // Fixture: 25--error_rules.sv (rows 906, 912), compiled in one run by
 // 25--error_rules.hlc.
 //
-// CompIllegalExpressionContext has no call site anywhere in src/ outside
-// its own events/*.yaml definition, so both assertions below are
+// HLC does not report CompIllegalExpressionContext yet, so both assertions below are
 // expected to be red today -- that is the intended, documented state of this
 // exercise, not a bug for this file to work around. No test asserts the
 // absence of a diagnostic, which would lock the gap in.

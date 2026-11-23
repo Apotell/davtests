@@ -49,7 +49,7 @@
 //         the port's typespec resolves to an InterfaceTypespec whose
 //         interface is PerformanceCounterIF and whose modport is CSR.
 //       * 37.14 detail 5: the low conn of an interface port is a RefObj;
-//         it binds to the CSR modport (see hldb_model_gaps.md Sec 2).
+//         it binds to the CSR modport.
 //       * interface_port_header carries no port_direction, so HLC must not
 //         warn that the port is "missing its direction"
 //         (CompPortMissingDirection).

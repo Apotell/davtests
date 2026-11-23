@@ -1,0 +1,86 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/Reachability loops.sv -nobuiltin -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Reachability/Loops
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/loops.sv".
+[INF:PA5502] Parsing source file "$Source01/loops.sv".
+[INF:CP5804] $Source01/loops.sv:6:1: Compile module "self_loop".
+[WRN:PA5506] $Source01/loops.sv:6:1: No timescale set for "self_loop".
+[INF:CP5804] $Source01/loops.sv:10:1: Compile module "loop_a".
+[WRN:PA5506] $Source01/loops.sv:10:1: No timescale set for "loop_a".
+[INF:CP5804] $Source01/loops.sv:14:1: Compile module "loop_b".
+[WRN:PA5506] $Source01/loops.sv:14:1: No timescale set for "loop_b".
+[INF:CP5804] $Source01/loops.sv:20:1: Compile module "bind_host".
+[WRN:PA5506] $Source01/loops.sv:20:1: No timescale set for "bind_host".
+[INF:CP5804] $Source01/loops.sv:23:1: Compile module "bind_src".
+[WRN:PA5506] $Source01/loops.sv:23:1: No timescale set for "bind_src".
+[INF:CP5804] $Source01/loops.sv:30:1: Compile module "rec".
+[INF:CP5836] $Source01/loops.sv:33:22: Compile generate block "g_rec".
+[WRN:PA5506] $Source01/loops.sv:30:1: No timescale set for "rec #(.N(3))".
+[INF:CP5804] $Source01/loops.sv:38:1: Compile module "loop_top".
+[WRN:PA5506] $Source01/loops.sv:38:1: No timescale set for "loop_top".
+[NTE:EL6904] $Source01/loops.sv:38:1: Top level module "loop_top".
+[ERR:EL6908] $Source01/loops.sv:7:13: Instantiation loop for "self_loop".
+[ERR:EL6908] $Source01/loops.sv:15:10: Instantiation loop for "loop_a",
+             $Source01/loops.sv:11:10: previous instantiation.
+[ERR:EL6908] $Source01/loops.sv:24:13: Instantiation loop for "bind_host",
+             $Source01/loops.sv:27:25: previous instantiation.
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 3
+[WARNING] : 7
+[   NOTE] : 1
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: Reachability/Loops
+   test-dirpath: ${HLC_DIR}/regression/Reachability/Loops
+  hldb-filepath: ${HLC_DIR}/regression/Reachability/Loops/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/Reachability/Loops/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/loops.sv': {'post_len': 0,
+                                                    'pre_len': 354}},
+            'post_len': 0,
+            'pre_len': 354,
+            'test_name': 'Reachability/Loops'}}
+
++---------------------------+----------+-----------+
+| INPUT                     |   PRELEN |   POSTLEN |
++===========================+==========+===========+
+| $Output/lib/work/loops.sv |      354 |         0 |
++===========================+==========+===========+
+|                           |      354 |         0 |
++---------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/Reachability/Loops/design.hldb ${HLC_DIR}/regression/Reachability/Loops/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+Constant                             3       3       2         2
+Operation                            2       0       0         2
+RefObj                              11       9       0         2
+RefTypespec                         11      11       2         2
+----------------------------------------------------------------
+Others                              48      48       0         0
+----------------------------------------------------------------
+                                    75      71       4         8
+===================== END REDUCTION RESULT =====================

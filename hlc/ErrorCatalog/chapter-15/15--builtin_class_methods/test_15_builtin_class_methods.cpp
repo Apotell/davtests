@@ -159,7 +159,7 @@ TEST_F(BuiltinClassMethodsTest, TriggeredBindsToEventTypespec) {
 }
 
 // The receiver is a NamedEvent rather than a variable with a typespec, so this is the
-// check that the binder recognizes that shape at all.
+// check that HLC resolves a receiver of that shape at all.
 TEST_F(BuiltinClassMethodsTest, TriggeredReceiverIsTheNamedEvent) {
   const hldb::TFCall *const call = findCall("e.triggered");
   ASSERT_NE(call, nullptr);

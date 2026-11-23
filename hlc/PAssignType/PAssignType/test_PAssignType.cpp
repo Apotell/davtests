@@ -58,8 +58,16 @@
 //     (23.10.2.2)
 //   - aes_core imports aes_pkg::*, declares ctrl_q of type ctrl_reg_t, and
 //     instantiates shadow_reg of shadow; '.RESVAL(CTRL_RESET)' binds its
-//     name to shadow's RESVAL and its value to the package's CTRL_RESET
-//     through the wildcard import (26.3)
+//     name to the RESVAL of the module shadow_reg instantiates and its value
+//     to the package's CTRL_RESET through the wildcard import (26.3)
+//   - static elaboration: shadow_reg instantiates a specialization of
+//     shadow whose own RESVAL holds CTRL_RESET's value (a value is followed
+//     through the parameter it names); in that specialization, commit_reg
+//     passes its own RESVAL on and instantiates a specialization of subreg,
+//     whose RESVAL holds the same value
+//   - shadow and subreg as written (getModule(), which skips
+//     specializations) are reached only through those specializations, so
+//     the overrides in shadow's own body bind to subreg as written
 //   - no fatal, syntax or error diagnostic: the file is legal
 //
 // Model convention: an unelaborated instance's overrides are held on the
@@ -168,6 +176,8 @@ TEST_F(PAssignTypeTest, CommitRegPassesShadowsOwnResval) {
   ASSERT_NE(pa, nullptr) << "23.10.2.2: commit_reg writes one override";
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
+  // In shadow as written, which nothing instantiates directly, the override binds to subreg as
+  // written (static elaboration specializes only what is reached).
   EXPECT_EQ(lhs->getActual(), getResval("subreg")) << "23.10.2.2: the name is subreg's parameter";
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
@@ -179,11 +189,69 @@ TEST_F(PAssignTypeTest, ShadowRegPassesPackageCtrlReset) {
   ASSERT_NE(pa, nullptr) << "23.10.2.2: shadow_reg writes one override";
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getActual(), getResval("shadow")) << "23.10.2.2: the name is shadow's parameter";
+  // The name is a parameter of the module shadow_reg instantiates: the specialization of shadow made
+  // for the override (the ParamAssign's parent is that instance's ModuleTypespec).
+  const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(pa->getParent());
+  ASSERT_NE(mt, nullptr);
+  ASSERT_NE(mt->getModule(), nullptr);
+  EXPECT_EQ(mt->getModule()->getDefName(), "shadow");
+  const hldb::Parameter *const resval = hldb::findByName<hldb::Parameter>("RESVAL", mt->getModule()->getParameters());
+  ASSERT_NE(resval, nullptr);
+  EXPECT_EQ(lhs->getActual(), resval) << "23.10.2.2: the name is a parameter of the instantiated shadow";
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getActual(), hldb::findByName<hldb::Parameter>("CTRL_RESET", getPkg()->getParameters()))
       << "26.3: CTRL_RESET is visible through the wildcard import";
+}
+
+// The path aes_core actually instantiates: shadow_reg -> specialization of shadow -> its commit_reg ->
+// specialization of subreg.
+TEST_F(PAssignTypeTest, SpecializationsCarryCtrlResetDownBothLevels) {
+  const hldb::Parameter *const ctrlReset = hldb::findByName<hldb::Parameter>("CTRL_RESET", getPkg()->getParameters());
+  ASSERT_NE(ctrlReset, nullptr);
+  ASSERT_NE(ctrlReset->getExpr(), nullptr);
+
+  const hldb::ParamAssign *const top = getOverride("aes_core", "shadow_reg");
+  ASSERT_NE(top, nullptr);
+  const hldb::ModuleTypespec *const shadowTs = any_cast<hldb::ModuleTypespec>(top->getParent());
+  ASSERT_NE(shadowTs, nullptr);
+  const hldb::Module *const shadow = shadowTs->getModule();
+  ASSERT_NE(shadow, nullptr);
+  EXPECT_TRUE(shadow->getIsSpecialization()) << "CTRL_RESET is not RESVAL's default '0";
+  EXPECT_EQ(shadow->getSpecializedFrom(), getModule("shadow"));
+  const hldb::Parameter *const shadowResval = hldb::findByName<hldb::Parameter>("RESVAL", shadow->getParameters());
+  ASSERT_NE(shadowResval, nullptr);
+  ASSERT_NE(shadowResval->getExpr(), nullptr);
+  EXPECT_EQ(any_cast<hldb::RefObj>(shadowResval->getExpr()), nullptr)
+      << "the value of CTRL_RESET, followed -- not the name";
+  EXPECT_EQ(shadowResval->getExpr()->getAnyType(), ctrlReset->getExpr()->getAnyType());
+
+  // In the specialization, commit_reg passes the specialization's own RESVAL.
+  ASSERT_NE(shadow->getRefInstances(), nullptr);
+  const hldb::RefInstance *const commit = hldb::findByName<hldb::RefInstance>("commit_reg", shadow->getRefInstances());
+  ASSERT_NE(commit, nullptr);
+  ASSERT_NE(commit->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const subregTs = commit->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(subregTs, nullptr);
+  ASSERT_NE(subregTs->getParamAssigns(), nullptr);
+  ASSERT_EQ(subregTs->getParamAssigns()->size(), 1u);
+  const hldb::ParamAssign *const pa = subregTs->getParamAssigns()->at(0);
+  const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getActual(), shadowResval) << "inside the specialization, 'RESVAL' is its own";
+
+  const hldb::Module *const subreg = subregTs->getModule();
+  ASSERT_NE(subreg, nullptr);
+  EXPECT_TRUE(subreg->getIsSpecialization());
+  EXPECT_EQ(subreg->getSpecializedFrom(), getModule("subreg"));
+  const hldb::Parameter *const subregResval = hldb::findByName<hldb::Parameter>("RESVAL", subreg->getParameters());
+  ASSERT_NE(subregResval, nullptr);
+  const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getActual(), subregResval) << "23.10.2.2: a parameter of the instantiated subreg";
+  ASSERT_NE(subregResval->getExpr(), nullptr);
+  EXPECT_EQ(subregResval->getExpr()->getAnyType(), ctrlReset->getExpr()->getAnyType())
+      << "the same value, followed through shadow's RESVAL to CTRL_RESET";
 }
 
 TEST_F(PAssignTypeTest, CtrlQIsImportedTypedef) {

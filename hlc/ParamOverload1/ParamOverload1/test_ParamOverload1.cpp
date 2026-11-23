@@ -60,6 +60,11 @@
 //   Module top
 //     - exactly 1 port, o, an output variable of type int (23.2.2.3)
 //     - exactly 3 instances of dut, each connecting x to o
+//     - u_dut1 and u_dut3 each instantiate their own specialization of dut;
+//       u_dut2, which writes no override, instantiates dut itself
+//     - each specialization's P holds its override as written (static
+//       elaboration neither evaluates nor type-checks a value), the
+//       override's name is bound to that P, and dut keeps its default
 //     - u_dut1 overrides P with a 2-element pattern of 1000 and 2000;
 //       u_dut2 writes no override; u_dut3 overrides P with the literal 3000
 //   Diagnostics
@@ -275,14 +280,33 @@ TEST_F(ParamOverload1Test, TopInstantiatesDutThreeTimesOnO) {
   ASSERT_EQ(top->getPorts()->size(), 1u);
   const hldb::Variable *const o = getPortVariable(top->getPorts()->at(0));
   ASSERT_NE(o, nullptr);
-  for (std::string_view name : {"u_dut1", "u_dut2", "u_dut3"}) {
+  const hldb::Module *const dut = getModule("dut");
+  ASSERT_NE(dut, nullptr);
+  // An instance writing overrides instantiates the specialization made for them; one writing none
+  // instantiates dut itself (its parameters keep their defaults).
+  struct Expected {
+    std::string_view m_name;
+    bool m_overrides;
+  };
+  const Expected expected[] = {{"u_dut1", true}, {"u_dut2", false}, {"u_dut3", true}};
+  const hldb::Module *instantiated[3] = {nullptr, nullptr, nullptr};
+  for (size_t i = 0; i < 3; ++i) {
+    const std::string_view name = expected[i].m_name;
     SCOPED_TRACE(name);
     const hldb::RefInstance *const inst = getInstance(name);
     ASSERT_NE(inst, nullptr) << "instance not found";
     ASSERT_NE(inst->getTypespec(), nullptr);
     const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
     ASSERT_NE(mt, nullptr);
-    EXPECT_EQ(mt->getModule(), getModule("dut"));
+    const hldb::Module *const module = mt->getModule();
+    ASSERT_NE(module, nullptr);
+    instantiated[i] = module;
+    if (expected[i].m_overrides) {
+      EXPECT_TRUE(module->getIsSpecialization()) << "'" << name << "' overrides P";
+      EXPECT_EQ(module->getSpecializedFrom(), dut) << "'" << name << "' is an instance of module 'dut'";
+    } else {
+      EXPECT_EQ(module, dut) << "'" << name << "' writes no override, so it instantiates dut itself";
+    }
     ASSERT_NE(inst->getArguments(), nullptr);
     ASSERT_EQ(inst->getArguments()->size(), 1u) << "'.x(o)'";
     const hldb::NamedArgument *const conn = inst->getArguments()->at(0);
@@ -294,6 +318,7 @@ TEST_F(ParamOverload1Test, TopInstantiatesDutThreeTimesOnO) {
     EXPECT_EQ(actual->getName(), "o");
     EXPECT_EQ(actual->getActual(), o) << "'o' is top's output variable";
   }
+  EXPECT_NE(instantiated[0], instantiated[2]) << "u_dut1 and u_dut3 give P different values";
 }
 
 TEST_F(ParamOverload1Test, UDut1OverridesPWithTwoElementPattern) {
@@ -304,6 +329,47 @@ TEST_F(ParamOverload1Test, UDut1OverridesPWithTwoElementPattern) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "P");
   ExpectPositionalPattern(overrides->at(0)->getRhs(), {"1000", "2000"});
+  // The override stays as written on the typespec; the specialization holds a copy of it.
+}
+
+// Static elaboration does not check an override against the parameter's type (the overrides here are
+// illegal, see the file header): each specialization holds its override as written, and the override's
+// name is bound to the P of the module the instance's typespec resolves to (23.10.2.2).
+TEST_F(ParamOverload1Test, SpecializationsHoldTheOverridesAsWritten) {
+  struct Expected {
+    std::string_view m_name;
+    std::vector<std::string_view> m_pattern;  // Empty: the literal 3000.
+  };
+  const Expected expected[] = {{"u_dut1", {"1000", "2000"}}, {"u_dut3", {}}};
+  for (const Expected &e : expected) {
+    SCOPED_TRACE(e.m_name);
+    const hldb::RefInstance *const inst = getInstance(e.m_name);
+    ASSERT_NE(inst, nullptr);
+    ASSERT_NE(inst->getTypespec(), nullptr);
+    const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+    ASSERT_NE(mt, nullptr);
+    ASSERT_NE(mt->getModule(), nullptr);
+    const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("P", mt->getModule()->getParameters());
+    ASSERT_NE(p, nullptr);
+    EXPECT_NE(p, getParameter()) << "the specialization declares its own P";
+    ASSERT_NE(p->getTypespec(), nullptr);
+    EXPECT_NE(p->getTypespec()->getActual<hldb::ArrayTypespec>(), nullptr) << "P keeps its declared type int [5]";
+    if (e.m_pattern.empty()) {
+      const hldb::Constant *const c = p->getExpr<hldb::Constant>();
+      ASSERT_NE(c, nullptr);
+      EXPECT_EQ(c->getDecompile(), "3000");
+    } else {
+      ExpectPositionalPattern(p->getExpr(), e.m_pattern);
+    }
+
+    ASSERT_NE(mt->getParamAssigns(), nullptr);
+    ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
+    const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+    ASSERT_NE(lhs, nullptr);
+    EXPECT_EQ(lhs->getActual(), p);
+  }
+  ASSERT_NE(getParameter(), nullptr);
+  ExpectPositionalPattern(getParameter()->getExpr(), {"1", "2", "3", "4", "5"});
 }
 
 TEST_F(ParamOverload1Test, UDut2WritesNoOverride) {

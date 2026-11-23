@@ -34,17 +34,15 @@
 //     to ("in[7:0]", "out[7:0]") -- here the select happens to restate the
 //     full declared width of the underlying 8-bit signal, but it is still,
 //     per the grammar, a port_identifier plus a constant_select, not a bare
-//     identifier. Phase2ModelBuilder::leavePA_Port/leavePA_Port_reference
-//     (src/DesignCompile/Phase2ModelBuilder.cpp) now models this: the
+//     identifier. HLC models this: the
 //     port's low-conn is a PartSelect(prefix=RefObj(actual=the Net),
 //     range=[7:0]), resolved once the companion net_declaration runs.
 //
-// Still a known gap (not exercised by this file, grammar/SV3_1aParser.g4:283
-// "OPEN_CURLY port_reference (COMMA port_reference)* CLOSE_CURLY"):
+// Still a known gap (not exercised by this file, IEEE 1800-2023 A.1.3
+// "port_expression ::= { port_reference { , port_reference } }"):
 // a port_expression made of *multiple* concatenated port_references (e.g.
-// ".p({a[3:0], b[7:4]})") is not modeled -- leavePA_Port only attaches a
-// single port_reference's low-conn per port, per the TODO in leavePA_Port
-// citing this exact file as the single-reference case that *is* handled.
+// ".p({a[3:0], b[7:4]})") is not modeled -- only a single port_reference
+// becomes a port's low-conn, the case this file exercises.
 //
 //   module port_test;
 //     ...
@@ -74,8 +72,7 @@
 //   - compiler emits zero errors
 //
 // Not checked (known gap -- this file has no "{ref1, ref2}" concatenated
-// port_expression to exercise it; see grammar/SV3_1aParser.g4:283 and the
-// TODO in Phase2ModelBuilder::leavePA_Port):
+// port_expression to exercise it):
 //   - a port_expression made of multiple concatenated port_references.
 // Not checked (out of scope -- this file's own header comment says it is a
 // "compile time test for various port declaration syntax options", not a

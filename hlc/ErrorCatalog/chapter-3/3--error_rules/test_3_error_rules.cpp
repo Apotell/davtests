@@ -43,7 +43,7 @@
 // one of the Sec 3.14 scenarios, which are precisely about which design
 // elements do and do not have a time unit of their own.
 //
-// Two shapes of test appear below, per .claude/instructions/davtests.md:
+// Two shapes of test appear below, per .claude/davtests.md:
 //   (a) HLC already diagnoses the violation -- assert it with the hlc::Test
 //       base class's findEvent() overloads, which locate a diagnostic by
 //       event type plus the object it names (Location::m_object,
@@ -132,10 +132,9 @@ TEST_F(Chapter3ErrorRulesTest, Row5_DefinitionsNameSpaceReuseIsRejected) {
   // IEEE 1800-2023 3.13(a) makes the definitions name space shared across
   // module, primitive, program and interface definitions, so declaring
   // interface 'r5_dup' after module 'r5_dup' is illegal in any compilation
-  // unit. Diagnosed in Phase2ModelBuilder::leaveDesign, which sees every
-  // file's design elements because Phase 2 walks all files before it fires --
-  // the same place row 6's package-name-space check already lives, which is
-  // why the recorded category moved from LINT to COMP. Note the same severity
+  // unit. HLC diagnoses it once every file's design elements are known --
+  // like row 6's package-name-space check -- so the recorded category is
+  // COMP, not LINT. Note the same severity
   // gap row 6 documents: CompMultiplyDefinedDesignUnit is registered at
   // WARNING while 3.13 says "shall not"; this asserts the violation is
   // reported at all.
@@ -173,9 +172,9 @@ TEST_F(Chapter3ErrorRulesTest, Row7_AttributeNameIsNotVisibleOutsideAttributeNam
 
 TEST_F(Chapter3ErrorRulesTest, Row8_RedeclarationInSameNameSpaceIsRejected) {
   // catalog row 8 | 3.13 | COMP
-  // Phase2 reuses an existing same-named Variable instead of creating a second
-  // one, which is correct only for 3.13(g)'s port reintroduction; any other
-  // redeclaration is now reported. Note the severity gap: the error code is
+  // HLC models a redeclaration as the existing same-named Variable instead of
+  // a second one, which is correct only for 3.13(g)'s port reintroduction; any
+  // other redeclaration is reported. Note the severity gap: the error code is
   // registered at WARNING while 3.13 says "shall be illegal".
   EXPECT_NE(findEvent(EventType::CompMultiplyDefinedVariable, "a", 57, 7), nullptr)
       << "'a' is declared twice in the same name space (IEEE 1800-2023 3.13)";
@@ -187,17 +186,16 @@ TEST_F(Chapter3ErrorRulesTest, Row9_PrecisionCoarserThanUnitIsRejected) {
   // catalog row 9 | 3.14 | COMP
   // Time unit and precision are base-10 exponents of one second, so "at least as
   // precise" means precision <= unit; r9_m's 'timeunit 1ns / 1us' is -9 / -6.
-  // Checked in Phase2's setDeclarationTimeInfo, which sees both values of the
-  // declaration that states them.
+  // HLC checks this on the declaration that states both values.
   EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r9_m"), nullptr)
       << "time precision cannot be coarser than the time unit (IEEE 1800-2023 3.14)";
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row10_MismatchedRepeatedTimeunitIsRejected) {
   // catalog row 10 | 3.14.2.2 | COMP
-  // A repeat is allowed only if it matches, so Phase2 compares against the value
-  // already on the instance before overwriting it. An inherited `timescale value
-  // is not on the instance at that point, so overriding a directive stays legal.
+  // A repeat is allowed only if it matches the earlier timeunit declaration in
+  // the same design element. A value inherited from `timescale is not a
+  // declaration, so overriding a directive stays legal.
   EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r10_m", 73, 3), nullptr)
       << "a repeated timeunit must match the first declaration (IEEE 1800-2023 3.14.2.2)";
 }
@@ -206,8 +204,7 @@ TEST_F(Chapter3ErrorRulesTest, Row11_TimeunitAfterOtherItemsIsRejected) {
   // catalog row 11 | 3.14.2.2 | COMP
   // The grammar already distinguishes the two placements: a leading declaration is
   // a direct child of the module, a later one is wrapped as an ordinary module
-  // item, so Phase2 tests the owner's node type rather than tracking what it has
-  // already walked.
+  // item, so the placement is decidable from the syntax alone.
   EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r11_m", 80, 3), nullptr)
       << "timeunit must precede all other items in the time scope (IEEE 1800-2023 3.14.2.2)";
 }
@@ -231,7 +228,7 @@ TEST_F(Chapter3ErrorRulesTest, Row13_StepCannotSetTheTimeUnit) {
   // unlike 6.19's enum rules it does not call this a syntax error, and the parser
   // could not raise one anyway -- time_literal accepts any SIMPLE_IDENTIFIER as the
   // unit, so 1step, 1ns and 1foo are indistinguishable to it. The unit table is
-  // semantic, so this is checked in Phase2 and the row's category is COMP, not
+  // semantic, so this is checked during compilation and the category is COMP, not
   // PARSE. ('#1step' as a delay stays legal; it is a separate token.)
   EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r13_m", 87, 3), nullptr)
       << "'step' cannot set the time unit or precision (IEEE 1800-2023 3.14.3)";

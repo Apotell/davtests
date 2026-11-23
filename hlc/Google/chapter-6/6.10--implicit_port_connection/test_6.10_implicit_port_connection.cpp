@@ -44,12 +44,11 @@
 //   Separately, a prior version of this file's comment claimed "HLC
 //   reports EL0535 (ElabIllegalImplicitNet) twice" for this
 //   construct. That was a real bug (an elaboration-only error being
-//   reported by a non-elaborating compiler pass) but it predates this
-//   revision: the offending call site has since been fixed to report
-//   the correctly-scoped CompFailedToBind instead, and
-//   ObjectBinder::reportErrors() explicitly skips a plain (non-
-//   hierarchical, non-package-scoped) unresolved RefObj like "c" is
-//   here -- so no error or warning should be reported for it at all.
+//   reported by a non-elaborating compiler) but it predates this
+//   revision: HLC now reports the correctly-scoped CompFailedToBind
+//   instead, and does not report a plain (non-hierarchical,
+//   non-package-scoped) unresolved RefObj like "c" is here (a possible
+//   implicit net) -- so no error or warning should be reported for it at all.
 //   This file asserts that directly instead of repeating the old,
 //   now-stale ElabIllegalImplicitNet claim.
 //

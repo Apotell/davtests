@@ -50,6 +50,13 @@
 //   Module top
 //     - has no port, and holds exactly 1 instance, u_prim_flop of prim_flop,
 //       whose only override is Width = 22 (23.10.2.2)
+//   Static elaboration
+//     - u_prim_flop instantiates a specialization of prim_flop whose own
+//       Width holds 22; the override's name is bound to it (23.10.2.2)
+//     - in that specialization, ResetValue's range (Width-1) and its default
+//       (Width) name the specialization's own Width -- never prim_flop's,
+//       whose value is the default 1. Expressions are not evaluated, so the
+//       range stays Width-1 rather than 21.
 //   Elaboration
 //     - u_prim_flop's Width is 22 and its ResetValue is 22
 //     - u_prim_flop's ResetValue has the range [21:0]
@@ -254,7 +261,10 @@ TEST_F(ParamOverloadPropTest, UPrimFlopOverridesWidthWithTwentyTwo) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("prim_flop"));
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("prim_flop"));
   ASSERT_NE(mt->getParamAssigns(), nullptr);
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
   const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
@@ -262,6 +272,46 @@ TEST_F(ParamOverloadPropTest, UPrimFlopOverridesWidthWithTwentyTwo) {
   EXPECT_EQ(lhs->getName(), "Width");
   ASSERT_NE(mt->getParamAssigns()->at(0)->getRhs<hldb::Constant>(), nullptr);
   EXPECT_EQ(mt->getParamAssigns()->at(0)->getRhs<hldb::Constant>()->getDecompile(), "22");
+  EXPECT_EQ(lhs->getActual(), getParameter(module, "Width"))
+      << "23.10.2.2: the Width of the module the instance's typespec resolves to";
+}
+
+// 6.20.1: "a parameter can depend on earlier parameters" -- in the specialization, on its own Width.
+TEST_F(ParamOverloadPropTest, SpecializationResetValueDependsOnItsOwnWidth) {
+  const hldb::Module *const top = getModule("top");
+  ASSERT_NE(top, nullptr);
+  const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>("u_prim_flop", top->getRefInstances());
+  ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const flop = mt->getModule();
+  ASSERT_NE(flop, nullptr);
+
+  const hldb::Parameter *const width = getParameter(flop, "Width");
+  ASSERT_NE(width, nullptr);
+  EXPECT_NE(width, getParameter(getModule("prim_flop"), "Width")) << "the specialization declares its own Width";
+  ASSERT_NE(width->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(width->getExpr<hldb::Constant>()->getDecompile(), "22") << "23.10.2.2: '.Width(22)'";
+
+  const hldb::Parameter *const rv = getParameter(flop, "ResetValue");
+  ASSERT_NE(rv, nullptr);
+  ASSERT_NE(rv->getTypespec(), nullptr);
+  const hldb::LogicTypespec *const lt = rv->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(lt, nullptr);
+  ASSERT_NE(lt->getRanges(), nullptr);
+  ASSERT_EQ(lt->getRanges()->size(), 1u);
+  const hldb::Operation *const left = lt->getRanges()->at(0)->getLeftExpr<hldb::Operation>();
+  ASSERT_NE(left, nullptr) << "unevaluated, the left bound is 'Width-1'";
+  ASSERT_NE(left->getOperands(), nullptr);
+  ASSERT_EQ(left->getOperands()->size(), 2u);
+  const hldb::RefObj *const rangeWidth = any_cast<hldb::RefObj>(left->getOperands()->at(0));
+  ASSERT_NE(rangeWidth, nullptr);
+  EXPECT_EQ(rangeWidth->getActual(), width) << "6.20.1: the range uses the specialization's Width (22), not 1";
+
+  const hldb::RefObj *const def = rv->getExpr<hldb::RefObj>();
+  ASSERT_NE(def, nullptr) << "ResetValue is not overridden: its default, the name 'Width'";
+  EXPECT_EQ(def->getActual(), width) << "6.20.1: the default uses the specialization's Width (22), not 1";
 }
 
 // ---------------------------------------------------------------------------

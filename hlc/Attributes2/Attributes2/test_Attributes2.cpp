@@ -20,9 +20,8 @@
 //
 // This file does NOT re-validate attribute name/value/type parsing in depth -- that is covered by
 // AttributesNets/DataAttrib/5.12-attributes-variable. Its only job is to confirm, per construct,
-// that the attribute is captured at all (i.e. appendPendingAttributes(), or the equivalent
-// per-item sibling-pairing mechanism for the deliberately-excluded repeated-list forms, was
-// actually invoked) and attached to the correct specific model -- not silently dropped, and not
+// that the attribute is captured at all (for the repeated-list forms, one attribute per list
+// item) and attached to the correct specific model -- not silently dropped, and not
 // mis-parented onto an enclosing scope instead of the construct it actually prefixes.
 //
 // Strategy: run a whole-design hldb::Visitor once per test suite to collect every Attribute
@@ -171,9 +170,8 @@ TEST_F(Attributes2, ClassItem) { expectAttributeParentedTo<hldb::Variable>("a_cl
 TEST_F(Attributes2, PortDeclaration) { expectAttributeParentedTo<hldb::Net>("a_port_declaration"); }
 
 // ----
-// named_port_connection / ordered_port_connection (deliberately-excluded repeated-list forms --
-// each item in the connection list gets its own attribute via sibling pairing, not
-// appendPendingAttributes).
+// named_port_connection / ordered_port_connection (repeated-list forms -- each item in the
+// connection list carries its own attribute_instance prefix and gets its own attribute).
 // ----
 TEST_F(Attributes2, NamedPortConnection) { expectAttributeParentedTo<hldb::NamedArgument>("a_named_port_connection"); }
 
@@ -191,8 +189,8 @@ TEST_F(Attributes2, UdpAnsiDeclaration) { expectAttributeParentedTo<hldb::UdpDef
 TEST_F(Attributes2, UdpOutputDeclaration) { expectAttributeParentedTo<hldb::IODecl>("a_udp_output_declaration"); }
 
 // dut.sv's "input i0, i1;" -- one attribute_instance prefixing a two-identifier list -- must
-// produce two clones, one parented to each of i0's and i1's own IODecl (see
-// leavePA_Udp_input_declaration's per-identifier appendPendingAttributes(model) call).
+// produce two clones, one parented to each of i0's and i1's own IODecl (IEEE 1800-2023
+// Sec 5.12: the attribute applies to every identifier in the list).
 TEST_F(Attributes2, UdpInputDeclaration) {
   expectAttributeClonesParentedTo<hldb::IODecl>("a_udp_input_declaration", 2);
 }
@@ -211,9 +209,9 @@ TEST_F(Attributes2, InterfaceAnsiHeader) { expectAttributeParentedTo<hldb::Inter
 
 TEST_F(Attributes2, InterfaceOrGenerateItem) { expectAttributeParentedTo<hldb::Net>("a_interface_or_generate_item"); }
 
-// Modport port entries are modeled as IODecl throughout (leavePA_Modport_simple_port /
-// leavePA_Modport_ports_declaration's CLOCKING alternative / leavePA_Modport_tf_port all agree),
-// not Port -- there is no Port object involved in a modport's own port-view entries.
+// Modport port entries are modeled as IODecl throughout (simple ports, clocking entries and
+// tf ports alike, IEEE 1800-2023 Sec 37.7), not Port -- there is no Port object involved in a
+// modport's own port-view entries.
 TEST_F(Attributes2, ModportPortsDeclaration) { expectAttributeParentedTo<hldb::IODecl>("a_modport_ports_declaration"); }
 
 TEST_F(Attributes2, ClockingItem) { expectAttributeParentedTo<hldb::PropertyDecl>("a_clocking_item"); }
@@ -349,11 +347,11 @@ TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::FuncCall>(
 // HLC warns on every program declaration (CompProgramObsoleteUsage). This is a tool message,
 // not an IEEE 1800-2023 rule: Clause 24 keeps programs as a current construct.
 TEST_F(Attributes2, ProgramsReportObsoleteUsage) {
-  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_nested_program", 112, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_nested_program", 107, 11), nullptr)
       << "program Attributes2_nested_program (dut.sv:112)";
-  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_nonansi", 117, 40), nullptr)
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_nonansi", 112, 40), nullptr)
       << "program Attributes2_program_nonansi (dut.sv:117)";
-  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_ansi", 123, 37), nullptr)
+  EXPECT_NE(findEvent(EventType::CompProgramObsoleteUsage, "Attributes2_program_ansi", 118, 37), nullptr)
       << "program Attributes2_program_ansi (dut.sv:123)";
 }
 

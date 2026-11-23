@@ -66,9 +66,9 @@
 //     "super.new(def + 3);" and "a = def;"
 //   - "super.new(def + 3)" is a MethodFuncCall statement whose vpiPrefix
 //     (37.42) is a RefObj "super" resolving DIRECTLY to the SAME ClassDefn
-//     as "super_cls" (not to some intermediate wrapper object); the call (the "super.new"
-//     production -- Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to
-//     the same node type as an ordinary object-construction "new" call)
+//     as "super_cls" (not to some intermediate wrapper object); the call (HLC
+//     models the "super.new" production with the same node type as an
+//     ordinary object-construction "new" call)
 //     named "new" taking 1 argument (an add Operation, "def + 3") -- and
 //     this MethodFuncCall's getTaskFunc() resolves back to the SAME
 //     Function as super_cls's constructor, same as an ordinary "new" call

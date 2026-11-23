@@ -1,6 +1,6 @@
 // Comprehensive bind_directive test — IEEE 1800-2017 §23.11
 //
-// Surelog grammar (SV3_1aParser.g4):
+// Grammar (IEEE 1800-2023 Annex A, as accepted by HLC):
 //   bind_directive :
 //     attribute_instance* BIND identifier COLON bind_target_instance
 //       (COMMA bind_target_instance)* bind_instantiation       // Form 1 with instance list

@@ -48,7 +48,7 @@
 //     synthesized iterator Variable held on MethodFuncCall "find"'s own
 //     loop_var (flagged is_iterator); "index" stays unresolved
 //     (getActual()==nullptr) since it is an intrinsic iterator-index query
-//     with no real declaration to point at, but ObjectBinder recognizes its
+//     with no real declaration to point at, but HLC recognizes its
 //     prefix is the iterator variable and does not report a binding error
 //     for it
 //   - Stmt[1]: $display with 5 args -- format string + MethodFuncCall
@@ -72,7 +72,7 @@
 // array-locator method's "with" clause -- they are not meant to resolve to
 // module-level declarations. HLC models "item" as a compiler-synthesized
 // Variable attached to the MethodFuncCall's own loop_var (flagged
-// is_iterator), and ObjectBinder specifically recognizes a trailing
+// is_iterator), and specifically recognizes a trailing
 // ".index" off of that variable as the intrinsic iterator-index query,
 // leaving it unresolved without reporting a binding error.
 

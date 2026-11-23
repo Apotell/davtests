@@ -114,7 +114,7 @@ class PortEventTest : public Test {
 };
 
 TEST_F(PortEventTest, CompilesWithoutErrors) {
-  GTEST_SKIP() << "\"input event e\" is a syntax error: data_type in SV3_1aParser.g4 has no event alternative "
+  GTEST_SKIP() << "\"input event e\" is a syntax error: HLC's data_type rule has no event alternative "
                   "(IEEE 1800-2023 A.2.2.1, 23.2.2)";
   EXPECT_EQ(allEvents(), "");
 }

@@ -87,9 +87,9 @@
 //     is a RefObj "super" resolving (via getActual<ClassDefn>()) to
 //     super_cls's ClassDefn -- the same "resolves to the
 //     enclosing/referenced ClassDefn" shape already seen for "this" in
-//     chapter-8/8.11--this/test_8.11--this.cpp (the "super.new" production --
-//     Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to the same node
-//     type as an ordinary object-construction "new" call) whose
+//     chapter-8/8.11--this/test_8.11--this.cpp (HLC models the "super.new"
+//     production with the same node type as an ordinary
+//     object-construction "new" call) whose
 //     getTaskFunc() resolves to super_cls's OWN "new" Function, with 1
 //     argument, an "add" Operation ("def + 3") whose operands are
 //     a RefObj "def" resolving to test_cls's own formal-argument Variable

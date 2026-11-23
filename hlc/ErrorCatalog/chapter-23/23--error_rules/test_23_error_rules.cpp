@@ -26,8 +26,8 @@
 // Fixture: 23--error_rules.sv (rows 862, 864, 881), compiled in one run by
 // 23--error_rules.hlc.
 //
-// CompMissingArgument (rows 862, 864) is reported by HLC's Linter
-// (Linter::checkRefInstance). No test asserts the absence of a diagnostic,
+// CompMissingArgument (rows 862, 864) is reported by HLC on the RefInstance
+// of the instantiation. No test asserts the absence of a diagnostic,
 // which would lock a gap in.
 
 #include <hlc/Common/Session.h>

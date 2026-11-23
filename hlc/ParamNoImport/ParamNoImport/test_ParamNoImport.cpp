@@ -349,7 +349,11 @@ TEST_F(ParamNoImportTest, TOverridesWithPackageScopedDefault) {
   ASSERT_NE(t->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = t->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("test"));
+  const hldb::Module *const m = mt->getModule();
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(m->getIsSpecialization());
+  ASSERT_NE(m->getSpecializedFrom(), nullptr);
+  EXPECT_EQ(m->getSpecializedFrom(), getModule("test"));
   ASSERT_NE(mt->getParamAssigns(), nullptr);
   ASSERT_EQ(mt->getParamAssigns()->size(), 1u);
   const hldb::RefObj *const lhs = mt->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();

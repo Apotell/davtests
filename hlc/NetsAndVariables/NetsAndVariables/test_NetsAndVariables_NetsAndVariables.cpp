@@ -184,7 +184,7 @@ void CheckNet(const hldb::Module *mod, const NetExpectation &e) {
 // hldb::getReferenced<R>() (Utils.h) cannot be used here: its PackageTypespec
 // switch case returns a bare Package* without casting to R, which fails to
 // compile for any R other than Package (every switch case is instantiated
-// regardless of the runtime type). See hldb_model_gaps.md. These two local
+// regardless of the runtime type). These two local
 // helpers replicate only the TypedefTypespec-unwrapping this file needs.
 const hldb::StructTypespec *ResolveStruct(const hldb::Typespec *actual) {
   if (const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(actual)) return st;
@@ -205,9 +205,8 @@ void CheckVar(const hldb::Module *mod, const VarExpectation &e) {
   const hldb::Typespec *const actual = var->getTypespec()->getActual();
   ASSERT_NE(actual, nullptr) << "variable '" << e.name << "' typespec has no actual";
   // Compared via the underlying integer, not the enum directly: hldb::AnyType
-  // has no exported operator<< in this install (AnyTypeName() is missing the
-  // HLDB_API export macro in third_party/hldb/templates/any_type.h -- see
-  // hldb_model_gaps.md), so GTest's failure-message printer would fail to
+  // has no exported operator<< in this install (AnyTypeName() is not
+  // exported), so GTest's failure-message printer would fail to
   // link if the raw enum were streamed.
   EXPECT_EQ(static_cast<uint32_t>(actual->getAnyType()), static_cast<uint32_t>(e.typeKind))
       << "variable '" << e.name << "' unexpected typespec kind";

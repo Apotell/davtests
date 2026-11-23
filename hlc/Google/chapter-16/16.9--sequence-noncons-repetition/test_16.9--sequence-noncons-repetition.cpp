@@ -75,7 +75,7 @@
 //
 // 'assert property (seq)' [Assert index 0]: a bare sequence identifier with
 // no argument list is represented as a RefObj whose getActual() resolves to
-// the SequenceDecl 'seq' (this tool's ObjectBinder pass resolves same-scope
+// the SequenceDecl 'seq' (HLC resolves same-scope
 // simple names without requiring full hierarchical elaboration).
 //
 // 'assert property (not seq)' [Assert index 1]: per sec. 16.12.1, 'not

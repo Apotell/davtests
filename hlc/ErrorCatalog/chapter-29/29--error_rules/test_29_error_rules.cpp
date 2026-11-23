@@ -23,7 +23,7 @@
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture):
 // all three UDPs compile. Row 991's reversed port order draws no complaint at
 // all. Row 1005's initial statement assigns to input port s (not output q) --
-// checkUdpDefn (Linter.cpp) reports CompIllegalAssignmentLhs for this,
+// the Linter reports CompIllegalAssignmentLhs for this,
 // since s resolves to an IODecl that is not the UDP's first (output) port.
 // Row 995's two-edge table row is rejected by the grammar with a single
 // syntax error at 40:9; a control fixture whose sequential table rows each

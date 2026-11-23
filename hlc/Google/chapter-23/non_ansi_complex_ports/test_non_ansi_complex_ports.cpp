@@ -140,7 +140,7 @@ TEST_F(NonAnsiComplexPortsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), 
 
 TEST_F(NonAnsiComplexPortsTest, FirstPortHasNoName) {
   GTEST_SKIP() << "An implicit non-ANSI port whose expression is not a simple identifier ({c, d}) is named after "
-                  "the first identifier in it (IEEE 1800-2023 23.2.2.1, 37.14 detail 8); see hldb_model_gaps.md #3";
+                  "the first identifier in it (IEEE 1800-2023 23.2.2.1, 37.14 detail 8)";
   const hldb::Port *const port = findPort(0);
   ASSERT_NE(port, nullptr);
   EXPECT_EQ(port->getPortIndex(), 0);
@@ -158,7 +158,7 @@ TEST_F(NonAnsiComplexPortsTest, SecondPortIsExplicitE) {
 
 TEST_F(NonAnsiComplexPortsTest, BothPortsAreInputs) {
   GTEST_SKIP() << "The explicit non-ANSI port .e(f) is not matched to the port declaration of f, so it gets no "
-                  "direction (IEEE 1800-2023 23.2.2.1); see hldb_model_gaps.md #3";
+                  "direction (IEEE 1800-2023 23.2.2.1)";
   for (size_t index = 0; index < 2; ++index) {
     const hldb::Port *const port = findPort(index);
     ASSERT_NE(port, nullptr) << index;
@@ -168,7 +168,7 @@ TEST_F(NonAnsiComplexPortsTest, BothPortsAreInputs) {
 
 TEST_F(NonAnsiComplexPortsTest, NetsCDAndFAreDeclared) {
   GTEST_SKIP() << "No net is created for d and f: they are referenced only inside {c, d} and .e(f), and only a "
-                  "port named after the identifier is matched (IEEE 1800-2023 23.2.2.1); see hldb_model_gaps.md #3";
+                  "port named after the identifier is matched (IEEE 1800-2023 23.2.2.1)";
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   for (std::string_view name : {"c", "d", "f"}) {
@@ -178,8 +178,7 @@ TEST_F(NonAnsiComplexPortsTest, NetsCDAndFAreDeclared) {
 
 TEST_F(NonAnsiComplexPortsTest, PortExpressionsAreLowConns) {
   GTEST_SKIP() << "Port expressions {c, d} and .e(f) are not built as the low connection (the concatenation is "
-                  "not modeled, .e(f) becomes the high connection) (IEEE 1800-2023 37.14 detail 4); see "
-                  "hldb_model_gaps.md #3";
+                  "not modeled, .e(f) becomes the high connection) (IEEE 1800-2023 37.14 detail 4)";
   for (size_t index = 0; index < 2; ++index) {
     const hldb::Port *const port = findPort(index);
     ASSERT_NE(port, nullptr) << index;

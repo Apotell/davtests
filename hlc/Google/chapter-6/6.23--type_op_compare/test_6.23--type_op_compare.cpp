@@ -131,13 +131,13 @@ TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
 // expectation and is left failing until this is fixed).
 //
 // Same root cause as 6.23--type_op's own KnownGap_TypeOperatorPathElemReportedAsInvalid:
-// Phase2's leavePA_Data_type (paType_reference branch) wraps the
+// for a type_reference (paType_reference) data type, HLC wraps the
 // 'logic[11:0]' argument in an hldb::Operation (vpiTypeOp) and stores that
 // Operation directly in the placeholder UnsupportedTypespec's own
-// getPathElems() collection, which hier_typespec.yaml's path_elem_group
+// getPathElems() collection, which HierTypespec's path element
 // filter (ref_typespec/ref_obj/bit_select/var_select only) does not allow
-// -- hlc::Linter::checkHierTypespec()'s own isFiltered() check on that
-// collection reports 'vpiPathElem' property value has invalid objects.
+// -- the generated isFiltered() check on that collection reports
+// 'vpiPathElem' property value has invalid objects.
 //
 TEST_F(TypeOpCompareTest, KnownGap_TypeOperatorPathElemReportedAsInvalid) {
   EventListener::Stats stats = m_compiler->getEventStats();

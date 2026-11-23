@@ -45,6 +45,15 @@
 //     DD t;
 //   endmodule
 //
+//   module axi_top;
+//     AXI_BUS axi();
+//   endmodule
+//
+// axi_top instantiates AXI_BUS with its defaults, so the interface is used by
+// the design: HLC does not report diagnostics in a parameterized definition
+// the design never uses (its body, with the defaults, may never be meant to be
+// used as is).
+//
 // (The .hlc also adds the UVM include directory, but top.v includes nothing
 // from it; only the constructs in top.v are tested.)
 //
@@ -87,9 +96,9 @@
 //     port_declaration attaches to the port (37.83: ports carry attributes).
 //
 // What is NOT checked and why:
-//   - the numeric value of AXI_ID_WIDTH (-1) and the resulting zero/negative
-//     width of id_t: the parameter is never overridden and the standard does
-//     not require a diagnostic for an unused parameterized typedef.
+//   - the numeric value of AXI_ID_WIDTH (-1) and the resulting negative range
+//     [-2:0] of id_t: legal (a range may be descending through negative
+//     indexes), and the parameter is never overridden.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -228,11 +237,8 @@ TEST_F(ModPortTestTest, RwIdIsVariableOfTypeIdT) {
 }
 
 TEST_F(ModPortTestTest, UndeclaredTypesAreDiagnosed) {
-  for (std::string_view name : {"id_t1", "DD"}) {
-    const bool found = (findEvent(EventType::UnsupportedTypespec, name) != nullptr) ||
-                       (findEvent(EventType::CompFailedToBind, name) != nullptr);
-    EXPECT_TRUE(found) << "6.18: '" << name << "' is not a declared type";
-  }
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "id_t1", 14), nullptr) << "6.18: 'id_t1' is not a declared type";
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "DD", 51), nullptr) << "6.18: 'DD' is not a declared type";
 }
 
 // ===========================================================================
@@ -287,7 +293,6 @@ TEST_F(ModPortTestTest, MemoryCtrl2HasFsmEnumAndState) { expectFsmEnum("memory_c
 // ===========================================================================
 
 TEST_F(ModPortTestTest, Dff0PortN1IsOutputWithInitAttribute) {
-  GTEST_SKIP() << "HLC Gap. Attributes aren't associated correctly.";
   const hldb::Module *const m = getModule("dff0_test");
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr);
@@ -295,6 +300,7 @@ TEST_F(ModPortTestTest, Dff0PortN1IsOutputWithInitAttribute) {
   const hldb::Port *const p = m->getPorts()->at(0);
   EXPECT_EQ(p->getName(), "n1");
   EXPECT_EQ(p->getDirection(), vpiOutput);
+  GTEST_SKIP() << "HLC Gap. Attributes aren't associated correctly.";
   ASSERT_NE(p->getAttributes(), nullptr) << "5.12: attribute instance before the port_declaration attaches to it";
   const hldb::Attribute *const attr = hldb::findByName<hldb::Attribute>("init", p->getAttributes());
   ASSERT_NE(attr, nullptr);

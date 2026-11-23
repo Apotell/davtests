@@ -1,5 +1,5 @@
 // IEEE 1800-2017 Section 19 - Covergroup declarations inside a module.
-// Exercises key covergroup grammar forms to validate Phase2ModelBuilder:
+// Exercises key covergroup grammar forms to validate HLC's covergroup model:
 //   1. cg_basic   : coverpoints with all bin keyword types + cross coverage.
 //                   coverage_option items interleaved with cover_points to
 //                   verify the stmt ordered collection preserves source order.

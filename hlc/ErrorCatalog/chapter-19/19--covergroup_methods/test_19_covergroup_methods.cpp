@@ -26,7 +26,7 @@
 // Recognizing the receiver is not like the other built-in groups. cover_group is a bare
 // obj_def in the model -- neither a typespec nor a scope -- and RefTypespec::actual is
 // typed to typespec, so "cg1 inst;" leaves the declaration's own type reference
-// permanently unresolved. The binder matches the name it carries against the covergroups
+// permanently unresolved. HLC matches the name it carries against the covergroups
 // declared in scope instead, so a test below pins that shape down.
 //
 // Checked:
@@ -175,7 +175,7 @@ TEST_F(CovergroupMethodsTest, ReceiverIsTheCovergroupInstance) {
 
   // The declaration's type reference names the covergroup but cannot point at it: a
   // CoverGroup is not a typespec, and RefTypespec::actual is typed to typespec. The name
-  // is what the binder has to work from, so it is asserted here.
+  // is all that links the variable to its covergroup, so it is asserted here.
   ASSERT_NE(var->getTypespec(), nullptr);
   EXPECT_EQ(var->getTypespec()->getName(), "cg1");
 }
@@ -189,7 +189,7 @@ TEST_F(CovergroupMethodsTest, CoverageQueriesBindOnACoverpointReceiver) {
                   "'inst.cp_a.get_coverage()' does not resolve -- the receiver 'cp_a' itself "
                   "fails to bind first. A CoverGroup is neither a typespec nor a scope in the "
                   "model, so the instance has no resolvable type through which to reach its "
-                  "coverpoints. Needs a model change, not a binder one.";
+                  "coverpoints. Needs a model change, not a name-resolution one.";
   EXPECT_EQ(ownerOfCall("inst.cp_a.get_coverage()"), std::string_view("CoverGroup"));
 }
 

@@ -172,8 +172,7 @@ TEST_F(NonAnsiExplicitNamedTest, ExplicitNamesAreReported) {
 
 TEST_F(NonAnsiExplicitNamedTest, AllThreePortsAreInputs) {
   GTEST_SKIP() << "Explicit non-ANSI ports (.a({b, c}), .g(h[1])) are not matched to the port declarations of "
-                  "the names in their expressions, so they get no direction (IEEE 1800-2023 23.2.2.1); see "
-                  "hldb_model_gaps.md #3";
+                  "the names in their expressions, so they get no direction (IEEE 1800-2023 23.2.2.1)";
   for (std::string_view name : {"a", "f", "g"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
@@ -183,7 +182,7 @@ TEST_F(NonAnsiExplicitNamedTest, AllThreePortsAreInputs) {
 
 TEST_F(NonAnsiExplicitNamedTest, PortExpressionsAreLowConns) {
   GTEST_SKIP() << "The port expression of an explicit non-ANSI port is built as the high connection, not the "
-                  "low connection (IEEE 1800-2023 37.14 detail 4); see hldb_model_gaps.md #3";
+                  "low connection (IEEE 1800-2023 37.14 detail 4)";
   for (std::string_view name : {"a", "f", "g"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;

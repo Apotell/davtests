@@ -86,6 +86,15 @@
 //     named "uvm_sequencer_analysis_fifo" that itself resolves
 //     (getClassDefn()) to "uvm_sequencer_analysis_fifo"'s own ClassDefn,
 //     with 1 ParamAssign for "RSP"
+//   - static elaboration (8.25): uvm_tlm_fifo has no parameter, so
+//     'uvm_tlm_fifo #(RSP)' is never specialized; the package declares
+//     exactly its 3 classes (any specialization is not counted)
+//
+// Not checked: whether 'uvm_sequencer_analysis_fifo #(RSP)' names the class
+// itself or a specialization of it. RSP's value is REQ's, whose default is
+// 'uvm_sequence_item' -- the same name the fifo's own RSP defaults to, but
+// that type is declared nowhere in this file, so whether the two denote the
+// same type is undefined. The test accepts either.
 //   - the out-of-body "new"'s member-access resolution
 //     (GTEST_SKIP'd -- see note above)
 
@@ -158,11 +167,22 @@ class ExtendClassMemberTest : public Test {
 
 TEST_F(ExtendClassMemberTest, PackagePkgExists) { ASSERT_NE(getPkg(), nullptr); }
 
+// The 3 classes as written. A specialization static elaboration made is parented next to its base
+// and is not counted (see the header for why one may exist for uvm_sequencer_analysis_fifo); none
+// may exist for uvm_tlm_fifo, which has no parameter (8.25).
 TEST_F(ExtendClassMemberTest, PackageHasThreeClassDefns) {
   const hldb::Package *const pkg = getPkg();
   ASSERT_NE(pkg, nullptr);
   ASSERT_NE(pkg->getClassDefns(), nullptr);
-  EXPECT_EQ(pkg->getClassDefns()->size(), 3u);
+  size_t written = 0;
+  for (const hldb::ClassDefn *const cd : *pkg->getClassDefns()) {
+    if (!cd->getIsSpecialization()) {
+      ++written;
+      continue;
+    }
+    EXPECT_NE(cd->getSpecializedFrom(), getTlmFifo()) << "8.25: uvm_tlm_fifo has no parameter to specialize";
+  }
+  EXPECT_EQ(written, 3u);
 }
 
 // ---------------------------------------------------------------------------
@@ -215,7 +235,10 @@ TEST_F(ExtendClassMemberTest, AnalysisFifoHasOneTypeParameterRsp) {
 
 // THE crux of the extends-with-inherited-member relationship: this
 // Extends must resolve back to uvm_tlm_fifo's own ClassDefn, the class
-// that actually declares 'print_enabled'.
+// that actually declares 'print_enabled'. uvm_tlm_fifo declares no
+// parameter, so the '#(RSP)' it is written with assigns nothing (23.10.2:
+// an override names a parameter of the instantiated definition) and
+// cannot make it a different type (8.25): it is not specialized.
 TEST_F(ExtendClassMemberTest, AnalysisFifoExtendsTlmFifo) {
   const hldb::ClassDefn *const c = getAnalysisFifo();
   ASSERT_NE(c, nullptr);
@@ -228,7 +251,8 @@ TEST_F(ExtendClassMemberTest, AnalysisFifoExtendsTlmFifo) {
   EXPECT_EQ(ref->getName(), "uvm_tlm_fifo #(RSP)");
   const hldb::ClassTypespec *const ct = ref->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr) << "'uvm_tlm_fifo' IS declared, so the base-class typespec should resolve";
-  EXPECT_EQ(ct->getClassDefn(), getTlmFifo());
+  ASSERT_NE(getTlmFifo(), nullptr);
+  EXPECT_EQ(ct->getClassDefn(), getTlmFifo()) << "8.25: uvm_tlm_fifo has no parameter to specialize";
 }
 
 // ---------------------------------------------------------------------------
@@ -282,6 +306,10 @@ TEST_F(ExtendClassMemberTest, ParamBaseHasOnePropertySqrRspAnalysisFifo) {
   EXPECT_EQ(v->getName(), "sqr_rsp_analysis_fifo");
 }
 
+// '#(RSP)' passes uvm_sequencer_param_base's RSP, whose value is REQ, whose
+// value is uvm_sequence_item -- an undeclared type (see the header), so it
+// is undefined whether this is the fifo with its default RSP (the class
+// itself) or a specialization of it. Either way it is that class.
 TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecResolvesToAnalysisFifoClassDefn) {
   const hldb::Variable *const v = getSqrRspAnalysisFifo();
   ASSERT_NE(v, nullptr);
@@ -290,7 +318,11 @@ TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecResolvesToAnalysisFifoCl
   ASSERT_NE(ct, nullptr) << "'uvm_sequencer_analysis_fifo #(RSP) sqr_rsp_analysis_fifo;' should resolve to a "
                              "ClassTypespec";
   EXPECT_EQ(ct->getDefName(), "uvm_sequencer_analysis_fifo");
-  EXPECT_EQ(ct->getClassDefn(), getAnalysisFifo());
+  ASSERT_NE(getAnalysisFifo(), nullptr);
+  const hldb::ClassDefn *const cd = ct->getClassDefn();
+  ASSERT_NE(cd, nullptr);
+  const hldb::ClassDefn *const base = cd->getIsSpecialization() ? cd->getSpecializedFrom() : cd;
+  EXPECT_EQ(base, getAnalysisFifo()) << "the class uvm_sequencer_analysis_fifo, or a specialization of it";
 }
 
 TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecHasOneParamAssignForRsp) {
@@ -306,6 +338,12 @@ TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecHasOneParamAssignForRsp)
   const hldb::RefTypespec *const lhs = pa->getLhs<hldb::RefTypespec>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "RSP");
+  // 23.10.2.2: the name is a parameter of the class the typespec resolves to.
+  ASSERT_NE(ct->getClassDefn(), nullptr);
+  const hldb::TypeParameter *const rsp =
+      hldb::findByName<hldb::TypeParameter>("RSP", ct->getClassDefn()->getParameters());
+  ASSERT_NE(rsp, nullptr);
+  EXPECT_EQ(lhs->getActual(), rsp);
 }
 
 // ---------------------------------------------------------------------------

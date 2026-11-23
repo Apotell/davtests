@@ -40,7 +40,7 @@
 // unconditionally. Rows 34 and 36 pass because HLC's grammar already rejects
 // those constructs (as a syntax error rather than the named semantic
 // diagnostic). As of 2026-08-29, rows 33, 35, 37, 38, and 39 are additionally
-// wired in ModelBuilder.cpp and pass -- see each row's own "FIXED" comment.
+// implemented in HLC and pass -- see each row's own "FIXED" comment.
 // Row 40 remains EXPECTED TO FAIL: HLC does not model a 'with' clause on
 // reverse() at all (see its own comment for the "Null Actual" linter report
 // this produces instead).
@@ -62,9 +62,8 @@ class Chapter7ErrorRulesTest : public Test {
 
 TEST_F(Chapter7ErrorRulesTest, Row33_HardPackedUnionMemberSizeMismatchIsRejected) {
   // catalog row 33 | 7.3.1 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportPackedUnionSizeMismatch()
-  // (ModelBuilder.cpp), a post-pass over every packed, non-tagged
-  // UnionTypespec comparing each member's packed bit width. 'r33_u_t' is
+  // HLC reports this by checking every packed, non-tagged UnionTypespec,
+  // comparing each member's packed bit width. 'r33_u_t' is
   // anonymous at the UnionTypespec itself (parented as a sibling of, not a
   // child of, its wrapping TypedefTypespec), so the name is recovered by
   // reverse-searching for the TypedefTypespec whose alias resolves back to
@@ -90,8 +89,7 @@ TEST_F(Chapter7ErrorRulesTest, Row34_PackedArrayOfRealIsRejected) {
 
 TEST_F(Chapter7ErrorRulesTest, Row35_MultiDimensionalArraySliceIsRejected) {
   // catalog row 35 | 7.4.5 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalMultiDimensionalSlice()
-  // (ModelBuilder.cpp), a post-pass over every PartSelect whose own prefix is
+  // HLC reports this by checking every PartSelect whose own prefix is
   // itself a PartSelect (confirmed via hldb-dump that 'r35_a[0:1][0:1]' is
   // modeled as two nested PartSelects) -- walks down to the base RefObj for
   // the reported symbol (r35_a).
@@ -116,10 +114,9 @@ TEST_F(Chapter7ErrorRulesTest, Row36_NewOnNonDynamicArrayIsRejected) {
 
 TEST_F(Chapter7ErrorRulesTest, Row37_QueueAsUnsizedOutputDpiArgumentIsRejected) {
   // catalog row 37 | 7.7 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalDpiQueueArgument()
-  // (ModelBuilder.cpp). A DPI import call is never bound to its FunctionDecl
-  // by ObjectBinder (there is no in-design TaskFunc body for an imported
-  // declaration), so this matches the call to its FunctionDecl by name
+  // A DPI import call is never bound to its FunctionDecl (there is no
+  // in-design TaskFunc body for an imported declaration), so HLC
+  // matches the call to its FunctionDecl by name
   // instead, then pairs up each SubroutineCall argument against the matching
   // IODecl by position -- flagging a queue-typed argument against an output,
   // unsized-dimension ("int arr[]", modeled as a dynamic ArrayTypespec with no
@@ -135,8 +132,7 @@ TEST_F(Chapter7ErrorRulesTest, Row38_NonIntegralIndexIntoWildcardArrayIsRejected
   // HLC's '-d db' lint separately reports an HLDB:0105 note naming r38_r,
   // but that is not this row's diagnostic and carries no ERR/WRN severity.
   //
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalWildcardIndexUse()
-  // (ModelBuilder.cpp), a post-pass over every BitSelect whose prefix
+  // HLC reports this by checking every BitSelect whose prefix
   // resolves to a Variable with an associative ArrayTypespec that has no
   // index typespec at all (confirmed via hldb-dump this is exactly how a
   // wildcard-index array like 'int r38_aa[*]' differs from a typed
@@ -155,8 +151,7 @@ TEST_F(Chapter7ErrorRulesTest, Row38_NonIntegralIndexIntoWildcardArrayIsRejected
 
 TEST_F(Chapter7ErrorRulesTest, Row39_ForeachOverWildcardIndexArrayIsRejected) {
   // catalog row 39 | 7.8.1 | COMP
-  // FIXED 2026-08-29: wired in the same ModelBuilder::reportIllegalWildcardIndexUse()
-  // pass as row 38 above, a second loop over every ForeachStmt whose iterated
+  // Checked alongside row 38 above: HLC checks every ForeachStmt whose iterated
   // array (ForeachStmt::getVariable(), distinct from its per-dimension
   // getLoopVars() iterator variables) resolves to the same wildcard-index
   // associative array shape.

@@ -27,9 +27,9 @@
 //
 // Checked:
 //   - process::self() resolves to process::self. This is the static-method-through-"::"
-//     form, which reaches the class differently from an instance call: Phase 2 cannot
-//     see a class declared in another file, so the "process" prefix arrives at the
-//     binder as an UnsupportedTypespec and has to be recovered there.
+//     form, which reaches the class differently from an instance call: "process" is
+//     declared in another file, so the prefix is first modeled as an UnsupportedTypespec
+//     and has to be resolved to the class afterwards.
 //   - srandom, get_randstate and set_randstate each bind to the process class
 //   - their kinds match the prototype: srandom and set_randstate are void functions,
 //     get_randstate returns a string

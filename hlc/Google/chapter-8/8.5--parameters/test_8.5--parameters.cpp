@@ -39,23 +39,28 @@
 //   - design has module class_tb with exactly 1 variable: "test_obj"
 //     (the class handle, modeled as a Variable, same as the unparameterized
 //     handle in chapter-8/8.4--instantiation.sv)
-//   - the module has exactly 1 nested ClassDefn: "test_cls"
+//   - the module holds 2 ClassDefns: "test_cls" as written, and the
+//     specialization of it for "#(34)" (static elaboration: a
+//     specialization is a separate class, parented next to the class it
+//     was made from)
 //   - ClassDefn "test_cls": classType vpiUserDefinedClass, has exactly 1
 //     parameter ("a", not a localparam) whose class-level default
 //     (Parameter::getExpr()) is Constant "12", defaults to automatic lifetime (see
 //     the FIXED COMPILER BUG #1 note below)
 //   - variable "test_obj": its typespec resolves (RefTypespec ->
-//     ClassTypespec) to the SAME ClassDefn as "test_cls"
+//     ClassTypespec) to the specialization of "test_cls" for "#(34)", whose
+//     own "a" holds 34; the override's name is bound to that "a"
+//     (23.10.2.2: a parameter of the class the typespec resolves to)
 //   - the initial process' Begin block has exactly 2 statements: an
 //     Assignment ("test_obj = new") and a $display SysFuncCall
 //   - "test_obj = new": blocking Assignment, lhs RefObj "test_obj" resolved
 //     to the Variable, rhs MethodFuncCall "new" taking no arguments
 //   - "$display(...)" has 2 arguments: a Constant string
 //     ":assert:(%d == 34)", and a RefObj "test_obj.a" with 2 path elems
-//     (RefObj "test_obj" resolved to the Variable; RefObj "a" resolved to a
-//     Parameter), with the 34-override reachable via test_obj's own
-//     ClassTypespec ParamAssigns (see the FIXED COMPILER BUG #2 note below)
-//   - design-level: exactly 1 class (test_cls)
+//     (RefObj "test_obj" resolved to the Variable; RefObj "a" resolved to
+//     the specialization's own Parameter "a", the one holding 34), with
+//     the 34-override also on test_obj's own ClassTypespec ParamAssigns
+//     (see the FIXED COMPILER BUG #2 note below)
 //
 // FIXED COMPILER BUG #1 (class lifetime defaulting, not a defect in this
 // file): IEEE 1800-2017 8.3 says a class declared with no lifetime
@@ -104,6 +109,8 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <algorithm>
+
 namespace hlc {
 
 class ClassParametersTest : public Test {
@@ -120,6 +127,14 @@ class ClassParametersTest : public Test {
     const hldb::Module *const top = getTop();
     if (top == nullptr) return nullptr;
     return hldb::findByDefName<hldb::ClassDefn>("test_cls", top->getClassDefns());
+  }
+
+  // The class test_obj's typespec resolves to: the specialization of test_cls for '#(34)'.
+  static const hldb::ClassDefn *getTestObjClass() {
+    const hldb::Variable *const testObj = getVariableTestObj();
+    if ((testObj == nullptr) || (testObj->getTypespec() == nullptr)) return nullptr;
+    const hldb::ClassTypespec *const ct = testObj->getTypespec()->getActual<hldb::ClassTypespec>();
+    return (ct == nullptr) ? nullptr : ct->getClassDefn();
   }
 
   static const hldb::Variable *getVariableTestObj() {
@@ -160,11 +175,18 @@ TEST_F(ClassParametersTest, ModuleHasOneVariable) {
   EXPECT_EQ(top->getVariables()->size(), 1u);
 }
 
-TEST_F(ClassParametersTest, ModuleHasOneClassDefn) {
+TEST_F(ClassParametersTest, ModuleHasTestClsAndItsSpecialization) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getClassDefns(), nullptr);
-  EXPECT_EQ(top->getClassDefns()->size(), 1u);
+  ASSERT_EQ(top->getClassDefns()->size(), 2u) << "test_cls, and its specialization for '#(34)'";
+  ASSERT_NE(getTestClsDefn(), nullptr);
+  EXPECT_FALSE(getTestClsDefn()->getIsSpecialization());
+  ASSERT_NE(getTestObjClass(), nullptr);
+  EXPECT_NE(getTestObjClass(), getTestClsDefn());
+  EXPECT_NE(std::find(top->getClassDefns()->cbegin(), top->getClassDefns()->cend(), getTestObjClass()),
+            top->getClassDefns()->cend())
+      << "a specialization is parented next to the class it was made from";
 }
 
 // --- class "test_cls" ---------------------------------------------------------
@@ -219,8 +241,42 @@ TEST_F(ClassParametersTest, VariableTestObjTypespecResolvesToTestClsClassDefn) {
   ASSERT_NE(testObj->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = testObj->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr) << "8.4/8.25: handle 'test_obj' must resolve to a ClassTypespec";
-  EXPECT_EQ(ct->getClassDefn(), getTestClsDefn())
-      << "the handle's ClassTypespec must point back to the SAME ClassDefn as 'test_cls'";
+
+  const hldb::ClassDefn *const cd = ct->getClassDefn();
+  ASSERT_NE(cd, nullptr);
+  EXPECT_TRUE(cd->getIsSpecialization()) << "8.25: '#(34)' gives 'a' a value other than its default";
+  EXPECT_EQ(cd->getSpecializedFrom(), getTestClsDefn());
+  EXPECT_NE(cd, getTestClsDefn()) << "8.25: a specialization is a class type of its own";
+}
+
+TEST_F(ClassParametersTest, SpecializationParameterAIsThirtyFour) {
+  const hldb::ClassDefn *const cd = getTestObjClass();
+  ASSERT_NE(cd, nullptr);
+  ASSERT_NE(cd->getParameters(), nullptr);
+  ASSERT_EQ(cd->getParameters()->size(), 1u);
+  const hldb::Parameter *const a = hldb::findByName<hldb::Parameter>("a", cd->getParameters());
+  ASSERT_NE(a, nullptr) << "the specialization declares its own 'a'";
+  ASSERT_NE(getTestClsDefn(), nullptr);
+  EXPECT_NE(a, hldb::findByName<hldb::Parameter>("a", getTestClsDefn()->getParameters()));
+  const hldb::Constant *const value = a->getExpr<hldb::Constant>();
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), "34") << "8.25: in test_cls #(34), 'a' is 34";
+}
+
+TEST_F(ClassParametersTest, OverrideNameBindsToSpecializationParameterA) {
+  const hldb::Variable *const testObj = getVariableTestObj();
+  ASSERT_NE(testObj, nullptr);
+  ASSERT_NE(testObj->getTypespec(), nullptr);
+  const hldb::ClassTypespec *const ct = testObj->getTypespec()->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr);
+  ASSERT_NE(ct->getParamAssigns(), nullptr);
+  ASSERT_EQ(ct->getParamAssigns()->size(), 1u);
+  const hldb::RefObj *const lhs = ct->getParamAssigns()->at(0)->getLhs<hldb::RefObj>();
+  ASSERT_NE(lhs, nullptr);
+  EXPECT_EQ(lhs->getName(), "a") << "23.10.2.1: the first ordered value goes to 'a'";
+  ASSERT_NE(getTestObjClass(), nullptr);
+  EXPECT_EQ(lhs->getActual(), hldb::findByName<hldb::Parameter>("a", getTestObjClass()->getParameters()))
+      << "23.10.2.2: a parameter of the class the typespec resolves to";
 }
 
 // FIXED COMPILER BUG #2: the per-handle override is now tracked -- see the
@@ -312,7 +368,9 @@ TEST_F(ClassParametersTest, DisplaySecondArgIsTestObjDotA) {
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(path->getPathElems()->at(1));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
-  EXPECT_NE(aRef->getActual<hldb::Parameter>(), nullptr) << "8.25: 'test_obj.a' should resolve 'a' to a Parameter";
+  ASSERT_NE(getTestObjClass(), nullptr);
+  EXPECT_EQ(aRef->getActual(), hldb::findByName<hldb::Parameter>("a", getTestObjClass()->getParameters()))
+      << "8.25: test_obj is a test_cls #(34), so 'test_obj.a' is that specialization's 'a' (34)";
 }
 
 }  // namespace hlc

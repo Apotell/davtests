@@ -30,7 +30,7 @@
 // 'data_declaration' (variable_declaration / var_type / type_declaration /
 // package_import_declaration / net_type_declaration) as a checker item --
 // there is no 'net_declaration' alternative anywhere in a checker body, so
-// a net cannot be legally declared inside a checker (see grammar/SV3_1aParser.g4,
+// a net cannot be legally declared inside a checker (see IEEE 1800-2023 Annex A,
 // rules checker_declaration -> checker_or_generate_item_declaration ->
 // data_declaration). Checker.sv nonetheless declares 'wire ck_wire;' inside
 // the checker; since this is not a legal construct, no assertion is made

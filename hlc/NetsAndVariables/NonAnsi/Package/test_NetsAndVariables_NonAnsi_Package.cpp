@@ -25,7 +25,7 @@
 //     as a Variable)
 //
 // Per IEEE 1800, 'package_item' -> 'package_or_generate_item_declaration'
-// (grammar/SV3_1aParser.g4, rule package_or_generate_item_declaration) does
+// (IEEE 1800-2023 Annex A, rule package_or_generate_item_declaration) does
 // not include 'continuous_assign' as an alternative -- a continuous
 // assignment is not a legal package item. This is also reflected in the
 // object model itself: hldb::Package has no getContAssigns() accessor at

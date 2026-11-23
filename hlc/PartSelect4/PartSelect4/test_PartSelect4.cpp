@@ -88,7 +88,13 @@
 //     - has no port (A.1.2: no list_of_port_declarations)
 //     - holds exactly 1 instance, u_s1n_25 of tlul_socket_1n, with the 2
 //       named overrides DReqDepth = 68'h200000000000000 and N = 8, in source
-//       order, each bound to tlul_socket_1n's parameter (23.10.2.2)
+//       order, each bound to the parameter of the module the instance's
+//       typespec resolves to (23.10.2.2): the specialization of
+//       tlul_socket_1n static elaboration made for them
+//     - in that specialization, N holds 8 and DReqDepth the 68-bit literal
+//       (not yet truncated: expressions and conversions are not evaluated),
+//       and DReqDepth's range (N*4-1) and the loop condition (i < N) name
+//       the specialization's own N
 //   Module top
 //     - '()' is one null port, as above
 //     - exactly 2 parameters and 2 param_assignments, A and B, in that
@@ -162,6 +168,14 @@
 //   - Which typespec kind HLC attaches to 68'h200000000000000. 5.7.1 gives a
 //     literal a size and a signedness, not a data type keyword; both are
 //     asserted, on getSize() and on the typespec's signed flag.
+//   - Which module fifo_d instantiates inside the specialization of
+//     tlul_socket_1n. Its override DReqDepth[i*4+:4] is an expression over a
+//     parameter and a genvar, which static elaboration neither evaluates nor
+//     unrolls (27.4 loop generation is elaboration), so no specialization of
+//     tlul_fifo_sync is made for it.
+//   - tlul_socket_1n as written: its parameters have no default (6.20.1), so
+//     it is never specialized from its own body, and nothing instantiates it
+//     without overrides.
 //   - The value of the implicit localparam i in each elaborated gen_dfifo
 //     instance. Every fifo_d receives 0 whatever i is, because DReqDepth is
 //     0, so the reduced ReqDepth does not tell the instances apart; the
@@ -619,8 +633,10 @@ TEST_F(PartSelect4Test, XbarMainInstantiatesSocketOnce) {
   ASSERT_NE(inst->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr);
-  ASSERT_NE(getModule("tlul_socket_1n"), nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("tlul_socket_1n")) << "u_s1n_25 instantiates tlul_socket_1n";
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("tlul_socket_1n")) << "u_s1n_25 instantiates tlul_socket_1n";
   EXPECT_TRUE(inst->getArguments() == nullptr || inst->getArguments()->empty()) << "'u_s1n_25()' connects no port";
 }
 
@@ -628,8 +644,15 @@ TEST_F(PartSelect4Test, USocketOverridesDReqDepthAndNByName) {
   const std::vector<hldb::ParamAssign *> *const overrides = getOverrides(getUS1n25());
   ASSERT_NE(overrides, nullptr) << "u_s1n_25 writes a parameter_value_assignment";
   ASSERT_EQ(overrides->size(), 2u);
-  const hldb::Module *const socket = getModule("tlul_socket_1n");
+  // The overrides name parameters of the module u_s1n_25 instantiates: the specialization of
+  // tlul_socket_1n made for them.
+  const hldb::RefInstance *const inst = getUS1n25();
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const socket = mt->getModule();
   ASSERT_NE(socket, nullptr);
+  EXPECT_EQ(socket->getDefName(), "tlul_socket_1n");
   const std::string_view names[] = {"DReqDepth", "N"};
   for (size_t i = 0; i < 2; ++i) {
     const hldb::ParamAssign *const pa = overrides->at(i);
@@ -637,10 +660,63 @@ TEST_F(PartSelect4Test, USocketOverridesDReqDepthAndNByName) {
     EXPECT_TRUE(pa->getConnByName()) << "23.10.2.2: override " << i << " assigns by name";
     ASSERT_NE(getParameter(socket, names[i]), nullptr);
     EXPECT_EQ(getLhsActual(pa), getParameter(socket, names[i]))
-        << "23.10.2.2: '" << names[i] << "' is tlul_socket_1n's parameter";
+        << "23.10.2.2: '" << names[i] << "' is a parameter of the instantiated tlul_socket_1n";
   }
   ExpectWideHexLiteral(overrides->at(0)->getRhs(), "the DReqDepth override");
   ExpectDecimalLiteral(overrides->at(1)->getRhs(), "8", "the N override");
+}
+
+// The specialization of tlul_socket_1n for u_s1n_25: its own N and DReqDepth hold the overrides, and its
+// body names its own N.
+TEST_F(PartSelect4Test, SocketSpecializationHoldsOverridesAndUsesItsOwnN) {
+  const hldb::RefInstance *const inst = getUS1n25();
+  ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const socket = mt->getModule();
+  ASSERT_NE(socket, nullptr);
+  ASSERT_NE(socket->getParameters(), nullptr);
+  ASSERT_EQ(socket->getParameters()->size(), 2u);
+
+  const hldb::Parameter *const n = getParameter(socket, "N");
+  ASSERT_NE(n, nullptr);
+  EXPECT_NE(n, getParameter(getModule("tlul_socket_1n"), "N")) << "the specialization declares its own N";
+  ExpectDecimalLiteral(n->getExpr(), "8", "the specialization's N");
+  const hldb::Parameter *const dreq = getParameter(socket, "DReqDepth");
+  ASSERT_NE(dreq, nullptr);
+  ExpectWideHexLiteral(dreq->getExpr(), "the specialization's DReqDepth");
+
+  // DReqDepth is bit [N*4-1:0]: N is the specialization's own.
+  ASSERT_NE(dreq->getTypespec(), nullptr);
+  const hldb::BitTypespec *const bt = dreq->getTypespec()->getActual<hldb::BitTypespec>();
+  ASSERT_NE(bt, nullptr);
+  ASSERT_NE(bt->getRanges(), nullptr);
+  ASSERT_EQ(bt->getRanges()->size(), 1u);
+  const hldb::Operation *const sub = bt->getRanges()->at(0)->getLeftExpr<hldb::Operation>();
+  ASSERT_NE(sub, nullptr) << "unevaluated, the left bound is N*4-1";
+  ASSERT_NE(sub->getOperands(), nullptr);
+  ASSERT_FALSE(sub->getOperands()->empty());
+  const hldb::Operation *const mult = any_cast<hldb::Operation>(sub->getOperands()->at(0));
+  ASSERT_NE(mult, nullptr);
+  ASSERT_NE(mult->getOperands(), nullptr);
+  ASSERT_FALSE(mult->getOperands()->empty());
+  const hldb::RefObj *const rangeN = any_cast<hldb::RefObj>(mult->getOperands()->at(0));
+  ASSERT_NE(rangeN, nullptr);
+  EXPECT_EQ(rangeN->getActual(), n) << "6.20.1: DReqDepth's range uses the specialization's N (8)";
+
+  // The loop generate condition 'i < N': N is the specialization's own.
+  ASSERT_NE(socket->getGenStmts(), nullptr);
+  ASSERT_EQ(socket->getGenStmts()->size(), 1u);
+  const hldb::GenFor *const gf = any_cast<hldb::GenFor>(socket->getGenStmts()->at(0));
+  ASSERT_NE(gf, nullptr);
+  const hldb::Operation *const cond = gf->getCondition<hldb::Operation>();
+  ASSERT_NE(cond, nullptr);
+  ASSERT_NE(cond->getOperands(), nullptr);
+  ASSERT_EQ(cond->getOperands()->size(), 2u);
+  const hldb::RefObj *const condN = any_cast<hldb::RefObj>(cond->getOperands()->at(1));
+  ASSERT_NE(condN, nullptr);
+  EXPECT_EQ(condN->getActual(), n) << "27.4: the loop bound is the specialization's N (8)";
 }
 
 // ---------------------------------------------------------------------------

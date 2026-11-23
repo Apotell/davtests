@@ -1,6 +1,6 @@
 // netvar sample: ANSI and non-ANSI net/variable declaration permutations.
 //
-// Grammar reference (SV3_1aParser.g4):
+// Grammar reference (IEEE 1800-2023 Annex A, as accepted by HLC):
 //   net_type          : SUPPLY0 | SUPPLY1 | TRI | TRIAND | TRIOR | TRIREG
 //                     | TRI0 | TRI1 | UWIRE | WIRE | WAND | WOR
 //   net_port_header   : port_direction? net_type? data_type_or_implicit

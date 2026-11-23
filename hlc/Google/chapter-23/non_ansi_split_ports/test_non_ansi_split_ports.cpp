@@ -126,8 +126,7 @@ TEST_F(NonAnsiSplitPortsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""
 
 TEST_F(NonAnsiSplitPortsTest, TwoUnnamedPorts) {
   GTEST_SKIP() << "An implicit non-ANSI port whose expression is a part-select (a[7:4]) is named after its "
-                  "identifier instead of having no name (IEEE 1800-2023 23.2.2.1, 37.14 detail 8); see "
-                  "hldb_model_gaps.md #3";
+                  "identifier instead of having no name (IEEE 1800-2023 23.2.2.1, 37.14 detail 8)";
   const hldb::PortCollection *const ports = findPorts();
   ASSERT_NE(ports, nullptr);
   ASSERT_EQ(ports->size(), 2u);
@@ -150,7 +149,7 @@ TEST_F(NonAnsiSplitPortsTest, BothPortsAreInputs) {
 
 TEST_F(NonAnsiSplitPortsTest, BothPortsAreFourBits) {
   // Expected: the size of both ports is 4.
-  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14); see hldb_model_gaps.md #8";
+  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14)";
 }
 
 TEST_F(NonAnsiSplitPortsTest, PortExpressionsAreLowConns) {

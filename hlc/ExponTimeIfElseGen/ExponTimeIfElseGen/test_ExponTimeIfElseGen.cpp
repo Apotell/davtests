@@ -101,7 +101,7 @@
 //     "shift_foo_bar", and "foo_bar_4" (all otherwise undeclared in this
 //     single-module file) successfully BIND to a declaration -- RefObj
 //     existence/name is a syntactic fact independent of binding success,
-//     and per the test-writing guide, diagnostics/ObjectBinder behavior
+//     and per the test-writing guide, diagnostics/name-binding behavior
 //     is not this file's concern.
 //   - the elaborated/unrolled 18 iterations of the generate-for (only the
 //     single generate_block template is checked, per -d db -d ast).

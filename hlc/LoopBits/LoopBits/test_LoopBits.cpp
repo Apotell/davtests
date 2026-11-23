@@ -71,14 +71,22 @@
 //     instance m1/m2/m3 has S != 0, so both blocks exist).
 //   - 23.10.2.1 parameter value assignment by ordered list:
 //     "Module #(1, 8)" assigns 1 to S and 8 to T (declaration order), so
-//     each override's LHS must name S and T respectively.
+//     each override's LHS must name S and T respectively -- the S and T of
+//     the module the instance's typespec resolves to (23.10.2.2).
+//   - static elaboration (parameter specialization): m1, m2 and m3 each
+//     instantiate their own specialization of Module (three distinct value
+//     sets), whose own S and T hold the ordered values and whose body (the
+//     $display's S and T) names its own S and T.
 //   - HLDB integrity: a legal design must not produce an
 //     IllegalPropertyValue diagnostic on blk (line 19).
 //
 // What is NOT checked and why:
-//   - the elaborated widths of m1/m2/m3.x, y and blk.x (and the $display
-//     output): this .hlc requests no elaboration, so per-instance parameter
-//     values are not available in the folded model.
+//   - the evaluated widths of m1/m2/m3.x, y and blk.x (and the $display
+//     output): this .hlc requests no elaboration, and static elaboration
+//     does not evaluate expressions such as T-1; only the parameter values
+//     the specializations hold are checked.
+//   - generate blocks of the specializations: whether "if (S)" holds is a
+//     generate-time decision static elaboration does not make.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -390,13 +398,9 @@ TEST_F(LoopBitsTest, BlkInnerXRangeUsesBitsOfOuterX) {
 // 23.10.2.1: ordered-list overrides map to S then T.
 TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
   const hldb::Module *const top = getModule("top");
-  const hldb::Module *const m = getModule("Module");
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(m, nullptr);
-  const hldb::Parameter *const s = hldb::findByName<hldb::Parameter>("S", m->getParameters());
-  const hldb::Parameter *const t = hldb::findByName<hldb::Parameter>("T", m->getParameters());
-  ASSERT_NE(s, nullptr);
-  ASSERT_NE(t, nullptr);
+  const hldb::Module *const module = getModule("Module");
+  ASSERT_NE(module, nullptr);
 
   struct Expected {
     std::string_view m_inst;
@@ -410,7 +414,14 @@ TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
     ASSERT_NE(inst->getTypespec(), nullptr) << e.m_inst;
     const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
     ASSERT_NE(mt, nullptr) << e.m_inst;
-    EXPECT_EQ(mt->getModule(), m) << e.m_inst;
+    const hldb::Module *const m = mt->getModule();
+    ASSERT_NE(m, nullptr);
+    EXPECT_TRUE(m->getIsSpecialization());
+    const hldb::Parameter *const s = hldb::findByName<hldb::Parameter>("S", m->getParameters());
+    const hldb::Parameter *const t = hldb::findByName<hldb::Parameter>("T", m->getParameters());
+    ASSERT_NE(s, nullptr);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(m->getSpecializedFrom(), module) << e.m_inst;
     ASSERT_NE(mt->getParamAssigns(), nullptr) << e.m_inst;
     ASSERT_EQ(mt->getParamAssigns()->size(), 2u) << e.m_inst;
 
@@ -433,9 +444,78 @@ TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
     ASSERT_NE(l1, nullptr) << e.m_inst << ": 23.10.2.1 second ordered value is assigned to T";
     EXPECT_EQ(l0->getName(), "S");
     EXPECT_EQ(l1->getName(), "T");
-    EXPECT_EQ(l0->getActual(), s);
-    EXPECT_EQ(l1->getActual(), t);
+    EXPECT_EQ(l0->getActual(), s) << e.m_inst << ": 23.10.2.2: the S of the instantiated specialization";
+    EXPECT_EQ(l1->getActual(), t) << e.m_inst << ": 23.10.2.2: the T of the instantiated specialization";
   }
+}
+
+// ===========================================================================
+// Specializations of Module for m1, m2 and m3
+// ===========================================================================
+
+TEST_F(LoopBitsTest, EachInstanceHasItsOwnSpecialization) {
+  const hldb::Module *const top = getModule("top");
+  ASSERT_NE(top, nullptr);
+  const hldb::Module *const module = getModule("Module");
+  ASSERT_NE(module, nullptr);
+
+  struct Expected {
+    std::string_view m_inst;
+    std::string_view m_s;
+    std::string_view m_t;
+  };
+  const Expected expected[] = {{"m1", "1", "8"}, {"m2", "2", "7"}, {"m3", "3", "3"}};
+  const hldb::Module *specializations[3] = {nullptr, nullptr, nullptr};
+  for (size_t i = 0; i < 3; ++i) {
+    const Expected &e = expected[i];
+    SCOPED_TRACE(e.m_inst);
+    const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>(e.m_inst, top->getRefInstances());
+    ASSERT_NE(inst, nullptr);
+    ASSERT_NE(inst->getTypespec(), nullptr);
+    const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+    ASSERT_NE(mt, nullptr);
+    const hldb::Module *const m = mt->getModule();
+    ASSERT_NE(m, nullptr);
+    specializations[i] = m;
+
+    // Each specialization's own S and T hold the ordered values (23.10.2.1).
+    const hldb::Parameter *const s = hldb::findByName<hldb::Parameter>("S", m->getParameters());
+    const hldb::Parameter *const t = hldb::findByName<hldb::Parameter>("T", m->getParameters());
+    ASSERT_NE(s, nullptr);
+    ASSERT_NE(t, nullptr);
+    EXPECT_NE(s, hldb::findByName<hldb::Parameter>("S", module->getParameters()));
+    ASSERT_NE(s->getExpr<hldb::Constant>(), nullptr);
+    ASSERT_NE(t->getExpr<hldb::Constant>(), nullptr);
+    EXPECT_EQ(s->getExpr<hldb::Constant>()->getDecompile(), e.m_s);
+    EXPECT_EQ(t->getExpr<hldb::Constant>()->getDecompile(), e.m_t);
+
+    // Its body names its own parameters: the $display's "S" and "T" arguments.
+    ASSERT_NE(m->getProcesses(), nullptr);
+    ASSERT_EQ(m->getProcesses()->size(), 1u);
+    const hldb::Initial *const init = any_cast<hldb::Initial>(m->getProcesses()->at(0));
+    ASSERT_NE(init, nullptr);
+    const hldb::SysTaskCall *const d = init->getStmt<hldb::SysTaskCall>();
+    ASSERT_NE(d, nullptr);
+    ASSERT_NE(d->getArguments(), nullptr);
+    ASSERT_EQ(d->getArguments()->size(), 6u);
+    const hldb::RefObj *const sRef = d->getArguments()->at(1)->getHighConn<hldb::RefObj>();
+    ASSERT_NE(sRef, nullptr);
+    EXPECT_EQ(sRef->getName(), "S");
+    EXPECT_EQ(sRef->getActual(), s) << "inside the specialization, 'S' is its own S";
+    const hldb::RefObj *const tRef = d->getArguments()->at(3)->getHighConn<hldb::RefObj>();
+    ASSERT_NE(tRef, nullptr);
+    EXPECT_EQ(tRef->getName(), "T");
+    EXPECT_EQ(tRef->getActual(), t) << "inside the specialization, 'T' is its own T";
+  }
+  EXPECT_NE(specializations[0], specializations[1]);
+  EXPECT_NE(specializations[0], specializations[2]);
+  EXPECT_NE(specializations[1], specializations[2]);
+
+  // Module itself keeps its defaults.
+  const hldb::Parameter *const s = hldb::findByName<hldb::Parameter>("S", module->getParameters());
+  ASSERT_NE(s, nullptr);
+  ASSERT_NE(s->getExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(s->getExpr<hldb::Constant>()->getDecompile(), "0");
 }
 
 }  // namespace hlc

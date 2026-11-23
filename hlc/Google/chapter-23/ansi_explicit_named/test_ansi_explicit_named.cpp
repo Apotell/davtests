@@ -192,7 +192,7 @@ TEST_F(AnsiExplicitNamedTest, DirectionsAreAsDeclared) {
 
 TEST_F(AnsiExplicitNamedTest, PortSizesFollowTheirExpressions) {
   // Expected: the size of P1, P2, Y and R is kExpectedPorts[i].m_size (4, 4, 32, 1).
-  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14); see hldb_model_gaps.md #8";
+  GTEST_SKIP() << "hldb::Port has no size (vpiSize, IEEE 1800-2023 37.14)";
 }
 
 TEST_F(AnsiExplicitNamedTest, PortIdentifiersDeclareNoObjects) {

@@ -50,10 +50,8 @@ TEST_F(Chapter4ErrorRulesTest, Row4_PrimitiveOutputTerminalMustBeOneBitNet) {
   // illegal." r4_m connects the gate-primitive output of 'not g1' to the
   // 2-bit net r4_y.
   //
-  // FIXED 2026-08-26: wired in ModelBuilder::reportIllegalPrimitiveTerminal()
-  // (ModelBuilder.cpp), a post-pass over every Gate/Udp/SwitchTran once
-  // ObjectBinder has resolved each output/inout PrimTerm's RefObj to its
-  // net/variable, comparing the resolved LogicTypespec/BitTypespec's packed
+  // HLC reports this by checking every Gate/Udp/SwitchTran once each
+  // output/inout PrimTerm's RefObj is resolved to its net/variable, comparing the resolved LogicTypespec/BitTypespec's packed
   // width against 1. Scoped to a plain net/variable reference only -- a
   // structural net expression (concatenation, part-select) is not
   // width-checked, to avoid a false positive rather than guess its width.

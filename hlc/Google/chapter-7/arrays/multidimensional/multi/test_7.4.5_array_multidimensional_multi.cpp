@@ -198,7 +198,7 @@ TEST_F(MultiDimMultiDeclarationTest, ArrAAndArrBElemTypespecsAreSharedInstance) 
   // identity (only value/structural equivalence, Sec 6.22), so this is a
   // tool-modeling choice, not a standard requirement. HLC deliberately
   // merges structurally-identical builtin typespecs post-elaboration via
-  // hldb::BuiltInTypespecsPruner (third_party/hldb/src/Pruner.cpp) -- its
+  // hldb::BuiltInTypespecsPruner -- its
   // BuiltInTypespecsCollector walks BitTypespecCollection/
   // ArrayTypespecCollection (among others) and swaps in the first duplicate
   // found, ignoring source-location fields for builtin typespecs. So

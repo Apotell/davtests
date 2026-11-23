@@ -27,9 +27,7 @@
 // Policy: no GTEST_SKIP() anywhere in this file -- every TEST_F runs
 // unconditionally; a row with no diagnostic implemented is marked "EXPECTED
 // TO FAIL" above its assertion rather than skipped. All three rows are now
-// wired in ModelBuilder.cpp (reportUntypedAssignmentPattern(),
-// reportAssignmentPatternShapeMismatch(), reportMissingRecursiveCallParentheses())
-// and pass.
+// implemented in HLC and pass.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventType.h>
@@ -56,13 +54,12 @@ TEST_F(Chapter5ErrorRulesTest, Row5_UntypedAssignmentPatternWithNoContextIsRejec
   // task/function's arguments are not among them, unlike a user-defined
   // function/task's typed formals).
   //
-  // FIXED 2026-08-28: wired in ModelBuilder::reportUntypedAssignmentPattern()
-  // (ModelBuilder.cpp), a post-pass flagging any vpiAssignmentPatternOp
-  // Operation whose parent is a SysFuncCall/SysTaskCall. Scoped to system
-  // calls only, and does not yet detect an explicit type prefix on the
-  // pattern itself (Phase2ModelBuilder doesn't attach one) -- see the
-  // function's own comment for the (currently undemonstrated) false-positive
-  // risk that leaves open.
+  // HLC reports this by flagging any vpiAssignmentPatternOp Operation whose
+  // parent is a SysFuncCall/SysTaskCall. Scoped to system calls only, and
+  // does not yet detect an explicit type prefix on the pattern itself (the
+  // model does not attach one to the Operation), which leaves a (currently
+  // undemonstrated) false-positive risk for a typed pattern passed to a
+  // system call.
   EXPECT_NE(findEvent(EventType::CompUntypedAssignmentPattern, "r5_m"), nullptr)
       << "an untyped assignment pattern needs a type prefix or an assignment-like context "
          "(IEEE 1800-2023 5.10)";
@@ -77,8 +74,7 @@ TEST_F(Chapter5ErrorRulesTest, Row6_FlattenedStructureLiteralShapeIsRejected) {
   // is not allowed." r6_m's '{1, 1.0, 2, 2.0}' flattens two r6_ab structs
   // into one brace level instead of nesting '{...}, {...}'.
   //
-  // FIXED 2026-08-28: wired in ModelBuilder::reportAssignmentPatternShapeMismatch()
-  // (ModelBuilder.cpp), a post-pass over every Variable declared as an
+  // HLC reports this by checking every Variable declared as an
   // unpacked array of a struct/union type, comparing a flat initializer
   // pattern's top-level operand count against the array's declared size.
   // Scoped to that one canonical shape (array-of-struct with the wrong
@@ -106,9 +102,8 @@ TEST_F(Chapter5ErrorRulesTest, Row7_RecursiveClassMethodCallRequiresCallParenthe
   // without parentheses as the normal, legal form, so that was not actually
   // an instance of this rule. See 5--error_rules.sv's row-7 comment.)
   //
-  // FIXED 2026-08-28: wired in ModelBuilder::reportMissingRecursiveCallParentheses()
-  // (ModelBuilder.cpp), a post-pass over every non-void class method that
-  // walks its body (via the generic hldb::Visitor traversal) for a bare
+  // HLC reports this by checking every non-void class method, walking its
+  // body for a bare
   // RefObj matching the method's own name that is not the direct LHS of a
   // plain assignment -- the one sanctioned way to read/write the implicit
   // return-value variable (13.4.1); any other bare occurrence is presumed to

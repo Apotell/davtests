@@ -328,18 +328,17 @@ TEST_F(TypeOpTest, CompilerReportsZeroErrors) {
 // overall "must be zero" expectation and is left failing until this is
 // fixed).
 //
-// Root cause: Phase2's leavePA_Data_type (paType_reference branch) wraps
+// Root cause: for a type_reference (paType_reference) data type, HLC wraps
 // the "a+b" argument in an hldb::Operation (vpiTypeOp) and stores that
 // Operation directly in the placeholder UnsupportedTypespec's own
-// getPathElems() collection. hier_typespec.yaml's path_elem_group filter
+// getPathElems() collection. HierTypespec's path element filter
 // only allows ref_typespec/ref_obj/bit_select/var_select there -- an
-// Operation is none of those, so hlc::Linter::checkHierTypespec()'s own
-// isFiltered() check on that collection reports
+// Operation is none of those, so the generated isFiltered() check on that
+// collection reports
 // 'vpiPathElem' property value has invalid objects (COMP/DB "IllegalPropertyValue"),
-// even though hlc::Linter::checkUnsupportedTypespec() has already been
-// taught to recognize this exact placeholder shape (an UnsupportedTypespec
-// whose own last path element is a vpiTypeOp Operation) and skip its
-// separate "Unsupported typespec" report for it.
+// even though HLC already recognizes this exact placeholder shape (an
+// UnsupportedTypespec whose own last path element is a vpiTypeOp Operation)
+// and skips its separate "Unsupported typespec" report for it.
 //
 TEST_F(TypeOpTest, KnownGap_TypeOperatorPathElemReportedAsInvalid) {
   ASSERT_NE(m_session->getEventListener(), nullptr);

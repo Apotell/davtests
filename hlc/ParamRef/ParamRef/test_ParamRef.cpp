@@ -104,6 +104,14 @@
 //       than function or task call, the locally visible identifiers defined
 //       at the point of the reference in the current scope shall be
 //       searched."
+//   Static elaboration
+//     - u_rv_core_ibex's override is an expression naming parameters, which
+//       static elaboration does not evaluate yet, so it instantiates
+//       rv_core_ibex itself
+//     - u_core instantiates a specialization of ibex_core whose
+//       DmExceptionAddr holds rv_core_ibex's DmExceptionAddr followed to its
+//       value (3), and both overrides' names are bound to a parameter of the
+//       module their instance's typespec resolves to
 //   All modules
 //     - none has a port (A.1.2: module_ansi_header with the optional
 //       list_of_port_declarations omitted), and no instance connects one
@@ -126,7 +134,9 @@
 // shall return a handle to the overridden value parameter or type
 // parameter." HLC holds the LHS as a RefObj naming the parameter and bound
 // through getActual() to that Parameter. The tests follow the RefObj and
-// assert the Parameter it is bound to.
+// assert the Parameter it is bound to: the parameter of the module the
+// instance's typespec resolves to, which is the specialization static
+// elaboration made for the override when there is one.
 //
 // Model convention: a package-scoped name 'dm::ExceptionAddress' is one RefObj
 // bound to the package item, whose path elements are a RefObj for the package
@@ -438,6 +448,10 @@ TEST_F(ParamRefTest, TopEarlgreyDeclaresNoParameter) {
       << "26.3: the wildcard import only makes tl_main_pkg's names visible";
 }
 
+// u_rv_core_ibex's override 'ADDR_SPACE_DEBUG_MEM + dm::ExceptionAddress' is an expression naming
+// parameters. Static elaboration does not evaluate expressions yet, so it cannot tell which
+// specialization the override selects, and the instance takes rv_core_ibex itself. Once values are
+// evaluated, it gets a specialization with DmExceptionAddr = 13 and this expectation changes.
 TEST_F(ParamRefTest, TopEarlgreyInstantiatesRvCoreIbex) {
   const hldb::Module *const m = getModule("top_earlgrey");
   ASSERT_NE(m, nullptr);
@@ -456,7 +470,13 @@ TEST_F(ParamRefTest, URvCoreIbexOverridesDmExceptionAddrByName) {
   const hldb::ParamAssign *const pa = overrides->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "37.28: '.DmExceptionAddr(...)' is a named parameter assignment";
   EXPECT_EQ(getLhsName(pa), "DmExceptionAddr");
-  const hldb::Parameter *const target = getParameter(getModule("rv_core_ibex"), "DmExceptionAddr");
+  const hldb::ModuleTypespec *const mt = getInstanceType(getInstance("top_earlgrey", "u_rv_core_ibex"));
+  ASSERT_NE(mt, nullptr);
+  ASSERT_NE(mt->getModule(), nullptr);
+  EXPECT_EQ(mt->getModule()->getDefName(), "rv_core_ibex");
+  // The parameter of the module u_rv_core_ibex instantiates (a specialization, once its override can be
+  // evaluated; rv_core_ibex itself until then).
+  const hldb::Parameter *const target = getParameter(mt->getModule(), "DmExceptionAddr");
   ASSERT_NE(target, nullptr);
   EXPECT_EQ(getLhsActual(pa), target)
       << "23.10.2.2: \"The name of the parameter shall be the name specified in the instantiated module.\"";
@@ -539,7 +559,10 @@ TEST_F(ParamRefTest, RvCoreIbexInstantiatesIbexCore) {
   const hldb::ModuleTypespec *const mt = getInstanceType(getInstance("rv_core_ibex", "u_core"));
   ASSERT_NE(mt, nullptr) << "instance 'u_core' not found";
   ASSERT_NE(getModule("ibex_core"), nullptr);
-  EXPECT_EQ(mt->getModule(), getModule("ibex_core"));
+  const hldb::Module *const module = mt->getModule();
+  ASSERT_NE(module, nullptr);
+  EXPECT_TRUE(module->getIsSpecialization());
+  EXPECT_EQ(module->getSpecializedFrom(), getModule("ibex_core"));
 }
 
 TEST_F(ParamRefTest, UCorePassesRvCoreIbexOwnParameter) {
@@ -548,7 +571,12 @@ TEST_F(ParamRefTest, UCorePassesRvCoreIbexOwnParameter) {
   ASSERT_EQ(overrides->size(), 1u);
   const hldb::ParamAssign *const pa = overrides->at(0);
   EXPECT_TRUE(pa->getConnByName()) << "37.28: '.DmExceptionAddr(...)' is a named parameter assignment";
-  const hldb::Parameter *const inner = getParameter(getModule("ibex_core"), "DmExceptionAddr");
+  const hldb::ModuleTypespec *const mt = getInstanceType(getInstance("rv_core_ibex", "u_core"));
+  ASSERT_NE(mt, nullptr);
+  ASSERT_NE(mt->getModule(), nullptr);
+  EXPECT_EQ(mt->getModule()->getDefName(), "ibex_core");
+  // The parameter of the module u_core instantiates: the specialization made for its override.
+  const hldb::Parameter *const inner = getParameter(mt->getModule(), "DmExceptionAddr");
   const hldb::Parameter *const outer = getParameter(getModule("rv_core_ibex"), "DmExceptionAddr");
   ASSERT_NE(inner, nullptr);
   ASSERT_NE(outer, nullptr);
@@ -559,6 +587,26 @@ TEST_F(ParamRefTest, UCorePassesRvCoreIbexOwnParameter) {
   ASSERT_NE(value, nullptr) << "unreduced, the value is the name 'DmExceptionAddr'";
   EXPECT_EQ(value->getName(), "DmExceptionAddr");
   EXPECT_EQ(value->getActual(), outer) << "26.3: the value is resolved in rv_core_ibex, where it is written";
+}
+
+// The specialization u_core instantiates holds the value passed: rv_core_ibex's DmExceptionAddr, followed
+// to its value in rv_core_ibex (its default 3, see TopEarlgreyInstantiatesRvCoreIbex) -- not
+// ibex_core's own default 4.
+TEST_F(ParamRefTest, UCoreSpecializationHoldsRvCoreIbexValue) {
+  const hldb::ModuleTypespec *const mt = getInstanceType(getInstance("rv_core_ibex", "u_core"));
+  ASSERT_NE(mt, nullptr);
+  const hldb::Module *const core = mt->getModule();
+  ASSERT_NE(core, nullptr);
+  EXPECT_TRUE(core->getIsSpecialization());
+  EXPECT_EQ(core->getSpecializedFrom(), getModule("ibex_core"));
+  const hldb::Parameter *const p = getParameter(core, "DmExceptionAddr");
+  ASSERT_NE(p, nullptr);
+  EXPECT_FALSE(p->getLocalParam());
+  ExpectIntType(p, false, "the specialization's parameter keeps its type 'int unsigned'");
+  const hldb::Constant *const c = p->getExpr<hldb::Constant>();
+  ASSERT_NE(c, nullptr) << "a value never ends at a parameter: DmExceptionAddr followed to its value";
+  EXPECT_EQ(c->getDecompile(), "3") << "23.10.2.2: rv_core_ibex's DmExceptionAddr, not ibex_core's default 4";
+  ExpectDefault(getModule("ibex_core"), "DmExceptionAddr", "4");
 }
 
 // ---------------------------------------------------------------------------

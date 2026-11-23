@@ -207,7 +207,7 @@ TEST_F(ForeachClassTest, RangeMinMaxFailToResolve) {
 
 TEST_F(ForeachClassTest, RangeMinMaxAreReported) {
   GTEST_SKIP() << "a method call on a resolved receiver without a callee is only reported as LintNullActual: "
-                  "ObjectBinder does not resolve every method of a receiver's type yet";
+                  "HLC does not resolve every method of a receiver's type yet";
   EXPECT_NE(findEvent(EventType::CompUndefinedUserFunction, "min", 12, 23), nullptr)
       << "'range.min' should not resolve: 'range' is a foreach iterator, not a class handle";
   EXPECT_NE(findEvent(EventType::CompUndefinedUserFunction, "max", 12, 48), nullptr)

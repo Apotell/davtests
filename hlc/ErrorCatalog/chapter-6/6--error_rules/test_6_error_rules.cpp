@@ -40,12 +40,11 @@
 // FAIL" and explaining the gap; that failure is the coverage record for the
 // gap, not a soft skip. Rows 18 and 25 pass because HLC's grammar already
 // rejects those two constructs (as a syntax error, not the named semantic
-// diagnostic). As of 2026-08-29, rows 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+// diagnostic). Rows 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
 // 21 (const-variable half), 22, 23, 24, 26, 28 (continuous-assignment half),
-// 29, 30, 31, and 32 are additionally wired in ModelBuilder.cpp and pass --
-// see each row's own "FIXED" comment for the specific ModelBuilder method.
-// Rows 19 and 27 are blocked on genuine HLDB model gaps (documented as gaps
-// #7 and #8 in .claude/instructions/hldb_model_gaps.md) rather than being
+// 29, 30, 31, and 32 are additionally implemented in HLC and pass --
+// see each row's own comment for what HLC checks.
+// Rows 19 and 27 are blocked on genuine HLDB model gaps rather than being
 // simple post-pass omissions -- see each row's own comment. Row 20 remains
 // blocked on the separate, pre-existing CompMultiplyDefinedTypedef defect.
 
@@ -66,8 +65,7 @@ class Chapter6ErrorRulesTest : public Test {
 
 TEST_F(Chapter6ErrorRulesTest, Row8_AssignmentToInputPortVariableIsRejected) {
   // catalog row 8 | 6.5 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportAssignmentToInputPort()
-  // (ModelBuilder.cpp), a post-pass over every Assignment whose LHS resolves
+  // HLC reports this by checking every Assignment whose LHS resolves
   // to a Variable, checking the enclosing Module's own Ports for one whose
   // direction is input and whose low-connection resolves to that same
   // Variable object.
@@ -79,8 +77,7 @@ TEST_F(Chapter6ErrorRulesTest, Row8_AssignmentToInputPortVariableIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row9_NettypeDataTypeMustBeValid) {
   // catalog row 9 | 6.6.7 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalNettypeDataType()
-  // (ModelBuilder.cpp), a post-pass over every nettype-marked TypedefTypespec,
+  // HLC reports this by checking every nettype-marked TypedefTypespec,
   // deny-listing string/class/chandle/event and non-fixed-size array data
   // types. Does not recursively validate a struct/union data type's own
   // members, so those are always accepted here rather than guessed at.
@@ -94,8 +91,7 @@ TEST_F(Chapter6ErrorRulesTest, Row10_NettypeResolutionFunctionSignatureMustMatch
   // r10_t; HLC's own '-d db' lint separately flags r10_t with an unrelated
   // HLDB:0119 note, not tied to this row's rule.
   //
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalNettypeResolutionFunction()
-  // (ModelBuilder.cpp), a post-pass over every nettype-marked TypedefTypespec
+  // HLC reports this by checking every nettype-marked TypedefTypespec
   // with a resolution function, comparing the function's return typespec
   // against the nettype's own data typespec.
   EXPECT_NE(findEvent(EventType::CompIllegalNettypeResolutionFunction, "r10_wt"), nullptr)
@@ -106,11 +102,10 @@ TEST_F(Chapter6ErrorRulesTest, Row10_NettypeResolutionFunctionSignatureMustMatch
 
 TEST_F(Chapter6ErrorRulesTest, Row11_InterconnectNetCannotBeAssignedOrRead) {
   // catalog row 11 | 6.6.8 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalInterconnectUse()
-  // (ModelBuilder.cpp), a post-pass over every RefObj resolving to an
+  // HLC reports this by checking every RefObj resolving to an
   // interconnect-typed Net, walking its parent chain for an enclosing
   // ContAssign or Process (Initial/Always/Final/etc). Both 'assign r11_w1 = 1'
-  // and '$display(r11_w1)' are now rejected.
+  // and '$display(r11_w1)' are rejected.
   EXPECT_NE(findEvent(EventType::CompIllegalInterconnectUse, "r11_w1"), nullptr)
       << "an interconnect net cannot be assigned or read directly (IEEE 1800-2023 6.6.8)";
 }
@@ -119,12 +114,11 @@ TEST_F(Chapter6ErrorRulesTest, Row11_InterconnectNetCannotBeAssignedOrRead) {
 
 TEST_F(Chapter6ErrorRulesTest, Row12_NetWithTwoStateOrRealDataTypeIsRejected) {
   // catalog row 12 | 6.7.1 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalNetDataType()
-  // (ModelBuilder.cpp), a post-pass over every Net whose typespec resolves
+  // HLC reports this by checking every Net whose typespec resolves
   // directly (not through a nettype TypedefTypespec wrapper -- that path is
   // deliberately excluded so user-defined nettype nets are never
   // false-positived here) to a 2-state integral or real/shortreal typespec.
-  // Both 'wire bit r12_b' and 'wire real r12_r' are now rejected.
+  // Both 'wire bit r12_b' and 'wire real r12_r' are rejected.
   EXPECT_NE(findEvent(EventType::CompIllegalNetDataType, "r12_r"), nullptr)
       << "real is not a valid data type for a built-in-nettype net (IEEE 1800-2023 6.7.1)";
   // IEEE 1800-2023 6.7.1 (p.103): "A valid data type for a net shall be one of the following: a) A
@@ -144,10 +138,8 @@ TEST_F(Chapter6ErrorRulesTest, Row13_BitSelectOfVectoredNetMayBeDisallowed) {
   // choose to enforce it. See 6--error_rules_inv2.sv for why the fixture is
   // a rewritten "wire vectored", not the catalog's original "logic vectored".
   //
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalVectoredSelect()
-  // (ModelBuilder.cpp), a post-pass over every BitSelect whose prefix resolves
-  // to a Net with getExplicitVectored() set. Registered as a WARNING (see
-  // events/*.yaml), matching the permissive "may disallow" wording above
+  // HLC reports this by checking every BitSelect whose prefix resolves
+  // to a Net with getExplicitVectored() set. Reported as a WARNING, matching the permissive "may disallow" wording above
   // -- not reporting would have been equally standard-conformant, but this
   // implementation chooses to exercise the optional check.
   EXPECT_NE(findEvent(EventType::CompIllegalVectoredSelect, "r13_a"), nullptr)
@@ -163,8 +155,7 @@ TEST_F(Chapter6ErrorRulesTest, Row14_EdgeEventControlOnRealVariableIsRejected) {
   // (CompilerShouldRejectPosedgeOnRealVariableButDoesNot), kept here too for
   // this catalog's own row-by-row coverage.
   //
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalEdgeOnReal()
-  // (ModelBuilder.cpp), a post-pass over every EventControl whose operand
+  // HLC reports this by checking every EventControl whose operand
   // resolves to a real-typed Variable and carries an explicit posedge/
   // negedge/edge qualifier.
   EXPECT_NE(findEvent(EventType::CompIllegalEdgeOnReal, "r14_r"), nullptr)
@@ -181,17 +172,9 @@ TEST_F(Chapter6ErrorRulesTest, Row15_RealIndexExpressionInSelectIsRejected) {
   // HLC's '-d db' lint separately reports an HLDB:0105 note naming r15_idx,
   // but that is not this row's diagnostic and carries no ERR/WRN severity.
   //
-  // FIXED 2026-08-28, RELOCATED 2026-08-31: wired in
-  // hlc::Linter::checkBitSelect() (src/DesignCompile/Linter.cpp), which
-  // overrides the generated per-BitSelect hook the Linter already calls once
-  // per compile (right after ModelBuilder::build() returns -- see
-  // Compiler.cpp). Originally implemented as a separate ModelBuilder
-  // full-database scan; moved here because hldb's own hand-written
-  // checkBitSelect_() (third_party/hldb/templates/Linter.cpp) already
-  // detected this exact shape and reported it as an informational HLDB note
-  // -- this is the same check, now also raised as a COMP_* compile error via
-  // Linter::reportSemanticError(), instead of duplicating the scan
-  // separately. Scoped to exclude a prefix whose own typespec is a
+  // HLC reports this by checking every BitSelect whose index expression is
+  // real-typed -- the same shape the HLDB note above names, here raised as a
+  // COMP_* compile error. Scoped to exclude a prefix whose own typespec is a
   // non-fixed-size (dynamic/queue/associative) ArrayTypespec, since a
   // wildcard-index associative array's key lookup (row 38, 7.8.1) shares the
   // same BitSelect model shape but is a different rule -- verified this does
@@ -204,8 +187,7 @@ TEST_F(Chapter6ErrorRulesTest, Row15_RealIndexExpressionInSelectIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row16_ChandlePortIsRejected) {
   // catalog row 16 | 6.14 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalChandlePort()
-  // (ModelBuilder.cpp), a post-pass over every Port whose low-connection
+  // HLC reports this by checking every Port whose low-connection
   // resolves to a chandle-typed Variable.
   EXPECT_NE(findEvent(EventType::CompIllegalChandleUse, "r16_h"), nullptr)
       << "a port cannot have the chandle data type (IEEE 1800-2023 6.14)";
@@ -213,8 +195,7 @@ TEST_F(Chapter6ErrorRulesTest, Row16_ChandlePortIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row17_RelationalOperatorOnChandleIsRejected) {
   // catalog row 17 | 6.14 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalChandleOperand()
-  // (ModelBuilder.cpp), a post-pass over every relational Operation
+  // HLC reports this by checking every relational Operation
   // (vpiLtOp/vpiGtOp/vpiLeOp/vpiGeOp) with a chandle-typed operand -- only
   // equality/inequality against another chandle or null is permitted.
   EXPECT_NE(findEvent(EventType::CompIllegalOperandType, "r17_h1"), nullptr)
@@ -248,13 +229,10 @@ TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRe
   // (CompFailedToBind, line 128 column 19) -- a different, incidental
   // failure, not this row's rule.
   //
-  // FIXED 2026-08-29 (const-variable half only): wired in
-  // ModelBuilder::reportIllegalEnumValueConstExpression() (ModelBuilder.cpp),
-  // a post-pass over every EnumTypespec's EnumConsts, flagging a value that
-  // directly references a Variable with getConstantVariable() set. Reports
-  // using the enum-typed Variable's own name (r21_e), recovered via the same
-  // reverse-typespec-lookup shape reportPackedUnionSizeMismatch() already
-  // uses for an anonymous EnumTypespec. The hierarchical-name half of this
+  // Const-variable half only: HLC checks every EnumTypespec's EnumConsts,
+  // flagging a value that directly references a Variable with
+  // getConstantVariable() set. The event names the enum-typed Variable
+  // (r21_e), since the EnumTypespec itself is anonymous. The hierarchical-name half of this
   // row is not separately implemented -- it already surfaces as
   // CompFailedToBind, per the comment above.
   EXPECT_NE(findEvent(EventType::CompNotAConstantExpression, "r21_e"), nullptr)
@@ -275,8 +253,7 @@ TEST_F(Chapter6ErrorRulesTest, Row22_SpecparamInParameterExpressionIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row23_WriteToConstVariableIsRejected) {
   // catalog row 23 | 6.20.6 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportAssignmentToConst()
-  // (ModelBuilder.cpp), a post-pass over every Assignment whose LHS resolves
+  // HLC reports this by checking every Assignment whose LHS resolves
   // to a Variable with getConstantVariable() set. The variable's own
   // initializer (Variable::getValue()) is not modeled as an Assignment, so
   // it is naturally excluded -- only a genuine, separate Assignment
@@ -289,14 +266,12 @@ TEST_F(Chapter6ErrorRulesTest, Row23_WriteToConstVariableIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
   // catalog row 24 | 6.20.7 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalUnboundedLiteralUse()
-  // (ModelBuilder.cpp). Two independent checks: (1) any parameter assigned $
+  // HLC makes two independent checks: (1) any parameter assigned $
   // whose own typespec is not a simple bit-vector type (logic/bit/int) --
   // catches 'parameter real r24_rp = $'; (2) any queue ArrayTypespec whose
   // size bound resolves to a parameter from check (1)'s collected set --
   // catches 'int r24_q[$:r24_r2]', reported using the queue's own declaring
-  // Variable name (r24_q) via the same reverse-typespec-lookup shape used
-  // elsewhere in this file.
+  // Variable name (r24_q), since the ArrayTypespec itself is anonymous.
   ASSERT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
       << "a $-valued parameter cannot be used as a queue bound (IEEE 1800-2023 6.20.7)";
   // 6.20.7: "$ may be assigned to a value parameter of a simple bit vector
@@ -314,9 +289,8 @@ TEST_F(Chapter6ErrorRulesTest, Row26_HierarchicalReferenceIntoUnnamedBlockIsReje
   // (CompFailedToBind, line 169 column 13) -- HLC cannot resolve the
   // reference at all, but not via this row's dedicated rule.
   //
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalHierRefIntoUnnamedBlock()
-  // (ModelBuilder.cpp). Since the RefObj's trailing path element is left
-  // permanently unbound (per the CompFailedToBind above), this falls back
+  // Since the RefObj's trailing path element is left
+  // permanently unbound (per the CompFailedToBind above), HLC falls back
   // to name matching: collect every Variable declared directly inside an
   // unnamed Begin block anywhere in the design, then match the unbound
   // trailing path element's name against that set.
@@ -328,15 +302,13 @@ TEST_F(Chapter6ErrorRulesTest, Row26_HierarchicalReferenceIntoUnnamedBlockIsReje
 
 TEST_F(Chapter6ErrorRulesTest, Row27_MissingLifetimeKeywordIsRejected) {
   // catalog row 27 | 6.21 | COMP
-  // EXPECTED TO FAIL, BLOCKED ON A MODEL GAP: variable.yaml's only lifetime-related field
+  // EXPECTED TO FAIL, BLOCKED ON A MODEL GAP: hldb::Variable's only lifetime-related field
   // ('automatic') records the resolved lifetime after defaults are applied, never whether the
   // author wrote an explicit static/automatic keyword at all -- confirmed via hldb-dump that
   // 'int r27_svar2 = 2;' inside an unnamed initial block carries no property distinguishing
   // "lifetime left implicit" from "lifetime explicitly written" (no vpiAutomatic property appears
-  // at all). Documented as HLDB model gap #8 in .claude/instructions/hldb_model_gaps.md, with the
-  // required model/Phase2ModelBuilder change spelled out there -- not implementable as a
-  // ModelBuilder-only post-pass fix.
-  GTEST_SKIP() << "no diagnostic implemented; variable.yaml's 'automatic' field records only the "
+  // at all). This is an HLDB model gap -- it needs a model change, not a post-pass fix.
+  GTEST_SKIP() << "no diagnostic implemented; hldb::Variable's 'automatic' field records only the "
                   "resolved lifetime after defaults apply, never whether an explicit static/"
                   "automatic keyword was written, so 'implicit' vs. 'explicit' cannot be "
                   "distinguished (HLDB model gap #8)";
@@ -366,9 +338,7 @@ TEST_F(Chapter6ErrorRulesTest, Row28_ContinuousOrNonblockingWriteToAutomaticTarg
 
 TEST_F(Chapter6ErrorRulesTest, Row29_DynamicVariableReferencedOutsideProceduralBlockIsRejected) {
   // catalog row 29 | 6.21 | COMP
-  // FIXED 2026-08-29: wired in
-  // ModelBuilder::reportIllegalDynamicReferenceOutsideProceduralBlock()
-  // (ModelBuilder.cpp), a post-pass over every Net whose own initializer
+  // HLC reports this by checking every Net whose own initializer
   // value is a Select into a Variable with a non-static-array typespec --
   // scoped to a net's continuous initializer specifically, the exact
   // non-procedural context 'wire r29_w = r29_dyn[0]' exercises, not a general
@@ -382,8 +352,7 @@ TEST_F(Chapter6ErrorRulesTest, Row29_DynamicVariableReferencedOutsideProceduralB
 
 TEST_F(Chapter6ErrorRulesTest, Row30_NonIntegralOperandInSizeCastIsRejected) {
   // catalog row 30 | 6.24.1 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalCastOperand()
-  // (ModelBuilder.cpp), a post-pass over every cast Operation in the
+  // HLC reports this by checking every cast Operation in the
   // two-operand "size'(expr)" form (a leading size Constant plus the source
   // expression -- confirmed via hldb-dump this is how "8'(r30_r)" is
   // modeled), flagging a source operand that resolves to a real/shortreal
@@ -396,8 +365,7 @@ TEST_F(Chapter6ErrorRulesTest, Row30_NonIntegralOperandInSizeCastIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row31_AssociativeArrayAsBitstreamCastDestinationIsRejected) {
   // catalog row 31 | 6.24.3 | COMP
-  // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalBitstreamCast()
-  // (ModelBuilder.cpp), a post-pass over every Variable whose own initializer
+  // HLC reports this by checking every Variable whose own initializer
   // is a one-operand "TYPE'(expr)" cast Operation, flagging one whose
   // destination typespec resolves (through any typedef indirection) to an
   // associative-array ArrayTypespec. Reports using the destination Variable's
@@ -409,12 +377,11 @@ TEST_F(Chapter6ErrorRulesTest, Row31_AssociativeArrayAsBitstreamCastDestinationI
 
 TEST_F(Chapter6ErrorRulesTest, Row32_BitstreamCastSizeMismatchIsRejected) {
   // catalog row 32 | 6.24.3 | COMP
-  // FIXED 2026-08-29: wired in the same ModelBuilder::reportIllegalBitstreamCast()
-  // pass as row 31 above. Computes each side's fixed-size bit-stream width (a
-  // new bitstreamWidth() helper: 32/16/64/8 for the built-in integer atoms,
-  // the existing packedBitWidth() for logic/bit vectors, or the recursive sum
-  // of member widths for a struct) and flags a mismatch when at least one
-  // side is an unpacked struct/union (a new isUnpackedAggregate() helper) --
+  // Checked alongside row 31 above. HLC computes each side's fixed-size
+  // bit-stream width (32/16/64/8 for the built-in integer atoms, the packed
+  // width for logic/bit vectors, or the recursive sum of member widths for a
+  // struct) and flags a mismatch when at least one side is an unpacked
+  // struct/union --
   // catches 'int r32_b = int'(r32_s)' (24-bit unpacked struct source vs.
   // 32-bit int destination).
   EXPECT_NE(findEvent(EventType::CompBitstreamSizeMismatch, "r32_b"), nullptr)
