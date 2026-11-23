@@ -158,6 +158,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -494,6 +495,8 @@ TEST_F(PackageVarTest, SecondIfCallsUndeclaredIstopOnFormal) {
   ExpectUnboundMethodCallOnFormal(ifElse->getCondition(), "istop", &call);
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "'istop()' writes no argument";
+  // Sec 23.7 a), 8.6: 'printer' is an ovm_printer, an empty class, so it has no method istop.
+  EXPECT_NE(findEvent(EventType::CompNoMethodForType, "printer", 28, 14), nullptr) << "printer.istop()";
 }
 
 TEST_F(PackageVarTest, ThenBranchCallsUndeclaredPrintObject) {
@@ -515,6 +518,8 @@ TEST_F(PackageVarTest, ThenBranchCallsUndeclaredPrintObject) {
   EXPECT_EQ(self->getName(), "this");
   ASSERT_NE(getClass("ovm_object"), nullptr);
   EXPECT_EQ(self->getActual(), getClass("ovm_object")) << "8.11: 'this' is the class the method belongs to";
+  // Sec 23.7 a), 8.6: ovm_printer declares no method print_object.
+  EXPECT_NE(findEvent(EventType::CompNoMethodForType, "printer", 29, 13), nullptr) << "printer.print_object()";
 }
 
 // ---------------------------------------------------------------------------
