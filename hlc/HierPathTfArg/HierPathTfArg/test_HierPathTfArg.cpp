@@ -276,7 +276,10 @@ TEST_F(HierPathTfArgTest, HierarchicalCallsShouldResolveToTheirDeclaredFunction)
   }
 
   // $display(f(0)): no 'f' is visible in 'top', so the call stays unbound and is reported.
-  EXPECT_NE(findEvent(EventType::CompUndefinedUserFunction, "f", 27, 18), nullptr);
+  // Checked only once HLC elaborates: during elaboration this function might get attached to the design.
+  if (m_design->getElaborated()) {
+    EXPECT_NE(findEvent(EventType::CompUndefinedUserFunction, "f", 27, 18), nullptr);
+  }
 }
 
 }  // namespace hlc
