@@ -328,8 +328,9 @@ TEST_F(ClassMemberTest13Test, UndefinedMyclassScopeIsReported) {
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);
 
+  // Checked only once HLC elaborates: during elaboration this package might get attached to the design.
   const bool reported = (findEvent(EventType::CompUndefinedClass, 11) != nullptr) ||
-                        (findEvent(EventType::CompUndefinedPackage, 11) != nullptr) ||
+                        (m_design->getElaborated() && (findEvent(EventType::CompUndefinedPackage, 11) != nullptr)) ||
                         (findEvent(EventType::UnsupportedTypespec, 11) != nullptr);
   EXPECT_TRUE(reported) << "8.23/26.3: nothing named myclass is declared, so 'myclass::msg_t' on line 11 is undefined;"
                         << describeEvents(eventListener, EventSeverity::Error);

@@ -278,7 +278,8 @@ TEST_F(ClassMemberTest17Test, UndefinedReturnTypeIsReported) {
   const EventListener *const eventListener = m_session->getEventListener();
   ASSERT_NE(eventListener, nullptr);
 
-  const bool reported = (findEvent(EventType::CompUndefinedPackage, 7) != nullptr) ||
+  // Checked only once HLC elaborates: during elaboration this package might get attached to the design.
+  const bool reported = (m_design->getElaborated() && (findEvent(EventType::CompUndefinedPackage, 7) != nullptr)) ||
                         (findEvent(EventType::CompUndefinedClass, 7) != nullptr) ||
                         (findEvent(EventType::UnsupportedTypespec, 7) != nullptr);
   EXPECT_TRUE(reported) << "26.3/8.23: no package yourpkg or class classy/xtype is declared, so the return type on "

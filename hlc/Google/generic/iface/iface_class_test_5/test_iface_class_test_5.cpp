@@ -313,7 +313,9 @@ TEST_F(IfaceClassTest5Test, ReportsUndefinedPackageAndBaseClass) {
   const EventListener::Stats stats = eventListener->getStats();
   EXPECT_GE(stats.m_errors, 1) << "undeclared base interface classes are an error";
 
-  const bool packageReported = (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr) ||
+  // Checked only once HLC elaborates: during elaboration this package might get attached to the design.
+  const bool packageReported =
+      (m_design->getElaborated() && (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr)) ||
                                (findEvent(EventType::ElabUndefinedPackage, "pkg1", 6) != nullptr);
   EXPECT_TRUE(packageReported) << "26.3: pkg1 (line 6) names no package;"
                                << describeEvents(eventListener, EventSeverity::Error);
