@@ -45,6 +45,8 @@
 //     undefining an undefined macro is legal.
 //   - If HLC reports an "undef of an unknown macro" diagnostic, it is at most
 //     a warning and points at line 16 or 17.
+//   - HLC's choice of that optional warning: PpUndefUnkownMacro for FOO at
+//     16:8 and for BAR at 17:8, the name of each `undef.
 //   - None of the preprocessor diagnostics a wrong reading of either line
 //     would produce.
 //   - Exactly one SourceFile for the .sv, with no includes, no generic
@@ -55,10 +57,11 @@
 //   - No design object of any kind is created from this file.
 //
 // What is NOT checked, and why
-//   - Whether HLC warns about the two `undef lines at all. The LRM says a tool
+//   - That a tool must warn about the two `undef lines. The LRM says a tool
 //     "can issue a warning", so the warning is neither required nor
-//     forbidden. Nearest assertion: UndefOfUnknownMacroIsAtMostAWarning
-//     (when it is issued, it is not an error and is on the right lines).
+//     forbidden; HLC's warning is checked as HLC's own choice. Nearest
+//     assertions: UndefOfUnknownMacroIsAtMostAWarning and
+//     ReportsEachUndefOfAnUnknownMacro.
 //   - That FOO and BAR stay undefined. With no later use this is not
 //     observable in the model. Nearest assertion:
 //     SourceFileHasNoIncludesDirectivesOrMacroUses (zero macro instances).
@@ -99,6 +102,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -286,6 +290,14 @@ TEST_F(UndefNonexistingTest, UndefOfUnknownMacroIsAtMostAWarning) {
   }
   EXPECT_EQ(reportedAsError, "") << "an `undef of an undefined macro is legal (22.5.2)";
   EXPECT_EQ(reportedOffTheUndefLines, "") << "the `undef lines are 16 and 17";
+}
+
+// 22.5.2: "An attempt to undefine a text macro that was not previously defined using a `define
+// compiler directive can issue a warning." HLC issues it, at the macro name of each `undef. The
+// warning is HLC's choice, not an LRM requirement.
+TEST_F(UndefNonexistingTest, ReportsEachUndefOfAnUnknownMacro) {
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "FOO", 16, 8), nullptr) << "`undef FOO, line 16";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "BAR", 17, 8), nullptr) << "`undef BAR, line 17";
 }
 
 TEST_F(UndefNonexistingTest, SourceFileRecordedOnce) {

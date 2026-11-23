@@ -252,6 +252,15 @@ TEST_F(SimpleIncludeAndMacrosTest, TopLevelEventHasNoContextNotes) {
   }
 }
 
+// IEEE 1800-2023 22.5.2: "An attempt to undefine a text macro that was not previously defined using a
+// `define compiler directive can issue a warning." multipl (a typo of multiple) is never defined, and
+// HLC warns at its `undef: 15:8 in top.v, top_1.v, top_2.v and top_4.v (all four are counted by
+// TopLevelEventHasNoContextNotes), 18:8 in top_3.v. The warning is HLC's choice.
+TEST_F(SimpleIncludeAndMacrosTest, UndefOfUnknownMacroIsReported) {
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "multipl", 15, 8), nullptr) << "`undef multipl, line 15";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "multipl", 18, 8), nullptr) << "top_3.v: `undef multipl tt";
+}
+
 // Legal SystemVerilog (IEEE 1800-2023 22.5.1 does not require a formal to be used), so this is a
 // tool warning, checked because it truthfully describes the source:
 // top_1.v:41 `define append(f) g``_master does not use f; top_1.v:43 `define DD(x,y,a,b) uses x, y 

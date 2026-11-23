@@ -98,7 +98,11 @@
 //                                             diagnostic of any category
 //   Lines15To17ClassIsAccepted                none on lines 15-17, the
 //                                             `undef line included
-//   Lines19To20ModuleIsAccepted               none on lines 19-20
+//   ReportsTheUndefOfAnUnknownMacro           HLC's choice of the optional
+//                                             22.5.2 warning:
+//                                             PpUndefUnkownMacro for
+//                                             EVIL_MACRO at 16:9
+//   Lines19To20ModuleIsAccepted              none on lines 19-20
 //   ReportsNoMisreadingDiagnostics            no syntax, "unknown macro",
 //                                             keyword, identifier length or
 //                                             non-ASCII diagnostic at any
@@ -144,10 +148,12 @@
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - A warning for undefining EVIL_MACRO, and warnings and informational
-//     diagnostics in general. 22.5.2 says such an attempt "can issue a
-//     warning", so a warning is allowed and not required. Nearest assertions:
-//     CompilesWithoutErrors and ReportsNoMisreadingDiagnostics.
+//   - That a tool must warn about undefining EVIL_MACRO, and warnings and
+//     informational diagnostics in general. 22.5.2 says such an attempt "can
+//     issue a warning", so a warning is allowed and not required; HLC's
+//     warning is checked as HLC's own choice. Nearest assertions:
+//     CompilesWithoutErrors, ReportsTheUndefOfAnUnknownMacro and
+//     ReportsNoMisreadingDiagnostics.
 //   - Any record HLC keeps of the `undef directive itself, such as an entry
 //     in the SourceFile's directives. Syntax 22-4 is "not in Annex A", a
 //     directive is no object of the VPI object model, and the LRM defines no
@@ -183,6 +189,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -362,6 +369,12 @@ TEST_F(ClassTest48Test, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 // compiler directive. Undefining a macro that was never defined "can issue a
 // warning" (22.5.2), not an error.
 TEST_F(ClassTest48Test, Lines15To17ClassIsAccepted) { EXPECT_EQ(eventsOnLines(kClassFirstLine, kClassLastLine), ""); }
+
+// Line 16: `undef EVIL_MACRO of a macro never defined. 22.5.2 allows a warning ("can issue a warning");
+// HLC issues it at the macro name. The warning is HLC's choice, not an LRM requirement.
+TEST_F(ClassTest48Test, ReportsTheUndefOfAnUnknownMacro) {
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "EVIL_MACRO", 16, 9), nullptr) << "`undef EVIL_MACRO, line 16";
+}
 
 // Lines 19-20: an empty module_declaration (A.1.2).
 TEST_F(ClassTest48Test, Lines19To20ModuleIsAccepted) {

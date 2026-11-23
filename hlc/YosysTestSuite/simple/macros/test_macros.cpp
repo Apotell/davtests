@@ -213,6 +213,21 @@ TEST_F(YosysTestSuiteMacrosTest, UnusedMacroArgumentsAreReported) {
       << "macro argument 'len' (line 6) is not used in the macro body";
 }
 
+// IEEE 1800-2023 22.5.2: "An attempt to undefine a text macro that was not previously defined using a
+// `define compiler directive can issue a warning." HLC warns at each active `undef whose macro has no
+// definition in effect: X (26, before the `define of 131), A and B (30, 31: never defined yet), A (39),
+// A (76, after the `undef of 67), A (142, after 133), A (179, after 170). Every other `undef in the active
+// branches names a defined macro. The warning is HLC's choice.
+TEST_F(YosysTestSuiteMacrosTest, UndefOfUnknownMacroIsReported) {
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "X", 26, 9), nullptr) << "`undef X, line 26";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "A", 30, 11), nullptr) << "`undef A, line 30";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "B", 31, 11), nullptr) << "`undef B, line 31";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "A", 39, 11), nullptr) << "`undef A, line 39";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "A", 76, 11), nullptr) << "`undef A, line 76";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "A", 142, 11), nullptr) << "`undef A, line 142";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "A", 179, 11), nullptr) << "`undef A, line 179";
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

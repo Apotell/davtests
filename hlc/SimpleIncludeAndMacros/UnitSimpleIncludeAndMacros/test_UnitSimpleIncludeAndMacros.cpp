@@ -171,6 +171,16 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, UnusedMacroArgumentsAreReported) {
       << "macro argument 'b' (line 43) is not used in the macro body";
 }
 
+// IEEE 1800-2023 22.5.2: "An attempt to undefine a text macro that was not previously defined using a
+// `define compiler directive can issue a warning." multipl (a typo of multiple) is never defined, and
+// HLC warns at its `undef: 15:8 in top.v, top_1.v, top_2.v and top_4.v, 18:8 in top_3.v. The warning
+// is HLC's choice.
+TEST_F(UnitSimpleIncludeAndMacrosTest, UndefOfUnknownMacroIsReported) {
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "multipl", 15, 8), nullptr) << "`undef multipl, line 15";
+  EXPECT_NE(findEvent(EventType::PpUndefUnkownMacro, "multipl", 18, 8), nullptr) << "top_3.v: `undef multipl tt";
+  EXPECT_EQ(findEvents(EventType::PpUndefUnkownMacro, 15, 8).size(), 4u) << "one per file at 15:8";
+}
+
 // Legal SystemVerilog: IEEE 1800-2023 5.9.1 says "An escaped character not appearing in Table 5-1 is
 // treated the same as if the character was not escaped", so "Hum\pty" means "Humpty". It is still
 // suspect (a likely typo), so HLC reports it as a warning: top_2.v:47 $display("Hum\pty ...").
