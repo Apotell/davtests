@@ -53,6 +53,10 @@ TEST_F(IfSpecifyRefTerminalErrTest, ReportsErrorAtRefTerminal) {
   // Line 31: "(ch.r => ch.q) = 3;" -- r at column 9.
   ASSERT_NE(m_session->getEventListener(), nullptr);
   EXPECT_TRUE(hasErrorAt(31, 9));
+  // Sec 25.6: "A ref port cannot be used as a terminal in a specify block." Sec 30.4.1: the path source
+  // shall be connected to an input or inout port.
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecifyPath, "r", 31, 9), nullptr)
+      << "the ref modport member ch.r is used as a path source";
 }
 
 TEST_F(IfSpecifyRefTerminalErrTest, ReportsIllegalSpecifyTerminal) {
