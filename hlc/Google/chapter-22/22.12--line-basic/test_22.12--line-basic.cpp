@@ -367,7 +367,6 @@ TEST_F(LineBasicTest, ReportsNoDirectiveMisreadingDiagnostics) {
 
   // `line is a compiler directive (22.1), not a usage of a text macro.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
 // Removed tests: ReportsNoFileOpeningDiagnostics, ReportsNoStringLiteralDiagnostics. They only

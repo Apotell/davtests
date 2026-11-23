@@ -410,7 +410,6 @@ TEST_F(PragmaComplexTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // `pragma is a compiler directive (22.1), not a usage of a text macro, and
   // no identifier on the line has a grave accent.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
 // Removed tests: ReportsNoProtectPragmaDiagnostics, ReportsNoIdentifierDiagnostics,

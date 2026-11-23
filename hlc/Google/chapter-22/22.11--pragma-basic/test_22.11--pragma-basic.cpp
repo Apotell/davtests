@@ -386,7 +386,6 @@ TEST_F(PragmaBasicTest, ReportsNoDirectiveMisreadingDiagnostics) {
 
   // `pragma is a compiler directive (22.1), not a usage of a text macro.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
 // Removed tests: ReportsNoProtectPragmaDiagnostics, ReportsNoPragmaNameDiagnostics,

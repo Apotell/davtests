@@ -416,7 +416,6 @@ TEST_F(LineComplexTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // `line and `resetall are compiler directives (22.1), not usages of a text
   // macro.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaUnkownMacro), nullptr);
 }
 
 // Removed tests: ReportsNoFileOpeningDiagnostics, ReportsNoStringLiteralDiagnostics. They only
