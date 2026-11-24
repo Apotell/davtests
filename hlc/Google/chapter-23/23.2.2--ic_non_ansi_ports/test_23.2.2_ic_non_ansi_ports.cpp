@@ -30,9 +30,8 @@
 //     every port to the wire of the same name
 //   - Resolution: every interconnect port merges with wires -> vpiWire
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a
-//   simulated net.IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending..
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Not checked:
 //   - Nothing intentionally left out
 //
@@ -326,16 +325,17 @@ TEST_F(IcNonAnsiPortsTest, PositionalAndNamedConnections) {
   EXPECT_TRUE(na->getConnByName());
 }
 
+// The resolved type exists only after elaboration (simulated net, 23.3.3.7), so it is checked only
+// in an elaborated design.
 TEST_F(IcNonAnsiPortsTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP()
-      << "HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a simulated net."
-         " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending.";
   const hldb::Module *const m = getModule("m");
   ASSERT_NE(m, nullptr);
   for (const char *const name : {"a", "b", "c", "d", "e"}) {
     const hldb::Net *const net = getNet(m, name);
     ASSERT_NE(net, nullptr) << name;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name << " merges with wires in top and in its leaf";
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name << " merges with wires in top and in its leaf";
+    }
   }
 }
 

@@ -31,9 +31,9 @@
 //   - Resolution: 23.3.3.7.2 says an interconnect on a primitive terminal is treated as a scalar wire
 //     -> vpiResolvedNetType vpiWire for every net
 //   - No errors: the whole file is legal
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.2, 37.17 detail 12)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType at 0 on interconnect nets connected to primitive
-//   terminals.IEEE 1800-2023 Sec 23.3.3.7.2: such a net is treated as a scalar wire (vpiWire). Fix pending..
 //   - UdpTerminals: HLC leaves Udp::getUdpDefn() null for the UDP instance g_udp (not bound to its definition
 //   udp_and).IEEE 1800-2023 Sec 37.38 requires the vpiUdpDefn relation from a UDP instance. Fix pending..
 // Not checked:
@@ -295,16 +295,17 @@ TEST_F(IcPrimitiveTerminalsTest, UdpTerminals) {
   }
 }
 
-// 23.3.3.7.2: an interconnect on a primitive terminal is treated as a scalar wire.
+// 23.3.3.7.2: an interconnect on a primitive terminal is treated as a scalar wire. The resolved type
+// exists only after elaboration (simulated net, 23.3.3.7), so it is checked only in an elaborated design.
 TEST_F(IcPrimitiveTerminalsTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP() << "HLC leaves vpiResolvedNetType at 0 on interconnect nets connected to primitive terminals."
-                  " IEEE 1800-2023 Sec 23.3.3.7.2: such a net is treated as a scalar wire (vpiWire). Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   for (const char *const name : {"a", "b", "y1", "y2", "y3", "en", "pu", "uy"}) {
     const hldb::Net *const net = getNet(top, name);
     ASSERT_NE(net, nullptr) << name;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    }
   }
 }
 

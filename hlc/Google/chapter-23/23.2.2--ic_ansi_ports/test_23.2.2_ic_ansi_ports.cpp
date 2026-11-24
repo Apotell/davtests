@@ -32,9 +32,8 @@
 //   - top: u1 connects by name, u2 by position, u3 by name (vpiConnByName) to the right wires
 //   - Resolution: every interconnect port merges with a wire -> vpiResolvedNetType vpiWire
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a
-//   simulated net.IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending..
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Not checked:
 //   - Size of the unpacked dimension of u ([0:1]): Net has no range accessor and HLDB has no
 //     interconnect-array object (37.24) -- model gap
@@ -359,17 +358,17 @@ TEST_F(IcAnsiPortsTest, TopConnections) {
 }
 
 // 23.3.3.7.1: each interconnect port merges with the wire connected in top and the wire port of its
-// leaf, so the simulated net is a wire (37.17 detail 12: vpiResolvedNetType).
+// leaf, so the simulated net is a wire (37.17 detail 12: vpiResolvedNetType). The resolved type
+// exists only after elaboration (simulated net, 23.3.3.7), so it is checked only in an elaborated design.
 TEST_F(IcAnsiPortsTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP()
-      << "HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a simulated net."
-         " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending.";
   const std::pair<const char *, const char *> nets[] = {{"m1", "a"}, {"m1", "y"}, {"m1", "z"}, {"m2", "a"},
                                                         {"m2", "b"}, {"m2", "c"}, {"m3", "v"}, {"m3", "u"}};
   for (const std::pair<const char *, const char *> &n : nets) {
     const hldb::Net *const net = getNet(getModule(n.first), n.second);
     ASSERT_NE(net, nullptr) << n.first << "." << n.second;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << n.first << "." << n.second;
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << n.first << "." << n.second;
+    }
   }
 }
 

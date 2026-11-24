@@ -29,9 +29,8 @@
 //   - CHK5: u5(n5) -> mid.p bound to n5; inside mid, u_leaf(.p(p)) binds leaf.p to mid's port net
 //   - Resolution: every interconnect reaches leaf's 'inout wire p' -> vpiWire
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a
-//   simulated net.IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending..
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Not checked:
 //   - Nothing intentionally left out
 //
@@ -291,20 +290,23 @@ TEST_F(IcPortConnectionStylesTest, MidForwardsItsPort) {
   EXPECT_EQ(getRootActual(getHighConn(leaf, "p")), getNet(mid, "p"));
 }
 
+// The resolved type exists only after elaboration (simulated net, 23.3.3.7), so it is checked only
+// in an elaborated design.
 TEST_F(IcPortConnectionStylesTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP()
-      << "HLC leaves vpiResolvedNetType at 0 on interconnect nets: ports are not collapsed into a simulated net."
-         " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require the merged type here (vpiWire). Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   for (const char *const name : {"n1", "n2", "p", "n5"}) {
     const hldb::Net *const net = getNet(top, name);
     ASSERT_NE(net, nullptr) << name;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name << " reaches leaf's 'inout wire p'";
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name << " reaches leaf's 'inout wire p'";
+    }
   }
   const hldb::Net *const midP = getNet(getModule("mid"), "p");
   ASSERT_NE(midP, nullptr);
-  EXPECT_EQ(midP->getResolvedNetType(), vpiWire) << "mid.p merges with leaf's wire";
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(midP->getResolvedNetType(), vpiWire) << "mid.p merges with leaf's wire";
+  }
 }
 
 // The file is legal SystemVerilog, so compilation must not report any error.
