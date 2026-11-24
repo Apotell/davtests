@@ -53,13 +53,15 @@
 // cases" (23.3.1). Module A is never instantiated, so it is a top-level
 // instance named A; top also holds a local instance named A (of A2). So on
 // line 39 A.B.C.x is the x in top.A.B.C, and on line 40 $root.A.B.C.x is
-// the x in the top-level A.B.C. Each instance has its own x, and vpiFullName
+// the x in the top-level A.B.C. Each instance has its own x, and getFullName()
 // gives an object's hierarchical name (37.10). The references are reached
 // through the continuous assignments of the top instance (37.5, relation
 // cont assign).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -80,13 +82,11 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
-#include <hldb/vpi_user.h>
+#include <hldb/variable.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -102,14 +102,6 @@ constexpr std::string_view kSourceFileName = "23.3.1--root-path.sv";
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
 }
 
 // True for an error-class event: fatal, syntax or error severity.
@@ -165,22 +157,10 @@ std::string namesOf(const std::vector<const T *> &objects) {
 
 class RootPathTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "root_path.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "root_path.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
@@ -200,9 +180,9 @@ class RootPathTest : public Test {
     return result;
   }
 
-  // The vpiFullName of the object that the right-hand side of the top
-  // instance's 'assign <lhsName> = ...' refers to, or a placeholder that
-  // says what is missing.
+  // The full name (Variable::getFullName()) of the variable that the
+  // right-hand side of the top instance's 'assign <lhsName> = ...' refers to,
+  // or a placeholder that says what is missing.
   static std::string rhsTargetFullName(std::string_view lhsName) {
     const hldb::Module *const top = findNamed(topInstances(), "top");
     if (top == nullptr) return "<no top-level instance top>";
@@ -211,7 +191,9 @@ class RootPathTest : public Test {
       const hldb::RefObj *const reference = assign->getRhs<hldb::RefObj>();
       if (reference == nullptr) return "<right-hand side is not a reference>";
       if (reference->getActual() == nullptr) return "<reference is not bound>";
-      return stringProperty(reference->getActual(), vpiFullName);
+      const hldb::Variable *const variable = any_cast<hldb::Variable>(reference->getActual());
+      if (variable == nullptr) return "<reference is not to a variable>";
+      return std::string(variable->getFullName());
     }
     return "<no continuous assignment to " + std::string(lhsName) + ">";
   }

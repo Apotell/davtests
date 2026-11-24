@@ -32,19 +32,21 @@
 // later." (23.3.2). So u1 on line 21 is an instance of the module later,
 // declared on line 24, and later is not a top-level module because it
 // appears in a module instantiation statement (23.3.1). A module holds its
-// child instances in the relation module (vpiModule, 37.5); an instance has
-// a vpiDefName (37.10) and the ports of its definition (37.5, relation
-// port).
+// child instances in the relation module (Module::getModules(), 37.5); an
+// instance has a definition name (getDefName(), 37.10) and the ports of its
+// definition (37.5, relation port).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
 //   DesignIsElaborated             the design is marked elaborated
 //   TopIsTheOnlyTopLevelInstance   the top-level instances are exactly top
-//   TopHoldsU1OfModuleLater        top holds u1, whose vpiDefName is later
+//   TopHoldsU1OfModuleLater        top holds u1, whose getDefName() is later
 //   U1HasPortI                     u1 has the port i of module later
 //
 // WHAT IS NOT CHECKED, AND WHY
@@ -57,8 +59,6 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/port.h>
@@ -128,22 +128,10 @@ std::string namesOf(const std::vector<const T *> &objects) {
 
 class ForwardReferenceTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "forward_reference.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "forward_reference.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

@@ -41,13 +41,15 @@
 // are instantiated, so the top-level modules are top_a and top_b.
 // "Explicit module instantiation creates a hierarchical instance of a
 // module." (23.3.2). In the object model a module holds its child instances
-// in the relation module (vpiModule, 37.5), top-level modules are reached
-// by vpi_iterate() with a NULL reference (37.5 detail 1), vpiTopModule is
-// TRUE only for them (37.5), and vpiFullName gives an instance's
+// in the relation module (Module::getModules(), 37.5), top-level modules
+// are reached by Design::getTopModules() (37.5 detail 1), getTopModule() is
+// TRUE only for them (37.5), and getFullName() gives an instance's
 // hierarchical name (37.10).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -56,9 +58,9 @@
 //   TopLevelInstancesAreTopAAndTopB the top-level instances are exactly
 //                                   top_a and top_b
 //   TopAHoldsInstanceM1OfMid        top_a holds m1, an instance of mid
-//   M1IsNotATopModule               m1's vpiTopModule is FALSE
+//   M1IsNotATopModule               m1's getTopModule() is FALSE
 //   M1HoldsInstanceL1OfLeaf         m1 holds l1, an instance of leaf
-//   L1FullNameIsTopAM1L1            l1's vpiFullName is top_a.m1.l1
+//   L1FullNameIsTopAM1L1            l1's getFullName() is top_a.m1.l1
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -69,8 +71,6 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 
@@ -142,22 +142,10 @@ std::string namesOf(const std::vector<const T *> &objects, bool sorted) {
 
 class TopLevelMultipleTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "top_level_multiple.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "top_level_multiple.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

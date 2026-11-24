@@ -42,11 +42,13 @@
 //   u_named        W = 1, D = 16
 //   u_named_empty  W = 1, D = 32 (.W() keeps the default)
 // An instance holds its parameters in the relation parameters
-// (vpiParameter, 37.10), and an expression's text is its vpiDecompile.
+// (getParameters(), 37.10), and a constant's text is
+// Constant::getDecompile().
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances, and so their parameter values, exist only after elaboration
-// (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -68,12 +70,11 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
+#include <hldb/any_type.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/parameter.h>
-#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -89,14 +90,6 @@ constexpr std::string_view kSourceFileName = "23.3.2--parameter-assignments.sv";
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
 }
 
 // True for an error-class event: fatal, syntax or error severity.
@@ -135,36 +128,26 @@ const T *findNamed(const std::vector<const T *> &objects, std::string_view name)
   return nullptr;
 }
 
-// The vpiDecompile of the value of parameter 'name' in 'instance', or a
-// placeholder that says what is missing.
+// The source text (Constant::getDecompile()) of the value of parameter 'name'
+// in 'instance', or a placeholder that says what is missing.
 std::string parameterValue(const hldb::Module *instance, std::string_view name) {
   const hldb::Any *const object = findNamed(toVector(instance->getParameters()), name);
   if (object == nullptr) return "<no parameter>";
   const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
   if (parameter == nullptr) return "<not a parameter>";
   if (parameter->getExpr() == nullptr) return "<no value>";
-  return stringProperty(parameter->getExpr(), vpiDecompile);
+  const hldb::Constant *const constant = any_cast<hldb::Constant>(parameter->getExpr());
+  if (constant == nullptr) return "<" + std::string(hldb::AnyTypeName(parameter->getExpr()->getAnyType())) + ">";
+  return std::string(constant->getDecompile());
 }
 }  // namespace
 
 class ParameterAssignmentsTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "parameter_assignments.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "parameter_assignments.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

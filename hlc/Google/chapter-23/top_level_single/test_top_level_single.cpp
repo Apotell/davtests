@@ -29,22 +29,25 @@
 // (23.3.1). "A design shall contain at least one top-level module. A
 // top-level module is implicitly instantiated once, and its instance name is
 // the same as the module name. Such an instance is called a top-level
-// instance." (23.3.1). The object model of an instance (37.10) has the
-// properties vpiName, vpiDefName and vpiTopModule; vpiTopModule is TRUE for a
-// top-level module instance. The elaborated instance holds its own copy of
+// instance." (23.3.1). The object model of an instance (37.10) has a name, a
+// definition name and a top-module flag, which HLDB gives as getName(),
+// getDefName() and getTopModule(); getTopModule() is TRUE for a top-level
+// module instance. The elaborated instance holds its own copy of
 // the module's nets (37.10, relation net).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors         no fatal, syntax or error event
 //   DesignIsElaborated            the design is marked elaborated
 //   OneTopLevelInstance           exactly one top-level instance
-//   TopInstanceIsNamedTop         its vpiName is top, the module name
-//   TopInstanceIsOfModuleTop      its vpiDefName is top
-//   TopInstanceIsATopModule       its vpiTopModule is TRUE
+//   TopInstanceIsNamedTop         its getName() is top, the module name
+//   TopInstanceIsOfModuleTop      its getDefName() is top
+//   TopInstanceIsATopModule       its getTopModule() is TRUE
 //   TopInstanceHasNetW            the instance holds net w
 //
 // WHAT IS NOT CHECKED, AND WHY
@@ -56,8 +59,6 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -98,22 +99,10 @@ std::string describeEvent(const Event &event) {
 
 class TopLevelSingleTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "top_level_single.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "top_level_single.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

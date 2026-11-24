@@ -32,8 +32,10 @@
 // list of port connections." 23.3.2.4 repeats it: "The .* token pair may
 // appear at most once in the port list." Line 24 uses .* twice.
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// some instantiation rules can only be checked during elaboration (23.3).
+// Some instantiation rules can only be checked during elaboration (23.3).
+// The HLC install of 2026-11-23 no longer gives tests an elaborator
+// (hldb::Elaborator was removed), so the test checks the events of
+// Compile() alone.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -52,9 +54,6 @@
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -95,22 +94,10 @@ std::string describeEvent(const Event &event) {
 
 class WildcardTwiceIllegalTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "wildcard_twice_illegal.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "wildcard_twice_illegal.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string eventsOnLines(uint32_t firstLine, uint32_t lastLine) {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

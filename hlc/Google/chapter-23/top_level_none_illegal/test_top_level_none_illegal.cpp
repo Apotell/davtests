@@ -34,8 +34,9 @@
 // (23.3.1). Module a is instantiated in b and b in a, so neither is a
 // top-level module and the design has none.
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// the top-level modules are found during elaboration (23.3).
+// The top-level modules are found during elaboration (23.3). The HLC install
+// of 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the events of Compile() alone.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -56,9 +57,6 @@
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
-
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 
 #include <algorithm>
 #include <iterator>
@@ -89,22 +87,10 @@ std::string describeEvent(const Event &event) {
 
 class TopLevelNoneIllegalTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "top_level_none_illegal.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "top_level_none_illegal.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

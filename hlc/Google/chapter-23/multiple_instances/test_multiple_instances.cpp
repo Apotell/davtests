@@ -38,11 +38,13 @@
 // hierarchical_instance } ;. The fixture is the LRM's ffnand example; as
 // printed in the LRM it ends ff2 with ';' instead of ',' and connects .q()
 // twice in ff2, which 23.3.2.2 forbids, so the fixture fixes both. A module
-// holds its child instances in the relation module (vpiModule, 37.5), and
-// each one has a vpiDefName (37.10).
+// holds its child instances in the relation module (Module::getModules(),
+// 37.5), and each one has a definition name (getDefName(), 37.10).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -51,7 +53,7 @@
 //   TopIsTheOnlyTopLevelInstance   the top-level instances are exactly top
 //   TopHoldsFf1Ff2Ff3              top's instances are ff1, ff2 and ff3, in
 //                                  source order
-//   AllThreeAreOfModuleFfnand      each of them has vpiDefName ffnand
+//   AllThreeAreOfModuleFfnand      each of them has getDefName() ffnand
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -62,8 +64,6 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 
@@ -132,22 +132,10 @@ std::string namesOf(const std::vector<const T *> &objects) {
 
 class MultipleInstancesTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "multiple_instances.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "multiple_instances.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;

@@ -33,22 +33,25 @@
 // described in 28.3.5" (23.3.2). Syntax 23-6: name_of_instance ::=
 // instance_identifier { unpacked_dimension }. So u [3:0] on line 24 is an
 // array of four instances of cell_m. In the object model a module holds its
-// module arrays in the relation module array (vpiModuleArray, 37.5); a
-// module array has vpiName, vpiSize and the relation instance to its
-// elements (37.11); each element has vpiDefName and vpiArrayMember TRUE
+// module arrays in the relation module array (Module::getModuleArrays(),
+// 37.5); a module array has a name, a size and the relation instance to its
+// elements (37.11); each element has getDefName() and getArrayMember() TRUE
 // (37.10).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
 //   DesignIsElaborated             the design is marked elaborated
 //   TopHoldsModuleArrayU           top holds a module array named u
-//   ArrayUHasSize4                 u's vpiSize is 4
+//   ArrayUHasSize4                 u's range [3:0] spans 4 elements (bounds
+//                                  read with ExprEval::getInt64())
 //   ArrayUHoldsFourCellMs          u holds 4 instances, each of module cell_m
-//   ElementsAreArrayMembers        each element's vpiArrayMember is TRUE
+//   ElementsAreArrayMembers        each element's getArrayMember() is TRUE
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -60,13 +63,12 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
+#include <hldb/ExprEval.h>
 #include <hldb/design.h>
 #include <hldb/instance.h>
 #include <hldb/module.h>
 #include <hldb/module_array.h>
-#include <hldb/vpi_user.h>
+#include <hldb/range.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -82,12 +84,6 @@ constexpr std::string_view kSourceFileName = "23.3.2--instance-array.sv";
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
 }
 
 // True for an error-class event: fatal, syntax or error severity.
@@ -129,22 +125,10 @@ const T *findNamed(const std::vector<const T *> &objects, std::string_view name)
 
 class InstanceArrayTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "instance_array.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "instance_array.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
@@ -187,7 +171,15 @@ TEST_F(InstanceArrayTest, TopHoldsModuleArrayU) {
 TEST_F(InstanceArrayTest, ArrayUHasSize4) {
   const hldb::ModuleArray *const array = findArrayU();
   ASSERT_NE(array, nullptr) << "no module array top.u";
-  EXPECT_EQ(integerProperty(array, vpiSize), 4);
+  ASSERT_NE(array->getRanges(), nullptr);
+  ASSERT_EQ(array->getRanges()->size(), 1u);
+  const hldb::Range *const range = array->getRanges()->front();
+  const hldb::ExprEval evaluator(nullptr, true);
+  int64_t left = 0;
+  int64_t right = 0;
+  ASSERT_TRUE(evaluator.getInt64(range->getLeftExpr(), &left));
+  ASSERT_TRUE(evaluator.getInt64(range->getRightExpr(), &right));
+  EXPECT_EQ(((left >= right) ? (left - right) : (right - left)) + 1, 4);
 }
 
 TEST_F(InstanceArrayTest, ArrayUHoldsFourCellMs) {

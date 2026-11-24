@@ -36,11 +36,13 @@
 // The condition of the if-generate on line 24 is 0, so block g is not
 // instantiated, but child still appears in the instantiation statement on
 // line 25. So top is the only top-level module, and there is no instance of
-// child at all. Top-level modules are reached by vpi_iterate() with a NULL
-// reference (37.5 detail 1).
+// child at all. Top-level modules are reached by Design::getTopModules()
+// (37.5 detail 1).
 //
-// The test elaborates the compiled design with hldb::Elaborator, because
-// instances exist only after elaboration (23.3).
+// Instances exist only after elaboration (23.3). The HLC install of
+// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
+// removed), so the test checks the design as Compile() leaves it; the
+// instance checks fail until HLC builds the instance tree itself.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -59,8 +61,6 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
-#include <hldb/Database.h>
-#include <hldb/Elaborator.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 
@@ -132,22 +132,10 @@ std::string namesOf(const std::vector<const T *> &objects) {
 
 class TopLevelUngeneratedInstanceTest : public Test {
  public:
-  static void SetUpTestSuite() {
-    Compile(__FILE__, {"-f", "top_level_ungenerated_instance.hlc"});
-    elaborate();
-  }
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "top_level_ungenerated_instance.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Instances exist only after elaboration (23.3), which Compile() does not
-  // run, so the test runs HLDB's elaborator on the compiled database.
-  static void elaborate() {
-    if (m_session == nullptr) return;
-    hldb::Database &database = m_session->getDatabase();
-    hldb::Elaborator elaborator(database);
-    elaborator.listen(database);
-  }
-
   static std::string allEvents() {
     hlc::EventListener *const listener = m_session->getEventListener();
     std::ostringstream oss;
