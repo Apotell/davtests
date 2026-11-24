@@ -59,13 +59,6 @@
 //   SignednessFollowsTheRules     getSigned() of each data type (of the
 //                                 element type for an unpacked array)
 //
-// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
-//
-//   PortKindsFollowTheRules: HLC makes y a net. y inherits the direction
-//   output from x and has an explicit data type, so it is a variable
-//   (23.2.2.3; the LRM annotates "output var integer y"); HLC decides the
-//   port kind before y inherits its direction.
-//
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Instances and connections. The rules of 23.2.2.3 fix kind, data type
@@ -196,9 +189,6 @@ TEST_F(PortRulesMh19Test, PortsInDeclarationOrder) {
 }
 
 TEST_F(PortRulesMh19Test, PortKindsFollowTheRules) {
-  GTEST_SKIP() << "HLC makes y a net: it decides the port kind before y inherits the direction output from x "
-                  "(IEEE 1800-2023 23.2.2.3: an output port with an explicit data type is a variable, "
-                  "'output var integer y')";
   for (const ExpectedPort &expected : kExpectedPorts) {
     const hldb::Any *const declared = findDeclared(expected.m_name);
     ASSERT_NE(declared, nullptr) << expected.m_name;
