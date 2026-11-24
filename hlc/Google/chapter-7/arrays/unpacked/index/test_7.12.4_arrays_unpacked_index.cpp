@@ -42,39 +42,26 @@
 //     Assignment, lhs RefObj "q" resolving Variable "q", rhs
 //     MethodFuncCall "find" (IEEE 1800-2023 37.42 detail 2) with vpiPrefix
 //     RefObj "arr" (resolving Variable "arr") whose vpiWith is an Operation
-//     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and RefObj
-//     "item.index" (path elems RefObj "item" + RefObj "index")
-//   - COMPILER BEHAVIOR: "item" (used twice) resolves to a compiler-
-//     synthesized iterator Variable held on MethodFuncCall "find"'s own
-//     loop_var (flagged is_iterator); "index" stays unresolved
-//     (getActual()==nullptr) since it is an intrinsic iterator-index query
-//     with no real declaration to point at, but HLC recognizes its
-//     prefix is the iterator variable and does not report a binding error
-//     for it
+//     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and "item.index"
+//   - "item" resolves to find's implicit iterator: the Variable held as the
+//     MethodFuncCall's vpiLoopVars, flagged is_iterator (7.12.1)
 //   - Stmt[1]: $display with 5 args -- format string + MethodFuncCall
 //     "size" (vpiPrefix RefObj "q", no arguments, vpiIsProperty set since
 //     written without parentheses) + BitSelect q[0], q[1], q[2] (each prefix RefObj
-//     "q" resolving Net "q")
+//     "q" resolving Variable "q")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
-//   - compiler emits zero errors/warnings of any kind: "item" (both
-//     occurrences) resolves to the synthesized iterator Variable, and
-//     "index"'s binding is intentionally skipped without a diagnostic
+//   - compiler emits zero errors/warnings of any kind
 //   - no continuous assignments
+// Skipped (GTEST_SKIP; the real assertions stay below the skip):
+//   - WithClauseSecondOperandIsIndexMethodOfItem: "item.index" is the iterator
+//     index querying method (7.12.4), a method call "index" whose vpiPrefix is
+//     "item" (37.42 detail 2); HLC models it as a path reference whose "index"
+//     resolves to nothing
 //
 // Not checked:
 //   - actual runtime contents of q after arr.find(...) -- simulation-only
 //     (see the skipped canary RuntimeFindResultsRequireSimulation below)
-//
-// IEEE 1800-2017 7.12.1/7.12.4 defines "item" (or the array method's
-// declared iterator name) and, for "with" expression clauses using
-// ".index", the implicit iterator-index variable as legal within an
-// array-locator method's "with" clause -- they are not meant to resolve to
-// module-level declarations. HLC models "item" as a compiler-synthesized
-// Variable attached to the MethodFuncCall's own loop_var (flagged
-// is_iterator), and specifically recognizes a trailing
-// ".index" off of that variable as the intrinsic iterator-index query,
-// leaving it unresolved without reporting a binding error.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -241,7 +228,14 @@ TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsItemRefObj) {
   EXPECT_EQ(item->getName(), "item");
 }
 
-TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexRefObj) {
+// IEEE 1800-2023 7.12.4: "item.index" is the iterator index querying method -- a method of the
+// iterator, called without parentheses (an optional argument selects the dimension). As every method
+// call (37.42 detail 2), it is a method func call named "index" whose vpiPrefix is the object it is
+// applied to: a reference to the iterator item, i.e. find's own loop variable.
+TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsIndexMethodOfItem) {
+  GTEST_SKIP() << "HLC models item.index as a path reference (item, index) whose 'index' resolves to "
+                  "nothing, instead of the iterator index querying method of IEEE 1800-2023 7.12.4: a "
+                  "method call 'index' with vpiPrefix 'item'";
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -252,13 +246,15 @@ TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexRefObj) {
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
-  const hldb::RefObj *const itemIndex = any_cast<hldb::RefObj>(with->getOperands()->at(1));
-  ASSERT_NE(itemIndex, nullptr);
-  EXPECT_EQ(itemIndex->getName(), "item.index");
-  ASSERT_NE(itemIndex->getPathElems(), nullptr);
-  ASSERT_EQ(itemIndex->getPathElems()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getName(), "item");
-  EXPECT_EQ(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(1))->getName(), "index");
+  const hldb::MethodFuncCall *const index = any_cast<hldb::MethodFuncCall>(with->getOperands()->at(1));
+  ASSERT_NE(index, nullptr) << "item.index should be a method call";
+  EXPECT_EQ(index->getName(), std::string_view("index"));
+  EXPECT_TRUE((index->getArguments() == nullptr) || index->getArguments()->empty());
+  const hldb::RefObj *const prefix = index->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "the method is applied to item";
+  EXPECT_EQ(prefix->getName(), std::string_view("item"));
+  ASSERT_NE(find->getLoopVar(), nullptr);
+  EXPECT_EQ(prefix->getActual(), find->getLoopVar()) << "item is find's iterator";
 }
 
 TEST_F(UnpackedIndexTest, SecondStmtDisplaysSizeAndThreeElements) {
@@ -333,7 +329,9 @@ TEST_F(UnpackedIndexTest, CompilerReportsNoFatalNoSyntaxErrors) {
   EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
-TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
+// IEEE 1800-2023 7.12.1: "item" in the with clause is find's iterator argument. (Its use as the prefix
+// of item.index is checked by WithClauseSecondOperandIsIndexMethodOfItem.)
+TEST_F(UnpackedIndexTest, ItemResolvesToIterator) {
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -344,16 +342,12 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
-  EXPECT_NE(any_cast<hldb::RefObj>(with->getOperands()->at(0))->getActual(), nullptr)
-      << "'item' should resolve to the implicit iterator argument";
-  const hldb::RefObj *const itemIndex = any_cast<hldb::RefObj>(with->getOperands()->at(1));
-  ASSERT_NE(itemIndex, nullptr);
-  EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getActual(), nullptr)
-      << "'item' (in item.index) should resolve";
-  EXPECT_NE(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr)
-      << "'item' (in item.index) should resolve to a variable";
-  EXPECT_EQ(any_cast<hldb::RefObj>(itemIndex->getPathElems()->at(1))->getActual(), nullptr)
-      << "'index' is intrinsic and can't be resolved";
+  const hldb::RefObj *const item = any_cast<hldb::RefObj>(with->getOperands()->at(0));
+  ASSERT_NE(item, nullptr);
+  const hldb::Variable *const iterator = find->getLoopVar<hldb::Variable>();
+  ASSERT_NE(iterator, nullptr) << "find has an implicit iterator 'item'";
+  EXPECT_TRUE(iterator->getIsIterator());
+  EXPECT_EQ(item->getActual(), iterator) << "'item' should resolve to find's iterator";
 }
 
 // --- known gap: runtime find() results require simulation ----

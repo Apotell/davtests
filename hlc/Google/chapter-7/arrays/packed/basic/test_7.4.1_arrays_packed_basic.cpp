@@ -142,8 +142,8 @@ TEST_F(PackedBasicTest, VariableRegNameIsReg) {
 }
 
 TEST_F(PackedBasicTest, VariableRegIsLogicTypespecNotADistinctRegType) {
-  // COMPILER BEHAVIOR: "reg" is not a distinct typespec kind; it maps to the
-  // same LogicTypespec as "logic".
+  // IEEE 1800-2023 6.11.2: "The keyword reg is a data type identical to the keyword logic", so a
+  // reg variable has the same LogicTypespec as a logic one; there is no separate reg type.
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const reg = hldb::findByName<hldb::Variable>("_reg", top->getVariables());

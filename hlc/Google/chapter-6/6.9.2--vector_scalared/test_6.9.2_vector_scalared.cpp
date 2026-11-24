@@ -33,11 +33,7 @@
 //   branch directly to "bool: vpiExplicitScalared", and vpi_user.h defines
 //   vpiExplicitScalared = 23 ("explicitly scalared (Boolean)"). Since this
 //   file's declaration explicitly uses the "scalared" keyword, that
-//   property should read true. A prior version of this test asserted
-//   getExplicitScalared() == false as neutral "COMPILER BEHAVIOR", which
-//   silently accepted the object model dropping information that was
-//   actually present in the source -- this version instead asserts it
-//   should be true (real bug, currently failing, since HLC drops it).
+//   property reads true.
 //
 // What is checked:
 //   - module top exists, has exactly 1 Net named "a", vpiNetType=vpiTri1
@@ -48,9 +44,8 @@
 //   - compiler reports zero errors (this file is fully legal, matching
 //     the spec's own worked example almost verbatim)
 //   - THE POINT OF THIS FILE: the "scalared" keyword is explicitly
-//     present in source, so vpiExplicitScalared should be true per the
-//     spec's own Annex A grammar-to-property mapping -- a real,
-//     non-skipped, currently-failing assertion (HLC currently drops it)
+//     present in source, so vpiExplicitScalared is true per the spec's own
+//     Annex A grammar-to-property mapping
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -237,16 +232,14 @@ TEST_F(VectorScalaredTest, CompilerReportsZeroErrors) {
 // ---------------------------------------------------------------------------
 // The actual point of this file: the "scalared" keyword is explicitly used
 // ---------------------------------------------------------------------------
-TEST_F(VectorScalaredTest, NetShouldBeExplicitlyScalaredButIsNot) {
+TEST_F(VectorScalaredTest, NetIsExplicitlyScalared) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(net, nullptr) << "net 'a' not found";
   EXPECT_TRUE(net->getExplicitScalared())
       << "IEEE 1800-2023 Annex A grammar diagram (p.1019) maps the 'scalared declaration' branch "
-         "directly to vpiExplicitScalared -- 'a' is declared with the literal 'scalared' keyword, "
-         "so this should be true. HLC currently drops the modifier and always returns false";
+         "directly to vpiExplicitScalared -- 'a' is declared with the literal 'scalared' keyword";
 }
 
 }  // namespace hlc

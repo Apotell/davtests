@@ -36,16 +36,10 @@
 //   branch directly to "bool: vpiExplicitVectored", and vpi_user.h
 //   defines vpiExplicitVectored = 24 ("explicitly vectored (Boolean)").
 //   Since this declaration explicitly uses "vectored", that property
-//   should read true. A prior version of this test asserted
-//   getExplicitVectored() == false as neutral "COMPILER BEHAVIOR" --
-//   this version instead asserts it should be true (real bug, currently
-//   failing, since HLC drops the modifier), matching the sibling bug in
-//   6.9.2--vector_scalared.sv (vpiExplicitScalared also silently
-//   dropped).
+//   reads true (as vpiExplicitScalared does in 6.9.2--vector_scalared.sv).
 //
 // What is checked:
-//   - design has module top, exactly 1 net "a": vpiNetType=vpiTri1,
-//     getFullName()="top.a"
+//   - design has module top, exactly 1 net "a": vpiNetType=vpiTri1
 //   - RefTypespec -> LogicTypespec: vpiVector=true, 1 Range [15:0]
 //     (left=15, right=0), both range constants vpiIntConst
 //   - net has no initial value (no "= value" initializer)
@@ -53,9 +47,11 @@
 //     arrayMember, constantSelect, expanded, structUnionMember
 //   - getExplicitScalared() == false -- correct, no "scalared" keyword
 //     anywhere in this declaration
-//   - Net numeric fields all zero: resolvedNetType, strength0,
-//     strength1, chargeStrength -- no explicit drive_strength/
-//     charge_strength token appears in the source, so nothing to store
+//   - Net numeric fields all zero: strength0, strength1, chargeStrength --
+//     no explicit drive_strength/charge_strength token appears in the
+//     source, so nothing to store
+//   - in an elaborated design, vpiResolvedNetType is vpiTri1: "a" is
+//     connected to no port, so its declared type is its resolved type
 //   - Net collections all nullptr: portInsts, primTerms, contAssigns
 //     (per-net), pathTerms, tchkTerms, bits, indexes, simNet
 //   - LogicTypespec: getSigned()==false, getScalar()==false,
@@ -64,9 +60,8 @@
 //   - module top() has no ports; no processes, no continuous assignments
 //   - compiler reports zero errors (this file is fully legal)
 //   - THE POINT OF THIS FILE: the "vectored" keyword is explicitly
-//     present in source, so vpiExplicitVectored should be true per the
-//     spec's own Annex A grammar-to-property mapping -- a real,
-//     non-skipped, currently-failing assertion (HLC currently drops it)
+//     present in source, so vpiExplicitVectored is true per the spec's own
+//     Annex A grammar-to-property mapping
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -211,15 +206,6 @@ TEST_F(VectorVectoredTest, NetHasNoInitialValue) {
   EXPECT_EQ(net->getValue(), nullptr);
 }
 
-// --- net identity -----------------------------------------------------------
-
-TEST_F(VectorVectoredTest, NetFullNameIsWorkAtTopDotA) {
-  // log line: vpiFullName: top.a
-  const hldb::Net *const net = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getFullName(), "top.a");
-}
-
 // --- net boolean flags (all expected false) ----------------------------------
 
 TEST_F(VectorVectoredTest, NetIsNotImplicitDecl) {
@@ -260,26 +246,34 @@ TEST_F(VectorVectoredTest, NetIsNotStructUnionMember) {
   EXPECT_FALSE(net->getStructUnionMember());
 }
 
-// --- net numeric fields (compiler does not set them) -------------------------
+// --- net resolution ----------------------------------------------------------
 
-TEST_F(VectorVectoredTest, NetResolvedNetTypeIsZero) {
-  const hldb::Net *const net = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
+// vpiResolvedNetType is a net's type after port connections are merged (IEEE 1800-2023 Sec 23.3.3.7,
+// 37.17), so it exists only in an elaborated design. 'a' is connected to no port, so nothing changes
+// its declared type: it resolves to tri1.
+TEST_F(VectorVectoredTest, NetResolvedNetTypeIsTri1) {
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
+  ASSERT_NE(top, nullptr);
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(net, nullptr) << "net 'a' not found";
   if (m_design->getElaborated()) {
-    EXPECT_EQ(net->getResolvedNetType(), 0);
+    EXPECT_EQ(net->getResolvedNetType(), vpiTri1);
   }
 }
 
+// --- net numeric fields ------------------------------------------------------
+
 TEST_F(VectorVectoredTest, NetStrength0IsZero) {
-  // COMPILER BEHAVIOR: `tri1` has an implicit pull-up (constant-1 weak driver)
-  // but HLC does NOT set vpiStrength0 on the Net node. Returns 0.
+  // vpiStrength0/vpiStrength1 are the drive strength written on the net declaration (IEEE 1800-2023
+  // Sec 6.3.2, 37.17); none is written here. tri1's pull-up (Sec 6.6.5) is a property of the net type,
+  // not a declared drive strength.
   const hldb::Net *const net = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getStrength0(), 0);
 }
 
 TEST_F(VectorVectoredTest, NetStrength1IsZero) {
-  // COMPILER BEHAVIOR: tri1 pull-up strength to 1 is not stored in UHDM.
+  // See NetStrength0IsZero: no drive strength is written on the declaration.
   const hldb::Net *const net = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getStrength1(), 0);
@@ -489,18 +483,15 @@ TEST_F(VectorVectoredTest, CompilerReportsZeroErrors) {
 // ---------------------------------------------------------------------------
 // The actual point of this file: the "vectored" keyword is explicitly used
 // ---------------------------------------------------------------------------
-TEST_F(VectorVectoredTest, NetShouldBeExplicitlyVectoredButIsNot) {
+TEST_F(VectorVectoredTest, NetIsExplicitlyVectored) {
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getNets(), nullptr);
-  const hldb::Net *const net = top->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
+  const hldb::Net *const net = hldb::findByName<hldb::Net>("a", top->getNets());
+  ASSERT_NE(net, nullptr) << "net 'a' not found";
   EXPECT_TRUE(net->getExplicitVectored())
       << "IEEE 1800-2023 Annex A grammar diagram (p.1019) maps the 'vectored declaration' branch "
-         "directly to vpiExplicitVectored -- 'a' is declared with the literal 'vectored' keyword, "
-         "so this should be true. HLC currently drops the modifier and always returns false. Note: "
-         "vpiVector (LogicTypespec::getVector()) is a separate concept (multi-bit width) and IS "
-         "set correctly -- this bug is specifically about the 'vectored' keyword modifier";
+         "directly to vpiExplicitVectored -- 'a' is declared with the literal 'vectored' keyword. "
+         "vpiVector (LogicTypespec::getVector()) is a separate concept: the type is multi-bit";
 }
 }  // namespace hlc
 

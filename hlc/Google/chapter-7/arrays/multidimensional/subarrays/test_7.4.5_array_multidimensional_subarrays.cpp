@@ -35,13 +35,12 @@
 //     elem is ANOTHER ArrayTypespec dim [3] -> elem is ANOTHER ArrayTypespec
 //     dim [4] -> elem is IntTypespec -- A and B each get their own distinct
 //     chain of 3 ArrayTypespec instances (6 total on the module)
-//   - COMPILER BEHAVIOR: for the implicit "size N" unpacked-dimension form
-//     (as opposed to an explicit "[hi:lo]" range), each ArrayTypespec's
-//     Range stores only a vpiLeftRange -- an Operation (vpiSubOp) with a
-//     single Constant operand equal to the declared size (e.g. "2" for
-//     dimension [2]), representing "size - 1" -- and vpiRightRange is not
-//     populated at all (the implicit lower bound 0 is never materialized as
-//     a node)
+//   - for the "size N" unpacked-dimension form (as opposed to an explicit
+//     "[lo:hi]" range), each ArrayTypespec's Range has no left expression
+//     and a right expression "N - 1" (an Operation, vpiSubOp). IEEE 1800-2023
+//     7.4.2 makes [N] mean [0:N-1]; the model keeps the [N] form as written
+//     (no left bound), so it stays distinguishable from an explicit
+//     [0:N-1], and a VPI reader derives the bounds 0 and N-1 from it
 //   - Initial process: 1 Begin with 6 stmts (4 Assignment to A[0][2][i] + 1
 //     Assignment "B[1][1] = A[0][2]" + 1 SysFuncCall)
 //   - Stmt[0]: A[0][2][0] = 5 -- lhs is a 3-level-deep nested BitSelect
@@ -193,8 +192,8 @@ TEST_F(MultiDimSubarraysTest, VariableAAndVariableBHaveDistinctTypespecChains) {
 }
 
 TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoLeftExpr) {
-  // COMPILER BEHAVIOR: for "int A[2][3][4]" the implicit lower bound 0 is
-  // never materialized as a node -- only vpiLeftRange (size-1) is populated.
+  // "int A[2][3][4]": a [N] dimension is kept as written -- no left expression, right "N - 1" -- so it
+  // stays distinguishable from an explicit [0:N-1] (IEEE 1800-2023 7.4.2: both mean [0:N-1]).
   const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("A", top->getVariables());
