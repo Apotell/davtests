@@ -16,7 +16,8 @@
 
 // Tests for the IEEE 1800-2023 Clause 10 (Assignment statements) error
 // scenarios catalogued in sv_error_catalog_Latest.xlsx (rows 290, 298, 302,
-// 303, 306, 309, 316, 317, 322, 323).
+// 303, 306, 309, 316, 317, 322, 323), plus one 10.11 scenario that is not a
+// catalog row (an alias of nets of two different nettypes).
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale.
@@ -72,9 +73,7 @@ TEST_F(Chapter10ErrorRulesTest, Row298_SelectIntoAtomicNetLhsIsRejected) {
   // nettype) shall not drive part of the net; the entire nettype value shall
   // be driven. r298_m's line 27, "assign n[0] = 1'b1;", indexes into the
   // nettype's data type on the LHS.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.2 Table 10-1 allows only a constant "
-                  "bit-select or part-select on the left-hand side of a continuous assignment";
-  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r298_m", 27, 10), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r298_m", 27), nullptr)
       << "a continuous assignment to an atomic (user-defined nettype) net shall not "
          "select part of it (IEEE 1800-2023 10.3.2)";
 }
@@ -221,6 +220,20 @@ TEST_F(Chapter10ErrorRulesTest, Row323_NestedUnpackedArrayConcatIsRejected) {
   EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "SQ", 111, 11), nullptr)
       << "an unpacked array concatenation shall not appear as an item of another "
          "one (IEEE 1800-2023 10.10.3)";
+}
+
+// --- net alias of two different nettypes (10.11) ---------------------------
+// Not a catalog row: scenario ral_m at the end of 10--error_rules.sv.
+
+TEST_F(Chapter10ErrorRulesTest, AliasOfDifferentNettypesIsRejected) {
+  // 10.11 | COMP
+  // The nets of an alias statement shall be of the same net type; nets of
+  // user-defined nettypes have to be of the same nettype. ral_a and ral_b
+  // (lines 120, 121) are nets of two nettypes with the same data type, so
+  // line 122's "alias ral_a = ral_b;" is illegal. Reported at ral_b, the net
+  // whose nettype differs from the first one's.
+  EXPECT_NE(findEvent(EventType::CompIllegalAlias, "ral_b", 122), nullptr)
+      << "nets of different user-defined nettypes cannot be aliased (IEEE 1800-2023 10.11)";
 }
 
 }  // namespace hlc

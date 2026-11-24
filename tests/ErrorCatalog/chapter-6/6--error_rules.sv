@@ -1,7 +1,7 @@
 /*
 :name: chapter6_error_rules
 :description: IEEE 1800-2023 Clause 6 error scenarios that parse cleanly
-:tags: 6.5 6.6.7 6.6.8 6.7.1 6.12 6.14 6.18 6.19 6.20.5 6.20.6 6.20.7 6.21 6.24.1 6.24.3
+:tags: 6.5 6.6.7 6.6.8 6.7 6.7.1 6.12 6.14 6.18 6.19 6.20.5 6.20.6 6.20.7 6.21 6.24.1 6.24.3
 */
 
 // Every scenario below is derived from one row of the SV error catalog
@@ -289,4 +289,24 @@ endmodule
 module r32_m;
   struct {bit [7:0] a; shortint b;} r32_s;
   int r32_b = int'(r32_s);                     // illegal - 24-bit unpacked source to 32-bit int
+endmodule
+
+// 6.6.7, Annex A.2.1.3/A.2.2.1 | COMP (not a catalog row)
+// A nettype name declares a net (a net declaration or a port); it is not a
+// data type, so a variable, a struct member, a typedef or a subroutine
+// argument shall not be declared with it.
+nettype real ntdt_net;
+module ntdt_m;
+  ntdt_net ntdt_ok;                                                  // legal - a net of the nettype
+  var ntdt_net ntdt_v;                                               // illegal - var makes it a variable
+  typedef ntdt_net ntdt_t;                                           // illegal - typedef of a nettype
+  typedef struct { ntdt_net ntdt_m; } ntdt_s;                        // illegal - struct member
+  function automatic void ntdt_f(input ntdt_net ntdt_a); endfunction // illegal - subroutine argument
+endmodule
+
+// 6.7, Annex A.2.1.3/A.2.2.1 | COMP (not a catalog row)
+// A net type keyword is followed by a data type; a net of a user-defined
+// nettype is declared with the nettype name alone.
+module ntkw_m(input wire ntdt_net ntkw_p); // illegal - net type keyword before a nettype
+  wire ntdt_net ntkw_w;                     // illegal - net type keyword before a nettype
 endmodule

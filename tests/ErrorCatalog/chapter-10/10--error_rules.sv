@@ -1,7 +1,7 @@
 /*
 :name: chapter10_error_rules
 :description: IEEE 1800-2023 Clause 10 (Assignment statements) error scenarios
-:tags: 10.2 10.3.2 10.6.1 10.6.2 10.9 10.10 10.10.1 10.10.3
+:tags: 10.2 10.3.2 10.6.1 10.6.2 10.9 10.10 10.10.1 10.10.3 10.11
 */
 
 // catalog row 290 | 10.2 | COMP
@@ -109,4 +109,15 @@ module r323_m;
   T_SQ SQ;
   string S1, S2;
   initial SQ = {S1, {S2, S1}};
+endmodule
+
+// 10.11 | COMP (not a catalog row)
+// The nets aliased together shall be of the same net type; nets of
+// user-defined nettypes shall be of the same nettype.
+nettype real ral_netA;
+nettype real ral_netB;
+module ral_m;
+  ral_netA ral_a;
+  ral_netB ral_b;
+  alias ral_a = ral_b; // illegal - nets of two different nettypes
 endmodule

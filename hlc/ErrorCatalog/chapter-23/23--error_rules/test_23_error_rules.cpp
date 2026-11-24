@@ -23,8 +23,8 @@
 // Row<N>_... after that row and carrying a "catalog row N | clause |
 // category" comment; that is the link between the catalog and this file.
 //
-// Fixture: 23--error_rules.sv (rows 862, 864, 881), compiled in one run by
-// 23--error_rules.hlc.
+// Fixture: 23--error_rules.sv (rows 862, 864, 881, and an initialized nettype
+// output port, not a catalog row), compiled in one run by 23--error_rules.hlc.
 //
 // CompMissingArgument (rows 862, 864) is reported by HLC on the RefInstance
 // of the instantiation. No test asserts the absence of a diagnostic,
@@ -74,6 +74,20 @@ TEST_F(Chapter23ErrorRulesTest, Row881_DefparamRhsParameterMustBeLocalToDefparam
   // in module r881_other, not in r881_top where the defparam statement lives.
   EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r881_top"), nullptr)
       << "a defparam RHS parameter must be declared in the defparam's own module (IEEE 1800-2023 23.10.1)";
+}
+
+// --- initializer on an output port of a user-defined nettype (23.2.2) -------
+// Not a catalog row: scenario pinit_m at the end of 23--error_rules.sv.
+
+TEST_F(Chapter23ErrorRulesTest, InitializerOnNettypeOutputPortIsRejected) {
+  // 23.2.2, Syntax 23-4 footnote 2 | COMP
+  // Only a variable output port may be initialized. "output pinit_net pinit_o"
+  // (line 48) declares a net of the nettype pinit_net, not a variable
+  // (23.2.2.3: a nettype is not a data type), so "= 1.0" is illegal. Reported
+  // at the initializer.
+  EXPECT_NE(findEvent(EventType::CompIllegalPortInitializer, "pinit_o", 48), nullptr)
+      << "an output port of a user-defined nettype is a net and cannot be initialized "
+         "(IEEE 1800-2023 23.2.2)";
 }
 
 }  // namespace hlc

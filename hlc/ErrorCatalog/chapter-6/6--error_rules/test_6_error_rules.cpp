@@ -22,7 +22,8 @@
 // emitted. It makes no assertion about the shape of the compiled model.
 //
 // Fixtures (all four compiled in one run by 6--error_rules.hlc):
-//   6--error_rules.sv       rows 8-12, 14-17, 19-24, 26-32
+//   6--error_rules.sv       rows 8-12, 14-17, 19-24, 26-32, and the nettype-as-data-type
+//                           and net-type-keyword-with-nettype scenarios (not catalog rows)
 //   6--error_rules_inv2.sv  row 13 -- bit-select of a vectored net
 //   6--error_rules_inv3.sv  row 18 -- hierarchical reference to a type
 //   6--error_rules_inv4.sv  row 25 -- statement precedes its declaration
@@ -387,6 +388,37 @@ TEST_F(Chapter6ErrorRulesTest, Row32_BitstreamCastSizeMismatchIsRejected) {
   EXPECT_NE(findEvent(EventType::CompBitstreamSizeMismatch, "r32_b"), nullptr)
       << "a fixed-size bit-stream cast cannot change size when either side is unpacked "
          "(IEEE 1800-2023 6.24.3)";
+}
+
+// --- nettype used where a data type is required (6.6.7, 6.7) --------------
+// Not catalog rows: scenarios ntdt_m and ntkw_m at the end of 6--error_rules.sv.
+
+TEST_F(Chapter6ErrorRulesTest, NettypeUsedAsDataTypeIsRejected) {
+  // 6.6.7, Annex A.2.1.3/A.2.2.1 | COMP
+  // A nettype name declares a net (net_declaration, net_port_type); it is not
+  // a data type. Each illegal use is reported at its type reference, with the
+  // nettype's own declaration as a related position. "ntdt_net ntdt_ok;"
+  // (line 300) is the legal form: a net of the nettype.
+  EXPECT_NE(findEvent(EventType::CompNettypeUsedAsDataType, "ntdt_net", 301), nullptr)
+      << "'var ntdt_net ntdt_v;' declares a variable, and a nettype is not a variable's data type "
+         "(IEEE 1800-2023 6.6.7)";
+  EXPECT_NE(findEvent(EventType::CompNettypeUsedAsDataType, "ntdt_net", 302), nullptr)
+      << "a typedef names a data type, not a nettype (IEEE 1800-2023 6.6.7)";
+  EXPECT_NE(findEvent(EventType::CompNettypeUsedAsDataType, "ntdt_net", 303), nullptr)
+      << "a struct member is declared with a data type, not a nettype (IEEE 1800-2023 6.6.7)";
+  EXPECT_NE(findEvent(EventType::CompNettypeUsedAsDataType, "ntdt_net", 304), nullptr)
+      << "a subroutine argument is declared with a data type, not a nettype (IEEE 1800-2023 6.6.7)";
+}
+
+TEST_F(Chapter6ErrorRulesTest, NetTypeKeywordWithNettypeIsRejected) {
+  // 6.7, Annex A.2.1.3/A.2.2.1 | COMP
+  // net_type is followed by a data type (net_declaration, net_port_type); a
+  // nettype is not one, and its nets are declared with the nettype name alone.
+  // Reported at the nettype name after the keyword.
+  EXPECT_NE(findEvent(EventType::CompNetTypeKeywordWithNettype, "ntdt_net", 310), nullptr)
+      << "'input wire ntdt_net ntkw_p' puts a net type keyword before a nettype (IEEE 1800-2023 6.7)";
+  EXPECT_NE(findEvent(EventType::CompNetTypeKeywordWithNettype, "ntdt_net", 311), nullptr)
+      << "'wire ntdt_net ntkw_w;' puts a net type keyword before a nettype (IEEE 1800-2023 6.7)";
 }
 
 // --- row 18: hierarchical reference to a type identifier (6.18) ------------
