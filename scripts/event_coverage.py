@@ -655,6 +655,14 @@ _re_string_literal = re.compile(r'^(?:std::string(?:_view)?\s*[({]\s*)?"((?:[^"\
 _re_int_literal = re.compile(r'^(\d+)[uU]?$')
 
 
+_c_escapes = {'n': '\n', 't': '\t', 'r': '\r', '0': '\0'}
+
+
+def _unescape_c_string(text: str) -> str:
+  """The value of a C++ string literal's body: "\\\\p" is the two characters \\p, "\\"" is a quote."""
+  return re.sub(r'\\(.)', lambda m: _c_escapes.get(m.group(1), m.group(1)), text, flags=re.S)
+
+
 def _parse_call_args(args, codes):
   """findEvent(type[, symbol][, line[, col]]) -> (code or None, code_arg, symbol, line, col)"""
   if not args:
@@ -667,7 +675,7 @@ def _parse_call_args(args, codes):
     sm = _re_string_literal.match(rest[0])
     im = _re_int_literal.match(rest[0])
     if sm:
-      symbol = sm.group(1)
+      symbol = _unescape_c_string(sm.group(1))
       rest = rest[1:]
     elif im:
       pass
