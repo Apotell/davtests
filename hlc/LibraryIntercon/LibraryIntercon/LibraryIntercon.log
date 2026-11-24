@@ -1052,6 +1052,8 @@ AST_DEBUG_END
 [NTE:EL6904] $Source01/driver.svr:1:1: Top level module "driver".
 [NTE:EL6904] $Source01/top.sv:1:1: Top level module "top".
 [WRN:DV8514] $Source01/top.sv:7:24: Failed to bind "rst".
+[ERR:CP5897] $Source01/cmp.svr:12:2: Illegal element type for packed array inA.
+[ERR:CP5897] $Source01/driver.svr:5:16: Illegal element type for packed array out.
 [ERR:CP6009] $Source01/top.sv:5:25: Interconnect "aBus" has 8 bits for an instance array of 4 instances.
 [ERR:CP6009] $Source01/top.sv:7:19: Interconnect "aBus" has 8 bits for an instance array of 4 instances.
 ====== HLDB =======
@@ -1123,6 +1125,11 @@ Design name:unnamed:
             vpiFullName: NetsPkg::realNet
             vpiActual: RealTypespec
           vpiIsNettype: true
+      vpiTypespec (1 items):
+        TypedefTypespec name:realNet start:3:1 end:3:22:
+          vpiParent: Package name:NetsPkg
+          vpiName Identifier name:realNet start:3:14 end:3:21:
+          vpiTypedef: Typedef name:realNet
       vpiDefName: NetsPkg
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/nets.pkg"
@@ -1539,6 +1546,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: cmp #(.hyst(0.65)).realNet
+            vpiActual: TypedefTypespec name:realNet
         LogicTypespec:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiScalar: true
@@ -1564,7 +1572,7 @@ Design name:unnamed:
           vpiName: inA
           vpiFullName: cmp #(.hyst(0.65)).inA
           vpiConstantSelect: true
-          vpiNetType: wire (1)
+          vpiNetType: <<invalid>> (14)
           vpiTypespec RefTypespec name:realNet [0:1] start:12:2 end:12:15:
             vpiParent: Net name:inA
             vpiName: realNet [0:1]
@@ -2100,18 +2108,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:driver #(.delay(30), .iterations(256)) start:1:8 end:1:14:
       vpiFullName: driver #(.delay(30), .iterations(256))
-      vpiVariable (2 items):
-        Variable name:out start:5:30 end:5:33:
-          vpiParent: Module name:driver #(.delay(30), .iterations(256))
-          vpiName: out
-          vpiFullName: driver #(.delay(30), .iterations(256)).out
-          vpiRandType: (1)
-          vpiVisibility: public (1)
-          vpiTypespec RefTypespec name:realNet [0:1] start:5:16 end:5:29:
-            vpiParent: Variable name:out
-            vpiName: realNet [0:1]
-            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet [0:1]
-            vpiActual: ArrayTypespec
+      vpiVariable (1 items):
         Variable name:outR start:7:6 end:7:10:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
           vpiName: outR
@@ -2204,6 +2201,7 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: driver #(.delay(30), .iterations(256)).realNet
+            vpiActual: TypedefTypespec name:realNet
         ArrayTypespec:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
           vpiArrayType: static (1)
@@ -2247,6 +2245,18 @@ Design name:unnamed:
         vpiFullName: driver #(.delay(30), .iterations(256)).realLib
         vpiActual: Library name:realLib
       vpiCell: driver
+      vpiNet (1 items):
+        Net name:out start:5:30 end:5:33:
+          vpiParent: Module name:driver #(.delay(30), .iterations(256))
+          vpiName: out
+          vpiFullName: driver #(.delay(30), .iterations(256)).out
+          vpiConstantSelect: true
+          vpiNetType: <<invalid>> (14)
+          vpiTypespec RefTypespec name:realNet [0:1] start:5:16 end:5:29:
+            vpiParent: Net name:out
+            vpiName: realNet [0:1]
+            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet [0:1]
+            vpiActual: ArrayTypespec
       vpiUnit: Unit
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
@@ -2258,7 +2268,7 @@ Design name:unnamed:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: driver #(.delay(30), .iterations(256)).out.out
-            vpiActual: Variable name:out
+            vpiActual: Net name:out
           vpiTypespec RefTypespec name:realNet [0:1] start:5:16 end:5:29:
             vpiParent: Port name:out
             vpiName: realNet [0:1]
@@ -2486,7 +2496,7 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName: out
             vpiFullName: driver #(.delay(30), .iterations(256)).out
-            vpiActual: Variable name:out
+            vpiActual: Net name:out
           vpiRhs RefObj name:outR start:8:14 end:8:18:
             vpiParent: ContAssign
             vpiName: outR
@@ -2874,7 +2884,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 4
 [WARNING] : 4
 [   NOTE] : 4
 ********************************************************************************
@@ -2934,7 +2944,7 @@ COMMAND: ${HLC_DIR}/regression/LibraryIntercon/LibraryIntercon/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            2261    2261       0         0
+Others                            2263    2263       0         0
 ----------------------------------------------------------------
-                                  2261    2261       0         0
+                                  2263    2263       0         0
 ===================== END REDUCTION RESULT =====================

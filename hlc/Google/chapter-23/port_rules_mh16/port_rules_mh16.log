@@ -52,11 +52,10 @@ n<$Source01/23.2.2.3--mh16-range-then-wire.sv> u<35> t<Top_level_rule> c<1> l<19
         n<> u<31> t<ENDMODULE> p<32> l<20:1> el<20:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/23.2.2.3--mh16-range-then-wire.sv:19:1: Compile module "mh16".
-[NTE:CP5810] $Source01/23.2.2.3--mh16-range-then-wire.sv:19:19: Implicit port type (wire) for "x".
+[WRN:CP5811] $Source01/23.2.2.3--mh16-range-then-wire.sv:19:19: Port "x" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/23.2.2.3--mh16-range-then-wire.sv:19:27: Port "y" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [NTE:EL6904] $Source01/23.2.2.3--mh16-range-then-wire.sv:19:1: Top level module "mh16".
-[ERR:DV8501] Invalid name: id:46, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -75,7 +74,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mh16 start:19:8 end:19:12:
       vpiFullName: mh16
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:mh16
+          vpiRange (1 items):
+            Range start:19:13 end:19:18:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:19:14 end:19:15:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "5"
+                vpiValue: 5
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mh16
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:19:16 end:19:17:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mh16
+                  vpiActual: IntTypespec
+          vpiVector: true
         LogicTypespec:
           vpiParent: Module name:mh16
           vpiScalar: true
@@ -94,6 +119,16 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: mh16
       vpiNet (2 items):
+        Net name:x start:19:19 end:19:20:
+          vpiParent: Module name:mh16
+          vpiName: x
+          vpiFullName: mh16.x
+          vpiConstantSelect: true
+          vpiNetType: wire (1)
+          vpiTypespec RefTypespec start:19:13 end:19:18:
+            vpiParent: Net name:x
+            vpiFullName: mh16.x
+            vpiActual: LogicTypespec
         Net name:y start:19:27 end:19:28:
           vpiParent: Module name:mh16
           vpiName: y
@@ -104,15 +139,6 @@ Design name:unnamed:
             vpiParent: Net name:y
             vpiFullName: mh16.y
             vpiActual: LogicTypespec
-        Net name:x start:19:13 end:19:20:
-          vpiParent: Module name:mh16
-          vpiName: x
-          vpiFullName: mh16.x
-          vpiConstantSelect: true
-          vpiNetType: net (36)
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:x
-            vpiFullName: mh16.x
       vpiUnit: Unit
       vpiPort (2 items):
         Port name:x start:19:19 end:19:20:
@@ -125,6 +151,10 @@ Design name:unnamed:
             vpiName: x
             vpiFullName: mh16.x.x
             vpiActual: Net name:x
+          vpiTypespec RefTypespec start:19:13 end:19:18:
+            vpiParent: Port name:x
+            vpiFullName: mh16.x
+            vpiActual: LogicTypespec
         Port name:y start:19:27 end:19:28:
           vpiParent: Module name:mh16
           vpiName: y
@@ -168,9 +198,9 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 1
-[   NOTE] : 2
+[  ERROR] : 0
+[WARNING] : 2
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -213,7 +243,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-23/port_rules_mh16/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1876    1876       0         0
+Others                            1883    1883       0         0
 ----------------------------------------------------------------
-                                  1876    1876       0         0
+                                  1883    1883       0         0
 ===================== END REDUCTION RESULT =====================

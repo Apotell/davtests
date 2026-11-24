@@ -54,7 +54,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/23.2.2.3--mh14-inherit-all.sv:19:1: Compile module "mh14".
 [WRN:CP5811] $Source01/23.2.2.3--mh14-inherit-all.sv:19:18: Port "x" definition missing its direction (input, output, inout).
 [NTE:CP5810] $Source01/23.2.2.3--mh14-inherit-all.sv:19:21: Implicit port type (wire) for "y".
-[ERR:DV8512] $Source01/23.2.2.3--mh14-inherit-all.sv:1:1: Found 1 orphan node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [NTE:EL6904] $Source01/23.2.2.3--mh14-inherit-all.sv:19:1: Top level module "mh14".
 ====== HLDB =======
@@ -104,6 +103,10 @@ Design name:unnamed:
                 vpiParent: Constant
                 vpiFullName: mh14
                 vpiActual: IntTypespec
+          vpiElemTypespec RefTypespec:
+            vpiParent: ArrayTypespec
+            vpiFullName: mh14
+            vpiActual: LogicTypespec
       vpiDefName: mh14
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/23.2.2.3--mh14-inherit-all.sv"
@@ -135,10 +138,11 @@ Design name:unnamed:
           vpiFullName: mh14.y
           vpiConstantSelect: true
           vpiNetType: wire (1)
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0]:
             vpiParent: Net name:y
-            vpiFullName: mh14.y
-            vpiActual: LogicTypespec
+            vpiName: logic [7:0]
+            vpiFullName: mh14.y.logic [7:0]
+            vpiActual: ArrayTypespec
       vpiUnit: Unit
       vpiPort (2 items):
         Port name:x start:19:18 end:19:19:
@@ -166,10 +170,11 @@ Design name:unnamed:
             vpiName: y
             vpiFullName: mh14.y.y
             vpiActual: Net name:y
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0]:
             vpiParent: Port name:y
-            vpiFullName: mh14.y
-            vpiActual: LogicTypespec
+            vpiName: logic [7:0]
+            vpiFullName: mh14.y.logic [7:0]
+            vpiActual: ArrayTypespec
   vpiTypespec (8 items):
     ModuleTypespec name:mh14:
       vpiParent: Design name:unnamed
@@ -198,7 +203,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 2
 ********************************************************************************
@@ -243,7 +248,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-23/port_rules_mh14/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1883    1883       0         0
+Others                            1884    1884       0         0
 ----------------------------------------------------------------
-                                  1883    1883       0         0
+                                  1884    1884       0         0
 ===================== END REDUCTION RESULT =====================

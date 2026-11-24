@@ -55,7 +55,7 @@ n<$Source01/23.2.2.3--mh15-integer-then-implicit.sv> u<37> t<Top_level_rule> c<1
 AST_DEBUG_END
 [INF:CP5804] $Source01/23.2.2.3--mh15-integer-then-implicit.sv:19:1: Compile module "mh15".
 [WRN:CP5811] $Source01/23.2.2.3--mh15-integer-then-implicit.sv:19:21: Port "x" definition missing its direction (input, output, inout).
-[NTE:CP5810] $Source01/23.2.2.3--mh15-integer-then-implicit.sv:19:37: Implicit port type (wire) for "y".
+[WRN:CP5811] $Source01/23.2.2.3--mh15-integer-then-implicit.sv:19:37: Port "y" definition missing its direction (input, output, inout).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [NTE:EL6904] $Source01/23.2.2.3--mh15-integer-then-implicit.sv:19:1: Top level module "mh15".
 ====== HLDB =======
@@ -76,10 +76,37 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mh15 start:19:8 end:19:12:
       vpiFullName: mh15
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         IntegerTypespec:
           vpiParent: Module name:mh15
           vpiSigned: true
+        LogicTypespec:
+          vpiParent: Module name:mh15
+          vpiRange (1 items):
+            Range start:19:31 end:19:36:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:19:32 end:19:33:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "5"
+                vpiValue: 5
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mh15
+                  vpiActual: IntTypespec
+              vpiRightRange Constant start:19:34 end:19:35:
+                vpiParent: Range
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "0"
+                vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mh15
+                  vpiActual: IntTypespec
+          vpiSigned: true
+          vpiVector: true
       vpiDefName: mh15
       vpiDefNetType: wire (1)
       vpiDefFile: "$Source01/23.2.2.3--mh15-integer-then-implicit.sv"
@@ -105,16 +132,16 @@ Design name:unnamed:
             vpiParent: Net name:x
             vpiFullName: mh15.x
             vpiActual: IntegerTypespec
-        Net name:y start:19:24 end:19:38:
+        Net name:y start:19:37 end:19:38:
           vpiParent: Module name:mh15
           vpiName: y
           vpiFullName: mh15.y
           vpiConstantSelect: true
           vpiNetType: wire (1)
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:19:24 end:19:36:
             vpiParent: Net name:y
             vpiFullName: mh15.y
-            vpiActual: IntegerTypespec
+            vpiActual: LogicTypespec
       vpiUnit: Unit
       vpiPort (2 items):
         Port name:x start:19:21 end:19:22:
@@ -142,10 +169,10 @@ Design name:unnamed:
             vpiName: y
             vpiFullName: mh15.y.y
             vpiActual: Net name:y
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:19:24 end:19:36:
             vpiParent: Port name:y
             vpiFullName: mh15.y
-            vpiActual: IntegerTypespec
+            vpiActual: LogicTypespec
   vpiTypespec (8 items):
     ModuleTypespec name:mh15:
       vpiParent: Design name:unnamed
@@ -175,8 +202,8 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
-[   NOTE] : 2
+[WARNING] : 2
+[   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
 ********************************************************************************
@@ -219,7 +246,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-23/port_rules_mh15/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1877    1877       0         0
+Others                            1883    1883       0         0
 ----------------------------------------------------------------
-                                  1877    1877       0         0
+                                  1883    1883       0         0
 ===================== END REDUCTION RESULT =====================
