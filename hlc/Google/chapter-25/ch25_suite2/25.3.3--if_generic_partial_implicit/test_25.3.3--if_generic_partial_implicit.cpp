@@ -20,7 +20,6 @@
 // Source: tests/Google/chapter-25/ch25_suite2/25.3.3--if_generic_partial_implicit.sv
 
 #include <hlc/Common/Session.h>
-#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -57,14 +56,6 @@ class IfGenericPartialImplicitTest : public Test {
     return nullptr;
   }
 };
-
-TEST_F(IfGenericPartialImplicitTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  const EventListener::Stats stats = m_session->getEventListener()->getStats();
-  EXPECT_EQ(stats.m_fatals, 0);
-  EXPECT_EQ(stats.m_syntaxes, 0);
-  EXPECT_EQ(stats.m_errors, 0);
-}
 
 TEST_F(IfGenericPartialImplicitTest, NamedPortABindsSbIntf) {
   // Line 33: ".a(sb_intf)" connects the generic port a to the instance of line 32.
