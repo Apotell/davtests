@@ -33,9 +33,6 @@
 //   - No errors: the whole file is legal
 // Checked only in an elaborated design (m_design->getElaborated()):
 //   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.2, 37.17 detail 12)
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - UdpTerminals: HLC leaves Udp::getUdpDefn() null for the UDP instance g_udp (not bound to its definition
-//   udp_and).IEEE 1800-2023 Sec 37.38 requires the vpiUdpDefn relation from a UDP instance. Fix pending..
 // Not checked:
 //   - Gate delays/strengths: none are written in the source
 //
@@ -276,10 +273,8 @@ TEST_F(IcPrimitiveTerminalsTest, PrimitiveTerminals) {
   }
 }
 
-// CHK5: udp_and g_udp(uy, a, b);
+// CHK5: udp_and g_udp(uy, a, b); -- IEEE 1800-2023 Sec 37.38: a UDP instance's vpiUdpDefn is its definition.
 TEST_F(IcPrimitiveTerminalsTest, UdpTerminals) {
-  GTEST_SKIP() << "HLC leaves Udp::getUdpDefn() null for the UDP instance g_udp (not bound to its definition udp_and)."
-                  " IEEE 1800-2023 Sec 37.38 requires the vpiUdpDefn relation from a UDP instance. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Udp *const udp = any_cast<hldb::Udp>(findPrimitive(top, "g_udp"));
