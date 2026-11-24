@@ -33,13 +33,16 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error diagnostic
-//   ModuleIsNamedM             vpiName m
+//   ModuleIsNamedM             getName() m
 //   NoParameters               the module has no parameter
-//   PortAIsAnInput             one port a, vpiInput
+//   PortAIsTheOnlyPort         one port, named a
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Instantiating m with #(). That is 23.10.2.
+//   - The direction input of a. HLDB gives it only as the integer code
+//     returned by Port::getDirection() and has no named values of its own for
+//     directions, so it can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -49,8 +52,6 @@
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/port.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -63,20 +64,6 @@ constexpr std::string_view kSourceFileName = "23.2.3--parameter-port-list-empty.
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
 }
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
@@ -149,7 +136,6 @@ TEST_F(ParameterPortListEmptyTest, ModuleIsNamedM) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(module->getName(), "m");
-  EXPECT_EQ(stringProperty(module, vpiName), "m");
 }
 
 TEST_F(ParameterPortListEmptyTest, NoParameters) {
@@ -159,14 +145,12 @@ TEST_F(ParameterPortListEmptyTest, NoParameters) {
   EXPECT_EQ(count, 0u);
 }
 
-TEST_F(ParameterPortListEmptyTest, PortAIsAnInput) {
+TEST_F(ParameterPortListEmptyTest, PortAIsTheOnlyPort) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   ASSERT_NE(module->getPorts(), nullptr);
   ASSERT_EQ(module->getPorts()->size(), 1u);
-  const hldb::Port *const port = findPort("a");
-  ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput));
+  EXPECT_NE(findPort("a"), nullptr);
 }
 }  // namespace hlc
 

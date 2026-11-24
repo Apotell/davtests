@@ -42,7 +42,7 @@
 //     module being defined." (23.2): generic_fifo.
 //   - MSB, LSB and DEPTH are parameters ("these parameters can be
 //     redefined"), not local parameters, with the values 3, 0 and 4; a
-//     parameter's value expression is its vpiExpr (37.28 detail 3).
+//     parameter's value expression is Parameter::getExpr() (37.28 detail 3).
 //   - in and out are declared [MSB:LSB]: their packed range is built from the
 //     parameters MSB and LSB.
 //   - clk, read, write, reset and in are inputs declared as wire nets; out,
@@ -51,10 +51,10 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors       no fatal, syntax or error diagnostic
-//   ModuleIsNamedGenericFifo    vpiName generic_fifo
+//   ModuleIsNamedGenericFifo    getName() generic_fifo
 //   ParametersMsbLsbDepth       three parameters, not local, values 3, 0, 4
 //   PortsInDeclarationOrder     clk, read, write, reset, in, out, full, empty
-//                               with their directions
+//                               with getPortIndex() 0 to 7
 //   PortKindsAreAsDeclared      nets for the inputs, variables for the outputs
 //   InAndOutAreSizedByMsbAndLsb the range of in and of out is [MSB:LSB]
 //
@@ -64,12 +64,19 @@
 //     instances.
 //   - The widths in bits. They depend on the parameter values an instance
 //     gives; this file has no instance.
+//   - The port directions (input, output). HLDB gives them only as the
+//     integer codes returned by Port::getDirection() and has no named values
+//     of its own for directions, so they can be checked once HLDB provides
+//     such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/any_type.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -80,10 +87,8 @@
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -99,44 +104,18 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The typespec of an object, seen through HLDB's reference typespec.
-const hldb::Any *typespecOf(const hldb::Any *object) {
-  const hldb::Any *const typespec = relatedObject(object, vpiTypespec);
-  if (typespec == nullptr) return nullptr;
-  if (const hldb::RefTypespec *const reference = any_cast<hldb::RefTypespec>(typespec)) {
-    return reference->getActual();
-  }
-  return typespec;
+// The source text of a parameter's value (Parameter::getExpr()) when it is a
+// constant, or a placeholder that says what it is instead.
+std::string valueText(const hldb::Parameter *parameter) {
+  const hldb::Expr *const value = parameter->getExpr();
+  if (value == nullptr) return "<no value>";
+  const hldb::Constant *const constant = any_cast<hldb::Constant>(value);
+  if (constant == nullptr) return "<" + std::string(hldb::AnyTypeName(value->getAnyType())) + ">";
+  return std::string(constant->getDecompile());
 }
 
 // The net or variable a port's low connection refers to, or nullptr.
-const hldb::Any *lowConnActual(const hldb::Port *port) {
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  if (connection == nullptr) return nullptr;
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(connection);
-  return (reference == nullptr) ? nullptr : reference->getActual();
-}
+const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
 
 // True when the expression is, or contains as an operand, a reference that
 // resolves to 'target'.
@@ -231,7 +210,6 @@ TEST_F(ParameterizedNonAnsiTest, ModuleIsNamedGenericFifo) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(module->getName(), "generic_fifo");
-  EXPECT_EQ(stringProperty(module, vpiName), "generic_fifo");
 }
 
 TEST_F(ParameterizedNonAnsiTest, ParametersMsbLsbDepth) {
@@ -240,22 +218,17 @@ TEST_F(ParameterizedNonAnsiTest, ParametersMsbLsbDepth) {
   for (const std::pair<std::string_view, std::string_view> &entry : expected) {
     const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(findParameter(entry.first));
     ASSERT_NE(parameter, nullptr) << entry.first;
-    EXPECT_EQ(integerProperty(parameter, vpiLocalParam), 0) << entry.first;
-    const hldb::Any *const value = relatedObject(parameter, vpiExpr);
-    ASSERT_NE(value, nullptr) << entry.first;
-    EXPECT_EQ(stringProperty(value, vpiDecompile), entry.second) << entry.first;
+    EXPECT_FALSE(parameter->getLocalParam()) << entry.first;
+    EXPECT_EQ(valueText(parameter), entry.second) << entry.first;
   }
 }
 
 TEST_F(ParameterizedNonAnsiTest, PortsInDeclarationOrder) {
-  const std::vector<std::pair<std::string_view, int64_t>> expected = {
-      {"clk", vpiInput}, {"read", vpiInput}, {"write", vpiInput}, {"reset", vpiInput},
-      {"in", vpiInput},  {"out", vpiOutput}, {"full", vpiOutput}, {"empty", vpiOutput}};
+  const std::vector<std::string_view> expected = {"clk", "read", "write", "reset", "in", "out", "full", "empty"};
   for (size_t index = 0; index < expected.size(); ++index) {
-    const hldb::Port *const port = findPort(expected[index].first);
-    ASSERT_NE(port, nullptr) << expected[index].first;
-    EXPECT_EQ(integerProperty(port, vpiPortIndex), static_cast<int64_t>(index)) << expected[index].first;
-    EXPECT_EQ(integerProperty(port, vpiDirection), expected[index].second) << expected[index].first;
+    const hldb::Port *const port = findPort(expected[index]);
+    ASSERT_NE(port, nullptr) << expected[index];
+    EXPECT_EQ(port->getPortIndex(), static_cast<int32_t>(index)) << expected[index];
   }
 }
 
@@ -282,7 +255,7 @@ TEST_F(ParameterizedNonAnsiTest, InAndOutAreSizedByMsbAndLsb) {
     ASSERT_NE(port, nullptr) << name;
     const hldb::Any *const declared = lowConnActual(port);
     ASSERT_NE(declared, nullptr) << name;
-    const hldb::Range *const range = firstRange(typespecOf(declared));
+    const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
     ASSERT_NE(range, nullptr) << name;
     EXPECT_TRUE(refersTo(range->getLeftExpr(), msb)) << name;
     EXPECT_TRUE(refersTo(range->getRightExpr(), lsb)) << name;

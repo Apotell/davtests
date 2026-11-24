@@ -30,9 +30,9 @@
 //   - The module is named generic_decoder (23.2).
 //   - num_code_bits is a parameter (parameter_port_list ::= #
 //     ( list_of_param_assignments ...), Syntax 23-1) with the value 3;
-//     num_out_bits is declared with localparam, so vpiLocalParam is TRUE
-//     (vpi_user.h: "TRUE when a param is declared as a localparam"), and its
-//     value expression is 1 << num_code_bits (vpiExpr, 37.28 detail 3).
+//     num_out_bits is declared with localparam, so it is a local parameter
+//     (Parameter::getLocalParam()), and its value expression is
+//     1 << num_code_bits (Parameter::getExpr(), 37.28 detail 3).
 //   - A is an input net sized [num_code_bits-1:0]; Y is an "output reg", an
 //     output with an explicit data type, hence a variable (23.2.2.3), sized
 //     [num_out_bits-1:0]. Both ranges are built from the parameters.
@@ -40,25 +40,33 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error diagnostic
-//   ModuleIsNamedGenericDecoder    vpiName generic_decoder
+//   ModuleIsNamedGenericDecoder    getName() generic_decoder
 //   NumCodeBitsIsAParameter        not local, value 3
-//   NumOutBitsIsALocalParameter    vpiLocalParam TRUE, value is a left shift
-//                                  (vpiLShiftOp) of num_code_bits
-//   ADependsOnNumCodeBits          A is an input net whose range's left bound
-//                                  refers to num_code_bits
-//   YDependsOnNumOutBits           Y is an output variable whose range's left
-//                                  bound refers to num_out_bits
+//   NumOutBitsIsALocalParameter    getLocalParam() TRUE, value is a left shift
+//                                  (hldb::getOperationName() LShiftOp) of
+//                                  num_code_bits
+//   ADependsOnNumCodeBits          A is a net whose range's left bound refers
+//                                  to num_code_bits
+//   YDependsOnNumOutBits           Y is a variable whose range's left bound
+//                                  refers to num_out_bits
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - The evaluated values (num_out_bits = 8, widths 3 and 8). Evaluating
 //     constant expressions belongs to elaboration (Clause 11 and 23.10).
+//   - The directions input of A and output of Y. HLDB gives them only as the
+//     integer codes returned by Port::getDirection() and has no named values
+//     of its own for directions, so they can be checked once HLDB provides
+//     such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/any_type.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -69,10 +77,8 @@
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -87,44 +93,18 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
-}
-
-// The typespec of an object, seen through HLDB's reference typespec.
-const hldb::Any *typespecOf(const hldb::Any *object) {
-  const hldb::Any *const typespec = relatedObject(object, vpiTypespec);
-  if (typespec == nullptr) return nullptr;
-  if (const hldb::RefTypespec *const reference = any_cast<hldb::RefTypespec>(typespec)) {
-    return reference->getActual();
-  }
-  return typespec;
+// The source text of a parameter's value (Parameter::getExpr()) when it is a
+// constant, or a placeholder that says what it is instead.
+std::string valueText(const hldb::Parameter *parameter) {
+  const hldb::Expr *const value = parameter->getExpr();
+  if (value == nullptr) return "<no value>";
+  const hldb::Constant *const constant = any_cast<hldb::Constant>(value);
+  if (constant == nullptr) return "<" + std::string(hldb::AnyTypeName(value->getAnyType())) + ">";
+  return std::string(constant->getDecompile());
 }
 
 // The net or variable a port's low connection refers to, or nullptr.
-const hldb::Any *lowConnActual(const hldb::Port *port) {
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  if (connection == nullptr) return nullptr;
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(connection);
-  return (reference == nullptr) ? nullptr : reference->getActual();
-}
+const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
 
 // True when the expression is, or contains as an operand, a reference that
 // resolves to 'target'.
@@ -219,36 +199,32 @@ TEST_F(ParameterizedLocalparamTest, ModuleIsNamedGenericDecoder) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(module->getName(), "generic_decoder");
-  EXPECT_EQ(stringProperty(module, vpiName), "generic_decoder");
 }
 
 TEST_F(ParameterizedLocalparamTest, NumCodeBitsIsAParameter) {
   const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(findParameter("num_code_bits"));
   ASSERT_NE(parameter, nullptr);
-  EXPECT_EQ(integerProperty(parameter, vpiLocalParam), 0);
-  const hldb::Any *const value = relatedObject(parameter, vpiExpr);
-  ASSERT_NE(value, nullptr);
-  EXPECT_EQ(stringProperty(value, vpiDecompile), "3");
+  EXPECT_FALSE(parameter->getLocalParam());
+  EXPECT_EQ(valueText(parameter), "3");
 }
 
 TEST_F(ParameterizedLocalparamTest, NumOutBitsIsALocalParameter) {
   const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(findParameter("num_out_bits"));
   ASSERT_NE(parameter, nullptr);
-  EXPECT_EQ(integerProperty(parameter, vpiLocalParam), 1);
-  const hldb::Operation *const value = any_cast<hldb::Operation>(relatedObject(parameter, vpiExpr));
+  EXPECT_TRUE(parameter->getLocalParam());
+  const hldb::Operation *const value = any_cast<hldb::Operation>(parameter->getExpr());
   ASSERT_NE(value, nullptr);
-  EXPECT_EQ(integerProperty(value, vpiOpType), static_cast<int64_t>(vpiLShiftOp));
+  EXPECT_EQ(hldb::getOperationName(value->getOpType()), "LShiftOp");
   EXPECT_TRUE(refersTo(value, findParameter("num_code_bits")));
 }
 
 TEST_F(ParameterizedLocalparamTest, ADependsOnNumCodeBits) {
   const hldb::Port *const port = findPort("A");
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput));
   const hldb::Any *const declared = lowConnActual(port);
   ASSERT_NE(declared, nullptr);
   EXPECT_NE(any_cast<hldb::Net>(declared), nullptr);
-  const hldb::Range *const range = firstRange(typespecOf(declared));
+  const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("num_code_bits")));
 }
@@ -256,11 +232,10 @@ TEST_F(ParameterizedLocalparamTest, ADependsOnNumCodeBits) {
 TEST_F(ParameterizedLocalparamTest, YDependsOnNumOutBits) {
   const hldb::Port *const port = findPort("Y");
   ASSERT_NE(port, nullptr);
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiOutput));
   const hldb::Any *const declared = lowConnActual(port);
   ASSERT_NE(declared, nullptr);
   EXPECT_NE(any_cast<hldb::Variable>(declared), nullptr);
-  const hldb::Range *const range = firstRange(typespecOf(declared));
+  const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("num_out_bits")));
 }
