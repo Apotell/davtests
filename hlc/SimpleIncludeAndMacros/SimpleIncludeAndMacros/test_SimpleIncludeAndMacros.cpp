@@ -87,6 +87,11 @@ TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
   // IEEE 1800-2023 22.5.1 (p.708): "For a macro with arguments, the parentheses are always required in
   // the macro call, even if all the arguments have defaults." top_3.v:41 is a bare `MACRO1.
   EXPECT_NE(findEvent(EventType::PpMacroParenthesisNeeded, "MACRO1", 41, 1), nullptr) << "`MACRO1 needs parentheses";
+  // IEEE 1800-2023 22.5.1 (p.709): "The following is illegal syntax because it is split across a string:
+  // `define first_half "start of string / $display(`first_half end of string");" -- top_2.v:43-45. The lone
+  // quote before ");" on line 45 opens a string that the line never closes (5.9: "A quoted string shall be
+  // contained in a single line").
+  EXPECT_NE(findEvent(EventType::PpUnterminatedString, 45, 36), nullptr) << "top_2.v:45 split string";
   // IEEE 1800-2023 22.1/22.5.1: a grave accent starts either a compiler directive or the usage of
   // a defined text macro. top_3.v:16 `defaut_nettype (misspelled `default_nettype) is neither.
   EXPECT_NE(findEvent(EventType::PpUnkownMacro, "defaut_nettype", 16, 0), nullptr)
