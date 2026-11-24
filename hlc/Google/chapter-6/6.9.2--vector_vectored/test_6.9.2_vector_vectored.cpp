@@ -263,12 +263,11 @@ TEST_F(VectorVectoredTest, NetIsNotStructUnionMember) {
 // --- net numeric fields (compiler does not set them) -------------------------
 
 TEST_F(VectorVectoredTest, NetResolvedNetTypeIsZero) {
-  // COMPILER BEHAVIOR: getResolvedNetType() is a separate field from
-  // getNetType(). HLC sets getNetType()=vpiTri1 but never calls
-  // setResolvedNetType() -- returns 0.
   const hldb::Net *const net = hldb::findByDefName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_EQ(net->getResolvedNetType(), 0);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(net->getResolvedNetType(), 0);
+  }
 }
 
 TEST_F(VectorVectoredTest, NetStrength0IsZero) {

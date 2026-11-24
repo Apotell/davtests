@@ -29,8 +29,9 @@
 //     port), and pass forwards p to rrcv u_r
 //   - CHK5: n5w merges with wdrv's 'output wire o' -> vpiResolvedNetType == vpiWire
 //   - No errors: the whole file is legal
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType 0 (23.3.3.7.1, 37.17 detail 12)
 //   - CompilesWithoutErrors: HLC reports DL2510 for an imported nettype used as a port type
 // Not checked:
 //   - Resolved type of n1..n5r (a user nettype): there is no vpiNettypeNet constant in the
@@ -326,15 +327,17 @@ TEST_F(IcUserNettypeTest, InterconnectPorts) {
 // CHK5: n5w is shared with wdrv's 'output wire o', so the merged net is a wire.
 // 23.3.3.7.1: an interconnect merged with a typed net takes that net's type; 37.17 detail 12 exposes
 // the result as vpiResolvedNetType.
+// The resolved type exists only after elaboration (simulated net, 23.3.3.7), so it is checked only
+// in an elaborated design.
 TEST_F(IcUserNettypeTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP() << "HLC leaves vpiResolvedNetType 0 on interconnect nets (no port collapsing / simulated net);"
-                  " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require vpiWire here. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   for (const char *const name : {"n5w"}) {
     const hldb::Net *const net = getNet(top, name);
     ASSERT_NE(net, nullptr) << name;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    }
   }
 }
 

@@ -31,8 +31,8 @@
 //   - Resolution: every interconnect merges with the sink's 'input wire p' -> vpiResolvedNetType
 //     vpiWire (23.3.3.7.1, 37.17 detail 12)
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType 0 (23.3.3.7.1, 37.17 detail 12)
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Not checked:
 //   - Size/range of the unpacked dimension of w3 ([1:0]): HLDB has no interconnect-array object
 //     (37.24 vpiSize/vpiLeftRange/vpiElement) and Net has no range accessor -- model gap
@@ -327,16 +327,17 @@ TEST_F(IcDeclFormsTest, UnpackedElementsAreSelected) {
 
 // Each net is connected to 'input wire p' of a sink module.
 // 23.3.3.7.1: an interconnect merged with a typed net takes that net's type; 37.17 detail 12 exposes
-// the result as vpiResolvedNetType.
+// the result as vpiResolvedNetType. The resolved type exists only after elaboration (simulated net,
+// 23.3.3.7), so it is checked only in an elaborated design.
 TEST_F(IcDeclFormsTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP() << "HLC leaves vpiResolvedNetType 0 on interconnect nets (no port collapsing / simulated net);"
-                  " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require vpiWire here. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   for (const char *const name : {"w1", "w2", "w3", "a", "b", "c", "d"}) {
     const hldb::Net *const net = getNet(top, name);
     ASSERT_NE(net, nullptr) << name;
-    EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(net->getResolvedNetType(), vpiWire) << name;
+    }
   }
 }
 

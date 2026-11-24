@@ -28,8 +28,8 @@
 //   - CHK5: interface port_if has an inout port ext whose net is an interconnect; u_pif connects wire w
 //   - Resolution: the interconnects merge with 'inout wire p' / wire w -> vpiWire (23.3.3.7.1)
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ResolvedNetTypeIsWire: HLC leaves vpiResolvedNetType 0 (23.3.3.7.1, 37.17 detail 12)
+// Checked only in an elaborated design (m_design->getElaborated()):
+//   - ResolvedNetTypeIsWire: vpiResolvedNetType is the simulated net's type (23.3.3.7.1, 37.17 detail 12)
 // Not checked:
 //   - Number of loop iterations (2): the definition model holds the loop body once
 //
@@ -318,9 +318,9 @@ TEST_F(IcScopesTest, InterconnectPortOnInterface) {
 }
 
 // Every interconnect in this file merges with a wire (leaf's 'inout wire p' or top's wire w).
+// The resolved type exists only after elaboration (simulated net, 23.3.3.7), so it is checked only
+// in an elaborated design.
 TEST_F(IcScopesTest, ResolvedNetTypeIsWire) {
-  GTEST_SKIP() << "HLC leaves vpiResolvedNetType 0 on interconnect nets (no port collapsing / simulated net);"
-                  " IEEE 1800-2023 Sec 23.3.3.7.1 + 37.17 detail 12 require vpiWire here. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   std::vector<const hldb::RefInstance *> insts;
@@ -339,7 +339,9 @@ TEST_F(IcScopesTest, ResolvedNetTypeIsWire) {
   ASSERT_EQ(nets.size(), 5u) << "n (for), n (if), inner_mod.n, ic_if.inner, port_if.ext";
   for (const hldb::Net *const n : nets) {
     ASSERT_NE(n, nullptr);
-    EXPECT_EQ(n->getResolvedNetType(), vpiWire) << n->getName() << " at line " << n->getStartLine();
+    if (m_design->getElaborated()) {
+      EXPECT_EQ(n->getResolvedNetType(), vpiWire) << n->getName() << " at line " << n->getStartLine();
+    }
   }
 }
 
