@@ -9,7 +9,8 @@ Joins three sources:
   2. The diagnostics each test reports (golden <name>.log, or a fresh regression output).
   3. The diagnostics each test_*.cpp asserts via Test::findEvent().
 
-and writes report.xlsx (detail) and summary.md (CI job summary).
+and writes report.xlsx (detail), summary.md (CI job summary) and event_coverage.json (the summary's
+event-code figures and per-cpp worklist as data, for the dashboards).
 
 Classification of a reported diagnostic (test x code x location):
   Checked        - a non-skipped expect-present assertion matches it
@@ -1428,6 +1429,51 @@ def _build_unchecked_worklist(tests, reports_by_test):
   return out
 
 
+def _build_event_coverage_json(codes, tests, stats, reports_by_test):
+  """The figures of summary.md's 'Event codes' table, every code's bucket, and the 'Not checked, per
+  cpp' worklist, as data for the dashboards (davdash), which track them across builds."""
+  buckets = _Counter(s['bucket'] for s in stats.values() if s['code'] is not None)
+  defined = [s for s in stats.values() if s['code'] is not None]
+  by_code = []
+  for name, s in sorted(stats.items()):
+    code = s['code']
+    if code is None:
+      continue
+    by_code.append({
+      'name': name, 'number': code.number, 'category': code.category, 'severity': code.severity,
+      'bucket': s['bucket'],
+      'localReports': s['local'], 'localTests': len(s['local_tests']),
+      'externalReports': s['external'], 'externalTests': len(s['external_tests']),
+      'presentChecks': s['present'], 'presentMatched': s['present_matched'],
+      'presentSkipped': s['present_skipped'], 'absentChecks': s['absent'],
+    })
+  not_checked = []
+  for test_id in sorted(tests, key=str.lower):
+    test = tests[test_id]
+    if not test.cpp_filepaths:
+      continue
+    for r in reports_by_test.get(test_id, []):
+      if r.scope == 'local' and r.severity in _main_severities and r.status == 'Not checked':
+        not_checked.append({
+          'cpp': _cpp_names(test), 'test': test_id, 'severity': r.severity, 'code': r.code,
+          'id': f'{r.prefix}{r.number}', 'location': _location(r), 'symbol': r.symbol or '',
+        })
+  return {
+    'version': 1,
+    'codes': {
+      'defined': len(codes),
+      'logged': buckets['Checked'] + buckets['Not checked'],
+      'inCpp': sum(1 for s in defined if s['present'] or s['present_skipped'] or s['absent']),
+      'checked': buckets['Checked'],
+      'notChecked': buckets['Not checked'],
+      'pending': buckets['Pending'],
+      'dead': buckets['Dead'],
+    },
+    'byCode': by_code,
+    'notChecked': not_checked,
+  }
+
+
 def _shown_severities(codes, ignored=()):
   """The counted severities that still have a code left once 'ignored' is taken out; a severity whose
   codes are all ignored (SNT) is not shown."""
@@ -1800,6 +1846,8 @@ def _main():
                                             assertions_by_test, unparsed, missing_logs, build_info,
                                             coverage_by_test, ignored_listed, blacklist_rows)
   (output_dirpath / 'summary.md').write_text(summary_md + '\n', encoding='utf-8')
+  event_coverage_json = _build_event_coverage_json(codes, tests, stats, reports_by_test)
+  (output_dirpath / 'event_coverage.json').write_text(json.dumps(event_coverage_json, indent=1) + '\n', encoding='utf-8')
   _write_xlsx(output_dirpath / 'report.xlsx', codes, tests, stats, reports_by_test, assertions_by_test,
               unparsed, missing_logs, summary_rows, blacklist_rows)
 

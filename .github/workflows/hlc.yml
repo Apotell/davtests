@@ -384,7 +384,7 @@ jobs:
           --jobs $(nproc)
 
     # Joins the diagnostics in this run's regression logs with the findEvent() checks in
-    # hlc/**/test_*.cpp; writes report.xlsx and appends summary.md to the job summary.
+    # hlc/**/test_*.cpp; writes report.xlsx and event_coverage.json, and appends summary.md to the job summary.
     - name: Events coverage
       if: ${{ !cancelled() }}
       timeout-minutes: 15
@@ -414,6 +414,7 @@ jobs:
           regression.csv
           report.xlsx
           summary.md
+          event_coverage.json
 
     # Upload to the bucket only when every step above succeeded, so a partial summary is never
     # pushed. The zip holds the same files as the Summary artifact, laid out the same way.
@@ -437,7 +438,8 @@ jobs:
           reducer.csv                             \
           regression.csv                          \
           report.xlsx                             \
-          summary.md
+          summary.md                              \
+          event_coverage.json
         metadata="branch=${{ github.ref_name }}"
         metadata+=",platform=${{ matrix.config.tag }}"
         metadata+=",config=${{ matrix.config.build-type }}"
