@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Test for tests/Google/chapter-23/chapter-23_testsuit-1/23.2.2.3--mh22-explicit-port-inheritance.sv
+// Test for tests/Google/chapter-23/23.2.2.3--mh22-explicit-port-inheritance.sv
 //
 // THE SOURCE
 //
@@ -53,17 +53,18 @@
 //                               the variable s_b, the port's typespec is 6
 //                               bits wide, and no net or variable is named p_b
 //   PortCIsALogicNet            net, logic typespec, getBitCount() 1
+//   DirectionsAreInput          Port::getDirection() of all three is vpiInput
+//   NetTypesAreWire             Net::getNetType() of p_a and p_c is vpiWire
+//   SignednessFollowsTheRules   getSigned(): p_a (integer) signed, p_c
+//                               (logic) unsigned
 //
 // The packed width of an object or typespec (37.14 and 37.17) is the bit
-// count hldb::ExprEval::getBitCount() computes for it.
+// count hldb::ExprEval::getBitCount() computes for it. Directions and net
+// types are compared with the named values of hldb/vpi_user.h.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Instances and connections; they are 23.3.
-//   - The direction input of the three ports and the net type wire of p_a
-//     and p_c. HLDB gives them only as the integer codes returned by
-//     Port::getDirection() and Net::getNetType() and has no named values of
-//     its own for them, so they can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -81,6 +82,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -89,12 +91,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.2.3--mh22-explicit-port-inheritance.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // The packed width in bits of an object or typespec, as HLDB's
 // expression evaluator computes it, or -1 when it cannot.
 int64_t widthOf(const hldb::Any *object) {
@@ -106,15 +102,6 @@ int64_t widthOf(const hldb::Any *object) {
 
 // The object a port's low connection refers to, or nullptr.
 const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
-
-template <typename T>
-bool hasObjectNamed(const std::vector<T *> *collection, std::string_view name) {
-  if (collection == nullptr) return false;
-  for (const T *object : *collection) {
-    if (object->getName() == name) return true;
-  }
-  return false;
-}
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
@@ -151,11 +138,13 @@ class PortRulesMh22Test : public Test {
   }
 
   static const hldb::Module *findModule() {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == "mh22")) return module;
-    }
-    return nullptr;
+    return (m_design == nullptr) ? nullptr : hldb::findByDefName<hldb::Module>("mh22", m_design->getAllModules());
+  }
+
+  // The net the port at position 'index' declares, or nullptr.
+  static const hldb::Net *findNet(size_t index) {
+    const hldb::Port *const port = findPort(index);
+    return (port == nullptr) ? nullptr : any_cast<hldb::Net>(lowConnActual(port));
   }
 
   // The port at position 'index' of the list of ports, or nullptr.
@@ -211,11 +200,41 @@ TEST_F(PortRulesMh22Test, PortBTakesTheTypeOfSB) {
   const hldb::Typespec *const portTypespec = hldb::getTypespec(port);
   ASSERT_NE(portTypespec, nullptr) << "port p_b has no typespec";
   EXPECT_EQ(widthOf(portTypespec), 6);
-  EXPECT_FALSE(hasObjectNamed(module->getNets(), "p_b"));
-  EXPECT_FALSE(hasObjectNamed(module->getVariables(), "p_b"));
+  EXPECT_EQ(hldb::findByName<hldb::Net>("p_b", module->getNets()), nullptr);
+  EXPECT_EQ(hldb::findByName<hldb::Variable>("p_b", module->getVariables()), nullptr);
 }
 
 TEST_F(PortRulesMh22Test, PortCIsALogicNet) { expectNet(2, hldb::AnyType::LogicTypespec, 1); }
+
+// p_a declares input; p_b inherits it from p_a, and p_c from p_b (23.2.2.3).
+TEST_F(PortRulesMh22Test, DirectionsAreInput) {
+  for (size_t index = 0; index < 3; ++index) {
+    const hldb::Port *const port = findPort(index);
+    ASSERT_NE(port, nullptr) << index;
+    EXPECT_EQ(port->getDirection(), vpiInput) << port->getName();
+  }
+}
+
+// p_a is declared wire; p_c defaults to a net of the default net type, wire (22.8).
+TEST_F(PortRulesMh22Test, NetTypesAreWire) {
+  for (const size_t index : {size_t{0}, size_t{2}}) {
+    const hldb::Net *const net = findNet(index);
+    ASSERT_NE(net, nullptr) << index << " is not a net";
+    EXPECT_EQ(net->getNetType(), vpiWire) << net->getName();
+  }
+}
+
+// integer is signed, logic unsigned unless declared signed (6.11.3).
+TEST_F(PortRulesMh22Test, SignednessFollowsTheRules) {
+  const hldb::Net *const portA = findNet(0);
+  ASSERT_NE(portA, nullptr);
+  ASSERT_NE(hldb::getTypespec(portA), nullptr);
+  EXPECT_TRUE(hldb::getSigned(hldb::getTypespec(portA))) << "p_a is an integer";
+  const hldb::Net *const portC = findNet(2);
+  ASSERT_NE(portC, nullptr);
+  ASSERT_NE(hldb::getTypespec(portC), nullptr);
+  EXPECT_FALSE(hldb::getSigned(hldb::getTypespec(portC))) << "p_c defaults to logic";
+}
 }  // namespace hlc
 
 int main(int argc, char **argv) {

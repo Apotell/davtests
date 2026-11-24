@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Test for tests/Google/chapter-23/chapter-23_testsuit-1/23.2.2.3--mh4-var-inout-illegal.sv
+// Test for tests/Google/chapter-23/23.2.2.3--mh4-var-inout-illegal.sv
 //
 // THE SOURCE
 //
@@ -31,18 +31,20 @@
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
-//   IllegalCodeIsAnError             at least one fatal, syntax or error
-//                                    diagnostic on line 19
-//   NoErrorAfterTheIllegalCode       none on line 20 or later
+//   IllegalCodeIsAnError             CompIllegalVariableOnInoutPort for port x
+//                                    on line 19 -- HLC's event for this rule
+//   NoErrorAfterTheIllegalCode       no fatal, syntax or error diagnostic on
+//                                    line 20 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The diagnostic's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The diagnostic's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <cstdint>
@@ -91,10 +93,11 @@ class PortRulesMh4Test : public Test {
   }
 };
 
+// The port's direction defaults to inout and "var" makes it a variable; an inout port shall not be of a
+// variable type (Syntax 23-4 footnote 2).
 TEST_F(PortRulesMh4Test, IllegalCodeIsAnError) {
-  ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::CompIllegalVariableOnInoutPort, "x", kIllegalFirstLine), nullptr)
+      << "errors reported on line 19:" << errorsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(PortRulesMh4Test, NoErrorAfterTheIllegalCode) {

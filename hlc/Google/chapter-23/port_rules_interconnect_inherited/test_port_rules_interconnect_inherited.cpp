@@ -14,7 +14,7 @@
  limitations under the License.
 */
 
-// Test for tests/Google/chapter-23/chapter-23_testsuit-1/23.2.2.3--interconnect-inherited.sv
+// Test for tests/Google/chapter-23/23.2.2.3--interconnect-inherited.sv
 //
 // THE SOURCE
 //
@@ -35,15 +35,22 @@
 // kind is the object itself (a Net or a Variable), its data type is its
 // typespec (hldb::getTypespec(); an array typespec for unpacked dimensions),
 // its packed width (37.17) is the bit count hldb::ExprEval::getBitCount()
-// computes for it, and its signedness is hldb::getSigned() of its typespec.
+// computes for it, and its signedness is hldb::getSigned() of its typespec (of
+// the element type for an unpacked array). The port's direction is
+// Port::getDirection() and a net's net type Net::getNetType(), compared with
+// the named values of hldb/vpi_user.h (vpiInput, vpiWire, ...).
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors         no fatal, syntax or error diagnostic
 //   PortsInDeclarationOrder       port names and getPortIndex() 0, 1, ...
 //   PortKindsFollowTheRules       net or variable
+//   DirectionsFollowTheRules      Port::getDirection() of each port
+//   NetTypesFollowTheRules        Net::getNetType() of each net
 //   DataTypesFollowTheRules       typespec of each net or variable
 //   PackedWidthsFollowTheRules    getBitCount() of each net or variable
+//   SignednessFollowsTheRules     getSigned() of each data type (of the
+//                                 element type for an unpacked array)
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -51,10 +58,6 @@
 //     and direction from the declaration alone; connections are 23.3.
 //   - The port objects' own size. 23.2.2.2--ansi-explicit-named.sv covers
 //     it.
-//   - Port directions and net types (wire, wand, tri0, interconnect, ...).
-//     HLDB gives them only as the integer codes returned by
-//     Port::getDirection() and Net::getNetType() and has no named values of
-//     its own for them, so they can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -73,6 +76,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -81,7 +85,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.2.3--interconnect-inherited.sv";
 constexpr std::string_view kModuleName = "m";
 
 // The kind of object a port declares (23.2.2.3).
@@ -93,6 +96,8 @@ constexpr int64_t kUnchecked = -1;
 struct ExpectedPort {
   std::string_view m_name;
   PortKind m_kind;
+  int32_t m_direction;  // vpiInput, vpiOutput, vpiInout or vpiRef
+  int32_t m_netType;    // the net type of a net; kUnchecked for a variable
   hldb::AnyType m_dataType;
   int64_t m_size;
   int64_t m_signed;
@@ -100,13 +105,9 @@ struct ExpectedPort {
 };
 
 const std::vector<ExpectedPort> kExpectedPorts = {
-    {"a", PortKind::Net, kNoDataType, kUnchecked, kUnchecked, false},
-    {"b", PortKind::Net, kNoDataType, kUnchecked, kUnchecked, false},
+    {"a", PortKind::Net, vpiInput, vpiInterconnect, kNoDataType, kUnchecked, kUnchecked, false},
+    {"b", PortKind::Net, vpiInput, vpiInterconnect, kNoDataType, kUnchecked, kUnchecked, false},
 };
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
 
 // The packed width in bits of a net or variable (37.17), as
 // HLDB's expression evaluator computes it from the object's typespec, or -1
@@ -120,14 +121,6 @@ int64_t widthOf(const hldb::Any *object) {
 
 // The net or variable a port's low connection refers to, or nullptr.
 const hldb::Any *lowConnActual(const hldb::Port *port) { return hldb::getActual(port->getLowConn()); }
-
-const hldb::Port *findPortByName(const hldb::PortCollection *ports, std::string_view name) {
-  if (ports == nullptr) return nullptr;
-  for (const hldb::Port *port : *ports) {
-    if (port->getName() == name) return port;
-  }
-  return nullptr;
-}
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
@@ -164,18 +157,14 @@ class PortRulesInterconnectInheritedTest : public Test {
   }
 
   static const hldb::PortCollection *findPorts() {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == kModuleName)) {
-        return module->getPorts();
-      }
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    const hldb::Module *const module = hldb::findByDefName<hldb::Module>(kModuleName, m_design->getAllModules());
+    return (module == nullptr) ? nullptr : module->getPorts();
   }
 
   // The net or variable declared by the port named 'name', or nullptr.
   static const hldb::Any *findDeclared(std::string_view name) {
-    const hldb::Port *const port = findPortByName(findPorts(), name);
+    const hldb::Port *const port = hldb::findByName<hldb::Port>(name, findPorts());
     return (port == nullptr) ? nullptr : lowConnActual(port);
   }
 };
@@ -201,6 +190,23 @@ TEST_F(PortRulesInterconnectInheritedTest, PortKindsFollowTheRules) {
     } else {
       EXPECT_NE(any_cast<hldb::Net>(declared), nullptr) << expected.m_name << " is not a net";
     }
+  }
+}
+
+TEST_F(PortRulesInterconnectInheritedTest, DirectionsFollowTheRules) {
+  for (const ExpectedPort &expected : kExpectedPorts) {
+    const hldb::Port *const port = hldb::findByName<hldb::Port>(expected.m_name, findPorts());
+    ASSERT_NE(port, nullptr) << expected.m_name;
+    EXPECT_EQ(port->getDirection(), expected.m_direction) << expected.m_name;
+  }
+}
+
+TEST_F(PortRulesInterconnectInheritedTest, NetTypesFollowTheRules) {
+  for (const ExpectedPort &expected : kExpectedPorts) {
+    if (expected.m_netType == kUnchecked) continue;
+    const hldb::Net *const net = any_cast<hldb::Net>(findDeclared(expected.m_name));
+    ASSERT_NE(net, nullptr) << expected.m_name << " is not a net";
+    EXPECT_EQ(net->getNetType(), expected.m_netType) << expected.m_name;
   }
 }
 
@@ -231,6 +237,21 @@ TEST_F(PortRulesInterconnectInheritedTest, PackedWidthsFollowTheRules) {
     const hldb::Any *const declared = findDeclared(expected.m_name);
     ASSERT_NE(declared, nullptr) << expected.m_name;
     EXPECT_EQ(widthOf(declared), expected.m_size) << expected.m_name;
+  }
+}
+
+TEST_F(PortRulesInterconnectInheritedTest, SignednessFollowsTheRules) {
+  for (const ExpectedPort &expected : kExpectedPorts) {
+    if (expected.m_signed == kUnchecked) continue;
+    const hldb::Any *const declared = findDeclared(expected.m_name);
+    ASSERT_NE(declared, nullptr) << expected.m_name;
+    const hldb::Typespec *typespec = hldb::getTypespec(declared);
+    // The signedness of an unpacked array is that of its element type (7.4).
+    if (const hldb::ArrayTypespec *const array = any_cast<hldb::ArrayTypespec>(typespec)) {
+      typespec = hldb::getElemTypespec(array);
+    }
+    ASSERT_NE(typespec, nullptr) << expected.m_name;
+    EXPECT_EQ(static_cast<int64_t>(hldb::getSigned(typespec)), expected.m_signed) << expected.m_name;
   }
 }
 }  // namespace hlc
