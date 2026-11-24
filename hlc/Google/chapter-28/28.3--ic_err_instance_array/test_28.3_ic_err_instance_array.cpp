@@ -38,11 +38,18 @@
 //  17  /*
 //  18  :name: ic_err_instance_array
 //  19  :description: interconnect expressions whose bit length differs from the instance array length
-//  20  :should_fail_because: an interconnect port expression on an instance array must have bit length equal to the
-//  array length 21  :tags: 28.3 22  */ 23 24  // Errors in this file: 25  //   ERR1: interconnect [7:0] connected to
-//  four 2-bit instances (no part-select split for interconnect) 26  //   ERR2: interconnect [2:0] connected to an array
-//  of four instances 27  //   ERR3: interconnect [5:0] connected to an array of two instances 28  //   ERR4:
-//  interconnect port of width 8 forwarded to an array of four instances 29 30  module leaf1(inout wire p); 31 endmodule
+//  20  :should_fail_because: an interconnect port expression on an instance array must have bit length equal to the array length
+//  21  :tags: 28.3
+//  22  */
+//  23
+//  24  // Errors in this file:
+//  25  //   ERR1: interconnect [7:0] connected to four 2-bit instances (no part-select split for interconnect)
+//  26  //   ERR2: interconnect [2:0] connected to an array of four instances
+//  27  //   ERR3: interconnect [5:0] connected to an array of two instances
+//  28  //   ERR4: interconnect port of width 8 forwarded to an array of four instances
+//  29
+//  30  module leaf1(inout wire p);
+//  31  endmodule
 //  32
 //  33  module leaf2(inout wire [1:0] p);
 //  34  endmodule
