@@ -15,9 +15,12 @@
 */
 
 // IEEE 1800-2023 Sec 34.3: an encryption envelope is opened by `pragma protect begin and closed by
-// `pragma protect end, and a decryption envelope by begin_protected/end_protected. An end with no open
-// envelope, and an envelope still open at the end of the file, are malformed. The begin/end pair on
-// lines 20-22 and the author keyword on line 25 are legal.
+// `pragma protect end, and a decryption envelope by begin_protected/end_protected. An end_protected
+// with no open decryption envelope, and an envelope still open at the end of the file, are malformed.
+// The begin/end pair on lines 20-22 and the author keyword on line 25 are legal. The second end on
+// line 23 is not an error: Sec 34.5.2 uses end only to mark, in the cleartext input to encryption,
+// where the region to encrypt ends ("DECRYPTION INPUT: none"), and no clause makes an end without a
+// begin an error.
 // Arguments: illegal_protect_pragma.hlc
 
 #include <hlc/Events/EventType.h>
@@ -32,10 +35,6 @@ class IllegalProtectPragmaTest : public Test {
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "illegal_protect_pragma.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
-
-TEST_F(IllegalProtectPragmaTest, ReportsEndWithoutBegin) {
-  EXPECT_NE(findEvent(EventType::PpIllegalProtectPragma, "protect end", 23, 1), nullptr) << "second end, nothing open";
-}
 
 TEST_F(IllegalProtectPragmaTest, ReportsEndProtectedWithoutBegin) {
   EXPECT_NE(findEvent(EventType::PpIllegalProtectPragma, "protect end_protected", 24, 1), nullptr) << "no begin_protected";
