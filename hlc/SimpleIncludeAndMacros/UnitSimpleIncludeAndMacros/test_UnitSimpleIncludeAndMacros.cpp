@@ -65,6 +65,9 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxError
   EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 37, 0), nullptr) << "`MACRO1 ( , ) omits c, which has no default";
   EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 39, 0), nullptr) << "`MACRO1 ( ) omits c, which has no default";
   EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, "MACRO1", 41, 0), nullptr) << "`MACRO1 without parentheses gives c no value";
+  // IEEE 1800-2023 22.5.1 (p.708): "For a macro with arguments, the parentheses are always required in
+  // the macro call, even if all the arguments have defaults." top_3.v:41 is a bare `MACRO1.
+  EXPECT_NE(findEvent(EventType::PpMacroParenthesisNeeded, "MACRO1", 41, 1), nullptr) << "`MACRO1 needs parentheses";
   // IEEE 1800-2023 22.1/22.5.1: a grave accent starts either a compiler directive or the usage of
   // a defined text macro. top_3.v:16 `defaut_nettype (misspelled `default_nettype) is neither.
   EXPECT_NE(findEvent(EventType::PpUnkownMacro, "defaut_nettype", 16, 0), nullptr)
