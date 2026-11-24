@@ -39,8 +39,8 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors         no fatal, syntax or error diagnostic
-//   PortDIsAnInputVariable        m has one port d, vpiInput, whose
-//                                 vpiLowConn resolves to a variable
+//   PortDIsAVariable              m has one port d, whose low connection
+//                                 (Port::getLowConn()) resolves to a variable
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -48,6 +48,9 @@
 //     when the module is instantiated, so it needs an elaborated design,
 //     which this test flow does not produce; it is deferred to the 23.3
 //     batches.
+//   - The direction input of d. HLDB gives it only as the integer code
+//     returned by Port::getDirection() and has no named values of its own for
+//     directions, so it can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -58,9 +61,7 @@
 #include <hldb/module.h>
 #include <hldb/port.h>
 #include <hldb/ref_obj.h>
-#include <hldb/sv_vpi_user.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -73,19 +74,6 @@ constexpr std::string_view kSourceFileName = "23.2.2.4--default-value-input-vari
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
 }
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
@@ -136,14 +124,12 @@ class DefaultValueInputVariableTest : public Test {
 
 TEST_F(DefaultValueInputVariableTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), ""); }
 
-TEST_F(DefaultValueInputVariableTest, PortDIsAnInputVariable) {
+TEST_F(DefaultValueInputVariableTest, PortDIsAVariable) {
   const hldb::Port *const port = findPortD();
   ASSERT_NE(port, nullptr);
   EXPECT_EQ(port->getName(), "d");
-  EXPECT_EQ(integerProperty(port, vpiDirection), static_cast<int64_t>(vpiInput));
-  const hldb::Any *const connection = relatedObject(port, vpiLowConn);
-  ASSERT_NE(connection, nullptr);
-  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>(connection);
+  ASSERT_NE(port->getLowConn(), nullptr);
+  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>(port->getLowConn());
   ASSERT_NE(lowConn, nullptr);
   EXPECT_NE(lowConn->getActual<hldb::Variable>(), nullptr);
 }

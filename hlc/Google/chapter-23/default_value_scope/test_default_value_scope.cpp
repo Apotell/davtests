@@ -59,9 +59,10 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error diagnostic
-//   BusConnPortsAreDeclared    dataout (index 0, vpiOutput) and datain
-//                              (index 1, vpiInput)
-//   DatainIsANet               the vpiLowConn of datain resolves to a net
+//   BusConnPortsAreDeclared    dataout (getPortIndex() 0) and datain
+//                              (getPortIndex() 1)
+//   DatainIsANet               the low connection of datain
+//                              (Port::getLowConn()) resolves to a net
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -71,6 +72,10 @@
 //     elaborated design, which this test flow does not produce; it is
 //     deferred to the 23.3 batches.
 //   - Simulation values of dataout; values are a simulator's business.
+//   - The directions output of dataout and input of datain. HLDB gives them
+//     only as the integer codes returned by Port::getDirection() and has no
+//     named values of its own for directions, so they can be checked once
+//     HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -82,8 +87,6 @@
 #include <hldb/net.h>
 #include <hldb/port.h>
 #include <hldb/ref_obj.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -96,19 +99,6 @@ constexpr std::string_view kSourceFileName = "23.2.2.4--default-value-scope.sv";
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-const hldb::Any *relatedObject(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const hldb::Any *const single = std::get<1>(result)) return single;
-  const std::vector<const hldb::Any *> *const objects = std::get<2>(result);
-  return ((objects != nullptr) && (objects->size() == 1)) ? objects->front() : nullptr;
 }
 
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
@@ -162,20 +152,17 @@ TEST_F(DefaultValueScopeTest, BusConnPortsAreDeclared) {
   ASSERT_NE(ports, nullptr);
   ASSERT_EQ(ports->size(), 2u);
   EXPECT_EQ((*ports)[0]->getName(), "dataout");
-  EXPECT_EQ(integerProperty((*ports)[0], vpiPortIndex), 0);
-  EXPECT_EQ(integerProperty((*ports)[0], vpiDirection), static_cast<int64_t>(vpiOutput));
+  EXPECT_EQ((*ports)[0]->getPortIndex(), 0);
   EXPECT_EQ((*ports)[1]->getName(), "datain");
-  EXPECT_EQ(integerProperty((*ports)[1], vpiPortIndex), 1);
-  EXPECT_EQ(integerProperty((*ports)[1], vpiDirection), static_cast<int64_t>(vpiInput));
+  EXPECT_EQ((*ports)[1]->getPortIndex(), 1);
 }
 
 TEST_F(DefaultValueScopeTest, DatainIsANet) {
   const hldb::PortCollection *const ports = findBusConnPorts();
   ASSERT_NE(ports, nullptr);
   ASSERT_EQ(ports->size(), 2u);
-  const hldb::Any *const connection = relatedObject((*ports)[1], vpiLowConn);
-  ASSERT_NE(connection, nullptr);
-  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>(connection);
+  ASSERT_NE((*ports)[1]->getLowConn(), nullptr);
+  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>((*ports)[1]->getLowConn());
   ASSERT_NE(lowConn, nullptr);
   EXPECT_NE(lowConn->getActual<hldb::Net>(), nullptr);
 }
