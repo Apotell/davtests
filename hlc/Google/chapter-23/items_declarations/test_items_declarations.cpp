@@ -40,17 +40,20 @@
 // covers net and data declarations, parameter and local parameter
 // declarations, type declarations, and task and function declarations. The
 // object model of an instance (37.10) reaches them through net, variables,
-// parameter (with vpiLocalParam, vpi_user.h), vpiTypedef ("the user-defined
-// typespecs that have typedefs explicitly declared", detail 1) and task func,
-// whose members are a vpiFunction and a vpiTask.
+// parameter, typedef ("the user-defined typespecs that have typedefs
+// explicitly declared", detail 1) and task func. HLDB gives them as
+// getNets(), getVariables(), getParameters() (with
+// Parameter::getLocalParam()), getTypedefs() and getTaskFuncs(), whose
+// members are a Function and a Task.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
 //   NetWAndVariableV           net w and variable v are declared
 //   ParametersPAndL            P is a parameter, L a local parameter
-//   TypedefNibble              vpiTypedef holds nibble_t
-//   FunctionFAndTaskT          vpiTaskFunc holds the function f and the task t
+//   TypedefNibble              getTypedefs() holds nibble_t
+//   FunctionFAndTaskT          getTaskFuncs() holds the function f and the
+//                              task t
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -63,12 +66,14 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/any_type.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
-#include <hldb/sv_vpi_user.h>
+#include <hldb/parameter.h>
+#include <hldb/task_func.h>
+#include <hldb/typespec.h>
 #include <hldb/variable.h>
-#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -86,28 +91,24 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-// The objects 'object' has in the VPI relation 'relation', as vpi_iterate()
-// or vpi_handle() would return them (37.3).
-std::vector<const hldb::Any *> relationObjects(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) return *objects;
-  if (const hldb::Any *const single = std::get<1>(result)) return {single};
-  return {};
-}
-
-// The object named 'name' among 'objects', or nullptr.
-const hldb::Any *findNamed(const std::vector<const hldb::Any *> &objects, std::string_view name) {
-  for (const hldb::Any *object : objects) {
+// The object named 'name' in 'collection', or nullptr.
+template <typename T>
+const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
+  if (collection == nullptr) return nullptr;
+  for (const T *object : *collection) {
     if (object->getName() == name) return object;
   }
   return nullptr;
 }
+
+// The number of objects in 'collection'; zero for a null collection.
+template <typename T>
+size_t sizeOf(const std::vector<T *> *collection) {
+  return (collection == nullptr) ? 0 : collection->size();
+}
+
+// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
+std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -165,32 +166,30 @@ TEST_F(ItemsDeclarationsTest, NetWAndVariableV) {
 TEST_F(ItemsDeclarationsTest, ParametersPAndL) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> parameters = relationObjects(module, vpiParameter);
-  const hldb::Any *const p = findNamed(parameters, "P");
-  const hldb::Any *const l = findNamed(parameters, "L");
+  const hldb::Parameter *const p = any_cast<hldb::Parameter>(findNamed(module->getParameters(), "P"));
+  const hldb::Parameter *const l = any_cast<hldb::Parameter>(findNamed(module->getParameters(), "L"));
   ASSERT_NE(p, nullptr);
   ASSERT_NE(l, nullptr);
-  EXPECT_EQ(integerProperty(p, vpiLocalParam), 0);
-  EXPECT_EQ(integerProperty(l, vpiLocalParam), 1);
+  EXPECT_FALSE(p->getLocalParam());
+  EXPECT_TRUE(l->getLocalParam());
 }
 
 TEST_F(ItemsDeclarationsTest, TypedefNibble) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_NE(findNamed(relationObjects(module, vpiTypedef), "nibble_t"), nullptr);
+  EXPECT_NE(findNamed(module->getTypedefs(), "nibble_t"), nullptr);
 }
 
 TEST_F(ItemsDeclarationsTest, FunctionFAndTaskT) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> taskFuncs = relationObjects(module, vpiTaskFunc);
-  EXPECT_EQ(taskFuncs.size(), 2u);
-  const hldb::Any *const f = findNamed(taskFuncs, "f");
-  const hldb::Any *const t = findNamed(taskFuncs, "t");
+  EXPECT_EQ(sizeOf(module->getTaskFuncs()), 2u);
+  const hldb::TaskFunc *const f = findNamed(module->getTaskFuncs(), "f");
+  const hldb::TaskFunc *const t = findNamed(module->getTaskFuncs(), "t");
   ASSERT_NE(f, nullptr);
   ASSERT_NE(t, nullptr);
-  EXPECT_EQ(f->getVpiType(), static_cast<uint32_t>(vpiFunction));
-  EXPECT_EQ(t->getVpiType(), static_cast<uint32_t>(vpiTask));
+  EXPECT_EQ(typeName(f), hldb::AnyTypeName(hldb::AnyType::Function));
+  EXPECT_EQ(typeName(t), hldb::AnyTypeName(hldb::AnyType::Task));
 }
 }  // namespace hlc
 

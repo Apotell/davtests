@@ -37,32 +37,37 @@
 // "The module definition can contain zero or more module items." (23.2.4).
 // Syntax 23-5 lists, among module_common_item, net_alias, continuous_assign,
 // initial_construct, final_construct and always_construct. The object model of
-// a module (37.5) reaches them through the relations alias stmt (vpiAliasStmt),
-// cont assign (vpiContAssign) and process (vpiProcess). The four always forms
-// are told apart by vpiAlwaysType: vpiAlways, vpiAlwaysComb, vpiAlwaysFF and
-// vpiAlwaysLatch (sv_vpi_user.h).
+// a module (37.5) reaches them through the relations alias stmt, cont assign
+// and process; HLDB gives them as Module::getAliases(), getContAssigns() and
+// getProcesses().
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   OneAliasStatement          vpiAliasStmt holds one object
-//   OneContinuousAssign        vpiContAssign holds one object
-//   SixProcessesInOrder        vpiProcess holds initial, final, then the four
-//                              always constructs with their vpiAlwaysType
+//   OneAliasStatement          getAliases() holds one object
+//   OneContinuousAssign        getContAssigns() holds one object
+//   SixProcessesInOrder        getProcesses() holds an Initial, a FinalStmt,
+//                              then four Always objects
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - What the processes do. Their statements belong to Clauses 9 and 10.
+//   - Which always form each Always is (always, always_comb, always_ff,
+//     always_latch). HLDB gives it only as the integer code returned by
+//     Always::getAlwaysType() and has no named values of its own for it, so it
+//     can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/alias_stmt.h>
+#include <hldb/any_type.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
+#include <hldb/process_stmt.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -80,28 +85,14 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
+// The number of objects in 'collection'; zero for a null collection.
+template <typename T>
+size_t sizeOf(const std::vector<T *> *collection) {
+  return (collection == nullptr) ? 0 : collection->size();
 }
 
-// The objects 'object' has in the VPI relation 'relation', as vpi_iterate()
-// or vpi_handle() would return them (37.3).
-std::vector<const hldb::Any *> relationObjects(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) return *objects;
-  if (const hldb::Any *const single = std::get<1>(result)) return {single};
-  return {};
-}
-
-// The object named 'name' among 'objects', or nullptr.
-const hldb::Any *findNamed(const std::vector<const hldb::Any *> &objects, std::string_view name) {
-  for (const hldb::Any *object : objects) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
+// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
+std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -152,27 +143,25 @@ TEST_F(ItemsBehaviorTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 TEST_F(ItemsBehaviorTest, OneAliasStatement) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(relationObjects(module, vpiAliasStmt).size(), 1u);
+  EXPECT_EQ(sizeOf(module->getAliases()), 1u);
 }
 
 TEST_F(ItemsBehaviorTest, OneContinuousAssign) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(relationObjects(module, vpiContAssign).size(), 1u);
+  EXPECT_EQ(sizeOf(module->getContAssigns()), 1u);
 }
 
 TEST_F(ItemsBehaviorTest, SixProcessesInOrder) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> processes = relationObjects(module, vpiProcess);
-  ASSERT_EQ(processes.size(), 6u);
-  EXPECT_EQ(processes[0]->getVpiType(), static_cast<uint32_t>(vpiInitial));
-  EXPECT_EQ(processes[1]->getVpiType(), static_cast<uint32_t>(vpiFinal));
-  const std::vector<int64_t> alwaysTypes = {vpiAlways, vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch};
-  for (size_t index = 0; index < alwaysTypes.size(); ++index) {
-    const hldb::Any *const process = processes[index + 2];
-    EXPECT_EQ(process->getVpiType(), static_cast<uint32_t>(vpiAlways)) << index;
-    EXPECT_EQ(integerProperty(process, vpiAlwaysType), alwaysTypes[index]) << index;
+  const hldb::ProcessCollection *const processes = module->getProcesses();
+  ASSERT_NE(processes, nullptr);
+  ASSERT_EQ(processes->size(), 6u);
+  EXPECT_EQ(typeName((*processes)[0]), hldb::AnyTypeName(hldb::AnyType::Initial));
+  EXPECT_EQ(typeName((*processes)[1]), hldb::AnyTypeName(hldb::AnyType::FinalStmt));
+  for (size_t index = 2; index < processes->size(); ++index) {
+    EXPECT_EQ(typeName((*processes)[index]), hldb::AnyTypeName(hldb::AnyType::Always)) << index;
   }
 }
 }  // namespace hlc

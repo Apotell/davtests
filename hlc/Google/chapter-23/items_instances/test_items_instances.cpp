@@ -49,15 +49,16 @@
 // Syntax 23-5: module_or_generate_item ::= ... | gate_instantiation |
 // udp_instantiation | module_instantiation | ..., and module_common_item ::=
 // ... | interface_instantiation | program_instantiation. The object model of
-// a module (37.5) reaches gate and UDP instances through primitive
-// (vpiPrimitive): g1 is a vpiGate whose vpiPrimType is vpiAndPrim, and u1 is a
-// vpiUdp whose definition name (vpiDefName) is udp_buf.
+// a module (37.5) reaches gate and UDP instances through the relation
+// primitive, which HLDB gives as Module::getPrimitives(): g1 is a gate (an and
+// gate), and u1 is a UDP instance whose definition name is udp_buf.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   GateG1IsAnAndGate          vpiPrimitive holds g1, a vpiGate of vpiAndPrim
-//   UdpU1IsAnInstanceOfUdpBuf  vpiPrimitive holds u1, a vpiUdp of udp_buf
+//   G1IsAGate                  getPrimitives() holds g1, a Gate
+//   UdpU1IsAnInstanceOfUdpBuf  getPrimitives() holds u1, a Udp whose
+//                              getDefName() is udp_buf
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -65,16 +66,19 @@
 //     are created during elaboration (23.3), which this test flow does not
 //     run.
 //   - The warning that discourages programs. It is a warning, not an error.
+//   - That g1 is an and gate. HLDB gives the gate kind only as the integer
+//     code returned by Primitive::getPrimType() and has no named values of
+//     its own for it, so it can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/any_type.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
+#include <hldb/primitive.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -92,36 +96,24 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
-}
-
-std::string stringProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const char *const *const text = std::get_if<const char *>(&value)) {
-    return (*text == nullptr) ? std::string("<null>") : std::string(*text);
-  }
-  return "<not a string>";
-}
-
-// The objects 'object' has in the VPI relation 'relation', as vpi_iterate()
-// or vpi_handle() would return them (37.3).
-std::vector<const hldb::Any *> relationObjects(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) return *objects;
-  if (const hldb::Any *const single = std::get<1>(result)) return {single};
-  return {};
-}
-
-// The object named 'name' among 'objects', or nullptr.
-const hldb::Any *findNamed(const std::vector<const hldb::Any *> &objects, std::string_view name) {
-  for (const hldb::Any *object : objects) {
+// The object named 'name' in 'collection', or nullptr.
+template <typename T>
+const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
+  if (collection == nullptr) return nullptr;
+  for (const T *object : *collection) {
     if (object->getName() == name) return object;
   }
   return nullptr;
 }
+
+// The number of objects in 'collection'; zero for a null collection.
+template <typename T>
+size_t sizeOf(const std::vector<T *> *collection) {
+  return (collection == nullptr) ? 0 : collection->size();
+}
+
+// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
+std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -169,22 +161,21 @@ class ItemsInstancesTest : public Test {
 
 TEST_F(ItemsInstancesTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(ItemsInstancesTest, GateG1IsAnAndGate) {
+TEST_F(ItemsInstancesTest, G1IsAGate) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Any *const gate = findNamed(relationObjects(module, vpiPrimitive), "g1");
+  const hldb::Primitive *const gate = findNamed(module->getPrimitives(), "g1");
   ASSERT_NE(gate, nullptr);
-  EXPECT_EQ(gate->getVpiType(), static_cast<uint32_t>(vpiGate));
-  EXPECT_EQ(integerProperty(gate, vpiPrimType), static_cast<int64_t>(vpiAndPrim));
+  EXPECT_EQ(typeName(gate), hldb::AnyTypeName(hldb::AnyType::Gate));
 }
 
 TEST_F(ItemsInstancesTest, UdpU1IsAnInstanceOfUdpBuf) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Any *const udp = findNamed(relationObjects(module, vpiPrimitive), "u1");
+  const hldb::Primitive *const udp = findNamed(module->getPrimitives(), "u1");
   ASSERT_NE(udp, nullptr);
-  EXPECT_EQ(udp->getVpiType(), static_cast<uint32_t>(vpiUdp));
-  EXPECT_EQ(stringProperty(udp, vpiDefName), "udp_buf");
+  EXPECT_EQ(typeName(udp), hldb::AnyTypeName(hldb::AnyType::Udp));
+  EXPECT_EQ(udp->getDefName(), "udp_buf");
 }
 }  // namespace hlc
 

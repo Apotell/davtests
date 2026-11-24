@@ -34,14 +34,15 @@
 // within the same time scope." Lines 22-23 are the module's own
 // timeunits_declaration (Syntax 23-1); lines 25-26 repeat it exactly, so they
 // are legal, and the module's time unit and precision stay 1ns and 1ps. The
-// object model reports them as vpiTimeUnit and vpiTimePrecision (37.10), the
-// power-of-ten exponent relative to one second: -9 and -12.
+// object model reports them as the time unit and time precision of an
+// instance (37.10), the power-of-ten exponent relative to one second: -9 and
+// -12. HLDB gives them as Instance::getTimeUnit() and getTimePrecision().
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   TimeUnitIsOneNanosecond    vpiTimeUnit -9
-//   TimePrecisionIsOnePicosecond   vpiTimePrecision -12
+//   TimeUnitIsOneNanosecond    getTimeUnit() -9
+//   TimePrecisionIsOnePicosecond   getTimePrecision() -12
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -54,7 +55,6 @@
 
 #include <hldb/design.h>
 #include <hldb/module.h>
-#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -70,12 +70,6 @@ constexpr std::string_view kSourceFileName = "23.2.4--timeunits-repeated.sv";
 
 bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-int64_t integerProperty(const hldb::Any *object, int32_t property) {
-  const hldb::Any::vpi_property_value_t value = object->getVpiPropertyValue(property);
-  if (const int64_t *const number = std::get_if<int64_t>(&value)) return *number;
-  return vpiUndefined;
 }
 
 // True for an error-class event: fatal, syntax or error severity.
@@ -127,13 +121,13 @@ TEST_F(TimeunitsRepeatedTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""
 TEST_F(TimeunitsRepeatedTest, TimeUnitIsOneNanosecond) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(integerProperty(module, vpiTimeUnit), -9);
+  EXPECT_EQ(module->getTimeUnit(), -9);
 }
 
 TEST_F(TimeunitsRepeatedTest, TimePrecisionIsOnePicosecond) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(integerProperty(module, vpiTimePrecision), -12);
+  EXPECT_EQ(module->getTimePrecision(), -12);
 }
 }  // namespace hlc
 

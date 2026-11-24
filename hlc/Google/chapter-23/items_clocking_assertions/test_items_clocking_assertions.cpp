@@ -35,9 +35,10 @@
 // clocking_declaration | default clocking clocking_identifier ; | default
 // disable iff expression_or_dist ;, and module_common_item ::= ... |
 // assertion_item. The object model of a module (37.5) reaches them through
-// clocking block (vpiClockingBlock), vpiDefaultClocking and
-// vpiDefaultDisableIff; an instance (37.10) reaches assertions through
-// assertion (vpiAssertion).
+// the relations clocking block, default clocking and default disable iff;
+// an instance (37.10) reaches assertions through the relation assertion.
+// HLDB gives them as Module::getClockingBlocks(), getDefaultClocking(),
+// getDefaultDisableIff() and Instance::getAssertions().
 //   - cb is a clocking block and, being declared "default clocking", it is
 //     the module's default clocking block.
 //   - The default disable condition is rst.
@@ -46,10 +47,10 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors       no fatal, syntax or error event
-//   ClockingBlockCbIsTheDefault vpiClockingBlock holds cb, and
-//                               vpiDefaultClocking is cb
-//   DefaultDisableIffIsRst      vpiDefaultDisableIff refers to the net rst
-//   OneAssertion                vpiAssertion holds one vpiAssert
+//   ClockingBlockCbIsTheDefault getClockingBlocks() holds cb, and
+//                               getDefaultClocking() is cb
+//   DefaultDisableIffIsRst      getDefaultDisableIff() refers to the net rst
+//   OneAssertion                getAssertions() holds one Assert
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -61,12 +62,13 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/any_type.h>
+#include <hldb/assert_stmt.h>
+#include <hldb/clocking_block.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -84,22 +86,24 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-// The objects 'object' has in the VPI relation 'relation', as vpi_iterate()
-// or vpi_handle() would return them (37.3).
-std::vector<const hldb::Any *> relationObjects(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) return *objects;
-  if (const hldb::Any *const single = std::get<1>(result)) return {single};
-  return {};
-}
-
-// The object named 'name' among 'objects', or nullptr.
-const hldb::Any *findNamed(const std::vector<const hldb::Any *> &objects, std::string_view name) {
-  for (const hldb::Any *object : objects) {
+// The object named 'name' in 'collection', or nullptr.
+template <typename T>
+const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
+  if (collection == nullptr) return nullptr;
+  for (const T *object : *collection) {
     if (object->getName() == name) return object;
   }
   return nullptr;
 }
+
+// The number of objects in 'collection'; zero for a null collection.
+template <typename T>
+size_t sizeOf(const std::vector<T *> *collection) {
+  return (collection == nullptr) ? 0 : collection->size();
+}
+
+// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
+std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -150,19 +154,15 @@ TEST_F(ItemsClockingAssertionsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents
 TEST_F(ItemsClockingAssertionsTest, ClockingBlockCbIsTheDefault) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Any *const clockingBlock = findNamed(relationObjects(module, vpiClockingBlock), "cb");
+  const hldb::ClockingBlock *const clockingBlock = findNamed(module->getClockingBlocks(), "cb");
   ASSERT_NE(clockingBlock, nullptr);
-  const std::vector<const hldb::Any *> defaults = relationObjects(module, vpiDefaultClocking);
-  ASSERT_EQ(defaults.size(), 1u);
-  EXPECT_EQ(defaults.front(), clockingBlock);
+  EXPECT_EQ(module->getDefaultClocking(), clockingBlock);
 }
 
 TEST_F(ItemsClockingAssertionsTest, DefaultDisableIffIsRst) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> conditions = relationObjects(module, vpiDefaultDisableIff);
-  ASSERT_EQ(conditions.size(), 1u);
-  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(conditions.front());
+  const hldb::RefObj *const reference = any_cast<hldb::RefObj>(module->getDefaultDisableIff());
   ASSERT_NE(reference, nullptr);
   EXPECT_EQ(reference->getActual(), hldb::findByName<hldb::Net>("rst", module->getNets()));
 }
@@ -170,9 +170,9 @@ TEST_F(ItemsClockingAssertionsTest, DefaultDisableIffIsRst) {
 TEST_F(ItemsClockingAssertionsTest, OneAssertion) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> assertions = relationObjects(module, vpiAssertion);
-  ASSERT_EQ(assertions.size(), 1u);
-  EXPECT_EQ(assertions.front()->getVpiType(), static_cast<uint32_t>(vpiAssert));
+  const hldb::AnyCollection *const assertions = module->getAssertions();
+  ASSERT_EQ(sizeOf(assertions), 1u);
+  EXPECT_EQ(typeName(assertions->front()), hldb::AnyTypeName(hldb::AnyType::Assert));
 }
 }  // namespace hlc
 

@@ -35,18 +35,20 @@
 // called specparams) are permitted both within the specify block (see Clause
 // 30) and in the main module body", and they "can appear in any expression
 // that is not assigned to a parameter" (6.20.5). The object model of an
-// instance (37.10) reaches specparams through spec param (vpiSpecParam); a
-// module (37.5) reaches path delays through mod path (vpiModPath), and a mod
-// path reaches its delay expressions through vpiDelay (37.39).
+// instance (37.10) reaches specparams through the relation spec param; a
+// module (37.5) reaches path delays through the relation mod path, and a mod
+// path reaches its delay expressions through the relation delay (37.39). HLDB
+// gives them as Instance::getSpecParams(), Module::getModPaths() and
+// ModPath::getDelays().
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   SpecparamsTRiseAndTFall    vpiSpecParam holds tRise (module body) and
+//   SpecparamsTRiseAndTFall    getSpecParams() holds tRise (module body) and
 //                              tFall (specify block)
-//   OneModulePath              vpiModPath holds one path, a => b
-//   PathDelayUsesTheSpecparams the path's two vpiDelay expressions resolve to
-//                              the specparams tRise and tFall
+//   OneModulePath              getModPaths() holds one path, a => b
+//   PathDelayUsesTheSpecparams the path's two getDelays() expressions resolve
+//                              to the specparams tRise and tFall
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -58,11 +60,12 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/any_type.h>
 #include <hldb/design.h>
+#include <hldb/mod_path.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
-#include <hldb/sv_vpi_user.h>
-#include <hldb/vpi_user.h>
+#include <hldb/spec_param.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -80,22 +83,24 @@ bool endsWith(std::string_view text, std::string_view suffix) {
   return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
 }
 
-// The objects 'object' has in the VPI relation 'relation', as vpi_iterate()
-// or vpi_handle() would return them (37.3).
-std::vector<const hldb::Any *> relationObjects(const hldb::Any *object, int32_t relation) {
-  const hldb::Any::get_by_vpi_type_return_t result = object->getByVpiType(relation);
-  if (const std::vector<const hldb::Any *> *const objects = std::get<2>(result)) return *objects;
-  if (const hldb::Any *const single = std::get<1>(result)) return {single};
-  return {};
-}
-
-// The object named 'name' among 'objects', or nullptr.
-const hldb::Any *findNamed(const std::vector<const hldb::Any *> &objects, std::string_view name) {
-  for (const hldb::Any *object : objects) {
+// The object named 'name' in 'collection', or nullptr.
+template <typename T>
+const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
+  if (collection == nullptr) return nullptr;
+  for (const T *object : *collection) {
     if (object->getName() == name) return object;
   }
   return nullptr;
 }
+
+// The number of objects in 'collection'; zero for a null collection.
+template <typename T>
+size_t sizeOf(const std::vector<T *> *collection) {
+  return (collection == nullptr) ? 0 : collection->size();
+}
+
+// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
+std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -146,31 +151,29 @@ TEST_F(ItemsSpecifyTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 TEST_F(ItemsSpecifyTest, SpecparamsTRiseAndTFall) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> specparams = relationObjects(module, vpiSpecParam);
-  EXPECT_NE(findNamed(specparams, "tRise"), nullptr);
-  EXPECT_NE(findNamed(specparams, "tFall"), nullptr);
+  EXPECT_NE(findNamed(module->getSpecParams(), "tRise"), nullptr);
+  EXPECT_NE(findNamed(module->getSpecParams(), "tFall"), nullptr);
 }
 
 TEST_F(ItemsSpecifyTest, OneModulePath) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(relationObjects(module, vpiModPath).size(), 1u);
+  EXPECT_EQ(sizeOf(module->getModPaths()), 1u);
 }
 
 TEST_F(ItemsSpecifyTest, PathDelayUsesTheSpecparams) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const std::vector<const hldb::Any *> paths = relationObjects(module, vpiModPath);
-  ASSERT_EQ(paths.size(), 1u);
-  const std::vector<const hldb::Any *> delays = relationObjects(paths.front(), vpiDelay);
-  ASSERT_EQ(delays.size(), 2u);
+  ASSERT_EQ(sizeOf(module->getModPaths()), 1u);
+  const hldb::ExprCollection *const delays = module->getModPaths()->front()->getDelays();
+  ASSERT_EQ(sizeOf(delays), 2u);
   const std::vector<std::string_view> names = {"tRise", "tFall"};
   for (size_t index = 0; index < names.size(); ++index) {
-    const hldb::RefObj *const reference = any_cast<hldb::RefObj>(delays[index]);
+    const hldb::RefObj *const reference = any_cast<hldb::RefObj>((*delays)[index]);
     ASSERT_NE(reference, nullptr) << names[index];
     const hldb::Any *const actual = reference->getActual();
     ASSERT_NE(actual, nullptr) << names[index] << " is not bound";
-    EXPECT_EQ(actual->getVpiType(), static_cast<uint32_t>(vpiSpecParam)) << names[index];
+    EXPECT_EQ(typeName(actual), hldb::AnyTypeName(hldb::AnyType::SpecParam)) << names[index];
     EXPECT_EQ(actual->getName(), names[index]);
   }
 }
