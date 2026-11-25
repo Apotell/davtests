@@ -68,6 +68,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -211,6 +212,11 @@ TEST_F(PartSelectHierPathTest, NoFatalOrSyntaxDiagnostics) {
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(PartSelectHierPathTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "trace_rv_i_insn_ip", 13, 10), nullptr);
 }
 
 }  // namespace hlc

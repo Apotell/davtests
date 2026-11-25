@@ -36,6 +36,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -227,6 +228,52 @@ TEST_F(HierBitSliceTest, SignificandPartSelectPrefixReferencesSignificandMember)
   ASSERT_NE(ps->getPrefix(), nullptr);
   const hldb::RefObj *const prefixRef = ps->getPrefix<hldb::RefObj>();
   EXPECT_EQ(prefixRef->getName(), std::string_view{"significand"});
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(HierBitSliceTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "FLOAT32_EXP_WIDTH", 4, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "FLOAT32_SIG_WIDTH", 5, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "NUM_VECTOR_LANES", 51, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_ASHR", 209, 61), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_ASHR", 243, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SHR", 244, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SHL", 245, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_MOVE", 246, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_OR", 247, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CLZ", 248, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CTZ", 249, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_AND", 250, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_XOR", 251, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_ADD_I", 252, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SUB_I", 253, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPEQ_I", 254, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPNE_I", 255, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPGT_I", 256, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPGE_I", 257, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPLT_I", 258, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPLE_I", 259, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPGT_U", 260, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPGE_U", 261, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPLT_U", 262, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_CMPLE_U", 263, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SEXT8", 264, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SEXT16", 265, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_SHUFFLE", 266, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_GETLANE", 267, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "OP_RECIPROCAL", 268, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "PIPE_INT_ARITH", 279, 43), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_ERET", 282, 42), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_ZERO", 295, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_NOT_ZERO", 301, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_ALWAYS", 307, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_CALL_OFFSET", 308, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_CALL_REGISTER", 309, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_REGISTER", 310, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_ERET", 311, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_CALL_REGISTER", 333, 13), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_REGISTER", 334, 13), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "BRANCH_ERET", 335, 13), nullptr);
 }
 
 }  // namespace hlc

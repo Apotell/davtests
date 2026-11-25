@@ -176,6 +176,11 @@ TEST_F(FuncDefTest, ConnectionsToUndefinedModuleHaveUnnamedPorts) {
       << "the ordered connections of 'countLeadingZeros_notCDom' to the undefined module have no port";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(FuncDefTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "prodWidth", 13, 30), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

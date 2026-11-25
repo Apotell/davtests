@@ -126,6 +126,7 @@
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <array>
@@ -385,6 +386,59 @@ TEST_F(ExponTimeIfElseGenTest, RemainingNineBranchesAreEachSingleAlwaysFF) {
   if (always != nullptr) {
     EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF) << "link #10";
   }
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ExponTimeIfElseGenTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_PART_0", 6, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 7, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 8, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 9, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 9, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 15, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 16, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 17, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 17, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_PART_2", 22, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 23, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 24, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 25, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 25, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_PART_3", 30, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 31, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 32, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 33, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 33, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_0", 38, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 39, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 40, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 41, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 41, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_1", 46, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 47, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 48, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 49, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 49, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_2", 54, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 55, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 56, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 57, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 57, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_3", 62, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 63, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 64, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 65, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 65, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_PART_0_STRIDE", 70, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 71, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 72, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 73, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 73, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "ADDR_OFFSET_PART_1_STRIDE", 78, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 79, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shift_foo_bar", 80, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 81, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "foo_bar_4", 81, 41), nullptr);
 }
 
 }  // namespace hlc

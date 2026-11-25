@@ -47,6 +47,7 @@
 // E:\Davenche\davtests\davtests_02\build\include\hldb.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -221,6 +222,20 @@ TEST_F(GenIfNamedTest, Tag2AndTag3AreDistinctScopes) {
   // ASSERT_NE(tag3, nullptr);
   // EXPECT_NE(static_cast<const void *>(tag2), static_cast<const void *>(tag3));
   // EXPECT_NE(tag2->getName(), tag3->getName());
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(GenIfNamedTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 4, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 4, 15), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 4, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 4, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tmp", 6, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 6, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tmp", 8, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 8, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tmp2", 9, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 9, 21), nullptr);
 }
 
 }  // namespace hlc

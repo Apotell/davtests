@@ -188,6 +188,12 @@ TEST_F(DollarRootTest, CompilerReportsAtLeastOneError) {
   EXPECT_GT(stats.m_errors + stats.m_fatals + stats.m_syntaxes, 0u);
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(DollarRootTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 317, 57), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 460, 57), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

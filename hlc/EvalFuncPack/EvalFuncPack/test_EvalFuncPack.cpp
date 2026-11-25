@@ -83,6 +83,7 @@
 //     question and is out of scope for this file.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -332,6 +333,11 @@ TEST_F(EvalFuncPackTest, InfosPerBankForwardReferencesMaxInfoPages) {
                      "regardless of textual order. Fix pending.";
   }
   EXPECT_EQ(resolved, maxInfoPages);
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(EvalFuncPackTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "InfosPerBank", 54, 38), nullptr);
 }
 
 }  // namespace hlc

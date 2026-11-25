@@ -53,6 +53,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -131,6 +132,12 @@ TEST_F(NonSynthUnusedModTest, NoSyntaxOrFatalErrors) {
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_fatals, 0);
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(NonSynthUnusedModTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 4, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "b", 4, 13), nullptr);
 }
 
 }  // namespace hlc

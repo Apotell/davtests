@@ -47,6 +47,7 @@
 //     with the expected vpiConstType/size/value/decompile
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -171,6 +172,28 @@ TEST_F(DecimalSizeTest, PNumType1ScreenersDefaultIs8BitDecimalZero) {
   EXPECT_EQ(rhs->getSize(), 8);
   EXPECT_EQ(std::string(rhs->getValue()), std::string_view("0"));
   EXPECT_EQ(std::string(rhs->getDecompile()), std::string_view("8'd0"));
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(DecimalSizeTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 848, 15), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 848, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 848, 43), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 848, 45), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "rx_q_flush_pclk", 854, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 854, 36), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "drop_all_frames_rx_clk", 855, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 855, 40), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "rx_q_flush_pclk", 862, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 862, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "limit_frames_size_rx_clk", 863, 17), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 863, 42), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "max_val_pclk", 865, 13), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 865, 32), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 865, 40), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "rx_q_flush_pclk", 865, 49), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 865, 70), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "m", 865, 80), nullptr);
 }
 
 }  // namespace hlc

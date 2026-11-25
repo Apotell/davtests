@@ -52,6 +52,7 @@
 // unrolling is checked here.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -161,6 +162,13 @@ TEST_F(GenIfElseTest, ElseBranchIsUnnamedGenBlockWithTwoAssigns) {
   const hldb::RefObj *const efRhs = ef->getRhs<hldb::RefObj>();
   ASSERT_NE(efRhs, nullptr);
   EXPECT_EQ(efRhs->getName(), std::string_view{"f"});
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(GenIfElseTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "b", 4, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "d", 7, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "f", 8, 16), nullptr);
 }
 
 }  // namespace hlc

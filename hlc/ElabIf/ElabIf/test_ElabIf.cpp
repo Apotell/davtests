@@ -48,6 +48,7 @@
 // each override 'invert' with a distinct Constant (1 and 0).
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -289,6 +290,12 @@ TEST_F(ElabIfTest, Top_InstantiatesMiddlemanTwiceWithDistinctInvertOverrides) {
   const hldb::Constant *const c0 = pa0->getRhs<hldb::Constant>();
   ASSERT_NE(c0, nullptr) << "'.invert(0)': RHS must be a Constant";
   EXPECT_EQ(std::string(c0->getDecompile()), "0");
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ElabIfTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "inp", 8, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "inp", 10, 19), nullptr);
 }
 
 }  // namespace hlc

@@ -419,6 +419,11 @@ TEST_F(ClassTest34Test, NoDesignObjectsDeclared) {
   EXPECT_EQ(countFromSourceFile(m_unit->getCheckerDecls()), 0u);
   EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
 }
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ClassTest34Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "N", 7, 58), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

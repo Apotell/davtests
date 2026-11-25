@@ -265,6 +265,17 @@ TEST_F(ClassMemberTest30Test, UndeclaredDoutIsReported) {
   EXPECT_TRUE(hasErrorAt(10, 13)) << "'dout' in '{dout}' is undeclared; an error at 10:13 is expected";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ClassMemberTest30Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shft_idx", 8, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "c", 8, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shft_idx", 8, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "n_bits", 8, 39), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shft_idx", 9, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "dout", 10, 5), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "dout", 10, 13), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

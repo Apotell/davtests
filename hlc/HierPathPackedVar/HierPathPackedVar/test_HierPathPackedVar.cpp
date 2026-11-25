@@ -61,6 +61,7 @@
 //     Net, index RefObj "i"), then RefObj "req"
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -167,6 +168,12 @@ TEST_F(HierPathPackedVarTest, ConditionLhsIsArraySelectThenHierPathToReq) {
   const hldb::Any *const second = hierPath->getPathElems()->at(1);
   ASSERT_NE(second, nullptr);
   EXPECT_EQ(second->getName(), std::string_view{"req"});
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(HierPathPackedVarTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "i", 22, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "SERVING", 23, 21), nullptr);
 }
 
 }  // namespace hlc

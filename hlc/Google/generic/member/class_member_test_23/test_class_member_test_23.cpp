@@ -197,6 +197,11 @@ TEST_F(ClassMemberTest23Test, UndefinedIdentifierMIsReported) {
   EXPECT_TRUE(hasErrorAt(7, 40)) << "'M' is never declared; an error-level diagnostic at 7:40 is expected";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ClassMemberTest23Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "M", 7, 40), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

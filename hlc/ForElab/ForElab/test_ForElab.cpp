@@ -267,6 +267,11 @@ TEST_F(ForElabTest, UndeclaredTypeTlH2dTFailsToBind) {
       << "Sec 6.3: 'tlul_pkg::tl_h2d_t' is never declared anywhere in tlul_pkg";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ForElabTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "req_i", 30, 23), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

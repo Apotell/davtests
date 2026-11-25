@@ -472,6 +472,15 @@ TEST_F(ParamOverload3Test, NoFatalOrSyntaxDiagnostics) {
   EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ParamOverload3Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "NUM_OPERANDS", 53, 37), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "is_boxed", 54, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "vectorial_op_i", 54, 38), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "operands_i", 55, 38), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "is_boxed", 59, 14), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

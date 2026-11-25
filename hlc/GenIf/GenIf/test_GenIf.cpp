@@ -58,6 +58,7 @@
 // elaboration/unrolling is checked here.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -205,6 +206,12 @@ TEST_F(GenIfTest, ElseBranchIsContAssignTemp2FromB) {
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), std::string_view{"b"});
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(GenIfTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 9, 40), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "b", 11, 40), nullptr);
 }
 
 }  // namespace hlc

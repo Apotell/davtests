@@ -52,6 +52,7 @@
 // left unchecked; no .log file was consulted to decide this file's shape.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -155,6 +156,14 @@ TEST_F(FuncDefaultValTest, DasmBodyIsBeginBlockWithAssignmentThenIfStmt) {
 
   const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(body->getStmts()->at(1));
   ASSERT_NE(ifStmt, nullptr) << "'if(regn) ...;' should be an IfStmt";
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(FuncDefaultValTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "opcode", 6, 13), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "regn", 7, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "regn", 7, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "regv", 7, 31), nullptr);
 }
 
 }  // namespace hlc

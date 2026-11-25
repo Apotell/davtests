@@ -403,6 +403,12 @@ TEST_F(ClassMemberTest17Test, NoOtherCompilationUnitDeclarations) {
   EXPECT_EQ(countFromSourceFile(m_unit->getVariables()), 0u);
   EXPECT_EQ(countFromSourceFile(m_unit->getTypedefs()), 0u);
 }
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ClassMemberTest17Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "p", 7, 42), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "q", 7, 44), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

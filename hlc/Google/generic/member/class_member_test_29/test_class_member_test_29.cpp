@@ -184,6 +184,12 @@ TEST_F(ClassMemberTest29Test, UndeclaredNBitsIsReported) {
   EXPECT_TRUE(hasErrorAt(8, 22)) << "'n_bits' is undeclared; an error at 8:22 is expected";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ClassMemberTest29Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "shft_idx", 8, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "n_bits", 8, 22), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

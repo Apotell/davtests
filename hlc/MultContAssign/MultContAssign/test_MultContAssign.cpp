@@ -346,6 +346,11 @@ TEST_F(MultContAssignTest, Top2TwoIsUwireWithTwoAssigns) {
   EXPECT_EQ(m->getContAssigns()->size(), 2u);
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(MultContAssignTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "lru_flags", 39, 31), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

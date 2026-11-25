@@ -38,6 +38,7 @@
 // in stmts.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -327,6 +328,89 @@ TEST_F(SpecifyBlockTest, Hold3_DataTerm_Name) {
   ASSERT_NE(ro, nullptr);
   EXPECT_EQ(ro->getName(), "in1");
 }
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(SpecifyBlockTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 13, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z1", 13, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 16, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z2", 16, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 19, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z3", 19, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 22, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z4", 22, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 25, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z5", 25, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 28, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z6", 28, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 31, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z7", 31, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 34, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z8", 34, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 37, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z9", 37, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 40, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z10", 40, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 43, 6), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "z11", 43, 11), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "out1", 45, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "vout", 46, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "out2", 47, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "vout2", 48, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "out12", 49, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "out13", 50, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "vout13", 51, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 67, 12), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 67, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 71, 19), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 71, 24), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 72, 19), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 72, 24), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 73, 19), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 73, 32), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 76, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 76, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 79, 22), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 79, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 82, 19), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 82, 24), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 85, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 85, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 89, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 89, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 93, 24), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 93, 29), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 97, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 97, 26), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 101, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 105, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 109, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 109, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 114, 12), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 114, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tc_notifier", 114, 38), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 117, 12), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "cond", 117, 20), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 117, 34), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 120, 19), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "cond", 120, 27), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 120, 33), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "cond", 120, 41), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 123, 12), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 123, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 126, 24), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 126, 29), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tc_notifier", 126, 47), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 129, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 129, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tc_notifier", 129, 57), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 132, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 132, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tc_notifier", 132, 44), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clk", 135, 23), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in1", 135, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "tc_notifier", 135, 49), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

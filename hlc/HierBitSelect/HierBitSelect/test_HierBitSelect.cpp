@@ -114,6 +114,13 @@ TEST_F(HierBitSelectTest, StateD1FailsToBind) {
   EXPECT_NE(err, nullptr);
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(HierBitSelectTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "mido_bytes_in", 3, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "state_d", 4, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "state_d1", 5, 8), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -249,6 +249,13 @@ TEST_F(ArianeElab2Test, UnresolvedReferenceCascadesToEveryEnclosingGenerateConst
       << "fpu_wrap's generate-if should also report it, at the top of the instance chain";
 }
 
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ArianeElab2Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in_valid_i", 1987, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "dst_fmt_i", 1987, 39), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "fu_data_i", 2089, 46), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

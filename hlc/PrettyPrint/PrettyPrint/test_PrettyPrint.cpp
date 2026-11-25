@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -154,6 +155,14 @@ TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_2) {
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   ASSERT_EQ(hldb::prettyPrint(typespec), "l [10:20] [30:40]");
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(PrettyPrint, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "SIZE", 2, 21), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "c", 3, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "e", 4, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "g", 5, 34), nullptr);
 }
 
 }  // namespace hlc

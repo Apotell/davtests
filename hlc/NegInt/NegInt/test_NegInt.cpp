@@ -50,6 +50,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -291,6 +292,14 @@ TEST_F(NegIntTest, ElseBranchIsInIIndexedByGenvar) {
   const hldb::RefObj *const idx = any_cast<hldb::RefObj>(bs->getIndex());
   ASSERT_NE(idx, nullptr);
   EXPECT_EQ(idx->getActual(), getGenvar());
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(NegIntTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in_tmp", 3, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "FLIP", 3, 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in_i", 3, 35), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "in_i", 3, 53), nullptr);
 }
 
 }  // namespace hlc

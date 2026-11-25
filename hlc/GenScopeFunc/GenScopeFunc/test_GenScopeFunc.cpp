@@ -50,6 +50,7 @@
 // E:\Davenche\davtests\davtests_02\build\include\hldb.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -261,6 +262,11 @@ TEST_F(GenScopeFuncTest, ContAssignCallsLocalFunctionBoundToCscope) {
   ASSERT_NE(scopeQualifier, nullptr) << "'cscope' qualifier should be the call's vpiPrefix RefObj";
   EXPECT_EQ(scopeQualifier->getName(), std::string_view("cscope"));
   EXPECT_EQ(scopeQualifier->getActual(), cscope) << "'cscope' qualifier should resolve to the 'cscope' generate block";
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(GenScopeFuncTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "counter", 11, 38), nullptr);
 }
 
 }  // namespace hlc

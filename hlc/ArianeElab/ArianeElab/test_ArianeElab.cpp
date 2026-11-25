@@ -59,6 +59,7 @@
 //     confirmed against the headers.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -340,6 +341,15 @@ TEST_F(ArianeElabTest, ExStageGenerateIfInstantiatesFpuWrapWhenFpPresent) {
   const hldb::ModuleTypespec *const mt = fpuI->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(mt, nullptr) << "fpu_i's typespec is not ModuleTypespec";
   EXPECT_EQ(mt->getName(), std::string_view("fpu_wrap"));
+}
+
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(ArianeElabTest, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "is_boxed", 1976, 16), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "vectorial_op_i", 1976, 38), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "operands_i", 1977, 38), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "is_boxed", 1981, 14), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "fu_data_i", 2033, 46), nullptr);
 }
 
 }  // namespace hlc

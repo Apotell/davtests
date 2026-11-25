@@ -532,6 +532,11 @@ TEST_F(DefineExpansion26Test, NoOtherDesignObjectsDeclared) {
     EXPECT_EQ(sizeOf(topInstance->getNets()), 0u) << "6.10 creates no implicit net for a $display argument";
   }
 }
+// Names used in the source but declared nowhere in scope are reported where they are used.
+TEST_F(DefineExpansion26Test, ReportsUndefinedVariables) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "clock_master", 16, 19), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {
