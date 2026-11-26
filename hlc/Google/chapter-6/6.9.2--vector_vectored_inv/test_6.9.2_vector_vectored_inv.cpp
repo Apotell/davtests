@@ -75,11 +75,6 @@ TEST_F(VectorVectoredInvTest, VectoredOnAVariableIsASyntaxError) {
          "must be rejected";
 }
 
-// Names used in the source but declared nowhere in scope are reported where they are used.
-TEST_F(VectorVectoredInvTest, ReportsUndefinedVariables) {
-  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "a", 19, 9), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

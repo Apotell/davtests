@@ -173,6 +173,30 @@ TEST_F(DollarRootTest, UnresolvableRootTbReferenceFailsToBindInTestProgram1) {
 }
 
 // ---------------------------------------------------------------------------
+// 'import avalon_mm_pkg::*;' names a package that does not exist, so every
+// use of its enumerator REQ_WRITE in "test_program" is an undefined name
+// (IEEE 1800-2023 Sec 26.3): all four uses must be reported, whether
+// REQ_WRITE is a call argument or an operand of a comparison.
+// ---------------------------------------------------------------------------
+
+TEST_F(DollarRootTest, ReportsMissingPackage) {
+  EXPECT_NE(findEvent(EventType::CompUndefinedPackage, "avalon_mm_pkg", 8, 11), nullptr);
+}
+
+TEST_F(DollarRootTest, ReportsEveryUseOfUndefinedReqWrite) {
+  // $root.tb.dut.master_0.set_command_request(REQ_WRITE);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 233, 52), nullptr)
+      << "REQ_WRITE passed as a call argument is not reported as undefined";
+  // if ($root.tb.dut.slave_0.get_command_request() == REQ_WRITE) begin
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 317, 57), nullptr);
+  // $root.tb.dut.master_1.set_command_request(REQ_WRITE);
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 376, 52), nullptr)
+      << "REQ_WRITE passed as a call argument is not reported as undefined";
+  // if ($root.tb.dut.slave_1.get_command_request() == REQ_WRITE) begin
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 460, 57), nullptr);
+}
+
+// ---------------------------------------------------------------------------
 // Compiler diagnostics
 // ---------------------------------------------------------------------------
 
@@ -186,12 +210,6 @@ TEST_F(DollarRootTest, CompilerReportsAtLeastOneError) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_GT(stats.m_errors + stats.m_fatals + stats.m_syntaxes, 0u);
-}
-
-// Names used in the source but declared nowhere in scope are reported where they are used.
-TEST_F(DollarRootTest, ReportsUndefinedVariables) {
-  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 317, 57), nullptr);
-  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "REQ_WRITE", 460, 57), nullptr);
 }
 
 }  // namespace hlc
