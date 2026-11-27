@@ -127,12 +127,11 @@ TEST_F(Chapter18ErrorRulesTest, Row615_DistExpressionCannotNestInAnotherExpressi
 
 TEST_F(Chapter18ErrorRulesTest, Row616_ExternalConstraintBlockMustFollowItsClass) {
   // catalog row 616 | 18.5.1 | COMP
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 18.5.1)";
   // An external constraint block shall appear in the same scope as the
   // corresponding class declaration and shall appear after the class
   // declaration in that scope. "constraint r616_C::r616_proto1 { ... }"
   // appears before "class r616_C" is declared.
-  EXPECT_NE(findEvent(EventType::CompMisplacedExternDeclaration, "r616_proto1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMisplacedExternDeclaration, "r616_proto1", 44, 1), nullptr)
       << "an external constraint block preceding its class declaration must be diagnosed "
          "(IEEE 1800-2023 18.5.1)";
 }
