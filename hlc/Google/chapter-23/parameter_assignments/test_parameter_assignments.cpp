@@ -53,8 +53,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -72,6 +72,12 @@
 //   UOrderedHasW4D8                elaborated model only: W=4, D=8
 //   UNamedHasW1D16                 elaborated model only: W=1, D=16
 //   UNamedEmptyHasW1D32            elaborated model only: W=1, D=32
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   UDefaultHasW1D2, UOrderedHasW4D8, UNamedHasW1D16, UNamedEmptyHasW1D32:
+//   HLC builds a definition model only, so there are no instances whose
+//   parameters hold the final values.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -100,6 +106,11 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no instances whose parameter values could be checked (IEEE "
+    "1800-2023 23.3.2, 23.10.2)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -252,30 +263,26 @@ TEST_F(ParameterAssignmentsTest, UNamedEmptyKeepsTheDefaultOfW) {
 
 TEST_F(ParameterAssignmentsTest, UDefaultHasW1D2) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(parametersOf("u_default"), "W=1, D=2");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(parametersOf("u_default"), "W=1, D=2");
 }
 
 TEST_F(ParameterAssignmentsTest, UOrderedHasW4D8) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(parametersOf("u_ordered"), "W=4, D=8");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(parametersOf("u_ordered"), "W=4, D=8");
 }
 
 TEST_F(ParameterAssignmentsTest, UNamedHasW1D16) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(parametersOf("u_named"), "W=1, D=16");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(parametersOf("u_named"), "W=1, D=16");
 }
 
 TEST_F(ParameterAssignmentsTest, UNamedEmptyHasW1D32) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(parametersOf("u_named_empty"), "W=1, D=32");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(parametersOf("u_named_empty"), "W=1, D=32");
 }
 }  // namespace hlc
 

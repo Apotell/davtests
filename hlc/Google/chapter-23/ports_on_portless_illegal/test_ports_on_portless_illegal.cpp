@@ -36,8 +36,9 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    lines 19-23
-//   IllegalCodeIsAnError             CompTooManyPortConnections on line
-//                                    24 -- HLC's event for this rule
+//   IllegalCodeIsAnError             CompTooManyPortConnections for u1 at
+//                                    24:15, the connection "a" -- HLC's
+//                                    event for this rule
 //   NoErrorAfterTheIllegalCode       none on line 25 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
@@ -111,7 +112,7 @@ TEST_F(PortsOnPortlessIllegalTest, LegalLinesAreAccepted) {
 
 // empty_m has no ports, so the connection "(a)" has no port to bind to (23.3.2).
 TEST_F(PortsOnPortlessIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(findEvent(EventType::CompTooManyPortConnections, kIllegalFirstLine), nullptr)
+  EXPECT_NE(findEvent(EventType::CompTooManyPortConnections, "u1", kIllegalFirstLine, 15), nullptr)
       << "errors reported on line 24:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 

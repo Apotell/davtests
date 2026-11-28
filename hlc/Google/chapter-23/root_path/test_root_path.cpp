@@ -66,8 +66,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -87,6 +87,12 @@
 //                                  reference is top.A.B.C.x
 //   RootPathIsABCX                 elaborated model only: line 40's
 //                                  reference is A.B.C.x
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopLevelInstancesAreAAndTop, LocalPathIsTopABCX, RootPathIsABCX: HLC
+//   builds a definition model only, so there are no top-level instances
+//   and no instance tree.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -120,6 +126,11 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no top-level instances or instance tree to check (IEEE 1800-2023 "
+    "23.3.1)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -172,7 +183,7 @@ std::string_view boundDefinition(const hldb::RefInstance *instance) {
 // "top.A.B.C.x" (23.6).
 std::string instancePath(const hldb::Any *object) {
   std::string path;
-  for (const hldb::Any *node = object; (node != nullptr) && (any_cast<hldb::Design>(node) == nullptr);
+  for (const hldb::Any *node = object; (node != nullptr) && (node->getAnyType() != hldb::AnyType::Design);
        node = node->getParent()) {
     path = path.empty() ? std::string(node->getName()) : std::string(node->getName()) + "." + path;
   }
@@ -214,21 +225,24 @@ void collectRefInstances(const hldb::Any *object, std::vector<const hldb::RefIns
   }
 }
 
-// The definitions that no module instantiation statement names (23.3.1), comma-separated in the order of
-// getAllModules().
+// The definitions that no module instantiation statement names (23.3.1), comma-separated, sorted.
 std::string neverInstantiated(const hldb::Design *design) {
   if ((design == nullptr) || (design->getAllModules() == nullptr)) return "<no design>";
   std::vector<const hldb::RefInstance *> instances;
   for (const hldb::Module *module : *design->getAllModules()) collectRefInstances(module, instances);
-  std::string result;
+  std::vector<std::string> names;
   for (const hldb::Module *module : *design->getAllModules()) {
     const std::string_view name = module->getDefName();
     const bool named = std::any_of(instances.cbegin(), instances.cend(), [name](const hldb::RefInstance *instance) {
       return boundDefinition(instance) == name;
     });
-    if (named) continue;
+    if (!named) names.emplace_back(name);
+  }
+  std::sort(names.begin(), names.end());
+  std::string result;
+  for (const std::string &name : names) {
     if (!result.empty()) result += ", ";
-    result += std::string(name);
+    result += name;
   }
   return result;
 }
@@ -238,7 +252,7 @@ std::string neverInstantiated(const hldb::Design *design) {
 // "<name>@<parent>" for anything else, or "<unbound>".
 std::string bindingOf(const hldb::Any *actual) {
   if (actual == nullptr) return "<unbound>";
-  if (any_cast<hldb::Design>(actual) != nullptr) return "$root";
+  if (actual->getAnyType() == hldb::AnyType::Design) return "$root";
   if (const hldb::Module *const module = any_cast<hldb::Module>(actual)) {
     return "module " + std::string(module->getDefName());
   }
@@ -359,23 +373,20 @@ TEST_F(RootPathTest, RootPathBindsThroughModuleA) {
 
 TEST_F(RootPathTest, TopLevelInstancesAreAAndTop) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances()), "A, top");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances()), "A, top");
 }
 
 TEST_F(RootPathTest, LocalPathIsTopABCX) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(rhsTargetPath("l"), "top.A.B.C.x");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(rhsTargetPath("l"), "top.A.B.C.x");
 }
 
 TEST_F(RootPathTest, RootPathIsABCX) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(rhsTargetPath("r"), "A.B.C.x");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(rhsTargetPath("r"), "A.B.C.x");
 }
 }  // namespace hlc
 

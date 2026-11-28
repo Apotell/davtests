@@ -54,8 +54,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -72,8 +72,15 @@
 //                                   getTopModule() is FALSE
 //   M1HoldsInstanceL1OfLeaf         elaborated model only: m1 holds l1, an
 //                                   instance of leaf
-//   L1FullNameIsTopAM1L1            elaborated model only: l1's instance path
+//   L1InstancePathIsTopAM1L1        elaborated model only: l1's instance path
 //                                   is top_a.m1.l1
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopLevelInstancesAreTopAAndTopB, TopAHoldsInstanceM1OfMid,
+//   M1IsNotATopModule, M1HoldsInstanceL1OfLeaf, L1InstancePathIsTopAM1L1:
+//   HLC builds a definition model only, so there are no top-level instances
+//   and no instance tree.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -103,6 +110,11 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no top-level instances or instance tree to check (IEEE 1800-2023 "
+    "23.3.1)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -164,7 +176,7 @@ std::string_view boundDefinition(const hldb::RefInstance *instance) {
 // "top.A.B.C.x" (23.6).
 std::string instancePath(const hldb::Any *object) {
   std::string path;
-  for (const hldb::Any *node = object; (node != nullptr) && (any_cast<hldb::Design>(node) == nullptr);
+  for (const hldb::Any *node = object; (node != nullptr) && (node->getAnyType() != hldb::AnyType::Design);
        node = node->getParent()) {
     path = path.empty() ? std::string(node->getName()) : std::string(node->getName()) + "." + path;
   }
@@ -206,21 +218,24 @@ void collectRefInstances(const hldb::Any *object, std::vector<const hldb::RefIns
   }
 }
 
-// The definitions that no module instantiation statement names (23.3.1), comma-separated in the order of
-// getAllModules().
+// The definitions that no module instantiation statement names (23.3.1), comma-separated, sorted.
 std::string neverInstantiated(const hldb::Design *design) {
   if ((design == nullptr) || (design->getAllModules() == nullptr)) return "<no design>";
   std::vector<const hldb::RefInstance *> instances;
   for (const hldb::Module *module : *design->getAllModules()) collectRefInstances(module, instances);
-  std::string result;
+  std::vector<std::string> names;
   for (const hldb::Module *module : *design->getAllModules()) {
     const std::string_view name = module->getDefName();
     const bool named = std::any_of(instances.cbegin(), instances.cend(), [name](const hldb::RefInstance *instance) {
       return boundDefinition(instance) == name;
     });
-    if (named) continue;
+    if (!named) names.emplace_back(name);
+  }
+  std::sort(names.begin(), names.end());
+  std::string result;
+  for (const std::string &name : names) {
     if (!result.empty()) result += ", ";
-    result += std::string(name);
+    result += name;
   }
   return result;
 }
@@ -284,53 +299,48 @@ TEST_F(TopLevelMultipleTest, TopAAndTopBAreNeverInstantiated) {
 
 TEST_F(TopLevelMultipleTest, TopLevelInstancesAreTopAAndTopB) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances(), true), "top_a, top_b");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances(), true), "top_a, top_b");
 }
 
 TEST_F(TopLevelMultipleTest, TopAHoldsInstanceM1OfMid) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const topA = hldb::findByDefName<hldb::Module>("top_a", m_design->getTopModules());
-    ASSERT_NE(topA, nullptr) << "top-level instances: " << namesOf(topInstances(), true);
-    const std::vector<const hldb::Module *> children = toVector(topA->getModules());
-    const hldb::Module *const m1 = findNamed(children, "m1");
-    ASSERT_NE(m1, nullptr) << "instances in top_a: " << namesOf(children, false);
-    EXPECT_EQ(m1->getDefName(), std::string_view("mid"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const topA = hldb::findByDefName<hldb::Module>("top_a", m_design->getTopModules());
+  ASSERT_NE(topA, nullptr) << "top-level instances: " << namesOf(topInstances(), true);
+  const std::vector<const hldb::Module *> children = toVector(topA->getModules());
+  const hldb::Module *const m1 = findNamed(children, "m1");
+  ASSERT_NE(m1, nullptr) << "instances in top_a: " << namesOf(children, false);
+  EXPECT_EQ(m1->getDefName(), std::string_view("mid"));
 }
 
 TEST_F(TopLevelMultipleTest, M1IsNotATopModule) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const m1 = findM1();
-    ASSERT_NE(m1, nullptr);
-    EXPECT_FALSE(m1->getTopModule());
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const m1 = findM1();
+  ASSERT_NE(m1, nullptr);
+  EXPECT_FALSE(m1->getTopModule());
 }
 
 TEST_F(TopLevelMultipleTest, M1HoldsInstanceL1OfLeaf) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const m1 = findM1();
-    ASSERT_NE(m1, nullptr);
-    const std::vector<const hldb::Module *> children = toVector(m1->getModules());
-    const hldb::Module *const l1 = findNamed(children, "l1");
-    ASSERT_NE(l1, nullptr) << "instances in m1: " << namesOf(children, false);
-    EXPECT_EQ(l1->getDefName(), std::string_view("leaf"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const m1 = findM1();
+  ASSERT_NE(m1, nullptr);
+  const std::vector<const hldb::Module *> children = toVector(m1->getModules());
+  const hldb::Module *const l1 = findNamed(children, "l1");
+  ASSERT_NE(l1, nullptr) << "instances in m1: " << namesOf(children, false);
+  EXPECT_EQ(l1->getDefName(), std::string_view("leaf"));
 }
 
-TEST_F(TopLevelMultipleTest, L1FullNameIsTopAM1L1) {
+TEST_F(TopLevelMultipleTest, L1InstancePathIsTopAM1L1) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const m1 = findM1();
-    ASSERT_NE(m1, nullptr);
-    const hldb::Module *const l1 = hldb::findByName<hldb::Module>("l1", m1->getModules());
-    ASSERT_NE(l1, nullptr);
-    EXPECT_EQ(instancePath(l1), "top_a.m1.l1");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const m1 = findM1();
+  ASSERT_NE(m1, nullptr);
+  const hldb::Module *const l1 = hldb::findByName<hldb::Module>("l1", m1->getModules());
+  ASSERT_NE(l1, nullptr);
+  EXPECT_EQ(instancePath(l1), "top_a.m1.l1");
 }
 }  // namespace hlc
 

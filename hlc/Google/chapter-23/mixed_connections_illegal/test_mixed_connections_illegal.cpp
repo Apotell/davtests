@@ -38,7 +38,7 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    lines 19-23
-//   IllegalCodeIsAnError             PaSyntaxError on line 24: Syntax 23-6
+//   IllegalCodeIsAnError             PaSyntaxError at 24:11: Syntax 23-6
 //                                    has no list that mixes ordered and
 //                                    named port connections
 //   NoErrorAfterTheIllegalCode       none on line 25 or later
@@ -113,9 +113,9 @@ TEST_F(MixedConnectionsIllegalTest, LegalLinesAreAccepted) {
 }
 
 // Syntax 23-6: a list_of_port_connections is all ordered or all named, so "(x, .b(y))" is a syntax
-// error.
+// error, reported at the "." of the named connection (24:11; a syntax error's column counts from 0).
 TEST_F(MixedConnectionsIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine, 11), nullptr)
       << "errors reported on line 24:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 

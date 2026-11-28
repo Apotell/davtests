@@ -38,12 +38,12 @@
 //                                    lines 19-22
 //   IllegalCodeIsAnError             at least one such event on
 //                                    line 23
+//   NoErrorAfterTheIllegalCode       none on line 24 or later
 //
 // SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
 //
 //   IllegalCodeIsAnError: HLC accepts "empty_m u1;" and reports nothing on
 //   line 23.
-//   NoErrorAfterTheIllegalCode       none on line 24 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //

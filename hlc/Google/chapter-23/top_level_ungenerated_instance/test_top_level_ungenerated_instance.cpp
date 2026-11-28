@@ -47,8 +47,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -61,6 +61,11 @@
 //                                  instances are exactly top
 //   ChildIsNotATopLevelInstance    elaborated model only: no top-level
 //                                  instance is named child
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopIsTheOnlyTopLevelInstance, ChildIsNotATopLevelInstance: HLC builds a
+//   definition model only, so there are no top-level instances.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -96,6 +101,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no top-level instances to check (IEEE 1800-2023 23.3.1)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -188,21 +197,24 @@ void collectRefInstances(const hldb::Any *object, std::vector<const hldb::RefIns
   }
 }
 
-// The definitions that no module instantiation statement names (23.3.1), comma-separated in the order of
-// getAllModules().
+// The definitions that no module instantiation statement names (23.3.1), comma-separated, sorted.
 std::string neverInstantiated(const hldb::Design *design) {
   if ((design == nullptr) || (design->getAllModules() == nullptr)) return "<no design>";
   std::vector<const hldb::RefInstance *> instances;
   for (const hldb::Module *module : *design->getAllModules()) collectRefInstances(module, instances);
-  std::string result;
+  std::vector<std::string> names;
   for (const hldb::Module *module : *design->getAllModules()) {
     const std::string_view name = module->getDefName();
     const bool named = std::any_of(instances.cbegin(), instances.cend(), [name](const hldb::RefInstance *instance) {
       return boundDefinition(instance) == name;
     });
-    if (named) continue;
+    if (!named) names.emplace_back(name);
+  }
+  std::sort(names.begin(), names.end());
+  std::string result;
+  for (const std::string &name : names) {
     if (!result.empty()) result += ", ";
-    result += std::string(name);
+    result += name;
   }
   return result;
 }
@@ -272,19 +284,17 @@ TEST_F(TopLevelUngeneratedInstanceTest, OnlyTopIsNeverInstantiated) { EXPECT_EQ(
 
 TEST_F(TopLevelUngeneratedInstanceTest, TopIsTheOnlyTopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances()), "top");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances()), "top");
 }
 
 TEST_F(TopLevelUngeneratedInstanceTest, ChildIsNotATopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    // Without any top-level instance the check below would pass vacuously.
-    ASSERT_FALSE(tops.empty()) << "no top-level instance at all";
-    EXPECT_EQ(findNamed(tops, "child"), nullptr) << "top-level instances: " << namesOf(tops);
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  // Without any top-level instance the check below would pass vacuously.
+  ASSERT_FALSE(tops.empty()) << "no top-level instance at all";
+  EXPECT_EQ(findNamed(tops, "child"), nullptr) << "top-level instances: " << namesOf(tops);
 }
 }  // namespace hlc
 

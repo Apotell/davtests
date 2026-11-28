@@ -38,12 +38,12 @@
 //                                    lines 19-23
 //   IllegalCodeIsAnError             at least one such event on
 //                                    line 24
+//   NoErrorAfterTheIllegalCode       none on line 25 or later
 //
 // SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
 //
 //   IllegalCodeIsAnError: HLC accepts .* twice in one list of port
 //   connections and reports nothing on line 24.
-//   NoErrorAfterTheIllegalCode       none on line 25 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //

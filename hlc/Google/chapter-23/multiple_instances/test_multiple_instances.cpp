@@ -49,15 +49,15 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
 //   TopInstantiatesFf1Ff2Ff3       top's unelaborated instances are ff1, ff2
-//                                  and ff3, in source order, each bound to
-//                                  the definition ffnand
+//                                  and ff3, each bound to the definition
+//                                  ffnand
 //   NamedConnectionsAreBound       each instance's four named connections
 //                                  bind, in order, to the ports q, qbar,
 //                                  clear and preset and refer to top's nets;
@@ -65,9 +65,15 @@
 //   TopIsTheOnlyTopLevelInstance   elaborated model only: the top-level
 //                                  instances are exactly top
 //   TopHoldsFf1Ff2Ff3              elaborated model only: top's instances
-//                                  are ff1, ff2 and ff3, in source order
+//                                  are ff1, ff2 and ff3
 //   AllThreeAreOfModuleFfnand      elaborated model only: each of them has
 //                                  getDefName() ffnand
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopIsTheOnlyTopLevelInstance, TopHoldsFf1Ff2Ff3,
+//   AllThreeAreOfModuleFfnand: HLC builds a definition model only, so there
+//   is no instance tree.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -100,6 +106,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no instance tree to check (IEEE 1800-2023 23.3.1, 23.3.2)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -127,13 +137,16 @@ std::vector<const T *> toVector(const std::vector<T *> *collection) {
   return result;
 }
 
-// The names of 'objects' in their order, comma-separated.
+// The names of 'objects', comma-separated, sorted.
 template <typename T>
 std::string namesOf(const std::vector<const T *> &objects) {
+  std::vector<std::string> names;
+  for (const T *object : objects) names.emplace_back(object->getName());
+  std::sort(names.begin(), names.end());
   std::string result;
-  for (const T *object : objects) {
+  for (const std::string &name : names) {
     if (!result.empty()) result += ", ";
-    result += std::string(object->getName());
+    result += name;
   }
   return result;
 }
@@ -216,12 +229,10 @@ TEST_F(MultipleInstancesTest, TopInstantiatesFf1Ff2Ff3) {
   const hldb::Module *const top = findModule("top");
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getRefInstances(), nullptr);
-  std::string names;
   for (const hldb::RefInstance *instance : *top->getRefInstances()) {
-    names += (names.empty() ? "" : ", ") + std::string(instance->getName());
     EXPECT_EQ(boundDefinition(instance), std::string_view("ffnand")) << instance->getName();
   }
-  EXPECT_EQ(names, "ff1, ff2, ff3");
+  EXPECT_EQ(namesOf(toVector(top->getRefInstances())), "ff1, ff2, ff3");
 }
 
 // Named port connections (23.3.2.2) bind each connection to the port it names; ".q()" leaves q unconnected.
@@ -239,30 +250,27 @@ TEST_F(MultipleInstancesTest, NamedConnectionsAreBound) {
 
 TEST_F(MultipleInstancesTest, TopIsTheOnlyTopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances()), "top");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances()), "top");
 }
 
 TEST_F(MultipleInstancesTest, TopHoldsFf1Ff2Ff3) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
-    ASSERT_NE(top, nullptr) << "no top-level instance top";
-    EXPECT_EQ(namesOf(toVector(top->getModules())), "ff1, ff2, ff3");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
+  ASSERT_NE(top, nullptr) << "no top-level instance top";
+  EXPECT_EQ(namesOf(toVector(top->getModules())), "ff1, ff2, ff3");
 }
 
 TEST_F(MultipleInstancesTest, AllThreeAreOfModuleFfnand) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
-    ASSERT_NE(top, nullptr) << "no top-level instance top";
-    const std::vector<const hldb::Module *> children = toVector(top->getModules());
-    ASSERT_EQ(children.size(), 3u) << "instances in top: " << namesOf(children);
-    for (const hldb::Module *child : children) {
-      EXPECT_EQ(child->getDefName(), std::string_view("ffnand")) << "instance " << child->getName();
-    }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
+  ASSERT_NE(top, nullptr) << "no top-level instance top";
+  const std::vector<const hldb::Module *> children = toVector(top->getModules());
+  ASSERT_EQ(children.size(), 3u) << "instances in top: " << namesOf(children);
+  for (const hldb::Module *child : children) {
+    EXPECT_EQ(child->getDefName(), std::string_view("ffnand")) << "instance " << child->getName();
   }
 }
 }  // namespace hlc

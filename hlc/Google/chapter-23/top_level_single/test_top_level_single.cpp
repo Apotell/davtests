@@ -43,8 +43,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -61,6 +61,12 @@
 //                                 is TRUE
 //   TopInstanceHasNetW            elaborated model only: the instance holds
 //                                 net w
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   OneTopLevelInstance, TopInstanceIsNamedTop, TopInstanceIsOfModuleTop,
+//   TopInstanceIsATopModule, TopInstanceHasNetW: HLC builds a definition
+//   model only, so there is no top-level instance.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -91,6 +97,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no top-level instance to check (IEEE 1800-2023 23.3.1)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -151,21 +161,24 @@ void collectRefInstances(const hldb::Any *object, std::vector<const hldb::RefIns
   }
 }
 
-// The definitions that no module instantiation statement names (23.3.1), comma-separated in the order of
-// getAllModules().
+// The definitions that no module instantiation statement names (23.3.1), comma-separated, sorted.
 std::string neverInstantiated(const hldb::Design *design) {
   if ((design == nullptr) || (design->getAllModules() == nullptr)) return "<no design>";
   std::vector<const hldb::RefInstance *> instances;
   for (const hldb::Module *module : *design->getAllModules()) collectRefInstances(module, instances);
-  std::string result;
+  std::vector<std::string> names;
   for (const hldb::Module *module : *design->getAllModules()) {
     const std::string_view name = module->getDefName();
     const bool named = std::any_of(instances.cbegin(), instances.cend(), [name](const hldb::RefInstance *instance) {
       return boundDefinition(instance) == name;
     });
-    if (named) continue;
+    if (!named) names.emplace_back(name);
+  }
+  std::sort(names.begin(), names.end());
+  std::string result;
+  for (const std::string &name : names) {
     if (!result.empty()) result += ", ";
-    result += std::string(name);
+    result += name;
   }
   return result;
 }
@@ -231,50 +244,41 @@ TEST_F(TopLevelSingleTest, TopDeclaresNetW) {
 
 TEST_F(TopLevelSingleTest, OneTopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    EXPECT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  EXPECT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
 }
 
 TEST_F(TopLevelSingleTest, TopInstanceIsNamedTop) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
-    EXPECT_EQ(tops.front()->getName(), std::string_view("top"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
+  EXPECT_EQ(tops.front()->getName(), std::string_view("top"));
 }
 
 TEST_F(TopLevelSingleTest, TopInstanceIsOfModuleTop) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
-    EXPECT_EQ(tops.front()->getDefName(), std::string_view("top"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
+  EXPECT_EQ(tops.front()->getDefName(), std::string_view("top"));
 }
 
 TEST_F(TopLevelSingleTest, TopInstanceIsATopModule) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
-    EXPECT_TRUE(tops.front()->getTopModule());
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
+  EXPECT_TRUE(tops.front()->getTopModule());
 }
 
 TEST_F(TopLevelSingleTest, TopInstanceHasNetW) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<const hldb::Module *> tops = topInstances();
-    ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
-    const hldb::NetCollection *const nets = tops.front()->getNets();
-    ASSERT_NE(nets, nullptr);
-    const bool found =
-        std::any_of(nets->cbegin(), nets->cend(), [](const hldb::Net *net) { return net->getName() == "w"; });
-    EXPECT_TRUE(found);
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const std::vector<const hldb::Module *> tops = topInstances();
+  ASSERT_EQ(tops.size(), 1u) << "top-level instances: " << namesOf(tops);
+  EXPECT_NE(hldb::findByName<hldb::Net>("w", tops.front()->getNets()), nullptr);
 }
 }  // namespace hlc
 

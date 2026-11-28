@@ -44,8 +44,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -60,6 +60,11 @@
 //   TopHoldsU1OfModuleLater        elaborated model only: top holds u1, an
 //                                  instance of later
 //   U1HasPortI                     elaborated model only: u1's ports are i
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopIsTheOnlyTopLevelInstance, TopHoldsU1OfModuleLater, U1HasPortI: HLC
+//   builds a definition model only, so there is no instance tree.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -85,6 +90,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no instance tree to check (IEEE 1800-2023 23.3.1, 23.3.2)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -214,27 +223,24 @@ TEST_F(ForwardReferenceTest, OrderedConnectionBindsI) { EXPECT_EQ(connectionsOf(
 
 TEST_F(ForwardReferenceTest, TopIsTheOnlyTopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances()), "top");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances()), "top");
 }
 
 TEST_F(ForwardReferenceTest, TopHoldsU1OfModuleLater) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const u1 = findU1();
-    ASSERT_NE(u1, nullptr) << "no instance top.u1";
-    EXPECT_EQ(u1->getDefName(), std::string_view("later"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const u1 = findU1();
+  ASSERT_NE(u1, nullptr) << "no instance top.u1";
+  EXPECT_EQ(u1->getDefName(), std::string_view("later"));
 }
 
 TEST_F(ForwardReferenceTest, U1HasPortI) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const u1 = findU1();
-    ASSERT_NE(u1, nullptr) << "no instance top.u1";
-    EXPECT_EQ(namesOf(toVector(u1->getPorts())), "i");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const u1 = findU1();
+  ASSERT_NE(u1, nullptr) << "no instance top.u1";
+  EXPECT_EQ(namesOf(toVector(u1->getPorts())), "i");
 }
 }  // namespace hlc
 

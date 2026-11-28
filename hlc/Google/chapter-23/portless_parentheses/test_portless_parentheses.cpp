@@ -43,8 +43,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -57,6 +57,11 @@
 //   TopHoldsU1OfModuleEmptyM       elaborated model only: top holds u1, an
 //                                  instance of empty_m
 //   U1HasNoPorts                   elaborated model only: u1 has no ports
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopIsTheOnlyTopLevelInstance, TopHoldsU1OfModuleEmptyM, U1HasNoPorts:
+//   HLC builds a definition model only, so there is no instance tree.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -82,6 +87,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no instance tree to check (IEEE 1800-2023 23.3.1, 23.3.2)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -215,27 +224,24 @@ TEST_F(PortlessParenthesesTest, U1HasNoConnections) {
 
 TEST_F(PortlessParenthesesTest, TopIsTheOnlyTopLevelInstance) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(namesOf(topInstances()), "top");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  EXPECT_EQ(namesOf(topInstances()), "top");
 }
 
 TEST_F(PortlessParenthesesTest, TopHoldsU1OfModuleEmptyM) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const u1 = findU1();
-    ASSERT_NE(u1, nullptr) << "no instance top.u1";
-    EXPECT_EQ(u1->getDefName(), std::string_view("empty_m"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const u1 = findU1();
+  ASSERT_NE(u1, nullptr) << "no instance top.u1";
+  EXPECT_EQ(u1->getDefName(), std::string_view("empty_m"));
 }
 
 TEST_F(PortlessParenthesesTest, U1HasNoPorts) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const u1 = findU1();
-    ASSERT_NE(u1, nullptr) << "no instance top.u1";
-    EXPECT_EQ(namesOf(toVector(u1->getPorts())), "");
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const u1 = findU1();
+  ASSERT_NE(u1, nullptr) << "no instance top.u1";
+  EXPECT_EQ(namesOf(toVector(u1->getPorts())), "");
 }
 }  // namespace hlc
 

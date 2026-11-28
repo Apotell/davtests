@@ -46,8 +46,8 @@
 // typespec to the definition it names, with its parameter and port
 // connections bound to that definition's parameters and ports. Those
 // bindings are checked unconditionally. The top-level instances and the
-// instance tree exist only in an elaborated model (23.3); those checks are
-// gated on m_design->getElaborated(), so they run once HLC elaborates.
+// instance tree exist only in an elaborated model (23.3); those tests skip
+// unless m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -65,6 +65,12 @@
 //                                  instances of cell_m
 //   ElementsAreArrayMembers        elaborated model only: each of them is an
 //                                  array member
+//
+// SKIPPED (GTEST_SKIP; the real assertions stay below the skip)
+//
+//   TopHoldsModuleArrayU, ArrayUHasSize4, ArrayUHoldsFourCellMs,
+//   ElementsAreArrayMembers: HLC builds a definition model only, so there is
+//   no module array.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -103,6 +109,10 @@
 
 namespace hlc {
 namespace {
+// The reason the instance-model tests are skipped while HLC builds a definition model only.
+constexpr std::string_view kNotElaborated =
+    "HLC builds a definition model only, with no module array to check (IEEE 1800-2023 23.3.2, 28.3.5)";
+
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -234,50 +244,46 @@ TEST_F(InstanceArrayTest, NamedConnectionsBindIAndO) {
 
 TEST_F(InstanceArrayTest, TopHoldsModuleArrayU) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
-    ASSERT_NE(top, nullptr) << "no top-level instance top";
-    EXPECT_NE(hldb::findByName<hldb::ModuleArray>("u", top->getModuleArrays()), nullptr);
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
+  ASSERT_NE(top, nullptr) << "no top-level instance top";
+  EXPECT_NE(hldb::findByName<hldb::ModuleArray>("u", top->getModuleArrays()), nullptr);
 }
 
 TEST_F(InstanceArrayTest, ArrayUHasSize4) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::ModuleArray *const array = findArrayU();
-    ASSERT_NE(array, nullptr) << "no module array top.u";
-    ASSERT_NE(array->getRanges(), nullptr);
-    ASSERT_EQ(array->getRanges()->size(), 1u);
-    const hldb::Range *const range = array->getRanges()->front();
-    const hldb::ExprEval evaluator(nullptr, true);
-    int64_t left = 0;
-    int64_t right = 0;
-    ASSERT_TRUE(evaluator.getInt64(range->getLeftExpr(), &left));
-    ASSERT_TRUE(evaluator.getInt64(range->getRightExpr(), &right));
-    EXPECT_EQ(((left >= right) ? (left - right) : (right - left)) + 1, 4);
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::ModuleArray *const array = findArrayU();
+  ASSERT_NE(array, nullptr) << "no module array top.u";
+  ASSERT_NE(array->getRanges(), nullptr);
+  ASSERT_EQ(array->getRanges()->size(), 1u);
+  const hldb::Range *const range = array->getRanges()->front();
+  const hldb::ExprEval evaluator(nullptr, true);
+  int64_t left = 0;
+  int64_t right = 0;
+  ASSERT_TRUE(evaluator.getInt64(range->getLeftExpr(), &left));
+  ASSERT_TRUE(evaluator.getInt64(range->getRightExpr(), &right));
+  EXPECT_EQ(((left >= right) ? (left - right) : (right - left)) + 1, 4);
 }
 
 TEST_F(InstanceArrayTest, ArrayUHoldsFourCellMs) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::ModuleArray *const array = findArrayU();
-    ASSERT_NE(array, nullptr) << "no module array top.u";
-    const std::vector<const hldb::Instance *> elements = toVector(array->getInstances());
-    ASSERT_EQ(elements.size(), 4u);
-    for (const hldb::Instance *element : elements) EXPECT_EQ(element->getDefName(), std::string_view("cell_m"));
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::ModuleArray *const array = findArrayU();
+  ASSERT_NE(array, nullptr) << "no module array top.u";
+  const std::vector<const hldb::Instance *> elements = toVector(array->getInstances());
+  ASSERT_EQ(elements.size(), 4u);
+  for (const hldb::Instance *element : elements) EXPECT_EQ(element->getDefName(), std::string_view("cell_m"));
 }
 
 TEST_F(InstanceArrayTest, ElementsAreArrayMembers) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::ModuleArray *const array = findArrayU();
-    ASSERT_NE(array, nullptr) << "no module array top.u";
-    const std::vector<const hldb::Instance *> elements = toVector(array->getInstances());
-    ASSERT_FALSE(elements.empty());
-    for (const hldb::Instance *element : elements) EXPECT_TRUE(element->getArrayMember());
-  }
+  if (!m_design->getElaborated()) GTEST_SKIP() << kNotElaborated;
+  const hldb::ModuleArray *const array = findArrayU();
+  ASSERT_NE(array, nullptr) << "no module array top.u";
+  const std::vector<const hldb::Instance *> elements = toVector(array->getInstances());
+  ASSERT_FALSE(elements.empty());
+  for (const hldb::Instance *element : elements) EXPECT_TRUE(element->getArrayMember());
 }
 }  // namespace hlc
 
