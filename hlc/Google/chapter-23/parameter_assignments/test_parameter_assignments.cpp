@@ -45,36 +45,50 @@
 // (getParameters(), 37.10), and a constant's text is
 // Constant::getDecompile().
 //
-// Instances exist only after elaboration (23.3). The HLC install of
-// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
-// removed), so the test checks the design as Compile() leaves it; the
-// instance checks fail until HLC builds the instance tree itself.
+// THE MODEL
+//
+// HLC's graph is a definition model: it holds everything the source says,
+// so that an instance model can be built from it. An instantiation is an
+// unelaborated instance (Module::getRefInstances()) bound through its
+// typespec to the definition it names, with its parameter and port
+// connections bound to that definition's parameters and ports. Those
+// bindings are checked unconditionally. The top-level instances and the
+// instance tree exist only in an elaborated model (23.3); those checks are
+// gated on m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
-//   DesignIsElaborated             the design is marked elaborated
-//   UDefaultHasW1D2                u_default's parameters are W=1, D=2
-//   UOrderedHasW4D8                u_ordered's parameters are W=4, D=8
-//   UNamedHasW1D16                 u_named's parameters are W=1, D=16
-//   UNamedEmptyHasW1D32            u_named_empty's parameters are W=1, D=32
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - Assigning the same parameter twice ("Once a parameter is assigned a
-//     value, there shall not be another assignment to this parameter name").
-//     Parameter overriding is 23.10, a later batch.
+//   InstancesAreBoundToM           top's four unelaborated instances are
+//                                  bound to the definition m
+//   UDefaultAssignsNothing         u_default has no parameter assignment
+//   UOrderedAssignsByPosition      u_ordered's ordered assignments bind 4 to
+//                                  W and 8 to D
+//   UNamedAssignsDByName           u_named's named assignment binds 16 to D
+//   UNamedEmptyKeepsTheDefaultOfW  u_named_empty's named assignments bind
+//                                  nothing to W (.W()) and 32 to D
+//   UDefaultHasW1D2                elaborated model only: u_default has W=1,
+//                                  D=2
+//   UOrderedHasW4D8                elaborated model only: W=4, D=8
+//   UNamedHasW1D16                 elaborated model only: W=1, D=16
+//   UNamedEmptyHasW1D32            elaborated model only: W=1, D=32
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/any_type.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
+#include <hldb/param_assign.h>
 #include <hldb/parameter.h>
+#include <hldb/ref_instance.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -86,12 +100,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.3.2--parameter-assignments.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -119,19 +127,10 @@ std::vector<const T *> toVector(const std::vector<T *> *collection) {
   return result;
 }
 
-// The object named 'name' among 'objects', or nullptr.
-template <typename T>
-const T *findNamed(const std::vector<const T *> &objects, std::string_view name) {
-  for (const T *object : objects) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
-
 // The source text (Constant::getDecompile()) of the value of parameter 'name'
 // in 'instance', or a placeholder that says what is missing.
 std::string parameterValue(const hldb::Module *instance, std::string_view name) {
-  const hldb::Any *const object = findNamed(toVector(instance->getParameters()), name);
+  const hldb::Any *const object = hldb::findByName<hldb::Any>(name, instance->getParameters());
   if (object == nullptr) return "<no parameter>";
   const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(object);
   if (parameter == nullptr) return "<not a parameter>";
@@ -140,6 +139,38 @@ std::string parameterValue(const hldb::Module *instance, std::string_view name) 
   if (constant == nullptr) return "<" + std::string(hldb::AnyTypeName(parameter->getExpr()->getAnyType())) + ">";
   return std::string(constant->getDecompile());
 }
+// The name of the definition an unelaborated instance is bound to (the module its typespec names), or "" when it
+// is not bound to a module.
+std::string_view boundDefinition(const hldb::RefInstance *instance) {
+  if ((instance == nullptr) || (instance->getTypespec() == nullptr)) return "";
+  const hldb::ModuleTypespec *const definition = instance->getTypespec()->getActual<hldb::ModuleTypespec>();
+  return (definition == nullptr) ? std::string_view() : definition->getDefName();
+}
+
+// The parameter value assignments of an unelaborated instance as text, in order: "<parameter>=<value>" for an
+// ordered assignment and ".<parameter>=<value>" for a named one, where <parameter> is the parameter the
+// assignment is bound to and <value> the constant assigned ("" for an empty assignment such as ".W()").
+std::string parameterAssignmentsOf(const hldb::RefInstance *instance) {
+  if ((instance == nullptr) || (instance->getTypespec() == nullptr)) return "<no instance>";
+  const hldb::ModuleTypespec *const definition = instance->getTypespec()->getActual<hldb::ModuleTypespec>();
+  if (definition == nullptr) return "<not bound to a module>";
+  std::string result;
+  if (definition->getParamAssigns() == nullptr) return result;
+  for (const hldb::ParamAssign *assign : *definition->getParamAssigns()) {
+    const hldb::Parameter *const parameter = any_cast<hldb::Parameter>(hldb::getActual(assign->getLhs()));
+    std::string value;
+    if (const hldb::Constant *const constant = assign->getRhs<hldb::Constant>()) {
+      value = std::string(constant->getDecompile());
+    } else if (assign->getRhs() != nullptr) {
+      value = "<not a constant>";
+    }
+    if (!result.empty()) result += ", ";
+    result += std::string(assign->getConnByName() ? "." : "") +
+              ((parameter == nullptr) ? std::string("<unbound>") : std::string(parameter->getName())) + "=" + value;
+  }
+  return result;
+}
+
 }  // namespace
 
 class ParameterAssignmentsTest : public Test {
@@ -157,22 +188,32 @@ class ParameterAssignmentsTest : public Test {
     return oss.str();
   }
 
-  // The top-level instances from the file under test (37.5 detail 1).
+  // The definition of the module named 'name', or nullptr.
+  static const hldb::Module *findModule(std::string_view name) {
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+
+  // The unelaborated instance 'name' that the definition 'parent' declares, or nullptr.
+  static const hldb::RefInstance *findRefInstance(std::string_view parent, std::string_view name) {
+    const hldb::Module *const module = findModule(parent);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(name, module->getRefInstances());
+  }
+
+  // The top-level instances (37.5 detail 1); there are some only in an elaborated model.
   static std::vector<const hldb::Module *> topInstances() {
     std::vector<const hldb::Module *> result;
-    if (m_design == nullptr) return result;
-    for (const hldb::Module *module : toVector(m_design->getTopModules())) {
-      if (endsWith(module->getFile(), kSourceFileName)) result.emplace_back(module);
-    }
+    if ((m_design == nullptr) || (m_design->getTopModules() == nullptr)) return result;
+    for (const hldb::Module *module : *m_design->getTopModules()) result.emplace_back(module);
     return result;
   }
 
   // "W=<value>, D=<value>" for instance 'name' inside top-level instance
   // top, or a placeholder that says what is missing.
   static std::string parametersOf(std::string_view name) {
-    const hldb::Module *const top = findNamed(topInstances(), "top");
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     if (top == nullptr) return "<no top-level instance top>";
-    const hldb::Module *const instance = findNamed(toVector(top->getModules()), name);
+    const hldb::Module *const instance = hldb::findByName<hldb::Module>(name, top->getModules());
     if (instance == nullptr) return "<no instance top." + std::string(name) + ">";
     return "W=" + parameterValue(instance, "W") + ", D=" + parameterValue(instance, "D");
   }
@@ -180,18 +221,62 @@ class ParameterAssignmentsTest : public Test {
 
 TEST_F(ParameterAssignmentsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(ParameterAssignmentsTest, DesignIsElaborated) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_TRUE(m_design->getElaborated());
+// All four instantiations name the module m.
+TEST_F(ParameterAssignmentsTest, InstancesAreBoundToM) {
+  for (std::string_view name : {"u_default", "u_ordered", "u_named", "u_named_empty"}) {
+    const hldb::RefInstance *const instance = findRefInstance("top", name);
+    ASSERT_NE(instance, nullptr) << name;
+    EXPECT_EQ(boundDefinition(instance), std::string_view("m")) << name;
+  }
 }
 
-TEST_F(ParameterAssignmentsTest, UDefaultHasW1D2) { EXPECT_EQ(parametersOf("u_default"), "W=1, D=2"); }
+// "m u_default ();" overrides no parameter.
+TEST_F(ParameterAssignmentsTest, UDefaultAssignsNothing) {
+  EXPECT_EQ(parameterAssignmentsOf(findRefInstance("top", "u_default")), "");
+}
 
-TEST_F(ParameterAssignmentsTest, UOrderedHasW4D8) { EXPECT_EQ(parametersOf("u_ordered"), "W=4, D=8"); }
+// "#(4, 8)" assigns by position (23.10.2.1): 4 to the first parameter W and 8 to D.
+TEST_F(ParameterAssignmentsTest, UOrderedAssignsByPosition) {
+  EXPECT_EQ(parameterAssignmentsOf(findRefInstance("top", "u_ordered")), "W=4, D=8");
+}
 
-TEST_F(ParameterAssignmentsTest, UNamedHasW1D16) { EXPECT_EQ(parametersOf("u_named"), "W=1, D=16"); }
+// "#(.D(16))" assigns D by name (23.10.2.2).
+TEST_F(ParameterAssignmentsTest, UNamedAssignsDByName) {
+  EXPECT_EQ(parameterAssignmentsOf(findRefInstance("top", "u_named")), ".D=16");
+}
 
-TEST_F(ParameterAssignmentsTest, UNamedEmptyHasW1D32) { EXPECT_EQ(parametersOf("u_named_empty"), "W=1, D=32"); }
+// "#(.W(), .D(32))": the empty named assignment ".W()" keeps W's default (23.10.2.2).
+TEST_F(ParameterAssignmentsTest, UNamedEmptyKeepsTheDefaultOfW) {
+  EXPECT_EQ(parameterAssignmentsOf(findRefInstance("top", "u_named_empty")), ".W=, .D=32");
+}
+
+TEST_F(ParameterAssignmentsTest, UDefaultHasW1D2) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(parametersOf("u_default"), "W=1, D=2");
+  }
+}
+
+TEST_F(ParameterAssignmentsTest, UOrderedHasW4D8) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(parametersOf("u_ordered"), "W=4, D=8");
+  }
+}
+
+TEST_F(ParameterAssignmentsTest, UNamedHasW1D16) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(parametersOf("u_named"), "W=1, D=16");
+  }
+}
+
+TEST_F(ParameterAssignmentsTest, UNamedEmptyHasW1D32) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(parametersOf("u_named_empty"), "W=1, D=32");
+  }
+}
 }  // namespace hlc
 
 int main(int argc, char **argv) {

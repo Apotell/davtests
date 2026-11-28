@@ -32,27 +32,23 @@
 // with ports." (23.3.2). empty_m has no ports, yet line 24 gives its
 // instance u1 the connection list (a).
 //
-// Some instantiation rules can only be checked during elaboration (23.3).
-// The HLC install of 2026-11-23 no longer gives tests an elaborator
-// (hldb::Elaborator was removed), so the test checks the events of
-// Compile() alone.
-//
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    lines 19-23
-//   IllegalCodeIsAnError             at least one such event on
-//                                    line 24
+//   IllegalCodeIsAnError             CompTooManyPortConnections on line
+//                                    24 -- HLC's event for this rule
 //   NoErrorAfterTheIllegalCode       none on line 25 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The event's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The event's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -113,8 +109,10 @@ TEST_F(PortsOnPortlessIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(eventsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
+// empty_m has no ports, so the connection "(a)" has no port to bind to (23.3.2).
 TEST_F(PortsOnPortlessIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(eventsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::CompTooManyPortConnections, kIllegalFirstLine), nullptr)
+      << "errors reported on line 24:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(PortsOnPortlessIllegalTest, NoErrorAfterTheIllegalCode) {

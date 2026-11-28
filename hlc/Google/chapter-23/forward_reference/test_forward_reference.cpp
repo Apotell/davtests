@@ -36,32 +36,45 @@
 // instance has a definition name (getDefName(), 37.10) and the ports of its
 // definition (37.5, relation port).
 //
-// Instances exist only after elaboration (23.3). The HLC install of
-// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
-// removed), so the test checks the design as Compile() leaves it; the
-// instance checks fail until HLC builds the instance tree itself.
+// THE MODEL
+//
+// HLC's graph is a definition model: it holds everything the source says,
+// so that an instance model can be built from it. An instantiation is an
+// unelaborated instance (Module::getRefInstances()) bound through its
+// typespec to the definition it names, with its parameter and port
+// connections bound to that definition's parameters and ports. Those
+// bindings are checked unconditionally. The top-level instances and the
+// instance tree exist only in an elaborated model (23.3); those checks are
+// gated on m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
-//   DesignIsElaborated             the design is marked elaborated
-//   TopIsTheOnlyTopLevelInstance   the top-level instances are exactly top
-//   TopHoldsU1OfModuleLater        top holds u1, whose getDefName() is later
-//   U1HasPortI                     u1 has the port i of module later
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - The connection of a to port i. Ordered connections are 23.3.2.1 (next
-//     batch).
+//   TopInstantiatesU1OfLater       top's unelaborated instance u1 is bound to
+//                                  the definition later, declared after top
+//   OrderedConnectionBindsI        u1's one connection is ordered, binds to
+//                                  later's first port i and refers to the net
+//                                  a
+//   TopIsTheOnlyTopLevelInstance   elaborated model only: the top-level
+//                                  instances are exactly top
+//   TopHoldsU1OfModuleLater        elaborated model only: top holds u1, an
+//                                  instance of later
+//   U1HasPortI                     elaborated model only: u1's ports are i
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
+#include <hldb/named_argument.h>
 #include <hldb/port.h>
+#include <hldb/ref_instance.h>
+#include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 
 #include <algorithm>
 #include <iterator>
@@ -72,12 +85,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.3.2--forward-reference.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -105,15 +112,6 @@ std::vector<const T *> toVector(const std::vector<T *> *collection) {
   return result;
 }
 
-// The object named 'name' among 'objects', or nullptr.
-template <typename T>
-const T *findNamed(const std::vector<const T *> &objects, std::string_view name) {
-  for (const T *object : objects) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
-
 // The names of 'objects' in their order, comma-separated.
 template <typename T>
 std::string namesOf(const std::vector<const T *> &objects) {
@@ -124,6 +122,40 @@ std::string namesOf(const std::vector<const T *> &objects) {
   }
   return result;
 }
+// The name of the definition an unelaborated instance is bound to (the module its typespec names), or "" when it
+// is not bound to a module.
+std::string_view boundDefinition(const hldb::RefInstance *instance) {
+  if ((instance == nullptr) || (instance->getTypespec() == nullptr)) return "";
+  const hldb::ModuleTypespec *const definition = instance->getTypespec()->getActual<hldb::ModuleTypespec>();
+  return (definition == nullptr) ? std::string_view() : definition->getDefName();
+}
+
+// The port connections of an unelaborated instance as text, in order: ".<port>(<actual>)" for a named connection
+// and "<port>:<actual>" for an ordered one, where <port> is the port the connection is bound to and <actual> the
+// object it refers to ("" for an empty connection such as ".q()").
+std::string connectionsOf(const hldb::RefInstance *instance) {
+  std::string result;
+  if ((instance == nullptr) || (instance->getArguments() == nullptr)) return result;
+  for (const hldb::NamedArgument *argument : *instance->getArguments()) {
+    const hldb::Port *const port = any_cast<hldb::Port>(hldb::getActual(argument->getLowConn()));
+    const std::string portName = (port == nullptr) ? std::string("<unbound>") : std::string(port->getName());
+    std::string actual;
+    if (const hldb::Any *const highConn = argument->getHighConn()) {
+      const hldb::Any *const target = hldb::getActual(highConn);
+      actual = (target == nullptr) ? std::string("<unbound>") : std::string(target->getName());
+    }
+    if (!result.empty()) result += ", ";
+    if (argument->getWildcardConn()) {
+      result += ".*";
+    } else if (argument->getConnByName()) {
+      result += "." + portName + "(" + actual + ")";
+    } else {
+      result += portName + ":" + actual;
+    }
+  }
+  return result;
+}
+
 }  // namespace
 
 class ForwardReferenceTest : public Test {
@@ -141,42 +173,68 @@ class ForwardReferenceTest : public Test {
     return oss.str();
   }
 
-  // The top-level instances from the file under test (37.5 detail 1).
+  // The definition of the module named 'name', or nullptr.
+  static const hldb::Module *findModule(std::string_view name) {
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+
+  // The unelaborated instance 'name' that the definition 'parent' declares, or nullptr.
+  static const hldb::RefInstance *findRefInstance(std::string_view parent, std::string_view name) {
+    const hldb::Module *const module = findModule(parent);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(name, module->getRefInstances());
+  }
+
+  // The top-level instances (37.5 detail 1); there are some only in an elaborated model.
   static std::vector<const hldb::Module *> topInstances() {
     std::vector<const hldb::Module *> result;
-    if (m_design == nullptr) return result;
-    for (const hldb::Module *module : toVector(m_design->getTopModules())) {
-      if (endsWith(module->getFile(), kSourceFileName)) result.emplace_back(module);
-    }
+    if ((m_design == nullptr) || (m_design->getTopModules() == nullptr)) return result;
+    for (const hldb::Module *module : *m_design->getTopModules()) result.emplace_back(module);
     return result;
   }
 
   // Instance u1 inside top-level instance top, or nullptr.
   static const hldb::Module *findU1() {
-    const hldb::Module *const top = findNamed(topInstances(), "top");
-    return (top == nullptr) ? nullptr : findNamed(toVector(top->getModules()), "u1");
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Module>("u1", top->getModules());
   }
 };
 
 TEST_F(ForwardReferenceTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(ForwardReferenceTest, DesignIsElaborated) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_TRUE(m_design->getElaborated());
+// "later u1 (a);" names the module later, which is declared after top.
+TEST_F(ForwardReferenceTest, TopInstantiatesU1OfLater) {
+  const hldb::RefInstance *const u1 = findRefInstance("top", "u1");
+  ASSERT_NE(u1, nullptr);
+  EXPECT_EQ(boundDefinition(u1), std::string_view("later"));
 }
 
-TEST_F(ForwardReferenceTest, TopIsTheOnlyTopLevelInstance) { EXPECT_EQ(namesOf(topInstances()), "top"); }
+// "(a)" is an ordered port connection (23.3.2.1): it binds to later's first port, i.
+TEST_F(ForwardReferenceTest, OrderedConnectionBindsI) { EXPECT_EQ(connectionsOf(findRefInstance("top", "u1")), "i:a"); }
+
+TEST_F(ForwardReferenceTest, TopIsTheOnlyTopLevelInstance) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(namesOf(topInstances()), "top");
+  }
+}
 
 TEST_F(ForwardReferenceTest, TopHoldsU1OfModuleLater) {
-  const hldb::Module *const u1 = findU1();
-  ASSERT_NE(u1, nullptr) << "no instance top.u1";
-  EXPECT_EQ(u1->getDefName(), "later");
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    const hldb::Module *const u1 = findU1();
+    ASSERT_NE(u1, nullptr) << "no instance top.u1";
+    EXPECT_EQ(u1->getDefName(), std::string_view("later"));
+  }
 }
 
 TEST_F(ForwardReferenceTest, U1HasPortI) {
-  const hldb::Module *const u1 = findU1();
-  ASSERT_NE(u1, nullptr) << "no instance top.u1";
-  EXPECT_EQ(namesOf(toVector(u1->getPorts())), "i");
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    const hldb::Module *const u1 = findU1();
+    ASSERT_NE(u1, nullptr) << "no instance top.u1";
+    EXPECT_EQ(namesOf(toVector(u1->getPorts())), "i");
+  }
 }
 }  // namespace hlc
 

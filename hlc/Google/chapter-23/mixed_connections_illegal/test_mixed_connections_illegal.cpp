@@ -34,27 +34,24 @@
 // 23-6: list_of_port_connections is either all ordered_port_connection or
 // all named_port_connection. Line 24 connects x by order and b by name.
 //
-// Some instantiation rules can only be checked during elaboration (23.3).
-// The HLC install of 2026-11-23 no longer gives tests an elaborator
-// (hldb::Elaborator was removed), so the test checks the events of
-// Compile() alone.
-//
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    lines 19-23
-//   IllegalCodeIsAnError             at least one such event on
-//                                    line 24
+//   IllegalCodeIsAnError             PaSyntaxError on line 24: Syntax 23-6
+//                                    has no list that mixes ordered and
+//                                    named port connections
 //   NoErrorAfterTheIllegalCode       none on line 25 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The event's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The event's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -115,8 +112,11 @@ TEST_F(MixedConnectionsIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(eventsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
+// Syntax 23-6: a list_of_port_connections is all ordered or all named, so "(x, .b(y))" is a syntax
+// error.
 TEST_F(MixedConnectionsIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(eventsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine), nullptr)
+      << "errors reported on line 24:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(MixedConnectionsIllegalTest, NoErrorAfterTheIllegalCode) {

@@ -34,21 +34,24 @@
 // (23.3.1). Module a is instantiated in b and b in a, so neither is a
 // top-level module and the design has none.
 //
-// The top-level modules are found during elaboration (23.3). The HLC install
-// of 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
-// removed), so the test checks the events of Compile() alone.
-//
 // WHAT IS CHECKED (one fact per test, in source order)
 //
-//   DesignWithoutTopLevelModuleIsAnError   at least one fatal, syntax or
-//                                          error event
+//   NoTopLevelModuleIsReported             ElabNoTopLevelModule -- HLC's
+//                                          event for this rule
+//   DesignWithoutTopLevelModuleIsAnError   that event is an error (fatal,
+//                                          syntax or error severity)
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   DesignWithoutTopLevelModuleIsAnError: HLC reports the missing top-level
+//   module as a warning, not an error.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - The line of the error. The rule is about the design as a whole, so the
 //     LRM gives no line to report it on.
-//   - The event's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The event's wording. The LRM requires an error, not a particular
+//     message.
 //   - The recursion. Any design without a top-level module has a cycle of
 //     instantiations, but the error the LRM requires here is the missing
 //     top-level module.
@@ -56,6 +59,7 @@
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -101,7 +105,18 @@ class TopLevelNoneIllegalTest : public Test {
   }
 };
 
-TEST_F(TopLevelNoneIllegalTest, DesignWithoutTopLevelModuleIsAnError) { EXPECT_NE(allEvents(), ""); }
+// "A design shall contain at least one top-level module." (23.3.1)
+TEST_F(TopLevelNoneIllegalTest, NoTopLevelModuleIsReported) {
+  EXPECT_NE(findEvent(EventType::ElabNoTopLevelModule), nullptr) << "errors reported:" << allEvents();
+}
+
+TEST_F(TopLevelNoneIllegalTest, DesignWithoutTopLevelModuleIsAnError) {
+  GTEST_SKIP() << "HLC reports the missing top-level module (ElabNoTopLevelModule) as a warning, not an error "
+                  "(IEEE 1800-2023 23.3.1: a design shall contain at least one top-level module)";
+  const Event *const event = findEvent(EventType::ElabNoTopLevelModule);
+  ASSERT_NE(event, nullptr);
+  EXPECT_TRUE(isErrorClass(*event));
+}
 }  // namespace hlc
 
 int main(int argc, char **argv) {

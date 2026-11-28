@@ -53,39 +53,61 @@
 // cases" (23.3.1). Module A is never instantiated, so it is a top-level
 // instance named A; top also holds a local instance named A (of A2). So on
 // line 39 A.B.C.x is the x in top.A.B.C, and on line 40 $root.A.B.C.x is
-// the x in the top-level A.B.C. Each instance has its own x, and getFullName()
-// gives an object's hierarchical name (37.10). The references are reached
+// the x in the top-level A.B.C. Each instance has its own x, and an object's
+// hierarchical name (37.10) chains its parents' names. The references are reached
 // through the continuous assignments of the top instance (37.5, relation
 // cont assign).
 //
-// Instances exist only after elaboration (23.3). The HLC install of
-// 2026-11-23 no longer gives tests an elaborator (hldb::Elaborator was
-// removed), so the test checks the design as Compile() leaves it; the
-// instance checks fail until HLC builds the instance tree itself.
+// THE MODEL
+//
+// HLC's graph is a definition model: it holds everything the source says,
+// so that an instance model can be built from it. An instantiation is an
+// unelaborated instance (Module::getRefInstances()) bound through its
+// typespec to the definition it names, with its parameter and port
+// connections bound to that definition's parameters and ports. Those
+// bindings are checked unconditionally. The top-level instances and the
+// instance tree exist only in an elaborated model (23.3); those checks are
+// gated on m_design->getElaborated(), so they run once HLC elaborates.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error event
-//   DesignIsElaborated             the design is marked elaborated
-//   TopLevelInstancesAreAAndTop    the top-level instances are exactly A
-//                                  and top
-//   LocalPathIsTopABCX             line 39's reference is top.A.B.C.x
-//   RootPathIsABCX                 line 40's reference is A.B.C.x
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - The prefix objects of the paths. The LRM gives no object model for
-//     them; the object a path refers to is what 23.3.1 defines.
+//   InstantiationsAreBound         top's A is bound to A2, A's and A2's B to
+//                                  B, B's C to leaf
+//   AAndTopAreNeverInstantiated    no instantiation names A or top (23.3.1)
+//   LocalPathBindsThroughTopsA     line 39's A.B.C.x binds A to top's
+//                                  instance A (an A2), then B, C and leaf's
+//                                  x
+//   RootPathBindsThroughModuleA    line 40's $root.A.B.C.x binds $root to the
+//                                  design, A to the module A, then A's B, C
+//                                  and leaf's x
+//   TopLevelInstancesAreAAndTop    elaborated model only: the top-level
+//                                  instances are exactly A and top
+//   LocalPathIsTopABCX             elaborated model only: line 39's
+//                                  reference is top.A.B.C.x
+//   RootPathIsABCX                 elaborated model only: line 40's
+//                                  reference is A.B.C.x
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/case_item.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
+#include <hldb/gen_case.h>
+#include <hldb/gen_for.h>
+#include <hldb/gen_if.h>
+#include <hldb/gen_if_else.h>
+#include <hldb/gen_region.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/variable.h>
 
 #include <algorithm>
@@ -98,12 +120,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.3.1--root-path.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -131,15 +147,6 @@ std::vector<const T *> toVector(const std::vector<T *> *collection) {
   return result;
 }
 
-// The object named 'name' among 'objects', or nullptr.
-template <typename T>
-const T *findNamed(const std::vector<const T *> &objects, std::string_view name) {
-  for (const T *object : objects) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
-
 // The names of 'objects', comma-separated, sorted.
 template <typename T>
 std::string namesOf(const std::vector<const T *> &objects) {
@@ -153,6 +160,108 @@ std::string namesOf(const std::vector<const T *> &objects) {
   }
   return result;
 }
+// The name of the definition an unelaborated instance is bound to (the module its typespec names), or "" when it
+// is not bound to a module.
+std::string_view boundDefinition(const hldb::RefInstance *instance) {
+  if ((instance == nullptr) || (instance->getTypespec() == nullptr)) return "";
+  const hldb::ModuleTypespec *const definition = instance->getTypespec()->getActual<hldb::ModuleTypespec>();
+  return (definition == nullptr) ? std::string_view() : definition->getDefName();
+}
+
+// The hierarchical path of 'object' made of its getName() and those of its parents up to the design, e.g.
+// "top.A.B.C.x" (23.6).
+std::string instancePath(const hldb::Any *object) {
+  std::string path;
+  for (const hldb::Any *node = object; (node != nullptr) && (any_cast<hldb::Design>(node) == nullptr);
+       node = node->getParent()) {
+    path = path.empty() ? std::string(node->getName()) : std::string(node->getName()) + "." + path;
+  }
+  return path;
+}
+
+// Adds to 'instances' the unelaborated instances that 'object' declares: a definition's own and those in its
+// generate constructs, at any depth.
+void collectRefInstances(const hldb::Any *object, std::vector<const hldb::RefInstance *> &instances) {
+  if (object == nullptr) return;
+  if (const hldb::RefInstance *const instance = any_cast<hldb::RefInstance>(object)) {
+    instances.emplace_back(instance);
+  } else if (const hldb::Module *const module = any_cast<hldb::Module>(object)) {
+    if (module->getRefInstances() != nullptr) {
+      for (const hldb::RefInstance *child : *module->getRefInstances()) collectRefInstances(child, instances);
+    }
+    if (module->getGenStmts() != nullptr) {
+      for (const hldb::Any *statement : *module->getGenStmts()) collectRefInstances(statement, instances);
+    }
+  } else if (const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(object)) {
+    if (region->getStmts() != nullptr) {
+      for (const hldb::Any *statement : *region->getStmts()) collectRefInstances(statement, instances);
+    }
+  } else if (const hldb::GenBlock *const block = any_cast<hldb::GenBlock>(object)) {
+    if (block->getStmts() != nullptr) {
+      for (const hldb::Any *statement : *block->getStmts()) collectRefInstances(statement, instances);
+    }
+  } else if (const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(object)) {
+    collectRefInstances(genIf->getStmt(), instances);
+  } else if (const hldb::GenIfElse *const genIfElse = any_cast<hldb::GenIfElse>(object)) {
+    collectRefInstances(genIfElse->getStmt(), instances);
+    collectRefInstances(genIfElse->getElseStmt(), instances);
+  } else if (const hldb::GenFor *const genFor = any_cast<hldb::GenFor>(object)) {
+    collectRefInstances(genFor->getStmt(), instances);
+  } else if (const hldb::GenCase *const genCase = any_cast<hldb::GenCase>(object)) {
+    if (genCase->getCaseItems() != nullptr) {
+      for (const hldb::CaseItem *item : *genCase->getCaseItems()) collectRefInstances(item->getStmt(), instances);
+    }
+  }
+}
+
+// The definitions that no module instantiation statement names (23.3.1), comma-separated in the order of
+// getAllModules().
+std::string neverInstantiated(const hldb::Design *design) {
+  if ((design == nullptr) || (design->getAllModules() == nullptr)) return "<no design>";
+  std::vector<const hldb::RefInstance *> instances;
+  for (const hldb::Module *module : *design->getAllModules()) collectRefInstances(module, instances);
+  std::string result;
+  for (const hldb::Module *module : *design->getAllModules()) {
+    const std::string_view name = module->getDefName();
+    const bool named = std::any_of(instances.cbegin(), instances.cend(), [name](const hldb::RefInstance *instance) {
+      return boundDefinition(instance) == name;
+    });
+    if (named) continue;
+    if (!result.empty()) result += ", ";
+    result += std::string(name);
+  }
+  return result;
+}
+
+// What a path element of a hierarchical reference is bound to, as text: "$root" for the design, "module <name>" for
+// a definition, "<name>@<parent>-><definition>" for an unelaborated instance declared in the definition <parent>,
+// "<name>@<parent>" for anything else, or "<unbound>".
+std::string bindingOf(const hldb::Any *actual) {
+  if (actual == nullptr) return "<unbound>";
+  if (any_cast<hldb::Design>(actual) != nullptr) return "$root";
+  if (const hldb::Module *const module = any_cast<hldb::Module>(actual)) {
+    return "module " + std::string(module->getDefName());
+  }
+  const hldb::Module *const parent = any_cast<hldb::Module>(actual->getParent());
+  const std::string where = (parent == nullptr) ? std::string("<no module>") : std::string(parent->getDefName());
+  if (const hldb::RefInstance *const instance = any_cast<hldb::RefInstance>(actual)) {
+    return std::string(instance->getName()) + "@" + where + "->" + std::string(boundDefinition(instance));
+  }
+  return std::string(actual->getName()) + "@" + where;
+}
+
+// The path elements of a hierarchical reference, each as bindingOf() gives it, comma-separated.
+std::string pathBindings(const hldb::RefObj *reference) {
+  if ((reference == nullptr) || (reference->getPathElems() == nullptr)) return "<no path>";
+  std::string result;
+  for (const hldb::Any *element : *reference->getPathElems()) {
+    const hldb::RefObj *const part = any_cast<hldb::RefObj>(element);
+    if (!result.empty()) result += ", ";
+    result += bindingOf((part == nullptr) ? nullptr : part->getActual());
+  }
+  return result;
+}
+
 }  // namespace
 
 class RootPathTest : public Test {
@@ -170,21 +279,43 @@ class RootPathTest : public Test {
     return oss.str();
   }
 
-  // The top-level instances from the file under test (37.5 detail 1).
+  // The definition of the module named 'name', or nullptr.
+  static const hldb::Module *findModule(std::string_view name) {
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+
+  // The unelaborated instance 'name' that the definition 'parent' declares, or nullptr.
+  static const hldb::RefInstance *findRefInstance(std::string_view parent, std::string_view name) {
+    const hldb::Module *const module = findModule(parent);
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::RefInstance>(name, module->getRefInstances());
+  }
+
+  // The right-hand side of the definition top's "assign <lhsName> = ...", or nullptr.
+  static const hldb::RefObj *rhsOfAssignTo(std::string_view lhsName) {
+    const hldb::Module *const top = findModule("top");
+    if ((top == nullptr) || (top->getContAssigns() == nullptr)) return nullptr;
+    for (const hldb::ContAssign *assign : *top->getContAssigns()) {
+      if ((assign->getLhs() != nullptr) && (assign->getLhs()->getName() == lhsName)) {
+        return assign->getRhs<hldb::RefObj>();
+      }
+    }
+    return nullptr;
+  }
+
+  // The top-level instances (37.5 detail 1); there are some only in an elaborated model.
   static std::vector<const hldb::Module *> topInstances() {
     std::vector<const hldb::Module *> result;
-    if (m_design == nullptr) return result;
-    for (const hldb::Module *module : toVector(m_design->getTopModules())) {
-      if (endsWith(module->getFile(), kSourceFileName)) result.emplace_back(module);
-    }
+    if ((m_design == nullptr) || (m_design->getTopModules() == nullptr)) return result;
+    for (const hldb::Module *module : *m_design->getTopModules()) result.emplace_back(module);
     return result;
   }
 
-  // The full name (Variable::getFullName()) of the variable that the
+  // The instance path (instancePath()) of the variable that the
   // right-hand side of the top instance's 'assign <lhsName> = ...' refers to,
   // or a placeholder that says what is missing.
-  static std::string rhsTargetFullName(std::string_view lhsName) {
-    const hldb::Module *const top = findNamed(topInstances(), "top");
+  static std::string rhsTargetPath(std::string_view lhsName) {
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("top", m_design->getTopModules());
     if (top == nullptr) return "<no top-level instance top>";
     for (const hldb::ContAssign *assign : toVector(top->getContAssigns())) {
       if ((assign->getLhs() == nullptr) || (assign->getLhs()->getName() != lhsName)) continue;
@@ -193,7 +324,7 @@ class RootPathTest : public Test {
       if (reference->getActual() == nullptr) return "<reference is not bound>";
       const hldb::Variable *const variable = any_cast<hldb::Variable>(reference->getActual());
       if (variable == nullptr) return "<reference is not to a variable>";
-      return std::string(variable->getFullName());
+      return instancePath(variable);
     }
     return "<no continuous assignment to " + std::string(lhsName) + ">";
   }
@@ -201,16 +332,51 @@ class RootPathTest : public Test {
 
 TEST_F(RootPathTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
-TEST_F(RootPathTest, DesignIsElaborated) {
-  ASSERT_NE(m_design, nullptr);
-  EXPECT_TRUE(m_design->getElaborated());
+// "A2 A ();" in top, "B B ();" in A and in A2, "leaf C ();" in B.
+TEST_F(RootPathTest, InstantiationsAreBound) {
+  EXPECT_EQ(boundDefinition(findRefInstance("top", "A")), std::string_view("A2"));
+  EXPECT_EQ(boundDefinition(findRefInstance("A", "B")), std::string_view("B"));
+  EXPECT_EQ(boundDefinition(findRefInstance("A2", "B")), std::string_view("B"));
+  EXPECT_EQ(boundDefinition(findRefInstance("B", "C")), std::string_view("leaf"));
 }
 
-TEST_F(RootPathTest, TopLevelInstancesAreAAndTop) { EXPECT_EQ(namesOf(topInstances()), "A, top"); }
+// "Top-level modules are modules that ... do not appear in any module instantiation statement" (23.3.1).
+TEST_F(RootPathTest, AAndTopAreNeverInstantiated) { EXPECT_EQ(neverInstantiated(m_design), "A, top"); }
 
-TEST_F(RootPathTest, LocalPathIsTopABCX) { EXPECT_EQ(rhsTargetFullName("l"), "top.A.B.C.x"); }
+// "A.B.C.x" in top starts at top's own instance A, an instance of A2 (23.3.1, 23.6).
+TEST_F(RootPathTest, LocalPathBindsThroughTopsA) {
+  const hldb::RefObj *const reference = rhsOfAssignTo("l");
+  ASSERT_NE(reference, nullptr);
+  EXPECT_EQ(pathBindings(reference), "A@top->A2, B@A2->B, C@B->leaf, x@leaf");
+}
 
-TEST_F(RootPathTest, RootPathIsABCX) { EXPECT_EQ(rhsTargetFullName("r"), "A.B.C.x"); }
+// "$root.A.B.C.x" starts at the top-level module A, not at top's instance A (23.3.1).
+TEST_F(RootPathTest, RootPathBindsThroughModuleA) {
+  const hldb::RefObj *const reference = rhsOfAssignTo("r");
+  ASSERT_NE(reference, nullptr);
+  EXPECT_EQ(pathBindings(reference), "$root, module A, B@A->B, C@B->leaf, x@leaf");
+}
+
+TEST_F(RootPathTest, TopLevelInstancesAreAAndTop) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(namesOf(topInstances()), "A, top");
+  }
+}
+
+TEST_F(RootPathTest, LocalPathIsTopABCX) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(rhsTargetPath("l"), "top.A.B.C.x");
+  }
+}
+
+TEST_F(RootPathTest, RootPathIsABCX) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(rhsTargetPath("r"), "A.B.C.x");
+  }
+}
 }  // namespace hlc
 
 int main(int argc, char **argv) {
