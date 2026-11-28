@@ -30,19 +30,21 @@
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
-//   IllegalCodeIsAnError             at least one fatal, syntax or error
-//                                    diagnostic on
-//                                    line 19
-//   NoErrorAfterTheIllegalCode       none on line 20 or later
+//   IllegalCodeIsAnError             CompIllegalPortInitializer for port r at
+//                                    19:30 (the default) -- HLC's event for
+//                                    this rule
+//   NoErrorAfterTheIllegalCode       no fatal, syntax or error diagnostic on
+//                                    line 20 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The diagnostic's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The diagnostic's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <cstdint>
@@ -91,10 +93,11 @@ class DefaultValueRefIllegalTest : public Test {
   }
 };
 
+// "It shall be illegal ... to specify a default value for a port that is not an input port." (Syntax 23-4
+// footnote 2). Reported at the default (19:30) naming port r.
 TEST_F(DefaultValueRefIllegalTest, IllegalCodeIsAnError) {
-  ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::CompIllegalPortInitializer, "r", kIllegalFirstLine, 30), nullptr)
+      << "errors reported on line 19:" << errorsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(DefaultValueRefIllegalTest, NoErrorAfterTheIllegalCode) {

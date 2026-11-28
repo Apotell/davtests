@@ -33,18 +33,19 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error diagnostic on
 //                                    line 19
-//   IllegalCodeIsAnError             at least one such diagnostic on
-//                                    line 20
+//   IllegalCodeIsAnError             PaSyntaxError at 20:16, the "=" the
+//                                    non-ANSI grammar does not allow
 //   NoErrorAfterTheIllegalCode       none on line 21 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The diagnostic's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The diagnostic's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <cstdint>
@@ -99,10 +100,11 @@ TEST_F(DefaultValueNonAnsiIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(errorsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
+// The non-ANSI input_declaration (Syntax 23-3) has no "= constant_expression", so the "=" at 20:16 is a
+// syntax error.
 TEST_F(DefaultValueNonAnsiIllegalTest, IllegalCodeIsAnError) {
-  ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine, 16), nullptr)
+      << "errors reported on line 20:" << errorsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(DefaultValueNonAnsiIllegalTest, NoErrorAfterTheIllegalCode) {

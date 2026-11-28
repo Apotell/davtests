@@ -29,19 +29,21 @@
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
-//   IllegalCodeIsAnError             at least one fatal, syntax or error
-//                                    diagnostic on
-//                                    line 19
-//   NoErrorAfterTheIllegalCode       none on line 20 or later
+//   IllegalCodeIsAnError             CompIllegalInterconnectPortDefault for
+//                                    port a at 19:33 (the default) -- HLC's
+//                                    event for this rule
+//   NoErrorAfterTheIllegalCode       no fatal, syntax or error diagnostic on
+//                                    line 20 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The diagnostic's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The diagnostic's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <cstdint>
@@ -90,10 +92,11 @@ class DefaultValueInterconnectIllegalTest : public Test {
   }
 };
 
+// "A default shall not be specified for a port declared as interconnect (an interconnect port)." (23.2.2.4).
+// Reported at the default (19:33) naming port a.
 TEST_F(DefaultValueInterconnectIllegalTest, IllegalCodeIsAnError) {
-  ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getEventListener(), nullptr);
-  EXPECT_NE(errorsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::CompIllegalInterconnectPortDefault, "a", kIllegalFirstLine, 33), nullptr)
+      << "errors reported on line 19:" << errorsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(DefaultValueInterconnectIllegalTest, NoErrorAfterTheIllegalCode) {
