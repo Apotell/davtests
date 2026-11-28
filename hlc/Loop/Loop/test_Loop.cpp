@@ -249,7 +249,6 @@ TEST_F(LoopTest, SelfInstanceOverridesParameterWithDecrement) {
 
 // 27.5: the unconditional self-instantiation of 'loop' can never terminate.
 TEST_F(LoopTest, NonTerminatingRecursionOfLoopIsDiagnosed) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   EXPECT_NE(findEvent(EventType::ElabInstantiationLoop, "loop"), nullptr)
       << "27.5: only a recursion that terminates yields a legitimate model hierarchy; 'loop u1();' inside "
          "module loop recurses forever";
