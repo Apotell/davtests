@@ -56,29 +56,37 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   G1IsAGate                  getPrimitives() holds g1, a Gate
+//   G1IsAGate                  getPrimitives() holds g1, a Gate whose
+//                              Primitive::getPrimType() is vpiAndPrim
 //   UdpU1IsAnInstanceOfUdpBuf  getPrimitives() holds u1, a Udp whose
 //                              getDefName() is udp_buf
+//   InstancesAreBound          getRefInstances(): c1 bound to the module
+//                              child, i1 to the interface ifc, p1 to the
+//                              program prg; elaborated model only: m holds
+//                              the instances c1, i1 and p1
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The module, interface and program instances c1, i1 and p1. Instances
-//     are created during elaboration (23.3), which this test flow does not
-//     run.
 //   - The warning that discourages programs. It is a warning, not an error.
-//   - That g1 is an and gate. HLDB gives the gate kind only as the integer
-//     code returned by Primitive::getPrimType() and has no named values of
-//     its own for it, so it can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/any_type.h>
 #include <hldb/design.h>
+#include <hldb/interface.h>
+#include <hldb/interface_typespec.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
 #include <hldb/primitive.h>
+#include <hldb/program.h>
+#include <hldb/program_typespec.h>
+#include <hldb/ref_instance.h>
+#include <hldb/ref_typespec.h>
+#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -90,22 +98,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.4--items-instances.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
-  if (collection == nullptr) return nullptr;
-  for (const T *object : *collection) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
-
 // The number of objects in 'collection'; zero for a null collection.
 template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
@@ -149,13 +141,10 @@ class ItemsInstancesTest : public Test {
     return oss.str();
   }
 
-  // The module named 'name' defined in the file under test, or nullptr.
+  // The definition of the module named 'name', or nullptr.
   static const hldb::Module *findModule(std::string_view name) {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == name)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 };
 
@@ -164,18 +153,54 @@ TEST_F(ItemsInstancesTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); 
 TEST_F(ItemsInstancesTest, G1IsAGate) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Primitive *const gate = findNamed(module->getPrimitives(), "g1");
+  const hldb::Primitive *const gate = hldb::findByName<hldb::Primitive>("g1", module->getPrimitives());
   ASSERT_NE(gate, nullptr);
   EXPECT_EQ(typeName(gate), hldb::AnyTypeName(hldb::AnyType::Gate));
+  EXPECT_EQ(gate->getPrimType(), vpiAndPrim);
 }
 
 TEST_F(ItemsInstancesTest, UdpU1IsAnInstanceOfUdpBuf) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Primitive *const udp = findNamed(module->getPrimitives(), "u1");
+  const hldb::Primitive *const udp = hldb::findByName<hldb::Primitive>("u1", module->getPrimitives());
   ASSERT_NE(udp, nullptr);
   EXPECT_EQ(typeName(udp), hldb::AnyTypeName(hldb::AnyType::Udp));
-  EXPECT_EQ(udp->getDefName(), "udp_buf");
+  EXPECT_EQ(udp->getDefName(), std::string_view("udp_buf"));
+}
+
+// "child c1(); ifc i1(); prg p1();" (Syntax 23-5): each instance is bound to the module, interface or program it
+// names. Creating the instances themselves is an instance-model step (23.3), checked in the elaborated model only.
+TEST_F(ItemsInstancesTest, InstancesAreBound) {
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  const hldb::RefInstance *const c1 = hldb::findByName<hldb::RefInstance>("c1", module->getRefInstances());
+  const hldb::RefInstance *const i1 = hldb::findByName<hldb::RefInstance>("i1", module->getRefInstances());
+  const hldb::RefInstance *const p1 = hldb::findByName<hldb::RefInstance>("p1", module->getRefInstances());
+  ASSERT_NE(c1, nullptr);
+  ASSERT_NE(i1, nullptr);
+  ASSERT_NE(p1, nullptr);
+  ASSERT_NE(c1->getTypespec(), nullptr);
+  ASSERT_NE(i1->getTypespec(), nullptr);
+  ASSERT_NE(p1->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const child = c1->getTypespec()->getActual<hldb::ModuleTypespec>();
+  const hldb::InterfaceTypespec *const ifc = i1->getTypespec()->getActual<hldb::InterfaceTypespec>();
+  const hldb::ProgramTypespec *const prg = p1->getTypespec()->getActual<hldb::ProgramTypespec>();
+  ASSERT_NE(child, nullptr) << "c1 is not bound to a module";
+  ASSERT_NE(ifc, nullptr) << "i1 is not bound to an interface";
+  ASSERT_NE(prg, nullptr) << "p1 is not bound to a program";
+  EXPECT_EQ(child->getName(), std::string_view("child"));
+  EXPECT_EQ(ifc->getName(), std::string_view("ifc"));
+  EXPECT_EQ(prg->getName(), std::string_view("prg"));
+
+  if (m_design->getElaborated()) {
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("m", m_design->getTopModules());
+    ASSERT_NE(top, nullptr);
+    const hldb::Module *const c1Instance = hldb::findByName<hldb::Module>("c1", top->getModules());
+    ASSERT_NE(c1Instance, nullptr);
+    EXPECT_EQ(c1Instance->getDefName(), std::string_view("child"));
+    EXPECT_NE(hldb::findByName<hldb::Interface>("i1", top->getInterfaces()), nullptr);
+    EXPECT_NE(hldb::findByName<hldb::Program>("p1", top->getPrograms()), nullptr);
+  }
 }
 }  // namespace hlc
 

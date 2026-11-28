@@ -53,6 +53,7 @@
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
 
@@ -66,12 +67,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.4--timeunits-repeated.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -106,13 +101,10 @@ class TimeunitsRepeatedTest : public Test {
     return oss.str();
   }
 
-  // The module named 'name' defined in the file under test, or nullptr.
+  // The definition of the module named 'name', or nullptr.
   static const hldb::Module *findModule(std::string_view name) {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == name)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 };
 

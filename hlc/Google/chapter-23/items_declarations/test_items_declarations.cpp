@@ -49,16 +49,19 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
-//   NetWAndVariableV           net w and variable v are declared
+//   NetWAndVariableV           net w (Net::getNetType() vpiWire) and
+//                              variable v are declared
 //   ParametersPAndL            P is a parameter, L a local parameter
 //   TypedefNibble              getTypedefs() holds nibble_t
+//   GenvarG                    getVariables() holds the genvar g
 //   FunctionFAndTaskT          getTaskFuncs() holds the function f and the
 //                              task t
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The genvar g. A genvar is only used by loop generate constructs during
-//     elaboration (27.4), which this test flow does not run.
+//   - That g is a genvar and not a variable. HLDB has no genvar object or
+//     property and gives g as a Variable, so it can be checked once HLDB
+//     provides one.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -72,8 +75,10 @@
 #include <hldb/net.h>
 #include <hldb/parameter.h>
 #include <hldb/task_func.h>
+#include <hldb/typedef.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -85,22 +90,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.4--items-declarations.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
-// The object named 'name' in 'collection', or nullptr.
-template <typename T>
-const T *findNamed(const std::vector<T *> *collection, std::string_view name) {
-  if (collection == nullptr) return nullptr;
-  for (const T *object : *collection) {
-    if (object->getName() == name) return object;
-  }
-  return nullptr;
-}
-
 // The number of objects in 'collection'; zero for a null collection.
 template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
@@ -144,13 +133,10 @@ class ItemsDeclarationsTest : public Test {
     return oss.str();
   }
 
-  // The module named 'name' defined in the file under test, or nullptr.
+  // The definition of the module named 'name', or nullptr.
   static const hldb::Module *findModule(std::string_view name) {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == name)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 };
 
@@ -159,15 +145,17 @@ TEST_F(ItemsDeclarationsTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""
 TEST_F(ItemsDeclarationsTest, NetWAndVariableV) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Net>("w", module->getNets()), nullptr);
+  const hldb::Net *const w = hldb::findByName<hldb::Net>("w", module->getNets());
+  ASSERT_NE(w, nullptr);
+  EXPECT_EQ(w->getNetType(), vpiWire);
   EXPECT_NE(hldb::findByName<hldb::Variable>("v", module->getVariables()), nullptr);
 }
 
 TEST_F(ItemsDeclarationsTest, ParametersPAndL) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  const hldb::Parameter *const p = any_cast<hldb::Parameter>(findNamed(module->getParameters(), "P"));
-  const hldb::Parameter *const l = any_cast<hldb::Parameter>(findNamed(module->getParameters(), "L"));
+  const hldb::Parameter *const p = hldb::findByName<hldb::Parameter>("P", module->getParameters());
+  const hldb::Parameter *const l = hldb::findByName<hldb::Parameter>("L", module->getParameters());
   ASSERT_NE(p, nullptr);
   ASSERT_NE(l, nullptr);
   EXPECT_FALSE(p->getLocalParam());
@@ -177,15 +165,22 @@ TEST_F(ItemsDeclarationsTest, ParametersPAndL) {
 TEST_F(ItemsDeclarationsTest, TypedefNibble) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
-  EXPECT_NE(findNamed(module->getTypedefs(), "nibble_t"), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Typedef>("nibble_t", module->getTypedefs()), nullptr);
+}
+
+// "genvar g;" is a module_or_generate_item_declaration (Syntax 23-5); the definition keeps it.
+TEST_F(ItemsDeclarationsTest, GenvarG) {
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("g", module->getVariables()), nullptr) << "the genvar g is missing";
 }
 
 TEST_F(ItemsDeclarationsTest, FunctionFAndTaskT) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(sizeOf(module->getTaskFuncs()), 2u);
-  const hldb::TaskFunc *const f = findNamed(module->getTaskFuncs(), "f");
-  const hldb::TaskFunc *const t = findNamed(module->getTaskFuncs(), "t");
+  const hldb::TaskFunc *const f = hldb::findByName<hldb::TaskFunc>("f", module->getTaskFuncs());
+  const hldb::TaskFunc *const t = hldb::findByName<hldb::TaskFunc>("t", module->getTaskFuncs());
   ASSERT_NE(f, nullptr);
   ASSERT_NE(t, nullptr);
   EXPECT_EQ(typeName(f), hldb::AnyTypeName(hldb::AnyType::Function));

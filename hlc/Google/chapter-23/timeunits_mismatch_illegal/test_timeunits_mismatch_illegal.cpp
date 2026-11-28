@@ -36,18 +36,19 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    lines 20-22
-//   IllegalCodeIsAnError             at least one such event on
-//                                    line 23
+//   IllegalCodeIsAnError             CompIllegalTimescale for m on line 23
+//                                    -- HLC's event for this rule
 //   NoErrorAfterTheIllegalCode       none on line 24 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The event's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The event's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -108,8 +109,10 @@ TEST_F(TimeunitsMismatchIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(eventsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
+// "timeunit 1ps;" does not repeat and match "timeunit 1ns;" (Syntax 23-5 footnote 3).
 TEST_F(TimeunitsMismatchIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(eventsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "m", kIllegalFirstLine), nullptr)
+      << "errors reported on line 23:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(TimeunitsMismatchIllegalTest, NoErrorAfterTheIllegalCode) {

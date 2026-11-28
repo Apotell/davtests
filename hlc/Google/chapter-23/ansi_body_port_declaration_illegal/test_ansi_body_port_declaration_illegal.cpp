@@ -36,18 +36,20 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    line 20
-//   IllegalCodeIsAnError             at least one such event on
-//                                    line 21
+//   IllegalCodeIsAnError             PaSyntaxError on line 21, where the
+//                                    ANSI body holds the port declaration
+//                                    "input b"
 //   NoErrorAfterTheIllegalCode       none on line 22 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
-//   - The event's code or wording. The LRM requires an error, not a
-//     particular message.
+//   - The event's wording. The LRM requires an error, not a particular
+//     message.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 
 #include <algorithm>
@@ -108,8 +110,10 @@ TEST_F(AnsiBodyPortDeclarationIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(eventsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
+// An ANSI module body holds only non_port_module_items (Syntax 23-1), so "input b;" is a syntax error.
 TEST_F(AnsiBodyPortDeclarationIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(eventsOnLines(kIllegalFirstLine, kIllegalLastLine), "");
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine), nullptr)
+      << "errors reported on line 21:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 
 TEST_F(AnsiBodyPortDeclarationIllegalTest, NoErrorAfterTheIllegalCode) {

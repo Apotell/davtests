@@ -45,29 +45,38 @@
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
 //   OneAliasStatement          getAliases() holds one object
+//   AliasBindsN1AndN2          the alias's two sides resolve to the nets n1
+//                              and n2
 //   OneContinuousAssign        getContAssigns() holds one object
+//   AssignBindsWToD            the assign's left side resolves to the net w,
+//                              its right side to the net d
 //   SixProcessesInOrder        getProcesses() holds an Initial, a FinalStmt,
 //                              then four Always objects
+//   AlwaysKindsInOrder         Always::getAlwaysType() of the four: vpiAlways,
+//                              vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - What the processes do. Their statements belong to Clauses 9 and 10.
-//   - Which always form each Always is (always, always_comb, always_ff,
-//     always_latch). HLDB gives it only as the integer code returned by
-//     Always::getAlwaysType() and has no named values of its own for it, so it
-//     can be checked once HLDB provides such names.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
 #include <hldb/alias_stmt.h>
+#include <hldb/always.h>
 #include <hldb/any_type.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
 #include <hldb/process_stmt.h>
+#include <hldb/ref_obj.h>
+#include <hldb/sv_vpi_user.h>
+#include <hldb/vpi_user.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -79,12 +88,6 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.4--items-behavior.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
-
 // The number of objects in 'collection'; zero for a null collection.
 template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
@@ -93,6 +96,22 @@ size_t sizeOf(const std::vector<T *> *collection) {
 
 // The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
 std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
+
+// True when 'expression' is 'target', a reference that resolves to it, or an operation with such an operand.
+bool refersTo(const hldb::Any *expression, const hldb::Any *target) {
+  if ((expression == nullptr) || (target == nullptr)) return false;
+  if (expression == target) return true;
+  if (const hldb::RefObj *const reference = any_cast<hldb::RefObj>(expression)) {
+    return reference->getActual() == target;
+  }
+  if (const hldb::Operation *const operation = any_cast<hldb::Operation>(expression)) {
+    if (operation->getOperands() == nullptr) return false;
+    for (const hldb::Any *operand : *operation->getOperands()) {
+      if (refersTo(operand, target)) return true;
+    }
+  }
+  return false;
+}
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -128,13 +147,10 @@ class ItemsBehaviorTest : public Test {
     return oss.str();
   }
 
-  // The module named 'name' defined in the file under test, or nullptr.
+  // The definition of the module named 'name', or nullptr.
   static const hldb::Module *findModule(std::string_view name) {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == name)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 };
 
@@ -146,10 +162,35 @@ TEST_F(ItemsBehaviorTest, OneAliasStatement) {
   EXPECT_EQ(sizeOf(module->getAliases()), 1u);
 }
 
+// "alias n1 = n2;" (10.11) binds the two nets n1 and n2.
+TEST_F(ItemsBehaviorTest, AliasBindsN1AndN2) {
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  ASSERT_EQ(sizeOf(module->getAliases()), 1u);
+  const hldb::Alias *const alias = module->getAliases()->front();
+  const hldb::Net *const n1 = hldb::findByName<hldb::Net>("n1", module->getNets());
+  const hldb::Net *const n2 = hldb::findByName<hldb::Net>("n2", module->getNets());
+  ASSERT_NE(n1, nullptr);
+  ASSERT_NE(n2, nullptr);
+  EXPECT_TRUE(refersTo(alias->getLhs(), n1)) << "n1";
+  ASSERT_EQ(sizeOf(alias->getRhs()), 1u);
+  EXPECT_TRUE(refersTo(alias->getRhs()->front(), n2)) << "n2";
+}
+
 TEST_F(ItemsBehaviorTest, OneContinuousAssign) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
   EXPECT_EQ(sizeOf(module->getContAssigns()), 1u);
+}
+
+// "assign w = d;" (10.3) drives the net w from the port d's net.
+TEST_F(ItemsBehaviorTest, AssignBindsWToD) {
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  ASSERT_EQ(sizeOf(module->getContAssigns()), 1u);
+  const hldb::ContAssign *const assign = module->getContAssigns()->front();
+  EXPECT_TRUE(refersTo(assign->getLhs(), hldb::findByName<hldb::Net>("w", module->getNets()))) << "w";
+  EXPECT_TRUE(refersTo(assign->getRhs(), hldb::findByName<hldb::Net>("d", module->getNets()))) << "d";
 }
 
 TEST_F(ItemsBehaviorTest, SixProcessesInOrder) {
@@ -162,6 +203,20 @@ TEST_F(ItemsBehaviorTest, SixProcessesInOrder) {
   EXPECT_EQ(typeName((*processes)[1]), hldb::AnyTypeName(hldb::AnyType::FinalStmt));
   for (size_t index = 2; index < processes->size(); ++index) {
     EXPECT_EQ(typeName((*processes)[index]), hldb::AnyTypeName(hldb::AnyType::Always)) << index;
+  }
+}
+
+// The four always constructs, in source order: always, always_comb, always_ff, always_latch (9.2.2).
+TEST_F(ItemsBehaviorTest, AlwaysKindsInOrder) {
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  const hldb::ProcessCollection *const processes = module->getProcesses();
+  ASSERT_EQ(sizeOf(processes), 6u);
+  const int32_t expected[] = {vpiAlways, vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch};
+  for (size_t index = 0; index < 4; ++index) {
+    const hldb::Always *const always = any_cast<hldb::Always>((*processes)[index + 2]);
+    ASSERT_NE(always, nullptr) << index + 2;
+    EXPECT_EQ(always->getAlwaysType(), expected[index]) << index + 2;
   }
 }
 }  // namespace hlc

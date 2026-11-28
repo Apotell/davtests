@@ -47,22 +47,42 @@
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
 //   ModuleMIsDeclared          the module m is defined
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - The generate blocks g_loop[0], g_loop[1], g_if and g_case and their
-//     nets. Generate schemes are evaluated during elaboration (27.3), which
-//     this test flow does not run; they are left to Clause 27 tests.
+//   ThreeGenerateConstructs    getGenStmts() holds a GenRegion, a GenIf and a
+//                              GenCase, in source order
+//   LoopGenerateGLoop          the GenFor in the region declares the genvar
+//                              i; its init, condition and increment refer to
+//                              i; its block g_loop declares the net w
+//   IfGenerateGIf              condition 1; its block g_if declares x
+//   CaseGenerateGCase          condition 1, one item labeled 1; its block
+//                              g_case declares y
+//   GenerateBlocksAfterElaboration  elaborated model only: g_loop[0],
+//                              g_loop[1], g_if and g_case are generate scopes
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/Utils.h>
+#include <hldb/assignment.h>
+#include <hldb/case_item.h>
+#include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/gen_block.h>
+#include <hldb/gen_case.h>
+#include <hldb/gen_for.h>
+#include <hldb/gen_if.h>
+#include <hldb/gen_region.h>
+#include <hldb/gen_scope.h>
+#include <hldb/gen_scope_array.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
+#include <hldb/operation.h>
+#include <hldb/ref_obj.h>
+#include <hldb/variable.h>
 
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <iterator>
 #include <sstream>
@@ -72,10 +92,20 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.4--items-generate.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
+// True when 'expression' is 'target', a reference that resolves to it, or an operation with such an operand.
+bool refersTo(const hldb::Any *expression, const hldb::Any *target) {
+  if ((expression == nullptr) || (target == nullptr)) return false;
+  if (expression == target) return true;
+  if (const hldb::RefObj *const reference = any_cast<hldb::RefObj>(expression)) {
+    return reference->getActual() == target;
+  }
+  if (const hldb::Operation *const operation = any_cast<hldb::Operation>(expression)) {
+    if (operation->getOperands() == nullptr) return false;
+    for (const hldb::Any *operand : *operation->getOperands()) {
+      if (refersTo(operand, target)) return true;
+    }
+  }
+  return false;
 }
 
 // True for an error-class event: fatal, syntax or error severity.
@@ -112,19 +142,113 @@ class ItemsGenerateTest : public Test {
     return oss.str();
   }
 
-  // The module named 'name' defined in the file under test, or nullptr.
+  // The definition of the module named 'name', or nullptr.
   static const hldb::Module *findModule(std::string_view name) {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName) && (module->getName() == name)) return module;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
+  }
+
+  // The generate statement of m at 'index' (getGenStmts()), or nullptr.
+  static const hldb::Any *findGenStmt(size_t index) {
+    const hldb::Module *const module = findModule("m");
+    if ((module == nullptr) || (module->getGenStmts() == nullptr) || (module->getGenStmts()->size() <= index)) {
+      return nullptr;
     }
-    return nullptr;
+    return (*module->getGenStmts())[index];
+  }
+
+  // The loop generate construct inside the generate region of m, or nullptr.
+  static const hldb::GenFor *findLoop() {
+    const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(findGenStmt(0));
+    if ((region == nullptr) || (region->getStmts() == nullptr) || region->getStmts()->empty()) return nullptr;
+    return any_cast<hldb::GenFor>(region->getStmts()->front());
   }
 };
 
 TEST_F(ItemsGenerateTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(ItemsGenerateTest, ModuleMIsDeclared) { EXPECT_NE(findModule("m"), nullptr); }
+
+// The three generate constructs of m, in source order (Syntax 23-5; 27.2).
+TEST_F(ItemsGenerateTest, ThreeGenerateConstructs) {
+  ASSERT_NE(findModule("m"), nullptr);
+  EXPECT_NE(any_cast<hldb::GenRegion>(findGenStmt(0)), nullptr) << "generate ... endgenerate";
+  EXPECT_NE(any_cast<hldb::GenIf>(findGenStmt(1)), nullptr) << "if (1)";
+  EXPECT_NE(any_cast<hldb::GenCase>(findGenStmt(2)), nullptr) << "case (1)";
+  EXPECT_EQ(findGenStmt(3), nullptr) << "more than three generate constructs";
+}
+
+// "for (genvar i = 0; i < 2; i++) begin : g_loop" (27.4): the loop declares the genvar i, and its initialization,
+// condition and increment all refer to it.
+TEST_F(ItemsGenerateTest, LoopGenerateGLoop) {
+  const hldb::GenFor *const loop = findLoop();
+  ASSERT_NE(loop, nullptr);
+  const hldb::Variable *const genvar = hldb::findByName<hldb::Variable>("i", loop->getVariables());
+  ASSERT_NE(genvar, nullptr) << "the genvar i is missing";
+  ASSERT_NE(loop->getForInitStmts(), nullptr);
+  ASSERT_EQ(loop->getForInitStmts()->size(), 1u);
+  const hldb::Assignment *const init = any_cast<hldb::Assignment>(loop->getForInitStmts()->front());
+  ASSERT_NE(init, nullptr);
+  EXPECT_TRUE(refersTo(init->getLhs(), genvar)) << "i = 0";
+  EXPECT_TRUE(refersTo(loop->getCondition(), genvar)) << "i < 2";
+  ASSERT_NE(loop->getForIncStmts(), nullptr);
+  ASSERT_EQ(loop->getForIncStmts()->size(), 1u);
+  EXPECT_TRUE(refersTo(loop->getForIncStmts()->front(), genvar)) << "i++";
+  const hldb::GenBlock *const block = loop->getStmt<hldb::GenBlock>();
+  ASSERT_NE(block, nullptr);
+  EXPECT_EQ(block->getName(), std::string_view("g_loop"));
+  EXPECT_NE(hldb::findByName<hldb::Net>("w", block->getNets()), nullptr);
+}
+
+// "if (1) begin : g_if" (27.5).
+TEST_F(ItemsGenerateTest, IfGenerateGIf) {
+  const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(findGenStmt(1));
+  ASSERT_NE(genIf, nullptr);
+  const hldb::Constant *const condition = genIf->getCondition<hldb::Constant>();
+  ASSERT_NE(condition, nullptr);
+  EXPECT_EQ(condition->getDecompile(), std::string_view("1"));
+  const hldb::GenBlock *const block = genIf->getStmt<hldb::GenBlock>();
+  ASSERT_NE(block, nullptr);
+  EXPECT_EQ(block->getName(), std::string_view("g_if"));
+  EXPECT_NE(hldb::findByName<hldb::Net>("x", block->getNets()), nullptr);
+}
+
+// "case (1) 1: begin : g_case" (27.5).
+TEST_F(ItemsGenerateTest, CaseGenerateGCase) {
+  const hldb::GenCase *const genCase = any_cast<hldb::GenCase>(findGenStmt(2));
+  ASSERT_NE(genCase, nullptr);
+  const hldb::Constant *const condition = genCase->getCondition<hldb::Constant>();
+  ASSERT_NE(condition, nullptr);
+  EXPECT_EQ(condition->getDecompile(), std::string_view("1"));
+  ASSERT_NE(genCase->getCaseItems(), nullptr);
+  ASSERT_EQ(genCase->getCaseItems()->size(), 1u);
+  const hldb::CaseItem *const item = genCase->getCaseItems()->front();
+  ASSERT_NE(item->getExprs(), nullptr);
+  ASSERT_EQ(item->getExprs()->size(), 1u);
+  const hldb::Constant *const label = any_cast<hldb::Constant>(item->getExprs()->front());
+  ASSERT_NE(label, nullptr);
+  EXPECT_EQ(label->getDecompile(), std::string_view("1"));
+  const hldb::GenBlock *const block = item->getStmt<hldb::GenBlock>();
+  ASSERT_NE(block, nullptr);
+  EXPECT_EQ(block->getName(), std::string_view("g_case"));
+  EXPECT_NE(hldb::findByName<hldb::Net>("y", block->getNets()), nullptr);
+}
+
+// Elaborated model only: the loop unrolls into g_loop[0] and g_loop[1] (27.4), and the true conditions select
+// g_if and g_case (27.5).
+TEST_F(ItemsGenerateTest, GenerateBlocksAfterElaboration) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("m", m_design->getTopModules());
+    ASSERT_NE(top, nullptr);
+    for (std::string_view name : {"g_loop[0]", "g_loop[1]", "g_if", "g_case"}) {
+      const hldb::GenScopeArray *const array = hldb::findByName<hldb::GenScopeArray>(name, top->getGenScopeArrays());
+      ASSERT_NE(array, nullptr) << name;
+      ASSERT_NE(array->getGenScopes(), nullptr) << name;
+      EXPECT_EQ(array->getGenScopes()->size(), 1u) << name;
+    }
+  }
+}
 }  // namespace hlc
 
 int main(int argc, char **argv) {
