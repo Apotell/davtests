@@ -28,19 +28,17 @@
 //     CompModportPrototypeMismatch or CompExternPrototypeMismatch
 //   - ERR3 line 56: Put(int, int) does not match the 1-argument prototype -> same codes
 //   - ERR4: u4a and u4b (lines 90-91) both export Ping without extern forkjoin (25.7.4) ->
-//     CompMultiplyDefinedTask or CompDuplicateDeclaration (line 67 or 90-91)
+//     CompMultiplyDefinedTaskFunc or CompDuplicateDeclaration (line 67 or 90-91)
 //   - ERR5 line 77: a task named Get where the modport exports a function -> the prototype codes
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - MissingExportedTaskIsRejected: HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is
-//   reported.
-//   - ExportTypeMismatchIsRejected: HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is
-//   reported.
-//   - ExportCountMismatchIsRejected: HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is
-//   reported.
-//   - DoubleExportIsRejected: HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is
-//   reported.
-//   - TaskForExportedFunctionIsRejected: HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no
-//   error is reported.
+//   All five need elaboration: each module has a generic interface port, so the exporting modport (and the
+//   prototype to match) is only known from the instances in top. HLC does not elaborate and reports no error.
+//   - MissingExportedTaskIsRejected: 25.7, m1 does not define the exported Read.
+//   - ExportTypeMismatchIsRejected: 25.7, a.Put does not exactly match the exported prototype (argument type).
+//   - ExportCountMismatchIsRejected: 25.7, a.Put does not exactly match the exported prototype (argument count).
+//   - DoubleExportIsRejected: 25.7.4, two modules export Ping although the interface does not declare it
+//     extern forkjoin.
+//   - TaskForExportedFunctionIsRejected: 25.7, a task does not match the exported function prototype.
 // Not checked:
 //   - The diagnostic codes are HLC's choice; each test accepts the codes HLC defines for the rule
 //
@@ -434,45 +432,45 @@ class MpErrExportTest : public Test {
 
 // ERR1: modport target (export Read); m1 u1(i1.target);
 TEST_F(MpErrExportTest, MissingExportedTaskIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is reported."
-                  " IEEE 1800-2023 Sec 25.7 / 25.7.4: a missing, mismatched or doubly exported subroutine is an "
-                  "elaboration error. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.7: a module connected to a modport that exports a"
+                  " subroutine shall define it, else an elaboration error shall occur. m1 has a generic interface"
+                  " port, so only u1(i1.target) shows that Read must be defined; HLC does not elaborate.";
   EXPECT_TRUE(anyEvent({EventType::CompMissingImplementation}, 33, 87))
       << "lines 33-87: m1 does not define the exported Read";
 }
 
 // ERR2: task a.Put(input logic [7:0] v);
 TEST_F(MpErrExportTest, ExportTypeMismatchIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is reported."
-                  " IEEE 1800-2023 Sec 25.7 / 25.7.4: a missing, mismatched or doubly exported subroutine is an "
-                  "elaboration error. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.7, 6.22.1: a subroutine that does not exactly match the"
+                  " exported prototype is an elaboration error (int vs logic [7:0]). m2 has a generic interface port,"
+                  " so the prototype is only known from u2(i2.target); HLC does not elaborate.";
   EXPECT_TRUE(anyEvent({EventType::CompModportPrototypeMismatch, EventType::CompExternPrototypeMismatch}, 46, 46))
       << "line 46: Put takes an int";
 }
 
 // ERR3: task a.Put(input int v, input int w);
 TEST_F(MpErrExportTest, ExportCountMismatchIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is reported."
-                  " IEEE 1800-2023 Sec 25.7 / 25.7.4: a missing, mismatched or doubly exported subroutine is an "
-                  "elaboration error. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.7: a subroutine that does not exactly match the exported"
+                  " prototype is an elaboration error (two arguments vs one). m3 has a generic interface port, so"
+                  " the prototype is only known from u3(i3.target); HLC does not elaborate.";
   EXPECT_TRUE(anyEvent({EventType::CompModportPrototypeMismatch, EventType::CompExternPrototypeMismatch}, 56, 56))
       << "line 56: Put takes one argument";
 }
 
 // ERR4: m4 u4a(i4.target); m4 u4b(i4.target);
 TEST_F(MpErrExportTest, DoubleExportIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is reported."
-                  " IEEE 1800-2023 Sec 25.7 / 25.7.4: a missing, mismatched or doubly exported subroutine is an "
-                  "elaboration error. Fix pending.";
-  EXPECT_TRUE(anyEvent({EventType::CompMultiplyDefinedTask, EventType::CompDuplicateDeclaration}, 67, 91))
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.7.4: it is normally an error for more than one module to"
+                  " export the same task name; such tasks shall be declared extern forkjoin in the interface. Only"
+                  " the instances u4a and u4b, both on i4.target, show the double export; HLC does not elaborate.";
+  EXPECT_TRUE(anyEvent({EventType::CompMultiplyDefinedTaskFunc, EventType::CompDuplicateDeclaration}, 67, 91))
       << "lines 67-91: Ping is exported twice without extern forkjoin";
 }
 
 // ERR5: task a.Get(); for export function int Get()
 TEST_F(MpErrExportTest, TaskForExportedFunctionIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind') for this exported subroutine; no error is reported."
-                  " IEEE 1800-2023 Sec 25.7 / 25.7.4: a missing, mismatched or doubly exported subroutine is an "
-                  "elaboration error. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.7: a task does not exactly match the exported function"
+                  " prototype, an elaboration error. m5 has a generic interface port, so the prototype is only known"
+                  " from u5(i5.target); HLC does not elaborate.";
   EXPECT_TRUE(anyEvent({EventType::CompModportPrototypeMismatch, EventType::CompExternPrototypeMismatch}, 77, 77))
       << "line 77: Get must be a function";
 }

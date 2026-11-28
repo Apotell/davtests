@@ -30,8 +30,8 @@
 //   - top: mem -> sb_intf.target, cpu -> sb_intf.initiator, omni -> sb_intf (no modport)
 //   - No errors: the whole file is legal (LRM 25.7.2 example)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - CompilesWithoutErrors: HLC reports DV8504 'Null Actual' for calls to subroutines imported through modports, which
-//   is legal.
+//   - CompilesWithoutErrors: HLC reports a 'Null Actual' error (DV8504) for the legal calls through the generic
+//     interface ports a and b, which it cannot resolve without elaboration.
 // Not checked:
 //   - What the calls through the generic ports a/b bind to (known per instance after elaboration)
 //
@@ -477,9 +477,9 @@ TEST_F(MpImportByNameTest, CallsAndConnections) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(MpImportByNameTest, CompilesWithoutErrors) {
-  GTEST_SKIP() << "HLC reports DV8504 'Null Actual' for calls to subroutines imported through modports, which is legal."
-                  " IEEE 1800-2023 Sec 25.7.2 (LRM example): the call binds to the subroutine named through the port. "
-                  "Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.7.2 (its example): the calls through the generic interface ports a and b"
+                  " are legal; the called subroutines depend on the connected interface or modport and can only be"
+                  " resolved by elaboration. HLC reports a 'Null Actual' error (DV8504) for each call.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }

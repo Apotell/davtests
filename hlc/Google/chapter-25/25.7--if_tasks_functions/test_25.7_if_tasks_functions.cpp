@@ -29,8 +29,8 @@
 //   - Connections: u_drv.b and u_gen.g are connected to b
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - CompilesWithoutErrors: HLC reports DV8504 'Null Actual' for g.inc(...) through the generic port g, which is
-//   legal.
+//   - CompilesWithoutErrors: HLC reports a 'Null Actual' error (DV8504) for the legal call g.inc(...) through the
+//     generic interface port g, which it cannot resolve without elaboration.
 // Not checked:
 //   - What g.inc binds to: g is a generic port, so its interface is known only per instance after
 //     elaboration
@@ -483,9 +483,9 @@ TEST_F(IfTasksFunctionsTest, CallThroughGenericPort) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(IfTasksFunctionsTest, CompilesWithoutErrors) {
-  GTEST_SKIP()
-      << "HLC reports DV8504 'Null Actual' for g.inc(...) through the generic port g, which is legal."
-         " IEEE 1800-2023 Sec 25.7 / 25.3.3: the call binds to the subroutine named through the port. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.3.3, 25.7: g.inc(...) is legal; g is a generic interface port, so the"
+                  " called subroutine depends on the connected interface and can only be resolved by elaboration."
+                  " HLC reports a 'Null Actual' error (DV8504) for the call.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }

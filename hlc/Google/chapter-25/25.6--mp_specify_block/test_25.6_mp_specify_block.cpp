@@ -30,7 +30,7 @@
 //   - top: u_d.ch is connected to u_itf
 //   - No errors: the whole file is legal (LRM 25.6 example)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ModulePaths: HLC gives (ch.d => ch.q) path type 0 (not vpiPathParallel) and +: data polarity vpiUnknown.
+//   - ModulePaths: HLC gives (ch.d => ch.q) no path type and (ch.q +: ch.d) an unknown data polarity.
 //   - SetupCheck: HLC does not list the $setup check in the module's timing checks (getTchks() is null).
 // Not checked:
 //   - Which interface signal each path terminal binds to (terminals are checked by count and edge)
@@ -415,8 +415,9 @@ TEST_F(MpSpecifyBlockTest, ModportAndPort) {
 
 // CHK3/CHK5: the two module paths.
 TEST_F(MpSpecifyBlockTest, ModulePaths) {
-  GTEST_SKIP() << "HLC gives (ch.d => ch.q) path type 0 (not vpiPathParallel) and +: data polarity vpiUnknown."
-                  " IEEE 1800-2023 Sec 30.4 / 37: => is a parallel path and +: a positive data polarity. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 30.4.2: => establishes a parallel connection (vpiPathParallel); Sec 30.4.3:"
+                  " in (ch.q +: ch.d) the data path is not inverted (vpiDataPolarity vpiPositive). HLC gives"
+                  " (ch.d => ch.q) no path type and the +: data path an unknown polarity.";
   const hldb::Module *const dtype = getModule("dtype");
   ASSERT_NE(dtype, nullptr);
   ASSERT_NE(dtype->getModPaths(), nullptr);
@@ -444,8 +445,8 @@ TEST_F(MpSpecifyBlockTest, ModulePaths) {
 
 // CHK4: $setup(ch.d, posedge ch.c, 1);
 TEST_F(MpSpecifyBlockTest, SetupCheck) {
-  GTEST_SKIP() << "HLC does not list the $setup check in the module's timing checks (getTchks() is null)."
-                  " IEEE 1800-2023 Sec 37: a module relates to its timing checks (vpiTchk). Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.5: a module reaches its timing checks through vpiTchk. HLC keeps the"
+                  " $setup check only in the specify block; Module::getTchks() is null.";
   const hldb::Module *const dtype = getModule("dtype");
   ASSERT_NE(dtype, nullptr);
   ASSERT_NE(dtype->getTchks(), nullptr);

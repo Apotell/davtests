@@ -29,9 +29,10 @@
 //     png -> sb_intf.pinger; CHK5: cpu -> sb_intf.initiator
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ExternPrototypes: HLC leaves vpiAccessType 0 on extern forkjoin task countTargets and extern task Ping.
-//   - CompilesWithoutErrors: HLC reports DV8504 'Null Actual' for b.countTargets() through the initiator modport, which
-//   is legal.
+//   - ExternPrototypes: HLC leaves the access type of the extern forkjoin task countTargets and the extern task
+//     Ping unset.
+//   - CompilesWithoutErrors: HLC reports a 'Null Actual' error (DV8504) for the legal call b.countTargets() through
+//     the generic interface port b, which it cannot resolve without elaboration.
 // Not checked:
 //   - Run-time fork/join behavior of the call
 //
@@ -419,8 +420,8 @@ class MpExternForkjoinTest : public Test {
 };
 
 TEST_F(MpExternForkjoinTest, ExternPrototypes) {
-  GTEST_SKIP() << "HLC leaves vpiAccessType 0 on extern forkjoin task countTargets and extern task Ping."
-                  " IEEE 1800-2023 Sec 37: they must be vpiForkJoinAcc and vpiExternAcc. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.8 detail 2: the access type of an interface tf decl is vpiForkJoinAcc"
+                  " (extern forkjoin) or vpiExternAcc (extern). HLC leaves it unset on countTargets and Ping.";
   const hldb::Interface *const bus = getInterface("simple_bus");
   ASSERT_NE(bus, nullptr);
   const hldb::TaskFuncDecl *const ct = hldb::findByName<hldb::TaskFuncDecl>("countTargets", bus->getTaskFuncDecls());
@@ -456,8 +457,9 @@ TEST_F(MpExternForkjoinTest, Connections) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(MpExternForkjoinTest, CompilesWithoutErrors) {
-  GTEST_SKIP() << "HLC reports DV8504 'Null Actual' for b.countTargets() through the initiator modport, which is legal."
-                  " IEEE 1800-2023 Sec 25.7.4: the call binds to the subroutine named through the port. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.7, 25.7.4: b.countTargets() is legal; b is a generic interface port, so"
+                  " the called task depends on the connected modport and can only be resolved by elaboration. HLC"
+                  " reports a 'Null Actual' error (DV8504) for the call.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }

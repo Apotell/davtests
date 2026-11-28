@@ -402,8 +402,9 @@ class IfErrPortsTest : public Test {
 
 // ERR1: interface e1_if(input logic a, input logic a);
 TEST_F(IfErrPortsTest, DuplicatePortIsRejected) {
-  GTEST_SKIP() << "HLC reports nothing for port a declared twice in the header of e1_if (line 31)."
-                  " IEEE 1800-2023 Sec 23.2.2: a port identifier shall be declared only once. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 23.2.2.2 (and Sec 25.4 for interfaces): once a port identifier has been"
+                  " defined, there shall not be another port definition with this same name. HLC reports nothing"
+                  " for port a declared twice in the ANSI header of e1_if (line 31).";
   EXPECT_TRUE(anyEvent({EventType::CompDuplicatePortName}, 31, 31)) << "line 31: port a is declared twice";
 }
 
