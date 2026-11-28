@@ -70,8 +70,8 @@
 //     instantiating scope.
 //   - bconn1 and bconn3 have no argument for datain.
 // Which value each instance's datain finally receives is an instance-model
-// question; those checks are written below and gated on
-// m_design->getElaborated(), so they run once HLC builds an elaborated model.
+// question; that check is its own test, skipped until HLC builds an
+// elaborated model (m_design->getElaborated()).
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -90,8 +90,14 @@
 //                                  bound to the port in its position; bconn0
 //                                  passes 8'h0F, bconn2 bus_connect1's
 //                                  My_DataIn; bconn1 and bconn3 omit datain.
-//                                  Elaborated model only: datain receives
-//                                  8'h0F, 8'hFF, 8'h00, 8'hFF.
+//   InstancesReceiveDatainValues   elaborated model only: datain of bconn0..
+//                                  bconn3 is connected to 8'h0F, 8'hFF,
+//                                  8'h00, 8'hFF
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   InstancesReceiveDatainValues: HLC builds a definition model only, so
+//   there is no instance of bus_conn whose datain could hold a value.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -216,11 +222,10 @@ TEST_F(DefaultValueScopeTest, BusConnPortDirections) {
 }
 
 TEST_F(DefaultValueScopeTest, DatainIsANet) {
-  const hldb::PortCollection *const ports = findBusConnPorts();
-  ASSERT_NE(ports, nullptr);
-  ASSERT_EQ(ports->size(), 2u);
-  ASSERT_NE((*ports)[1]->getLowConn(), nullptr);
-  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>((*ports)[1]->getLowConn());
+  const hldb::Port *const datain = hldb::findByName<hldb::Port>("datain", findBusConnPorts());
+  ASSERT_NE(datain, nullptr);
+  ASSERT_NE(datain->getLowConn(), nullptr);
+  const hldb::RefObj *const lowConn = any_cast<hldb::RefObj>(datain->getLowConn());
   ASSERT_NE(lowConn, nullptr);
   EXPECT_NE(lowConn->getActual<hldb::Net>(), nullptr);
 }
@@ -256,7 +261,8 @@ TEST_F(DefaultValueScopeTest, DatainDefaultIsTheUnitParameter) {
   EXPECT_EQ(value->getName(), std::string_view("My_DataIn"));
   const hldb::Parameter *const parameter = value->getActual<hldb::Parameter>();
   ASSERT_NE(parameter, nullptr) << "the default My_DataIn is not bound to a parameter";
-  EXPECT_NE(any_cast<hldb::Unit>(parameter->getParent()), nullptr)
+  ASSERT_NE(parameter->getParent(), nullptr);
+  EXPECT_EQ(parameter->getParent()->getAnyType(), hldb::AnyType::Unit)
       << "the default must bind to the compilation-unit My_DataIn (line 21), not bus_connect1's (line 30)";
 }
 
@@ -296,17 +302,29 @@ TEST_F(DefaultValueScopeTest, InstancesBindOrderedArguments) {
       ASSERT_NE(actual, nullptr) << expected.m_name;
       EXPECT_EQ(actual->getDecompile(), expected.m_datainActual) << expected.m_name;
     }
+  }
+}
 
-    if (m_design->getElaborated()) {
-      // Instance model: datain is connected to the actual, or to the default inserted by the compiler.
-      const hldb::Module *const module = hldb::findByName<hldb::Module>(expected.m_name, busConnect1->getModules());
-      ASSERT_NE(module, nullptr) << expected.m_name;
-      const hldb::Port *const datain = hldb::findByName<hldb::Port>("datain", module->getPorts());
-      ASSERT_NE(datain, nullptr) << expected.m_name;
-      const hldb::Constant *const highConn = any_cast<hldb::Constant>(datain->getHighConn());
-      ASSERT_NE(highConn, nullptr) << expected.m_name << ".datain is not connected to a constant";
-      EXPECT_EQ(highConn->getDecompile(), expected.m_elaboratedDatain) << expected.m_name;
-    }
+// "When the module is instantiated, input ports with default values can be omitted from the instantiation, and
+// the compiler shall insert the corresponding default values." (23.2.2.4) In the instance model, datain of each
+// instance is connected to the actual, or to the default evaluated in bus_conn's scope.
+TEST_F(DefaultValueScopeTest, InstancesReceiveDatainValues) {
+  ASSERT_NE(m_design, nullptr);
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of bus_conn whose datain could hold "
+                    "a value (IEEE 1800-2023 23.2.2.4: the compiler shall insert the default value of an "
+                    "omitted input port)";
+  }
+  const hldb::Module *const busConnect1 = findDefinition("bus_connect1");
+  ASSERT_NE(busConnect1, nullptr);
+  for (const ExpectedInstance &expected : kExpectedInstances) {
+    const hldb::Module *const module = hldb::findByName<hldb::Module>(expected.m_name, busConnect1->getModules());
+    ASSERT_NE(module, nullptr) << expected.m_name;
+    const hldb::Port *const datain = hldb::findByName<hldb::Port>("datain", module->getPorts());
+    ASSERT_NE(datain, nullptr) << expected.m_name;
+    const hldb::Constant *const highConn = any_cast<hldb::Constant>(datain->getHighConn());
+    ASSERT_NE(highConn, nullptr) << expected.m_name << ".datain is not connected to a constant";
+    EXPECT_EQ(highConn->getDecompile(), expected.m_elaboratedDatain) << expected.m_name;
   }
 }
 

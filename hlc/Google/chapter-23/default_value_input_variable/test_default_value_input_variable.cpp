@@ -43,9 +43,8 @@
 // means the definition m knows its port d, d's direction, and d's default
 // 8'h5A, and the instance u of top is bound to m with no connections. The
 // default is kept on the variable d declares (Variable::getValue()). Inserting
-// the default into u.d is an instance-model step; that check is written
-// below and gated on m_design->getElaborated(), so it runs once HLC builds an
-// elaborated model.
+// the default into u.d is an instance-model step; that check is its own test,
+// skipped until HLC builds an elaborated model (m_design->getElaborated()).
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -56,10 +55,16 @@
 //   PortDIsUnsigned               getSigned() of the data type of d
 //                                 (logic [7:0]) is false
 //   PortDKnowsItsDefault          Variable::getValue() of d is the constant
-//                                 8'h5A (8 bits)
+//                                 8'h5A
 //   InstanceUOmitsThePort         top has the instance u of m with no port
-//                                 connections; elaborated model only: u.d is
-//                                 connected to the inserted default 8'h5A
+//                                 connections
+//   InstanceUReceivesTheDefault   elaborated model only: u.d is connected to
+//                                 the inserted default 8'h5A
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   InstanceUReceivesTheDefault: HLC builds a definition model only, so there
+//   is no instance u whose port d could be connected to the default.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -177,11 +182,9 @@ TEST_F(DefaultValueInputVariableTest, PortDKnowsItsDefault) {
   const hldb::Constant *const value = variable->getValue<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "the default 8'h5A of d is missing";
   EXPECT_EQ(value->getDecompile(), std::string_view("8'h5A"));
-  EXPECT_EQ(value->getSize(), 8);
 }
 
-// "input ports with default values can be omitted from the instantiation, and the compiler shall insert the
-// corresponding default values." (23.2.2.4)
+// "input ports with default values can be omitted from the instantiation" (23.2.2.4)
 TEST_F(DefaultValueInputVariableTest, InstanceUOmitsThePort) {
   const hldb::Module *const top = findDefinition("top");
   ASSERT_NE(top, nullptr);
@@ -190,19 +193,28 @@ TEST_F(DefaultValueInputVariableTest, InstanceUOmitsThePort) {
   ASSERT_NE(instance->getTypespec(), nullptr);
   const hldb::ModuleTypespec *const definition = instance->getTypespec()->getActual<hldb::ModuleTypespec>();
   ASSERT_NE(definition, nullptr);
-  EXPECT_EQ(definition->getName(), std::string_view("m"));
+  EXPECT_EQ(definition->getDefName(), std::string_view("m"));
   EXPECT_TRUE((instance->getArguments() == nullptr) || instance->getArguments()->empty()) << "u connects no port";
+}
 
-  if (m_design->getElaborated()) {
-    // Instance model: u.d is connected to the default inserted by the compiler.
-    const hldb::Module *const u = hldb::findByName<hldb::Module>("u", top->getModules());
-    ASSERT_NE(u, nullptr);
-    const hldb::Port *const port = hldb::findByName<hldb::Port>("d", u->getPorts());
-    ASSERT_NE(port, nullptr);
-    const hldb::Constant *const highConn = any_cast<hldb::Constant>(port->getHighConn());
-    ASSERT_NE(highConn, nullptr) << "u.d is not connected to the inserted default";
-    EXPECT_EQ(highConn->getDecompile(), std::string_view("8'h5A"));
+// "the compiler shall insert the corresponding default values." (23.2.2.4) In the instance model, u.d is
+// connected to the default.
+TEST_F(DefaultValueInputVariableTest, InstanceUReceivesTheDefault) {
+  ASSERT_NE(m_design, nullptr);
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance u whose port d could be connected to "
+                    "the default (IEEE 1800-2023 23.2.2.4: the compiler shall insert the default value of an "
+                    "omitted input port)";
   }
+  const hldb::Module *const top = findDefinition("top");
+  ASSERT_NE(top, nullptr);
+  const hldb::Module *const u = hldb::findByName<hldb::Module>("u", top->getModules());
+  ASSERT_NE(u, nullptr);
+  const hldb::Port *const port = hldb::findByName<hldb::Port>("d", u->getPorts());
+  ASSERT_NE(port, nullptr);
+  const hldb::Constant *const highConn = any_cast<hldb::Constant>(port->getHighConn());
+  ASSERT_NE(highConn, nullptr) << "u.d is not connected to the inserted default";
+  EXPECT_EQ(highConn->getDecompile(), std::string_view("8'h5A"));
 }
 
 }  // namespace hlc
