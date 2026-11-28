@@ -180,7 +180,6 @@ TEST_F(NetTypeTest, MyRealIsNettypeOfRealWithoutResolutionFunc) {
 }
 
 TEST_F(NetTypeTest, MyRealRedeclarationIsDiagnosed) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis";
   const bool found = (findEvent(EventType::CompMultiplyDefinedTypedef, "my_real") != nullptr) ||
                      (findEvent(EventType::CompDuplicateDeclaration, "my_real") != nullptr);
   EXPECT_TRUE(found) << "Sec 3.13: 'my_real' is declared twice in the compilation-unit name space";
@@ -288,7 +287,6 @@ TEST_F(NetTypeTest, TsumSignatureMatchesResolutionFunctionRules) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NetTypeTest, MyRealNetIsNetNotVariable) {
-  GTEST_SKIP() << "HLC doesn't support implicit nets yet";
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getNets(), nullptr) << "Sec 6.7: 'nettype_identifier net_identifier;' declares a net";
@@ -300,7 +298,6 @@ TEST_F(NetTypeTest, MyRealNetIsNetNotVariable) {
 }
 
 TEST_F(NetTypeTest, MyRealNetTypeResolvesToMyRealNettype) {
-  GTEST_SKIP() << "HLC doesn't support implicit nets yet";
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getNets(), nullptr);

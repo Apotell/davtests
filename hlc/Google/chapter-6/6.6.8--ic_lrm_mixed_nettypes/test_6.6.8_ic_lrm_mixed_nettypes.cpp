@@ -316,8 +316,6 @@ TEST_F(IcLrmMixedNettypesTest, PortElementsForwarded) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(IcLrmMixedNettypesTest, CompilesWithoutErrors) {
-  GTEST_SKIP() << "HLC reports DL2510 'Unknown or undefined type' for a nettype imported from a package and"
-                  " used as a port type; IEEE 1800-2023 Sec 23.2.2.3 + 26.3 allow it. Fix pending.";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }
