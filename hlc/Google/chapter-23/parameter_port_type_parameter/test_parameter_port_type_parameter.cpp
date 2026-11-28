@@ -43,6 +43,11 @@
 //   PortAWithTheDefaultT       elaborated model only: with the default T, a
 //                              is logic, unsigned and 4 bits wide
 //
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   PortAWithTheDefaultT: HLC builds a definition model only, so there is no
+//   instance of m in which T takes its default.
+//
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Redefining T per instance (23.10); there is no instance.
@@ -158,7 +163,7 @@ TEST_F(ParameterPortTypeParameterTest, ModuleIsNamedM) {
 TEST_F(ParameterPortTypeParameterTest, TIsATypeParameter) {
   const hldb::Any *const parameter = findParameter("T");
   ASSERT_NE(parameter, nullptr);
-  EXPECT_NE(any_cast<hldb::TypeParameter>(parameter), nullptr) << hldb::AnyTypeName(parameter->getAnyType());
+  EXPECT_EQ(parameter->getAnyType(), hldb::AnyType::TypeParameter);
 }
 
 TEST_F(ParameterPortTypeParameterTest, PortAHasTypeT) {
@@ -190,17 +195,19 @@ TEST_F(ParameterPortTypeParameterTest, PortAIsAWire) {
 // an instance-model fact. Elaborated model only: with the default T, a is logic [3:0].
 TEST_F(ParameterPortTypeParameterTest, PortAWithTheDefaultT) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Port *const port = findElaboratedPort("a");
-    ASSERT_NE(port, nullptr);
-    const hldb::Any *const declared = lowConnActual(port);
-    ASSERT_NE(declared, nullptr);
-    const hldb::Typespec *const typespec = hldb::getTypespec(declared);
-    ASSERT_NE(typespec, nullptr);
-    EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(hldb::AnyType::LogicTypespec));
-    EXPECT_FALSE(hldb::getSigned(typespec));
-    EXPECT_EQ(widthOf(declared), 4);
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of m in which T takes its default "
+                    "(IEEE 1800-2023 23.2.3: parameter types can be redefined for each instance)";
   }
+  const hldb::Port *const port = findElaboratedPort("a");
+  ASSERT_NE(port, nullptr);
+  const hldb::Any *const declared = lowConnActual(port);
+  ASSERT_NE(declared, nullptr);
+  const hldb::Typespec *const typespec = hldb::getTypespec(declared);
+  ASSERT_NE(typespec, nullptr);
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::LogicTypespec);
+  EXPECT_FALSE(hldb::getSigned(typespec));
+  EXPECT_EQ(widthOf(declared), 4);
 }
 }  // namespace hlc
 

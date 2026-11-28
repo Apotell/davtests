@@ -18,8 +18,8 @@
 // header".
 module generic_fifo
   #(parameter MSB=3, LSB=0, DEPTH=4)
-  (input wire [MSB:LSB] in, reset,
-   input wire [MSB:LSB] clk, read, write,
-   output logic out,
+  (input wire [MSB:LSB] in,
+   input wire clk, read, write, reset,
+   output logic [MSB:LSB] out,
    output logic full, empty);
 endmodule

@@ -56,6 +56,11 @@
 //                                  false
 //   WidthsWithTheDefaults          elaborated model only: getBitCount() of A
 //                                  is 3 and of Y is 8 (num_out_bits = 1 << 3)
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   WidthsWithTheDefaults: HLC builds a definition model only, so there is no
+//   instance of generic_decoder whose port widths could be evaluated.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -226,7 +231,7 @@ TEST_F(ParameterizedLocalparamTest, ADependsOnNumCodeBits) {
   ASSERT_NE(port, nullptr);
   const hldb::Any *const declared = lowConnActual(port);
   ASSERT_NE(declared, nullptr);
-  EXPECT_NE(any_cast<hldb::Net>(declared), nullptr);
+  EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Net);
   const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("num_code_bits")));
@@ -237,7 +242,7 @@ TEST_F(ParameterizedLocalparamTest, YDependsOnNumOutBits) {
   ASSERT_NE(port, nullptr);
   const hldb::Any *const declared = lowConnActual(port);
   ASSERT_NE(declared, nullptr);
-  EXPECT_NE(any_cast<hldb::Variable>(declared), nullptr);
+  EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Variable);
   const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("num_out_bits")));
@@ -280,13 +285,15 @@ TEST_F(ParameterizedLocalparamTest, PortsAreUnsigned) {
 // model only: with the default num_code_bits = 3, A is 3 bits and Y is num_out_bits = 1 << 3 = 8 bits wide.
 TEST_F(ParameterizedLocalparamTest, WidthsWithTheDefaults) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<std::pair<std::string_view, int64_t>> expected = {{"A", 3}, {"Y", 8}};
-    for (const std::pair<std::string_view, int64_t> &entry : expected) {
-      const hldb::Port *const port = findElaboratedPort(entry.first);
-      ASSERT_NE(port, nullptr) << entry.first;
-      EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
-    }
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of generic_decoder whose port widths "
+                    "could be evaluated (IEEE 1800-2023 23.2.3: port declarations can be based on parameters)";
+  }
+  const std::vector<std::pair<std::string_view, int64_t>> expected = {{"A", 3}, {"Y", 8}};
+  for (const std::pair<std::string_view, int64_t> &entry : expected) {
+    const hldb::Port *const port = findElaboratedPort(entry.first);
+    ASSERT_NE(port, nullptr) << entry.first;
+    EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
   }
 }
 }  // namespace hlc

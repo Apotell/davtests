@@ -26,8 +26,10 @@
 // Syntax 23-1: "parameter_port_declaration ::= parameter_declaration |
 // local_parameter_declaration | data_type list_of_param_assignments |
 // type_parameter_declaration". N and V use the third alternative: a data type
-// without the keyword parameter. Such a declaration is a parameter, not a
-// local parameter (only local_parameter_declaration makes one).
+// without the keyword parameter. Such a declaration takes the keyword in force
+// in the list: it is local only after a localparam with no parameter keyword
+// in between (6.20.4). No localparam precedes N and V, so they are
+// parameters, not local parameters.
 //   - The module is named m (23.2).
 //   - N has the type int and the value 4; V has the type logic [3:0] and the
 //     value 4'hA (the parameter's expression, 37.28 detail 3).
@@ -46,6 +48,11 @@
 //   PortAIsUnsigned            getSigned() of a's data type is false
 //   PortAIsNBitsWide           elaborated model only: getBitCount() of a is
 //                              4, the value of N
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   PortAIsNBitsWide: HLC builds a definition model only, so there is no
+//   instance of m whose port width could be evaluated.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -198,7 +205,7 @@ TEST_F(ParameterPortTypedTest, NIsAnIntParameter) {
   EXPECT_FALSE(parameter->getLocalParam());
   const hldb::Typespec *const typespec = hldb::getTypespec(parameter);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(hldb::AnyType::IntTypespec));
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
   EXPECT_EQ(valueText(parameter), "4");
 }
 
@@ -208,7 +215,7 @@ TEST_F(ParameterPortTypedTest, VIsALogicParameter) {
   EXPECT_FALSE(parameter->getLocalParam());
   const hldb::Typespec *const typespec = hldb::getTypespec(parameter);
   ASSERT_NE(typespec, nullptr);
-  EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(hldb::AnyType::LogicTypespec));
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::LogicTypespec);
   EXPECT_EQ(valueText(parameter), "4'hA");
 }
 
@@ -252,11 +259,13 @@ TEST_F(ParameterPortTypedTest, PortAIsUnsigned) {
 // the default N = 4, a is 4 bits wide.
 TEST_F(ParameterPortTypedTest, PortAIsNBitsWide) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Port *const port = findElaboratedPort("a");
-    ASSERT_NE(port, nullptr);
-    EXPECT_EQ(widthOf(lowConnActual(port)), 4);
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of m whose port width could be "
+                    "evaluated (IEEE 1800-2023 23.2.3: port declarations can be based on parameters)";
   }
+  const hldb::Port *const port = findElaboratedPort("a");
+  ASSERT_NE(port, nullptr);
+  EXPECT_EQ(widthOf(lowConnActual(port)), 4);
 }
 }  // namespace hlc
 

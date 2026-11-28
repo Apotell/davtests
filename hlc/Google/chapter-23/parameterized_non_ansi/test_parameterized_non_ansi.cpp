@@ -66,6 +66,11 @@
 //   WidthsWithTheDefaults       elaborated model only: getBitCount() of in and
 //                               out is 4 (MSB=3, LSB=0)
 //
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   WidthsWithTheDefaults: HLC builds a definition model only, so there is no
+//   instance of generic_fifo whose port widths could be evaluated.
+//
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - Redefining the parameters per instance. That is 23.10 and needs
@@ -242,12 +247,16 @@ TEST_F(ParameterizedNonAnsiTest, PortKindsAreAsDeclared) {
   for (std::string_view name : {"clk", "read", "write", "reset", "in"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
-    EXPECT_NE(any_cast<hldb::Net>(lowConnActual(port)), nullptr) << name << " is not a net";
+    const hldb::Any *const declared = lowConnActual(port);
+    ASSERT_NE(declared, nullptr) << name;
+    EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Net) << name;
   }
   for (std::string_view name : {"out", "full", "empty"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
-    EXPECT_NE(any_cast<hldb::Variable>(lowConnActual(port)), nullptr) << name << " is not a variable";
+    const hldb::Any *const declared = lowConnActual(port);
+    ASSERT_NE(declared, nullptr) << name;
+    EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Variable) << name;
   }
 }
 
@@ -307,13 +316,15 @@ TEST_F(ParameterizedNonAnsiTest, PortsAreUnsigned) {
 // only: with the defaults MSB=3 and LSB=0, in and out are 4 bits wide.
 TEST_F(ParameterizedNonAnsiTest, WidthsWithTheDefaults) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<std::pair<std::string_view, int64_t>> expected = {{"in", 4}, {"out", 4}};
-    for (const std::pair<std::string_view, int64_t> &entry : expected) {
-      const hldb::Port *const port = findElaboratedPort(entry.first);
-      ASSERT_NE(port, nullptr) << entry.first;
-      EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
-    }
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of generic_fifo whose port widths "
+                    "could be evaluated (IEEE 1800-2023 23.2.3: port declarations can be based on parameters)";
+  }
+  const std::vector<std::pair<std::string_view, int64_t>> expected = {{"in", 4}, {"out", 4}};
+  for (const std::pair<std::string_view, int64_t> &entry : expected) {
+    const hldb::Port *const port = findElaboratedPort(entry.first);
+    ASSERT_NE(port, nullptr) << entry.first;
+    EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
   }
 }
 }  // namespace hlc

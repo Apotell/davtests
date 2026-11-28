@@ -20,9 +20,9 @@
 //
 //   19: module generic_fifo
 //   20:   #(parameter MSB=3, LSB=0, DEPTH=4)
-//   21:   (input wire [MSB:LSB] in, reset,
-//   22:    input wire [MSB:LSB] clk, read, write,
-//   23:    output logic out,
+//   21:   (input wire [MSB:LSB] in,
+//   22:    input wire clk, read, write, reset,
+//   23:    output logic [MSB:LSB] out,
 //   24:    output logic full, empty);
 //   25: endmodule
 //
@@ -35,30 +35,40 @@
 //     not change the name.
 //   - MSB, LSB and DEPTH are parameters, not local, with the values 3, 0 and
 //     4 (the parameter's expression, 37.28 detail 3).
-//   - reset has no direction, kind or type of its own, so it inherits "input
-//     wire [MSB:LSB]" from in (23.2.2.3); read and write inherit the same
-//     from clk. So in, reset, clk, read and write are input wire nets whose
-//     packed range is [MSB:LSB].
+//   - in is an input wire net whose packed range is [MSB:LSB]. read, write
+//     and reset have no direction, kind or type of their own, so they inherit
+//     "input wire" from clk (23.2.2.3): clk, read, write and reset are scalar
+//     input wire nets.
 //   - out, full and empty are "output logic": an output with an explicit data
-//     type is a variable (23.2.2.3), and logic without a range is 1 bit.
+//     type is a variable (23.2.2.3). out's packed range is [MSB:LSB]; empty
+//     inherits "output logic" from full, and logic without a range is 1 bit.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors       no fatal, syntax or error diagnostic
 //   ModuleIsNamedGenericFifo    getDefName() generic_fifo
 //   ParametersMsbLsbDepth       three parameters, not local, values 3, 0, 4
-//   PortsInDeclarationOrder     in, reset, clk, read, write, out, full, empty
+//   PortsInDeclarationOrder     in, clk, read, write, reset, out, full, empty
 //                               with getPortIndex() 0 to 7
-//   InputsAreNetsSizedByMsbAndLsb   the five inputs are nets with range
+//   InIsANetSizedByMsbAndLsb    in is a net with range [MSB:LSB]
+//   ClkReadWriteResetAreScalarNets   clk, read, write, reset are nets with no
+//                               range
+//   OutIsAVariableSizedByMsbAndLsb   out is a logic variable with range
 //                               [MSB:LSB]
-//   OutputsAreScalarVariables   out, full, empty are variables with no range
+//   FullAndEmptyAreScalarVariables   full, empty are logic variables with no
+//                               range
 //   DirectionsFollowTheRules    Port::getDirection(): vpiInput for the five
 //                               inputs, vpiOutput for out, full, empty
 //   InputsAreWires              Net::getNetType() of the five inputs is
 //                               vpiWire
 //   PortsAreUnsigned            getSigned() of each port's data type is false
-//   InputWidthsWithTheDefaults  elaborated model only: getBitCount() of the
-//                               five inputs is 4 (MSB=3, LSB=0)
+//   WidthsWithTheDefaults       elaborated model only: getBitCount() of in and
+//                               out is 4 (MSB=3, LSB=0)
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   WidthsWithTheDefaults: HLC builds a definition model only, so there is no
+//   instance of generic_fifo whose port widths could be evaluated.
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
@@ -223,7 +233,7 @@ TEST_F(ParameterizedAnsiTest, ParametersMsbLsbDepth) {
 }
 
 TEST_F(ParameterizedAnsiTest, PortsInDeclarationOrder) {
-  const std::vector<std::string_view> expected = {"in", "reset", "clk", "read", "write", "out", "full", "empty"};
+  const std::vector<std::string_view> expected = {"in", "clk", "read", "write", "reset", "out", "full", "empty"};
   for (size_t index = 0; index < expected.size(); ++index) {
     const hldb::Port *const port = findPort(expected[index]);
     ASSERT_NE(port, nullptr) << expected[index];
@@ -231,42 +241,74 @@ TEST_F(ParameterizedAnsiTest, PortsInDeclarationOrder) {
   }
 }
 
-TEST_F(ParameterizedAnsiTest, InputsAreNetsSizedByMsbAndLsb) {
+TEST_F(ParameterizedAnsiTest, InIsANetSizedByMsbAndLsb) {
   const hldb::Any *const msb = findParameter("MSB");
   const hldb::Any *const lsb = findParameter("LSB");
   ASSERT_NE(msb, nullptr);
   ASSERT_NE(lsb, nullptr);
-  for (std::string_view name : {"in", "reset", "clk", "read", "write"}) {
+  const hldb::Port *const port = findPort("in");
+  ASSERT_NE(port, nullptr);
+  const hldb::Any *const declared = lowConnActual(port);
+  ASSERT_NE(declared, nullptr);
+  EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Net);
+  const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
+  ASSERT_NE(range, nullptr);
+  EXPECT_TRUE(refersTo(range->getLeftExpr(), msb));
+  EXPECT_TRUE(refersTo(range->getRightExpr(), lsb));
+}
+
+// read, write and reset inherit "input wire" from clk, which has no range (23.2.2.3).
+TEST_F(ParameterizedAnsiTest, ClkReadWriteResetAreScalarNets) {
+  for (std::string_view name : {"clk", "read", "write", "reset"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
     const hldb::Any *const declared = lowConnActual(port);
     ASSERT_NE(declared, nullptr) << name;
-    EXPECT_NE(any_cast<hldb::Net>(declared), nullptr) << name << " is not a net";
-    const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
-    ASSERT_NE(range, nullptr) << name;
-    EXPECT_TRUE(refersTo(range->getLeftExpr(), msb)) << name;
-    EXPECT_TRUE(refersTo(range->getRightExpr(), lsb)) << name;
+    EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Net) << name;
+    const hldb::Typespec *const typespec = hldb::getTypespec(declared);
+    ASSERT_NE(typespec, nullptr) << name;
+    EXPECT_EQ(firstRange(typespec), nullptr) << name;
   }
 }
 
-TEST_F(ParameterizedAnsiTest, OutputsAreScalarVariables) {
-  for (std::string_view name : {"out", "full", "empty"}) {
+TEST_F(ParameterizedAnsiTest, OutIsAVariableSizedByMsbAndLsb) {
+  const hldb::Any *const msb = findParameter("MSB");
+  const hldb::Any *const lsb = findParameter("LSB");
+  ASSERT_NE(msb, nullptr);
+  ASSERT_NE(lsb, nullptr);
+  const hldb::Port *const port = findPort("out");
+  ASSERT_NE(port, nullptr);
+  const hldb::Any *const declared = lowConnActual(port);
+  ASSERT_NE(declared, nullptr);
+  EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Variable);
+  const hldb::Typespec *const typespec = hldb::getTypespec(declared);
+  ASSERT_NE(typespec, nullptr);
+  EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::LogicTypespec);
+  const hldb::Range *const range = firstRange(typespec);
+  ASSERT_NE(range, nullptr);
+  EXPECT_TRUE(refersTo(range->getLeftExpr(), msb));
+  EXPECT_TRUE(refersTo(range->getRightExpr(), lsb));
+}
+
+// empty inherits "output logic" from full; logic without a range is 1 bit (23.2.2.3).
+TEST_F(ParameterizedAnsiTest, FullAndEmptyAreScalarVariables) {
+  for (std::string_view name : {"full", "empty"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
     const hldb::Any *const declared = lowConnActual(port);
     ASSERT_NE(declared, nullptr) << name;
-    EXPECT_NE(any_cast<hldb::Variable>(declared), nullptr) << name << " is not a variable";
+    EXPECT_EQ(declared->getAnyType(), hldb::AnyType::Variable) << name;
     const hldb::Typespec *const typespec = hldb::getTypespec(declared);
     ASSERT_NE(typespec, nullptr) << name;
-    EXPECT_EQ(hldb::AnyTypeName(typespec->getAnyType()), hldb::AnyTypeName(hldb::AnyType::LogicTypespec)) << name;
+    EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::LogicTypespec) << name;
     EXPECT_EQ(firstRange(typespec), nullptr) << name;
   }
 }
 
 TEST_F(ParameterizedAnsiTest, DirectionsFollowTheRules) {
   const std::vector<std::pair<std::string_view, int32_t>> expected = {
-      {"in", vpiInput},    {"reset", vpiInput}, {"clk", vpiInput},   {"read", vpiInput},
-      {"write", vpiInput}, {"out", vpiOutput},  {"full", vpiOutput}, {"empty", vpiOutput}};
+      {"in", vpiInput},    {"clk", vpiInput},  {"read", vpiInput},  {"write", vpiInput},
+      {"reset", vpiInput}, {"out", vpiOutput}, {"full", vpiOutput}, {"empty", vpiOutput}};
   for (const std::pair<std::string_view, int32_t> &entry : expected) {
     const hldb::Port *const port = findPort(entry.first);
     ASSERT_NE(port, nullptr) << entry.first;
@@ -276,7 +318,7 @@ TEST_F(ParameterizedAnsiTest, DirectionsFollowTheRules) {
 
 // The five inputs are declared, or inherit, "input wire" (23.2.2.3).
 TEST_F(ParameterizedAnsiTest, InputsAreWires) {
-  for (std::string_view name : {"in", "reset", "clk", "read", "write"}) {
+  for (std::string_view name : {"in", "clk", "read", "write", "reset"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
     const hldb::Net *const net = any_cast<hldb::Net>(lowConnActual(port));
@@ -285,9 +327,9 @@ TEST_F(ParameterizedAnsiTest, InputsAreWires) {
   }
 }
 
-// wire [MSB:LSB] and logic have no signed keyword, so they are unsigned (6.11.3).
+// wire and logic, with or without [MSB:LSB], have no signed keyword, so they are unsigned (6.11.3).
 TEST_F(ParameterizedAnsiTest, PortsAreUnsigned) {
-  for (std::string_view name : {"in", "reset", "clk", "read", "write", "out", "full", "empty"}) {
+  for (std::string_view name : {"in", "clk", "read", "write", "reset", "out", "full", "empty"}) {
     const hldb::Port *const port = findPort(name);
     ASSERT_NE(port, nullptr) << name;
     const hldb::Any *const declared = lowConnActual(port);
@@ -299,17 +341,18 @@ TEST_F(ParameterizedAnsiTest, PortsAreUnsigned) {
 }
 
 // MSB and LSB can be redefined per instance (23.10), so the widths are instance-model facts. Elaborated model
-// only: with the defaults MSB=3 and LSB=0 the inputs are 4 bits wide.
-TEST_F(ParameterizedAnsiTest, InputWidthsWithTheDefaults) {
+// only: with the defaults MSB=3 and LSB=0, in and out are 4 bits wide.
+TEST_F(ParameterizedAnsiTest, WidthsWithTheDefaults) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const std::vector<std::pair<std::string_view, int64_t>> expected = {
-        {"in", 4}, {"reset", 4}, {"clk", 4}, {"read", 4}, {"write", 4}};
-    for (const std::pair<std::string_view, int64_t> &entry : expected) {
-      const hldb::Port *const port = findElaboratedPort(entry.first);
-      ASSERT_NE(port, nullptr) << entry.first;
-      EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
-    }
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of generic_fifo whose port widths "
+                    "could be evaluated (IEEE 1800-2023 23.2.3: port declarations can be based on parameters)";
+  }
+  const std::vector<std::pair<std::string_view, int64_t>> expected = {{"in", 4}, {"out", 4}};
+  for (const std::pair<std::string_view, int64_t> &entry : expected) {
+    const hldb::Port *const port = findElaboratedPort(entry.first);
+    ASSERT_NE(port, nullptr) << entry.first;
+    EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
   }
 }
 }  // namespace hlc
