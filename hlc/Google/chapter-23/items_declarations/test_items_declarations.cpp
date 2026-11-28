@@ -53,15 +53,16 @@
 //                              variable v are declared
 //   ParametersPAndL            P is a parameter, L a local parameter
 //   TypedefNibble              getTypedefs() holds nibble_t
-//   GenvarG                    getVariables() holds the genvar g
+//   GenvarG                    the definition keeps the genvar g, an object
+//                              of the genvar class (37.12, vpiGenVar)
 //   FunctionFAndTaskT          getTaskFuncs() holds the function f and the
 //                              task t
 //
-// WHAT IS NOT CHECKED, AND WHY
+// SKIPPED (GTEST_SKIP)
 //
-//   - That g is a genvar and not a variable. HLDB has no genvar object or
-//     property and gives g as a Variable, so it can be checked once HLDB
-//     provides one.
+//   GenvarG: HLDB has no genvar class; HLC gives g as a Variable, which a
+//   genvar is not (27.4: a genvar exists only during elaboration). No
+//   assertion is written until HLDB provides the class to assert against.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -95,9 +96,6 @@ template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
   return (collection == nullptr) ? 0 : collection->size();
 }
-
-// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
-std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -168,11 +166,11 @@ TEST_F(ItemsDeclarationsTest, TypedefNibble) {
   EXPECT_NE(hldb::findByName<hldb::Typedef>("nibble_t", module->getTypedefs()), nullptr);
 }
 
-// "genvar g;" is a module_or_generate_item_declaration (Syntax 23-5); the definition keeps it.
+// "genvar g;" is a module_or_generate_item_declaration (Syntax 23-5); the definition keeps it as a genvar
+// (37.12, vpiGenVar).
 TEST_F(ItemsDeclarationsTest, GenvarG) {
-  const hldb::Module *const module = findModule("m");
-  ASSERT_NE(module, nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Variable>("g", module->getVariables()), nullptr) << "the genvar g is missing";
+  GTEST_SKIP() << "HLDB has no genvar class: HLC gives the genvar g as a variable, which a genvar is not "
+                  "(IEEE 1800-2023 27.4, 37.12: vpiGenVar)";
 }
 
 TEST_F(ItemsDeclarationsTest, FunctionFAndTaskT) {
@@ -183,8 +181,8 @@ TEST_F(ItemsDeclarationsTest, FunctionFAndTaskT) {
   const hldb::TaskFunc *const t = hldb::findByName<hldb::TaskFunc>("t", module->getTaskFuncs());
   ASSERT_NE(f, nullptr);
   ASSERT_NE(t, nullptr);
-  EXPECT_EQ(typeName(f), hldb::AnyTypeName(hldb::AnyType::Function));
-  EXPECT_EQ(typeName(t), hldb::AnyTypeName(hldb::AnyType::Task));
+  EXPECT_EQ(f->getAnyType(), hldb::AnyType::Function);
+  EXPECT_EQ(t->getAnyType(), hldb::AnyType::Task);
 }
 }  // namespace hlc
 

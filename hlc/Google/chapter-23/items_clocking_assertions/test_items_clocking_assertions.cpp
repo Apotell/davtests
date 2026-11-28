@@ -91,9 +91,6 @@ size_t sizeOf(const std::vector<T *> *collection) {
   return (collection == nullptr) ? 0 : collection->size();
 }
 
-// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
-std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
-
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
   const EventDefinition *const eventDefinition = hldb::findEventDefinition(hlc::getEventTable(), event.getType());
@@ -162,7 +159,7 @@ TEST_F(ItemsClockingAssertionsTest, OneAssertion) {
   ASSERT_NE(module, nullptr);
   const hldb::AnyCollection *const assertions = module->getAssertions();
   ASSERT_EQ(sizeOf(assertions), 1u);
-  EXPECT_EQ(typeName(assertions->front()), hldb::AnyTypeName(hldb::AnyType::Assert));
+  EXPECT_EQ(assertions->front()->getAnyType(), hldb::AnyType::Assert);
 }
 }  // namespace hlc
 

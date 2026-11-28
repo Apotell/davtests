@@ -47,16 +47,29 @@
 //
 //   CompilesWithoutErrors      no fatal, syntax or error event
 //   ModuleMIsDeclared          the module m is defined
-//   ThreeGenerateConstructs    getGenStmts() holds a GenRegion, a GenIf and a
-//                              GenCase, in source order
+//   ThreeGenerateConstructs    getGenStmts() holds three objects: one
+//                              GenRegion, one GenIf and one GenCase
 //   LoopGenerateGLoop          the GenFor in the region declares the genvar
-//                              i; its init, condition and increment refer to
-//                              i; its block g_loop declares the net w
+//                              i in its initialization; its condition and
+//                              increment refer to i; its block g_loop
+//                              declares the net w
 //   IfGenerateGIf              condition 1; its block g_if declares x
 //   CaseGenerateGCase          condition 1, one item labeled 1; its block
 //                              g_case declares y
-//   GenerateBlocksAfterElaboration  elaborated model only: g_loop[0],
-//                              g_loop[1], g_if and g_case are generate scopes
+//   GenerateBlocksAfterElaboration  elaborated model only: the gen scope
+//                              array g_loop holds two gen scopes, g_if and
+//                              g_case one each
+//
+// SKIPPED (GTEST_SKIP; the real assertion stays below the skip)
+//
+//   GenerateBlocksAfterElaboration: HLC builds a definition model only, so
+//   no generate construct of m is unrolled or selected.
+//
+// WHAT IS NOT CHECKED, AND WHY
+//
+//   - That i is a genvar (37.12, vpiGenVar). HLDB has no genvar class, so
+//     only i's name and the references to it are checked.
+//   - The order of getGenStmts(). The object model does not define one.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -88,6 +101,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace hlc {
@@ -148,18 +162,27 @@ class ItemsGenerateTest : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  // The generate statement of m at 'index' (getGenStmts()), or nullptr.
-  static const hldb::Any *findGenStmt(size_t index) {
+  // The number of generate statements of m (getGenStmts()) of the class 'type'.
+  static size_t countGenStmts(hldb::AnyType type) {
     const hldb::Module *const module = findModule("m");
-    if ((module == nullptr) || (module->getGenStmts() == nullptr) || (module->getGenStmts()->size() <= index)) {
-      return nullptr;
+    if ((module == nullptr) || (module->getGenStmts() == nullptr)) return 0;
+    return static_cast<size_t>(std::count_if(module->getGenStmts()->cbegin(), module->getGenStmts()->cend(),
+                                             [type](const hldb::Any *stmt) { return stmt->getAnyType() == type; }));
+  }
+
+  // The first generate statement of m (getGenStmts()) of the class 'type', or nullptr.
+  static const hldb::Any *findGenStmt(hldb::AnyType type) {
+    const hldb::Module *const module = findModule("m");
+    if ((module == nullptr) || (module->getGenStmts() == nullptr)) return nullptr;
+    for (const hldb::Any *stmt : *module->getGenStmts()) {
+      if (stmt->getAnyType() == type) return stmt;
     }
-    return (*module->getGenStmts())[index];
+    return nullptr;
   }
 
   // The loop generate construct inside the generate region of m, or nullptr.
   static const hldb::GenFor *findLoop() {
-    const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(findGenStmt(0));
+    const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(findGenStmt(hldb::AnyType::GenRegion));
     if ((region == nullptr) || (region->getStmts() == nullptr) || region->getStmts()->empty()) return nullptr;
     return any_cast<hldb::GenFor>(region->getStmts()->front());
   }
@@ -169,27 +192,32 @@ TEST_F(ItemsGenerateTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 
 TEST_F(ItemsGenerateTest, ModuleMIsDeclared) { EXPECT_NE(findModule("m"), nullptr); }
 
-// The three generate constructs of m, in source order (Syntax 23-5; 27.2).
+// The three generate constructs of m (Syntax 23-5; 27.2): one generate region, one if and one case generate
+// construct.
 TEST_F(ItemsGenerateTest, ThreeGenerateConstructs) {
-  ASSERT_NE(findModule("m"), nullptr);
-  EXPECT_NE(any_cast<hldb::GenRegion>(findGenStmt(0)), nullptr) << "generate ... endgenerate";
-  EXPECT_NE(any_cast<hldb::GenIf>(findGenStmt(1)), nullptr) << "if (1)";
-  EXPECT_NE(any_cast<hldb::GenCase>(findGenStmt(2)), nullptr) << "case (1)";
-  EXPECT_EQ(findGenStmt(3), nullptr) << "more than three generate constructs";
+  const hldb::Module *const module = findModule("m");
+  ASSERT_NE(module, nullptr);
+  ASSERT_NE(module->getGenStmts(), nullptr);
+  EXPECT_EQ(module->getGenStmts()->size(), 3u);
+  EXPECT_EQ(countGenStmts(hldb::AnyType::GenRegion), 1u) << "generate ... endgenerate";
+  EXPECT_EQ(countGenStmts(hldb::AnyType::GenIf), 1u) << "if (1)";
+  EXPECT_EQ(countGenStmts(hldb::AnyType::GenCase), 1u) << "case (1)";
 }
 
 // "for (genvar i = 0; i < 2; i++) begin : g_loop" (27.4): the loop declares the genvar i, and its initialization,
-// condition and increment all refer to it.
+// condition and increment all refer to it. The genvar is reached through the initialization, so the check does
+// not depend on how the genvar is modeled: the object model has a genvar class of its own (37.12, vpiGenVar).
 TEST_F(ItemsGenerateTest, LoopGenerateGLoop) {
   const hldb::GenFor *const loop = findLoop();
   ASSERT_NE(loop, nullptr);
-  const hldb::Variable *const genvar = hldb::findByName<hldb::Variable>("i", loop->getVariables());
-  ASSERT_NE(genvar, nullptr) << "the genvar i is missing";
   ASSERT_NE(loop->getForInitStmts(), nullptr);
   ASSERT_EQ(loop->getForInitStmts()->size(), 1u);
   const hldb::Assignment *const init = any_cast<hldb::Assignment>(loop->getForInitStmts()->front());
   ASSERT_NE(init, nullptr);
-  EXPECT_TRUE(refersTo(init->getLhs(), genvar)) << "i = 0";
+  const hldb::Any *genvar = init->getLhs();
+  if (const hldb::RefObj *const reference = any_cast<hldb::RefObj>(genvar)) genvar = reference->getActual();
+  ASSERT_NE(genvar, nullptr) << "the genvar i is missing";
+  EXPECT_EQ(genvar->getName(), std::string_view("i"));
   EXPECT_TRUE(refersTo(loop->getCondition(), genvar)) << "i < 2";
   ASSERT_NE(loop->getForIncStmts(), nullptr);
   ASSERT_EQ(loop->getForIncStmts()->size(), 1u);
@@ -202,7 +230,7 @@ TEST_F(ItemsGenerateTest, LoopGenerateGLoop) {
 
 // "if (1) begin : g_if" (27.5).
 TEST_F(ItemsGenerateTest, IfGenerateGIf) {
-  const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(findGenStmt(1));
+  const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(findGenStmt(hldb::AnyType::GenIf));
   ASSERT_NE(genIf, nullptr);
   const hldb::Constant *const condition = genIf->getCondition<hldb::Constant>();
   ASSERT_NE(condition, nullptr);
@@ -215,7 +243,7 @@ TEST_F(ItemsGenerateTest, IfGenerateGIf) {
 
 // "case (1) 1: begin : g_case" (27.5).
 TEST_F(ItemsGenerateTest, CaseGenerateGCase) {
-  const hldb::GenCase *const genCase = any_cast<hldb::GenCase>(findGenStmt(2));
+  const hldb::GenCase *const genCase = any_cast<hldb::GenCase>(findGenStmt(hldb::AnyType::GenCase));
   ASSERT_NE(genCase, nullptr);
   const hldb::Constant *const condition = genCase->getCondition<hldb::Constant>();
   ASSERT_NE(condition, nullptr);
@@ -234,19 +262,24 @@ TEST_F(ItemsGenerateTest, CaseGenerateGCase) {
   EXPECT_NE(hldb::findByName<hldb::Net>("y", block->getNets()), nullptr);
 }
 
-// Elaborated model only: the loop unrolls into g_loop[0] and g_loop[1] (27.4), and the true conditions select
-// g_if and g_case (27.5).
+// Elaborated model only: the loop unrolls into the two blocks g_loop[0] and g_loop[1] (27.4), and the true
+// conditions select g_if and g_case (27.5). Each named generate block is a gen scope array whose size is "the
+// number of elements in the array" (37.13 detail 1): g_loop holds two gen scopes, g_if and g_case one each.
 TEST_F(ItemsGenerateTest, GenerateBlocksAfterElaboration) {
   ASSERT_NE(m_design, nullptr);
-  if (m_design->getElaborated()) {
-    const hldb::Module *const top = hldb::findByDefName<hldb::Module>("m", m_design->getTopModules());
-    ASSERT_NE(top, nullptr);
-    for (std::string_view name : {"g_loop[0]", "g_loop[1]", "g_if", "g_case"}) {
-      const hldb::GenScopeArray *const array = hldb::findByName<hldb::GenScopeArray>(name, top->getGenScopeArrays());
-      ASSERT_NE(array, nullptr) << name;
-      ASSERT_NE(array->getGenScopes(), nullptr) << name;
-      EXPECT_EQ(array->getGenScopes()->size(), 1u) << name;
-    }
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "HLC builds a definition model only, with no instance of m whose generate constructs are "
+                    "unrolled or selected (IEEE 1800-2023 27.4, 27.5, 37.13)";
+  }
+  const hldb::Module *const top = hldb::findByDefName<hldb::Module>("m", m_design->getTopModules());
+  ASSERT_NE(top, nullptr);
+  const std::vector<std::pair<std::string_view, size_t>> expected = {{"g_loop", 2}, {"g_if", 1}, {"g_case", 1}};
+  for (const std::pair<std::string_view, size_t> &entry : expected) {
+    const hldb::GenScopeArray *const array =
+        hldb::findByName<hldb::GenScopeArray>(entry.first, top->getGenScopeArrays());
+    ASSERT_NE(array, nullptr) << entry.first;
+    ASSERT_NE(array->getGenScopes(), nullptr) << entry.first;
+    EXPECT_EQ(array->getGenScopes()->size(), entry.second) << entry.first;
   }
 }
 }  // namespace hlc

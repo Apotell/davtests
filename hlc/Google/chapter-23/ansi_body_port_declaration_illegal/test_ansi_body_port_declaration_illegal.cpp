@@ -36,9 +36,9 @@
 //
 //   LegalLinesAreAccepted            no fatal, syntax or error event on
 //                                    line 20
-//   IllegalCodeIsAnError             PaSyntaxError on line 21, where the
-//                                    ANSI body holds the port declaration
-//                                    "input b"
+//   IllegalCodeIsAnError             PaSyntaxError at 21:2, the keyword input
+//                                    of the port declaration "input b" in the
+//                                    ANSI body
 //   NoErrorAfterTheIllegalCode       none on line 22 or later
 //
 // WHAT IS NOT CHECKED, AND WHY
@@ -110,9 +110,10 @@ TEST_F(AnsiBodyPortDeclarationIllegalTest, LegalLinesAreAccepted) {
   EXPECT_EQ(eventsOnLines(kLegalFirstLine, kLegalLastLine), "");
 }
 
-// An ANSI module body holds only non_port_module_items (Syntax 23-1), so "input b;" is a syntax error.
+// An ANSI module body holds only non_port_module_items (Syntax 23-1), so "input b;" is a syntax error, reported
+// at the keyword input (21:2; a syntax error's column counts from 0).
 TEST_F(AnsiBodyPortDeclarationIllegalTest, IllegalCodeIsAnError) {
-  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, kIllegalFirstLine, 2), nullptr)
       << "errors reported on line 21:" << eventsOnLines(kIllegalFirstLine, kIllegalLastLine);
 }
 

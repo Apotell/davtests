@@ -54,8 +54,9 @@
 //
 //   SpecparamsTRiseAndTFall: HLC keeps tFall, declared inside the specify
 //   block, only among the specify block's items; the module's spec param
-//   relation (37.10), getSpecParams(), holds tRise alone. A specify block is
-//   not a scope of its own, so tFall is a specparam of m.
+//   relation (37.10), getSpecParams(), holds tRise alone. The object model
+//   (Clause 37) has no specify block object, so the spec param relation of
+//   the module is the only way to reach tFall.
 //   PathDelayUsesTheSpecparams: HLC leaves the path delay references tRise and
 //   tFall unbound; neither resolves to its specparam.
 //
@@ -92,9 +93,6 @@ template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
   return (collection == nullptr) ? 0 : collection->size();
 }
-
-// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
-std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True for an error-class event: fatal, syntax or error severity.
 bool isErrorClass(const Event &event) {
@@ -142,7 +140,7 @@ TEST_F(ItemsSpecifyTest, CompilesWithoutErrors) { EXPECT_EQ(allEvents(), ""); }
 TEST_F(ItemsSpecifyTest, SpecparamsTRiseAndTFall) {
   GTEST_SKIP() << "HLC keeps tFall, declared inside the specify block, only among the specify block's items: "
                   "getSpecParams() of m holds tRise alone (IEEE 1800-2023 37.10: a module reaches its specparams "
-                  "through spec param; a specify block is not a scope of its own)";
+                  "through spec param, and the object model has no specify block object)";
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
   EXPECT_NE(hldb::findByName<hldb::SpecParam>("tRise", module->getSpecParams()), nullptr);
@@ -169,7 +167,7 @@ TEST_F(ItemsSpecifyTest, PathDelayUsesTheSpecparams) {
     ASSERT_NE(reference, nullptr) << names[index];
     const hldb::Any *const actual = reference->getActual();
     ASSERT_NE(actual, nullptr) << names[index] << " is not bound";
-    EXPECT_EQ(typeName(actual), hldb::AnyTypeName(hldb::AnyType::SpecParam)) << names[index];
+    EXPECT_EQ(actual->getAnyType(), hldb::AnyType::SpecParam) << names[index];
     EXPECT_EQ(actual->getName(), names[index]);
   }
 }

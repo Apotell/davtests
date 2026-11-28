@@ -50,14 +50,16 @@
 //   OneContinuousAssign        getContAssigns() holds one object
 //   AssignBindsWToD            the assign's left side resolves to the net w,
 //                              its right side to the net d
-//   SixProcessesInOrder        getProcesses() holds an Initial, a FinalStmt,
-//                              then four Always objects
-//   AlwaysKindsInOrder         Always::getAlwaysType() of the four: vpiAlways,
-//                              vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch
+//   SixProcesses               getProcesses() holds one Initial, one
+//                              FinalStmt and four Always objects
+//   AlwaysKinds                Always::getAlwaysType() of the four is
+//                              vpiAlways, vpiAlwaysComb, vpiAlwaysFF and
+//                              vpiAlwaysLatch, one each
 //
 // WHAT IS NOT CHECKED, AND WHY
 //
 //   - What the processes do. Their statements belong to Clauses 9 and 10.
+//   - The order of getProcesses(). The object model does not define one.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -93,9 +95,6 @@ template <typename T>
 size_t sizeOf(const std::vector<T *> *collection) {
   return (collection == nullptr) ? 0 : collection->size();
 }
-
-// The type name of 'object' (getAnyType()), as hldb::AnyTypeName() gives it.
-std::string_view typeName(const hldb::Any *object) { return hldb::AnyTypeName(object->getAnyType()); }
 
 // True when 'expression' is 'target', a reference that resolves to it, or an operation with such an operand.
 bool refersTo(const hldb::Any *expression, const hldb::Any *target) {
@@ -193,31 +192,37 @@ TEST_F(ItemsBehaviorTest, AssignBindsWToD) {
   EXPECT_TRUE(refersTo(assign->getRhs(), hldb::findByName<hldb::Net>("d", module->getNets()))) << "d";
 }
 
-TEST_F(ItemsBehaviorTest, SixProcessesInOrder) {
+// One initial, one final and four always constructs (9.2). The object model does not define the order of the
+// processes, so they are counted by class.
+TEST_F(ItemsBehaviorTest, SixProcesses) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
   const hldb::ProcessCollection *const processes = module->getProcesses();
   ASSERT_NE(processes, nullptr);
   ASSERT_EQ(processes->size(), 6u);
-  EXPECT_EQ(typeName((*processes)[0]), hldb::AnyTypeName(hldb::AnyType::Initial));
-  EXPECT_EQ(typeName((*processes)[1]), hldb::AnyTypeName(hldb::AnyType::FinalStmt));
-  for (size_t index = 2; index < processes->size(); ++index) {
-    EXPECT_EQ(typeName((*processes)[index]), hldb::AnyTypeName(hldb::AnyType::Always)) << index;
-  }
+  const auto count = [processes](hldb::AnyType type) {
+    return std::count_if(processes->cbegin(), processes->cend(),
+                         [type](const hldb::Any *process) { return process->getAnyType() == type; });
+  };
+  EXPECT_EQ(count(hldb::AnyType::Initial), 1);
+  EXPECT_EQ(count(hldb::AnyType::FinalStmt), 1);
+  EXPECT_EQ(count(hldb::AnyType::Always), 4);
 }
 
-// The four always constructs, in source order: always, always_comb, always_ff, always_latch (9.2.2).
-TEST_F(ItemsBehaviorTest, AlwaysKindsInOrder) {
+// The four always constructs are an always, an always_comb, an always_ff and an always_latch (9.2.2), one each.
+TEST_F(ItemsBehaviorTest, AlwaysKinds) {
   const hldb::Module *const module = findModule("m");
   ASSERT_NE(module, nullptr);
   const hldb::ProcessCollection *const processes = module->getProcesses();
-  ASSERT_EQ(sizeOf(processes), 6u);
-  const int32_t expected[] = {vpiAlways, vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch};
-  for (size_t index = 0; index < 4; ++index) {
-    const hldb::Always *const always = any_cast<hldb::Always>((*processes)[index + 2]);
-    ASSERT_NE(always, nullptr) << index + 2;
-    EXPECT_EQ(always->getAlwaysType(), expected[index]) << index + 2;
+  ASSERT_NE(processes, nullptr);
+  std::vector<int32_t> kinds;
+  for (const hldb::Any *process : *processes) {
+    if (const hldb::Always *const always = any_cast<hldb::Always>(process)) kinds.emplace_back(always->getAlwaysType());
   }
+  std::sort(kinds.begin(), kinds.end());
+  std::vector<int32_t> expected = {vpiAlways, vpiAlwaysComb, vpiAlwaysFF, vpiAlwaysLatch};
+  std::sort(expected.begin(), expected.end());
+  EXPECT_EQ(kinds, expected);
 }
 }  // namespace hlc
 
