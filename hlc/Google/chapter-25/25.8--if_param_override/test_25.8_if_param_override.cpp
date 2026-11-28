@@ -24,13 +24,15 @@
 //   - Parameters: w_if has W (= 8); aw_dw_if has AW (= 4), DW (= 8) in one list; sep_if has AW, DW
 //     each with its own keyword -- none of them local
 //   - CHK1: u1 has no overrides
-//   - CHK2: u2 #(16) -- W = 16 by position (vpiConnByName false); 'assign d = u2.data' reads data
+//   - CHK2: u2 #(16) -- W = 16 by position (vpiConnByName false); 'assign d = u2.data' reads data of
+//     the interface u2 is an instance of, i.e. w_if with W = 16 (23.6, 25.8)
 //   - CHK3: u3 #(.W(16)) -- W = 16 by name
 //   - CHK4: u4 #(.DW(32), .AW(10)) -- AW = 10, DW = 32 by name, in any order
 //   - CHK5: u5 #(10, 32) -- by position: AW = 10, DW = 32
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - NamedVsPositional: HLC leaves ParamAssign::getConnByName() false for named overrides such as #(.W(16)).
+//   - NamedVsPositional: u3 #(.W(16)) reports the positional override of u2 #(16) (same value), so its
+//     ParamAssign::getConnByName() is false.
 // Not checked:
 //   - Widths after substitution (elaboration)
 //
@@ -503,9 +505,9 @@ TEST_F(IfParamOverrideTest, Overrides) {
 }
 
 TEST_F(IfParamOverrideTest, NamedVsPositional) {
-  GTEST_SKIP()
-      << "HLC leaves ParamAssign::getConnByName() false for named overrides such as #(.W(16))."
-         " IEEE 1800-2023 Sec 37 (vpiConnByName): it is TRUE for a parameter assignment made by name. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.28 (param assign vpiConnByName) and Sec 23.10.2.2: the override of u3,"
+                  " written by name as #(.W(16)), is connected by name. HLC gives u3 the type of u2, written"
+                  " #(16) with the same value, so u3's param assign reports vpiConnByName false.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const std::pair<const char *, bool> kinds[] = {{"u2", false}, {"u3", true}, {"u4", true}, {"u5", false}};
@@ -524,7 +526,15 @@ TEST_F(IfParamOverrideTest, MemberRead) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 1u);
-  EXPECT_EQ(getRootActual(top->getContAssigns()->at(0)->getRhs()), getVar(getInterface("w_if"), "data")) << "u2.data";
+  // 23.6, 25.8: u2.data names data in instance u2, an instance of w_if with W = 16 -- the data of the
+  // interface definition u2's type refers to, not the one of w_if with the default W = 8.
+  const hldb::InterfaceTypespec *const its = getInstInterface(top, "u2");
+  ASSERT_NE(its, nullptr) << "u2 has an interface type";
+  ASSERT_NE(its->getInterface(), nullptr) << "u2's type names an interface";
+  EXPECT_EQ(its->getInterface()->getDefName(), std::string_view("w_if"));
+  const hldb::Variable *const data = getVar(its->getInterface(), "data");
+  ASSERT_NE(data, nullptr) << "data of u2's interface";
+  EXPECT_EQ(getRootActual(top->getContAssigns()->at(0)->getRhs()), data) << "u2.data";
 }
 
 // The file is legal SystemVerilog, so compilation must not report any error.

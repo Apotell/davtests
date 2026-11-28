@@ -28,7 +28,8 @@
 //   - The initial block assigns v16 = u16, v8 = u8, v4 = u4 (lines 48-50)
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - VirtualTypes: HLC leaves getVirtual() false and gives v8 (no override) the W = 16 of v16.
+//   - VirtualTypes: HLC leaves InterfaceTypespec::getVirtual() false, and binds v8 (no override, so W = 8) to
+//     the type of w_if with W = 16.
 //   - TaskArgument: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations.
 // Not checked:
 //   - Run-time values
@@ -459,8 +460,9 @@ class IfVirtualParameterizedTest : public Test {
 };
 
 TEST_F(IfVirtualParameterizedTest, VirtualTypes) {
-  GTEST_SKIP() << "HLC leaves getVirtual() false and gives v8 (no override) the W = 16 of v16."
-                  " IEEE 1800-2023 Sec 25.9 / 37: vpiVirtual TRUE; v8 keeps the default W = 8. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9: the type of a virtual interface includes its parameters, default or"
+                  " overridden, so 'virtual w_if v8' has W = 8. HLC binds v8 to the type of w_if with W = 16, and"
+                  " leaves InterfaceTypespec::getVirtual() (HLDB's virtual interface marker) false.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr) << "module top not found";
   for (const char *const name : {"v16", "v8", "v4"}) expectVirtual(top, name, "w_if", "");
@@ -474,8 +476,9 @@ TEST_F(IfVirtualParameterizedTest, VirtualTypes) {
 
 // CHK4: task automatic show(virtual w_if #(16) v);
 TEST_F(IfVirtualParameterizedTest, TaskArgument) {
-  GTEST_SKIP() << "HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations."
-                  " IEEE 1800-2023 Sec 25.9 / 37: a virtual interface type has vpiVirtual TRUE. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9 and 37.29: a virtual interface declaration is a virtual interface"
+                  " variable; the HLDB model marks its interface typespec with InterfaceTypespec::getVirtual()."
+                  " HLC leaves getVirtual() false on virtual interface declarations.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::TaskFunc *const show = hldb::findByName<hldb::TaskFunc>("show", top->getTaskFuncs());

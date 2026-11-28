@@ -26,11 +26,12 @@
 //   - ERR1 line 52: v1 (virtual p_if #(8)) = u1 (p_if #(16)) -- different W
 //   - ERR2 line 56: v2 (virtual if_a) = u2 (if_b) -- different interface
 //   - ERR3 line 61: v3 = u3 where 'defparam u3.W = 8' is outside the interface (illegal, 25.9)
-//   - ERR4 line 65: h_if refers to top.ext (outside its body) -- illegal as a virtual interface (25.9)
+//   - ERR4 line 64: h_if refers to top.ext (outside its body) -- illegal in the declaration of a virtual
+//     interface (25.9: the error is on the declaration 'virtual h_if v4', not on the assignment)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - OutsideDefparamIsRejected: HLC reports nothing for assigning u3, changed by an outside defparam, to a virtual
-//   interface.
-//   - HierarchicalReferenceIsRejected: HLC reports nothing for h_if (it refers to top.ext) used as a virtual interface.
+//   - OutsideDefparamIsRejected: needs elaboration -- a defparam to u3 may come from anywhere in the design
+//     (23.10.1); HLC does not elaborate and reports nothing.
+//   - HierarchicalReferenceIsRejected: HLC reports nothing for 'virtual h_if v4' (h_if refers to top.ext).
 // Not checked:
 //   - The diagnostic code is HLC's choice; CompIllegalVirtualInterface is the code HLC defines
 //
@@ -476,19 +477,20 @@ TEST_F(IfErrVirtualTest, WrongInterfaceTypeIsRejected) {
 
 // ERR3: initial v3 = u3; with defparam u3.W = 8
 TEST_F(IfErrVirtualTest, OutsideDefparamIsRejected) {
-  GTEST_SKIP() << "HLC reports nothing for assigning u3, changed by an outside defparam, to a virtual interface."
-                  " IEEE 1800-2023 Sec 25.9: that assignment is illegal. Fix pending.";
-  EXPECT_TRUE(anyEvent({EventType::CompIllegalVirtualInterface}, 59, 61))
-      << "lines 59-61: u3 is changed by an outside defparam";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9: assigning u3 to a virtual interface is illegal when a defparam"
+                  " declared outside the interface targets a parameter of u3. Needs elaboration: such a defparam"
+                  " can be anywhere in the design (Sec 23.10.1). HLC does not elaborate and reports nothing.";
+  EXPECT_TRUE(anyEvent({EventType::CompIllegalVirtualInterface}, 61, 61))
+      << "line 61: u3 is changed by an outside defparam";
 }
 
 // ERR4: virtual h_if v4; initial v4 = u4;
 TEST_F(IfErrVirtualTest, HierarchicalReferenceIsRejected) {
-  GTEST_SKIP()
-      << "HLC reports nothing for h_if (it refers to top.ext) used as a virtual interface."
-         " IEEE 1800-2023 Sec 25.9: an interface with outside hierarchical references is illegal there. Fix pending.";
-  EXPECT_TRUE(anyEvent({EventType::CompIllegalVirtualInterface}, 64, 65))
-      << "lines 64-65: h_if refers outside its body";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9: an interface containing hierarchical references to objects outside"
+                  " its body shall not be used in the declaration of a virtual interface. h_if refers to top.ext,"
+                  " so 'virtual h_if v4' (line 64) is an error. HLC reports nothing.";
+  EXPECT_TRUE(anyEvent({EventType::CompIllegalVirtualInterface}, 64, 64))
+      << "line 64: h_if refers outside its body";
 }
 
 }  // namespace hlc

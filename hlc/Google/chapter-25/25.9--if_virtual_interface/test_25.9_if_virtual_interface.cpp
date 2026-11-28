@@ -28,7 +28,8 @@
 //   - CHK5: vifs is an unpacked array [0:1] of 'virtual bus_if'; vifs[0] = arr[0] (line 68)
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - Declarations: HLC leaves getVirtual() false on virtual interface types and gives vifs[2] no left bound.
+//   - Declarations: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations, and models
+//     vifs[2] with no left bound and the right bound as the expression 2 - 1 (7.4.2: [2] is [0:1]).
 //   - ClassMember: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations.
 // Not checked:
 //   - Run-time values (which instance a virtual interface refers to while simulating)
@@ -477,8 +478,9 @@ class IfVirtualInterfaceTest : public Test {
 };
 
 TEST_F(IfVirtualInterfaceTest, Declarations) {
-  GTEST_SKIP() << "HLC leaves getVirtual() false on virtual interface types and gives vifs[2] no left bound."
-                  " IEEE 1800-2023 Sec 25.9 / 37 (vpiVirtual) and 7.4.2 ([2] means [0:1]). Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9 and 37.29: the HLDB model marks a virtual interface declaration's"
+                  " typespec with InterfaceTypespec::getVirtual(), which HLC leaves false. Sec 7.4.2: [2] means"
+                  " [0:1]; HLC models vifs[2] with no left bound and the right bound as the expression 2 - 1.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr) << "module top not found";
   for (const char *const name : {"v1", "v2", "v4", "vifs"}) expectVirtual(top, name, "bus_if", "");
@@ -518,8 +520,9 @@ TEST_F(IfVirtualInterfaceTest, Assignments) {
 
 // CHK3: class driver; virtual bus_if vif; function new(...); task run(); endclass
 TEST_F(IfVirtualInterfaceTest, ClassMember) {
-  GTEST_SKIP() << "HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations."
-                  " IEEE 1800-2023 Sec 25.9 / 37: a virtual interface type has vpiVirtual TRUE. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9 and 37.29: a virtual interface declaration is a virtual interface"
+                  " variable; the HLDB model marks its interface typespec with InterfaceTypespec::getVirtual()."
+                  " HLC leaves getVirtual() false on virtual interface declarations.";
   const hldb::ClassDefn *const drv = getClass("driver");
   ASSERT_NE(drv, nullptr) << "class driver";
   expectVirtual(drv, "vif", "bus_if", "");

@@ -28,8 +28,9 @@
 //   - CHK5: class Driver has the member vif of type 'virtual A_Bus.STB'
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ModportsAndVirtuals: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations.
-//   - ClassMember: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations.
+//   - ModportsAndVirtuals: HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations, and
+//     names a modport's interface typespec after the interface instead of the modport (37.30 detail 1).
+//   - ClassMember: same as ModportsAndVirtuals.
 // Not checked:
 //   - CHK4 vif.sb.req through the clocking modport inside a class method (run-time drive)
 //
@@ -409,12 +410,18 @@ class MpVirtualInterfaceTest : public Test {
     const hldb::InterfaceTypespec *const its = getVarInterface(scope, name);
     ASSERT_NE(its, nullptr) << name << " should have an interface type";
     EXPECT_TRUE(its->getVirtual()) << name << " is a virtual interface";
-    EXPECT_EQ(its->getDefName(), ifc) << name;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << name;
       EXPECT_EQ(its->getModport(), nullptr) << name << " selects no modport";
     } else {
+      // 37.30 detail 1: the def name of an interface typespec that represents a modport is the modport
+      // identifier; detail 2: its parent is the interface typespec of the interface.
+      EXPECT_EQ(its->getDefName(), modport) << name;
       ASSERT_NE(its->getModport(), nullptr) << name << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << name;
+      const hldb::InterfaceTypespec *const parent = any_cast<hldb::InterfaceTypespec>(its->getParent());
+      ASSERT_NE(parent, nullptr) << name << ": the parent of a modport typespec is the interface typespec";
+      EXPECT_EQ(parent->getDefName(), ifc) << name;
     }
   }
 
@@ -476,8 +483,9 @@ class MpVirtualInterfaceTest : public Test {
 };
 
 TEST_F(MpVirtualInterfaceTest, ModportsAndVirtuals) {
-  GTEST_SKIP() << "HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations."
-                  " IEEE 1800-2023 Sec 25.9 / 37: a virtual interface type has vpiVirtual TRUE. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9 and 37.29: the HLDB model marks a virtual interface declaration's"
+                  " typespec with InterfaceTypespec::getVirtual(), which HLC leaves false. Sec 37.30 detail 1: the"
+                  " def name of a modport's interface typespec is the modport identifier; HLC uses the interface's.";
   const hldb::Interface *const bus = getInterface("A_Bus");
   ASSERT_NE(bus, nullptr);
   EXPECT_NE(hldb::findByName<hldb::ClockingBlock>("sb", bus->getClockingBlocks()), nullptr);
@@ -512,8 +520,9 @@ TEST_F(MpVirtualInterfaceTest, Assignments) {
 
 // CHK5: class Driver; virtual A_Bus.STB vif; ...
 TEST_F(MpVirtualInterfaceTest, ClassMember) {
-  GTEST_SKIP() << "HLC leaves InterfaceTypespec::getVirtual() false on virtual interface declarations."
-                  " IEEE 1800-2023 Sec 25.9 / 37: a virtual interface type has vpiVirtual TRUE. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.9 and 37.29: the HLDB model marks a virtual interface declaration's"
+                  " typespec with InterfaceTypespec::getVirtual(), which HLC leaves false. Sec 37.30 detail 1: the"
+                  " def name of a modport's interface typespec is the modport identifier; HLC uses the interface's.";
   const hldb::ClassDefn *const drv = getClass("Driver");
   ASSERT_NE(drv, nullptr) << "class Driver";
   expectVirtual(drv, "vif", "A_Bus", "STB");

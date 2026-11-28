@@ -24,13 +24,13 @@
 //   - ERR1 line 49: u_tf.no_such_func() -- tf_if declares no such function -> CompUnknownInterfaceMember,
 //     ElabUnknownInterfaceMember or CompUndefinedUserFunction
 //   - ERR2 line 51: u_tf.twice(1, 2) -- 2 arguments to a 1-argument function -> CompTooManyArguments
-//   - ERR3 line 53: #(.W(8)) on a localparam -> ElabUnknownParameterOverride (a localparam cannot be
-//     overridden, 6.20.4)
+//   - ERR3 line 53: #(.W(8)) on a localparam -> CannotOverrideLocalParameter (a localparam cannot be
+//     overridden, 6.20.4, 23.10.2.1)
 //   - ERR4 line 55: #(.WIDTH(16)) -- p_if has no parameter WIDTH -> ElabUnknownParameterOverride
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - LocalparamOverrideIsRejected: HLC reports nothing for lp_if #(.W(8)) where W is a localparam (line 53).
-//   - UnknownParameterOverrideIsRejected: HLC only warns (DV8514 'Failed to bind WIDTH') for p_if #(.WIDTH(16)); no
-//   error is reported.
+//   - LocalparamOverrideIsRejected: HLC drops the override #(.W(8)) from u3's type and reports nothing (line 53).
+//   - UnknownParameterOverrideIsRejected: HLC reports no error for #(.WIDTH(16)), only a "failed to bind"
+//     developer warning (line 55).
 // Not checked:
 //   - The diagnostic codes are HLC's choice; each test accepts the codes HLC defines for the rule
 //
@@ -455,15 +455,17 @@ TEST_F(IfErrSubroutinesParamsTest, TooManyArgumentsIsRejected) {
 
 // ERR3: lp_if #(.W(8)) u3();
 TEST_F(IfErrSubroutinesParamsTest, LocalparamOverrideIsRejected) {
-  GTEST_SKIP() << "HLC reports nothing for lp_if #(.W(8)) where W is a localparam (line 53)."
-                  " IEEE 1800-2023 Sec 6.20.4: a localparam cannot be overridden. Fix pending.";
-  EXPECT_TRUE(anyEvent({EventType::ElabUnknownParameterOverride}, 53, 53)) << "line 53: W is a localparam";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 6.20.4 and 23.10.2.1: local parameters cannot be overridden, so"
+                  " lp_if #(.W(8)) is an error (W is a localparam). HLC drops the override from u3's type and"
+                  " reports nothing on line 53.";
+  EXPECT_TRUE(anyEvent({EventType::CannotOverrideLocalParameter}, 53, 53)) << "line 53: W is a localparam";
 }
 
 // ERR4: p_if #(.WIDTH(16)) u4();
 TEST_F(IfErrSubroutinesParamsTest, UnknownParameterOverrideIsRejected) {
-  GTEST_SKIP() << "HLC only warns (DV8514 'Failed to bind WIDTH') for p_if #(.WIDTH(16)); no error is reported."
-                  " IEEE 1800-2023 Sec 23.10: overriding a parameter that does not exist is an error. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 23.10.2.2: the name of the parameter shall be the name specified in the"
+                  " instantiated module, so p_if #(.WIDTH(16)) is an error (p_if has no WIDTH). HLC reports only a"
+                  " 'failed to bind' developer warning on line 55, no error.";
   EXPECT_TRUE(anyEvent({EventType::ElabUnknownParameterOverride}, 55, 55)) << "line 55: p_if has no parameter WIDTH";
 }
 
