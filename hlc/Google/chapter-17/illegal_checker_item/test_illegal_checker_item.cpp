@@ -17,7 +17,9 @@
 // IEEE 1800-2023 Sec 17.7.1: in the always_ff procedures of a checker "only nonblocking assignments
 // are allowed": the blocking v = in1 on line 21 (v <= in1 on line 22 is legal). Sec 17.2: "An input
 // checker formal argument shall not be modified by a checker": in1 on line 24. The assignment to the
-// output formal out1 (line 25) is legal.
+// output formal out1 (line 25) is legal. Sec 17.7.2: "Continuous assignments and blocking procedural
+// assignments to free checker variables shall be illegal": fr of ck_free on line 35 (the nonblocking
+// fr <= in1 on line 36 is legal).
 // Arguments: illegal_checker_item.hlc
 
 #include <hlc/Events/EventType.h>
@@ -28,7 +30,9 @@
 #include <hldb/checker_decl.h>
 #include <hldb/checker_port.h>
 #include <hldb/design.h>
+#include <hldb/sv_vpi_user.h>
 #include <hldb/unit.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 #include <gtest/gtest.h>
@@ -60,6 +64,18 @@ TEST_F(IllegalCheckerItemTest, BlockingAssignmentInAlwaysFf) {
 
 TEST_F(IllegalCheckerItemTest, InputFormalModified) {
   EXPECT_NE(findEvent(EventType::CompIllegalCheckerItem, "ck", 24, 15), nullptr);
+}
+
+TEST_F(IllegalCheckerItemTest, ContinuousAssignmentToFreeVariable) {
+  EXPECT_NE(findEvent(EventType::CompIllegalCheckerItem, "ck_free", 35, 10), nullptr);
+}
+
+TEST_F(IllegalCheckerItemTest, FreeVariableIsRand) {
+  const hldb::CheckerDecl *const ck = findChecker("ck_free");
+  ASSERT_NE(ck, nullptr);
+  const hldb::Variable *const fr = hldb::findByName<hldb::Variable>("fr", ck->getVariables());
+  ASSERT_NE(fr, nullptr);
+  EXPECT_EQ(fr->getRandType(), vpiRand);
 }
 
 TEST_F(IllegalCheckerItemTest, FormalDirections) {

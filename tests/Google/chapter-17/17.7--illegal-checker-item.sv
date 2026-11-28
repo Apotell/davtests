@@ -29,3 +29,9 @@ module top(input logic clk, a);
   logic o;
   ck c1(clk, a, o);
 endmodule
+
+checker ck_free(input logic clk, input logic in1);
+  rand bit fr;
+  assign fr = in1;
+  always_ff @(posedge clk) fr <= in1;
+endchecker

@@ -24,7 +24,7 @@
 //   Restriction 3: every recursive instance occurs after a positive advance in time:
 //     illegal_recursion_4 (44, |-> does not advance time).
 //   Restriction 4: an actual argument of a recursive instance that uses a formal must be that formal
-//     or be bound to a local formal: fibonacci2 (60).
+//     or be bound to a local formal: fibonacci2 (60, a + b and n - 1).
 // prop_always, check_phase1/check_phase2 (mutually recursive), legal_3 and fibonacci1 are legal.
 // Arguments: illegal_recursive_property.hlc
 
@@ -37,6 +37,7 @@
 #include <hldb/operation.h>
 #include <hldb/property_decl.h>
 #include <hldb/property_inst.h>
+#include <hldb/prop_formal_decl.h>
 #include <hldb/property_spec.h>
 #include <hldb/sv_vpi_user.h>
 
@@ -83,9 +84,26 @@ TEST_F(IllegalRecursivePropertyTest, NegatedRecursivePropertyAsserted) {
 }
 
 TEST_F(IllegalRecursivePropertyTest, ActualArgumentUsingFormalMustBeLocal) {
-  GTEST_SKIP() << "Sec 16.12.17 Restriction 4: whether a property formal is declared local is not "
-                  "available in the model, so fibonacci2(b, a + b, n - 1, fib_sig) is not reported";
-  EXPECT_NE(findEvent(EventType::CompIllegalRecursiveProperty, "fibonacci2", 60, 47), nullptr);
+  // fibonacci2(b, a + b, n - 1, fib_sig): a + b and n - 1 use formals of fibonacci2, are not formals
+  // themselves and are not bound to local formals.
+  EXPECT_NE(findEvent(EventType::CompIllegalRecursiveProperty, "fibonacci2", 60, 61), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalRecursiveProperty, "fibonacci2", 60, 68), nullptr);
+}
+
+TEST_F(IllegalRecursivePropertyTest, LocalCarriesToFollowingFormals) {
+  // property fibonacci1 (local input int a, b, n, int fib_sig): a, b and n are local inputs
+  // (Sec 37.51 detail 5: vpiInput for a local variable formal); fib_sig is not.
+  const hldb::PropertyDecl *const decl = findProperty("fibonacci1");
+  ASSERT_NE(decl, nullptr);
+  ASSERT_NE(decl->getPropFormalDecls(), nullptr);
+  for (std::string_view name : {"a", "b", "n"}) {
+    const hldb::PropFormalDecl *const formal = hldb::findByName<hldb::PropFormalDecl>(name, decl->getPropFormalDecls());
+    ASSERT_NE(formal, nullptr) << name;
+    EXPECT_EQ(formal->getDirection(), vpiInput) << name;
+  }
+  const hldb::PropFormalDecl *const fib = hldb::findByName<hldb::PropFormalDecl>("fib_sig", decl->getPropFormalDecls());
+  ASSERT_NE(fib, nullptr);
+  EXPECT_EQ(fib->getDirection(), vpiNoDirection);
 }
 
 TEST_F(IllegalRecursivePropertyTest, RecursiveInstanceNamesItsOwnDeclaration) {
