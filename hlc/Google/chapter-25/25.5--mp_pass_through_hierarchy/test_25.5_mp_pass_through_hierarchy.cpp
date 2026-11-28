@@ -23,15 +23,15 @@
 // Checked:
 //   - Ports: leaf_t.b = bus_if.target, leaf_i.b = bus_if.initiator, mid_full.b = bus_if,
 //     mid_mp.b = bus_if.initiator, mid_generic.b = generic interface port
-//   - CHK1-CHK3: each mid's u_leaf.b is connected to the mid's own port b
+//   - CHK1-CHK3: each mid's u_leaf.b is connected to the mid's own port b, a reference to the interface
+//     or modport declaration that port names (37.13 detail 3, 37.15): bus_if in mid_full, the modport
+//     initiator in mid_mp
 //   - CHK4: leaf_t assigns b.y = b.x (writes y, reads x); leaf_i assigns b.x
 //   - CHK5: top connects u1.b and u2.b to b1 and u3.b to b2
 //   - No errors: the whole file is legal
-// Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ForwardedPorts: HLC binds u_leaf(.b(b)) inside a mid module to bus_if / the modport, not to the mid module's port
-//   b.
 // Not checked:
-//   - Nothing intentionally left out
+//   - What mid_generic's u_leaf.b refers to: b is a generic interface port, so its interface is known
+//     only from the connection in top (elaboration)
 //
 // Source under test (line numbers match the .sv file):
 //  17  /*
@@ -358,12 +358,16 @@ class MpPassThroughHierarchyTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -394,16 +398,27 @@ TEST_F(MpPassThroughHierarchyTest, PortModports) {
 
 // CHK1-CHK3: leaf u_leaf(.b(b)) in every mid module.
 TEST_F(MpPassThroughHierarchyTest, ForwardedPorts) {
-  GTEST_SKIP() << "HLC binds u_leaf(.b(b)) inside a mid module to bus_if / the modport, not to the mid module's port b."
-                  " IEEE 1800-2023 Sec 25.5 / 23.3.3.4: the leaf port is connected to the higher-level interface port. "
-                  "Fix pending.";
-  const std::pair<const char *, const char *> mids[] = {
-      {"mid_full", "leaf_t"}, {"mid_mp", "leaf_i"}, {"mid_generic", "leaf_t"}};
-  for (const std::pair<const char *, const char *> &m : mids) {
-    const hldb::RefInstance *const leaf = getInst(getModule(m.first), "u_leaf");
-    ASSERT_NE(leaf, nullptr) << m.first;
-    EXPECT_EQ(getInstDefName(leaf), std::string_view(m.second)) << m.first;
-    EXPECT_EQ(getBoundName(getHighConn(leaf, "b")), std::string_view("b")) << m.first << ": its own port b";
+  // u_leaf(.b(b)) passes the mid module's own interface port on. The connection is a ref obj whose
+  // vpiActual is an interface or modport, never the port itself (IEEE 1800-2023 37.15); in the
+  // definition model it is the declaration the port names (37.13 detail 3).
+  const hldb::Interface *const bus = getInterface("bus_if");
+  ASSERT_NE(bus, nullptr);
+  const hldb::Modport *const initiator = getModport(bus, "initiator");
+  ASSERT_NE(initiator, nullptr);
+  struct Mid {
+    const char *m_mid;
+    const char *m_leaf;
+    const hldb::Any *m_bound;  // nullptr: needs elaboration (generic interface port)
+  };
+  const Mid mids[] = {
+      {"mid_full", "leaf_t", bus}, {"mid_mp", "leaf_i", initiator}, {"mid_generic", "leaf_t", nullptr}};
+  for (const Mid &m : mids) {
+    const hldb::RefInstance *const leaf = getInst(getModule(m.m_mid), "u_leaf");
+    ASSERT_NE(leaf, nullptr) << m.m_mid;
+    EXPECT_EQ(getInstDefName(leaf), std::string_view(m.m_leaf)) << m.m_mid;
+    if (m.m_bound != nullptr) {
+      EXPECT_EQ(getRootActual(getHighConn(leaf, "b")), m.m_bound) << m.m_mid << ": the declaration its port b names";
+    }
   }
 }
 

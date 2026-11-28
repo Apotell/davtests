@@ -25,10 +25,10 @@
 //     CompModportMemberNotListed:
 //   - ERR1 line 44: read p.hidden through mp; ERR2 line 49: write p.hidden; ERR3 line 54: call the task
 //     secret (not imported); ERR4 line 59: use the clocking block cb (not listed);
-//   - ERR5: m5 reads p.hidden while top passes b.mp -- reported on line 65 (use) or 75 (connection)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ModportAtInstanceHidesSignal: HLC reports nothing for p.hidden in m5 when the modport b.mp is selected at the
-//   instance u5.
+//   - ModportAtInstanceHidesSignal (ERR5, needs elaboration): m5 reads p.hidden while top passes b.mp --
+//     reported on line 65 (use) or 75 (connection). m5 alone is legal (with the whole interface
+//     p.hidden is accessible); the error comes from the modport chosen at this instance.
 // Not checked:
 //   - The diagnostic code is HLC's choice; CompModportMemberNotListed is the code HLC defines
 //
@@ -366,12 +366,16 @@ class MpErrAccessNotInModportTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -412,9 +416,10 @@ TEST_F(MpErrAccessNotInModportTest, ClockingNotListedIsRejected) {
 
 // ERR5: module m5(bus_if p); assign y = p.hidden; ... m5 u5(b.mp);
 TEST_F(MpErrAccessNotInModportTest, ModportAtInstanceHidesSignal) {
-  GTEST_SKIP()
-      << "HLC reports nothing for p.hidden in m5 when the modport b.mp is selected at the instance u5."
-         " IEEE 1800-2023 Sec 25.5: only the items listed in the selected modport are accessible. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.5, 25.10: through a modport only the listed items are"
+                  " accessible, and the modport can be chosen at the instance (u5(b.mp)). The body of m5 is legal on"
+                  " its own (with the whole interface p.hidden is accessible), so the error belongs to the pairing"
+                  " of m5 with this connection; HLC does not elaborate and reports nothing for it.";
   const bool atUse = anyEvent({EventType::CompModportMemberNotListed}, 65, 65);
   const bool atConnection = anyEvent({EventType::CompModportMemberNotListed}, 75, 75);
   EXPECT_TRUE(atUse || atConnection) << "line 65/75: hidden is not in the modport mp given at the instance";

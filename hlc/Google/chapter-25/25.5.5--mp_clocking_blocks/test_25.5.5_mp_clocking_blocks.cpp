@@ -30,7 +30,8 @@
 //   - top: d1 -> b1, d2 -> b2, tb -> (b1, b2)
 //   - No errors: the whole file is legal (LRM 25.5.5 example)
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - CompilesWithoutErrors: HLC reports DL2516 model errors for assert property (b1.sb.p1) through a clocking modport.
+//   - CompilesWithoutErrors: HLC builds the dotted property reference b1.sb.p1 as a plain name reference
+//     and reports model errors for it.
 // Not checked:
 //   - Run-time behavior of the program
 //
@@ -371,12 +372,16 @@ class MpClockingBlocksTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -450,9 +455,10 @@ TEST_F(MpClockingBlocksTest, Connections) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(MpClockingBlocksTest, CompilesWithoutErrors) {
-  GTEST_SKIP()
-      << "HLC reports DL2516 model errors for assert property (b1.sb.p1) through a clocking modport."
-         " IEEE 1800-2023 Sec 25.5.5 (LRM example): the property of the clocking block is legal here. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.5.5 (its own A_Bus example): assert property (b1.sb.p1) names the property"
+                  " p1 of the clocking block sb through the modport STB and is legal. HLC builds the dotted property"
+                  " reference as a plain name reference and reports three model errors for it (the same happens for"
+                  " cb.p2 without a modport; a plain assert property (q) is fine).";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }

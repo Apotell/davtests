@@ -338,12 +338,16 @@ class MpExpressionsBasicTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 

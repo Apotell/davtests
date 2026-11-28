@@ -27,13 +27,15 @@
 //   - CHK3: CAT = {hi, lo} (concatenation of hi and lo)
 //   - CHK4: NC() has no expression (25.5.4: 'The port expression is optional')
 //   - CHK5: B0 = v[0] (bit select of v)
-//   - user's port m selects bus_if.mp; m.E0, m.ADDR, m.CAT (read) and m.B0 (written) bind to the modport
-//     port or its port expression; u_user.m -> u_if
+//   - user's port m selects bus_if.mp; m.E0, m.ADDR (read) and m.B0 (written) bind to the object named by
+//     the port expression (37.15); u_user.m -> u_if
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - UserAccess: HLC leaves m.E0, m.CAT and m.B0 unresolved (null actual) through the modport mp.
+//   - UserAccess: m.E0 and m.B0 refer to the array element arr[0] and the bit v[0] (37.15 detail 4); the
+//     model has no object for an array element or a single bit, and HLC leaves both unresolved.
 // Not checked:
-//   - Nothing intentionally left out
+//   - What m.CAT refers to: a concatenation is not an object a reference can bind to (37.15 lists no
+//     such target), so the standard does not define it
 //
 // Source under test (line numbers match the .sv file):
 //  17  /*
@@ -354,12 +356,16 @@ class MpExpressionsAdvancedTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -416,8 +422,9 @@ TEST_F(MpExpressionsAdvancedTest, PortExpressions) {
 // m.E0 etc. name the modport port; 25.5.4 binds that port to its port expression, so a reference may be
 // bound to the port (IODecl) itself, to its expression, or to what the expression refers to.
 TEST_F(MpExpressionsAdvancedTest, UserAccess) {
-  GTEST_SKIP() << "HLC leaves m.E0, m.CAT and m.B0 unresolved (null actual) through the modport mp."
-                  " IEEE 1800-2023 Sec 25.5.4: a modport expression port is accessed by its port name. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 25.5.4, 37.15 detail 4: m.E0 and m.B0 refer to the array element arr[0] and"
+                  " the bit v[0] named by their port expressions. The HLDB model has no object for an array element"
+                  " or a single bit, and HLC leaves both references unresolved.";
   expectInterfacePort(getModule("user"), "m", "bus_if", "mp");
   const hldb::Modport *const mp = getModport(getInterface("bus_if"), "mp");
   const hldb::Module *const user = getModule("user");
@@ -425,12 +432,13 @@ TEST_F(MpExpressionsAdvancedTest, UserAccess) {
   ASSERT_NE(user, nullptr);
   ASSERT_NE(user->getContAssigns(), nullptr);
   ASSERT_EQ(user->getContAssigns()->size(), 4u);
+  // m.CAT (line 51) is left out: a concatenation is no object a reference can bind to (37.15).
   struct Use {
     uint32_t m_line;
     const char *m_port;
     bool m_lhs;
   };
-  const Use uses[] = {{49u, "E0", false}, {50u, "ADDR", false}, {51u, "CAT", false}, {52u, "B0", true}};
+  const Use uses[] = {{49u, "E0", false}, {50u, "ADDR", false}, {52u, "B0", true}};
   for (const Use &u : uses) {
     const hldb::IODecl *const io = hldb::findByName<hldb::IODecl>(u.m_port, mp->getIODecls());
     ASSERT_NE(io, nullptr) << u.m_port;

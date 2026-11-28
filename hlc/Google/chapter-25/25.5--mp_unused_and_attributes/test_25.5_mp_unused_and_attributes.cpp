@@ -29,8 +29,9 @@
 //   - CHK5: sub has 'assign P = i.Q' through its generic port; top connects u_sub to u_if.mp
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - CompilesWithoutErrors: HLC reports DL2510 'Unknown or undefined type i::choice' for typedef i.choice yes_no;
-//   through a port.
+//   - CompilesWithoutErrors (needs elaboration): typedef i.choice yes_no; through the generic port i is
+//     legal (25.10, 6.18), but the type is known only from the interface connected to i; HLC reports
+//     i::choice as an unknown type.
 // Not checked:
 //   - What i.Q, i.choice, i.True bind to: i is a generic interface port, so its interface is known only
 //     per instance after elaboration
@@ -361,12 +362,16 @@ class MpUnusedAndAttributesTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -431,9 +436,10 @@ TEST_F(MpUnusedAndAttributesTest, UsersAndNames) {
 
 // The file is legal SystemVerilog, so compilation must not report any error.
 TEST_F(MpUnusedAndAttributesTest, CompilesWithoutErrors) {
-  GTEST_SKIP()
-      << "HLC reports DL2510 'Unknown or undefined type i::choice' for typedef i.choice yes_no; through a port."
-         " IEEE 1800-2023 Sec 25.10 (its own example): a type is reachable through an interface port. Fix pending.";
+  GTEST_SKIP() << "Needs elaboration. IEEE 1800-2023 Sec 25.10 (its own example) and 6.18: typedef i.choice yes_no;"
+                  " through the generic port interface.mp i is legal, but the type is known only from the interface"
+                  " connected to i. HLC does not elaborate and reports i::choice as an unknown type (and leaves"
+                  " i.Q, i.True, i.Y, i.N unresolved).";
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_errors, 0);
 }

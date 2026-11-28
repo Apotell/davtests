@@ -29,8 +29,9 @@
 //   - CHK5: u1.b -> b16 and u2.b -> b4 (same module, two parameterizations)
 //   - No errors: the whole file is legal
 // Skipped (GTEST_SKIP; the real assertions stay below the skip):
-//   - ModportAndPort: HLC decorates the def name of the port type: getDefName() is "bus_if #(.W(8))" instead of
-//   "bus_if".
+//   - ModportAndPort: the typespec of the port type bus_if.target represents a modport, so its def name is
+//     "target" and its parent is the interface typespec bus_if (37.30 details 1-2); HLC names it after the
+//     interface (decorated with the parameter default) and parents it to the interface.
 // Not checked:
 //   - Widths after parameter substitution (need elaboration)
 //
@@ -346,12 +347,16 @@ class MpParameterizedInterfaceTest : public Test {
                                   std::string_view modport) {
     const hldb::InterfaceTypespec *const its = getPortInterface(def, port);
     ASSERT_NE(its, nullptr) << port << " should be an interface port";
-    EXPECT_EQ(its->getDefName(), ifc) << port;
     if (modport.empty()) {
+      EXPECT_EQ(its->getDefName(), ifc) << port;
       EXPECT_EQ(its->getModport(), nullptr) << port << " selects no modport";
     } else {
+      // The def name of a typespec that represents a modport is the modport identifier
+      // (IEEE 1800-2023 37.30), so the interface is checked through the selected modport here.
       ASSERT_NE(its->getModport(), nullptr) << port << " should select modport " << modport;
       EXPECT_EQ(its->getModport()->getName(), modport) << port;
+      ASSERT_NE(its->getModport()->getInterface(), nullptr) << port;
+      EXPECT_EQ(its->getModport()->getInterface()->getDefName(), ifc) << port;
     }
   }
 
@@ -371,14 +376,22 @@ class MpParameterizedInterfaceTest : public Test {
 };
 
 TEST_F(MpParameterizedInterfaceTest, ModportAndPort) {
-  GTEST_SKIP()
-      << "HLC decorates the def name of the port type: getDefName() is \"bus_if #(.W(8))\" instead of \"bus_if\"."
-         " IEEE 1800-2023 Sec 37 (vpiDefName): the definition name stays undecorated. Fix pending.";
+  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.30 details 1-2: the typespec of the port type bus_if.target represents a"
+                  " modport, so its def name is the modport identifier \"target\" and its parent is an interface"
+                  " typespec named \"bus_if\". HLC gives it the def name \"bus_if #(.W(8))\" and the interface"
+                  " itself as parent.";
   const hldb::Interface *const bus = getInterface("bus_if");
   ASSERT_NE(bus, nullptr);
   EXPECT_NE(hldb::findByName<hldb::Parameter>("W", bus->getParameters()), nullptr);
   expectEntries(getModport(bus, "target"), {{"data", vpiInput}, {"result", vpiOutput}}, "target");
   expectInterfacePort(getModule("proc"), "b", "bus_if", "target");
+  const hldb::InterfaceTypespec *const its = getPortInterface(getModule("proc"), "b");
+  ASSERT_NE(its, nullptr);
+  EXPECT_EQ(its->getDefName(), std::string_view("target")) << "def name of a modport typespec";
+  const hldb::InterfaceTypespec *const parent = any_cast<hldb::InterfaceTypespec>(its->getParent());
+  ASSERT_NE(parent, nullptr) << "the parent of a modport typespec is the interface typespec";
+  EXPECT_EQ(parent->getDefName(), std::string_view("bus_if"));
+  EXPECT_EQ(parent->getParent(), nullptr);
 }
 
 // CHK4: assign b.result = ~b.data; initial w = b.W;
