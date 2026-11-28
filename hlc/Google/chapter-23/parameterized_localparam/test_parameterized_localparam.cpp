@@ -40,30 +40,29 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors          no fatal, syntax or error diagnostic
-//   ModuleIsNamedGenericDecoder    getName() generic_decoder
+//   ModuleIsNamedGenericDecoder    getDefName() generic_decoder
 //   NumCodeBitsIsAParameter        not local, value 3
 //   NumOutBitsIsALocalParameter    getLocalParam() TRUE, value is a left shift
-//                                  (hldb::getOperationName() LShiftOp) of
+//                                  (Operation::getOpType() vpiLShiftOp) of
 //                                  num_code_bits
 //   ADependsOnNumCodeBits          A is a net whose range's left bound refers
 //                                  to num_code_bits
 //   YDependsOnNumOutBits           Y is a variable whose range's left bound
 //                                  refers to num_out_bits
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - The evaluated values (num_out_bits = 8, widths 3 and 8). Evaluating
-//     constant expressions belongs to elaboration (Clause 11 and 23.10).
-//   - The directions input of A and output of Y. HLDB gives them only as the
-//     integer codes returned by Port::getDirection() and has no named values
-//     of its own for directions, so they can be checked once HLDB provides
-//     such names.
+//   DirectionsFollowTheRules       Port::getDirection(): A vpiInput, Y
+//                                  vpiOutput
+//   AIsAWire                       Net::getNetType() of A is vpiWire
+//   PortsAreUnsigned               getSigned() of the data types of A and Y is
+//                                  false
+//   WidthsWithTheDefaults          elaborated model only: getBitCount() of A
+//                                  is 3 and of Y is 8 (num_out_bits = 1 << 3)
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/ExprEval.h>
 #include <hldb/Utils.h>
 #include <hldb/any_type.h>
 #include <hldb/constant.h>
@@ -79,19 +78,17 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
 #include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.3--parameterized-localparam.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
+constexpr std::string_view kModuleName = "generic_decoder";
 
 // The source text of a parameter's value (Parameter::getExpr()) when it is a
 // constant, or a placeholder that says what it is instead.
@@ -129,6 +126,16 @@ const hldb::Range *firstRange(const hldb::Any *typespec) {
   return logic->getRanges()->front();
 }
 
+// The packed width in bits of a net or variable (37.16, 37.17), as HLDB's expression evaluator computes it
+// from the object's typespec, or -1 when it cannot.
+int64_t widthOf(const hldb::Any *object) {
+  if (object == nullptr) return -1;
+  const hldb::ExprEval evaluator(nullptr, true);
+  uint64_t bits = 0;
+  if (!evaluator.getBitCount(object, object, true, &bits, true)) return -1;
+  return static_cast<int64_t>(bits);
+}
+
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 bool isErrorClass(const Event &event) {
@@ -163,33 +170,29 @@ class ParameterizedLocalparamTest : public Test {
     return description;
   }
 
-  // The only module defined in the file under test, or nullptr.
+  // The definition kModuleName, or nullptr.
   static const hldb::Module *findModule() {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(kModuleName, m_design->getAllModules());
   }
 
   // The parameter (value or type) named 'name' of the module, or nullptr.
   static const hldb::Any *findParameter(std::string_view name) {
     const hldb::Module *const module = findModule();
-    if ((module == nullptr) || (module->getParameters() == nullptr)) return nullptr;
-    for (const hldb::Any *parameter : *module->getParameters()) {
-      if (parameter->getName() == name) return parameter;
-    }
-    return nullptr;
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Any>(name, module->getParameters());
   }
 
   // The port named 'name' of the module, or nullptr.
   static const hldb::Port *findPort(std::string_view name) {
     const hldb::Module *const module = findModule();
-    if ((module == nullptr) || (module->getPorts() == nullptr)) return nullptr;
-    for (const hldb::Port *port : *module->getPorts()) {
-      if (port->getName() == name) return port;
-    }
-    return nullptr;
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, module->getPorts());
+  }
+
+  // The port named 'name' of the top-level instance of kModuleName in the elaborated model, or nullptr.
+  static const hldb::Port *findElaboratedPort(std::string_view name) {
+    if (m_design == nullptr) return nullptr;
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>(kModuleName, m_design->getTopModules());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, top->getPorts());
   }
 };
 
@@ -198,7 +201,7 @@ TEST_F(ParameterizedLocalparamTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors
 TEST_F(ParameterizedLocalparamTest, ModuleIsNamedGenericDecoder) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "generic_decoder");
+  EXPECT_EQ(module->getDefName(), std::string_view("generic_decoder"));
 }
 
 TEST_F(ParameterizedLocalparamTest, NumCodeBitsIsAParameter) {
@@ -214,7 +217,7 @@ TEST_F(ParameterizedLocalparamTest, NumOutBitsIsALocalParameter) {
   EXPECT_TRUE(parameter->getLocalParam());
   const hldb::Operation *const value = any_cast<hldb::Operation>(parameter->getExpr());
   ASSERT_NE(value, nullptr);
-  EXPECT_EQ(hldb::getOperationName(value->getOpType()), "LShiftOp");
+  EXPECT_EQ(value->getOpType(), vpiLShiftOp);
   EXPECT_TRUE(refersTo(value, findParameter("num_code_bits")));
 }
 
@@ -238,6 +241,53 @@ TEST_F(ParameterizedLocalparamTest, YDependsOnNumOutBits) {
   const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("num_out_bits")));
+}
+
+TEST_F(ParameterizedLocalparamTest, DirectionsFollowTheRules) {
+  const std::vector<std::pair<std::string_view, int32_t>> expected = {{"A", vpiInput}, {"Y", vpiOutput}};
+  for (const std::pair<std::string_view, int32_t> &entry : expected) {
+    const hldb::Port *const port = findPort(entry.first);
+    ASSERT_NE(port, nullptr) << entry.first;
+    EXPECT_EQ(port->getDirection(), entry.second) << entry.first;
+  }
+}
+
+// A has no port kind and an implicit data type, so it is a net of the default net type, wire (23.2.2.3).
+TEST_F(ParameterizedLocalparamTest, AIsAWire) {
+  for (std::string_view name : {"A"}) {
+    const hldb::Port *const port = findPort(name);
+    ASSERT_NE(port, nullptr) << name;
+    const hldb::Net *const net = any_cast<hldb::Net>(lowConnActual(port));
+    ASSERT_NE(net, nullptr) << name << " is not a net";
+    EXPECT_EQ(net->getNetType(), vpiWire) << name;
+  }
+}
+
+// [num_code_bits-1:0] and reg [num_out_bits-1:0] have no signed keyword, so they are unsigned (6.11.3).
+TEST_F(ParameterizedLocalparamTest, PortsAreUnsigned) {
+  for (std::string_view name : {"A", "Y"}) {
+    const hldb::Port *const port = findPort(name);
+    ASSERT_NE(port, nullptr) << name;
+    const hldb::Any *const declared = lowConnActual(port);
+    ASSERT_NE(declared, nullptr) << name;
+    const hldb::Typespec *const typespec = hldb::getTypespec(declared);
+    ASSERT_NE(typespec, nullptr) << name;
+    EXPECT_FALSE(hldb::getSigned(typespec)) << name;
+  }
+}
+
+// num_code_bits can be redefined per instance (23.10), so the widths are instance-model facts. Elaborated
+// model only: with the default num_code_bits = 3, A is 3 bits and Y is num_out_bits = 1 << 3 = 8 bits wide.
+TEST_F(ParameterizedLocalparamTest, WidthsWithTheDefaults) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    const std::vector<std::pair<std::string_view, int64_t>> expected = {{"A", 3}, {"Y", 8}};
+    for (const std::pair<std::string_view, int64_t> &entry : expected) {
+      const hldb::Port *const port = findElaboratedPort(entry.first);
+      ASSERT_NE(port, nullptr) << entry.first;
+      EXPECT_EQ(widthOf(lowConnActual(port)), entry.second) << entry.first;
+    }
+  }
 }
 }  // namespace hlc
 

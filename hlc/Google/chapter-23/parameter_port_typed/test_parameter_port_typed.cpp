@@ -37,30 +37,29 @@
 // WHAT IS CHECKED (one fact per test, in source order)
 //
 //   CompilesWithoutErrors      no fatal, syntax or error diagnostic
-//   ModuleIsNamedM             getName() m
+//   ModuleIsNamedM             getDefName() m
 //   NIsAnIntParameter          not local, int typespec, value 4
 //   VIsALogicParameter         not local, logic typespec, value 4'hA
 //   PortAIsSizedByN            the left bound of a's range refers to N
-//
-// WHAT IS NOT CHECKED, AND WHY
-//
-//   - The evaluated width of a (4). It needs constant evaluation at
-//     elaboration.
-//   - The direction input of a. HLDB gives it only as the integer code
-//     returned by Port::getDirection() and has no named values of its own for
-//     directions, so it can be checked once HLDB provides such names.
+//   PortAIsAnInput             Port::getDirection() of a is vpiInput
+//   PortAIsAWire               a is a net with Net::getNetType() vpiWire
+//   PortAIsUnsigned            getSigned() of a's data type is false
+//   PortAIsNBitsWide           elaborated model only: getBitCount() of a is
+//                              4, the value of N
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
 #include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
+#include <hldb/ExprEval.h>
 #include <hldb/Utils.h>
 #include <hldb/any_type.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
+#include <hldb/net.h>
 #include <hldb/operation.h>
 #include <hldb/parameter.h>
 #include <hldb/port.h>
@@ -68,6 +67,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/typespec.h>
+#include <hldb/vpi_user.h>
 
 #include <cstdint>
 #include <string>
@@ -76,11 +76,7 @@
 
 namespace hlc {
 namespace {
-constexpr std::string_view kSourceFileName = "23.2.3--parameter-port-typed.sv";
-
-bool endsWith(std::string_view text, std::string_view suffix) {
-  return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
-}
+constexpr std::string_view kModuleName = "m";
 
 // The source text of a parameter's value (Parameter::getExpr()) when it is a
 // constant, or a placeholder that says what it is instead.
@@ -118,6 +114,16 @@ const hldb::Range *firstRange(const hldb::Any *typespec) {
   return logic->getRanges()->front();
 }
 
+// The packed width in bits of a net or variable (37.16, 37.17), as HLDB's expression evaluator computes it
+// from the object's typespec, or -1 when it cannot.
+int64_t widthOf(const hldb::Any *object) {
+  if (object == nullptr) return -1;
+  const hldb::ExprEval evaluator(nullptr, true);
+  uint64_t bits = 0;
+  if (!evaluator.getBitCount(object, object, true, &bits, true)) return -1;
+  return static_cast<int64_t>(bits);
+}
+
 uint32_t lineOf(const Event &event) { return event.getArguments().empty() ? 0 : event.getArguments().front().m_line; }
 
 bool isErrorClass(const Event &event) {
@@ -152,33 +158,29 @@ class ParameterPortTypedTest : public Test {
     return description;
   }
 
-  // The only module defined in the file under test, or nullptr.
+  // The definition kModuleName, or nullptr.
   static const hldb::Module *findModule() {
-    if ((m_design == nullptr) || (m_design->getAllModules() == nullptr)) return nullptr;
-    for (const hldb::Module *module : *m_design->getAllModules()) {
-      if (endsWith(module->getFile(), kSourceFileName)) return module;
-    }
-    return nullptr;
+    if (m_design == nullptr) return nullptr;
+    return hldb::findByDefName<hldb::Module>(kModuleName, m_design->getAllModules());
   }
 
   // The parameter (value or type) named 'name' of the module, or nullptr.
   static const hldb::Any *findParameter(std::string_view name) {
     const hldb::Module *const module = findModule();
-    if ((module == nullptr) || (module->getParameters() == nullptr)) return nullptr;
-    for (const hldb::Any *parameter : *module->getParameters()) {
-      if (parameter->getName() == name) return parameter;
-    }
-    return nullptr;
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Any>(name, module->getParameters());
   }
 
   // The port named 'name' of the module, or nullptr.
   static const hldb::Port *findPort(std::string_view name) {
     const hldb::Module *const module = findModule();
-    if ((module == nullptr) || (module->getPorts() == nullptr)) return nullptr;
-    for (const hldb::Port *port : *module->getPorts()) {
-      if (port->getName() == name) return port;
-    }
-    return nullptr;
+    return (module == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, module->getPorts());
+  }
+
+  // The port named 'name' of the top-level instance of kModuleName in the elaborated model, or nullptr.
+  static const hldb::Port *findElaboratedPort(std::string_view name) {
+    if (m_design == nullptr) return nullptr;
+    const hldb::Module *const top = hldb::findByDefName<hldb::Module>(kModuleName, m_design->getTopModules());
+    return (top == nullptr) ? nullptr : hldb::findByName<hldb::Port>(name, top->getPorts());
   }
 };
 
@@ -187,7 +189,7 @@ TEST_F(ParameterPortTypedTest, CompilesWithoutErrors) { EXPECT_EQ(allErrors(), "
 TEST_F(ParameterPortTypedTest, ModuleIsNamedM) {
   const hldb::Module *const module = findModule();
   ASSERT_NE(module, nullptr);
-  EXPECT_EQ(module->getName(), "m");
+  EXPECT_EQ(module->getDefName(), std::string_view("m"));
 }
 
 TEST_F(ParameterPortTypedTest, NIsAnIntParameter) {
@@ -218,6 +220,43 @@ TEST_F(ParameterPortTypedTest, PortAIsSizedByN) {
   const hldb::Range *const range = firstRange(hldb::getTypespec(declared));
   ASSERT_NE(range, nullptr);
   EXPECT_TRUE(refersTo(range->getLeftExpr(), findParameter("N")));
+}
+
+TEST_F(ParameterPortTypedTest, PortAIsAnInput) {
+  const hldb::Port *const port = findPort("a");
+  ASSERT_NE(port, nullptr);
+  EXPECT_EQ(port->getDirection(), vpiInput);
+}
+
+// a has no port kind and an implicit data type, so it is a net of the default net type, wire (23.2.2.3).
+TEST_F(ParameterPortTypedTest, PortAIsAWire) {
+  const hldb::Port *const port = findPort("a");
+  ASSERT_NE(port, nullptr);
+  const hldb::Net *const net = any_cast<hldb::Net>(lowConnActual(port));
+  ASSERT_NE(net, nullptr) << "a is not a net";
+  EXPECT_EQ(net->getNetType(), vpiWire);
+}
+
+// The implicit data type [N-1:0] has no signed keyword, so it is unsigned (6.11.3).
+TEST_F(ParameterPortTypedTest, PortAIsUnsigned) {
+  const hldb::Port *const port = findPort("a");
+  ASSERT_NE(port, nullptr);
+  const hldb::Any *const declared = lowConnActual(port);
+  ASSERT_NE(declared, nullptr);
+  const hldb::Typespec *const typespec = hldb::getTypespec(declared);
+  ASSERT_NE(typespec, nullptr);
+  EXPECT_FALSE(hldb::getSigned(typespec));
+}
+
+// N can be redefined per instance (23.10), so a's width is an instance-model fact. Elaborated model only: with
+// the default N = 4, a is 4 bits wide.
+TEST_F(ParameterPortTypedTest, PortAIsNBitsWide) {
+  ASSERT_NE(m_design, nullptr);
+  if (m_design->getElaborated()) {
+    const hldb::Port *const port = findElaboratedPort("a");
+    ASSERT_NE(port, nullptr);
+    EXPECT_EQ(widthOf(lowConnActual(port)), 4);
+  }
 }
 }  // namespace hlc
 
